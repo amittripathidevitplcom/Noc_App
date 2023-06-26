@@ -539,21 +539,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   
-
-  public async GetAllOccupation() {
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetAllOccupation")
-      .pipe(
-        catchError(this.handleErrorObservable)
-      ).toPromise();
-  }
-
-
   public async GetBuildingTypeCheck() {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -578,21 +563,6 @@ export class CommonMasterService {
       ).toPromise();
 
 
-  }
-
-  public async GetAllDesignation() {
-
-
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetAllDesignation")
-      .pipe(
-        catchError(this.handleErrorObservable)
-      ).toPromise();
   }
 
   public async SendMessage(MobileNo: string, MessageType: string) {

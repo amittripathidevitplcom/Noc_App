@@ -55,7 +55,7 @@
                       <div class="btn-group" *ngIf="showProfilePhoto">
                         <a class="btn btn-outline-primary" target="_blank" href="{{request.ProfilePhoto}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ProfilePhoto')"><i class="fa fa-trash-o"></i></button>
-                  </div>
+                      </div>
                     </div>
                     <p *ngIf="isSubmitted&&request.ProfilePhoto ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
                     <div *ngIf="isValidProfilePhoto" class="text-danger">
@@ -143,7 +143,7 @@
                       <div class="btn-group" *ngIf="showAadhaarCard">
                         <a class="btn btn-outline-primary" target="_blank" href="{{request.AadhaarCard}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AadhaarCard')"><i class="fa fa-trash-o"></i></button>
-                  </div>
+                      </div>
                     </div>
                     <p *ngIf="isSubmitted&&request.AadhaarCard ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>                   
                     <div *ngIf="isValidAadhaarCard" class="text-danger">
@@ -157,7 +157,7 @@
                       <div class="btn-group" *ngIf="showSignatureDoc">
                         <a class="btn btn-outline-primary" target="_blank" href="{{request.SignatureDoc}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SignatureDoc')"><i class="fa fa-trash-o"></i></button>
-                  </div>
+                      </div>
                     </div>
                     <p *ngIf="isSubmitted&&request.SignatureDoc ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
                     <div *ngIf="isValidSignatureDoc" class="text-danger">
@@ -212,7 +212,7 @@
                       <p *ngIf="isValidAuthorizedDocument"> {{ImageValidationMessage}}</p>
                     </div>-->
                   </div>
-                  </div>
+                </div>
                 <div class="card-footer text-end">
                   <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-save"></i> Save</button>
                   <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
@@ -234,68 +234,62 @@
                   <div class="d-flex align-items-center table-filter mr-15">
                     <i class="fa fa-search"></i>
                     <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" formControlName="txtsearchText" name="txtsearchText" />
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="card">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                <b><i class="fa fa-plus"></i>&nbsp;Management Committee Members Details</b>
-                <span style="color: red; font-size: 10px;">Please Add At least 15 Member For College Committee</span>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-12">
-
-                    <div class="table-responsive">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive">
                     <table class="table table-hover table-striped-columns" id="tabellist" #content>
-                        <thead>
-                          <tr>
-                            <th>SNo</th>
-                            <th>Name</th>
-                            <th>Father Name</th>
-                            <th>Mobile No</th>
-                            <th>Gender</th>
-                            <th>Email</th>
-                            <th>Aadhaar</th>
-                            <th>Pan</th>
+                      <thead>
+                        <tr>
+                          <th>SNo</th>
+                          <th>Name</th>
+                          <th>Father Name</th>
+                          <th>Mobile No</th>
+                          <th>Gender</th>
+                          <th>Email</th>
+                          <th>Aadhaar</th>
+                          <th>Pan</th>
                           <th>PAN Card Document</th>
                           <th>Aadhaar Card Document</th>
                           <th>Signature Document</th>
                           <th>Profile Photo</th>
                           <th>Authorized Document</th>
-                            <th>Is Primary</th>
-                            <th>Is Authorize</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
+                          <th>Is Primary</th>
+                          <th>Is Authorize</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
                         <!--<tr *ngFor="let row of SocietyAllList;let idx=index;">-->
                         <tr *ngFor="let row of SocietyAllList | tableSearchFilter:searchText;let idx=index;">
-                            <td>{{idx+1}}</td>
-                            <td>{{row.PersonName}}</td>
-                            <td>{{row.FatherName}}</td>
-                            <td>{{row.MobileNo}}</td>
-                            <td>{{row.Gender}}</td>
-                            <td>{{row.Email}}</td>
-                            <td>{{row.AadhaarNo}}</td>
-                            <td>{{row.PANNo}}</td>
+                          <td>{{idx+1}}</td>
+                          <td>{{row.PersonName}}</td>
+                          <td>{{row.FatherName}}</td>
+                          <td>{{row.MobileNo}}</td>
+                          <td>{{row.Gender}}</td>
+                          <td>{{row.Email}}</td>
+                          <td>{{row.AadhaarNo}}</td>
+                          <td>{{row.PANNo}}</td>
                           <td><a target="_blank" href="{{row.PANCard}}"><i class="fa fa-eye"></i></a></td>
                           <td><a target="_blank" href="{{row.AadhaarCard}}"><i class="fa fa-eye"></i></a></td>
                           <td><a target="_blank" href="{{row.SignatureDoc}}"><i class="fa fa-eye"></i></a></td>
                           <td><a target="_blank" href="{{row.ProfilePhoto}}"><i class="fa fa-eye"></i></a></td>
                           <td><a target="_blank" href="{{row.AuthorizedDocument}}"><i class="fa fa-eye"></i></a></td>
-                            <td>{{row.IsPrimary}}</td>
-                            <td>{{row.IsAuthorized}}</td>
-                            <td>
-                              <div class="d-flex">
+                          <td>{{row.IsPrimary}}</td>
+                          <td>{{row.IsAuthorized}}</td>
+                          <td>
+                            <div class="d-flex">
                               <button type="button" (click)="Edit_OnClick(row.SocietyID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                               <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.SocietyID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>

@@ -29,11 +29,10 @@ import { GlobalConstants } from '../../../../Common/GlobalConstants';
   styleUrls: ['./society.component.css']
 })
 export class SocietyComponent implements OnInit {
-
+  
 
   //Add FormBuilder
   SocietyDetailsForm!: FormGroup;
-
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -149,7 +148,6 @@ export class SocietyComponent implements OnInit {
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
-        this.isLoading = false;
       }, 200);
     }
   }
@@ -245,7 +243,6 @@ export class SocietyComponent implements OnInit {
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
-
     try {
       await this.societyService.SaveData(this.request, this.files)
         .then((data: any) => {
@@ -420,7 +417,7 @@ export class SocietyComponent implements OnInit {
     else if (Type == 'AadhaarCard') {
       this.showAadhaarCard = false;
       this.request.AadhaarCard = '';
-  }
+    }
     else if (Type == 'SignatureDoc') {
       this.showSignatureDoc = false;
       this.request.SignatureDoc = '';
@@ -477,10 +474,10 @@ export class SocietyComponent implements OnInit {
   async Edit_OnClick(SocietyID: number) {
     this.isSubmitted = false;
     try {
-    this.loaderService.requestStarted();
+      this.loaderService.requestStarted();
       await this.societyService.GetSocietyByID(SocietyID, this.UserID)
         .then((data: any) => {
-
+          
           data = JSON.parse(JSON.stringify(data));
           this.request.SocietyID = data['Data'][0]["SocietyID"];
           this.request.CollegeID = data['Data'][0]["CollegeID"];
@@ -537,19 +534,19 @@ export class SocietyComponent implements OnInit {
       if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
         await this.societyService.DeleteData(SocietyID, this.UserID)
-        .then((data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
+          .then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage)
+              this.toastr.success(this.SuccessMessage)
               this.GetSocietyAllList(); 
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        })
-    }
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
     }
     catch (ex) { }
     finally {
@@ -562,7 +559,7 @@ export class SocietyComponent implements OnInit {
   btnCopyTable_Click() {
     const tabellist = document.getElementById('tabellist')
     if (tabellist) {
-
+      
       this.clipboard.copy(tabellist.innerText);
     }
   }
@@ -590,8 +587,8 @@ export class SocietyComponent implements OnInit {
         setTimeout(() => {
           this.loaderService.requestEnded();
           this.isLoadingExport = false;
-      }, 200);
-    }
+        }, 200);
+      }
     }
     else {
       this.toastr.warning("No Record Found.!");
@@ -599,14 +596,9 @@ export class SocietyComponent implements OnInit {
         this.loaderService.requestEnded();
         this.isLoadingExport = false;
       }, 200);
-  }
-
-  // dummy add and delete
-  async Adddummy() {
-    this.isSubmitted = true;
-    if (this.SocietyDetailsForm.invalid) {
-      return
     }
+
+  }
 
   @ViewChild('content') content: ElementRef | any;
   btnSavePDF_Click(): void {
@@ -647,12 +639,7 @@ export class SocietyComponent implements OnInit {
           this.loaderService.requestEnded();
           this.isLoadingExport = false;
         }, 200);
-  }
-  async Deldummy(item: SocietyDataModel) {
-    //debugger
-    const index: number = this.SocietyList_dummy.indexOf(item);
-    if (index != -1) {
-      this.SocietyList_dummy.splice(index, 1)
+      }
     }
     else {
       this.toastr.warning("No Record Found.!");
@@ -660,11 +647,7 @@ export class SocietyComponent implements OnInit {
         this.loaderService.requestEnded();
         this.isLoadingExport = false;
       }, 200);
-  }
-
-  btnCancel_Click() {
-    this.routers.navigate(['/dashboard']);
+    }
 
   }
-
 }
