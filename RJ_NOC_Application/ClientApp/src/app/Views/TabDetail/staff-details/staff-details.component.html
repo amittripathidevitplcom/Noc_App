@@ -1,0 +1,472 @@
+<div class="card tabCard1 mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp; Staff Details</b>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="StaffDetailForm" class="form-horizontal">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label class="form-label" style="margin-right:15px">Select Type :</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeTeaching" [(ngModel)]="request.TeachingType" value="Teaching" formControlName="rdTeachingType" >
+            <label class="form-check-label" for="rdTeachingTypeTeaching">Teaching</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeNonTeaching" value="NonTeaching" [(ngModel)]="request.TeachingType" formControlName="rdTeachingType">
+            <label class="form-check-label" for="rdTeachingTypeNonTeaching">Non Teaching</label>
+          </div>
+          <div *ngIf="isSubmitted&&form.rdTeachingType.errors" class="text-danger">
+            <p *ngIf="form.rdTeachingType.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching'">
+          <label>Subject <span style="color:red;">*</span></label>
+          <select id="ddlSubjectId" name="ddlSubjectId" class="form-control" formControlName="ddlSubjectId" [(ngModel)]="request.SubjectID">
+            <option value="0" disabled>--Select--</option>
+            <option *ngFor="let item of SubjectData"
+                    value="{{item.SubjectID}}">
+              {{item.SubjectName}}
+            </option>-->
+          </select>
+          <div *ngIf="isSubject" class="text-danger">
+            <p *ngIf="isSubject"> This field is required .!</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label>Name of Person <span style="color:red;">*</span></label>
+          <input type="text" id="txtNameOfPerson" name="txtNameOfPerson" class="form-control" formControlName="txtNameOfPerson" [(ngModel)]="request.PersonName" />
+          <div *ngIf="isSubmitted&&form.txtNameOfPerson.errors" class="text-danger">
+            <p *ngIf="form.txtNameOfPerson.errors.required">This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
+          <label>Role <span style="color:red;">*</span></label>
+          <select id="ddlRoleId" name="ddlRoleId" class="form-control" formControlName="ddlRoleId" [(ngModel)]="request.RoleID">
+            <option disabled value="0">--Select Role--</option>
+            <option *ngFor="let item of RoleData"
+                    value="{{item.RoleID}}">
+              {{item.RoleName}}
+            </option>
+          </select>
+          <div *ngIf="isRole" class="text-danger">
+            <p *ngIf="isRole"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Mobile No. <span style="color:red;">*</span></label>
+          <input type="text" id="txtMobileNo" name="txtMobileNo" class="form-control" formControlName="txtMobileNo" [(ngModel)]="request.MobileNo" maxlength="10" (keypress)="numberOnly($event)" />
+          <div *ngIf="isSubmitted&&form.txtMobileNo.errors" class="text-danger">
+            <p *ngIf="form.txtMobileNo.errors.pattern || form.txtMobileNo.errors.maxlength || form.txtMobileNo.errors.minlength">Mobile number must be at least 10 numbers</p>
+            <p *ngIf="form.txtMobileNo.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Email <span style="color:red;">*</span></label>
+          <input type="text" id="txtEmail" name="txtEmail" class="form-control" formControlName="txtEmail" [(ngModel)]="request.Email" />
+          <div *ngIf="isSubmitted&&form.txtEmail.errors" class="text-danger">
+            <p *ngIf="form.txtEmail.errors.required"> This field is required .!</p>
+            <p *ngIf="form.txtEmail.errors.pattern"> Email not valid .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>
+            Profile Photo
+          </label>
+          <div class="d-flex">
+            <input type="file" name="ProfilePhoto" id="ProfilePhoto" class="form-control" [(ngModel)]="request.ProfilePhoto" formControlName="ProfilePhoto" (change)="ValidateDocumentImage($event,'ProfilePhoto')" />
+            <div class="btn-group" *ngIf="showProfilePhoto">
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.ProfilePhoto}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ProfilePhoto')"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Highest Qualification <span style="color:red;">*</span></label>
+          <select id="ddlHighestQualificationId" name="ddlHighestQualificationId" class="form-control" formControlName="ddlHighestQualificationId" [(ngModel)]="request.HighestQualification" (change)="OnChangeHighestQualification()">
+            <option disabled value="0">--Select--</option>
+            <option *ngFor="let item of HighestQualificationData"
+                    value="{{item.ID}}">
+              {{item.Name}}
+            </option>
+          </select>
+          <div *ngIf="isSubmitted&&form.ddlHighestQualificationId.errors" class="text-danger">
+            <p *ngIf="!form.ddlHighestQualificationId.errors.DropdownValidators"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Total Number of Experience (Year) <span style="color:red;">*</span></label>
+          <input type="text" id="txtNoOfYearExperience" name="txtNoOfYearExperience" class="form-control" formControlName="txtNoOfYearExperience" [(ngModel)]="request.NumberofExperience" (keypress)="numberOnly($event)" maxlength="2" />
+          <div *ngIf="isSubmitted&&form.txtNoOfYearExperience.errors" class="text-danger">
+            <p *ngIf="form.txtNoOfYearExperience.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>
+            Aadhaar Card <span style="color:red;">*</span>
+          </label>
+          <div class="d-flex">
+            <input type="file" name="AadhaarCard" id="AadhaarCard" class="form-control" [(ngModel)]="request.AadhaarCard" formControlName="AadhaarCard" (change)="ValidateDocumentImage($event,'AadhaarCard')" />
+            <div class="btn-group" *ngIf="showAadhaarCard">
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.AadhaarCard}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AadhaarCard')"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+          <div *ngIf="isAadhaarCard" class="text-danger">
+            <p *ngIf="isAadhaarCard"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Aadhar Number <span style="color:red;">*</span></label>
+          <input type="text" id="txtAadhaarNo" name="txtAadhaarNo" class="form-control" formControlName="txtAadhaarNo" [(ngModel)]="request.AadhaarNo" (keypress)="numberOnly($event)" maxlength="12" />
+          <div *ngIf="isSubmitted&&form.txtAadhaarNo.errors" class="text-danger">
+            <p *ngIf="form.txtAadhaarNo.errors.required"> This field is required .!</p>
+            <p *ngIf="form.txtAadhaarNo.errors.maxlength || form.txtAadhaarNo.errors.minlength">Aadhaar number must be at least 12 numbers</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>
+            PAN Card <span style="color:red;" *ngIf="request.TeachingType=='Teaching'">*</span>
+          </label>
+          <div class="d-flex">
+            <input type="file" name="PANCard" id="PANCard" class="form-control" [(ngModel)]="request.PANCard" formControlName="PANCard" (change)="ValidateDocumentImage($event,'PANCard')" />
+            <div class="btn-group" *ngIf="showPANCard">
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.PANCard}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PANCard')"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+          <div *ngIf="isPANCard" class="text-danger">
+            <p *ngIf="isPANCard"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>
+            Experience Certificate
+          </label>
+          <div class="d-flex">
+            <input type="file" name="ExperienceCertificate" id="ExperienceCertificate" [(ngModel)]="request.ExperienceCertificate" class="form-control" formControlName="ExperienceCertificate" (change)="ValidateDocumentImage($event,'ExperienceCertificate')" />
+            <div class="btn-group" *ngIf="showExperienceCertificate">
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.ExperienceCertificate}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ExperienceCertificate')"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Date Of Birth <span style="color:red;">*</span></label>
+          <input type="date" id="dtDOB" name="dtDOB" class="form-control" [(ngModel)]="request.DateOfBirth" formControlName="dtDOB" (change)="SetDateofAppointment()" max="{{MaxDate | date:'yyyy-MM-dd'}}"/>
+          <div *ngIf="isSubmitted&&form.dtDOB.errors" class="text-danger">
+            <p *ngIf="form.dtDOB.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Date Of Appointment <span style="color:red;">*</span></label>
+          <input type="date" id="dtDateOfAppointment" name="dtDateOfAppointment" class="form-control" [(ngModel)]="request.DateOfAppointment" formControlName="dtDateOfAppointment" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" />
+          <div *ngIf="isSubmitted&&form.dtDateOfAppointment.errors" class="text-danger">
+            <p *ngIf="form.dtDateOfAppointment.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Date Of Joining <span style="color:red;">*</span></label>
+          <input type="date" id="dtDateOfJoining" name="dtDateOfJoining" class="form-control" [(ngModel)]="request.DateOfJoining" formControlName="dtDateOfJoining" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" />
+          <div *ngIf="isSubmitted&&form.dtDateOfJoining.errors" class="text-danger">
+            <p *ngIf="form.dtDateOfJoining.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
+          <label>Specialization Subject <span style="color:red;">*</span></label>
+          <input type="text" id="txtSpecializationSubject" name="txtSpecializationSubject" [(ngModel)]="request.SpecializationSubject" class="form-control" formControlName="txtSpecializationSubject" (keypress)="alphaOnly($event)" />
+          <div *ngIf="isSpecializationSubject" class="text-danger">
+            <p *ngIf="isSpecializationSubject"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='NonTeaching'">
+          <label>Role Mapping <span style="color:red;">*</span></label>
+          <input type="text" id="txtRoleMapping" name="txtRoleMapping" class="form-control" formControlName="txtRoleMapping" [(ngModel)]="request.RoleMapping" (keypress)="alphaOnly($event)" />
+          <div *ngIf="isRoleMapping" class="text-danger">
+            <p *ngIf="isRoleMapping"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Salary <span style="color:red;">*</span></label>
+          <input type="text" id="txtSalary" name="txtSalary" class="form-control" formControlName="txtSalary" [(ngModel)]="request.Salary" maxlength="10" (keypress)="numberOnly($event)" />
+          <div *ngIf="isSubmitted&&form.txtSalary.errors" class="text-danger">
+            <p *ngIf="form.txtSalary.errors.required">This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label" style="margin-right:15px">Staff Status <span style="color:red;">*</span>:</label>
+          <div class="clearfix"></div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdStaffStatus" id="rdStaffStatusPermanent" value="Permanent" formControlName="rdStaffStatus" [(ngModel)]="request.StaffStatus">
+            <label class="form-check-label" for="rdStaffStatusPermanent">Permanent</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdStaffStatus" id="rdStaffStatusTemporary" value="Temporary" formControlName="rdStaffStatus" [(ngModel)]="request.StaffStatus">
+            <label class="form-check-label" for="rdStaffStatusTemporary">Temporary</label>
+          </div>
+          <div *ngIf="isSubmitted&&form.rdStaffStatus.errors" class="text-danger">
+            <p *ngIf="form.rdStaffStatus.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label" style="margin-right:15px">PF Deduction :</label>
+          <div class="clearfix"></div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdPFDeduction" id="rdPFDeductionYes" value="Yes" formControlName="rdPFDeduction" [(ngModel)]="request.PFDeduction">
+            <label class="form-check-label" for="rdPFDeductionYes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdPFDeduction" id="rdPFDeductionNo" value="No" formControlName="rdPFDeduction" [(ngModel)]="request.PFDeduction">
+            <label class="form-check-label" for="rdPFDeductionNo">No</label>
+          </div>
+          <div *ngIf="isSubmitted&&form.rdPFDeduction.errors" class="text-danger">
+            <p *ngIf="form.rdPFDeduction.errors.required">This field is required .!</p>
+          </div>
+          <div class="row">
+            <label *ngIf="request.PFDeduction=='Yes'"> UAN No.</label>
+            <input *ngIf="request.PFDeduction=='Yes'" type="text" id="txtUANNo" name="txtUANNo" class="form-control" formControlName="txtUANNo" [(ngModel)]="request.UANNumber" maxlength="12" (keypress)="numberOnly($event)" />
+            <div *ngIf="isUANNumber" class="text-danger">
+              <p *ngIf="isUANNumber"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label class="form-label" style="margin-right:15px">Research Guide <span style="color:red;">*</span></label>
+          <div class="clearfix"></div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdResearchGuide" id="rdResearchGuideYes" value="Yes" formControlName="rdResearchGuide" [(ngModel)]="request.ResearchGuide" [attr.disabled]="isDisabledResearchGuide ? true : null">
+            <label class="form-check-label" for="rdResearchGuideYes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdResearchGuide" id="rdResearchGuideNo" value="No" formControlName="rdResearchGuide" [(ngModel)]="request.ResearchGuide" [attr.disabled]="isDisabledResearchGuide ? true : null">
+            <label class="form-check-label" for="rdResearchGuideNo">No</label>
+          </div>
+          <div *ngIf="isSubmitted&&form.rdResearchGuide.errors" class="text-danger">
+            <p *ngIf="form.rdResearchGuide.errors.required">  This field is required .!</p>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="clearfix"></div>
+    <div class="card">
+      <div class="card-header">
+        <b>Add Educational Qualification Details</b>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="StaffEducationDetailForm" class="form-horizontal">
+          <div class="row">
+            <div class="col-md-2 mb-2">
+              <label>Qualification <span style="color:red">*</span></label>
+              <select id="ddlProfessionalQualificationID" name="ddlProfessionalQualificationID" formControlName="ddlProfessionalQualificationID" [(ngModel)]="request.ProfessionalQualificationID" class="form-control">
+                <option value="0" disabled>--Select--</option>
+                <option *ngFor="let item of ProfessionalQualificationData"
+                        value="{{item.QualificationID}}">
+                  {{item.QualificationName}}
+                </option>
+              </select>
+              <div *ngIf="isAddMore&&SEform.ddlProfessionalQualificationID.errors" class="text-danger">
+                <p *ngIf="!SEform.ddlProfessionalQualificationID.errors.DropdownValidators"> This field is required .!</p>
+              </div>
+            </div>
+
+
+            <div class="col-md-2 mb-2">
+              <label>Stream/ Subject <span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtSubjectStream" formControlName="txtSubjectStream" name="txtSubjectStream" [(ngModel)]="request.StreamSubject" autocomplete="off" (keypress)="alphaOnly($event)">
+              <div *ngIf="isAddMore&&SEform.txtSubjectStream.errors" class="text-danger">
+                <p *ngIf="SEform.txtSubjectStream.errors.required">  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-md-2 mb-2">
+              <label>University/ Board/ Institution <span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtUniversityBoardInstitutionName" formControlName="txtUniversityBoardInstitutionName" name="txtUniversityBoardInstitutionName" [(ngModel)]="request.UniversityBoardInstitutionName" autocomplete="off" (keypress)="alphaOnly($event)">
+              <div *ngIf="isAddMore&&SEform.txtUniversityBoardInstitutionName.errors" class="text-danger">
+                <p *ngIf="SEform.txtUniversityBoardInstitutionName.errors.required">This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-md-2 mb-2">
+              <label>Passing year <span style="color:red">*</span></label>
+              <select id="ddlPassingYearID" name="ddlPassingYearID" [(ngModel)]="request.PassingYearID" class="form-control" formControlName="ddlPassingYearID">
+                <option value="0" disabled>--Select Passing Year--</option>
+                <option *ngFor="let item of YearData"
+                        value="{{item.YearID}}">
+                  {{item.YearName}}
+                </option>
+              </select>
+              <div *ngIf="isAddMore&&SEform.ddlPassingYearID.errors" class="text-danger">
+                <p *ngIf="!SEform.ddlPassingYearID.errors.DropdownValidators"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-md-2 mb-2">
+              <label>Marks In Percentage/Grade <span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtMarks" name="txtMarks" [(ngModel)]="request.Marks" formControlName="txtMarks" autocomplete="off" maxlength="3" (keypress)="numberOnly($event)">
+              <div *ngIf="isAddMore&&SEform.txtMarks.errors" class="text-danger">
+                <p *ngIf="SEform.txtMarks.errors.required"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-md-2 mb-2">
+              <label>
+                Upload Document<!--<span style="color:red;">*</span>-->
+              </label>
+              <div  class="d-flex">
+                <input type="file" name="UploadDocument" id="UploadDocument" class="form-control" [(ngModel)]="request.UploadDocument" formControlName="UploadDocument" (change)="ValidateDocumentImage($event,'UploadDocument')" />
+                <div class="btn-group" *ngIf="showUploadDocument">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadDocument}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadDocument')"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isUploadDocRequried" class="text-danger">
+                <p *ngIf="isUploadDocRequried"> This field is required .!</p>
+              </div>
+
+
+            </div>
+          </div>
+          <div class="col-md-12 text-end">
+            <button class="btn btn-primary" type="button" (click)="AddMoreEducationalQualification()"><i class="fa fa-plus"></i></button>
+          </div>
+
+        </form>
+        <div class="row">
+          <div class="table-responsive" *ngIf="request.EducationalQualificationDetails.length>0">
+            <table class="table table-hover table-striped-columns">
+              <thead>
+                <tr>
+                  <th>Professional Qualification</th>
+                  <th> Stream/Subject </th>
+                  <th>University/Board/ Institution</th>
+                  <th>Passing Year</th>
+                  <th>Percentage/Grade</th>
+                  <th>Upload Document</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of request.EducationalQualificationDetails let idx =index">
+                  <td>
+                    {{item.ProfessionalQualification}}
+                  </td>
+                  <td>
+                    {{item.StreamSubject}}
+                  </td>
+                  <td>
+                    {{item.UniversityBoardInstitutionName}}
+                  </td>
+                  <td>
+                    {{item.PassingYear}}
+                  </td>
+                  <td>
+                    {{item.Marks}}
+                  </td>
+                  <td>
+                    <a href="{{item.UploadDocument}}" target="_blank"><i class="fa fa-eye"></i></a>
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-danger" title="View Upload Document" (click)="DeleteEducationalQualification(idx)"><i class="fa fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!--<div class="card-footer text-end">
+        <button class="btn btn-primary" type="button" (click)="AddData()"><i class="fa fa-plus"></i>&nbsp;Add</button>
+        <button class="btn btn-success" type="button">Save & Next</button>
+      </div>-->
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 mb-2 text-end">
+        <button class="btn btn-primary" id="btnAdd" type="button" (click)="SaveData()"><i class="fa fa-plus"></i>&nbsp;Add & Save</button> &nbsp; &nbsp;
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="card">
+      <div class="card-header">
+        <b>Staff Details</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3 mb-2">
+            <label>Total</label>
+            <input type="text" class="form-control" disabled [(ngModel)]="TotalStaffDetail" />
+          </div>
+          <div class="col-md-3 mb-2">
+            <label>Non Teaching</label>
+            <input type="text" class="form-control" disabled [(ngModel)]="TotalNonTeachingStaffDetail" />
+          </div>
+          <div class="col-md-3 mb-2">
+            <label>Teaching</label>
+            <input type="text" class="form-control" disabled [(ngModel)]="TotalTeachingStaffDetail" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Image</th>
+                    <th>Personal Details</th>
+                    <th>Dates</th>
+                    <th>Post & Service</th>
+                    <th>PF/Research Guide</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of StaffDetailModel let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td><img [src]="item.ProfilePhoto" *ngIf="item.ProfilePhoto!='' && item.ProfilePhoto!=undefined" class="imgPlaceholder" height="50" width="100" /><p *ngIf="item.ProfilePhoto==''">NO Image</p></td>
+                    <td>
+                      <p class="m-0"><b> NAME : </b> {{item.PersonName}}</p>
+
+                      <p class="m-0"><b>MOBILE NUMBER : </b>{{item.MobileNo}}</p>
+                      <p class="m-0"><b>Email ID : </b> {{item.Email}}</p>
+                      <p class="m-0"><b>Qualification : </b> {{item.HighestQualificationName}}</p>
+                      <p class="m-0"><b>Type : </b>{{item.TeachingType}}</p>
+
+                    </td>
+                    <td>
+                      <p class="m-0"><b>DATE OF BIRTH : </b>{{item.DateOfBirth}}</p>
+                      <p class="m-0"><b>DATE OF APPOINTMENT : </b>{{item.DateOfAppointment}}</p>
+                      <p class="m-0"><b>DATE OF JOINING : </b>{{item.DateOfJoining}}</p>
+                      <p class="m-0"><b>Year of Experience : </b>{{item.NumberofExperience}}</p>
+                      <p class="m-0"><b>Experience Certificate : </b>&nbsp; <a [hidden]="item.ExperienceCertificate==''" href="{{item.ExperienceCertificate}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
+
+                    </td>
+                    <td>
+                      <p class="m-0"><b>Role : </b>{{item.RoleName}}</p>
+                      <p class="m-0"><b>Course : </b>NA</p>
+                      <p class="m-0"><b>Subject : </b>{{item.SubjectName}}</p>
+                      <p class="m-0"><b>Staff Status : </b> {{item.StaffStatus}}</p>
+                      <p class="m-0"><b>SALARY : </b>{{item.Salary}}</p>
+
+                    </td>
+                    <td>
+
+                      <p class="m-0"><b>Aadhaar No. :</b> {{item.MaskedAadhaarNo}}&nbsp; <a href="{{item.AadhaarCard}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
+                      <p class="m-0 text-uppercase"><b>PAN Card : </b> <a [hidden]="item.PANCard==''" href="{{item.PANCard}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
+                      <p class="m-0"><b>Research Guide : </b>{{item.ResearchGuide}}</p>
+                      <p class="m-0"><b>PF Deduction : </b>{{item.PFDeduction}}</p>
+                      <p class="m-0"><b>PF Number : </b>{{item.UANNumber}}</p>
+                      <p class="m-0"><b>Specialization : </b>{{item.SpecializationSubject}}</p>
+
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-sm btn-primary" title="Edit" [attr.disabled]="isDisabled ? true : null" (click)="EditItem(item.StaffDetailID)"><i class="fa fa-edit"></i></button>
+                      <button type="button" class="btn btn-sm btn-danger" title="Delete" [attr.disabled]="isDisabled ? true : null" (click)="DeleteStaffDetails(item.StaffDetailID)"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

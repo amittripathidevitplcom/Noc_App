@@ -1,0 +1,72 @@
+<app-loader></app-loader>
+<div class="card mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp;Apply NOC Application</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+        <label>Department</label>
+        <select class="form-select" id="ddlDepartmentId" name="ddlDepartmentId" [(ngModel)]="DepartmentID" disabled>
+          <option value="0" disabled>--Select--</option>
+          {{DepartmentData}}
+          <option *ngFor="let item of DepartmentData"
+                  value="{{item.DepartmentID}}">
+            {{item.DepartmentName}}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+        <label>College</label>
+        <select class="form-select" id="ddlCollegeId" name="ddlCollegeId" [(ngModel)]="CollegeID">
+          <option value="0" disabled>--Select--</option>
+          <option *ngFor="let item of CollegeData"
+                  value="{{item.CollegeID}}">
+            {{item.CollegeName}}
+          </option>
+        </select>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+        <label class="form-label" style="margin-right:15px">Select Application Type :</label>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="rdApplicationType" id="rdApplicationType" [(ngModel)]="ApplicationType" value="NOC" (change)="OnChangeApplicationType()">
+          <label class="form-check-label" for="rdTeachingTypeTeaching">NOC</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="ShowNOCFor">
+        NOC For
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12"> <button class="btn btn-primary" type="button">Preview</button></div>
+    </div>
+    <div class="row text-end">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12"> <button class="btn btn-secondary" type="button">Clear Selection (Apply NOC)</button> &nbsp; <button class="btn btn-success" type="button">Edit Selection (Apply NOC)</button></div>
+    </div>
+  </div>
+</div>
+<div class="card mb-0">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+        <h4 class="text-danger">Disclaimer:</h4>
+        <ol class="text-danger">
+          <li>Submit your application with appropriate option like- new course, new subject, tnoc, pnoc.</li>
+          <li>Once the application is submitted you have to print challan or download.</li>
+          <li>Once you did the payment you need to upload proof of payment (receipt) from applied noc, <a href="#"> Upload Reciept</a></li>
+          <li>Note: here only those subjects or courses will be visible for which draft is complete.</li>
+          <li>If NOC is for name change, location change, merger, coed to girl please fill details in <a href="#">College Amendment</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>

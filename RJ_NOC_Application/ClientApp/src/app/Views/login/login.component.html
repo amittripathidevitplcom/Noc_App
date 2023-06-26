@@ -1,0 +1,62 @@
+<form [formGroup]="LoginForm" class="form-horizontal">
+  <div class="container-fluid loginPage">
+    <div class="row vh-100">
+      <div class="col-lg-7 col-md-7 col-sm-12 loginForm order-lg-2 order-md-2 order-sm-2 order-1">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 loginBox adminLoginBox">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 py-3 logoBox text-center">
+                <img src="assets/images/DEVIT-logo-1.png" style="max-height:60px;" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 mb-3 text-center">
+                <h3>Welcome to Dev Information Technology Limited !</h3>
+                <h1>Admin Login</h1>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-lg-7 col-md-10 col-sm-10 col-12">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <label class="f-600 mb-2">User Name</label>
+
+                    <input type="text" class="form-control" id="txtLoginID" placeholder="Enter Your User Name" name="txtLoginID" [(ngModel)]="LoginID" formControlName="txtLoginID"
+                           (keyup.enter)="GotoPassword()">
+                    <div *ngIf="isSubmitted&&form.txtLoginID.errors" class="requiredBox">
+                      <p *ngIf="form.txtLoginID.errors.required"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <label class="f-600 mb-2">Password</label>
+                    <input type="password" class="form-control" id="txtPassword" placeholder="Enter Your Password" name="txtPassword" [(ngModel)]="Password" formControlName="txtPassword"
+                           (keyup.enter)="Login()">
+                    <div *ngIf="isSubmitted&&form.txtPassword.errors" class="requiredBox">
+                      <p *ngIf="form.txtPassword.errors.required"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="PanCard">
+                      <label class="form-check-label" for="PanCard">
+                        Password Remember?
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                    <button type="button" class="btn btn-soft-primary" (click)="Login()">Login</button>
+                    <p class="f-600 mt-3">If you are forget your password. Please <a href="javascript:void(0)" class="Atag">Click Here</a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 col-md-5 col-sm-12 order-md-1 order-sm-1 order-2 LoginText adminLogin d-flex justify-content-center align-items-center flex-column">
+
+      </div>
+    </div>
+  </div>
+</form>

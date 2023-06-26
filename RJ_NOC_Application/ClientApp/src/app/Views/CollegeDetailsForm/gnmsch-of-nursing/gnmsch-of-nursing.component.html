@@ -1,0 +1,629 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Application Details</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Application</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Application Details</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+
+    <!--<div class="col-md-12">
+      <h3>Application Details</h3>
+    </div>-->
+    <div class="col-md-12">
+      
+      <div class="row align-items-center">
+        <div class="col-md-10">
+          <div class="tabUl1 d-block w-100">
+            <ul>
+              <li class="tabs-Link tabActive">
+                <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="BuildingDocuments1">
+                  <i class="fa fa-home"></i>
+                  <span>Building Details</span>
+                </a>
+              </li>
+              <li class="tabs-Link">
+                <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="StaffDetails1">
+                  <i class="bi bi-people"></i>
+                  <span>Staff Details</span>
+                </a>
+              </li>
+              <li class="tabs-Link">
+                <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="ClinicalFacilities1">
+                  <i class="bi bi-hospital"></i>
+                  <span>Clinical Facilities</span>
+                </a>
+              </li>
+              <li class="tabs-Link">
+                <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="HostelDetails1">
+                  <i class="fa fa-building-o"></i>
+                  <span>Hostel Details</span>
+                </a>
+              </li>
+              <li class="tabs-Link">
+                <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="OtherInformation1">
+                  <i class="bi bi-card-list"></i>
+                  <span>Other Information</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2 text-end">
+          <a routerLink="../addcourses" class="btn btn-primary btn-sm">Back To Course List</a>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="card tabCard1 mb-0" id="BuildingDocuments1">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>&nbsp; Building Details</b>
+        </div>
+        <div class="card-body">
+          <div class="card">
+            <div class="card-header">
+              <b><i class="bi bi-building-add"></i>&nbsp; Room Details</b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3 mb-2">
+                  <select class="form-select">
+                    <option selected value="0">--Select Course--</option>
+                    <option value="1">P.B.B.Sc. (N) programme</option>
+                  </select>
+                </div>
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-3 mb-2">
+                      <input type="text" class="form-control" placeholder="Enter Width (In Feet)" />
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <input type="text" class="form-control" placeholder="Enter Length (In Feet)" />
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <input type="text" class="form-control" placeholder="Enter Student Capacity" />
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <input type="file" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1 text-end">
+                  <button class="btn btn-primary" type="button"><i class="fa fa-plus"></i>&nbsp;Add</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th>Sr. No.</th>
+                          <th>Course</th>
+                          <th>Width (In Feet)</th>
+                          <th>Length (In Feet)</th>
+                          <th>Student Capacity</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button class="btn btn-primary" type="button">Save</button>
+          <button class="btn btn-success" type="button">Save & Next</button>
+        </div>
+      </div>
+      <div class="card tabCard1 d-none mb-0" id="StaffDetails1">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>&nbsp; Staff Details</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label class="form-label" style="margin-right:15px">Select Type :</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="SelectType" id="Teaching" value="1">
+                <label class="form-check-label" for="Teaching">Teaching</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="SelectType" id="NoNTeaching" value="2">
+                <label class="form-check-label" for="NoNTeaching">Non-Teaching</label>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Subject</label>
+              <select class="form-select">
+                <option selected value="0">--Select Subject--</option>
+                <option value="1">Subject 1</option>
+                <option value="2">Subject 2</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label>Name of Person</label>
+              <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Post</label>
+              <select class="form-select">
+                <option selected value="0">--Select Post--</option>
+                <option value="1">Principal</option>
+                <option value="2">Vice - Principal</option>
+                <option value="3">Tutor</option>
+                <option value="4">Additional Tutor for Interns </option>
+                <option value="5">Major OT Minor OT Dental</option>
+                <option value="6">Eye/ENT Burns and</option>
+                <option value="7">Plastic Neonatology with</option>
+                <option value="8">Nursery Communicable</option>
+                <option value="9">disease Community Health</option>
+                <option value="10">Nursing Cardiology</option>
+
+              </select>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Mobile No.</label>
+              <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Email</label>
+              <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Profile Photo</label>
+              <input type="file" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Highest Qualification</label>
+              <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Total Number of Experience (Year)</label>
+              <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Aadhaar Card</label>
+              <input type="file" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Aadhar Number</label>
+              <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Pan Card</label>
+              <input type="file" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Experience Certificate</label>
+              <input type="file" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Date Of Birth</label>
+              <input type="date" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Sprcialization Subject</label>
+              <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label>Salary</label>
+              <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label" style="margin-right:15px">Staff Status :</label>
+              <div class="clearfix"></div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="StaffStatus" id="Permanent" value="1">
+                <label class="form-check-label" for="Permanent">Permanent</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="StaffStatus" id="Temporary" value="2">
+                <label class="form-check-label" for="Temporary">Temporary</label>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label" style="margin-right:15px">PF Deduction :</label>
+              <div class="clearfix"></div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="PFDeduction" id="PFDeductionY" value="1">
+                <label class="form-check-label" for="PFDeductionY">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="PFDeduction" id="PFDeductionN" value="2">
+                <label class="form-check-label" for="PFDeductionN">No</label>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label" style="margin-right:15px">Research Guide :</label>
+              <div class="clearfix"></div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="ResearchGuide" id="ResearchGuideY" value="1">
+                <label class="form-check-label" for="ResearchGuideY">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="ResearchGuide" id="ResearchGuideN" value="2">
+                <label class="form-check-label" for="ResearchGuideN">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+          <div class="card">
+            <div class="card-header">
+              <b>Add New Educational Qualification Details</b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3 mb-2">
+                  <select class="form-select">
+                    <option selected value="0">--Select--</option>
+                    <option value="1">PHD</option>
+                    <option value="2">Post Graduation</option>
+                    <option value="3">Graduation</option>
+                    <option value="4">12th</option>
+                    <option value="5">10th</option>
+                  </select>
+                </div>
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-3 mb-2">
+                      <input type="text" class="form-control" placeholder="Enter Stream/Subject*" />
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <input type="text" class="form-control" placeholder="University/Board/Institution*" />
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <select class="form-select">
+                        <option selected value="0">--Select Passing Year--</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <input type="text" class="form-control" placeholder="Marks In Percentage/Grade*" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1 text-end">
+                  <button class="btn btn-primary" type="button"><i class="fa fa-plus"></i>&nbsp;Add</button>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-end">
+              <button class="btn btn-primary" type="button">Save</button>
+              <button class="btn btn-success" type="button">Save & Next</button>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="card">
+            <div class="card-header">
+              <b>Staff Details</b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-3 mb-2">
+                  <input type="text" class="form-control" placeholder="Total" />
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input type="text" class="form-control" placeholder="Non-Teaching" />
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input type="text" class="form-control" placeholder="Teaching" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th>S.No.</th>
+                          <th>Image</th>
+                          <th>Personal Details</th>
+                          <th>Dates</th>
+                          <th>Post & Service</th>
+                          <th>PF/Research Guide</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card tabCard1 d-none mb-0" id="ClinicalFacilities1">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>&nbsp; Clinical Facilities</b>
+        </div>
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-md-3 mb-2">
+              <label for="employeeName" class="form-label" style="margin-right:15px">Select Hospital Area :</label>
+              <div class="clearfix"></div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="HospitalArea" id="HillyArea" value="1">
+                <label class="form-check-label" for="HillyArea">Hilly</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="HospitalArea" id="TribalArea" value="2">
+                <label class="form-check-label" for="TribalArea">Tribal</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="HospitalArea" id="OtherArea" value="3">
+                <label class="form-check-label" for="OtherArea">Other</label>
+              </div>
+            </div>
+            <div class="col-md-3 mb-2">
+              <label>Hospital Name</label>
+              <input type="text" class="form-control" placeholder="Enter Hospital Name" />
+            </div>
+            <div class="col-md-3 mb-2">
+              <label>Hospital Distence from Institutions (KM)</label>
+              <input type="text" class="form-control" placeholder="Enter Hospital Distence from Institutions (KM)" />
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <div class="card">
+            <div class="card-header">
+              <b>
+                <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
+              </b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label>Medical</label>
+                  <input class="form-control" placeholder="Enter No. of Beds For Medical" type="text" />
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label>Surgical</label>
+                  <input class="form-control" placeholder="Enter No. of Beds For Surgical" type="text" />
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label>Obst. & Gynaecology</label>
+                  <input class="form-control" placeholder="Enter No. of Beds For Obst. & Gynaecology" type="text" />
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label>Pediatrics</label>
+                  <input class="form-control" placeholder="Enter No. of Beds For Pediatrics" type="text" />
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label>Ortho</label>
+                  <input class="form-control" placeholder="Enter No. of Beds For Ortho" type="text" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <b>
+                <i class="bi bi-table"></i>&nbsp; Bed Occupancy of the Hospital
+              </b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label>Bed Occupancy of the Hospital in percentege</label>
+                  <input class="form-control" placeholder="Enter Bed Occupancy of the Hospital" type="text" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <b>
+                <i class="bi bi-table"></i>&nbsp; Affiliation of psychiatric hospital Details
+              </b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label>Affiliation of psychiatric hospital beds</label>
+                  <input class="form-control" placeholder="Enter No. of Beds For Affiliation of psychiatric hospital" type="text" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="card-footer text-end">
+          <button class="btn btn-primary" type="button">Save</button>
+          <button class="btn btn-success" type="button">Save & Next</button>
+        </div>
+      </div>
+      <div class="card tabCard1 d-none mb-0" id="HostelDetails1">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>&nbsp; Hostel Details</b>
+        </div>
+        <div class="card-body">
+          <div class="row border-bottom mb-2">
+            <div class="col-md-3 mb-2">
+              <select class="form-select">
+                <option selected value="0">--Select Block--</option>
+                <option value="1">Single Room</option>
+                <option value="2">Double Room</option>
+                <option value="3">Sanitary</option>
+                <option value="4">Visitor Room</option>
+                <option value="5">Reading Room</option>
+                <option value="6">Store</option>
+                <option value="7">Recreation Room</option>
+                <option value="8">Dining Hall</option>
+                <option value="9">Kitchen & Store</option>
+                <option value="10">Warden’s Room</option>
+              </select>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-3 mb-2">
+                  <input type="text" class="form-control" placeholder="Enter Width (In Feet)" />
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input type="text" class="form-control" placeholder="Enter Length (In Feet)" />
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input type="text" class="form-control" placeholder="Enter Student Capacity" />
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input type="file" class="form-control" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Blocks</th>
+                      <th>Width (In Feet)</th>
+                      <th>Length (In Feet)</th>
+                      <th>Capacity</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button class="btn btn-primary" type="button">Save</button>
+          <button class="btn btn-success" type="button">Save & Next</button>
+        </div>
+
+      </div>
+      <div class="card tabCard1 d-none mb-0" id="OtherInformation1">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>&nbsp; Other Information</b>
+        </div>
+        <div class="card-body">
+          <div class="row border-bottom mb-2">
+            <div class="col-md-3 mb-2">
+              <select class="form-select">
+                <option value="0" selected>--Select Blocks--</option>
+                <option value="1">Lecture Hall</option>
+                <option value="2">Lab - (i) Nursing foundation lab</option>
+                <option value="3">Lab - (ii) CHN & Nutrition Lab</option>
+                <option value="4">Lab - (iii) Advance Nursing Skill Lab</option>
+                <option value="5">Lab - (iv) OBG and Paediatrics lab</option>
+                <option value="6">Lab - (v) Pre-clinical science lab</option>
+                <option value="7">Lab - (vi) Computer Lab</option>
+                <option value="8">Multipurpose Hall</option>
+                <option value="9">Common Room (Male & Female)</option>
+                <option value="10">Staff Room</option>
+                <option value="11">Principal Room</option>
+                <option value="12">Vice Principal Room</option>
+                <option value="13">Library</option>
+                <option value="14">A.V. Aids Room</option>
+                <option value="15">Faculty Room</option>
+                <option value="16">Provisions for Toilets</option>
+
+              </select>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-3 mb-2">
+                  <input type="text" class="form-control" placeholder="Enter Width (In Feet)" />
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input type="text" class="form-control" placeholder="Enter Length (In Feet)" />
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input type="text" class="form-control" placeholder="Enter Student Capacity" />
+                </div>
+                <div class="col-md-3 mb-2">
+                  <input type="file" class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1 text-end">
+              <button class="btn btn-primary" type="button"><i class="fa fa-plus"></i>&nbsp;Add</button>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Blocks</th>
+                      <th>Width (In Feet)</th>
+                      <th>Length (In Feet)</th>
+                      <th>Capacity</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button class="btn btn-primary" type="button">Save</button>
+          <button class="btn btn-success" type="button">Save & Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

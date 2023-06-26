@@ -1,0 +1,309 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>College Management Society</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">College Management Society</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="SocietyDetailsForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-plus"></i>&nbsp;College Management Society</b>
+            <span class="text-danger">(*) Fields is compulsory</span>
+          </div>
+          <div class="card-body">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Society Details</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="ddlCollegeID" class="form-label">College <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlCollegeID" name="ddlCollegeID" [(ngModel)]="request.CollegeID" formControlName="ddlCollegeID">
+                      <option value="0">--Select College--</option>
+                      <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlCollegeID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlCollegeID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtPersonName" class="form-label">Name of Person <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtPersonName" name="txtPersonName" [(ngModel)]="request.PersonName" formControlName="txtPersonName">
+                    <div *ngIf="isSubmitted&&form.txtPersonName.errors" class="text-danger">
+                      <p *ngIf="form.txtPersonName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="fProfilePhoto" class="form-label">Profile Photo</label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fProfilePhoto" name="fProfilePhoto" formControlName="fProfilePhoto" (change)="ValidateImage($event,'ProfilePhoto')">
+                      <div class="btn-group" *ngIf="showProfilePhoto">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.ProfilePhoto}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ProfilePhoto')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.ProfilePhoto ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                    <div *ngIf="isValidProfilePhoto" class="text-danger">
+                      <p *ngIf="isValidProfilePhoto"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="ddlDesignationID" class="form-label">Designation <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlDesignationID" name="ddlDesignationID" [(ngModel)]="request.DesignationID" formControlName="ddlDesignationID">
+                      <option value="0">--Select Designation--</option>
+                      <option *ngFor="let item of DesignationList" value="{{item.DesignationID}}">{{item.DesignationName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlDesignationID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlDesignationID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="ddlOccupationID" class="form-label">Occupation <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlOccupationID" name="ddlOccupationID" [(ngModel)]="request.OccupationID" formControlName="ddlOccupationID">
+                      <option value="0">--Select Occupation--</option>
+                      <option *ngFor="let item of OccupationList" value="{{item.OccupationID}}">{{item.OccupationName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlOccupationID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlOccupationID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label" style="margin-right:15px">Management Committee Should have at least two educationists </label>
+                    <div class="clearfix"></div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" value="Yes" id="rbEducationistsYes" name="Educationists" [(ngModel)]="request.Educationists" formControlName="Educationists">
+                      <label class="form-check-label" for="rbEducationistsYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" value="No" id="rbEducationistsNo" name="Educationists" [(ngModel)]="request.Educationists" formControlName="Educationists">
+                      <label class="form-check-label" for="rbEducationistsNo">No</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtMobileNo" class="form-label">Mobile No <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtMobileNo" name="txtMobileNo" [(ngModel)]="request.MobileNo" formControlName="txtMobileNo" (keypress)="numberOnly($event)">
+                    <div *ngIf="isSubmitted&&form.txtMobileNo.errors" class="text-danger">
+                      <p *ngIf="form.txtMobileNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtMobileNo.errors.pattern || form.txtMobileNo.errors.maxlength || form.txtMobileNo.errors.minlength">Mobile number must be at least 10 numbers</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtEmail" class="form-label">Email <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtEmail" name="txtEmail" [(ngModel)]="request.Email" formControlName="txtEmail">
+                    <div *ngIf="isSubmitted&&form.txtEmail.errors" class="text-danger">
+                      <p *ngIf="form.txtEmail.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtEmail.errors.pattern">Email ID is invalid</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="ddlGender" class="form-label">Gender <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlGender" name="ddlGender" [(ngModel)]="request.Gender" formControlName="ddlGender">
+                      <option value="">--Select Gender--</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlGender.errors" class="text-danger">
+                      <p *ngIf="form.ddlGender.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtFatherName" class="form-label">Father Name <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtFatherName" name="txtFatherName" [(ngModel)]="request.FatherName" formControlName="txtFatherName">
+                    <div *ngIf="isSubmitted&&form.txtFatherName.errors" class="text-danger">
+                      <p *ngIf="form.txtFatherName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtAadhaarNo" class="form-label">Aadhaar Number <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtAadhaarNo" name="txtAadhaarNo" [(ngModel)]="request.AadhaarNo" formControlName="txtAadhaarNo" (keypress)="numberOnly($event)">
+                    <div *ngIf="isSubmitted&&form.txtAadhaarNo.errors" class="text-danger">
+                      <p *ngIf="form.txtAadhaarNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtAadhaarNo.errors.maxlength || form.txtAadhaarNo.errors.minlength">Aadhaar number must be 12 digit</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="fAadhaarCard" class="form-label">Aadhaar Card </label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fAadhaarCard" name="fAadhaarCard" formControlName="fAadhaarCard" (change)="ValidateImage($event,'AadhaarCard')">
+                      <div class="btn-group" *ngIf="showAadhaarCard">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.AadhaarCard}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AadhaarCard')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.AadhaarCard ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>                   
+                    <div *ngIf="isValidAadhaarCard" class="text-danger">
+                      <p *ngIf="isValidAadhaarCard"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="fSignatureDoc" class="form-label">Signature Doc </label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fSignatureDoc" name="fSignatureDoc" formControlName="fSignatureDoc" (change)="ValidateImage($event,'SignatureDoc')">
+                      <div class="btn-group" *ngIf="showSignatureDoc">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.SignatureDoc}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SignatureDoc')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.SignatureDoc ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                    <div *ngIf="isValidSignatureDoc" class="text-danger">
+                      <p *ngIf="isValidSignatureDoc"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtPANNo" class="form-label">PAN Number <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtPANNo" name="txtPANNo" [(ngModel)]="request.PANNo" formControlName="txtPANNo">
+                    <div *ngIf="isSubmitted&&form.txtPANNo.errors" class="text-danger">
+                      <p *ngIf="form.txtPANNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtPANNo.errors.maxlength || form.txtPANNo.errors.minlength">PAN number must be 10 digit</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="fPANCard" class="form-label">PAN Card  </label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fPANCard" name="fPANCard" formControlName="fPANCard" (change)="ValidateImage($event,'PANCard')">
+                      <div class="btn-group" *ngIf="showPANCard">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.PANCard}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PANCard')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.PANCard ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                    <div *ngIf="isValidPANCard" class="text-danger">
+                      <p *ngIf="isValidPANCard"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" value="1" id="ckIsPrimary" name="IsPrimary" [(ngModel)]="request.IsPrimary" formControlName="ckIsPrimary">
+                      <label class="form-check-label" for="ckIsPrimary">Is Primary</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" value="1" id="ckIsAuthorized" name="IsAuthorized" [(ngModel)]="request.IsAuthorized" formControlName="ckIsAuthorized" (change)="IsAuthorizedOrNot($event)">
+                      <label class="form-check-label" for="ckIsAuthorized">Is Authorized</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="isAuthorizedOrNot">
+                    <label for="fAuthorizedDocument" class="form-label">Upload Authorized Document  </label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fAuthorizedDocument" name="fAuthorizedDocument" formControlName="fAuthorizedDocument" (change)="ValidateImage($event,'AuthorizedDocument')">
+                      <div class="btn-group" *ngIf="showAuthorizedDocument">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.AuthorizedDocument}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AuthorizedDocument')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <!--<p *ngIf="isSubmitted&&request.AuthorizedDocument ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>-->
+                    <!--<div *ngIf="isValidAuthorizedDocument" class="text-danger">
+                      <p *ngIf="isValidAuthorizedDocument"> {{ImageValidationMessage}}</p>
+                    </div>-->
+                  </div>
+                  </div>
+                <div class="card-footer text-end">
+                  <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-save"></i> Save</button>
+                  <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+                </div>
+                <!--<div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3 text-end">
+                  <button type="button" class="btn btn-primary" (click)="Adddummy()"><i class="fa fa-plus"></i> Add</button>
+                </div>-->
+              </div>
+            </div>
+            <div class="card mb-0">
+              <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Management Committee Members Details</b>
+                <div class="d-flex align-items-center">
+                  <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+                    <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+                    <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+                  </div>
+                  <div class="d-flex align-items-center table-filter mr-15">
+                    <i class="fa fa-search"></i>
+                    <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" formControlName="txtsearchText" name="txtsearchText" />
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Management Committee Members Details</b>
+                <span style="color: red; font-size: 10px;">Please Add At least 15 Member For College Committee</span>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="table-responsive">
+                    <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                        <thead>
+                          <tr>
+                            <th>SNo</th>
+                            <th>Name</th>
+                            <th>Father Name</th>
+                            <th>Mobile No</th>
+                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>Aadhaar</th>
+                            <th>Pan</th>
+                          <th>PAN Card Document</th>
+                          <th>Aadhaar Card Document</th>
+                          <th>Signature Document</th>
+                          <th>Profile Photo</th>
+                          <th>Authorized Document</th>
+                            <th>Is Primary</th>
+                            <th>Is Authorize</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <!--<tr *ngFor="let row of SocietyAllList;let idx=index;">-->
+                        <tr *ngFor="let row of SocietyAllList | tableSearchFilter:searchText;let idx=index;">
+                            <td>{{idx+1}}</td>
+                            <td>{{row.PersonName}}</td>
+                            <td>{{row.FatherName}}</td>
+                            <td>{{row.MobileNo}}</td>
+                            <td>{{row.Gender}}</td>
+                            <td>{{row.Email}}</td>
+                            <td>{{row.AadhaarNo}}</td>
+                            <td>{{row.PANNo}}</td>
+                          <td><a target="_blank" href="{{row.PANCard}}"><i class="fa fa-eye"></i></a></td>
+                          <td><a target="_blank" href="{{row.AadhaarCard}}"><i class="fa fa-eye"></i></a></td>
+                          <td><a target="_blank" href="{{row.SignatureDoc}}"><i class="fa fa-eye"></i></a></td>
+                          <td><a target="_blank" href="{{row.ProfilePhoto}}"><i class="fa fa-eye"></i></a></td>
+                          <td><a target="_blank" href="{{row.AuthorizedDocument}}"><i class="fa fa-eye"></i></a></td>
+                            <td>{{row.IsPrimary}}</td>
+                            <td>{{row.IsAuthorized}}</td>
+                            <td>
+                              <div class="d-flex">
+                              <button type="button" (click)="Edit_OnClick(row.SocietyID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                              <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.SocietyID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

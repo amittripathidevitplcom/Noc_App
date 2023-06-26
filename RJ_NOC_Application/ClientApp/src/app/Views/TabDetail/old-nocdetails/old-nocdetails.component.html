@@ -1,0 +1,271 @@
+<div class="card tabCard1  mb-0" id="OldNOCDetails1">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <b><i class="bi bi-table"></i>&nbsp; Old NOC Details</b>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="oldNOCForm" class="form-horizontal">
+      <div class="row">
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>College Name <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlCollegeID" [(ngModel)]="request.CollegeID" formControlName="ddlCollegeID">
+            <option *ngFor="let item of lstCollege"
+                    value="{{item.CollegeID}}">
+              {{item.CollegeName}}
+            </option>
+          </select>
+          <div *ngIf="isSubmitted&&form.ddlCollegeID.errors" class="text-danger">
+            <p *ngIf="!form.ddlCollegeID.errors.DropdownValidators"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>Course <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID" (change)="GetSubjectList(request.CourseID)">
+            <option value="0" disabled>--Select Course--</option>
+            <option *ngFor="let item of lstCourse"
+                    value="{{item.CourseID}}">
+              {{item.CourseName}}
+            </option>
+          </select>
+          <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+            <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>Subject <span style="color:red;">*</span></label>
+
+          <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
+                                   [settings]="dropdownSettings"
+                                   [data]="subjectDataList"
+                                   [(ngModel)]="SelectedSubjectDetails">
+
+
+          </ng-multiselect-dropdown>
+          <div *ngIf="isSubmitted&&form.ddlSubject.errors" class="text-danger">
+            <p *ngIf="form.ddlSubject.errors.required">This field is required .!</p>
+          </div>
+
+          <!--<div *ngIf="isSubmitted&&SubjectRequried" class="text-danger">
+    <p *ngIf="isSubmitted&&SubjectRequried"><i aria-hidden="true"></i> This field is required .!</p>
+  </div>-->
+
+
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>NOC Type <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlOldNOCTypeId" [(ngModel)]="request.NOCTypeID" formControlName="ddlOldNOCTypeId" (change)="OnChangeOldNOCType()">
+            <option value="0" disabled>--Select NOC Type--</option>
+            <option *ngFor="let item of lstNOCType"
+                    value="{{item.ID}}">
+              {{item.Name}}
+            </option>
+          </select>
+          <div *ngIf="isSubmitted&&form.ddlOldNOCTypeId.errors" class="text-danger">
+            <p *ngIf="!form.ddlOldNOCTypeId.errors.DropdownValidators"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> Session Year <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlSessionYear" [(ngModel)]="request.SessionYear" formControlName="ddlSessionYear">
+            <option value="0" disabled>--Select Session Year--</option>
+            <option *ngFor="let item of lstSessionYear"
+                    value="{{item.FinancialYearID}}">
+              {{item.FinancialYearName}}
+            </option>
+          </select>
+          <div *ngIf="isSubmitted&&form.ddlSessionYear.errors" class="text-danger">
+            <p *ngIf="!form.ddlSessionYear.errors.DropdownValidators"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>Issued for Year <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlIssueYear" [(ngModel)]="request.IssuedYear" formControlName="ddlIssueYear">
+            <option value="0" disabled>--Select Issued Year--</option>
+            <option *ngFor="let item of lstIssuedYear"
+                    value="{{item.yearid}}">
+              {{item.yearname}}
+            </option>
+          </select>
+          <div *ngIf="isSubmitted&&form.ddlIssueYear.errors" class="text-danger">
+            <p *ngIf="!form.ddlIssueYear.errors.DropdownValidators"><i aria-hidden="true"></i>This fieldr is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>NOC Number <span style="color:red;">*</span></label>
+          <input type="text" placeholder="Enter NOC Number" class="form-control" id="txtNOCNumber" [(ngModel)]="request.NOCNumber" formControlName="txtNOCNumber" />
+          <div *ngIf="isSubmitted&&form.txtNOCNumber.errors" class="text-danger">
+            <p *ngIf="form.txtNOCNumber.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+          <label> NOC Received On <span style="color:red;">*</span></label>
+          <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCReceivedDate" [(ngModel)]="request.NOCReceivedDate" formControlName="dtNOCReceivedDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" (change)="SetExpiryDate()" />
+          <div *ngIf="isSubmitted&&form.dtNOCReceivedDate.errors" class="text-danger">
+            <p *ngIf="form.dtNOCReceivedDate.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3" *ngIf="ShowOldNOCType">
+          <label>NOC Expire Date <span style="color:red;">*</span></label>
+          <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCExpireDate" [(ngModel)]="request.NOCExpireDate" formControlName="dtNOCExpireDate" min="{{ExpiryMinDate | date:'yyyy-MM-dd'}}" />
+          <div *ngIf="isSubmitted&&NOCExpireDateRequried" class="text-danger">
+            <p *ngIf="isSubmitted&&NOCExpireDateRequried"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>Upload NOC <span style="color:red;">*</span></label>
+          <div class="d-flex">
+            <input type="file" class="form-control" id="UploadNOCDoc" style="display:none" [(ngModel)]="request.UploadNOCDoc" formControlName="UploadNOCDoc" (change)=ValidateDocumentImage($event) />
+            <label class="btn upload" for="UploadNOCDoc">
+              <span class="filename">Choose file</span>
+              {{request.UploadNOCDoc === '' ? 'No File Choosen' : request.UploadNOCDoc}}
+            </label>
+            <div class="btn-group" *ngIf="request.UploadNOCDoc!=''">
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadNOCDocPath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage()"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+          <div *ngIf="IsUploadDocRequried" class="text-danger">
+            <p *ngIf="IsUploadDocRequried"> This field is required .!</p>
+          </div>
+
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+          <label>Remark <span style="color:red;">*</span></label>
+          <textarea class="form-control" id="txtRemark" [(ngModel)]="request.Remark" formControlName="txtRemark"></textarea>
+          <div *ngIf="isSubmitted&&form.txtRemark.errors" class="text-danger">
+            <p *ngIf="form.txtRemark.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
+          <button type="button" class="btn btn-primary" id="btnAddNOCDetail" name="btnSave" (click)="AddOldNOCDetails()"><i class="fa fa-plus"></i>&nbsp;Add & Save</button>
+        </div>
+        <!--<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 text-end">
+          <button class="btn btn-primary" type="button" (click)="AddData()">Save & Next</button>
+        </div>-->
+      </div>
+    </form>
+
+    <div class="row">
+
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+        <div class="card">
+          <div class="card-header">
+            <b>NOC Details</b>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>College</th>
+                    <th>Course</th>
+                    <th>Subject</th>
+                    <th>NOC Type</th>
+                    <th>Session Year</th>
+                    <th>Issued for Year</th>
+                    <th>NOC No.</th>
+                    <th>NOC Received On</th>
+                    <th>NOC Expire Date</th>
+                    <th>NOC Document</th>
+                    <th>Remark</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!--<tr *ngFor="let row of OldNocDetails; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{row.CollegeName}}</td>
+                    <td>{{row.CourseName}}</td>
+                    <td>
+                      <p *ngFor="let item of row.SubjectData;">
+                        {{item.SubjectName}}
+                      </p>
+                    </td>
+                    <td>{{row.NOCTypeName}}</td>
+                    <td>{{row.SessionYear}}</td>
+                    <td>{{row.IssuedYear}}</td>
+                    <td>{{row.NOCNumber}}</td>
+                    <td>{{row.NOCReceivedDate}}</td>
+                    <td>{{row.NOCExpireDate}}</td>
+                    <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDoc}}" title="View Member Photo"><i class="fa fa-paperclip"></i></a></td>
+                    <td>{{row.Remark}}</td>
+
+                  </tr>-->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <b>Issued NOC Details</b>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>Course</th>
+                    <th>Subject</th>
+                    <th>NOC Type</th>
+                    <th>Session Year</th>
+                    <th>Issued for Year</th>
+                    <th>NOC No.</th>
+                    <th>NOC Received On</th>
+                    <th>NOC Expire Date</th>
+                    <th>NOC Document</th>
+                    <th>Remark</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of OldNocDetails; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{row.CourseName}}</td>
+                    <td>
+                      <p *ngFor="let item of row.SubjectData;">
+                        {{item.SubjectName}}
+                      </p>
+                    </td>
+                    <td>{{row.NOCTypeName}}</td>
+                    <td>{{row.FinancialYearName}}</td>
+                    <td>{{row.IssuedYear}} Year</td>
+                    <td>{{row.NOCNumber}}</td>
+                    <td>{{row.NOCReceivedDate}}</td>
+                    <td>{{row.NOCExpireDate=='1900-01-01'?'':row.NOCExpireDate}}</td>
+                    <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="http://localhost:62778/ImageFile/{{row.UploadNOCDoc}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
+                    <td>{{row.Remark}}</td>
+                    <td>
+                      <button type="button" class="btn btn-sm btn-primary" title="Edit" [attr.disabled]="isDisabled ? true : null" (click)="EditItem(row.OldNocID)"><i class="fa fa-edit"></i></button>
+                      <button type="button" class="btn btn-sm btn-danger" title="Delete" [attr.disabled]="isDisabled ? true : null" (click)="DeleteOldNocDetail(row.OldNocID)"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                  <!--<tr *ngFor="let item of OldNocDetails let idx =index">
+    <td>{{idx+1}}</td>
+    <td>{{item.}}</td>
+    <td>{{item.}}</td>
+    <td>{{item.}}</td>
+    <td>{{item.}}</td>
+    <td>2018</td>
+    <td>654321</td>
+    <td>01-06-2018</td>
+    <td>01-06-2025</td>
+    <td><button class="btn btn-primary" type="button"><i class="fa fa-paperclip"></i></button></td>
+    <td>
+      <div style="max-width:300px">
+        In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.
+      </div>
+    </td>
+  </tr>-->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

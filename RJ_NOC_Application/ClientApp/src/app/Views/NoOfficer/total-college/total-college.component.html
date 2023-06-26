@@ -1,0 +1,87 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Total College</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Total College</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Total College List </b>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Creation Date</th>
+                  <th>Society Name</th>
+                  <th>College Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of draftApplicatoinListData ;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.CreateDate}}</td>
+                  <td>{{row.SocietyName}}</td>
+                  <td>{{row.CollegeName}}</td>
+                  <td style="width:300px">
+                    <div class="d-flex">
+                      <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="DraftEdit_OnClick(row.CollegeID)"><i class="fa fa-edit"></i></a>
+                      <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
+                      <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="SSOIDMapping" tabindex="-1" aria-labelledby="SSOIDMapping" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">SSO ID Mapping</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="SSOIDMapping_Close"></button>
+      </div>
+      <div class="modal-body py-4">
+        <div class="row">
+          <div class="col-md-12 pb-3">
+            <label>SSO ID</label>
+            <input type="text" class="form-control" [disabled]="SsoSuccessMessage!=''" placeholder="Enter SSO ID" id="txtSsoId" name="txtSsoId" [(ngModel)]="SSOID" />
+            <div *ngIf="SsoValidationMessage!=''" class="text-danger">
+              <p><i aria-hidden="true"></i>{{SsoValidationMessage}}</p>
+            </div>
+            <div *ngIf="SsoSuccessMessage!=''" class="text-success">
+              <p><i aria-hidden="true"></i>{{SsoSuccessMessage}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" *ngIf="SsoSuccessMessage==''" class="btn btn-sm btn-primary" (click)="VerifySSOID()">Verify</button>
+        <button type="button" *ngIf="SsoSuccessMessage!=''" class="btn btn-sm btn-success" (click)="MapSSOIDInCollege()">Update</button>
+        <button type="button" class="btn btn-sm btn-danger" (click)="ResetSSOIDVerify()"> Reset</button>
+      </div>
+    </div>
+  </div>
+</div>

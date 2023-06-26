@@ -1,0 +1,205 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Work Flow Master</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Admin</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Work Flow Configration</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="WorkFlowMasterForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-plus"></i>&nbsp; Add Work Flow</b>
+            <span class="text-danger">(*) Fields is compulsory</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlDepartmentId">Department *</label>
+                <select id="ddlDepartmentId" name="ddlDepartmentId" [(ngModel)]="request.DepartmentID" class="form-control" formControlName="ddlDepartmentId" (change)="GetSchemeListByDepartment(request.DepartmentID)">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of DepartmentData"
+                          value="{{item.DepartmentID}}">
+                    {{item.DepartmentName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDepartmentId.errors" class="requiredBox">
+                  <p *ngIf="!form.ddlDepartmentId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlSchemeId">Scheme *</label>
+                <select id="ddlSchemeId" name="ddlSchemeId" [(ngModel)]="request.SchemeID" class="form-control" formControlName="ddlSchemeId">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of SchemeData"
+                          value="{{item.SchemeID}}">
+                    {{item.SchemeName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlSchemeId.errors" class="requiredBox">
+                  <p *ngIf="!form.ddlSchemeId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlModuleId">Module *</label>
+                <select id="ddlModuleId" name="ddlModuleId" [(ngModel)]="request.ModuleID" class="form-control" formControlName="ddlModuleId" (change)="GetSubmoduleListByModule(request.ModuleID)">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of ModuleData"
+                          value="{{item.ModuleID}}">
+                    {{item.ModuleName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlModuleId.errors" class="requiredBox">
+                  <p *ngIf="!form.ddlModuleId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlSubModuleId">Sub Module *</label>
+                <select id="ddlSubModuleId" name="ddlSchemeId" [(ngModel)]="request.SubModuleID" class="form-control" formControlName="ddlSubModuleId">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of SubModuleData"
+                          value="{{item.SubModuleID}}">
+                    {{item.SubModuleName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlSubModuleId.errors" class="requiredBox">
+                  <p *ngIf="!form.ddlSubModuleId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlRoleLevelId">Role Level *</label>
+                <select id="ddlRoleLevelId" name="ddlRoleLevelId" [(ngModel)]="request.RoleLevelID" class="form-control" formControlName="ddlRoleLevelId" (change)="GetRoleListByLevel(request.RoleLevelID,-1)">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of RoleLevelData"
+                          value="{{item.LevelID}}">
+                    {{item.LevelName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlRoleLevelId.errors" class="requiredBox">
+                  <p *ngIf="!form.ddlRoleLevelId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlRoleId">Role *</label>
+                <select id="ddlRoleId" name="ddlRoleId" [(ngModel)]="request.RoleID" class="form-control" formControlName="ddlRoleId">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of RoleData"
+                          value="{{item.RoleID}}">
+                    {{item.RoleName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlRoleId.errors" class="requiredBox">
+                  <p *ngIf="!form.ddlRoleId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="card mb-0">
+
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><button type="button" class="btn btn-primary" id="btnAddMoreRoleMap" name="btnSave" (click)="AddMoreRoleMap()"><i class="fa fa-plus"></i>&nbsp;Role Map</button></b>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns">
+                <thead>
+                  <tr>
+                    <th>Sr. No</th>
+                    <th>Action Head</th>
+                    <th>Action</th>
+                    <th>List Code</th>
+                    <th>Role Level</th>
+                    <th>Next User Group</th>
+                    <th>Priority</th>
+                    <th>Completion Days</th>
+                    <th>Office Group</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of request.WorkFlowMasterDetailList let idx =index">
+                    <td *ngIf="item.DeleteStatus !=true">{{idx+1}}</td>
+                    <td *ngIf="item.DeleteStatus !=true">
+                      <select id="ddlActionHeadID{{idx}}" name="ddlActionHeadID{{idx}}" [(ngModel)]="item.ActionHeadID" class="form-control" (change)="GetActionListByActionHead(item.ActionHeadID,idx)">
+                        <option value="0" disabled>--Select--</option>
+                        <option *ngFor="let item of ActionHeadData"
+                                value="{{item.ActionHeadID}}">
+                          {{item.ActionHeadName}}
+                        </option>
+                      </select>
+                    </td>
+                    <td *ngIf="item.DeleteStatus !=true">
+                      <select id="ddlActionID{{idx}}" name="ddlActionID{{idx}}" [(ngModel)]="item.ActionID" class="form-control">
+                        <option value="0" disabled>--Select--</option>
+                        <option *ngFor="let items of item.ActionList"
+                                value="{{items.ActionID}}">
+                          {{items.ActionName}}
+                        </option>
+                      </select>
+                    </td>
+                    <td *ngIf="item.DeleteStatus !=true">
+                      <input type="text" placeholder="List Code" class="form-control" id="txtListCode{{idx}}" name="txtListCode{{idx}}" [(ngModel)]="item.ListCode" autocomplete="off">
+                    </td>
+                    <td *ngIf="item.DeleteStatus !=true">
+                      <select id="ddlRoleLevelID{{idx}}" name="ddlRoleLevelID{{idx}}" [(ngModel)]="item.RoleLevelID" class="form-control" (change)="GetRoleListByLevel(item.RoleLevelID,idx)">
+                        <option value="0" disabled>--Select--</option>
+                        <option *ngFor="let item of RoleLevelData"
+                                value="{{item.LevelID}}">
+                          {{item.LevelName}}
+                        </option>
+                      </select>
+                    </td>
+                    <td *ngIf="item.DeleteStatus !=true">
+                      <select id="ddlNextRoleID{{idx}}" name="ddlNextRoleID{{idx}}" [(ngModel)]="item.NextRoleID" class="form-control">
+                        <option value="0" disabled>--Select--</option>
+                        <option *ngFor="let items of item.NextUserGroupList"
+                                value="{{items.RoleID}}">
+                          {{items.RoleName}}
+                        </option>
+                        se
+                      </select>
+                    </td>
+                    <td *ngIf="item.DeleteStatus !=true">
+                      <input type="text" placeholder="Priority" class="form-control" id="txtPriority{{idx}}" name="txtPriority{{idx}}" [(ngModel)]="item.Priority" autocomplete="off">
+                    </td>
+                    <td *ngIf="item.DeleteStatus !=true">
+                      <input type="text" placeholder="Completion Days" class="form-control" id="txtCompletionDays{{idx}}" name="txtCompletionDays{{idx}}" [(ngModel)]="item.CompletionDays" autocomplete="off">
+                    </td>
+                    <td *ngIf="item.DeleteStatus !=true">
+                      <select id="ddlOfficeGroupID{{idx}}" name="ddlOfficeGroupID{{idx}}" [(ngModel)]="item.OfficeGroupID" class="form-control">
+                        <option value="0" disabled>--Select--</option>
+                      </select>
+                    </td>
+                    <td *ngIf="item.DeleteStatus !=true">
+                      <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteWorkFlowDetail(idx)"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
+      <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+    </div>
+  </div>
+</div>
+

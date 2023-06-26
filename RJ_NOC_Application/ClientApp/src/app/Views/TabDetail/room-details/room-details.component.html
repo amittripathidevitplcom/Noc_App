@@ -1,0 +1,131 @@
+<div class="card-body">
+  <div class="card">
+    <div class="card-header">
+      <b><i class="bi bi-building-add"></i>&nbsp; Room Details</b>
+    </div>
+    <form [formGroup]="RoomDetailsForm" class="form-horizontal">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course<span style="color:red;">*</span></label>
+            <select formControlName="ddlCourse_Room" id="ddlCourse_Room" name="ddlCourse_Room" [(ngModel)]="request.CourseID" class="form-control"
+                    #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
+              <option value="0">--Select Course--</option>
+              <option [value]="item.CourseID" *ngFor="let item of courseDataList">
+                {{item.CourseName}}
+              </option>
+            </select>
+            <div *ngIf="request.CourseID>0">
+              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
+            </div>
+            <div *ngIf="isSubmitted&&form.ddlCourse_Room.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourse_Room.errors.DropdownValidators">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-md-3 mb-2">
+            <label>Width (In Feet)<span style="color:red;">*</span></label>
+            <input type="number" class="form-control" id="txtWidth_Room" name="txtWidth_Room" placeholder="Enter Width (In Feet)"
+                   [(ngModel)]="request.Width" formControlName="txtWidth_Room">
+          </div>
+          <div class="col-md-3 mb-2">
+            <label>Length (In Feet)<span style="color:red;">*</span></label>
+            <input type="number" class="form-control" id="txtLength_Room" name="txtLength_Room" placeholder="Enter Length (In Feet)"
+                   [(ngModel)]="request.Length" formControlName="txtLength_Room">
+            <div *ngIf="isSubmitted&&form.txtLength_Room.errors" class="text-danger">
+              <p *ngIf="form.txtLength_Room.errors.required">This field is required .!</p>
+              <p *ngIf="form.txtLength_Room.errors.min">Length will be greater than zero .!</p>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-2">
+            <label>Student Capacity<span style="color:red;">*</span></label>
+            <input type="number" class="form-control" id="txtStudentCapacity_Room" name="txtStudentCapacity_Room" placeholder="Enter Student Capacity"
+                   [(ngModel)]="request.StudentCapacity" formControlName="txtStudentCapacity_Room">
+            <div *ngIf="isSubmitted&&form.txtStudentCapacity_Room.errors" class="text-danger">
+              <p *ngIf="form.txtStudentCapacity_Room.errors.required">This field is required .!</p>
+              <p *ngIf="form.txtStudentCapacity_Room.errors.min">Student capacity will be greater than zero .!</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="fileUploadImage" class="form-label">Upload Image<span style="color:red;">*</span></label>
+            <div class="d-flex">
+              <input type="file" class="form-control" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage" (change)="ValidateUploadImage($event)" #fileUploadImage />
+              <div class="btn-group" *ngIf="showImageFilePath">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.ImageFilePath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage()"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <p *ngIf="isSubmitted&&request.ImageFilePath ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>           
+            <div *ngIf="isValidImageFilePath" class="text-danger">
+              <p *ngIf="isValidImageFilePath"> {{ImageValidationMessage}}</p>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-plus"></i> Add &amp; Save </button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="card mb-0">
+            <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+              <b><i class="fa fa-plus"></i>&nbsp;Room Details</b>
+              <div class="d-flex align-items-center">
+                <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                  <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+                  <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+                  <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+                </div>
+                <div class="d-flex align-items-center table-filter mr-15">
+                  <i class="fa fa-search"></i>
+                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" formControlName="txtsearchText" name="txtsearchText" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Course</th>
+                        <th>Width (In Feet) Size</th>
+                        <th>Length (In Feet)</th>
+                        <th>Student Capacity</th>
+                        <th>Upload Image</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of RoomDetails | tableSearchFilter:searchText;let idx=index;">
+                        <td>{{idx+1}}</td>
+                        <td>{{row.CourseName}}</td>
+                        <td>{{row.Width}}</td>
+                        <td>{{row.Length}}</td>
+                        <td>{{row.StudentCapacity}}</td>
+                        <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
+                        <td>
+                          <div class="d-flex">
+                            <button type="button" (click)="Edit_OnClick(row.CollegeWiseRoomID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                            <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseRoomID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="card-footer text-end">
+  <button class="btn btn-success" type="button">Next</button>
+</div>

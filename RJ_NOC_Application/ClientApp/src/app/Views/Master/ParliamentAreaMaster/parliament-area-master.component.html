@@ -1,0 +1,133 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Parliament Area Master</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Master</a></li>
+          <li class="breadcrumb-item active" aria-current="page">AddParliamentAreaMaster</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <div class="card">
+        <form [formGroup]="PaliamentAreaFormGroup" class="form-horizontal">
+          <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
+                        <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" formControlName="ddlDistrictID" [(ngModel)]="request.DistrictID">
+                            <option value="0" selected>--Select District--</option>
+                            <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                        </select>
+                        <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="requiredBox">
+                            <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>This field is required .!</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label for="txtPaliamentAreaName" class="form-label">Paliament Area Name <span style="color:red;">*</span></label>
+                        <input type="text" class="form-control" id="txtPaliamentAreaName" name="txtPaliamentAreaName" formControlName="txtPaliamentAreaName" [(ngModel)]="request.ParliamentAreaName">
+
+                        <div *ngIf="isSubmitted&&form.txtPaliamentAreaName.errors" class="requiredBox">
+                            <p *ngIf="form.txtPaliamentAreaName.errors.required" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label for="chkActiveStatus" class="form-label">Status</label>
+                        <div class="form-check form-switch d-flex align-items-center">
+                            <input class="form-check-input" type="checkbox" id="Active" [(ngModel)]="request.ActiveStatus" formControlName="chkActiveStatus">
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-end">
+                        <button type="submit" (click)="SaveData()" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                        <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Parliament Area Master List </b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <i class="fa fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText"/>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="tabellist">
+            <thead>
+              <tr>
+                <th>
+                  Sr.No.
+                </th>
+                <th>
+                  District Name
+                </th>
+                <th>
+                  Parliament Area Name
+                </th>
+                <th>
+                  Active Status
+                </th>
+                <th>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of ParliamentAreaList| tableSearchFilter:searchText;let idx=index; ">
+                <td>
+                  {{idx+1}}
+                </td>
+                <td>
+                  {{row.District_Eng}}
+                </td>
+                <td>
+                  {{row.ParliamentAreaName}}
+                </td>
+                <td>
+                  {{row.ActiveDeactive}}
+                </td>
+                <td>
+                  <div class="d-flex">
+                    <button type="button" (click)="Edit_OnClick(row.ParliamentAreaID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-danger" (click)="DelParliamentDetail(row.ParliamentAreaID)"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            </table>
+          </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,228 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Trustee General Info</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Trustee</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Trustee General Info</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-filter"></i>&nbsp;Society General Information</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                      <td>Name of Society</td>
+                      <td>{{LegalEntityDataModel.SocietyName}}</td>
+                      <td>Entity Type</td>
+                      <td>{{LegalEntityDataModel.LegalEntity}}</td>
+                    </tr>
+                    <tr>
+                      <td>Registration No</td>
+                      <td>{{LegalEntityDataModel.RegistrationNo}}</td>
+                      <td>SSO ID</td>
+                      <td>{{LegalEntityDataModel.SSOID}}</td>
+                    </tr>
+                    <tr>
+                      <td>District</td>
+                      <td>{{LegalEntityDataModel.District_Eng}}</td>
+                      <td>ACT</td>
+                      <td>{{LegalEntityDataModel.RegisteredAct}}</td>
+                    </tr>
+                    <tr>
+                      <td>Status</td>
+                      <td>{{LegalEntityDataModel.SocietyPresentStatus}}</td>
+                      <td>Date Of Registration</td>
+                      <td>{{LegalEntityDataModel.SocietyRegistrationDate}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="TrusteegeneralinfoForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-filter"></i>&nbsp;General Information</b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
+                <label class="form-label">Society Registration Document(Only PDF File)(File min. size 100KB and max. size 1MB) <span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fSocietyRegistrationDocument" name="fSocietyRegistrationDocument" [(ngModel)]="request.SocietyRegistrationDocument" formControlName="fSocietyRegistrationDocument" (change)="onFilechange($event,'SocietyRegistrationDocument')" />
+                  <div class="btn-group" *ngIf="showSocietyRegistrationDocument">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.SocietyRegistrationDocument}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SocietyRegistrationDocument')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="SocietyRegistrationDocumentValidationMessage!=''" class="text-danger">
+                  <p><i aria-hidden="true"></i>{{SocietyRegistrationDocumentValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
+                <label class="form-label">Society Logo(Only PNG/JPEG/JPG File)(File min. size 50KB and max. size 1MB) <span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fSocietyLogo" name="fSocietyLogo" [(ngModel)]="request.SocietyLogo" formControlName="fSocietyLogo" (change)="onFilechange($event,'SocietyLogo')" />
+                  <div class="btn-group" *ngIf="showSocietyLogoDocument">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.SocietyLogo}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SocietyLogo')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="SocietyLogoValidationMessage!=''" class="text-danger">
+                  <p><i aria-hidden="true"></i>{{SocietyLogoValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Date Of Election Of Present Management Committee(DD/MM/YYYY) <span style="color:red;">*</span></label>
+                <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtDateOfElectionOfPresentManagementCommittee" [(ngModel)]="request.DateOfElectionOfPresentManagementCommittee" formControlName="txtDateOfElectionOfPresentManagementCommittee" />
+                <div *ngIf="isSubmitted&&form.txtDateOfElectionOfPresentManagementCommittee.errors" class="text-danger">
+                  <p *ngIf="form.txtDateOfElectionOfPresentManagementCommittee.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label class="form-label" style="margin-right:15px">Women Members Of Management Committee is more then 30% of Total Members : <span style="color:red;">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="1" [value]="1" id="rbWomenMembersOfManagementCommitteeIDYes" name="rbWomenMembersOfManagementCommitteeID" [(ngModel)]="request.WomenMembersOfManagementCommitteeID" formControlName="rbWomenMembersOfManagementCommitteeID">
+                  <label class="form-check-label" for="rbWomenMembersOfManagementCommitteeIDYes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="2" [value]="2" id="rbWomenMembersOfManagementCommitteeIDNo" name="rbWomenMembersOfManagementCommitteeID" [(ngModel)]="request.WomenMembersOfManagementCommitteeID" formControlName="rbWomenMembersOfManagementCommitteeID">
+                  <label class="form-check-label" for="rbWomenMembersOfManagementCommitteeIDNo">No</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rbWomenMembersOfManagementCommitteeID.errors" class="text-danger">
+                  <p *ngIf="form.rbWomenMembersOfManagementCommitteeID.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label class="form-label" style="margin-right:15px">Date Of Election Of Management Committee not more then 3 Years : <span style="color:red;">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="1" [value]="1" id="rbDateOfElectionOfManagementCommitteeIDYes" name="rbDateOfElectionOfManagementCommitteeID" [(ngModel)]="request.DateOfElectionOfManagementCommitteeID" formControlName="rbDateOfElectionOfManagementCommitteeID">
+                  <label class="form-check-label" for="rbDateOfElectionOfManagementCommitteeIDYes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="2" [value]="2" id="rbDateOfElectionOfManagementCommitteeIDNo" name="rbDateOfElectionOfManagementCommitteeID" [(ngModel)]="request.DateOfElectionOfManagementCommitteeID" formControlName="rbDateOfElectionOfManagementCommitteeID">
+                  <label class="form-check-label" for="rbDateOfElectionOfManagementCommitteeIDNo">No</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rbDateOfElectionOfManagementCommitteeID.errors" class="text-danger">
+                  <p *ngIf="form.rbDateOfElectionOfManagementCommitteeID.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label class="form-label" style="margin-right:15px">Other Institution run by the Society : <span style="color:red;">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="1" [value]="1" id="rbOtherInstitutionRunByTheSocietyIDYes" name="rbOtherInstitutionRunByTheSocietyID" [(ngModel)]="request.OtherInstitutionRunByTheSocietyID" formControlName="rbOtherInstitutionRunByTheSocietyID">
+                  <label class="form-check-label" for="rbOtherInstitutionRunByTheSocietyIDYes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="2" [value]="2" id="rbOtherInstitutionRunByTheSocietyIDNo" name="rbOtherInstitutionRunByTheSocietyID" [(ngModel)]="request.OtherInstitutionRunByTheSocietyID" formControlName="rbOtherInstitutionRunByTheSocietyID">
+                  <label class="form-check-label" for="rbOtherInstitutionRunByTheSocietyIDNo">No</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rbOtherInstitutionRunByTheSocietyID.errors" class="text-danger">
+                  <p *ngIf="form.rbOtherInstitutionRunByTheSocietyID.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3 text-end">
+              <button type="button" class="btn btn-primary" (click)="SaveData()"> {{request.TrusteeGeneralInfoID>0?'Update':'Save'}} </button>&nbsp;
+              <button type="button" class="btn btn-danger" (click)="ResetData()"> Reset</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-filter"></i>&nbsp;Society Document Details</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>
+                        Sr.No.
+                      </th>
+                      <th>
+                        Election Present Management Committee Date
+                      </th>
+                      <th>
+                        Women Members Of Management Committee
+                      </th>
+                      <th>
+                        Election Of Management Committee
+                      </th>
+                      <th>
+                        Other Institution run by the Society
+                      </th>
+                      <th>
+                        Society Registration Document
+                      </th>
+                      <th>
+                        Society Logo
+                      </th>
+                      <th>
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of TrusteeGeneralInfoList;let idx=index;">
+                      <td>
+                        {{idx+1}}
+                      </td>
+                      <td>
+                        {{row.DateOfElectionOfPresentManagementCommittee}}
+                      </td>
+                      <td>
+                        {{row.WomenMembersOfManagementCommitteeID==1?'Yes':'No'}}
+                      </td>
+                      <td>
+                        {{row.DateOfElectionOfManagementCommitteeID==1?'Yes':'No'}}
+                      </td>
+                      <td>
+                        {{row.OtherInstitutionRunByTheSocietyID==1?'Yes':'No'}}
+                      </td>
+                      <td><a *ngIf="row.SocietyRegistrationDocument!=''" target="_blank" href="{{row.SocietyRegistrationDocument}}"><i class="fa fa-paperclip"></i></a></td>
+                      <td><a *ngIf="row.SocietyLogo!=''" target="_blank" href="{{row.SocietyLogo}}"><i class="fa fa-paperclip"></i></a></td>
+                      <td>
+                        <div class="d-flex">
+                          <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="EditData(row.TrusteeGeneralInfoID)"><i class="fa fa-edit"></i></a>
+                          <button type="button" class="btn btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash-o"></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

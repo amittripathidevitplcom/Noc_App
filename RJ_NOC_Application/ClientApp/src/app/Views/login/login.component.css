@@ -1,0 +1,134 @@
+body, html {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  background: #fff !important;
+}
+
+.btn-soft-primary {
+  color: #39a9ab;
+  background: rgba(57, 169, 171, .25);
+  font-weight: 600;
+  display: block;
+  width: 100%
+}
+
+  .btn-soft-primary:hover, .btn-soft-primary:focus {
+    background-color: #39a9ab;
+    color: #fff;
+  }
+
+.btn-hard-info {
+  color: #fff;
+  background: #42d7bb;
+  font-weight: 600;
+}
+
+  .btn-hard-info:hover, .btn-hard-info:focus {
+    background-color: #000;
+    color: #fff;
+  }
+
+.loginPage, .loginForm, .LoginText {
+  height: calc(100vh - 0px);
+}
+
+.LoginText {
+  background: url('../../../assets/images/loginBG.jpg') no-repeat;
+  background-size: cover;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+}
+
+.adminLogin {
+  background: url('../../../assets/images/adminLoginBg.jpg') no-repeat !important;
+  background-size: cover !important;
+}
+
+
+.LoginText h1, .loginForm h1 {
+  font-size: 54px;
+  font-weight: 800;
+  display: inline-block;
+  position: relative;
+}
+
+.LoginText p {
+  font-size: 24px;
+  font-weight: 300;
+  margin: 20px;
+}
+
+.loginForm h3 {
+  font-size: 24px;
+  font-weight: 300;
+  margin-top: 0px;
+}
+
+.loginForm h1 {
+  padding-bottom: 25px;
+}
+
+  .loginForm h1::before {
+    position: absolute;
+    bottom: 0px;
+    content: "";
+    width: 100%;
+    border: solid 3px #42afa9;
+  }
+
+  .loginForm h1::after {
+    position: absolute;
+    bottom: -3px;
+    content: "";
+    width: 50%;
+    left: 25%;
+    border: solid 6px #ff9a00;
+  }
+
+.loginBox {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 132px);
+}
+
+.adminLoginBox {
+  height: calc(100vh - 0px) !important;
+}
+
+.Atag {
+  color: #39a9ab;
+}
+
+.f-600 {
+  font-weight: 600;
+}
+
+@media(max-width:991px) {
+  .logoBox {
+    text-align: center;
+  }
+
+  .LoginText h1, .loginForm h1 {
+    font-size: 34px;
+  }
+
+  .LoginText p, .loginForm h3 {
+    font-size: 18px;
+    font-weight: 300;
+    margin-top: 0px;
+  }
+}
+
+@media(max-width:767px) {
+  .loginPage, .loginForm, .LoginText, .loginBox {
+    height: auto !important;
+  }
+
+  .LoginText {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+}

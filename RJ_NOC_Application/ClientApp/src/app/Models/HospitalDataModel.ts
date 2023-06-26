@@ -1,0 +1,172 @@
+export class HospitalDataModel {
+  public ParentHospitalID: number = 0;
+  public CollegeID: number = 0;
+  public HospitalID: number = 0;
+  public HospitalAreaID: number = null;
+  public HospitalName: string = '';
+  public HospitalRegNo: string = '';
+  public HospitalDistance: Number = 0;
+  public HospitalContactNo: string = '';
+  public HospitalEmailID: string = '';
+  public ManageByName: string = '';
+  public ManageByPhone: string = null;
+  public OwnerName: string = '';
+  public OwnerPhone: string = null;
+  public MedicalBeds: Number = 0;
+  public SurgicalBeds: Number = 0;
+  public ObstAndGynaecologyBeds: Number = 0;
+  public PediatricsBeds: Number = 0;
+  public OrthoBeds: Number = 0;
+  public OccupancyPercentegeBeds: Number = 0;
+  public AffiliationPsychiatricBeds: Number = 0;
+  public ParentHospitalRelatedToOtherID: Number = 0;
+  public InstitutionName: string = '';
+  public OrganizationPhone: string = null;
+
+  public CardioThoracicTotalBeds: number = 0;
+  public CardioThoracicCCUBeds: number = 0;
+  public CardioThoracicICCUBeds: number = 0;
+  public CardioThoracicICUBeds: number = 0;
+  public CriticalCareNursingTotalBeds: number = 0;
+  public CriticalCareNursingCCBeds: number = 0;
+  public CriticalCareNursingICUBeds: number = 0;
+  public MidwiferyNursingTotalBeds: number = 0;
+  public MotherNeonatalUnitsBeds: number = 0;
+  public DeliveriesPerYear: number = 0;
+  public LevelIINeonatalBeds: number = 0;
+  public LevelIIINeonatalBeds: number = 0;
+  public NeuroScienceNursingTotalBeds: number = 0;
+  public OncologyNursingTotalBeds: number = 0;
+  public OncologyNursingMedicalBeds: number = 0;
+  public OncologyNurSingsurgicalBeds: number = 0;
+  public OncologyNursingChemotherapyBeds: number = 0;
+  public OncologyNursingRadiotherapyBeds: number = 0;
+  public OncologyNursingPalliativeBeds: number = 0;
+  public OncologyNursingDiagnosticBeds: number = 0;
+  public OrthopaedicRehabilitationNursingTotalBeds: number = 0;
+  public OrthopaedicRehabilitationNursingOrthopaedicBeds: number = 0;
+  public OrthopaedicRehabilitationNursingRehabilitationBeds: number = 0;
+  public PsychiatricNursingTotalBeds: number = 0;
+  public PsychiatricNursingAcuteBeds: number = 0;
+  public PsychiatricNursingChronicBeds: number = 0;
+  public PsychiatricNursingAdultBeds: number = 0;
+  public PsychiatricNursingChildBeds: number = 0;
+  public PsychiatricNursingDeAddictionBeds: number = 0;
+  public NeonatalNursingTotalBeds: number = 0;
+  public NeonatalNursingLevelIIOrIIINICUBeds: number = 0;
+  public NeonatalNursingNICUBeds: number = 0;
+  public OperationRoomNursingTotalBeds: number = 0;
+  public OperationRoomNursingGeneralSurgeryBeds: number = 0;
+  public OperationRoomNursingPediatricBeds: number = 0;
+  public OperationRoomNursingCardiothoracicBeds: number = 0;
+  public OperationRoomNursingGynaeAndObstetricalBeds: number = 0;
+  public OperationRoomNursingOrthopaedicsBeds: number = 0;
+  public OperationRoomNursingOphthalmicBeds: number = 0;
+  public OperationRoomNursingENTAndNeuroBeds: number = 0;
+  public EmergencyAndDisasterNursingTotalBeds: number = 0;
+  public EmergencyAndDisasterNursingICUBeds: number = 0;
+  public EmergencyAndDisasterNursingEmergencylBeds: number = 0;
+
+  public AddressLine1: string = null;
+  public AddressLine2: string = null;
+  public RuralUrban: number = null;
+  public DivisionID: number = 0;
+  public DistrictID: number = 0;
+  public TehsilID: number = 0;
+  public PanchayatSamitiID: number = 0;
+  public CityTownVillage: string = null;
+  public Pincode: number = null;
+
+  public AddressLine1_ManageBy: string = null;
+  public AddressLine2_ManageBy: string = null;
+  public RuralUrban_ManageBy: number = null;
+  public DivisionID_ManageBy: number = 0;
+  public DistrictID_ManageBy: number = 0;
+  public TehsilID_ManageBy: number = 0;
+  public PanchayatSamitiID_ManageBy: number = 0;
+  public CityTownVillage_ManageBy: string = null;
+  public Pincode_ManageBy: number = null;
+
+  public AddressLine1_Owner: string = null;
+  public AddressLine2_Owner: string = null;
+  public RuralUrban_Owner: number = null;
+  public DivisionID_Owner: number = 0;
+  public DistrictID_Owner: number = 0;
+  public TehsilID_Owner: number = 0;
+  public PanchayatSamitiID_Owner: number = 0;
+  public CityTownVillage_Owner: string = null;
+  public Pincode_Owner: number = null;
+
+  public AddressLine1_Other: string = null;
+  public AddressLine2_Other: string = null;
+  public RuralUrban_Other: number = null;
+  public DivisionID_Other: number = 0;
+  public DistrictID_Other: number = 0;
+  public TehsilID_Other: number = 0;
+  public PanchayatSamitiID_Other: number = 0;
+  public CityTownVillage_Other: string = null;
+  public Pincode_Other: number = null;
+
+  public CreatedBy: number = null;
+  public ModifyBy: number = null;
+}
+export class HospitalParentNotDataModel {// not have parent
+  public ParentHospitalID: number = 0;
+  public CollegeID: number = 0;
+  public HospitalID: number = 0;
+  public HospitalAreaID: number = null;
+  public HospitalName: string = '';
+  public HospitalRegNo: string = '';
+  public HospitalDistance: Number = 0;
+  public HospitalContactNo: string = '';
+  public HospitalEmailID: string = '';
+  public ManageByName: string = '';
+  public ManageByPhone: string = null;
+  public OwnerName: string = '';
+  public OwnerPhone: string = null;
+  public MedicalBeds: Number = 0;
+  public SurgicalBeds: Number = 0;
+  public ObstAndGynaecologyBeds: Number = 0;
+  public PediatricsBeds: Number = 0;
+  public OrthoBeds: Number = 0;
+  public OccupancyPercentegeBeds: Number = 0;
+  public AffiliationPsychiatricBeds: Number = 0;
+  public AffiliatedHospitalAffiliationToOtherID: number = null;
+  public ParentNotDocument: string = '';
+  public ConsentForm: string = '';
+
+  public AddressLine1: string = null;
+  public AddressLine2: string = null;
+  public RuralUrban: number = null;
+  public DivisionID: number = 0;
+  public DistrictID: number = 0;
+  public TehsilID: number = 0;
+  public PanchayatSamitiID: number = 0;
+  public CityTownVillage: string = null;
+  public Pincode: number = null;
+
+  public AddressLine1_ManageBy: string = null;
+  public AddressLine2_ManageBy: string = null;
+  public RuralUrban_ManageBy: number = null;
+  public DivisionID_ManageBy: number = 0;
+  public DistrictID_ManageBy: number = 0;
+  public TehsilID_ManageBy: number = 0;
+  public PanchayatSamitiID_ManageBy: number = 0;
+  public CityTownVillage_ManageBy: string = null;
+  public Pincode_ManageBy: number = null;
+
+  public AddressLine1_Owner: string = null;
+  public AddressLine2_Owner: string = null;
+  public RuralUrban_Owner: number = null;
+  public DivisionID_Owner: number = 0;
+  public DistrictID_Owner: number = 0;
+  public TehsilID_Owner: number = 0;
+  public PanchayatSamitiID_Owner: number = 0;
+  public CityTownVillage_Owner: string = null;
+  public Pincode_Owner: number = null;
+
+  public CreatedBy: number = null;
+  public ModifyBy: number = null;
+}
+
+

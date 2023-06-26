@@ -1,0 +1,53 @@
+.mat-tab-label-active::after {
+  background: #45bae5 !important;
+}
+
+.mat-tab-label {
+  position: relative;
+  background:#45bae5 !important
+}
+/*.mat-tab-label::before {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  content: '<';
+}*/
+
+.LandInformation {
+  border-width: 2px;
+  border-style: solid;
+  border-color: forestgreen;
+}
+
+.LandInformation {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+
+  .LandInformation::before {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 50%;
+    width: 3px;
+    background-color: #336699;
+    content: "";
+    transform: translateX(10px) rotate(-45deg);
+    transform-origin: left bottom;
+  }
+
+  .LandInformation::after {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background-color: #336699;
+    content: "";
+    transform: translateX(10px) rotate(-45deg);
+    transform-origin: left bottom;
+  }
+
+

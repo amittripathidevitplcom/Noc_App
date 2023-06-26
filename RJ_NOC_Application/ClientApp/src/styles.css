@@ -1,0 +1,122 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.dropdown-list {
+  margin-top: 0px !important;
+}
+
+
+.mat-tab-label-active::after {
+  background: #45bae5 !important;
+}
+
+.mat-tab-label {
+  position: relative;
+  height: 60px !important;
+  padding-top: 30px !important;
+  color: #132649 !important;
+  opacity:1 !important;
+}
+.mat-tab-label-active {
+    border-bottom:0px !important;
+}
+
+.mat-tab-label::after {
+  position: absolute;
+  top: 15px;
+  width: 100%;
+  height: 2px;
+  content: "";
+  background: #132649;
+  z-index: 1 !important;
+}
+.mat-tab-label-active::after {
+  background: #45bae5;
+}
+.mat-tab-label::before {
+  position: absolute;
+  top: 0px;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  border: solid 1px #132649;
+  color: #132649;
+  padding: 5px;
+  border-radius: 100%;
+  left: 40%;
+  z-index: 999 !important;
+  background: #f4f4f4;
+}
+
+.mat-tab-label-active::before {
+  border: solid 1px #45bae5;
+  background: linear-gradient(45deg, #45bae5, #0f6f8c) !important;
+  color: #fff !important;
+}
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background: none !important;
+}
+
+.mat-tab-header-pagination-chevron {
+  margin-top: -30px !important;
+}
+
+
+.mat-tab-label[aria-controls='mat-tab-content-0-0']::before {
+  content: '\f0ac';
+}
+  .mat-tab-label[aria-controls='mat-tab-content-0-1']::before {
+    content: '\f022';
+  }
+  .mat-tab-label[aria-controls='mat-tab-content-0-2']::before {
+    content: '\f0f6';
+  }
+  .mat-tab-label[aria-controls='mat-tab-content-0-3']::before {
+    content: '\f015';
+  }
+  .mat-tab-label[aria-controls='mat-tab-content-0-4']::before {
+    content: '\f2bb';
+  }
+  .mat-tab-label[aria-controls='mat-tab-content-0-5']::before {
+    content: '\f0f7';
+  }
+  .mat-tab-label[aria-controls='mat-tab-content-0-6']::before {
+    content: '\f0c0';
+  }
+  .mat-tab-label[aria-controls='mat-tab-content-0-7']::before {
+    content: '\f2bc';
+  }
+  .mat-tab-label[aria-controls='mat-tab-content-0-8']::before {
+    content: '\f0c5';
+  }
+  .mat-tab-label[aria-controls='mat-tab-content-0-9']::before {
+    content: '\f016';
+  }
+  .mat-tab-label[aria-controls='mat-tab-content-0-10']::before {
+    content: '\f0f8';
+  }
+  .mat-tab-label[aria-controls='mat-tab-content-0-11']::before {
+    content: '\f0f7';
+  }
+
+.upload {
+  border: 1px solid #ced4da !important;
+  width: 100%;
+  text-align: left !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filename {
+  background: #e9ecef;
+  padding: 7px;
+  position: relative;
+  left: -11px;
+  top: 1px;
+  border-radius: 2px 0px 0px 2px;
+  border-right: 1px solid #ced4da;
+}
+

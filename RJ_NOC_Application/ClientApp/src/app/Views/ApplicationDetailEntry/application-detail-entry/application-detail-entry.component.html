@@ -1,0 +1,106 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Application Details</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Application</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Application Details</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+
+          <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
+
+
+            <!--<mat-tab label="Land Information" class="tabs-Link LandInformation">-->
+            <!--Land Information-->
+            <!--<mat-tab>
+              <ng-template mat-tab-label>
+                <span [ngClass]="{'color-red'}">Security</span>
+              </ng-template>
+              <app-land-details></app-land-details>
+            </mat-tab>-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-check text-success" aria-hidden="true"></i>
+                <span>Land Information</span>
+              </ng-template>
+              <app-land-details></app-land-details>
+            </mat-tab>
+
+
+            <mat-tab label="Facility">
+              <!--Facility-->
+              <app-facility-details></app-facility-details>
+            </mat-tab>
+            <mat-tab label="Required Document">
+              <!--Required Document-->
+              <app-required-document></app-required-document>
+            </mat-tab>
+            <mat-tab label="Room Details">
+              <!--Room Details-->
+              <mat-tab-group mat-align-tabs="left" class="tabUl1 d-block w-100">
+                <mat-tab label="Room Details">
+                  <app-room-details></app-room-details>
+                </mat-tab>
+                <mat-tab label="Other Information">
+                  <!--Other Information-->
+                  <app-other-information></app-other-information>
+                </mat-tab>
+              </mat-tab-group>
+            </mat-tab>
+            <mat-tab label="Building Documents">
+              <!--Building Documents-->
+              <app-building-details></app-building-details>
+            </mat-tab>
+            <mat-tab label="Staff Details">
+              <!--Staff Details-->
+              <app-staff-details></app-staff-details>
+            </mat-tab>
+
+            <mat-tab label="OLD NOC Details" *ngIf="CollegeType_IsExisting">
+              <!--OLD NOC Details Only for New-->
+              <app-old-nocdetails></app-old-nocdetails>
+            </mat-tab>
+
+            <mat-tab label="Academic Information" *ngIf="CollegeType_IsExisting">
+              <!--Academic Information Only for New-->
+              <app-academic-information></app-academic-information>
+            </mat-tab>
+            <mat-tab label="Other Document">
+              <!--Other Document-->
+              <app-other-document></app-other-document>
+            </mat-tab>
+            <mat-tab label="Hospital Details">
+              <!--Hospital Details-->
+              <app-hospital-detail></app-hospital-detail>
+            </mat-tab>
+            <mat-tab label="Hostel Details">
+              <!--Hostel Details-->
+              <app-hostel-details></app-hostel-details>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
+          <button *ngIf="this.selectedIndex != 0" class="btn btn-primary" type="button" (click)="PreviousStep()"><< Previous</button>
+          <button *ngIf="this.selectedIndex != maxNumberOfTabs" class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left:20px">Next >></button>
+        </div>
+        <!--<div class="col-md-2 text-end">
+          <a routerLink="../addcourses" class="btn btn-primary btn-sm">Back To Course List</a>
+        </div>-->
+      </div>
+
+    </div>
+  </div>
+</div>

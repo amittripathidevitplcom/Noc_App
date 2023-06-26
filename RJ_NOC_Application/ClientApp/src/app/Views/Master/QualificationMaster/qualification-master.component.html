@@ -1,0 +1,166 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Qualification Master</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Master</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Qualification Master</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <div class="card">
+        <form [formGroup]="QualificationMasterFormGroup" class="form-horizontal">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="ddlDepartmentID" class="form-label">Select Department <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID">
+                    <option value="0" selected>--Select Department--</option>
+                    <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="requiredBox">
+                    <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtQualificationName" class="form-label">Qualification Name <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtQualificationName" name="txtQualificationName" formControlName="txtQualificationName" [(ngModel)]="request.QualificationName" autocomplete="off">
+
+                  <div *ngIf="isSubmitted&&form.txtQualificationName.errors" class="requiredBox">
+                    <p *ngIf="form.txtQualificationName.errors.required" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="rbIsDocCompulsory"> Is Document Compulsory </label>
+                  <div class="clearfix"></div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rbIsDocCompulsory" formControlName="rbIsDocCompulsory" id="rbIsDocCompulsory" [value]="1" [(ngModel)]="request.IsDocCompulsory">
+                    <label class="form-check-label" for="rbIsDocCompulsory">Yes</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rbIsDocCompulsory" formControlName="rbIsDocCompulsory" id="rbIsDocCompulsory"  [value]="0" [(ngModel)]="request.IsDocCompulsory" [checked]='true'>
+                    <label class="form-check-label" for="rbIsDocCompulsory">No</label>
+                  </div>
+                  <!--<div class="requiredBox">
+                    <p *ngIf="isSubmitted && request.IsDocCompulsory == '0'" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                  </div>-->
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtOrderBy" class="form-label">Order By</label>
+                  <input type="number" class="form-control" id="txtOrderBy" name="txtOrderBy" formControlName="txtOrderBy" [(ngModel)]="request.Orderby" autocomplete="off">
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="chkActiveStatus" class="form-label">Status</label>
+                  <div class="form-check form-switch d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="Active" [(ngModel)]="request.ActiveStatus" formControlName="chkActiveStatus">
+                  </div>
+                </div>
+
+
+
+                <div class="card-footer text-end">
+                  <button type="submit" (click)="SaveData()" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                  <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Qualification Master List </b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <i class="fa fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="tabellist">
+              <thead>
+                <tr>
+                  <th>
+                    Sr.No.
+                  </th>
+                  <th>
+                    Department Name
+                  </th>
+                  <th>
+                    Qualification Name
+                  </th>
+                  <th>
+                    Is Document Compulsory
+                  </th>
+                  <th>
+                    Active Status
+                  </th>
+                  <th>
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of QualificationMasterDataList  | tableSearchFilter:searchText;let idx=index;">
+                  <td>
+                    {{idx+1}}
+                  </td>
+                  <td>
+                    {{row.DepartmentName_English}}
+                  </td>
+                  <td>
+                    {{row.QualificationName}}
+                  </td>
+                  <td>
+                    {{row.DocCompulsory}}
+                  </td>
+                  <td>
+                    {{row.ActiveDeactive}}
+                  </td>
+                  <td>
+                    <div class="d-flex">
+                      <button type="button" (click)="Edit_OnClick(row.QualificationID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                      <button type="button" class="btn btn-danger" (click)="DelQualificationMasterDate(row.QualificationID)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>
+

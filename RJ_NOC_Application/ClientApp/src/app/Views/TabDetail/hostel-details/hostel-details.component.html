@@ -1,0 +1,431 @@
+
+<div class="card-body">
+  <div class="card">
+    <div class="card-header">
+      <b>
+        <i class="bi bi-building-add"></i>&nbsp; Hostel Details
+        <span style="margin-left:100px">Note : Upload only webp/jpg/jpeg/pdf files (Min.Size 100KB to Max.Size 2MB)</span>
+      </b>
+    </div>
+    <form [formGroup]="HostelForm" class="form-horizontal">
+      <div class="card-body">
+        <div class="row mb-2">
+          <div class="col-md-4 mb-3">
+            <label for="rbHostelCampus" class="form-label" style="margin-right:15px">Is Hostel In Campus<span style="color:red;">*</span> </label>
+            <div class="clearfix"></div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusYes" value="Yes" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus">
+              <label class="form-check-label" for="YesHostelCampus">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusNo" value="No" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus">
+              <label class="form-check-label" for="NoHostelCampus">No</label>
+            </div>
+            <div *ngIf="isSubmitted&&Hform.rbHostelCampus.errors" class="text-danger">
+              <p *ngIf="Hform.rbHostelCampus.errors.required"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label class="form-label">Hostel Name<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtHostelName" name="txtHostelName" [(ngModel)]="request.HostelName" autocomplete="off"
+                     formControlName="txtHostelName">
+              <div *ngIf="isSubmitted&&Hform.txtHostelName.errors" class="text-danger">
+                <p *ngIf="Hform.txtHostelName.errors.required"> This field is required .!</p>
+              </div>
+            </div>
+
+            <!-- address -->
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtAddressLine1" name="txtAddressLine1" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1">
+              <div *ngIf="isSubmitted&&Hform.txtAddressLine1.errors" class="text-danger">
+                <p *ngIf="Hform.txtAddressLine1.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label class="form-label">Address Line 2 <span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2">
+              <div *ngIf="isSubmitted&&Hform.txtAddressLine2.errors" class="text-danger">
+                <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label class="form-label" style="margin-right:15px"></label>
+              <div class="clearfix"></div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="rbRural_Nearest" name="RuralUrban" [(ngModel)]="request.IsRuralUrban" value="Rural" formControlName="RuralUrban">
+                <label class="form-check-label" for="rbRural_Nearest">Rural</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="rbUrban_Nearest" name="RuralUrban" [(ngModel)]="request.IsRuralUrban" value="Urban" formControlName="RuralUrban">
+                <label class="form-check-label" for="rbUrban_Nearest">Urban</label>
+              </div>
+              <div *ngIf="isSubmitted&&Hform.RuralUrban.errors" class="text-danger">
+                <p *ngIf="Hform.RuralUrban.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label class="form-label">Division <span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" (change)="FillDivisionRelatedDDL()">
+                <option value="0">--Select Division--</option>
+                <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&Hform.ddlDivisionID.errors" class="text-danger">
+                <p *ngIf="!Hform.ddlDivisionID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label class="form-label">District <span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" (change)="FillDistrictRelatedDDL()">
+                <option value="0">--Select District--</option>
+                <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&Hform.ddlDistrictID.errors" class="text-danger">
+                <p *ngIf="!Hform.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
+              <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
+                <option value="0">--Select Tehsil--</option>
+                <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&IsTehsilRequried" class="text-danger">
+                <p *ngIf="isSubmitted&&IsTehsilRequried"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
+              <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID">
+                <option value="0">--Select Panchayat Samiti--</option>
+                <option *ngFor="let item of PanchyatSamitiList" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&IsPanchyatSamitiRequried" class="text-danger">
+                <p *ngIf="isSubmitted&&IsPanchyatSamitiRequried"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtCityTownVillage" name="txtCityTownVillage" [(ngModel)]="request.CityTownVillage" formControlName="txtCityTownVillage">
+              <div *ngIf="isSubmitted&&Hform.txtCityTownVillage.errors" class="text-danger">
+                <p *ngIf="Hform.txtCityTownVillage.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label class="form-label">Pincode <span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" (keypress)="numberOnly($event)" maxlength="6">
+              <div *ngIf="isSubmitted&&Hform.txtPincode.errors" class="text-danger">
+                <p *ngIf="Hform.txtPincode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                <p *ngIf="Hform.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
+              </div>
+            </div>
+            <!-- end -->
+            <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Hostel Address<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtHostelAddress" name="txtHostelAddress" [(ngModel)]="request.HostelAddress" autocomplete="off"
+                     formControlName="txtHostelAddress">
+              <div *ngIf="isSubmitted&&Hform.txtHostelAddress.errors" class="text-danger">
+                <p *ngIf="Hform.txtHostelAddress.errors.required"> Hostel Address is required .!</p>
+              </div>
+            </div>-->
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Contact Person Name<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtContactPersonName" name="txtContactPersonName" [(ngModel)]="request.ContactPersonName" autocomplete="off"
+                     formControlName="txtContactPersonName">
+              <div *ngIf="isSubmitted&&Hform.txtContactPersonName.errors" class="text-danger">
+                <p *ngIf="Hform.txtContactPersonName.errors.required"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Contact Person No.<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtContactPersonNo" name="txtContactPersonNo" [(ngModel)]="request.ContactPersonNo" maxlength="10" (keypress)="numberOnly($event)" autocomplete="off"
+                     formControlName="txtContactPersonNo">
+              <div *ngIf="isSubmitted&&Hform.txtContactPersonNo.errors" class="text-danger">
+                <p *ngIf="Hform.txtContactPersonNo.errors.pattern || Hform.txtContactPersonNo.errors.maxlength || Hform.txtContactPersonNo.errors.minlength">Mobile number must be at least 10 digit</p>
+                <p *ngIf="Hform.txtContactPersonNo.errors.required"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label>Distance of College (KM)<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtCollegeDistance" name="txtCollegeDistance" maxlength="3" [(ngModel)]="request.DistanceOfCollege" (keypress)="numberOnly($event)" autocomplete="off"
+                     formControlName="txtCollegeDistance">
+              <div *ngIf="isSubmitted&&Hform.txtCollegeDistance.errors" class="text-danger">
+                <p *ngIf="Hform.txtCollegeDistance.errors.required"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-md-11 text-end"></div>
+          </div>
+
+
+
+
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+              <label class="form-label" style="margin-right:15px">Select Type<span style="color:red;">*</span> :</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rdHostelType" id="rdHostelTypeSelf" value="Self" formControlName="rdHostelType" [(ngModel)]="request.HostelType">
+                <label class="form-check-label" for="rdTeachingTypeTeaching">Self</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rdHostelType" id="rdHostelTypeRent" value="Rent" formControlName="rdHostelType" [(ngModel)]="request.HostelType">
+                <label class="form-check-label" for="rdTeachingTypeNonTeaching">Rented</label>
+              </div>
+              <div *ngIf="isSubmitted&&Hform.rdHostelType.errors" class="text-danger">
+                <p *ngIf="Hform.rdHostelType.errors.required">  This field is required .!</p>
+              </div>
+            </div>
+
+          </div>
+          <div class="row" *ngIf="request.HostelType=='Rent'">
+            <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+              <label>Owner Name<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" [(ngModel)]="request.OwnerName" autocomplete="off"
+                     formControlName="txtOwnerName">
+              <div *ngIf="isOwnerName" class="text-danger">
+                <p *ngIf="isOwnerName">This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+              <label>Contact No.<span style="color:red;">*</span></label>
+              <input type="text" class="form-control" id="txtOwnerContactNo" name="txtOwnerContactNo" [(ngModel)]="request.OwnerContactNo" maxlength="10" (keypress)="numberOnly($event)" autocomplete="off"
+                     formControlName="txtOwnerContactNo">
+              <div *ngIf="isOwnerContactNo" class="text-danger">
+                <p *ngIf="isOwnerContactNo">This field is required .!</p>
+              </div>
+              <div *ngIf="isValidOwnerContactNo" class="text-danger">
+                <p *ngIf="isValidOwnerContactNo">Invalid Contact No .!</p>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+              <label> From Date <span style="color:red;">*</span></label>
+              <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtFromDate" [(ngModel)]="request.FromDate" formControlName="dtFromDate" max="{{MaxFromDate | date:'yyyy-MM-dd'}}" (change)="SetToDate()" />
+              <div *ngIf="isFromDate" class="text-danger">
+                <p *ngIf="isFromDate"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+              <label>To Date <span style="color:red;">*</span></label>
+              <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtToDate" [(ngModel)]="request.ToDate" min="{{MinToDate | date:'yyyy-MM-dd'}}" formControlName="dtToDate" />
+              <div *ngIf="isToDate" class="text-danger">
+                <p *ngIf="isToDate"> This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>
+                Rent Document <span style="color:red;">*</span>
+              </label>
+              <div class="d-flex">
+
+                <input type="file" name="RentDocument" id="RentDocument" class="form-control" style="display:none" formControlName="RentDocument" [(ngModel)]="request.RentDocument" (change)="ValidateDocumentImage($event,'RentDocument')" />
+                <label class="btn upload" for="RentDocument">
+                  <span class="filename">Choose file</span>
+                  {{request.RentDocument === '' ? 'No File Choosen' : request.RentDocument}}
+                </label>
+                <div class="btn-group" *ngIf="showRentDocument">
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.RentDocumentPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('RentDocument')"><i class="fa fa-trash-o"></i></button>
+                </div>
+              </div>
+              <div *ngIf="isRentDocument" class="text-danger">
+                <p *ngIf="isRentDocument"> This field is required .!</p>
+              </div>
+              <div *ngIf="isValidRentDocument" class="text-danger">
+                <p *ngIf="isValidRentDocument"> {{DocumentValidMessage}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div>
+      <form [formGroup]="HostelDetailsForm" class="form-horizontal">
+        <div>
+          <div class="card-body">
+            <div class="card">
+              <div class="card-header">
+                <b>Hostel Block Detail</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Select Hostel Block</label>
+                    <select formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="hosteldetail.CourseID" class="form-control"
+                            #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
+                      <option value="0">--Select Hostel Block--</option>
+                      <option [value]="item.ID" *ngFor="let item of courseDataList">
+                        {{item.Name}}
+                      </option>
+                    </select>
+                    <div *ngIf="isHostelSubmitted&&form.ddlCourse.errors" class="text-danger">
+                      <p *ngIf="!form.ddlCourse.errors.DropdownValidators">This field is required .!</p>
+                    </div>
+                    <p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
+                  </div>
+
+
+                  <div class="col-md-8">
+                    <div class="row">
+
+                      <div class="col-md-3 mb-2">
+                        <label>
+
+                          Width (In Feet)
+
+                        </label>
+
+                        <input type="number" class="form-control" id="txtWidth" name="txtWidth" placeholder="Enter Width (In Feet)"
+                               [(ngModel)]="hosteldetail.Width" formControlName="txtWidth">
+
+
+
+                        <!--<p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Width More than or Equal to {{WidthMin}} ft</p>-->
+                        <!--<div *ngIf="isSubmitted&&form.txtWidth.errors" class="text-danger">
+                          <p *ngIf="form.txtWidth.errors.required">This field is required .!</p>
+                        </div>-->
+                      </div>
+
+                      <div class="col-md-3 mb-2">
+                        <label>Length (In Feet)</label>
+                        <input type="number" class="form-control" id="txtLength" name="txtLength" placeholder="Enter Length (In Feet)"
+                               [(ngModel)]="hosteldetail.Length" formControlName="txtLength">
+
+
+
+                        <!--<p *ngIf="LengthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerLength}}">
+                          Please Enter Length More than or Equal to {{LengthMin}} ft
+                        </p>-->
+                        <!--<div *ngIf="isSubmitted&&form.txtLength.errors" class="text-danger">
+                          <p *ngIf="form.txtLength.errors.required">This field is required .!</p>
+                        </div>-->
+                      </div>
+
+                      <div class="col-md-3 mb-2">
+                        <label>Student Capacity</label>
+                        <input type="number" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity" placeholder="Enter Student Capacity"
+                               [(ngModel)]="hosteldetail.StudentCapacity" formControlName="txtStudentCapacity">
+                        <div *ngIf="isHostelSubmitted&&form.txtStudentCapacity.errors" class="text-danger">
+                          <p *ngIf="form.txtStudentCapacity.errors.required">This field is required .!</p>
+                        </div>
+                      </div>
+
+                      <div class="col-md-3 mb-2">
+                        <label>Image</label>
+                        <div class="d-flex">
+                          <input type="file" class="form-control" id="fImageUpload" [(ngModel)]="hosteldetail.ImageFileName" style="display:none" formControlName="hostel_fileImageFileName" (change)="ValidateDocumentImage($event,'ImageFile')" />
+                          <label class="btn upload" for="fImageUpload">
+                            <span class="filename">Choose file</span>
+                            {{hosteldetail.ImageFileName === '' ? 'No File Choosen' : hosteldetail.ImageFileName}}
+                          </label>
+                            <div class="btn-group" *ngIf="showImageFile">
+                              <a class="btn btn-outline-primary" target="_blank" href="{{hosteldetail.ImageFilePath}}"><i class="fa fa-eye"></i></a>
+                              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ImageFile')"><i class="fa fa-trash-o"></i></button>
+                            </div>
+                        </div>
+                        <div *ngIf="isImageFile" class="text-danger">
+                          <p *ngIf="isImageFile"> This field is required .!</p>
+                        </div>
+                        <div *ngIf="isValidImageFile" class="text-danger">
+                          <p *ngIf="isValidImageFile"> {{DocumentValidMessage}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-11 text-end"></div>
+                  <div class="col-md-1 text-end">
+                    <button class="btn btn-primary" id="btnAdd" type="button" (click)="btnAdd_Click()"><i class="fa fa-plus"></i>&nbsp;Add</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-striped">
+                        <thead>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Hostel Block</th>
+                            <th>Width (In Feet)</th>
+                            <th>Length (In Feet)</th>
+                            <th>Image</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of request.HostelDetails | tableSearchFilter:searchText;let idx=index;">
+                            <td>{{idx+1}}</td>
+                            <td>{{row.CourseName}}</td>
+                            <td>{{row.Width}}</td>
+                            <td>{{row.Length}}</td>
+                            <td> <a href="{{imageUrlPath}}{{row.ImageFileName}}" target="_blank" id="at_{{idx+1}}"><i class="fa fa-eye"></i></a> </td>
+                            <td>
+                              <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary" (click)="EditHostelBlockDetail(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"><i class="fa fa-edit"></i></button>
+                              <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteHostelBlockDetail(idx)"><i class="fa fa-trash" [attr.disabled]="isDisabledGrid ? true : null"></i></button>
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+
+
+      <div class="card-footer text-end">
+        <button class="btn btn-primary" type="button" id="btnSave" (click)="SaveData()">Add & Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <b>Hostel Details</b>
+    </div>
+    <div class="card-body">
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>S.No.</th>
+                  <th>Is Hostel Campus</th>
+                  <th>Hostel Name</th>
+                  <th>Contact Person Name</th>
+                  <th>Contact Person No.</th>
+                  <th>Hostel Type</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of hostelDataModel let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.IsHostelCampus}}</td>
+                  <td>{{row.HostelName}}</td>
+                  <td>{{row.ContactPersonName}}</td>
+                  <td>{{row.ContactPersonNo}}</td>
+                  <td>{{row.HostelType}}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-primary" title="Edit" (click)="EditItem(row.HostelDetailID)" [attr.disabled]="isDisabled ? true : null" ><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-sm btn-danger" (click)="DeleteHostelDetails(row.HostelDetailID)" title="Delete" [attr.disabled]="isDisabled ? true : null" ><i class="fa fa-trash"></i></button>
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,747 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Legal Entity</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Entity</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Legal Entity</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-filter"></i>&nbsp;Legal Entity</b>
+          <div class="saveCancelBtn" *ngIf="issaveCancelBtn">
+            <button type="button" class="btn btn-sm btn-secondary" (click)="btnCancel_Click()">Cancel</button>
+            <button type="button" (click)="SaveData()" class="btn btn-sm btn-primary">Save & Proceed To Add College Details</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="legalentityOlRegistrationForm" class="form-horizontal">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" [attr.disabled]="isDisabled ? true : null">
+                <label for="employeeName" class="form-label" style="margin-right:15px">Select Legal Entity : </label>
+                <div class="form-check form-check-inline">
+                  <input [attr.disabled]="isDisabled ? true : null" class="form-check-input" type="radio" name="LegalEntity" id="Society" value="1" [(ngModel)]="request.IsLegalEntity" formControlName="LegalEntity" (change)="OnChangeLegalEntity()">
+                  <label class="form-check-label" for="Society">Society</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input [attr.disabled]="isDisabled ? true : null" class="form-check-input" type="radio" name="LegalEntity" id="Trust" value="2" [(ngModel)]="request.IsLegalEntity" formControlName="LegalEntity" (change)="OnChangeLegalEntity()">
+                  <label class="form-check-label" for="Trust">Trust</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input [attr.disabled]="isDisabled ? true : null" class="form-check-input" type="radio" name="LegalEntity" id="Company" value="3" [(ngModel)]="request.IsLegalEntity" formControlName="LegalEntity" (change)="OnChangeLegalEntity()">
+                  <label class="form-check-label" for="Company">Company</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input [attr.disabled]="isDisabled ? true : null" class="form-check-input" type="radio" name="LegalEntity" id="OtherEntity" value="4" [(ngModel)]="request.IsLegalEntity" formControlName="LegalEntity" (change)="OnChangeLegalEntity()">
+                  <label class="form-check-label" for="OtherEntity">Other Entity</label>
+                </div>
+              </div>
+            </div>
+            <div class="row" id="RegisterNoBox" *ngIf="isRegisterNoBox">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="DepartmentName" class="form-label">State <span style="color:red">*</span></label>
+                <select [attr.disabled]="isDisabled ? true : null" class="form-select" id="ddlRegistrationState" [(ngModel)]="RegistrationState" formControlName="ddlRegistrationState" (change)="GetRegistrationDistrictListByRegistrationStateID(RegistrationState)">
+                  <option value="0" disabled>--Select State--</option>
+                  <option *ngFor="let item of lstState"
+                          value="{{item.StateID}}">
+                    {{item.StateName}}
+                  </option>
+                </select>
+                <div *ngIf="isGetRegistration&&ORform.ddlRegistrationState.errors" class="text-danger">
+                  <p *ngIf="!ORform.ddlRegistrationState.errors.DropdownValidators"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="DepartmentName" class="form-label">District <span style="color:red">*</span></label>
+                <select [attr.disabled]="isDisabled ? true : null" id="ddlDistrictlist" name="ddlRegistrationDistrict" class="form-select" [(ngModel)]="RegistrationDistrict" formControlName="ddlRegistrationDistrict">
+                  <option value="0">--Select--</option>
+                  <option *ngFor="let item of lstDistrict"
+                          value="{{item.DistrictID}}">
+                    {{item.DistrictName}}
+                  </option>
+                </select>
+                <div *ngIf="isGetRegistration&&ORform.ddlRegistrationDistrict.errors" class="text-danger">
+                  <p *ngIf="!ORform.ddlRegistrationDistrict.errors.DropdownValidators"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsSocietyRegistration">
+                <label for="DepartmentName" class="form-label">Registration No. <span style="color:red">*</span></label>
+                <input [attr.disabled]="isDisabled ? true : null" type="text" class="form-control" id="OldRegistrationNo" autocomplete="off" [(ngModel)]="OldRegistrationNo" formControlName="OldRegistrationNo">
+                <div *ngIf="isGetRegistration&&ORform.OldRegistrationNo.errors" class="text-danger">
+                  <p *ngIf="ORform.OldRegistrationNo.errors.required">  This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3  col-sm-6 col-12 mb-3" style="padding-top:28px;" *ngIf="IsSocietyRegistration">
+                <button type="button" class="btn btn-primary" (click)="GetSocietyDetailByRegistrationNo()" [attr.disabled]="isDisabled ? true : null">Get Details</button>
+              </div>
+              <div class="col-lg-6"></div>
+              <div class="col-lg-3 col-md-3  col-sm-6 col-12 mb-3" *ngIf="IsSocietyRegistration">
+                If society registered online then reg. no. format is
+                Coop/2020/Jaipur/100235
+              </div>
+              <div class="col-lg-3 col-md-3  col-sm-6 col-12 mb-3" style="padding-top:28px;" *ngIf="!IsSocietyRegistration">
+                <button type="button" class="btn btn-primary">Click for New Registration</button>
+              </div>
+
+            </div>
+          </form>
+          <div class="row" id="societyList" *ngIf="isSocietyList">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+              <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Name</th>
+                      <th>Reg. No.</th>
+                      <th>Reg. Date</th>
+                      <th>President Name</th>
+                      <th>District name</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>{{ScoietyData.SocietyName}}</td>
+                      <td>{{ScoietyData.RegistrationNo}}</td>
+                      <td>{{ScoietyData.RegistrationDate}}</td>
+                      <td>{{ScoietyData.PresidentName}}</td>
+                      <td>{{ScoietyData.District}}</td>
+                      <td><button class="btn btn-success btn-sm" (click)="ProceedDetail()" type="button">Proceed</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+
+          <form [formGroup]="legalentityForm_Registration" class="form-horizontal">
+
+            <div class="row" id="societyNewReg" *ngIf="isSocietyNewReg">
+            <!--<div class="row" id="societyNewReg">-->
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <b>New Registration</b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+
+                      <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                        <label class="form-label">Registration Number <span style="color:red">*</span></label>
+
+
+                        <label for="txtNewRegistrationRegistration" class="form-label">Project Name*</label>
+                        <input type="text" class="form-control" id="txtNewRegistrationRegistration" name="txtNewRegistrationRegistration"
+                               [(ngModel)]="request.RegistrationNo" formControlName="txtNewRegistrationRegistration">
+
+
+
+                        <div *ngIf="isSubmitted_Registration&&FormRegistration.txtNewRegistrationRegistration.errors" class="text-danger">
+                          <p *ngIf="FormRegistration.txtNewRegistrationRegistration.errors.required">
+                            This field is required .!</p>
+                        </div>
+                         
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                        <label class="form-label">President Mobile Number <span style="color:red">*</span></label>
+
+                        <input type="text" id="txtMobileNumberRegistration" name="txtMobileNumberRegistration" class="form-control" [(ngModel)]="request.PresidentMobileNo" formControlName="txtMobileNumberRegistration" maxlength="10" (keypress)="numberOnly($event)">
+
+                        <div *ngIf="isSubmitted_Registration&&FormRegistration.txtMobileNumberRegistration.errors" class="text-danger">
+                          <p *ngIf="FormRegistration.txtMobileNumberRegistration.errors.required">  This field is required .!</p>
+                          <p *ngIf="FormRegistration.txtMobileNumberRegistration.errors.pattern || FormRegistration.txtMobileNumberRegistration.errors.maxlength || FormRegistration.txtMobileNumberRegistration.errors.minlength">Mobile Number must be at least 10 number</p>
+                        </div>
+
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                        <label class="form-label">President Email ID <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="txtEmailIDRegistration" name="txtEmailIDRegistration" [(ngModel)]="request.PresidentEmail" formControlName="txtEmailIDRegistration">
+
+
+                        <div *ngIf="isSubmitted_Registration&&FormRegistration.txtEmailIDRegistration.errors" class="text-danger">
+                          <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.required"> This field is required .!</p>
+                          <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.email">Invalid Email</p>
+                        </div>
+
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                        <button class="btn btn-success btn-sm" style="margin-top:27px" (click)="OpenOTPModel()" type="button">Get OTP</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+
+
+          <form [formGroup]="legalentityForm" class="form-horizontal">
+            <div class="row" id="FormsFill" *ngIf="isFormsFill">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="txtRegistrationNo" class="form-label">Registration Number <span style="color:red">*</span></label>
+                <input type="text" class="form-control" id="txtRegistrationNo" [(ngModel)]="request.RegistrationNo" formControlName="txtNewRegistration" [attr.disabled]="isDisabledNewRegistration ? true : null" />
+                <div *ngIf="isSubmitted&&form.txtNewRegistration.errors" class="text-danger">
+                  <p *ngIf="form.txtNewRegistration.errors.required">  This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="txtPresidentMobileNo" class="form-label">President Mobile Number <span style="color:red">*</span></label>
+                <input type="text" class="form-control" id="txtPresidentMobileNo" [(ngModel)]="request.PresidentMobileNo" maxlength="10" formControlName="txtPreMobileNumber" [attr.disabled]="isDisabledNewRegistration ? true : null" (keypress)="numberOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtPreMobileNumber.errors" class="text-danger">
+                  <p *ngIf="form.txtPreMobileNumber.errors.required">  This field is required .!</p>
+                  <p *ngIf="form.txtPreMobileNumber.errors.pattern || form.txtPreMobileNumber.errors.maxlength || form.txtPreMobileNumber.errors.minlength">Mobile Number must be at least 10 number</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="txtPresidentEmail" class="form-label">President Email ID <span style="color:red">*</span></label>
+                <input type="text" class="form-control" id="txtPresidentEmail" [(ngModel)]="request.PresidentEmail" formControlName="txtPreEmailID" />
+                <div *ngIf="isSubmitted&&form.txtPreEmailID.errors" class="text-danger">
+                  <p *ngIf="form.txtPreEmailID.errors.required"> This field is required .!</p>
+                  <p *ngIf="form.txtPreEmailID.errors.email">Invalid Email</p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Name <span style="color:red">*</span></label>
+                <input class="form-control" id="txtSocietyName" [(ngModel)]="request.SocietyName" formControlName="txtSocietyName" />
+                <div *ngIf="isSubmitted&&form.txtSocietyName.errors" class="text-danger">
+                  <p *ngIf="form.txtSocietyName.errors.required">  This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Present Status <span style="color:red">*</span></label>
+                <select class="form-select" id="ddlSocietyPresentStatus" [(ngModel)]="request.SocietyPresentStatus" formControlName="ddlSocietyPresentStatus">
+                  <option value="0" disabled>--Select Present Status--</option>
+                  <option *ngFor="let item of lstSocietyPresentStatus"
+                          value="{{item.ID}}">
+                    {{item.Name}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlSocietyPresentStatus.errors" class="text-danger">
+                  <p *ngIf="!form.ddlSocietyPresentStatus.errors.DropdownValidators"> This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">State <span style="color:red">*</span></label>
+                <select class="form-select" id="ddlState" [(ngModel)]="request.StateID" formControlName="ddlState" (change)="GetDistrictListByStateID(request.StateID)">
+                  <option value="0" disabled>--Select State--</option>
+                  <option *ngFor="let item of lstState"
+                          value="{{item.StateID}}">
+                    {{item.StateName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlState.errors" class="text-danger">
+                  <p *ngIf="!form.ddlState.errors.DropdownValidators"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">District <span style="color:red">*</span></label>
+                <select class="form-select" id="ddlDistricts" [(ngModel)]="request.DistrictID" formControlName="ddlDistricts">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of lstStateDistrict"
+                          value="{{item.DistrictID}}">
+                    {{item.DistrictName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDistricts.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDistricts.errors.DropdownValidators"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Act (Which Act You Registered)  <span style="color:red">*</span></label>
+                <select class="form-select" id="ddlRegisteredAct" [(ngModel)]="request.RegisteredActID" formControlName="ddlRegisteredAct" (change)="SelectRegistredAct(request.RegisteredActID)">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of lstRegisteredAct"
+                          value="{{item.ID}}">
+                    {{item.Name}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlRegisteredAct.errors" class="text-danger">
+                  <p *ngIf="!form.ddlRegisteredAct.errors.DropdownValidators">This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="IsActOther">
+                <label for="">Act (Which Act You Registered)  <span style="color:red">*</span></label>
+                <input class="form-control" id="txtRegisteredAct" [(ngModel)]="request.RegisteredActName" formControlName="txtRegisteredActName" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for=""> Date Of Registration</label>
+                <input class="form-control" type="date" id="txtSocietyRegistrationDate" [(ngModel)]="request.SocietyRegistrationDate" formControlName="txtSocietyRegistrationDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" />
+                <div *ngIf="isSubmitted&&form.txtSocietyRegistrationDate.errors" class="text-danger">
+                  <p *ngIf="form.txtSocietyRegistrationDate.errors.required">This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Date of Election of Present Management Committee <span style="color:red">*</span></label>
+                <input class="form-control" type="date" id="txtElectionPresentManagementCommitteeDate" [(ngModel)]="request.ElectionPresentManagementCommitteeDate" formControlName="txtElectionPresentManagementCommitteeDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" />
+                <div *ngIf="isSubmitted&&form.txtElectionPresentManagementCommitteeDate.errors" class="text-danger">
+                  <p *ngIf="form.txtElectionPresentManagementCommitteeDate.errors.required"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for=""> Registered Address <span style="color:red">*</span></label>
+                <input class="form-control" id="txtSocietyRegisteredAddress" [(ngModel)]="request.SocietyRegisteredAddress" formControlName="txtSocietyRegisteredAddress" />
+                <div *ngIf="isSubmitted&&form.txtSocietyRegisteredAddress.errors" class="text-danger">
+                  <p *ngIf="form.txtSocietyRegisteredAddress.errors.required">  This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Pincode <span style="color:red">*</span></label>
+                <input class="form-control" id="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" maxlength="6" (keypress)="numberOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtPincode.errors" class="text-danger">
+                  <p *ngIf="form.txtPincode.errors.required">  This field is required .!</p>
+                  <p *ngIf="form.txtPincode.errors.pattern || form.txtPincode.errors.maxlength || form.txtPincode.errors.minlength">PIN Code must be at least 6 digit</p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Other Institution run by the Society <span style="color:red">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="OtherInstitution" id="OtherInstitutionYes" value="Yes" [(ngModel)]="request.IsOtherInstitution" formControlName="OtherInstitution" (change)="SelectOtherInstitution(request.IsOtherInstitution)">
+                  <label class="form-check-label" for="OtherInstitutionYes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="OtherInstitution" id="OtherInstitutionNo" value="No" [(ngModel)]="request.IsOtherInstitution" formControlName="OtherInstitution" (change)="SelectOtherInstitution(request.IsOtherInstitution)">
+                  <label class="form-check-label" for="OtherInstitutionNo">No</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.OtherInstitution.errors" class="text-danger">
+                  <p *ngIf="form.OtherInstitution.errors.required"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Women Member of Management Committee is more than 30% of Total Members <span style="color:red">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="WomenMembers" id="WomenMembersYes" value="Yes" [(ngModel)]="request.IsWomenMembers" formControlName="WomenMembers">
+                  <label class="form-check-label" for="OtherInstitutionYes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="WomenMembers" id="WomenMembersNo" value="No" [(ngModel)]="request.IsWomenMembers" formControlName="WomenMembers">
+                  <label class="form-check-label" for="WomenMembersNo">No</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.WomenMembers.errors" class="text-danger">
+                  <p *ngIf="form.WomenMembers.errors.required">  This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Date of Election of Management Committee not more than 3 Year <span style="color:red">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="DateOfElection" id="DateOfElectionYes" value="Yes" [(ngModel)]="request.IsDateOfElection" formControlName="DateOfElection">
+                  <label class="form-check-label" for="DateOfElectionYes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="DateOfElection" id="DateOfElectionNo" value="No" [(ngModel)]="request.IsDateOfElection" formControlName="DateOfElection">
+                  <label class="form-check-label" for="DateOfElectionNo">No</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.DateOfElection.errors" class="text-danger">
+                  <p *ngIf="form.DateOfElection.errors.required">  This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Management Committee certified By Registrar <span style="color:red">*</span></label>
+                <input class="form-control" id="txtManagementCommitteecertified" [(ngModel)]="request.ManagementCommitteeCertified" formControlName="txtManagementCommitteecertified" />
+                <div *ngIf="isSubmitted&&form.txtManagementCommitteecertified.errors" class="text-danger">
+                  <p *ngIf="form.txtManagementCommitteecertified.errors.required">This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Aadhaar Number Of President  <span style="color:red">*</span></label>
+                <input class="form-control" id="txtPresidentAadhaarNumber" [(ngModel)]="request.PresidentAadhaarNumber" formControlName="txtPresidentAadhaarNumber" maxlength="12" (keypress)="numberOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtPresidentAadhaarNumber.errors" class="text-danger">
+                  <p *ngIf="form.txtPresidentAadhaarNumber.errors.required"> This field is required .!</p>
+                  <p *ngIf="form.txtPresidentAadhaarNumber.errors.pattern || form.txtPresidentAadhaarNumber.errors.maxlength || form.txtPresidentAadhaarNumber.errors.minlength"> Invalid Aadhaar No.</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for=""> PAN Number <span style="color:red">*</span></label>
+                <input class="form-control" id="txtSocietyPANNumber" [(ngModel)]="request.SocietyPANNumber" formControlName="txtSocietyPANNumber" maxlength="10" />
+                <div *ngIf="isSubmitted&&form.txtSocietyPANNumber.errors" class="text-danger">
+                  <p *ngIf="form.txtSocietyPANNumber.errors.required">This field is required .!</p>
+                  <p *ngIf="form.txtSocietyPANNumber.errors.pattern || form.txtSocietyPANNumber.errors.maxlength || form.txtSocietyPANNumber.errors.minlength"> Invalid PAN No.</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Trust Logo</label>
+                <div class="d-flex">
+                  <input class="form-control" type="file" id="TrustLogoDoc" [(ngModel)]="request.TrustLogoDoc" formControlName="TrustLogoDoc" (change)="ValidateImage($event,'TrustLogo')" />
+                  <div class="btn-group" *ngIf="showTrustLogoDoc">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.TrustLogoDoc}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('TrustLogo')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+
+                </div>
+                <div *ngIf="isValidTrustLogoDoc" class="text-danger">
+                  <p *ngIf="isValidTrustLogoDoc"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Trustee Member Proof</label>
+                <div class="d-flex">
+                  <input class="form-control" type="file" id="TrusteeMemberProofDoc" [(ngModel)]="request.TrusteeMemberProofDoc" formControlName="TrusteeMemberProofDoc" (change)="ValidateImage($event,'TrusteeMember')" />
+                  <div class="btn-group" *ngIf="showTrusteeMemberProofDoc">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.TrusteeMemberProofDoc}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('TrusteeMember')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="isValidTrusteeMemberProofDoc" class="text-danger">
+                  <p *ngIf="isValidTrusteeMemberProofDoc"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="">Aadhaar Proof of President</label>
+                <div class="d-flex">
+                  <input class="form-control" type="file" id="txtPresidentAadhaarProofDoc" [(ngModel)]="request.PresidentAadhaarProofDoc" formControlName="txtPresidentAadhaarProofDoc" (change)="ValidateImage($event,'PresidentAadhaar')" />
+                  <div class="btn-group" *ngIf="showPresidentAadhaarProofDoc">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.PresidentAadhaarProofDoc}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PresidentAadhaar')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="isValidPresidentAadhaarProofDoc" class="text-danger">
+                  <p *ngIf="isValidPresidentAadhaarProofDoc"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for=""> Pan Proof</label>
+                <div class="d-flex">
+                  <input class="form-control" type="file" id="txtSocietyPanProofDoc" [(ngModel)]="request.SocietyPanProofDoc" formControlName="txtSocietyPanProofDoc" (change)="ValidateImage($event,'SocietyPan')" />
+                  <div class="btn-group" *ngIf="showSocietyPanProofDoc">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.SocietyPanProofDoc}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SocietyPan')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="isValidSocietyPanProofDoc" class="text-danger">
+                  <p *ngIf="isValidSocietyPanProofDoc"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+
+            </div>
+
+          </form>
+          <!--<div class="row" *ngIf="isFormsFill">-->
+          <div class="row" *ngIf="isFormsFill">
+            <form [formGroup]="legalentityAddMemberForm" class="form-horizontal">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <b>Add Member Details</b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="txtName" class="form-label">Member Name  <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="txtMemberName" [(ngModel)]="memberdetails.MemberName" formControlName="txtMemberName">
+                        <div *ngIf="isMemberAdded&&AMform.txtMemberName.errors" class="text-danger">
+                          <p *ngIf="AMform.txtMemberName.errors.required"> This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="txtFatherName" class="form-label">Father's Name  <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="txtMemberFatherName" [(ngModel)]="memberdetails.MemberFatherName" formControlName="txtMemberFatherName">
+                        <div *ngIf="isMemberAdded&&AMform.txtMemberFatherName.errors" class="text-danger">
+                          <p *ngIf="AMform.txtMemberFatherName.errors.required">  This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="txtDOB" class="form-label">Date of Birth <span style="color:red">*</span></label>
+                        <input type="date" class="form-control" id="txtMemberDOB" [(ngModel)]="memberdetails.MemberDOB" formControlName="txtMemberDOB" max="{{MaxDate | date:'yyyy-MM-dd'}}">
+                        <div *ngIf="isMemberAdded&&AMform.txtMemberDOB.errors" class="text-danger">
+                          <p *ngIf="AMform.txtMemberDOB.errors.required">  This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="txtMemberMobNo" class="form-label">Mobile No. <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="txtMemberMobNo" [(ngModel)]="memberdetails.MemberMobileNo" formControlName="txtMemberMobNo" maxlength="10" (keypress)="numberOnly($event)">
+                        <div *ngIf="isMemberAdded&&AMform.txtMemberMobNo.errors" class="text-danger">
+                          <p *ngIf="AMform.txtMemberMobNo.errors.required">  This field is required .!</p>
+                          <p *ngIf="AMform.txtMemberMobNo.errors.pattern || AMform.txtMemberMobNo.errors.maxlength || AMform.txtMemberMobNo.errors.minlength">Invalid Mobile number</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="ddlposts" class="form-label">Post <span style="color:red">*</span></label>
+                        <select class="form-select" id="ddlMemberposts" [(ngModel)]="memberdetails.MemberPostID" formControlName="ddlMemberposts">
+                          <option value="0" disabled>--Select Post--</option>
+                          <option *ngFor="let item of lstMemberPost"
+                                  value="{{item.RoleID}}">
+                            {{item.RoleName}}
+                          </option>
+                        </select>
+                        <div *ngIf="isMemberAdded&&AMform.ddlMemberposts.errors" class="text-danger">
+                          <p *ngIf="!AMform.ddlMemberposts.errors.DropdownValidators">This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="txtMobNob" class="form-label">Member Photo</label>
+                        <div class="d-flex">
+                          <input type="file" class="form-control d-none" id="txtMemberPhoto" [(ngModel)]="memberdetails.MemberPhoto" formControlName="txtMemberPhoto" (change)="ValidateImage($event,'MemberPhoto')">
+                          <label class="btn upload" for="txtMemberPhoto">
+                            <span class="filename">Choose file</span>
+                            {{memberdetails.MemberPhoto === '' ? 'No File Choosen' : memberdetails.MemberPhoto}}
+                          </label>
+                          <div class="btn-group" *ngIf="showMemberPhoto">
+                            <a class="btn btn-outline-primary" target="_blank" href="{{memberdetails.MemberPhoto}}"><i class="fa fa-eye"></i></a>
+                            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('MemberPhoto')"><i class="fa fa-trash-o"></i></button>
+                          </div>
+                        </div>
+                        <div *ngIf="isMemberAdded&&isMemberPhoto" class="text-danger">
+                          <p *ngIf="isMemberPhoto">This field is required .!</p>
+                        </div>
+                        <div *ngIf="isValidMemberPhoto" class="text-danger">
+                          <p *ngIf="isValidMemberPhoto"> {{ImageValidationMessage}}</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="txtMobNob" class="form-label">Member Sign</label>
+                        <div class="d-flex">
+                          <input type="file" class="form-control" id="txtMemberSign" [(ngModel)]="memberdetails.MemberSignature" formControlName="txtMemberSign" (change)="ValidateImage($event,'MemberSign')">
+                          <div class="btn-group" *ngIf="showMemberSign">
+                            <a class="btn btn-outline-primary" target="_blank" href="{{memberdetails.MemberSignature}}"><i class="fa fa-eye"></i></a>
+                            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('MemberSign')"><i class="fa fa-trash-o"></i></button>
+                          </div>
+                        </div>
+                        <div *ngIf="isMemberAdded&&isMemberSignature" class="text-danger">
+                          <p *ngIf="isMemberSignature"> This field is required .!</p>
+                        </div>
+                        <div *ngIf="isValidMemberSignature" class="text-danger">
+                          <p *ngIf="isValidMemberSignature"> {{ImageValidationMessage}}</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <button class="btn btn-primary" style="margin-top:27px" (click)="AddMember()"><i class="fa fa-plus"></i> Add</button>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th>Sr. No.</th>
+                                <th>Member Name</th>
+                                <th>Father's Name</th>
+                                <th>Date Of Birth</th>
+                                <th>Mobile No.</th>
+                                <th>Post</th>
+                                <th>Member Photo</th>
+                                <th>Member Sing</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let row of request.MemberDetails; let indexOfelement=index;">
+                                <td> {{indexOfelement+1}}</td>
+                                <td>{{row.MemberName}}</td>
+                                <td>{{row.MemberFatherName}}</td>
+                                <td>{{row.MemberDOB}}</td>
+                                <td>{{row.MemberMobileNo}}</td>
+                                <td>{{row.MembersPostName}}</td>
+                                <td><a *ngIf="row.MemberPhoto!=''" target="_blank" href="{{row.MemberPhoto}}" title="View Member Photo"><i class="fa fa-eye"></i></a></td>
+                                <td><a *ngIf="row.MemberSignature!=''" target="_blank" href="{{row.MemberSignature}}" title="View Member Sign"><i class="fa fa-eye"></i></a>  </td>
+                                <td>
+                                  <button class="btn btn-danger" type="button" (click)="DeleteMember(indexOfelement)"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="row">
+            <form [formGroup]="legalentityAddInstituteForm" class="form-horizontal">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="IsOtherInstitution && isFormsFill">
+                <div class="card">
+                  <div class="card-header">
+                    <b>Institute Details</b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="txtInstituteRegistrationNo" class="form-label">Institute Registration No. <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="txtInstituteRegistrationNo" [(ngModel)]="institutedetails.RegistrationNo" formControlName="txtInstituteRegistrationNo">
+                        <div *ngIf="isInstitueAdded&&AIform.txtInstituteRegistrationNo.errors" class="text-danger">
+                          <p *ngIf="AIform.txtInstituteRegistrationNo.errors.required">  This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="txtInstituteName" class="form-label">Institute Name <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="txtInstituteName" [(ngModel)]="institutedetails.InstituteName" formControlName="txtInstituteName">
+                        <div *ngIf="isInstitueAdded&&AIform.txtInstituteName.errors" class="text-danger">
+                          <p *ngIf="AIform.txtInstituteName.errors.required"> This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="txtInstitutePersonName" class="form-label">Contact Person Name <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="txtInstitutePersonName" [(ngModel)]="institutedetails.InstitutePersonName" formControlName="txtInstitutePersonName">
+                        <div *ngIf="isInstitueAdded&&AIform.txtInstitutePersonName.errors" class="text-danger">
+                          <p *ngIf="AIform.txtInstitutePersonName.errors.required"> This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="txtDOB" class="form-label">Designation <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="txtInstituteDesignation" [(ngModel)]="institutedetails.InstituteDesignation" formControlName="txtInstituteDesignation">
+                        <div *ngIf="isInstitueAdded&&AIform.txtInstituteDesignation.errors" class="text-danger">
+                          <p *ngIf="AIform.txtInstituteDesignation.errors.required">  This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="txtMobNob" class="form-label">Contact Number <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" id="txtInstituteContactNumber" [(ngModel)]="institutedetails.InstituteContactNumber" formControlName="txtInstituteContactNumber" maxlength="10" (keypress)="numberOnly($event)">
+                        <div *ngIf="isInstitueAdded&&AIform.txtInstituteContactNumber.errors" class="text-danger">
+                          <p *ngIf="AIform.txtInstituteContactNumber.errors.required">  This field is required .!</p>
+                          <p *ngIf="AIform.txtInstituteContactNumber.errors.pattern || AIform.txtInstituteContactNumber.errors.maxlength || AIform.txtInstituteContactNumber.errors.minlength">Invalid Mobile No</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+                        <label for="DepartmentName" class="form-label">State <span style="color:red">*</span></label>
+                        <select class="form-select" id="ddlInstituteStateID" [(ngModel)]="institutedetails.StateID" formControlName="ddlInstituteStateID">
+                          <option value="0" disabled>--Select State--</option>
+                          <option *ngFor="let item of lstState"
+                                  value="{{item.StateID}}">
+                            {{item.StateName}}
+                          </option>
+                        </select>
+                        <div *ngIf="isInstitueAdded&&AIform.ddlInstituteStateID.errors" class="text-danger">
+                          <p *ngIf="!AIform.ddlInstituteStateID.errors.DropdownValidators"> This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <button class="btn btn-primary" style="margin-top:27px" (click)="AddInstitute()"><i class="fa fa-plus"></i> Add</button>
+                      </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th>Sr. No.</th>
+                                <th>Registration No.</th>
+                                <th>Institute Name</th>
+                                <th>Contact Person Name</th>
+                                <th>Designation</th>
+                                <th>Contact Number</th>
+                                <th>State</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let row of request.InstituteDetails; let indexOfelement=index;">
+                                <td> {{indexOfelement+1}}</td>
+                                <td>{{row.RegistrationNo}}</td>
+                                <td>{{row.InstituteName}}</td>
+                                <td>{{row.InstitutePersonName}}</td>
+                                <td>{{row.InstituteDesignation}}</td>
+                                <td>{{row.InstituteContactNumber}}</td>
+                                <td>{{row.StateName}}</td>
+                                <td>
+                                  <button class="btn btn-danger" type="button" (click)="DeleteInstitute(indexOfelement)"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal" id="ModalOtpVerify" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-md modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">OTP Verification</h5>
+                  <button type="button" class="btn btn-danger" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                      <p>You have recieved a OTP Verification massage on <b>{{MaskedMobileNo}}</b></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                      <label class="mb-2" for="EnterOTP">Enter OTP</label>
+                      <input type="text" class="form-control" id="EnterOTP" [(ngModel)]="UserOTP" autocomplete="off" (keypress)="numberOnly($event)" />
+                      <div *ngIf="isUserOTP" class="text-danger">
+                        <p *ngIf="isUserOTP">This field is required .!</p>
+                      </div>
+                      <div *ngIf="isValidUserOTP" class="text-danger">
+                        <p *ngIf="isValidUserOTP">Please Enter Correct OTP .!</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3 d-flex justify-content-center align-items-center">
+                      <span *ngIf="ShowTimer">Please Wait.. {{DisplayTimer}}</span>
+                      <button [attr.disabled]="isTimerDisabled ? true : null" type="button" id="ResendOTP" (click)="ResendOTP()" class="btn btn-link">Resend OTP</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-sm btn-secondary" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">Cancel</span></button>
+                  <button type="button" (click)="VerifyOTP()" class="btn btn-sm btn-primary">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal" id="NotRegistered" tabindex="-1" aria-labelledby="NotRegistered" aria-hidden="true">
+            <div class="modal-dialog modal-md modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Warning</h5>
+                  <button type="button" class="btn btn-danger" aria-label="Close" (click)="CloseWarningOTPModel()"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                      <p>Please check your entered <b> Registration Number</b> is wrong. If you want to new Registration then click on Registration button.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal" (click)="CloseWarningOTPModel()">Cancel</button>
+                  <button type="button" (click)="NewRegistration()" class="btn btn-primary">New Registration</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-end saveCancelBtn" *ngIf="issaveCancelBtn">
+          <button type="button" class="btn btn-danger" aria-label="Close">Cancel</button>
+          <button type="button" (click)="SaveData()" class="btn btn-primary">Save & Proceed To Add College Details</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

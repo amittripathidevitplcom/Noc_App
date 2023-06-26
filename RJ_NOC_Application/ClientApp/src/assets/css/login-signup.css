@@ -1,0 +1,36 @@
+﻿body, html {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    background: #fff !important;
+}
+.btn-soft-primary {
+    color: #695eef;
+    background: rgba(105, 94, 239, .1);
+    font-weight: 600;
+}
+
+    .btn-soft-primary:hover, .btn-soft-primary:focus {
+        background-color: #695eef;
+        color: #fff;
+    }
+
+.loginPage, .loginForm, .LoginText {
+    height:calc(100vh - 0px);
+}
+
+.LoginText {
+    background: url('../images/loginBG.jpg') no-repeat;
+    background-size: cover;
+    height: 100%;
+    color:#fff;
+    text-align:center;
+}
+    .LoginText h1, .loginForm h1 {
+        font-size: 54px;
+        font-weight: 800;
+    }
+    .LoginText p, .loginForm h3 {
+        font-size: 24px;
+        font-weight: 300;
+        margin: 20px;
+    }

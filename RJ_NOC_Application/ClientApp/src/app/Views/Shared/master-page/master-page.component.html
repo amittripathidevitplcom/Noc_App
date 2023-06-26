@@ -1,0 +1,88 @@
+<app-loader></app-loader>
+<div class="mainPortal">
+  <div class="sideBars">
+    <div class="logo">
+      <img src="assets/images/logoLarge.png" class="largelogo" />
+      <img src="assets/images/logoSmall.png" class="smallLogo" />
+    </div>
+    <nav class="navbar">
+      <ul class="navbar-nav" [innerHtml]="MenuHTML">
+      </ul>
+    </nav>
+  </div>
+  <div class="MainDivs">
+    <div class="container-fluid header">
+
+      <div class="row align-items-center">
+        <div class="clearfix"></div>
+        <div class="LogoSectionResponsive">
+          <img src="assets/images/logoLarge.png" class="largelogo" />
+          <button class="btn btn-soft-primary borderRadius0" type="button" onclick="js_navCollapse(this);">
+            <i class="fa fa-navicon"></i>
+          </button>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-md-4">
+
+          <div class="searchBox d-flex justify-content-between align-items-center">
+            <input type="text" class="form-control borderRadius0" placeholder="Sreach Here....">
+            <button class="btn btn-soft-primary borderRadius0"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+        <div class="col-md-8 d-flex align-items-center justify-content-end topUlsControl">
+          <ul class="topBarRight">
+            <li>
+              <!--class change for english- EnLanguage-->
+              <a href="javascript:void(0)" class="language HiLanguage" title="Choose Language"></a>
+            </li>
+
+
+
+            <li class="dropdown">
+              <a href="javascript:void(0)" class="dropdown-toggle" title="Notification" id="notificationBox" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-bell"></i></a>
+              <div class="TopslideBox notificationBox dropdown-menu" aria-labelledby="notificationBox">
+                <h3><i class="bi bi-bell"></i> Notification</h3>
+              </div>
+            </li>
+          </ul>
+          <ul class="UserDropDown">
+            <li class="dropdown userDropBox">
+              <a href="javascript:void(0)" class="dropdown-toggle userClickLink" id="UserBox" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="d-flex align-items-center">
+                  <img src="assets/images/userImg.jpg" class="userImg" />
+                  <div>
+                    <b class="d-block">{{UserName}}</b>
+                    <span class="d-block">{{sSOLoginDataModel.SSOID}}</span>
+                  </div>
+                </div>
+              </a>
+              <div class="UserBox dropdown-menu" aria-labelledby="notificationBox">
+                <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-people"></i>&nbsp;Profile</a>
+                <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-gear"></i>&nbsp;Setting</a>
+                <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-envelope"></i>&nbsp;Messege</a>
+                <div class="dropdown-divider"></div>
+                <div class="d-flex justify-content-center">
+                  <button type="button" class="btn btn-soft-primary" (click)="Logout()"><i class="bi bi-box-arrow-right"></i>&nbsp;Signout</button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <router-outlet></router-outlet>
+
+
+    <div class="container-fluid footers">
+      <div class="row">
+        <div class="col-md-6">
+          <p>Copyrights &copy; 2023-24 All Rights Resereved by <b>Dev IT - RJ Office</b></p>
+        </div>
+        <div class="col-md-6 text-right">
+          <p>Designed & Developed Powered By <i class="fa fa-heart-o"></i> Dev Information Technologies Ltd.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

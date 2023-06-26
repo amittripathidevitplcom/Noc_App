@@ -1,0 +1,613 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Add College</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Society</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Add College</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="CollegeDetailsForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-plus"></i>&nbsp;Basic Information (Society - ABCD)</b>
+            <span class="text-danger">(*) Fields is compulsory</span>
+          </div>
+          <div class="card-body">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;College Details</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlDepartmentID" class="form-label">Select Department <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (change)="FillDepartmentRelatedDDL($event,SeletedDepartmentID.value)">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlCollegeStatus" class="form-label">College Status <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlCollegeStatus" name="ddlCollegeStatus" [(ngModel)]="request.CollegeStatusID" formControlName="ddlCollegeStatus" #SelectedCollegeStatusID (change)="ddlCollegeStatus_TextChange($event,SelectedCollegeStatusID.value)">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of CollegeStatusList" value="{{item.ID}}">{{item.Name}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlCollegeStatus.errors" class="text-danger">
+                      <p *ngIf="!form.ddlCollegeStatus.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <!--profile logo-->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">College Logo <span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fCollegeLogo" name="fCollegeLogo" (change)="onFilechange($event,'CollegeLogo')" [ngModelOptions]="{standalone: true}" [(ngModel)]="request.CollegeLogo">
+                      <div class="btn-group" *ngIf="showCollegeLogo">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.CollegeLogo}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('CollegeLogo')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="ProfileLogoValidationMessage!=''" class="text-danger">
+                      <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <!---->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlPresentCollegeStatus" class="form-label">Present Status of College <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus" [(ngModel)]="request.PresentCollegeStatusID" formControlName="ddlPresentCollegeStatus">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of PresentCollegeStatusList_FilterData" value="{{item.ID}}">{{item.Name}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlPresentCollegeStatus.errors" class="text-danger">
+                      <p *ngIf="!form.ddlPresentCollegeStatus.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlCollegeTypeID" class="form-label">Select College Type <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlCollegeTypeID" name="ddlCollegeTypeID" [(ngModel)]="request.CollegeTypeID" formControlName="ddlCollegeTypeID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of CollegeTypeList" value="{{item.ID}}">{{item.Name}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlCollegeTypeID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlCollegeTypeID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlCollegeLevelID" class="form-label">College Level <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlCollegeLevelID" name="ddlCollegeLevelID" [(ngModel)]="request.CollegeLevelID" formControlName="ddlCollegeLevelID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of CollegeLevelList_FilterData" value="{{item.ID}}">{{item.Name}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlCollegeLevelID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlCollegeLevelID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtCollegeNameEn" class="form-label">College Name in English <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtCollegeNameEn" name="txtCollegeNameEn" [(ngModel)]="request.CollegeNameEn" formControlName="txtCollegeNameEn">
+                    <div *ngIf="isSubmitted&&form.txtCollegeNameEn.errors" class="text-danger">
+                      <p *ngIf="form.txtCollegeNameEn.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtCollegeNameHi" class="form-label">College Name in Hindi <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtCollegeNameHi" name="txtCollegeNameHi" [(ngModel)]="request.CollegeNameHi" formControlName="txtCollegeNameHi">
+                    <div *ngIf="isSubmitted&&form.txtCollegeNameHi.errors" class="text-danger">
+                      <p *ngIf="form.txtCollegeNameHi.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="display:none">
+                    <label class="form-label" style="margin-right:15px">AISHE Code Status : </label>
+                    <div class="clearfix"></div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" value="1" id="rbAISHECodeStatusYes" name="AISHECodeStatus" [(ngModel)]="request.AISHECodeStatus" formControlName="AISHECodeStatus" (change)="IsAISHECodeStatusOrNot(true)">
+                      <label class="form-check-label" for="rbAISHECodeStatusYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" value="2" id="rbAISHECodeStatusNo" name="AISHECodeStatus" [(ngModel)]="request.AISHECodeStatus" formControlName="AISHECodeStatus" (change)="IsAISHECodeStatusOrNot(false)">
+                      <label class="form-check-label" for="rbAISHECodeStatusNo">No</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsAISHECodeStatus" style="display:none">
+                    <label for="txtAISHECode" class="form-label">AISHE Code</label>
+                    <input type="text" class="form-control" id="txtAISHECode" name="txtAISHECode" [(ngModel)]="request.AISHECode" formControlName="txtAISHECode">
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlCollegeMedium" class="form-label">College Medium <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlCollegeMedium" name="ddlCollegeMedium" [(ngModel)]="request.CollegeMedium" formControlName="ddlCollegeMedium">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of CollegeMediumList" value="{{item.ID}}">{{item.Name}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlCollegeMedium.errors" class="text-danger">
+                      <p *ngIf="!form.ddlCollegeMedium.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlUniversityID" class="form-label">University <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID" formControlName="ddlUniversityID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlUniversityID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlUniversityID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtMobileNumber" class="form-label">Mobile Number <span style="color:red;">*</span></label>
+                    <input type="number" class="form-control" id="txtMobileNumber" name="txtMobileNumber" [(ngModel)]="request.MobileNumber" formControlName="txtMobileNumber">
+                    <div *ngIf="isSubmitted&&form.txtMobileNumber.errors" class="text-danger">
+                      <p *ngIf="form.txtMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtMobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtEmail" class="form-label">Email <span style="color:red;">*</span></label>
+                    <input type="email" class="form-control" id="txtEmail" name="txtEmail" [(ngModel)]="request.Email" formControlName="txtEmail">
+                    <div *ngIf="isSubmitted&&form.txtEmail.errors" class="text-danger">
+                      <p *ngIf="form.txtEmail.errors.required"><i aria-hidden="true"></i> This field is required .!</p><p *ngIf="form.txtEmail.errors.email"><i aria-hidden="true"></i> Email address is not valid .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtAddressLine1" class="form-label">Address Line 1 <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtAddressLine1" name="txtAddressLine1" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1">
+                    <div *ngIf="isSubmitted&&form.txtAddressLine1.errors" class="text-danger">
+                      <p *ngIf="form.txtAddressLine1.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtAddressLine2" class="form-label">Address Line 2 <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2">
+                    <div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
+                      <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Select Area <span style="color:red;">*</span></label>
+                    <div class="clearfix"></div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="rbRural" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="1" [value]="1" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(true,null,true)">
+                      <label class="form-check-label" for="rbRural">Rural</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="rbUrban" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="2" [value]="2" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(false,null,true)">
+                      <label class="form-check-label" for="rbUrban">Urban</label>
+                    </div>
+                    <div *ngIf="isSubmitted&&form.rbRuralUrban.errors" class="text-danger">
+                      <p *ngIf="form.rbRuralUrban.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                    <label for="txtDistanceFromCity" class="form-label">Distance from City(km) <span style="color:red;">*</span></label>
+                    <input type="number" class="form-control" id="txtDistanceFromCity" name="txtDistanceFromCity" [(ngModel)]="request.DistanceFromCity" formControlName="txtDistanceFromCity">
+                    <div *ngIf="isSubmitted&&IsRural&&form.txtDistanceFromCity.errors" class="text-danger">
+                      <p *ngIf="form.txtDistanceFromCity.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlDivisionID" class="form-label">Division <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL($event,SelectedDivisionID.value,null)">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlDivisionID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlDivisionID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL($event,SelectedDistrictID.value,null)">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlSubdivisionID" class="form-label">Subdivision <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlSubdivisionID" name="ddlSubdivisionID" [(ngModel)]="request.SubdivisionID" formControlName="ddlSubdivisionID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of SuvdivisionList" value="{{item.SuvdivisionID}}">{{item.SubdivisionName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlSubdivisionID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlSubdivisionID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                    <label for="ddlTehsilID" class="form-label">Tehsil <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&IsRural&&form.ddlTehsilID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlTehsilID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                    <label for="ddlPanchayatSamitiID" class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of PanchyatSamitiList" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&IsRural&&form.ddlPanchayatSamitiID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlPanchayatSamitiID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlParliamentAreaID" class="form-label">Parliament Area <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlParliamentAreaID" name="ddlParliamentAreaID" [(ngModel)]="request.ParliamentAreaID" formControlName="ddlParliamentAreaID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of ParliamentAreaList" value="{{item.ParliamentAreaID}}">{{item.ParliamentAreaName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlParliamentAreaID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlParliamentAreaID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlAssemblyAreaID" class="form-label">Assembly Area <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlAssemblyAreaID" name="ddlAssemblyAreaID" [(ngModel)]="request.AssemblyAreaID" formControlName="ddlAssemblyAreaID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of AssembelyAreaList" value="{{item.AssemblyAreaID}}">{{item.AssemblyAreaName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlAssemblyAreaID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlAssemblyAreaID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtCityTownVillage" class="form-label">City/Town/Village <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtCityTownVillage" name="txtCityTownVillage" [(ngModel)]="request.CityTownVillage" formControlName="txtCityTownVillage">
+                    <div *ngIf="isSubmitted&&form.txtCityTownVillage.errors" class="text-danger">
+                      <p *ngIf="form.txtCityTownVillage.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlYearofEstablishment" class="form-label">Year of Establishment <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlYearofEstablishment" name="ddlYearofEstablishment" [(ngModel)]="request.YearofEstablishment" formControlName="ddlYearofEstablishment">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of FinancialYearList" value="{{item.FinancialYearID}}">{{item.FinancialYearName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlYearofEstablishment.errors" class="text-danger">
+                      <p *ngIf="!form.ddlYearofEstablishment.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtPincode" class="form-label">Pincode <span style="color:red;">*</span></label>
+                    <input type="number" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode">
+                    <div *ngIf="isSubmitted&&form.txtPincode.errors" class="text-danger">
+                      <p *ngIf="form.txtPincode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtWebsiteLink" class="form-label">Website Link </label>
+                    <input type="text" class="form-control" id="txtWebsiteLink" name="txtWebsiteLink" [(ngModel)]="request.WebsiteLink" formControlName="txtWebsiteLink">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form [formGroup]="CollegeDetailsForm_ContactDetails" class="form-horizontal">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Contact Details <span style="color:red;">*</span></b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtCDNameOfPerson" class="form-label">Name Of Person <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtCDNameOfPerson" name="txtCDNameOfPerson" [(ngModel)]="request_ContactDetailsDataModel.NameOfPerson" formControlName="txtCDNameOfPerson">
+                    <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDNameOfPerson.errors" class="text-danger">
+                      <p *ngIf="form_ContactDetails.txtCDNameOfPerson.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="ddlCDDesignationID" class="form-label">Designation <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlCDDesignationID" name="ddlCDDesignationID" [(ngModel)]="request_ContactDetailsDataModel.DesignationID" formControlName="ddlCDDesignationID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of DesignationList" value="{{item.DesignationID}}">{{item.DesignationName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.ddlCDDesignationID.errors" class="text-danger">
+                      <p *ngIf="!form_ContactDetails.ddlCDDesignationID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtCDMobileNumber" class="form-label">Mobile Number <span style="color:red;">*</span></label>
+                    <input type="number" class="form-control" id="txtCDMobileNumber" name="txtCDMobileNumber" [(ngModel)]="request_ContactDetailsDataModel.MobileNumber" formControlName="txtCDMobileNumber">
+                    <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDMobileNumber.errors" class="text-danger">
+                      <p *ngIf="form_ContactDetails.txtCDMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form_ContactDetails.txtCDMobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtCDEmailAddress" class="form-label">Email Address <span style="color:red;">*</span></label>
+                    <input type="email" class="form-control" id="txtCDEmailAddress" name="txtCDEmailAddress" [(ngModel)]="request_ContactDetailsDataModel.EmailAddress" formControlName="txtCDEmailAddress">
+                    <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDEmailAddress.errors" class="text-danger">
+                      <p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.email"><i aria-hidden="true"></i> Email address is not valid .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3 text-end">
+                    <button type="button" class="btn btn-primary" (click)="AddContectDetail()"><i class="fa fa-plus"></i> Add</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>
+                              Sr.No.
+                            </th>
+                            <th>
+                              Name Of Person
+                            </th>
+                            <th>
+                              Designation
+                            </th>
+                            <th>
+                              Mobile Number
+                            </th>
+                            <th>
+                              Email Address
+                            </th>
+                            <th>
+                              Action
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of request.ContactDetailsList;let idx=index;">
+                            <td>
+                              {{idx+1}}
+                            </td>
+                            <td>
+                              {{row.NameOfPerson}}
+                            </td>
+                            <td>
+                              {{row.DesignationID}}
+                            </td>
+                            <td>
+                              {{row.MobileNumber}}
+                            </td>
+                            <td>
+                              {{row.EmailAddress}}
+                            </td>
+                            <td>
+                              <div class="d-flex">
+                                <button type="button" class="btn btn-danger" (click)="DelContectDetail(row)"><i class="fa fa-trash-o"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <b><i class="fa fa-plus"></i>&nbsp;General Contact Details</b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="ddlGCD_DesignationID" class="form-label">Designation </label>
+                  <select class="form-select" id="ddlGCD_DesignationID" name="ddlGCD_DesignationID" [(ngModel)]="request.GCD_DesignationID" formControlName="ddlGCD_DesignationID">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of DesignationList" value="{{item.DesignationID}}">{{item.DesignationName}}</option>
+                  </select>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtGCD_MobileNumber" class="form-label">Mobile Number</label>
+                  <input type="number" class="form-control" id="txtGCD_MobileNumber" name="txtGCD_MobileNumber" [(ngModel)]="request.GCD_MobileNumber" formControlName="txtGCD_MobileNumber">
+                  <div *ngIf="isSubmitted&&form.txtGCD_MobileNumber.errors" class="text-danger">
+                    <p *ngIf="form.txtGCD_MobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtGCD_LandlineNumber" class="form-label">Landline Number</label>
+                  <input type="number" class="form-control" id="txtGCD_LandlineNumber" name="txtGCD_LandlineNumber" [(ngModel)]="request.GCD_LandlineNumber" formControlName="txtGCD_LandlineNumber">
+                </div>
+              </div>
+            </div>
+          </div>
+          <form [formGroup]="CollegeDetailsForm_NearestGovernmentHospitals" class="form-horizontal">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;10 government hospitals nearest to the institution <span style="color:red;">*</span></b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Hospital Reg. No. <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtHospitalRegNo" name="txtHospitalRegNo" [(ngModel)]="request_NearestGovernmentHospitals.HospitalRegNo" formControlName="txtHospitalRegNo">
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtHospitalRegNo.errors" class="text-danger">
+                      <p *ngIf="form_NearestGovernmentHospitals.txtHospitalRegNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Hospital Name <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtHospitalName" name="txtHospitalName" [(ngModel)]="request_NearestGovernmentHospitals.HospitalName" formControlName="txtHospitalName">
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtHospitalName.errors" class="text-danger">
+                      <p *ngIf="form_NearestGovernmentHospitals.txtHospitalName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+
+
+                  <!-- address -->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtAddressLine1_Nearest" name="txtAddressLine1_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.AddressLine1" formControlName="txtAddressLine1_Nearest">
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtAddressLine1_Nearest.errors" class="text-danger">
+                      <p *ngIf="form_NearestGovernmentHospitals.txtAddressLine1_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Address Line 2 <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtAddressLine2_Nearest" name="txtAddressLine2_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.AddressLine2" formControlName="txtAddressLine2_Nearest">
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtAddressLine2_Nearest.errors" class="text-danger">
+                      <p *ngIf="form_NearestGovernmentHospitals.txtAddressLine2_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Select Area <span style="color:red;">*</span></label>
+                    <div class="clearfix"></div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="rbRural_Nearest" name="rbRuralUrban_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.RuralUrban" value="1" formControlName="rbRuralUrban_Nearest" (change)="IsRuralOrUrban(true,'nearest',true)">
+                      <label class="form-check-label" for="rbRural_Nearest">Rural</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="rbUrban_Nearest" name="rbRuralUrban_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.RuralUrban" value="2" formControlName="rbRuralUrban_Nearest" (change)="IsRuralOrUrban(false,'nearest',true)">
+                      <label class="form-check-label" for="rbUrban_Nearest">Urban</label>
+                    </div>
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.rbRuralUrban_Nearest.errors" class="text-danger">
+                      <p *ngIf="form_NearestGovernmentHospitals.rbRuralUrban_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Division <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlDivisionID_Nearest" name="ddlDivisionID_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.DivisionID" formControlName="ddlDivisionID_Nearest" #SelectedDivisionId_Nearist (change)="FillDivisionRelatedDDL($event,SelectedDivisionId_Nearist.value,'nearest')">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.ddlDivisionID_Nearest.errors" class="text-danger">
+                      <p *ngIf="!form_NearestGovernmentHospitals.ddlDivisionID_Nearest.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">District <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlDistrictID_Nearest" name="ddlDistrictID_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.DistrictID" formControlName="ddlDistrictID_Nearest" #SelectedDistrictId_Nearest (change)="FillDistrictRelatedDDL($event,SelectedDistrictId_Nearest.value,'nearest')">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of DistrictList_Nearest" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.ddlDistrictID_Nearest.errors" class="text-danger">
+                      <p *ngIf="!form_NearestGovernmentHospitals.ddlDistrictID_Nearest.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Nearest">
+                    <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlTehsilID_Nearest" name="ddlTehsilID_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.TehsilID" formControlName="ddlTehsilID_Nearest">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of TehsilList_Nearest" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.ddlTehsilID_Nearest.errors" class="text-danger">
+                      <p *ngIf="!form_NearestGovernmentHospitals.ddlTehsilID_Nearest.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Nearest">
+                    <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlPanchayatSamitiID_Nearest" name="ddlPanchayatSamitiID_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID_Nearest">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of PanchyatSamitiList_Nearest" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.ddlPanchayatSamitiID_Nearest.errors" class="text-danger">
+                      <p *ngIf="!form_NearestGovernmentHospitals.ddlPanchayatSamitiID_Nearest.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtCityTownVillage_Nearest" name="txtCityTownVillage_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.CityTownVillage" formControlName="txtCityTownVillage_Nearest">
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtCityTownVillage_Nearest.errors" class="text-danger">
+                      <p *ngIf="form_NearestGovernmentHospitals.txtCityTownVillage_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Pincode <span style="color:red;">*</span></label>
+                    <input type="number" class="form-control" id="txtPincode_Nearest" name="txtPincode_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.Pincode" formControlName="txtPincode_Nearest">
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtPincode_Nearest.errors" class="text-danger">
+                      <p *ngIf="form_NearestGovernmentHospitals.txtPincode_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form_NearestGovernmentHospitals.txtPincode_Nearest.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
+                    </div>
+                  </div>
+                  <!-- end -->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtHospitalDistance" class="form-label">Hospital Distance From Institute <span style="color:red;">*</span></label>
+                    <input type="number" class="form-control" id="txtHospitalDistance" name="txtHospitalDistance" [(ngModel)]="request_NearestGovernmentHospitals.HospitalDistance" formControlName="txtHospitalDistance">
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtHospitalDistance.errors" class="text-danger">
+                      <p *ngIf="form_NearestGovernmentHospitals.txtHospitalDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <!--hospital document-->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Document <span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fHospitalDocument" name="fHospitalDocument" (change)="onFilechange($event,'HospitalDocument')" [(ngModel)]="request_NearestGovernmentHospitals.HospitalDocument" formControlName="fHospitalDocument">
+                      <div class="btn-group" *ngIf="showHospitalDocument">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request_NearestGovernmentHospitals.HospitalDocument}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('HospitalDocument')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.fHospitalDocument.errors&&HospitalDocumentValidationMessage==''" class="text-danger">
+                      <p *ngIf="form_NearestGovernmentHospitals.fHospitalDocument.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                    <div *ngIf="HospitalDocumentValidationMessage!=''" class="text-danger">
+                      <p><i aria-hidden="true"></i>{{HospitalDocumentValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <!---->
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3 text-end">
+                    <button type="button" class="btn btn-primary" (click)="AddNearestGovernmentHospitalsDetail()"><i class="fa fa-plus"></i> Add</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Hospital Name</th>
+                            <th>Distance From Institute(KM)</th>
+                            <th>Hospital Document</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of request.NearestGovernmentHospitalsList;let idx=index;">
+                            <td>{{idx+1}}</td>
+                            <td>{{row.HospitalName}}</td>
+                            <td>{{row.HospitalDistance}}</td>
+                            <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocument}}"><i class="fa fa-eye"></i></a></td>
+                            <td>
+                              <div class="d-flex">
+                                <button type="button" class="btn btn-danger" (click)="DelNearestGovernmentHospitalsDetail(row)"><i class="fa fa-trash-o"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer text-end">
+          <button type="submit" (click)="SaveData()" class="btn btn-success"><i class="fa fa-save"></i> Save & Proceed To Add Course</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

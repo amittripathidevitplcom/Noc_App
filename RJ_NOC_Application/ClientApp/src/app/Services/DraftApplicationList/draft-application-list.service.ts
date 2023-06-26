@@ -1,0 +1,34 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { GlobalConstants } from '../../Common/GlobalConstants';
+
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DraftApplicationListService { 
+  readonly APIUrl_CommonMaster = GlobalConstants.apiURL + "CollegeMaster";
+
+  constructor(private http: HttpClient) { } 
+  extractData(res: Response) {
+    return res;
+  }
+  handleErrorObservable(error: Response | any) {
+    return throwError(error);
+  }
+  public async DraftApplicationList(LoginSSOID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/DraftApplicationList/" + LoginSSOID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  } 
+
+}
