@@ -484,6 +484,7 @@ export class LegalEntityComponent implements OnInit {
     this.isInstitueAdded = false;
   }
 
+
   async DeleteInstitute(Index: number) {
     this.request.InstituteDetails.splice(Index, 1);
   }

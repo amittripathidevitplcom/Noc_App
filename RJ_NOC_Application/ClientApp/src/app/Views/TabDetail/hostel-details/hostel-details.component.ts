@@ -12,7 +12,7 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
-import { HostelDetailService } from '../../../Services/HostelDetail/hostel-detail.service';
+import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 /*import * as jsPDF from 'jspdf'*/
 
 import jsPDF from 'jspdf'
