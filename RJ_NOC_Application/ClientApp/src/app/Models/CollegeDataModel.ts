@@ -12,7 +12,8 @@ export class CollegeDataModel {
   public AISHECode: string = null;
   public CollegeMedium: number = 0;
   public UniversityID: number = 0;
-  public MobileNumber: number = null;
+  public MobileNumber: string = '';
+  public CollegeLandlineNumber: string = '';
   public Email: string = null;
   public AddressLine1: string = null;
   public AddressLine2: string = null;
@@ -30,8 +31,8 @@ export class CollegeDataModel {
   public Pincode: number = null;
   public WebsiteLink: string = null;
   public GCD_DesignationID: number = 0;
-  public GCD_MobileNumber: number = null;
-  public GCD_LandlineNumber: number = null;
+  public GCD_MobileNumber: string = '';
+  public GCD_LandlineNumber: string = '';
   public TGC_Latitude: string = null;
   public TGC_Longitude: string = null;
   public CreatedBy: number = null;
@@ -47,7 +48,8 @@ export class ContactDetailsDataModel {
   public CollegeDetailsID: number = 0;//foreign key of M_CollegeMaster
   public NameOfPerson: string = null;
   public DesignationID: number = 0;
-  public MobileNumber: number = null;
+  public DesignationName: string = '';
+  public MobileNumber: string = '';
   public EmailAddress: string = null;  
 }
 export class NearestGovernmentHospitalsDataModel {

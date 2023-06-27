@@ -10,6 +10,8 @@ import { CollegeDataModel, ContactDetailsDataModel, NearestGovernmentHospitalsDa
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { max } from 'rxjs';
+import { InputValidationService } from '../../../Services/CustomValidators/input-validation.service';
 
 @Injectable()
 
@@ -25,6 +27,7 @@ export class AddCollegeComponent implements OnInit {
   CollegeDetailsForm_NearestGovernmentHospitals!: FormGroup;
 
   public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
+  public LandLineRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
   public PinNoRegex = new RegExp(/[0-9]{6}/)
 
   public State: number = -1;
@@ -96,6 +99,8 @@ export class AddCollegeComponent implements OnInit {
         ddlCollegeMedium: ['', [DropdownValidators]],
         ddlUniversityID: ['', [DropdownValidators]],
         txtMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
+        txtCollegeLandlineNumber: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
+
         txtEmail: ['', [Validators.required, Validators.email]],
         txtAddressLine1: ['', Validators.required],
         txtAddressLine2: ['', Validators.required],
@@ -179,6 +184,13 @@ export class AddCollegeComponent implements OnInit {
     this.request.MappingSSOID = this.sSOLoginDataModel.SSOID;
 
   }
+
+  //keyPressNumbers(event: any) {
+  //  this.inputValidationService.keyPressNumbers(event);
+  //}
+  //keyPressNumbersWithDecimal(event: any) {
+  //  this.inputValidationService.keyPressNumbersWithDecimal(event);
+  //}
 
   get form() { return this.CollegeDetailsForm.controls; }
   get form_ContactDetails() { return this.CollegeDetailsForm_ContactDetails.controls; }
@@ -610,14 +622,16 @@ export class AddCollegeComponent implements OnInit {
       ContactID: 0,
       CollegeDetailsID: 0,
       DesignationID: this.request_ContactDetailsDataModel.DesignationID,
+      DesignationName: this.DesignationList.find((x: { DesignationID: number; }) => x.DesignationID == this.request_ContactDetailsDataModel.DesignationID,).DesignationName,
       EmailAddress: this.request_ContactDetailsDataModel.EmailAddress,
       MobileNumber: this.request_ContactDetailsDataModel.MobileNumber,
       NameOfPerson: this.request_ContactDetailsDataModel.NameOfPerson
     });
     // reset
     this.request_ContactDetailsDataModel.DesignationID = 0;
+    this.request_ContactDetailsDataModel.DesignationName = '';
     this.request_ContactDetailsDataModel.EmailAddress = '';
-    this.request_ContactDetailsDataModel.MobileNumber = null;
+    this.request_ContactDetailsDataModel.MobileNumber = '';
     this.request_ContactDetailsDataModel.NameOfPerson = '';
     this.isSubmitted_ContactDetails = false;
   }
@@ -777,7 +791,7 @@ export class AddCollegeComponent implements OnInit {
           // data
           this.request = JSON.parse(JSON.stringify(data['Data']));
           // manage some data
-          if (this.request.GCD_MobileNumber == 0) {
+          if (this.request.GCD_MobileNumber.length == 0) {
             this.request.GCD_MobileNumber = null;
           }
           //console.log(this.request.RuralUrban);

@@ -10,7 +10,7 @@ export class InputValidationService {
 
   constructor(private datePipe: DatePipe,) { }
 
-  keyPressNumbers(event) {
+  keyPressNumbers(event: any) {
     var charCode = (event.which) ? event.which : event.keyCode;
     // Only Numbers 0-9
     if ((charCode < 48 || charCode > 57)) {
@@ -21,7 +21,7 @@ export class InputValidationService {
     }
   }
 
-  keyPressNumbersWithDecimal(event) {
+  keyPressNumbersWithDecimal(event: any) {
     var charCode = (event.which) ? event.which : event.keyCode;
     if (charCode != 46 && charCode > 31
       && (charCode < 48 || charCode > 57)) {
@@ -31,7 +31,7 @@ export class InputValidationService {
     return true;
   }
 
-  keyPressNumbersWithDecimalWithMins(event) {
+  keyPressNumbersWithDecimalWithMins(event: any) {
     var charCode = (event.which) ? event.which : event.keyCode;
     if (charCode != 46 && charCode > 31
       && (charCode < 48 || charCode > 57)) {
@@ -41,7 +41,7 @@ export class InputValidationService {
     return true;
   }
 
-  keyPressAlphanumeric(event) {
+  keyPressAlphanumeric(event: any) {
     var inp = String.fromCharCode(event.keyCode);
     if (/[a-zA-Z0-9]/.test(inp)) {
       return true;
@@ -105,20 +105,20 @@ export class InputValidationService {
         myFormattedDate = DateValue.split("/")[2] + "-" + DateValue.split("/")[1] + "-" + DateValue.split("/")[0];
       
       }
-      console.log(myFormattedDate);
+     // console.log(myFormattedDate);
       //myFormattedDate = formatDate(DateValue, 'yyyy-MM-dd', 'en-IN');
     }
     else if (moment(DateValue, 'DD-MM-YYYY').isValid()) {
       myFormattedDate = DateValue.split("-")[0] + "-" + DateValue.split("-")[1] + "-" + DateValue.split("-")[2];
       //myFormattedDate = moment(DateValue, 'DD-MM-YYYY').format('yyyy-MM-DD');
-      console.log("b");
+    //  console.log("b");
     }
     else {
       console.log("c");
       myFormattedDate = formatDate(DateValue, 'yyyy-MM-dd', 'en-IN');
     }
     //const cValue = formatDate(DateValue, 'yyyy-MM-dd', 'en-IN');
-    console.log("formatDate : " + myFormattedDate);
+   // console.log("formatDate : " + myFormattedDate);
     return myFormattedDate;
   }
 
