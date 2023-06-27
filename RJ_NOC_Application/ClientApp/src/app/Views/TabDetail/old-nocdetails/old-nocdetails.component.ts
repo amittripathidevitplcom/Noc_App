@@ -19,7 +19,6 @@ import { FileUploadService } from '../../../Services/FileUpload/file-upload.serv
   styleUrls: ['./old-nocdetails.component.css']
 })
 export class OldNOCDetailsComponent implements OnInit {
-  readonly imageUrlPath = 'http://localhost:62778/ImageFile/';
   oldNOCForm!: FormGroup;
   //request = new OldNocDataModel();
 
@@ -139,7 +138,7 @@ export class OldNOCDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.lstCourse = [];
-      await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID)
+      await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID, 4)//4=existing
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -549,7 +548,7 @@ export class OldNOCDetailsComponent implements OnInit {
           this.GetSubjectList(this.request.CourseID);
           this.OnChangeOldNOCType()
           this.SelectedSubjectDetails = this.request.SubjectData;
-          this.request.UploadNOCDocPath = this.imageUrlPath + this.request.UploadNOCDoc;
+          this.request.UploadNOCDocPath = this.request.UploadNOCDoc;
           this.isDisabled = true;
           const btnAdd = document.getElementById('btnAddNOCDetail')
           if (btnAdd) { btnAdd.innerHTML = "Update"; }

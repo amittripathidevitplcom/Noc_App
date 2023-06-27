@@ -397,13 +397,13 @@ export class CommonMasterService {
   }
 
 
-  public async GetCourseList_CollegeWise(CollegeID: number) {
+  public async GetCourseList_CollegeWise(CollegeID: number, CourseType: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseList_CollegeWise/" + CollegeID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseList_CollegeWise/" + CollegeID + "/" + CourseType)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -524,7 +524,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  
+
 
   public async GetAllDesignation() {
 
@@ -538,7 +538,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  
+
   public async GetBuildingTypeCheck() {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -673,7 +673,7 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetFacilitiesMasterList_DepartmentAndTypeWise(DepartmentID: number, Type: string) {
-    
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -686,7 +686,7 @@ export class CommonMasterService {
   }
 
   public async GetFacilitesMinSize(FacilitieID: number) {
-    
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

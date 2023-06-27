@@ -293,7 +293,7 @@
             <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
             <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
           </div>
-          <div class="card mb-0">
+          <div class="card mb-0" *ngIf="lstBuildingDetails.length>0">
             <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
               <b><i class="bi bi-table"></i> Building Details List </b>
               <div class="d-flex align-items-center">
@@ -370,6 +370,7 @@
                       </td>-->
                       <td>
                         <div class="d-flex">
+                        
                           <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                           <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
                         </div>
@@ -380,10 +381,7 @@
               </div>
             </div>
           </div>
-        
-
       </div>
-      
       <!--<div class="card mb-0">
         <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
           <b><i class="bi bi-table"></i> Building Details Document List </b>
@@ -412,7 +410,9 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of lstBuildingDetailsDocument | tableSearchFilter:searchText;let idx=index;">
-                  <td>{{idx+1}}</td>
+                  <td>{{idx+1
+                          }}
+</td>
                   <td>{{item.DocumentType}}</td>
                   <td>{{item.DocumentName}}</td>
                   <td><a target="_blank" href="{{item.FilePath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>

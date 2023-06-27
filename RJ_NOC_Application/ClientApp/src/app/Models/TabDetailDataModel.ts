@@ -189,6 +189,7 @@ export class OtherDocumentDataModel {
 
 
 export class BuildingDetailsDataModel {
+  public CollegeID: number = 0;
   public SchoolBuildingDetailsID: number = 0;
   public BuildingTypeID: number = 0;
   //public BuildingTypeName: string = '';

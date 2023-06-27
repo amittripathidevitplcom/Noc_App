@@ -47,8 +47,8 @@
           </div>
 
           <!--<div *ngIf="isSubmitted&&SubjectRequried" class="text-danger">
-    <p *ngIf="isSubmitted&&SubjectRequried"><i aria-hidden="true"></i> This field is required .!</p>
-  </div>-->
+            <p *ngIf="isSubmitted&&SubjectRequried"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>-->
 
 
         </div>
@@ -149,7 +149,7 @@
     <div class="row">
 
       <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
-        <div class="card">
+        <!--<div class="card">
           <div class="card-header">
             <b>NOC Details</b>
           </div>
@@ -172,32 +172,32 @@
                     <th>Remark</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <!--<tr *ngFor="let row of OldNocDetails; let indexOfelement=index;">
-                    <td> {{indexOfelement+1}}</td>
-                    <td>{{row.CollegeName}}</td>
-                    <td>{{row.CourseName}}</td>
-                    <td>
-                      <p *ngFor="let item of row.SubjectData;">
-                        {{item.SubjectName}}
-                      </p>
-                    </td>
-                    <td>{{row.NOCTypeName}}</td>
-                    <td>{{row.SessionYear}}</td>
-                    <td>{{row.IssuedYear}}</td>
-                    <td>{{row.NOCNumber}}</td>
-                    <td>{{row.NOCReceivedDate}}</td>
-                    <td>{{row.NOCExpireDate}}</td>
-                    <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDoc}}" title="View Member Photo"><i class="fa fa-paperclip"></i></a></td>
-                    <td>{{row.Remark}}</td>
+                <tbody>-->
+        <!--<tr *ngFor="let row of OldNocDetails; let indexOfelement=index;">
+          <td> {{indexOfelement+1}}</td>
+          <td>{{row.CollegeName}}</td>
+          <td>{{row.CourseName}}</td>
+          <td>
+            <p *ngFor="let item of row.SubjectData;">
+              {{item.SubjectName}}
+            </p>
+          </td>
+          <td>{{row.NOCTypeName}}</td>
+          <td>{{row.SessionYear}}</td>
+          <td>{{row.IssuedYear}}</td>
+          <td>{{row.NOCNumber}}</td>
+          <td>{{row.NOCReceivedDate}}</td>
+          <td>{{row.NOCExpireDate}}</td>
+          <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDoc}}" title="View Member Photo"><i class="fa fa-paperclip"></i></a></td>
+          <td>{{row.Remark}}</td>
 
-                  </tr>-->
-                </tbody>
+        </tr>-->
+        <!--</tbody>
               </table>
             </div>
           </div>
-        </div>
-        <div class="card">
+        </div>-->
+        <div class="card" *ngIf="OldNocDetails.length>0">
           <div class="card-header">
             <b>Issued NOC Details</b>
           </div>
@@ -235,7 +235,7 @@
                     <td>{{row.NOCNumber}}</td>
                     <td>{{row.NOCReceivedDate}}</td>
                     <td>{{row.NOCExpireDate=='1900-01-01'?'':row.NOCExpireDate}}</td>
-                    <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="http://localhost:62778/ImageFile/{{row.UploadNOCDoc}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
+                    <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDoc}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
                     <td>{{row.Remark}}</td>
                     <td>
                       <button type="button" class="btn btn-sm btn-primary" title="Edit" [attr.disabled]="isDisabled ? true : null" (click)="EditItem(row.OldNocID)"><i class="fa fa-edit"></i></button>
@@ -243,22 +243,22 @@
                     </td>
                   </tr>
                   <!--<tr *ngFor="let item of OldNocDetails let idx =index">
-    <td>{{idx+1}}</td>
-    <td>{{item.}}</td>
-    <td>{{item.}}</td>
-    <td>{{item.}}</td>
-    <td>{{item.}}</td>
-    <td>2018</td>
-    <td>654321</td>
-    <td>01-06-2018</td>
-    <td>01-06-2025</td>
-    <td><button class="btn btn-primary" type="button"><i class="fa fa-paperclip"></i></button></td>
-    <td>
-      <div style="max-width:300px">
-        In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.
-      </div>
-    </td>
-  </tr>-->
+                    <td>{{idx+1}}</td>
+                    <td>{{item.}}</td>
+                    <td>{{item.}}</td>
+                    <td>{{item.}}</td>
+                    <td>{{item.}}</td>
+                    <td>2018</td>
+                    <td>654321</td>
+                    <td>01-06-2018</td>
+                    <td>01-06-2025</td>
+                    <td><button class="btn btn-primary" type="button"><i class="fa fa-paperclip"></i></button></td>
+                    <td>
+                      <div style="max-width:300px">
+                        In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.
+                      </div>
+                    </td>
+                  </tr>-->
                 </tbody>
               </table>
             </div>

@@ -36,7 +36,7 @@ export class BuildingDetailsMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + SchoolBuildingDetailsID + "/" + UserID)
+    return await this.http.get(this.APIUrl + "/GetBuildingDetailsIDWise/" + SchoolBuildingDetailsID + "/" + UserID )
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -56,13 +56,13 @@ export class BuildingDetailsMasterService {
       ).toPromise();
   }
 
-  public async GetAllBuildingDetailsList(UserID: number) {
+  public async GetAllBuildingDetailsList(UserID: number, CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + UserID)
+    return await this.http.get(this.APIUrl + "/GetAllBuildingDetailsList/" + UserID + "/" + CollegeID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

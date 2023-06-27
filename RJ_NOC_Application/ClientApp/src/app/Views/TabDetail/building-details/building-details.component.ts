@@ -114,6 +114,12 @@ export class BuildingDetailsComponent implements OnInit {
     });
   }
   ngOnInit(): void {  
+    
+
+    // load
+    // query string
+   
+
     this.buildingdetailsForm = this.formBuilder.group(
       {
         rdBuildingType: ['', Validators.required],
@@ -148,12 +154,15 @@ export class BuildingDetailsComponent implements OnInit {
         txtOwnBuildingUpload: [''],
         txtsearchText: [''],
       })
+
+    this.buildingdetails.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+
     this.buildingdetails.lstBuildingDocDetails = [];
     this.GetBuildingTypeCheck();
-    this.GetBuildingUploadDetails();    
+    this.GetBuildingUploadDetails();
     this.GetDivisionList();
     this.GetAllBuildingDetailsList();
-    this.ActiveStatus = true;  
+    this.ActiveStatus = true;
    
   }
   get form() { return this.buildingdetailsForm.controls; }
@@ -404,7 +413,7 @@ export class BuildingDetailsComponent implements OnInit {
   async GetAllBuildingDetailsList() {
     try {
       this.loaderService.requestStarted();
-      await this.buildingDetailsMasterService.GetAllBuildingDetailsList(this.UserID)
+      await this.buildingDetailsMasterService.GetAllBuildingDetailsList(this.UserID, this.buildingdetails.CollegeID)
         .then((data: any) => {
     
           data = JSON.parse(JSON.stringify(data));
