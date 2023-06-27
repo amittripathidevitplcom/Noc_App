@@ -28,9 +28,9 @@ export class RoomDetailsService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetRoomDetailAllList(UserID: number) {
+  public async GetRoomDetailAllList(UserID: number, CollageID: Number) {
     
-    return await this.http.get(this.APIUrl + "/GetRoomDetailAllList/" + UserID)
+    return await this.http.get(this.APIUrl + "/GetRoomDetailAllList/" + UserID + "/" + CollageID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

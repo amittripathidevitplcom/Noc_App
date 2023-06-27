@@ -92,7 +92,7 @@
       <button class="btn btn-success" type="button">Save & Next</button>
     </div>-->
       </div>
-      <div class="card mb-0">
+      <div class="card mb-0"  *ngIf="AcademicInformationList.length>0">
         <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
           <b><i class="fa fa-plus"></i>&nbsp;Academic Information Details </b>
           <div class="d-flex align-items-center">
@@ -107,46 +107,47 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="table-responsive">
-              <table class="table table-hover table-striped-columns" id="tabellist" #content>
-                <thead>
-                  <tr>
-                    <th>Sr. No.</th>
-                    <th>Financial Year</th>
-                    <th>Course Name</th>
-                    <th>Result</th>
-                    <th>Admitted Student</th>
-                    <th>Appeared Student</th>
-                    <th>Passed Student</th>
-                    <th>Failed Student</th>
-                    <th>Other Student</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let row of AcademicInformationList | tableSearchFilter:searchText;let idx=index;">
-                    <td>{{idx+1}}</td>
-                    <td>{{row.FinancialYearName}}</td>
-                    <td>{{row.CourseName}}</td>
-                    <td>{{row.ResultName}}</td>
-                    <td>{{row.AdmittedStudent}}</td>
-                    <td>{{row.AppearedStudent}}</td>
-                    <td>{{row.PassedStudent}}</td>
-                    <td>{{row.FailedStudent}}</td>
-                    <td>{{row.OtherStudent}}</td>
-                    <td>
-                      <div class="d-flex">
-                        <button type="button" (click)="Edit_OnClick(row.AcademicInformationID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                        <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.AcademicInformationID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Financial Year</th>
+                      <th>Course Name</th>
+                      <th>Result</th>
+                      <th>Admitted Student</th>
+                      <th>Appeared Student</th>
+                      <th>Passed Student</th>
+                      <th>Failed Student</th>
+                      <th>Other Student</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of AcademicInformationList | tableSearchFilter:searchText;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.FinancialYearName}}</td>
+                      <td>{{row.CourseName}}</td>
+                      <td>{{row.ResultName}}</td>
+                      <td>{{row.AdmittedStudent}}</td>
+                      <td>{{row.AppearedStudent}}</td>
+                      <td>{{row.PassedStudent}}</td>
+                      <td>{{row.FailedStudent}}</td>
+                      <td>{{row.OtherStudent}}</td>
+                      <td>
+                        <div class="d-flex">
+                          <button type="button" (click)="Edit_OnClick(row.AcademicInformationID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                          <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.AcademicInformationID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

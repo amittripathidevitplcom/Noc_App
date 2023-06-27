@@ -28,15 +28,15 @@ export class OtherInformationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetOtherInformationAllList(UserID: number) {
+  public async GetOtherInformationAllList(UserID: number, CollegeID: number) {
     
-    return await this.http.get(this.APIUrl + "/GetOtherInformationAllList/" + UserID)
+    return await this.http.get(this.APIUrl + "/GetOtherInformationAllList/" + UserID + "/" + CollegeID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetOtherInformationByID(CollegeWiseOtherInfoID: number, UserID: number) {
-    return await this.http.get(this.APIUrl + "/GetOtherInformationByID/" + CollegeWiseOtherInfoID + "/" + UserID)
+  public async GetOtherInformationByID(CollegeWiseOtherInfoID: number, UserID: number, CollegeID: number) {
+    return await this.http.get(this.APIUrl + "/GetOtherInformationByID/" + CollegeWiseOtherInfoID + "/" + UserID + "/" + CollegeID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

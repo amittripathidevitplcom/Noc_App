@@ -189,7 +189,8 @@ export class OtherInformationComponent implements OnInit {
     }
   }
   ValidateUploadImage(event: any, Type: string) {
-    
+    try {
+
     this.isValidImageFilePath = false;
     this.isValidBookImageFilePath = false;
     if (event.target.files && event.target.files[0]) {
@@ -265,6 +266,16 @@ export class OtherInformationComponent implements OnInit {
           this.toastr.warning(this.ErrorMessage)
         }
       });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        event.target.value = '';
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
   DeleteImage(Type: string) {
@@ -314,6 +325,7 @@ export class OtherInformationComponent implements OnInit {
     }
     //Show Loading
     this.loaderService.requestStarted();
+    this.request.CollegeID = this.SelectedCollageID;
     this.isLoading = true;
     try {
       await this.otherInformationService.SaveData(this.request, this.files)
@@ -374,7 +386,7 @@ export class OtherInformationComponent implements OnInit {
   async GetOtherInformationAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.otherInformationService.GetOtherInformationAllList(this.UserID)
+      await this.otherInformationService.GetOtherInformationAllList(this.UserID, this.SelectedCollageID)
         .then((data: any) => {
           
           data = JSON.parse(JSON.stringify(data));
@@ -398,11 +410,11 @@ export class OtherInformationComponent implements OnInit {
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
-      await this.otherInformationService.GetOtherInformationByID(CollegeWiseOtherInfoID, this.UserID)
+      await this.otherInformationService.GetOtherInformationByID(CollegeWiseOtherInfoID, this.UserID, this.SelectedCollageID)
         .then((data: any) => {
-          
           data = JSON.parse(JSON.stringify(data));
           this.request.CollegeWiseOtherInfoID = data['Data'][0]["CollegeWiseOtherInfoID"];
+          this.request.CollegeID = data['Data'][0]["CollegeID"];
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.Width = data['Data'][0]["Width"];
           this.request.Length = data['Data'][0]["Length"];

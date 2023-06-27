@@ -200,6 +200,7 @@ export class AcademicInformationComponent implements OnInit {
 
     //Show Loading
     this.loaderService.requestStarted();
+    this.request.CollegeID = this.SelectedCollageID;
     this.isLoading = true;
     try {
       await this.academicInformationDetailsService.SaveData(this.request)
@@ -258,7 +259,7 @@ export class AcademicInformationComponent implements OnInit {
   async GetAcademicInformationDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.academicInformationDetailsService.GetAcademicInformationDetailAllList(this.UserID)
+      await this.academicInformationDetailsService.GetAcademicInformationDetailAllList(this.UserID, this.SelectedCollageID)
         .then((data: any) => {
           
           data = JSON.parse(JSON.stringify(data));
@@ -282,7 +283,7 @@ export class AcademicInformationComponent implements OnInit {
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
-      await this.academicInformationDetailsService.GetAcademicInformationDetailByID(AcademicInformationID, this.UserID)
+      await this.academicInformationDetailsService.GetAcademicInformationDetailByID(AcademicInformationID, this.UserID, this.SelectedCollageID)
         .then((data: any) => {
           
           data = JSON.parse(JSON.stringify(data));
