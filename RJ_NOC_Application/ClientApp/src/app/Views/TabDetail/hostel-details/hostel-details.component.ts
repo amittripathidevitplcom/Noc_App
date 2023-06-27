@@ -12,7 +12,7 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
-import { HostelDetailService } from '../../../Services/HostelDetail/hostel-detail.service';
+import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 /*import * as jsPDF from 'jspdf'*/
 
 import jsPDF from 'jspdf'
@@ -55,8 +55,6 @@ export class HostelDetailsComponent implements OnInit {
   public AssembelyAreaList: any = [];
   public isFromDate: boolean = false;
   public isToDate: boolean = false;
-
-
 
   public isDisabledGrid: boolean = false;
   public isLoading: boolean = false;
@@ -119,27 +117,20 @@ export class HostelDetailsComponent implements OnInit {
   public CurrentIndex: number = -1;
   public MaxFromDate: Date = new Date();
   public MinToDate: Date = new Date();
-  readonly imageUrlPath = 'http://localhost:62778/ImageFile/';
+  public HostelCategoryList: any = [];
 
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
     private clipboard: Clipboard, private fileUploadService: FileUploadService, private hostelDetailService: HostelDetailService) {
 
   }
-  async ngOnInit() {
-    this.HostelDetailsForm = this.formBuilder.group(
-      {
-        ddlCourse: ['', [DropdownValidators]],
-        txtWidth: ['', Validators.required],
-        txtLength: ['', Validators.required],
-        txtStudentCapacity: ['', Validators.required],
-        // fileImageFileName: ['', Validators.required], 
-        hostel_fileImageFileName: [''],
 
-      });
+  async ngOnInit() {
+
     this.HostelForm = this.formBuilder.group(
       {
         rbHostelCampus: ['', Validators.required],
+        ddlHostelCategoryID: ['', [DropdownValidators]],
         txtHostelName: ['', Validators.required],
         txtContactPersonName: ['', Validators.required],
         txtContactPersonNo: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
@@ -156,13 +147,27 @@ export class HostelDetailsComponent implements OnInit {
         RuralUrban: ['', Validators.required],
         ddlDivisionID: ['', [DropdownValidators]],
         ddlDistrictID: ['', [DropdownValidators]],
-        ddlTehsilID: [''],
-        ddlPanchayatSamitiID: [''],
+        ddlTehsilID: ['', Validators.required],
+        ddlPanchayatSamitiID: ['', Validators.required],
         txtCityTownVillage: ['', Validators.required],
         txtPincode: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
 
       })
+
+    this.HostelDetailsForm = this.formBuilder.group(
+      {
+        ddlCourse: ['', [DropdownValidators]],
+        txtNoOf: ['', Validators.required],
+        txtWidth: ['', Validators.required],
+        txtLength: ['', Validators.required],
+        txtStudentCapacity: ['', Validators.required],
+        // fileImageFileName: ['', Validators.required], 
+        hostel_fileImageFileName: [''],
+
+      });
+
     this.request.HostelDetails = []
+
     const ddlCourse = document.getElementById('ddlCourse')
     if (ddlCourse) ddlCourse.focus();
 
@@ -172,11 +177,13 @@ export class HostelDetailsComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.LoadMaster();
 
+    // load
+    await this.GetHostelCategory();
     await this.GetDivisionList();
     await this.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0)
   }
-  get form() { return this.HostelDetailsForm.controls; }
   get Hform() { return this.HostelForm.controls; }
+  get form() { return this.HostelDetailsForm.controls; }
 
   LoadMaster() {
     try {
@@ -197,6 +204,7 @@ export class HostelDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
   async GetDivisionList() {
     try {
       this.loaderService.requestStarted();
@@ -218,6 +226,7 @@ export class HostelDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
   async FillDivisionRelatedDDL() {
     try {
       this.loaderService.requestStarted();
@@ -240,6 +249,7 @@ export class HostelDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
   async FillDistrictRelatedDDL() {
     try {
       // subdivision list
@@ -280,6 +290,7 @@ export class HostelDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
   ddlCourse_change($event: any, SeletedCourseID: any) {
     this.hosteldetail.CourseID = SeletedCourseID;
     this.hosteldetail.Width = 0;
@@ -313,15 +324,17 @@ export class HostelDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
   public isFormValid: boolean = true;
+
   async btnAdd_Click() {
- 
+
     this.isHostelSubmitted = true;
     this.isImageFile = false;
+    this.isFormValid = true;
+
     //this.isFormValid = this.ValidateForm();
-    if (this.HostelForm.invalid) {
-      this.isFormValid = false;
-    }
+
     if (this.HostelDetailsForm.invalid) {
       this.isFormValid = false;
     }
@@ -356,17 +369,21 @@ export class HostelDetailsComponent implements OnInit {
         CourseID: this.hosteldetail.CourseID,
         CourseName: this.courseDataList.find((x: { ID: number; }) => x.ID == this.hosteldetail.CourseID).Name,
         DepartmentID: this.hosteldetail.DepartmentID,
+        NoOf: this.hosteldetail.NoOf,
         Width: this.hosteldetail.Width,
         Length: this.hosteldetail.Length,
         StudentCapacity: this.hosteldetail.StudentCapacity,
         ImageFileName: this.hosteldetail.ImageFileName,
-        ActiveStatus: false,
-        DeleteStatus: false,
+        Dis_FileName: this.hosteldetail.Dis_FileName,
         HostelBlockName: this.hosteldetail.HostelBlockName,
-        ImageFilePath: this.hosteldetail.ImageFileName
+        ImageFilePath: this.hosteldetail.ImageFilePath
       });
     }
-    console.log(this.request.HostelDetails);
+    //console.log(this.request.HostelDetails);
+    this.ResetHospitalDetails();
+  }
+
+  ResetHospitalDetails() {
     this.hosteldetail = new HostelDetailsDataModel_Hostel();
     this.showImageFile = false;
     this.WidthMin = 0;
@@ -381,6 +398,7 @@ export class HostelDetailsComponent implements OnInit {
     this.isDisabledGrid = false;
     this.isHostelSubmitted = false;
   }
+
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -389,14 +407,44 @@ export class HostelDetailsComponent implements OnInit {
     return true;
 
   }
-  ValidateDocumentImage(event: any, Type: string) {
-    this.isImageFile = false;
-    this.isValidRentDocument = false;
-    if (event.target.files && event.target.files[0]) {
-      if (event.target.files[0].type === 'image/jpeg' ||
-        event.target.files[0].type === 'application/pdf' ||
-        event.target.files[0].type === 'image/jpg') {
-        if (event.target.files[0].size > 2000000) {
+
+  async ValidateDocumentImage(event: any, Type: string) {
+    this.loaderService.requestStarted();
+    try {
+      this.isImageFile = false;
+      this.isValidRentDocument = false;
+      if (event.target.files && event.target.files[0]) {
+        if (event.target.files[0].type === 'image/jpeg' ||
+          event.target.files[0].type === 'application/pdf' ||
+          event.target.files[0].type === 'image/jpg') {
+          if (event.target.files[0].size > 2000000) {
+            event.target.value = '';
+            if (Type == 'RentDocument') {
+              this.isValidRentDocument = true;
+              this.request.RentDocument = '';
+            }
+            else if (Type == 'ImageFile') {
+              this.hosteldetail.ImageFileName = '';
+              this.isImageFile = true;
+            }
+            this.DocumentValidMessage = 'Select less then 2MB File';
+            return
+          }
+          if (event.target.files[0].size < 100000) {
+            event.target.value = '';
+            if (Type == 'RentDocument') {
+              this.isValidRentDocument = true;
+              this.request.RentDocument = '';
+            }
+            else if (Type == 'ImageFile') {
+              this.hosteldetail.ImageFileName = '';
+              this.isImageFile = true;
+            }
+            this.DocumentValidMessage = 'Select more then 100kb File';
+            return
+          }
+        }
+        else {
           event.target.value = '';
           if (Type == 'RentDocument') {
             this.isValidRentDocument = true;
@@ -406,62 +454,44 @@ export class HostelDetailsComponent implements OnInit {
             this.hosteldetail.ImageFileName = '';
             this.isImageFile = true;
           }
-          this.DocumentValidMessage = 'Select less then 2MB File';
+          this.DocumentValidMessage = 'Select Only jpg/jpeg/pdf file';
+
           return
         }
-        if (event.target.files[0].size < 100000) {
-          event.target.value = '';
-          if (Type == 'RentDocument') {
-            this.isValidRentDocument = true;
-            this.request.RentDocument = '';
-          }
-          else if (Type == 'ImageFile') {
-            this.hosteldetail.ImageFileName = '';
-            this.isImageFile = true;
-          }
-          this.DocumentValidMessage = 'Select more then 100kb File';
-          return
-        }
-      }
-      else {
-        event.target.value = '';
-        if (Type == 'RentDocument') {
-          this.isValidRentDocument = true;
-          this.request.RentDocument = '';
-        }
-        else if (Type == 'ImageFile') {
-          this.hosteldetail.ImageFileName = '';
-          this.isImageFile = true;
-        }
-        this.DocumentValidMessage = 'Select Only jpg/jpeg/pdf file';
+        this.file = event.target.files[0];
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            if (Type == 'RentDocument') {
+              this.showRentDocument = true;
+              this.request.RentDocument = data['Data'][0]["FileName"];
+              this.request.RentDocumentPath = data['Data'][0]["FilePath"];
+            }
+            else if (Type == 'ImageFile') {
+              this.showImageFile = true;
+              this.hosteldetail.ImageFileName = data['Data'][0]["FileName"];
+              this.hosteldetail.ImageFilePath = data['Data'][0]["FilePath"];
+              this.hosteldetail.Dis_FileName = data['Data'][0]["Dis_FileName"];
 
-        return
-      }
-      this.file = event.target.files[0];
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          if (Type == 'RentDocument') {
-            this.showRentDocument = true;
-            this.request.RentDocument = data['Data'][0]["FileName"];
-            this.request.RentDocumentPath = data['Data'][0]["FilePath"];
-          }
-          else if (Type == 'ImageFile') {
-            this.showImageFile = true;
-            this.hosteldetail.ImageFileName = data['Data'][0]["FileName"];
-            this.hosteldetail.ImageFilePath = data['Data'][0]["FilePath"];
+            }
 
+            event.target.value = '';
           }
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    } catch (ex) {
+
+    }
+    finally {
+      this.loaderService.requestEnded();
     }
   }
 
@@ -470,23 +500,36 @@ export class HostelDetailsComponent implements OnInit {
       this.isFormValid = this.ValidateForm();
       if (this.HostelForm.invalid) {
         this.isFormValid = false;
+        console.log(this.HostelForm);
       }
       if (this.request.HostelDetails.length <= 0) {
         this.isFormValid = false;
-        this.toastr.warning('please add atleast one hostel block details');
+        this.toastr.error('please add atleast one hostel block details');
       }
       if (!this.isFormValid) {
         return;
       }
+      //loding
       this.loaderService.requestStarted();
+      //some data
+      if (this.request.HostelDetailID > 0) {
+        this.request.ModifyBy = 1;
+      }
+      else {
+        this.request.CreatedBy = 1;
+        this.request.ModifyBy = 1;
+      }
+      this.request.DepartmentID = this.SelectedDepartmentID;
       this.request.DepartmentID = this.SelectedDepartmentID;
       this.request.CollegeID = this.SelectedCollageID;
+      //post
       await this.hostelDetailService.SaveData(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
+          //
           if (this.State == 0) {
             //console.log(data['Data']);
             this.toastr.success(this.SuccessMessage);
@@ -521,16 +564,6 @@ export class HostelDetailsComponent implements OnInit {
     this.IsPanchyatSamitiRequried = false;
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
-    if (this.request.IsRuralUrban == 'Rural') {
-      if (this.request.TehsilID == 0) {
-        this.isFormValid = false;
-        this.IsTehsilRequried = true;
-      }
-      if (this.request.PanchayatSamitiID == 0) {
-        this.isFormValid = false;
-        this.IsPanchyatSamitiRequried = true;
-      }
-    }
 
     if (this.request.HostelType == 'Rent') {
       if (this.request.OwnerName == '' || this.request.OwnerContactNo == '' || this.request.RentDocument == '' || this.request.FromDate == '' || this.request.ToDate == '') {
@@ -570,7 +603,9 @@ export class HostelDetailsComponent implements OnInit {
     this.CurrentIndex = idx;
     this.isDisabledGrid = true;
     this.hosteldetail = Item;
-    this.hosteldetail.ImageFilePath = this.imageUrlPath + this.hosteldetail.ImageFileName;
+    this.hosteldetail.ImageFilePath = this.hosteldetail.ImageFilePath;
+    this.hosteldetail.ImageFileName = this.hosteldetail.ImageFileName;
+    this.hosteldetail.Dis_FileName = this.hosteldetail.Dis_FileName;
     this.showImageFile = true;
     const btnAdd = document.getElementById('btnAdd')
     if (btnAdd) { btnAdd.innerHTML = "Update"; }
@@ -592,14 +627,12 @@ export class HostelDetailsComponent implements OnInit {
     }
   }
 
-
   SetToDate() {
     const FromDate = new Date(this.request.FromDate);
     FromDate.setFullYear(FromDate.getFullYear());
     this.MinToDate = new Date(FromDate.getFullYear(), FromDate.getMonth(), FromDate.getDate());
     this.request.ToDate = '';
   }
-
 
   async GetHostelDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, HostelDetailID: number) {
     try {
@@ -676,9 +709,37 @@ export class HostelDetailsComponent implements OnInit {
           if (this.request.HostelType == 'Rent') {
             this.showRentDocument = true;
           }
-          this.request.RentDocumentPath = this.imageUrlPath + this.request.RentDocument;
+          this.request.RentDocumentPath = this.request.RentDocument;
           const btnAdd = document.getElementById('btnSave')
           if (btnAdd) { btnAdd.innerHTML = "Update"; }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetHostelCategory() {
+    try {
+      // loading
+      this.loaderService.requestStarted();
+      // get
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, "HostelCategory")
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.HostelCategoryList = data['Data'];
+          //msg
+          if (this.State != 0) {
+            this.toastr.error(this.ErrorMessage);
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -710,6 +771,39 @@ export class HostelDetailsComponent implements OnInit {
     if (btnAdd) {
       btnAdd.innerHTML = "Save";
     }
+  }
+
+  async IsRuralOrUrban(isRural: boolean, section: string) {
+    if (isRural) {
+      if (section == 'nearest') {
+
+      }
+      else {
+        if (this.request.IsRuralUrban == 'Rural') {
+          this.HostelForm.get('ddlTehsilID')?.setValidators([Validators.required]);
+          this.HostelForm.get('ddlPanchayatSamitiID')?.setValidators([Validators.required]);
+        }
+        else {
+          this.HostelForm.get('ddlTehsilID')?.clearValidators();
+          this.HostelForm.get('ddlPanchayatSamitiID')?.clearValidators();
+        }
+        this.HostelForm.get('ddlTehsilID')?.updateValueAndValidity();
+        this.HostelForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
+      }
+    }
+  }
+
+  async IsHostelCampusOrNot() {
+    if (this.request.IsHostelCampus == 'Yes') {
+      this.HostelForm.get('txtCollegeDistance')?.setValidators(Validators.required);
+      this.HostelForm.get('rdHostelType')?.setValidators(Validators.required);
+    }
+    else {
+      this.HostelForm.get('txtCollegeDistance')?.clearValidators();
+      this.HostelForm.get('rdHostelType')?.clearValidators();
+    }
+    this.HostelForm.get('txtCollegeDistance')?.updateValueAndValidity();
+    this.HostelForm.get('rdHostelType')?.updateValueAndValidity();
   }
 }
 

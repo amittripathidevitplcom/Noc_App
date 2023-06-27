@@ -1,4 +1,5 @@
 export class HostelDataModel {
+  public HostelCategoryID: number = 0;
   public HostelDetailID: number = 0;
   public IsHostelCampus: string = '';
   public HostelName: string = '';
@@ -16,7 +17,6 @@ export class HostelDataModel {
   public HostelDetails: HostelDetailsDataModel_Hostel[] = [];
 
   //Address
-
   public AddressLine1: string = '';
   public AddressLine2: string = '';
   public IsRuralUrban: string = '';
@@ -25,7 +25,7 @@ export class HostelDataModel {
   public TehsilID: number = 0;
   public PanchayatSamitiID: number = 0;
   public CityTownVillage: string = '';
-  public Pincode: number = 0;
+  public Pincode: number = null;
 
   public DepartmentID: number = 0;
   public CollegeID: number = 0;
@@ -33,6 +33,9 @@ export class HostelDataModel {
   public DistrictName: string = '';
   public TehsilName: string = '';
   public PanchyatSamitiName: string = '';
+
+  public CreatedBy: number = 0;
+  public ModifyBy: number = 0;
 }
 
 export class HostelDetailsDataModel_Hostel {
@@ -41,13 +44,12 @@ export class HostelDetailsDataModel_Hostel {
   public CourseID: number = 0;
   public CourseName: string = '';
   public DepartmentID: number = 0;
+  public NoOf: number = null;
   public Width: number = 0;
   public Length: number = 0;
   public StudentCapacity: number = 0;
   public ImageFileName: string = '';
+  public Dis_FileName: string = '';
   public ImageFilePath: string = '';
   public HostelBlockName: string = '';
-  public ActiveStatus: boolean = true;
-  public DeleteStatus: boolean = false;
-
 }

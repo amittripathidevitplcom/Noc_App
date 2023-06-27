@@ -14,11 +14,11 @@
             <label for="rbHostelCampus" class="form-label" style="margin-right:15px">Is Hostel In Campus<span style="color:red;">*</span> </label>
             <div class="clearfix"></div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusYes" value="Yes" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus">
+              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusYes" value="Yes" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus" (change)="IsHostelCampusOrNot()">
               <label class="form-check-label" for="YesHostelCampus">Yes</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusNo" value="No" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus">
+              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusNo" value="No" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus" (change)="IsHostelCampusOrNot()">
               <label class="form-check-label" for="NoHostelCampus">No</label>
             </div>
             <div *ngIf="isSubmitted&&Hform.rbHostelCampus.errors" class="text-danger">
@@ -28,7 +28,16 @@
         </div>
         <div>
           <div class="row">
-
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label class="form-label">Hostel Category <span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlHostelCategoryID" name="ddlHostelCategoryID" [(ngModel)]="request.HostelCategoryID" formControlName="ddlHostelCategoryID">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of HostelCategoryList" value="{{item.ID}}">{{item.Name}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&Hform.ddlHostelCategoryID.errors" class="text-danger">
+                <p *ngIf="!Hform.ddlHostelCategoryID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Hostel Name<span style="color:red;">*</span></label>
               <input type="text" class="form-control" id="txtHostelName" name="txtHostelName" [(ngModel)]="request.HostelName" autocomplete="off"
@@ -57,11 +66,11 @@
               <label class="form-label" style="margin-right:15px"></label>
               <div class="clearfix"></div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="rbRural_Nearest" name="RuralUrban" [(ngModel)]="request.IsRuralUrban" value="Rural" formControlName="RuralUrban">
+                <input class="form-check-input" type="radio" id="rbRural_Nearest" name="RuralUrban" [(ngModel)]="request.IsRuralUrban" value="Rural" formControlName="RuralUrban" (change)="IsRuralOrUrban(true,null)">
                 <label class="form-check-label" for="rbRural_Nearest">Rural</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="rbUrban_Nearest" name="RuralUrban" [(ngModel)]="request.IsRuralUrban" value="Urban" formControlName="RuralUrban">
+                <input class="form-check-input" type="radio" id="rbUrban_Nearest" name="RuralUrban" [(ngModel)]="request.IsRuralUrban" value="Urban" formControlName="RuralUrban" (change)="IsRuralOrUrban(true,null)">
                 <label class="form-check-label" for="rbUrban_Nearest">Urban</label>
               </div>
               <div *ngIf="isSubmitted&&Hform.RuralUrban.errors" class="text-danger">
@@ -71,7 +80,7 @@
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Division <span style="color:red;">*</span></label>
               <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" (change)="FillDivisionRelatedDDL()">
-                <option value="0">--Select Division--</option>
+                <option value="0">--Select--</option>
                 <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
               </select>
               <div *ngIf="isSubmitted&&Hform.ddlDivisionID.errors" class="text-danger">
@@ -81,31 +90,31 @@
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">District <span style="color:red;">*</span></label>
               <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" (change)="FillDistrictRelatedDDL()">
-                <option value="0">--Select District--</option>
+                <option value="0">--Select--</option>
                 <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
               </select>
               <div *ngIf="isSubmitted&&Hform.ddlDistrictID.errors" class="text-danger">
                 <p *ngIf="!Hform.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.IsRuralUrban =='Rural'">
               <label class="form-label">Tehsil <span style="color:red;">*</span></label>
               <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
-                <option value="0">--Select Tehsil--</option>
+                <option value="0">--Select--</option>
                 <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
               </select>
-              <div *ngIf="isSubmitted&&IsTehsilRequried" class="text-danger">
-                <p *ngIf="isSubmitted&&IsTehsilRequried"><i aria-hidden="true"></i>This field is required .!</p>
+              <div *ngIf="isSubmitted&&Hform.ddlTehsilID.errors" class="text-danger">
+                <p *ngIf="!Hform.ddlTehsilID.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.IsRuralUrban =='Rural'">
               <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
               <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID">
-                <option value="0">--Select Panchayat Samiti--</option>
+                <option value="0">--Select--</option>
                 <option *ngFor="let item of PanchyatSamitiList" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
               </select>
-              <div *ngIf="isSubmitted&&IsPanchyatSamitiRequried" class="text-danger">
-                <p *ngIf="isSubmitted&&IsPanchyatSamitiRequried"><i aria-hidden="true"></i>This field is required .!</p>
+              <div *ngIf="isSubmitted&&Hform.ddlPanchayatSamitiID.errors" class="text-danger">
+                <p *ngIf="!Hform.ddlPanchayatSamitiID.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
               </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -125,13 +134,13 @@
             </div>
             <!-- end -->
             <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label>Hostel Address<span style="color:red;">*</span></label>
-              <input type="text" class="form-control" id="txtHostelAddress" name="txtHostelAddress" [(ngModel)]="request.HostelAddress" autocomplete="off"
-                     formControlName="txtHostelAddress">
-              <div *ngIf="isSubmitted&&Hform.txtHostelAddress.errors" class="text-danger">
-                <p *ngIf="Hform.txtHostelAddress.errors.required"> Hostel Address is required .!</p>
-              </div>
-            </div>-->
+    <label>Hostel Address<span style="color:red;">*</span></label>
+    <input type="text" class="form-control" id="txtHostelAddress" name="txtHostelAddress" [(ngModel)]="request.HostelAddress" autocomplete="off"
+           formControlName="txtHostelAddress">
+    <div *ngIf="isSubmitted&&Hform.txtHostelAddress.errors" class="text-danger">
+      <p *ngIf="Hform.txtHostelAddress.errors.required"> Hostel Address is required .!</p>
+    </div>
+  </div>-->
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>Contact Person Name<span style="color:red;">*</span></label>
               <input type="text" class="form-control" id="txtContactPersonName" name="txtContactPersonName" [(ngModel)]="request.ContactPersonName" autocomplete="off"
@@ -149,8 +158,8 @@
                 <p *ngIf="Hform.txtContactPersonNo.errors.required"> This field is required .!</p>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label>Distance of College (KM)<span style="color:red;">*</span></label>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.IsHostelCampus =='Yes'">
+              <label>Distance of College (KM) <span style="color:red;">*</span></label>
               <input type="text" class="form-control" id="txtCollegeDistance" name="txtCollegeDistance" maxlength="3" [(ngModel)]="request.DistanceOfCollege" (keypress)="numberOnly($event)" autocomplete="off"
                      formControlName="txtCollegeDistance">
               <div *ngIf="isSubmitted&&Hform.txtCollegeDistance.errors" class="text-danger">
@@ -164,8 +173,8 @@
 
 
           <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-              <label class="form-label" style="margin-right:15px">Select Type<span style="color:red;">*</span> :</label>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" *ngIf="this.request.IsHostelCampus =='Yes'">
+              <label class="form-label" style="margin-right:15px">Select Type <span style="color:red;">*</span> :</label>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="rdHostelType" id="rdHostelTypeSelf" value="Self" formControlName="rdHostelType" [(ngModel)]="request.HostelType">
                 <label class="form-check-label" for="rdTeachingTypeTeaching">Self</label>
@@ -248,11 +257,11 @@
           <div class="card-body">
             <div class="card">
               <div class="card-header">
-                <b>Hostel Block Detail</b>
+                <b>Hostel Block Detail <span style="color:red;">*</span></b>
               </div>
               <div class="card-body">
                 <div class="row">
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-3 mb-3">
                     <label>Select Hostel Block</label>
                     <select formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="hosteldetail.CourseID" class="form-control"
                             #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
@@ -268,8 +277,13 @@
                   </div>
 
 
-                  <div class="col-md-8">
-                    <div class="row">
+                      <div class="col-md-3 mb-2">
+                        <label>No. of</label>
+                        <input type="number" class="form-control" id="txtNoOf" name="txtNoOf"  [(ngModel)]="hosteldetail.NoOf" formControlName="txtNoOf">
+                        <div *ngIf="isHostelSubmitted&&form.txtNoOf.errors" class="text-danger">
+                          <p *ngIf="form.txtNoOf.errors.required">This field is required .!</p>
+                        </div>
+                      </div>
 
                       <div class="col-md-3 mb-2">
                         <label>
@@ -278,21 +292,25 @@
 
                         </label>
 
-                        <input type="number" class="form-control" id="txtWidth" name="txtWidth" placeholder="Enter Width (In Feet)"
+                        <input type="number" class="form-control" id="txtWidth" name="txtWidth" 
                                [(ngModel)]="hosteldetail.Width" formControlName="txtWidth">
 
 
 
                         <!--<p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Width More than or Equal to {{WidthMin}} ft</p>-->
                         <!--<div *ngIf="isSubmitted&&form.txtWidth.errors" class="text-danger">
-                          <p *ngIf="form.txtWidth.errors.required">This field is required .!</p>
-                        </div>-->
+      <p *ngIf="form.txtWidth.errors.required">This field is required .!</p>
+    </div>-->
                       </div>
 
                       <div class="col-md-3 mb-2">
                         <label>Length (In Feet)</label>
-                        <input type="number" class="form-control" id="txtLength" name="txtLength" placeholder="Enter Length (In Feet)"
+                        <input type="number" class="form-control" id="txtLength" name="txtLength" 
                                [(ngModel)]="hosteldetail.Length" formControlName="txtLength">
+
+
+
+
 
 
 
@@ -306,7 +324,7 @@
 
                       <div class="col-md-3 mb-2">
                         <label>Student Capacity</label>
-                        <input type="number" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity" placeholder="Enter Student Capacity"
+                        <input type="number" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity" 
                                [(ngModel)]="hosteldetail.StudentCapacity" formControlName="txtStudentCapacity">
                         <div *ngIf="isHostelSubmitted&&form.txtStudentCapacity.errors" class="text-danger">
                           <p *ngIf="form.txtStudentCapacity.errors.required">This field is required .!</p>
@@ -316,15 +334,15 @@
                       <div class="col-md-3 mb-2">
                         <label>Image</label>
                         <div class="d-flex">
-                          <input type="file" class="form-control" id="fImageUpload" [(ngModel)]="hosteldetail.ImageFileName" style="display:none" formControlName="hostel_fileImageFileName" (change)="ValidateDocumentImage($event,'ImageFile')" />
+                          <input type="file" class="form-control" id="fImageUpload"   style="display:none" formControlName="hostel_fileImageFileName" (change)="ValidateDocumentImage($event,'ImageFile')" />
                           <label class="btn upload" for="fImageUpload">
                             <span class="filename">Choose file</span>
-                            {{hosteldetail.ImageFileName === '' ? 'No File Choosen' : hosteldetail.ImageFileName}}
+                            {{hosteldetail.ImageFileName === '' ? 'No File Choosen' : hosteldetail.Dis_FileName}}
                           </label>
-                            <div class="btn-group" *ngIf="showImageFile">
-                              <a class="btn btn-outline-primary" target="_blank" href="{{hosteldetail.ImageFilePath}}"><i class="fa fa-eye"></i></a>
-                              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ImageFile')"><i class="fa fa-trash-o"></i></button>
-                            </div>
+                          <div class="btn-group" *ngIf="showImageFile">
+                            <a class="btn btn-outline-primary" target="_blank" href="{{hosteldetail.ImageFilePath}}"><i class="fa fa-eye"></i></a>
+                            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ImageFile')"><i class="fa fa-trash-o"></i></button>
+                          </div>
                         </div>
                         <div *ngIf="isImageFile" class="text-danger">
                           <p *ngIf="isImageFile"> This field is required .!</p>
@@ -333,11 +351,10 @@
                           <p *ngIf="isValidImageFile"> {{DocumentValidMessage}}</p>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-md-11 text-end"></div>
-                  <div class="col-md-1 text-end">
+                  
+                  <div class="card-footer text-end">
                     <button class="btn btn-primary" id="btnAdd" type="button" (click)="btnAdd_Click()"><i class="fa fa-plus"></i>&nbsp;Add</button>
+                    <button type="button" class="btn btn-danger" (click)="ResetHospitalDetails()"> Reset</button>
                   </div>
                 </div>
                 <div class="row">
@@ -360,7 +377,9 @@
                             <td>{{row.CourseName}}</td>
                             <td>{{row.Width}}</td>
                             <td>{{row.Length}}</td>
-                            <td> <a href="{{imageUrlPath}}{{row.ImageFileName}}" target="_blank" id="at_{{idx+1}}"><i class="fa fa-eye"></i></a> </td>
+                            <td>
+                              <a *ngIf="row.ImageFilePath!=''" target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-paperclip"></i></a>
+                            </td>
                             <td>
                               <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary" (click)="EditHostelBlockDetail(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"><i class="fa fa-edit"></i></button>
                               <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteHostelBlockDetail(idx)"><i class="fa fa-trash" [attr.disabled]="isDisabledGrid ? true : null"></i></button>
@@ -382,6 +401,7 @@
 
       <div class="card-footer text-end">
         <button class="btn btn-primary" type="button" id="btnSave" (click)="SaveData()">Add & Save</button>
+        <button type="button" class="btn btn-danger" (click)="ResetControl()"> Reset</button>
       </div>
     </div>
   </div>
