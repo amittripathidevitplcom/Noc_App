@@ -1,5 +1,6 @@
 export class RoomDetailsDataModel {
   public CollegeWiseRoomID: number = 0;
+  public CollegeID: number = 0;
   public CourseID: number = 0;
   public DepartmentID: number = 0;
   public Width: number = 0;

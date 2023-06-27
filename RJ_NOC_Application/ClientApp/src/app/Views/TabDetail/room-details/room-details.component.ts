@@ -172,54 +172,67 @@ export class RoomDetailsComponent implements OnInit {
   }
 
   ValidateUploadImage(event: any) {
-    this.isValidImageFilePath = false;
-    if (event.target.files && event.target.files[0]) {
-      if (event.target.files[0].type === 'image/jpeg' ||
-        event.target.files[0].type === 'application/pdf' ||
-        event.target.files[0].type === 'image/jpg') {
-        if (event.target.files[0].size > 2000000) {
+    this.loaderService.requestStarted();
+    try {
+      this.isValidImageFilePath = false;
+      if (event.target.files && event.target.files[0]) {
+        if (event.target.files[0].type === 'image/jpeg' ||
+          event.target.files[0].type === 'application/pdf' ||
+          event.target.files[0].type === 'image/jpg') {
+          if (event.target.files[0].size > 2000000) {
+            this.fileUploadImage.nativeElement.value = "";
+            this.ImageValidationMessage = 'Select less then 2MB File';
+            this.isValidImageFilePath = true;
+            this.request.ImageFileName = '';
+            this.request.ImageFilePath = '';
+            return
+          }
+          if (event.target.files[0].size < 100000) {
+            this.ImageValidationMessage = 'Select more then 100kb File';
+            this.fileUploadImage.nativeElement.value = "";
+            this.isValidImageFilePath = true;
+            this.request.ImageFileName = '';
+            this.request.ImageFilePath = '';
+            return
+          }
+        }
+        else {
+          this.ImageValidationMessage = 'Select Only jpg/jpeg/pdf file';
           this.fileUploadImage.nativeElement.value = "";
-          this.ImageValidationMessage = 'Select less then 2MB File';
           this.isValidImageFilePath = true;
           this.request.ImageFileName = '';
           this.request.ImageFilePath = '';
           return
         }
-        if (event.target.files[0].size < 100000) {
-          this.ImageValidationMessage = 'Select more then 100kb File';
-          this.fileUploadImage.nativeElement.value = "";
-          this.isValidImageFilePath = true;
-          this.request.ImageFileName = '';
-          this.request.ImageFilePath = '';
-          return
-        }
+        this.file = event.target.files[0];
+        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.showImageFilePath = true;
+            this.request.ImageFilePath = data['Data'][0]["FilePath"];
+            this.request.ImageFileName = data['Data'][0]["FileName"];
+
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
       }
-      else {
-        this.ImageValidationMessage = 'Select Only jpg/jpeg/pdf file';
-        this.fileUploadImage.nativeElement.value = "";
-        this.isValidImageFilePath = true;
-        this.request.ImageFileName = '';
-        this.request.ImageFilePath = '';
-        return
-      }
-      this.file = event.target.files[0];
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-        
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          this.showImageFilePath = true;
-          this.request.ImageFilePath = data['Data'][0]["FilePath"];
-          this.request.ImageFileName = data['Data'][0]["FileName"];
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        event.target.value = '';
+      }, 200);
     }
   }
   DeleteImage() {
@@ -228,7 +241,7 @@ export class RoomDetailsComponent implements OnInit {
     this.request.ImageFilePath = '';
   }
   async SaveData() {
-    
+
     this.isValidImageFilePath = false;
     this.isSubmitted = true;
     this.CssClass_TextDangerWidth = '';
@@ -240,11 +253,12 @@ export class RoomDetailsComponent implements OnInit {
       this.CssClass_TextDangerWidth = 'text-danger';
       return
     }
-    if (this.request.ImageFilePath =='') {
+    if (this.request.ImageFilePath == '') {
       this.ImageValidate = 'This field is required .!';
       return
-    }   
+    }
     //Show Loading
+    this.request.CollegeID = this.SelectedCollageID;
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
@@ -302,9 +316,9 @@ export class RoomDetailsComponent implements OnInit {
   async GetRoomDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.roomDetailsService.GetRoomDetailAllList(this.UserID)
+      await this.roomDetailsService.GetRoomDetailAllList(this.UserID, this.SelectedCollageID)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -328,8 +342,9 @@ export class RoomDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.roomDetailsService.GetRoomDetailsByID(CollegeWiseRoomID, this.UserID)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
+          this.request.CollegeID = data['Data'][0]["CollegeID"];
           this.request.CollegeWiseRoomID = data['Data'][0]["CollegeWiseRoomID"];
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.Width = data['Data'][0]["Width"];
@@ -387,7 +402,7 @@ export class RoomDetailsComponent implements OnInit {
   btnCopyTable_Click() {
     const tabellist = document.getElementById('tabellist')
     if (tabellist) {
-      
+
       this.clipboard.copy(tabellist.innerText);
     }
   }

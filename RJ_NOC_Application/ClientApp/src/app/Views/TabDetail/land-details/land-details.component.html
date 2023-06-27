@@ -54,16 +54,16 @@
           </label>
 
           <select formControlName="ddlLandconvertedId" id="ddlLandconvertedId" [(ngModel)]="request.LandConvertedID" class="form-control"
-                  #SeletedLandConvertedID (change)="GetLandDocuments(SeletedLandConvertedID.value,'No')"> 
-              <option value="0">--Select--</option>
-              <option *ngFor="let item of LandConversionData"
-                      value="{{item.ID}}">
-                {{item.Name}}
-              </option>
-            </select>
-            <div *ngIf="isSubmitted&&form.ddlLandconvertedId.errors" class="text-danger">
-              <p *ngIf="!form.ddlLandconvertedId.errors.DropdownValidators"> This field is required .!</p>
-            </div>
+                  #SeletedLandConvertedID (change)="GetLandDocuments(SeletedLandConvertedID.value,'No')">
+            <option value="0">--Select--</option>
+            <option *ngFor="let item of LandConversionData"
+                    value="{{item.ID}}">
+              {{item.Name}}
+            </option>
+          </select>
+          <div *ngIf="isSubmitted&&form.ddlLandconvertedId.errors" class="text-danger">
+            <p *ngIf="!form.ddlLandconvertedId.errors.DropdownValidators"> This field is required .!</p>
+          </div>
         </div>
 
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -86,7 +86,7 @@
           <label>
             Khasra Number <span style="color:red;">*</span>
           </label>
-          <input type="text" id="txtKhasraNumber" class="form-control" [(ngModel)]="request.KhasraNumber" formControlName="txtKhasraNumber"/>
+          <input type="text" id="txtKhasraNumber" class="form-control" [(ngModel)]="request.KhasraNumber" formControlName="txtKhasraNumber" />
           <div *ngIf="isSubmitted&&form.txtKhasraNumber.errors" class="text-danger">
             <p *ngIf="form.txtKhasraNumber.errors.required"> This field is required .!</p>
           </div>
@@ -98,13 +98,13 @@
           </label>
           <input type="text" id="txtLandOwnerName" class="form-control" [(ngModel)]="request.LandOwnerName" formControlName="txtLandOwnerName" />
 
-           <div *ngIf="isSubmitted&&form.txtKhasraNumber.errors" class="text-danger">
+          <div *ngIf="isSubmitted&&form.txtKhasraNumber.errors" class="text-danger">
             <p *ngIf="form.txtKhasraNumber.errors.required"> This field is required .!</p>
           </div>
 
-  <!--<div *ngIf="isSubmitted&&form.txtLandOwnerName.errors" class="text-danger">
-            <p *ngIf="form.txtLandOwnerName.errors.required">  This field is required .!</p>
-          </div>-->
+          <!--<div *ngIf="isSubmitted&&form.txtLandOwnerName.errors" class="text-danger">
+                  <p *ngIf="form.txtLandOwnerName.errors.required">  This field is required .!</p>
+                </div>-->
         </div>
 
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -126,8 +126,8 @@
 
 
           <!--<div *ngIf="isSubmitted&&form.dtLandConversionOrderDate.errors" class="text-danger">
-            <p *ngIf="form.dtLandConversionOrderDate.errors.required"> This field is required .!</p>
-          </div>-->
+          <p *ngIf="form.dtLandConversionOrderDate.errors.required"> This field is required .!</p>
+        </div>-->
 
 
         </div>
@@ -182,18 +182,9 @@
         </div>
       </div>
     </form>
-    <div class="row">
-      <h4 class="text-danger">Disclaimer:</h4>
-      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-        <ol>
-          <li *ngFor="let item of TermAndConditionData  let idx =index">
-            {{item.TermAndConditionName}}
-          </li>
-        </ol>
-      </div>
-    </div>
 
-    <div class="row">
+
+    <div class="row" *ngIf="LandDetailsList.length>0">
       <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
 
         <div class="table-responsive">
@@ -237,7 +228,18 @@
             </tbody>
           </table>
         </div>
-      </div> 
+      </div>
+    </div>
+
+    <div class="row">
+      <h4 class="text-danger">Disclaimer:</h4>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <ol>
+          <li *ngFor="let item of TermAndConditionData  let idx =index">
+            {{item.TermAndConditionName}}
+          </li>
+        </ol>
+      </div>
     </div>
   </div>
 </div>

@@ -23,6 +23,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   public CollegeID: number = 0;
   public LandClass: string = 'tabs-Link LandInformation';
+  public CollegeName: string = '';
 
   selectedIndex: number = 0;
   maxNumberOfTabs: number = 0;
@@ -44,6 +45,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //await this.GetCollageMaster();
     await this.GetCollageDetails();
+    await this.GetCollegeBasicDetails();
+
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
     
@@ -87,5 +90,28 @@ export class ApplicationDetailEntryComponent implements OnInit {
       }, 200);
     }
   }
+  async GetCollegeBasicDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeBasicDetails(this.SelectedCollageID.toString())
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeName = data['Data'][0]['data'][0]['CollegeNameEn'];
 
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+  
 }

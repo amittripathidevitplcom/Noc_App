@@ -1,6 +1,7 @@
 
 export class AcademicInformationDetailsDataModel {
   public AcademicInformationID: number = 0;
+  public CollegeID: number = 0;
   public YearID: number = 0;
   public YearValue: string = '';
   public CourseID: number = 0;
