@@ -18,10 +18,12 @@ import { FileUploadService } from '../../../Services/FileUpload/file-upload.serv
 export class StaffDetailsComponent implements OnInit {
   StaffDetailForm!: FormGroup;
   StaffEducationDetailForm!: FormGroup;
+
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   isSubmitted: boolean = false;
+  // save
   request = new StaffDetailDataModel();
   public ProfessionalQualificationData: any = [];
   public HighestQualificationData: any = [];
@@ -60,7 +62,6 @@ export class StaffDetailsComponent implements OnInit {
   public file: any = '';
 
   public MaxDate: Date = new Date();
-
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private staffDetailService: StaffDetailService, private fileUploadService: FileUploadService
     , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder) {
@@ -120,6 +121,18 @@ export class StaffDetailsComponent implements OnInit {
   get form() { return this.StaffDetailForm.controls; }
   get SEform() { return this.StaffEducationDetailForm.controls; }
 
+  ProfessionalQualification_Change(): boolean {
+    let isValid = true;
+    var DocRequried = this.ProfessionalQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.ProfessionalQualificationID)?.IsDocCompulsory;
+    if (DocRequried == 1) {
+      if (this.request.UploadDocument == '') {
+        this.isUploadDocRequried = true;
+        isValid = false;
+      }
+    }
+    return isValid;
+  }
+
   async AddMoreEducationalQualification() {
     this.FormValid = true;
     this.isUploadDocRequried = false;
@@ -129,13 +142,7 @@ export class StaffDetailsComponent implements OnInit {
         this.FormValid = false;
       }
 
-      var DocRequried = this.ProfessionalQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.ProfessionalQualificationID).IsDocCompulsory;
-      if (DocRequried == 1) {
-        if (this.request.UploadDocument == '') {
-          this.isUploadDocRequried = true;
-          this.FormValid = false;
-        }
-      }
+      this.FormValid = this.ProfessionalQualification_Change();
 
       if (!this.FormValid) {
         return;
@@ -157,7 +164,9 @@ export class StaffDetailsComponent implements OnInit {
         Marks: this.request.Marks,
         ProfessionalQualification: this.ProfessionalQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.ProfessionalQualificationID).QualificationName,
         PassingYear: this.request.PassingYearID.toString(),
-        UploadDocument: this.request.UploadDocument
+        UploadDocument: this.request.UploadDocument,
+        UploadDocumentPath: this.request.UploadDocumentPath,
+        UploadDocument_Dis_FileName: this.request.UploadDocument_Dis_FileName,
       });
       this.request.ProfessionalQualificationID = 0;
       this.request.PassingYearID = 0;
@@ -177,6 +186,7 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
   async DeleteEducationalQualification(i: number) {
     this.isSubmitted = false;
     try {
@@ -192,6 +202,7 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
   async DeleteStaffDetails(StaffDetailID: number) {
     this.isSubmitted = false;
     try {
@@ -225,6 +236,7 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
   async GetHighestQualificationList_DepartmentAndTypeWise(DepartmentID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
@@ -246,6 +258,7 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -254,6 +267,7 @@ export class StaffDetailsComponent implements OnInit {
     return true;
 
   }
+
   async GetCollegeWiseSubjectList(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
@@ -275,6 +289,7 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
   async GetRoleListByLevel(LevelID: number) {
     try {
 
@@ -297,12 +312,13 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  ValidateDocumentImage(event: any, Type: string) {
+
+  async ValidateDocumentImage(event: any, Type: string) {
     this.isAadhaarCard = false;
     this.isPANCard = false;
     if (event.target.files && event.target.files[0]) {
       if (event.target.files[0].type === 'image/jpeg' ||
-        event.target.files[0].type === 'application/pdf' ||
+        (Type != 'ProfilePhoto' && event.target.files[0].type === 'application/pdf') ||
         event.target.files[0].type === 'image/jpg') {
         if (event.target.files[0].size > 2000000) {
           event.target.value = '';
@@ -317,36 +333,17 @@ export class StaffDetailsComponent implements OnInit {
       }
       else {
         event.target.value = '';
-        this.toastr.warning('Select Only jpg/jpeg/pdf file');
+        this.toastr.warning('Select Only jpg/jpeg' + (Type != 'ProfilePhoto' ? '/pdf file' : ''));
         return
       }
-
+      // upload
       this.file = event.target.files[0];
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+      await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
-          if (Type == 'ProfilePhoto') {
-            this.showProfilePhoto = true;
-            this.request.ProfilePhoto = data['Data'][0]["FilePath"];
-          }
-          else if (Type == 'AadhaarCard') {
-            this.showAadhaarCard = true;
-            this.request.AadhaarCard = data['Data'][0]["FilePath"];
-          }
-          else if (Type == 'PANCard') {
-            this.showPANCard = true;
-            this.request.PANCard = data['Data'][0]["FilePath"];
-          }
-          else if (Type == 'ExperienceCertificate') {
-            this.showExperienceCertificate = true;
-            this.request.ExperienceCertificate = data['Data'][0]["FilePath"];
-          }
-          else if (Type == 'UploadDocument') {
-            this.showUploadDocument = true;
-            this.request.UploadDocument = data['Data'][0]["FilePath"];
-          }
+          this.ResetFiles(Type, true, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"]);
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
@@ -356,7 +353,44 @@ export class StaffDetailsComponent implements OnInit {
         }
       });
     }
+    else {
+      this.ResetFiles(Type, false, '', '', '');
+    }
   }
+
+  ResetFiles(Type: string, isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
+    if (Type == 'ProfilePhoto' || Type == 'All') {
+      this.showProfilePhoto = isShow;
+      this.request.ProfilePhoto = fileName;
+      this.request.ProfilePhotoPath = filePath;
+      this.request.ProfilePhoto_Dis_FileName = dis_Name;
+    }
+    if (Type == 'AadhaarCard' || Type == 'All') {
+      this.showAadhaarCard = isShow;
+      this.request.AadhaarCard = fileName;
+      this.request.AadhaarCardPath = filePath;
+      this.request.AadhaarCard_Dis_FileName = dis_Name;
+    }
+    if (Type == 'PANCard' || Type == 'All') {
+      this.showPANCard = isShow;
+      this.request.PANCard = fileName;
+      this.request.PANCardPath = filePath;
+      this.request.PANCard_Dis_FileName = dis_Name;
+    }
+    if (Type == 'ExperienceCertificate' || Type == 'All') {
+      this.showExperienceCertificate = isShow;
+      this.request.ExperienceCertificate = fileName;
+      this.request.ExperienceCertificatePath = filePath;
+      this.request.ExperienceCertificate_Dis_FileName = dis_Name;
+    }
+    if (Type == 'UploadDocument' || Type == 'All') {
+      this.showUploadDocument = isShow;
+      this.request.UploadDocument = fileName;
+      this.request.UploadDocumentPath = filePath;
+      this.request.UploadDocument_Dis_FileName = dis_Name;
+    }
+  }
+
   async SaveData() {
     try {
       this.isRoleMapping = false;
@@ -423,6 +457,15 @@ export class StaffDetailsComponent implements OnInit {
         this.toastr.warning('Add atlest one row in Educational Qualification');
         return;
       }
+      // owner
+      if (this.request.StaffDetailID > 0) {
+        this.request.ModifyBy = 1;
+      }
+      else {
+        this.request.CreatedBy = 1;
+        this.request.ModifyBy = 1;
+      }
+      //post
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.SelectedDepartmentID;
       this.request.CollegeID = this.SelectedCollageID;
@@ -436,6 +479,7 @@ export class StaffDetailsComponent implements OnInit {
             //console.log(data['Data']);
             this.toastr.success(this.SuccessMessage);
             //window.location.reload();
+            this.ResetControl();
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -447,55 +491,6 @@ export class StaffDetailsComponent implements OnInit {
           this.toastr.warning("Unable to connect to server .!");
         })
 
-
-      //this.StaffDetailModel.push({
-      //  StaffDetailID: 0,
-      //  TeachingType: this.request.TeachingType,
-      //  SubjectID: this.request.SubjectID,
-      //  SubjectName: this.request.SubjectID > 0 ? this.SubjectData.find((x: { SubjectID: number; }) => x.SubjectID == this.request.SubjectID).SubjectName : '',
-      //  PersonName: this.request.PersonName,
-      //  RoleID: this.request.RoleID,
-      //  RoleName: this.request.RoleID > 0 ? this.RoleData.find((x: { RoleID: number; }) => x.RoleID == this.request.RoleID).RoleName : '',
-      //  MobileNo: this.request.MobileNo,
-      //  Email: this.request.Email,
-      //  HighestQualification: this.request.HighestQualification,
-      //  NumberofExperience: this.request.NumberofExperience,
-      //  AadhaarNo: this.request.AadhaarNo,
-      //  DateOfBirth: this.request.DateOfBirth,
-      //  DateOfAppointment: this.request.DateOfAppointment,
-      //  DateOfJoining: this.request.DateOfJoining,
-      //  SpecializationSubject: this.request.SpecializationSubject,
-      //  RoleMapping: this.request.RoleMapping,
-      //  Salary: this.request.Salary,
-      //  StaffStatus: this.request.StaffStatus,
-      //  PFDeduction: this.request.PFDeduction,
-      //  UANNumber: this.request.UANNumber,
-      //  ResearchGuide: this.request.ResearchGuide,
-      //  ProfessionalQualificationID: 0,
-      //  StreamSubject: '',
-      //  UniversityBoardInstitutionName: '',
-      //  PassingYearID: 0,
-      //  Marks: 0,
-      //  ProfilePhoto: this.request.ProfilePhoto,
-      //  EducationalQualificationDetails: this.request.EducationalQualificationDetails,
-      //  AadhaarCard: this.request.AadhaarCard,
-      //  PANCard: this.request.PANCard,
-      //  ExperienceCertificate: this.request.ExperienceCertificate,
-      //  UploadDocument: this.request.UploadDocument
-      //});
-
-
-      this.request = new StaffDetailDataModel();
-      this.isSubmitted = false;
-      this.showPANCard = false;
-      this.showAadhaarCard = false;
-      this.showProfilePhoto = false;
-      this.showExperienceCertificate = false;
-      this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
-      this.request.ProfessionalQualificationID = 0;
-      const btnAdd = document.getElementById('btnAdd')
-      if (btnAdd) { btnAdd.innerHTML = "Add"; }
-      this.isDisabled = false;
     }
     catch (Ex) {
       console.log(Ex);
@@ -506,6 +501,23 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+  ResetControl() {
+    this.request = new StaffDetailDataModel();
+    this.isSubmitted = false;
+    this.showPANCard = false;
+    this.showAadhaarCard = false;
+    this.showProfilePhoto = false;
+    this.showExperienceCertificate = false;
+    this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
+    this.request.ProfessionalQualificationID = 0;
+    const btnAdd = document.getElementById('btnAdd')
+    if (btnAdd) { btnAdd.innerHTML = "Save"; }
+    this.isDisabledResearchGuide = false;
+    this.isDisabled = false;
+    this.ResetFiles('All', false, '', '', '');
+  }
+
   OnChangeHighestQualification() {
     var QualificationName = this.HighestQualificationData.find((x: { ID: number; }) => x.ID == this.request.HighestQualification).Name;
     if (QualificationName != 'PHD') {
@@ -517,12 +529,14 @@ export class StaffDetailsComponent implements OnInit {
     }
 
   }
+
   async FillYearData() {
     for (var i = 2023; i > 1958; i--) {
       var data = { YearID: i, YearName: i };
       this.YearData.push(data);
     }
   }
+
   alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
     var regex = new RegExp("^[a-zA-Z ]+$");
     var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
@@ -532,6 +546,7 @@ export class StaffDetailsComponent implements OnInit {
     event.preventDefault();
     return false;
   }
+
   SetDateofAppointment() {
     const DOB = new Date(this.request.DateOfBirth);
     DOB.setFullYear(DOB.getFullYear() + 21);
@@ -539,6 +554,7 @@ export class StaffDetailsComponent implements OnInit {
     //this.request.DateOfAppointment = '';
     //this.request.DateOfJoining = '';
   }
+
   async GetQualificationList_DepartmentAndTypeWise(DepartmentID: number) {
     try {
       this.loaderService.requestStarted();
@@ -560,28 +576,36 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  DeleteImage(Type: string) {
-    if (Type == 'ProfilePhoto') {
-      this.showProfilePhoto = false;
-      this.request.ProfilePhoto = '';
+
+  async DeleteImage(file: string, Type: string) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.ResetFiles(Type, false, '', '', '');
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
     }
-    else if (Type == 'AadhaarCard') {
-      this.showAadhaarCard = false;
-      this.request.AadhaarCard = '';
+    catch (Ex) {
+      console.log(Ex);
     }
-    else if (Type == 'PANCard') {
-      this.showPANCard = false;
-      this.request.PANCard = '';
-    }
-    else if (Type == 'ExperienceCertificate') {
-      this.showExperienceCertificate = false;
-      this.request.ExperienceCertificate = '';
-    }
-    else if (Type == 'UploadDocument') {
-      this.showUploadDocument = false;
-      this.request.UploadDocument = '';
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
+
   async GetStaffDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, StaffDetailID: number) {
     try {
       this.loaderService.requestStarted();
@@ -622,6 +646,7 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
   async EditItem(StaffDetailID: number) {
     try {
       this.isAddMore = false;
@@ -653,6 +678,16 @@ export class StaffDetailsComponent implements OnInit {
           this.showAadhaarCard = true;
           this.showProfilePhoto = this.request.ProfilePhoto != '' ? true : false;
           this.showExperienceCertificate = this.request.ExperienceCertificate != '' ? true : false;
+          //profile
+          this.ResetFiles('ProfilePhoto', true, this.request.ProfilePhoto, this.request.ProfilePhotoPath, this.request.ProfilePhoto_Dis_FileName);
+          //profile
+          this.ResetFiles('AadhaarCard', true, this.request.AadhaarCard, this.request.AadhaarCardPath, this.request.AadhaarCard_Dis_FileName);
+          //profile
+          this.ResetFiles('PANCard', true, this.request.PANCard, this.request.PANCardPath, this.request.PANCard_Dis_FileName);
+          //profile
+          this.ResetFiles('ExperienceCertificate', true, this.request.ExperienceCertificate, this.request.ExperienceCertificatePath, this.request.ExperienceCertificate_Dis_FileName);
+          //profile
+          //this.ResetFiles('UploadDocument', true, this.request.UploadDocument, this.request.UploadDocumentPath, this.request.UploadDocument_Dis_FileName);
           this.isDisabled = true;
           const btnAdd = document.getElementById('btnAdd')
           if (btnAdd) { btnAdd.innerHTML = "Update"; }
