@@ -1,0 +1,64 @@
+
+<div class="card">
+  <div class="card-header">
+    <b><i class="bi bi-building-add"></i>&nbsp; Other Information</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <tbody>
+            <tr *ngFor="let item of OtherInformation; let idx =index">
+              <td width="5%">
+                {{idx+1}}
+              </td>
+              <td>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label><b>Other : </b></label>
+                    {{item.CourseName}}
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>
+                      <b>Width (In Feet) :</b>
+                    </label>
+                    {{item.Width}}
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>
+                      <b>Length (In Feet) : </b>
+                    </label>
+                    {{item.Length}}
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.CourseName=='Library'">
+                    <label>
+                      <b>No of books : </b>
+                    </label>
+                    {{item.Length}}
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>
+                      <b>Upload Image  : &nbsp;&nbsp;</b>
+                    </label>
+                    <img *ngIf="item.ImageFileName!=''" src="{{item.ImageFilePath}}" alt="Document Image" height="50" width="50" />
+                    <!--<a class="btn btn-outline-primary" target="_blank" href="{{items.FilePath}}"><i class="fa fa-eye"></i></a>-->
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.CourseName=='Library'">
+                    <label>
+                      <b>Book's Details Document  : &nbsp;&nbsp;</b>
+                    </label>
+                    <img *ngIf="item.BookImageFileName!=''" src="{{item.BookImageFilePath}}" alt="Document Image" height="50" width="50" />
+                    <!--<a class="btn btn-outline-primary" target="_blank" href="{{items.FilePath}}"><i class="fa fa-eye"></i></a>-->
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="OtherInformation.length<=0">
+              <td colspan="2" style="color:red">No Data Found.!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

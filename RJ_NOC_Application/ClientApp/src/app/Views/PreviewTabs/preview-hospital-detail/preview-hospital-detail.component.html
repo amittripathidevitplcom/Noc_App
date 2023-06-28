@@ -1,0 +1,597 @@
+<div class="card tabCard1 mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp; Hospital Details</b>
+  </div>
+  <div class="card-body">
+    <div class="clearfix"></div>
+    <div class="card">
+      <div class="card-header">
+        <b>Hospital Details</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>Whether the institution is a parent hospital or not</th>
+                    <th>Hospital Area</th>
+                    <th>Hospital Name</th>
+                    <th>Hospital Distance from Institutions (KM)</th>
+                    <th>Bed Occupancy</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of HospitalParentNotDataModelList;let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>{{row.ParentHospitalID==1?'Yes':'No'}}</td>
+                    <td>{{row.HospitalAreaName}}</td>
+                    <td>{{row.HospitalName}}</td>
+                    <td>{{row.HospitalDistance}}</td>
+                    <td>{{row.OccupancyPercentegeBeds}}</td>
+                    <td>
+                      <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewHospitalDetail(row.HospitalID)"><i class="fa fa-eye"></i></button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="HospitalParentNotDataModelList.length<=0">
+                    <td colspan="7" style="color:red">No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="ModalViewHospitalDetail" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Hospital Detail</h5>
+            <button type="button" class="btn btn-danger" (click)="CloseHospitalDetailModel()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="card-body">
+              <div class="row mb-2">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                  <label class="form-label" style="margin-right:15px"> <b>Whether the institution is a parent hospital or not :</b></label>
+                  {{HospitalData.ParentHospitalID==1?'Yes':'No'}}
+                </div>
+              </div>
+              <div>
+                <div class="card">
+                  <div class="card-header" *ngIf="HospitalData.ParentHospitalID==2">
+                    <b>
+                      <b> Which affiliated hospitals would the organization like to associate with for clinical training </b>
+                    </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row mb-2">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label" style="margin-right:15px"><b> Hospital Area :</b></label>
+                        {{HospitalData.HospitalAreaName}}
+                      </div>
+                    </div>
+                    <div class="row mb-2">
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>Hospital Reg. No. :</b></label>
+                        {{HospitalData.HospitalRegNo}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>Hospital Name :</b></label>
+                        {{HospitalData.HospitalName}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>Hospital Distance from Institutions (KM) :</b></label>
+                        {{HospitalData.HospitalDistance}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>Hospital Contact No. :</b></label>
+                        {{HospitalData.HospitalContactNo}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label><b>Hospital Email ID :</b></label>
+                        {{HospitalData.HospitalEmailID}}
+                      </div>
+                      <!-- address -->
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>Address Line 1 :</b></label>
+                        {{HospitalData.AddressLine1}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>Address Line 2 :</b></label>
+                        {{HospitalData.AddressLine2}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b> Area :</b></label>
+                        {{HospitalData.RuralUrban==1?'Rural':'Urban'}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>Division :</b></label>
+                        {{HospitalData.DivisionName}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>District :</b></label>
+                        {{HospitalData.DistrictName}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban==1">
+                        <label class="form-label"><b>Tehsil :</b></label>
+                        {{HospitalData.TehsilName}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban==1">
+                        <label class="form-label"><b>Panchayat Samiti :</b></label>
+                        {{HospitalData.PanchyatSamitiName}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>City/Town/Village :</b></label>
+                        {{HospitalData.CityTownVillage}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                        <label class="form-label"><b>Pincode :</b></label>
+                        {{HospitalData.Pincode}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.ParentHospitalID==2">
+                        <label class="form-label"><b>Document :</b></label>
+                        
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.ParentHospitalID==2">
+                        <label class="form-label"><b>Whether the affiliated hospital has affiliation with any other institution in the past or not  :</b></label>
+                        {{HospitalData.AffiliatedHospitalAffiliationToOtherID==1?'Yes':'No'}}
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="(HospitalData.ParentHospitalID==2 && HospitalData.AffiliatedHospitalAffiliationToOtherID==1)">
+                        <label class="form-label"><b>Consent form :</b></label>
+                        
+                      </div>
+                      <!-- end -->
+                    </div>
+                  </div>
+                </div>
+                    <div class="card">
+                      <div class="card-header">
+                        <b>
+                          <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
+                        </b>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                            <label><b>Medical :</b></label>
+                            {{HospitalData.MedicalBeds}}
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                            <label><b>Surgical :</b></label>
+                            {{HospitalData.SurgicalBeds}}
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                            <label><b>Obst. & Gynaecology :</b></label>
+                            {{HospitalData.ObstAndGynaecologyBeds}}
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                            <label><b>Pediatrics :</b></label>
+                            {{HospitalData.PediatricsBeds}}
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                            <label><b>Ortho :</b></label>
+                            {{HospitalData.OrthoBeds}}
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                            <label><b>Bed Occupancy of the Hospital in percentege :</b></label>
+                            {{HospitalData.OccupancyPercentegeBeds}}
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                            <label><b>Affiliation of psychiatric hospital beds :</b></label>
+                            {{HospitalData.AffiliationPsychiatricBeds}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card" *ngIf="IsShowSuperSpecialtyHospital">
+                      <div class="card-header">
+                        <b>
+                          <i class="bi bi-table"></i>&nbsp; Super specialty hospital details
+                        </b>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="row mb-2">
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Cardio Thoracic Nursing </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Total Beds :</b></label>
+                              {{HospitalData.CardioThoracicTotalBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>CCU Beds :</b></label>
+                              {{HospitalData.CardioThoracicCCUBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>ICCU Beds :</b></label>
+                              {{HospitalData.CardioThoracicICCUBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>ICU Beds :</b></label>
+                              {{HospitalData.CardioThoracicICUBeds}}
+                            </div>
+                          </div>
+                          <div class="row mb-2">
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Critical Care Nursing </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Total Beds :</b></label>
+                              {{HospitalData.CriticalCareNursingTotalBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Critical Care Beds :</b></label>
+                              {{HospitalData.CriticalCareNursingCCBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>ICU Beds :</b></label>
+                              {{HospitalData.CriticalCareNursingICUBeds}}
+                            </div>
+                          </div>
+                          <div class="row mb-2">
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Midwifery Nursing </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Total Beds :</b></label>
+                              {{HospitalData.MidwiferyNursingTotalBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Mother and Neonatal Units Beds :</b></label>
+                              {{HospitalData.MotherNeonatalUnitsBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Deliveries Per Year :</b></label>
+                              {{HospitalData.DeliveriesPerYear}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Level II Neonatal Beds :</b></label>
+                              {{HospitalData.LevelIINeonatalBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Level III Neonatal Beds :</b></label>
+                              {{HospitalData.LevelIIINeonatalBeds}}
+                            </div>
+                          </div>
+                          <div class="row mb-2">
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Neuro Science Nursing </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Total Beds :</b></label>
+                              {{HospitalData.NeuroScienceNursingTotalBeds}}
+                            </div>
+                          </div>
+                          <div class="row mb-2">
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Oncology Nursing </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Total Beds :</b></label>
+                              {{HospitalData.OncologyNursingTotalBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Medical Beds :</b></label>
+                              {{HospitalData.OncologyNursingMedicalBeds}}
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Chemotherapy Beds :</b></label>
+                              {{HospitalData.OncologyNursingChemotherapyBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Radiotherapy Beds :</b></label>
+                              {{HospitalData.OncologyNursingRadiotherapyBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Palliative Beds :</b></label>
+                              {{HospitalData.OncologyNursingPalliativeBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Diagnostic Beds :</b></label>
+                              {{HospitalData.OncologyNursingDiagnosticBeds}}
+                            </div>
+                          </div>
+                          <div class="row mb-2">
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Orthopaedic & Rehabilitation Nursing </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Total Beds :</b></label>
+                              {{HospitalData.OrthopaedicRehabilitationNursingTotalBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Orthopaedic Beds :</b></label>
+                              {{HospitalData.OrthopaedicRehabilitationNursingOrthopaedicBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Rehabilitation Beds :</b></label>
+                              {{HospitalData.OrthopaedicRehabilitationNursingRehabilitationBeds}}
+                            </div>
+                          </div>
+                          <div class="row mb-2">
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Psychiatric Nursing </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Total Beds :</b></label>
+                              {{HospitalData.PsychiatricNursingTotalBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Acute Beds :</b></label>
+                              {{HospitalData.PsychiatricNursingAcuteBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Chronic Beds :</b></label>
+                              {{HospitalData.PsychiatricNursingChronicBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Adult Beds :</b></label>
+                              {{HospitalData.PsychiatricNursingAdultBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Child Beds :</b></label>
+                              {{HospitalData.PsychiatricNursingChildBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>De-Addiction Beds :</b></label>
+                              {{HospitalData.PsychiatricNursingDeAddictionBeds}}
+                            </div>
+                          </div>
+                          <div class="row mb-2">
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Neonatal Nursing </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Total Beds :</b></label>
+                              {{HospitalData.NeonatalNursingTotalBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Level II/III NICU Beds :</b></label>
+                              {{HospitalData.NeonatalNursingLevelIIOrIIINICUBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>NICU Beds :</b></label>
+                              {{HospitalData.NeonatalNursingNICUBeds}}
+                            </div>
+                          </div>
+                          <div class="row mb-2">
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Operation Room Nursing </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Total Beds :</b></label>
+                              {{HospitalData.OperationRoomNursingTotalBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>General Surgery Beds :</b></label>
+                              {{HospitalData.OperationRoomNursingGeneralSurgeryBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Pediatric Beds :</b></label>
+                              {{HospitalData.OperationRoomNursingPediatricBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Cardiothoracic Beds :</b></label>
+                              {{HospitalData.OperationRoomNursingCardiothoracicBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Gynae. and Obstetrical Beds :</b></label>
+                              {{HospitalData.OperationRoomNursingGynaeAndObstetricalBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Orthopaedics Beds :</b></label>
+                              {{HospitalData.OperationRoomNursingOrthopaedicsBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Ophthalmic Beds :</b></label>
+                              {{HospitalData.OperationRoomNursingOphthalmicBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>ENT and Neuro Beds :</b></label>
+                              {{HospitalData.OperationRoomNursingENTAndNeuroBeds}}
+                            </div>
+                          </div>
+                          <div class="row mb-2">
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Emergency and Disaster Nursing </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Total Beds :</b></label>
+                              {{HospitalData.EmergencyAndDisasterNursingTotalBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>ICU Beds :</b></label>
+                              {{HospitalData.EmergencyAndDisasterNursingICUBeds}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Emergency Beds :</b></label>
+                              {{HospitalData.EmergencyAndDisasterNursingEmergencylBeds}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card">
+                      <div class="card-header">
+                        <b>
+                          <i class="bi bi-table"></i>&nbsp; Manage by
+                        </b>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="row mb-2">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Manage by Name :</b></label>
+                              {{HospitalData.ManageByName}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Manage by Contact No. :</b></label>
+                              {{HospitalData.ManageByPhone}}
+                            </div>
+                            <!-- address -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>Address Line 1 :</b></label>
+                              {{HospitalData.AddressLine1_ManageBy}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>Address Line 2 :</b></label>
+                              {{HospitalData.AddressLine2_ManageBy}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>Area :</b></label>
+                              {{HospitalData.RuralUrban_ManageBy==1?'Rural':'Urben'}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>Division :</b></label>
+                              {{HospitalData.ManageDivisionName}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>District :</b></label>
+                              {{HospitalData.ManageDistrictName}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_ManageBy==1">
+                              <label class="form-label"><b>Tehsil :</b></label>
+                              {{HospitalData.ManageTehsilName}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_ManageBy==1">
+                              <label class="form-label"><b>Panchayat Samiti :</b></label>
+                              {{HospitalData.ManagePanchyatSamitiName}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>City/Town/Village :</b></label>
+                              {{HospitalData.CityTownVillage_ManageBy}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>Pincode :</b></label>
+                              {{HospitalData.Pincode_ManageBy}}
+                            </div>
+                            <!-- end -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-header">
+                        <b>
+                          <i class="bi bi-table"></i>&nbsp; Owner
+                        </b>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="row mb-2">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Owner Name :</b></label>
+                              {{HospitalData.OwnerName}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label><b>Owner Contact No. :</b></label>
+                              {{HospitalData.OwnerPhone}}
+                            </div>
+                            <!-- address -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>Address Line 1 :</b></label>
+                              {{HospitalData.AddressLine1_Owner}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>Address Line 2 :</b></label>
+                              {{HospitalData.AddressLine2_Owner}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b> Area :</b></label>
+                              {{HospitalData.RuralUrban_Owner==1?'Rural':'Urben'}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>Division :</b></label>
+                              {{HospitalData.OwnerDivisionName}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>District :</b></label>
+                              {{HospitalData.OwnerDistrictName}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Owner==1">
+                              <label class="form-label"><b>Tehsil :</b></label>
+                              {{HospitalData.OwnerTehsilName}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Owner==1">
+                              <label class="form-label"><b>Panchayat Samiti :</b></label>
+                              {{HospitalData.OwnerPanchyatSamitiName}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>City/Town/Village :</b></label>
+                              {{HospitalData.CityTownVillage_Owner}}
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                              <label class="form-label"><b>Pincode :</b></label>
+                              {{HospitalData.Pincode_Owner}}
+                            </div>
+                            <!-- end -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card" *ngIf="HospitalData.ParentHospitalID==1">
+                      <div class="card-header">
+                        <b>
+                          <i class="bi bi-table"></i>&nbsp; Other
+                        </b>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-5 mb-5">
+                            <label><b> Whether the parent hospital is related to any other institution in the past or not :</b></label>
+                            {{HospitalData.ParentHospitalRelatedToOtherID==1?'Yes':'No'}}
+                          </div>
+                        </div>
+                        <div class="row" *ngIf="HospitalData.ParentHospitalRelatedToOtherID==1">
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <label><b>Name of Institution :</b></label>
+                                {{HospitalData.InstitutionName}}
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <label><b>Organization Contact No. :</b></label>
+                                {{HospitalData.OrganizationPhone}}
+                              </div>
+                              <!-- address -->
+                              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <label class="form-label"><b>Address Line 1 :</b></label>
+                                {{HospitalData.AddressLine1_Other}}
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <label class="form-label"><b>Address Line 2 :</b></label>
+                                {{HospitalData.AddressLine2_Other}}
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <label class="form-label"><b>Area :</b></label>
+                                {{HospitalData.RuralUrban_Other==1?'Rural':'Urben'}}
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <label class="form-label"><b>Division :</b></label>
+                                {{HospitalData.OtherDivisionName}}
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <label class="form-label"><b>District :</b></label>
+                                {{HospitalData.OtherDistrictName}}
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Other==1">
+                                <label class="form-label"><b>Tehsil :</b></label>
+                                {{HospitalData.OtherTehsilName}}
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_Other==1">
+                                <label class="form-label"><b>Panchayat Samiti :</b></label>
+                                {{HospitalData.OtherPanchyatSamitiName}}
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <label class="form-label"><b>City/Town/Village :</b></label>
+                                {{HospitalData.CityTownVillage_Other}}
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                                <label class="form-label"><b>Pincode :</b></label>
+                                {{HospitalData.Pincode_Other}}
+                              </div>
+                              <!-- end -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

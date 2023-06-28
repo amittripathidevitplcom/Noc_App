@@ -1,0 +1,46 @@
+<div class="card tabCard1 mb-0" id="LandDetails1">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp; Facilitie Details</b>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <tbody>
+            <tr *ngFor="let item of FacilitiesDataAllList; let idx =index">
+              <td width="5%">
+                {{idx+1}}
+              </td>
+              <td>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label><b>Facilities : </b></label>
+                    {{item.FacilitiesName}}
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>
+                      <b>Minimum Size :</b>
+                    </label>
+                    {{item.MinSize}}
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>
+                      <b>Image : &nbsp;&nbsp; </b>
+                    </label>
+                    <img *ngIf="item.FacilitiesUrl!=''" src="{{item.FacilitiesUrl}}" alt="Document Image" height="50" width="50" />
+                    <img *ngIf="item.FacilitiesUrl==''" src="../../../../assets/images/userImg.jpg" alt="No Image" height="50" width="50" />
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="FacilitiesDataAllList.length<=0">
+              <td colspan="2" style="color:red">No Data Found.!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

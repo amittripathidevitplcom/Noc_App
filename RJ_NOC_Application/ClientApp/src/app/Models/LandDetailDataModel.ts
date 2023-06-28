@@ -22,6 +22,7 @@ export class LandDetailDataModel {
   public IsConvereted: string = '';
   public LandTypeName: string = '';
   public LandDetailDocument: LandDetailDocumentDataModel[] = [];
+  public Code: string = '';
 }
 export class LandDetailDocumentDataModel extends RequiredDocumentsDataModel_Documents {
   

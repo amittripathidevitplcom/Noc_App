@@ -1,0 +1,18 @@
+
+<div class="card tabCard1 mb-0" id="LandDetails1">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp;Other Documents</b>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of request.DocumentDetails ; let idx =index">
+        <label>
+          <b>{{item.DocumentName}} :</b>&nbsp;&nbsp;
+        </label>
+        <img *ngIf="item.FilePath!=''" src="{{item.FilePath}}" alt="Document Image" height="50" width="50" />
+        <span *ngIf="item.FilePath==''">No Document</span>
+      </div>
+    </div>
+  </div>
+</div>

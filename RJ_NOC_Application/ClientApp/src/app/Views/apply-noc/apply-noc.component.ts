@@ -82,4 +82,7 @@ export class ApplyNOCComponent implements OnInit {
       this.ShowNOCFor = false;
     }
   }
+  async Preview_OnClick(DepartmentID: number, CollegeID: number) {
+    this.routers.navigate(['/applicationpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+  }
 }

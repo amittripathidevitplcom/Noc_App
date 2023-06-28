@@ -83,6 +83,20 @@ import { DocumentMasterComponent } from './Views/Master/document-master/document
 import { AddRoleMasterComponent } from './Views/Master/add-role-master/add-role-master.component';
 import { HospitalDetailComponent } from './Views/TabDetail/hospital-detail/hospital-detail.component';
 
+import { PreviewLandDetailComponent } from './Views/PreviewTabs/preview-land-detail/preview-land-detail.component';
+import { PreviewFacilityDetailComponent } from './Views/PreviewTabs/preview-facility-detail/preview-facility-detail.component';
+import { PreviewRequiredDocumentComponent } from './Views/PreviewTabs/preview-required-document/preview-required-document.component';
+import { PreviewRoomDetailComponent } from './Views/PreviewTabs/preview-room-detail/preview-room-detail.component';
+import { PreviewOtherInformationComponent } from './Views/PreviewTabs/preview-other-information/preview-other-information.component';
+import { PreviewBuildingDetailComponent } from './Views/PreviewTabs/preview-building-detail/preview-building-detail.component';
+import { PreviewStaffDetailComponent } from './Views/PreviewTabs/preview-staff-detail/preview-staff-detail.component';
+import { PreviewOldNOCDetailComponent } from './Views/PreviewTabs/preview-old-nocdetail/preview-old-nocdetail.component';
+import { PreviewAcademicInformationComponent } from './Views/PreviewTabs/preview-academic-information/preview-academic-information.component';
+import { PreviewOtherDocumentComponent } from './Views/PreviewTabs/preview-other-document/preview-other-document.component';
+import { PreviewHospitalDetailComponent } from './Views/PreviewTabs/preview-hospital-detail/preview-hospital-detail.component';
+import { PreviewHostelDetailsComponent } from './Views/PreviewTabs/preview-hostel-detail/preview-hostel-details.component';
+import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -155,7 +169,21 @@ import { HospitalDetailComponent } from './Views/TabDetail/hospital-detail/hospi
     QualificationMasterComponent,
     SubjectMasterComponent,
     DocumentMasterComponent,
-    AddRoleMasterComponent
+    AddRoleMasterComponent,
+
+    PreviewLandDetailComponent,
+    PreviewFacilityDetailComponent,
+    PreviewRequiredDocumentComponent,
+    PreviewRoomDetailComponent,
+    PreviewOtherInformationComponent,
+    PreviewBuildingDetailComponent,
+    PreviewStaffDetailComponent,
+    PreviewOldNOCDetailComponent,
+    PreviewAcademicInformationComponent,
+    PreviewOtherDocumentComponent,
+    PreviewHospitalDetailComponent,
+    PreviewHostelDetailsComponent,
+    ApplicationPreviewComponent
     //LoaderModule,
 
 

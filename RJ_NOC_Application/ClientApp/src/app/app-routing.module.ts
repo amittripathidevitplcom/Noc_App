@@ -58,6 +58,8 @@ import { QualificationMasterComponent } from './Views/Master/QualificationMaster
 import { SubjectMasterComponent } from './Views/Master/SubjectMaster/subject-master.component';
 import { DocumentMasterComponent } from './Views/Master/document-master/document-master.component';
 
+import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
+
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -240,7 +242,10 @@ const routes: Routes = [
       },   
       {
         path: 'documentmaster', component: DocumentMasterComponent
-      },   
+      },
+      {
+        path: 'applicationpreview/:DepartmentID/:CollegeID', component: ApplicationPreviewComponent
+      },
     ]
   },
 

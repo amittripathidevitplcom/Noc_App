@@ -1,0 +1,166 @@
+<div class="card">
+  <div class="card-header">
+    <b>Hostel Details</b>
+  </div>
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Is Hostel Campus</th>
+                <th>Hostel Name</th>
+                <th>Contact Person Name</th>
+                <th>Contact Person No.</th>
+                <th>Hostel Type</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of hostelDataModel let idx=index;">
+                <td>{{idx+1}}</td>
+                <td>{{row.IsHostelCampus}}</td>
+                <td>{{row.HostelName}}</td>
+                <td>{{row.ContactPersonName}}</td>
+                <td>{{row.ContactPersonNo}}</td>
+                <td>{{row.HostelType}}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary" title="Edit" (click)="ViewItem(row.HostelDetailID)"><i class="fa fa-eye"></i></button>
+                </td>
+              </tr>
+              <tr *ngIf="hostelDataModel.length<=0">
+                <td colspan="7" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="backdrop"></div>
+<div class="modal " id="PreviewHostelDetails" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Hostel Details Preview</h4>
+        <button type="button" class="btn btn-danger" aria-label="Close" (click)="onCloseHandled()"><span aria-hidden="true">&times;</span></button>
+
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let item of hostelDataModel">
+
+              <div class="row">
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Is Hostel In Campus</b>: &nbsp;&nbsp; {{item.IsHostelCampus}} </label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Hostel Name</b>:&nbsp;&nbsp; {{item.HostelName}} </label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Address Line 1</b>:&nbsp;&nbsp; {{item.AddressLine1}} </label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Address Line 2</b>:&nbsp;&nbsp; {{item.AddressLine2}}</label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>IsRuralUrban</b>:&nbsp;&nbsp; {{item.IsRuralUrban}}</label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Division</b>:&nbsp;&nbsp;{{item.DivisionName}} </label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>District</b>:&nbsp;&nbsp; {{item.DistrictName}}</label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="item.IsRuralUrban!='Rural'">
+                  <label><b>Tehsil</b>:&nbsp;&nbsp; {{item.TehsilName}}</label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="item.IsRuralUrban!='Rural'">
+                  <label><b>Panchayat Samiti</b>:&nbsp;&nbsp;{{item.PanchyatSamitiName}}</label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>City/Town/Village</b>:&nbsp;&nbsp;{{item.CityTownVillage}} </label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Pincode</b>:&nbsp;&nbsp; {{item.Pincode}}</label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Contact Person Name</b>:&nbsp;&nbsp;{{item.ContactPersonName}} </label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Contact Person No.</b>:&nbsp;&nbsp;{{item.ContactPersonNo}} </label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Distance of College (KM)</b>:&nbsp;&nbsp;{{item.DistanceOfCollege}} </label>
+                </div>
+                <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Type</b>:&nbsp;&nbsp;{{item.HostelType}} </label>
+                </div>
+                <div class="row" *ngIf="item.HostelType=='Rent'">
+                  <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                    <label><b>Owner Name</b>:&nbsp;&nbsp;{{item.OwnerName}} </label>
+                  </div>
+                  <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                    <label><b>Contact No.</b> :&nbsp;&nbsp;{{item.OwnerContactNo}}</label>
+                  </div>
+                  <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                    <label><b>From Date</b>:&nbsp;&nbsp;{{item.FromDate| date: 'dd-MM-yyyy'}} </label>
+                  </div>
+                  <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                    <label><b>To Date</b>:&nbsp;&nbsp;{{item.ToDate| date: 'dd-MM-yyyy'}} </label>
+                  </div>
+                  <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+                    <label><b>Rent Document</b> :&nbsp;&nbsp;<img src="{{item.RentDocument}}" height="50" width="50" alt="Rent Document" /></label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="card">
+                  <div class="card-header">
+                    <b>Hostel Block Details</b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="table-responsive">
+                          <table class="table table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th>Sr. No.</th>
+                                <th>Hostel Block</th>
+                                <th>Width (In Feet)</th>
+                                <th>Length (In Feet)</th>
+                                <th>Image</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let row of request.HostelDetails ;let idx=index;">
+                                <td>{{idx+1}}</td>
+                                <td>{{row.CourseName}}</td>
+                                <td>{{row.Width}}</td>
+                                <td>{{row.Length}}</td>
+                                <td> <img src="{{row.ImageFileName}}" height="50" width="50" alt="Image File" /></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+        </div>
+        <!--<div class="modal-footer">
+
+          <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+        </div>-->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+</div>

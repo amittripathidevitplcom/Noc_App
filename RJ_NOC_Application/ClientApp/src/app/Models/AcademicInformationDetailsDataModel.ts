@@ -15,4 +15,5 @@ export class AcademicInformationDetailsDataModel {
   public OtherStudent: number = 0;
   public Percentage: number = 0;
   public UserID: number = 0;
+  public FinancialYearName: string = '';
 }

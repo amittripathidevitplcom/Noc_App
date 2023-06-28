@@ -1,0 +1,176 @@
+<div class="card tabCard1 mb-0" id="LandDetails1">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp; Land Details</b>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>College</th>
+              <th>Land Situated</th>
+              <th>Land Doc Type</th>
+              <th>Is Convereted</th>
+              <th>Land Type</th>
+              <th>Owner Name</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of LandDetailList; let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item.CollegeName}}</td>
+              <td>{{item.LandAreaSituatedName}}</td>
+              <td>{{item.LandDocumentTypeName}}</td>
+              <td>{{item.IsConvereted}}</td>
+              <td>{{item.LandTypeName}}</td>
+              <td>{{item.LandOwnerName}}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(item.LandDetailID)"><i class="fa fa-eye"></i></button>
+              </td>
+            </tr>
+            <tr *ngIf="LandDetailList.length<=0">
+              <td colspan="8" style="color:red">No Data Found.!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="modal" id="ModalViewLandDetail" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Land Detail</h5>
+            <button type="button" class="btn btn-danger" (click)="CloseLandDetailModel()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label><b> College:</b></label>
+                {{request.CollegeName}}
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    Land Area Situated In :
+                  </b>
+                </label>
+                {{request.LandAreaSituatedName}}
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    Land Document Type
+                    :
+                  </b>
+                </label>
+                {{request.LandDocumentTypeName}}
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    Is Your Land converted to Institution/Education
+                    :
+                  </b>
+                </label>
+                {{request.IsConvereted}}
+
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    Land Type
+                    :
+                  </b>
+                </label>
+                {{request.LandTypeName}}
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    Khasra Number
+                    :
+                  </b>
+                </label>
+                {{request.KhasraNumber}}
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    Name of Owner of Land
+                    :
+                  </b>
+                </label>
+                {{request.LandOwnerName}}
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    Total Building Area (in {{UnitOfLand}})
+                    :
+                  </b>
+                </label>
+                {{request.BuildingHostelQuartersRoadArea}}
+              </div>
+
+
+
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
+                <label>
+                  <b>
+                    Land Conversion Order Date(DD/MM/YYYY) <!---->
+                    :
+                  </b>
+                </label>
+                {{request.LandConversionOrderDate}}
+              </div>
+
+
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
+                <label>
+                  <b>
+                    Land Conversion Order No
+                    :
+                  </b>
+                </label>
+                {{request.LandConversionOrderNo}}
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')"> 
+                <label>
+                  <b>
+                    Affidavit Date(DD/MM/YYYY)
+                    :
+                  </b>
+                </label>
+                {{request.AffidavitDate}}
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of request.LandDetailDocument ; let idx =index">
+                <label>
+                  <b>
+                    {{item.DocumentName}} :
+                  </b>
+                </label>
+                <img src="{{item.FilePath}}" alt="Land Document" height="50" width="50"/>
+              </div>
+              <div class="modal-footer">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
