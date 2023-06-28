@@ -32,7 +32,7 @@
                 <td>{{row.FailedStudent}}</td>
                 <td>{{row.OtherStudent}}</td>
               </tr>
-              <tr *ngIf="(AcademicInformationList==null)">
+              <tr *ngIf="(AcademicInformationList.length<=0)">
                 <td colspan="10" style="color:red">No Data Found.!</td>
               </tr>
             </tbody>
