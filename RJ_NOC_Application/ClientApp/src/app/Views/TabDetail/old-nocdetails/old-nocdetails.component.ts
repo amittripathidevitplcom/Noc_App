@@ -432,6 +432,7 @@ export class OldNOCDetailsComponent implements OnInit {
         if (this.State == 0) {
           this.request.UploadNOCDoc = data['Data'][0]["FileName"];
           this.request.UploadNOCDocPath = data['Data'][0]["FilePath"];
+          this.request.Dis_FileName = data['Data'][0]["Dis_FileName"];
           this.IsUploadDocRequried = false;
         }
         if (this.State == 1) {
@@ -455,6 +456,7 @@ export class OldNOCDetailsComponent implements OnInit {
         if (this.State == 0) {
           this.request.UploadNOCDoc = '';
           this.request.UploadNOCDocPath = '';
+          this.request.Dis_FileName = '';
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
@@ -548,7 +550,9 @@ export class OldNOCDetailsComponent implements OnInit {
           this.GetSubjectList(this.request.CourseID);
           this.OnChangeOldNOCType()
           this.SelectedSubjectDetails = this.request.SubjectData;
-          this.request.UploadNOCDocPath = this.request.UploadNOCDoc;
+          this.request.UploadNOCDoc = this.request.UploadNOCDoc;
+          this.request.UploadNOCDocPath = this.request.UploadNOCDocPath;
+          this.request.Dis_FileName = this.request.Dis_FileName;
           this.isDisabled = true;
           const btnAdd = document.getElementById('btnAddNOCDetail')
           if (btnAdd) { btnAdd.innerHTML = "Update"; }

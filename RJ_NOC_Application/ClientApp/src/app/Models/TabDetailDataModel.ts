@@ -159,6 +159,7 @@ export class OldNocDetailsDataModel {
   public NOCExpireDate: string = '';
   public UploadNOCDoc: string = '';
   public UploadNOCDocPath: string = '';
+  public Dis_FileName: string = '';
   public Remark: string = '';
   public SubjectData: OldNocDetails_SubjectDataModel[] = [];
 }
