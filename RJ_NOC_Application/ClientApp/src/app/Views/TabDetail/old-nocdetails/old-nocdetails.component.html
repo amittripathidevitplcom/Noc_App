@@ -236,7 +236,7 @@
                     <td>{{row.NOCNumber}}</td>
                     <td>{{row.NOCReceivedDate}}</td>
                     <td>{{row.NOCExpireDate=='1900-01-01'?'':row.NOCExpireDate}}</td>
-                    <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDocPath}}" title="View Upload Document"><i class="fa fa-paperclip"></i></a></td>
+                    <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
                     <td>{{row.Remark}}</td>
                     <td>
                       <button type="button" class="btn btn-sm btn-primary" title="Edit" [attr.disabled]="isDisabled ? true : null" (click)="EditItem(row.OldNocID)"><i class="fa fa-edit"></i></button>

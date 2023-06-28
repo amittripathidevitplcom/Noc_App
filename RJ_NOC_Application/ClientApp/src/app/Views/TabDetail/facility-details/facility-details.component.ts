@@ -38,7 +38,7 @@ export class FacilityDetailsComponent implements OnInit {
   public files: File = null;
   public FacilitiesDataAddedList: any = [];
   public FacilitiesDataAllList: any = [];
-  
+
   public FacilitiesData: any = [];
   public SelectedDepartmentID: number = 0;
   public SelectedCollageID: number = 0;
@@ -49,7 +49,7 @@ export class FacilityDetailsComponent implements OnInit {
   public FacilitesMinSizeDataList: any = [];
   public isLoading: boolean = false;
   public isLoadingExport: boolean = false;
-  public isValidFacilitiesUrl: boolean = false;
+  public isValidFacilitiesUrl: boolean = true;
   public showFacilitiesUrl: boolean = false;
 
   public isDisabledGrid: boolean = false;
@@ -71,9 +71,9 @@ export class FacilityDetailsComponent implements OnInit {
 
   // ssologin model
   ssoLoginModel = new SSOLoginDataModel();
- 
 
-  public ImageValidationMessage: string = '';  
+
+  public ImageValidationMessage: string = '';
   public file: any = '';
 
   request = new FacilityDetailsDataModel();
@@ -83,7 +83,7 @@ export class FacilityDetailsComponent implements OnInit {
 
 
   constructor(private facilityDetailsService: FacilityDetailsService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
- 
+
 
   ngOnInit(): void {
     this.FacilitiesForm = this.formBuilder.group(
@@ -107,16 +107,16 @@ export class FacilityDetailsComponent implements OnInit {
     this.GetFacilityDetailAllList();
   }
   get form() { return this.FacilitiesForm.controls; }
- 
+
 
   async GetFacilities(DepartmentID: number, Type: string) {
     try {
-      
+
       this.loaderService.requestStarted();
       this.isLoading = true;
       await this.commonMasterService.GetFacilitiesMasterList_DepartmentAndTypeWise(DepartmentID, Type)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -136,7 +136,7 @@ export class FacilityDetailsComponent implements OnInit {
     }
   }
 
-  ddlFacilities_change($event: any, SeletedFacilitiesID: any) {
+  async ddlFacilities_change($event: any, SeletedFacilitiesID: any) {
     this.request.FacilitiesID = SeletedFacilitiesID;
     this.request.MinSize = 0;
     this.request.Unit = '';
@@ -150,7 +150,7 @@ export class FacilityDetailsComponent implements OnInit {
     console.log(SeletedFacilitiesID);
     try {
       this.loaderService.requestStarted();
-      this.commonMasterService.GetFacilitesMinSize(this.request.FacilitiesID)
+      await this.commonMasterService.GetFacilitesMinSize(this.request.FacilitiesID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.FacilitesMinSizeDataList = data['Data'];
@@ -170,65 +170,75 @@ export class FacilityDetailsComponent implements OnInit {
     }
   }
 
-  AddMoreFacilities() {
-    this.isSubmitted = true;
-    this.isUploadImage = false;
-    var message = '';    
-    if (this.FacilitiesForm.invalid) {
-      return
+  async ValidateUploadImage(event: any) {
+    try {
+      this.loaderService.requestEnded();
+      this.isValidFacilitiesUrl = true;
+      if (event.target.files && event.target.files[0]) {
+        if (event.target.files[0].type === 'image/jpeg' ||
+          event.target.files[0].type === 'application/pdf' ||
+          event.target.files[0].type === 'image/jpg') {
+          if (event.target.files[0].size > 2000000) {
+            this.fileUploadImage.nativeElement.value = "";
+            this.ImageValidationMessage = 'Select less then 2MB File';
+            this.ResetFile(false, '', '', '');
+            this.isValidFacilitiesUrl = false;
+            return
+          }
+          if (event.target.files[0].size < 100000) {
+            this.ImageValidationMessage = 'Select more then 100kb File';
+            this.fileUploadImage.nativeElement.value = "";
+            this.ResetFile(false, '', '', '');
+            this.isValidFacilitiesUrl = false;
+            return
+          }
+        }
+        else {
+          this.ImageValidationMessage = 'Select Only jpg/jpeg/pdf file';
+          this.fileUploadImage.nativeElement.value = "";
+          this.ResetFile(false, '', '', '');
+          this.isValidFacilitiesUrl = false;
+          return
+        }
+        this.file = event.target.files[0];
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          //event.target.value = '';        
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFile(true, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"]);
+            event.target.value = null;
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
     }
-    if (this.WidthMin > this.request.MinSize) {
-      this.CssClass_TextDangerWidth = 'text-danger';
-      return
+    catch (Ex) {
+      console.log(Ex);
     }
-    this.FacilitiesDataAddedList.push({
-      Facilities: this.FacilitiesData.find((x: { FID: number; }) => x.FID == this.request.FacilitiesID).FacilitiesName,
-      MinSize: this.request.MinSize,
-      ImageFilePath: 'http://localhost:4200/assets/images/logoLarge.png'
-    });
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
-  ValidateUploadImage(event: any) {
-    this.isValidFacilitiesUrl = false;
-    if (event.target.files && event.target.files[0]) {
-      if (event.target.files[0].type === 'image/jpeg' ||
-        event.target.files[0].type === 'application/pdf' ||
-        event.target.files[0].type === 'image/jpg') {
-        if (event.target.files[0].size > 2000000) {
-          this.fileUploadImage.nativeElement.value = "";
-          this.ImageValidationMessage = 'Select less then 2MB File';
-          //this.toastr.warning('Select less then 2MB File');
-          this.isValidFacilitiesUrl = true;
-          this.request.FacilitiesUrl = '';
-          return
-        }
-        if (event.target.files[0].size < 100000) {
-          this.ImageValidationMessage = 'Select more then 100kb File';
-          this.fileUploadImage.nativeElement.value = "";
-          this.isValidFacilitiesUrl = true;
-          this.request.FacilitiesUrl = '';
-          //this.toastr.warning('Select more then 100kb File');
-          return
-        }
-      }
-      else {
-        this.ImageValidationMessage = 'Select Only jpg/jpeg/pdf file';
-        this.fileUploadImage.nativeElement.value = "";
-        //this.toastr.warning('Select Only jpg/jpeg/pdf file');
-        this.isValidFacilitiesUrl = true;
-        this.request.FacilitiesUrl = '';
-        return
-      }
-      this.file = event.target.files[0];
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-        //event.target.value = '';
-        
+
+  async DeleteImage(file: string) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
-          this.showFacilitiesUrl = true;
-          this.request.FacilitiesUrl = data['Data'][0]["FilePath"];
-          event.target.value = null;
+          this.ResetFile(false, '', '', '');
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
@@ -238,15 +248,27 @@ export class FacilityDetailsComponent implements OnInit {
         }
       });
     }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
-  DeleteImage() {
-    this.showFacilitiesUrl = false;
-    this.request.FacilitiesUrl = '';
+
+  ResetFile(isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
+    this.showFacilitiesUrl = isShow;
+    this.request.FacilitiesUrl = fileName;
+    this.request.FacilitiesUrlPath = filePath;
+    this.request.FacilitiesUrl_Dis_FileName = dis_Name;
   }
+
   async SaveData() {
 
     this.request.CollegeID = this.SelectedCollageID;
-    
+
     this.isSubmitted = true;
     console.log(this.request);
     if (this.FacilitiesForm.invalid) {
@@ -256,13 +278,20 @@ export class FacilityDetailsComponent implements OnInit {
       this.CssClass_TextDangerWidth = 'text-danger';
       return
     }
+    //owner
+    if (this.request.FacilitiesID > 0) {
+      this.request.ModifyBy = 1;
+    } else {
+      this.request.CreatedBy = 1;
+      this.request.ModifyBy = 1;
+    }
 
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
       await this.facilityDetailsService.SaveData(this.request, this.files)
-        .then((data: any) => {
+        .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -270,10 +299,10 @@ export class FacilityDetailsComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             // get saved society
-            this.ResetControl();
-            this.GetFacilities(this.SelectedDepartmentID, 'Facilities');
-            this.GetFacilityDetailAllList();
-            
+            await this.ResetControl();
+            await this.GetFacilities(this.SelectedDepartmentID, 'Facilities');
+            await this.GetFacilityDetailAllList();
+
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -290,11 +319,10 @@ export class FacilityDetailsComponent implements OnInit {
     }
   }
 
-  
   async ResetControl() {
     const ddlFacilitiesId = document.getElementById('ddlFacilitiesId')
     if (ddlFacilitiesId) ddlFacilitiesId.focus();
-    this.isValidFacilitiesUrl = false;
+    this.isValidFacilitiesUrl = true;
     this.showFacilitiesUrl = false;
     this.isSubmitted = false;
     this.request.FacilitiesID = 0;
@@ -303,9 +331,10 @@ export class FacilityDetailsComponent implements OnInit {
     this.request.FacilitiesUrl = '';
     this.request.UserID = 0;
     this.isDisabledGrid = false;
-    this.GetFacilityDetailAllList();
+    this.ResetFile(false, '', '', '');
+    await this.GetFacilityDetailAllList();
     const btnSave = document.getElementById('btnSave')
-    if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
+    if (btnSave) btnSave.innerHTML = " Save";
     const btnReset = document.getElementById('')
     if (btnReset) btnReset.innerHTML = "Reset";
   }
@@ -315,7 +344,7 @@ export class FacilityDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.facilityDetailsService.GetFacilityDetailAllList(this.UserID, this.SelectedCollageID)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -343,11 +372,11 @@ export class FacilityDetailsComponent implements OnInit {
           this.request.FacilityDetailID = data['Data'][0]["FacilityDetailID"];
           this.request.FacilitiesID = data['Data'][0]["FacilitiesID"];
           this.request.FacilitiesUrl = data['Data'][0]["FacilitiesUrl"];
+          this.ResetFile((data['Data'][0]["FacilitiesUrl"] != '' ? true : false), data['Data'][0]["FacilitiesUrl"], data['Data'][0]["FacilitiesUrlPath"], data['Data'][0]["FacilitiesUrl_Dis_FileName"]);
           this.request.MinSize = data['Data'][0]["MinSize"];
 
-          this.showFacilitiesUrl = true;
           this.isDisabledGrid = true;
-
+          this.isValidFacilitiesUrl = true;
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
           const btnReset = document.getElementById('btnReset')
@@ -395,10 +424,11 @@ export class FacilityDetailsComponent implements OnInit {
   btnCopyTable_Click() {
     const tabellist = document.getElementById('tabellist')
     if (tabellist) {
-      
+
       this.clipboard.copy(tabellist.innerText);
     }
   }
+
   btnExportTable_Click(): void {
     this.loaderService.requestStarted();
     if (this.FacilitiesDataAllList.length > 0) {
@@ -437,6 +467,7 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   @ViewChild('content') content: ElementRef | any;
+
   btnSavePDF_Click(): void {
     this.loaderService.requestStarted();
     if (this.FacilitiesDataAllList.length > 0) {

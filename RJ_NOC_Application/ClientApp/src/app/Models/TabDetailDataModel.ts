@@ -84,12 +84,27 @@ export class StaffDetailDataModel {
   public PassingYearID: number = 0;
   public Marks: number = 0;
   public ProfilePhoto: string = '';
+  public ProfilePhotoPath: string = '';
+  public ProfilePhoto_Dis_FileName: string = '';
   public AadhaarCard: string = '';
+  public AadhaarCardPath: string = '';
+  public AadhaarCard_Dis_FileName: string = '';
   public PANCard: string = '';
+  public PANCardPath: string = '';
+  public PANCard_Dis_FileName: string = '';
   public ExperienceCertificate: string = '';
+  public ExperienceCertificatePath: string = '';
+  public ExperienceCertificate_Dis_FileName: string = '';
   public UploadDocument: string = '';
+  public UploadDocumentPath: string = '';
+  public UploadDocument_Dis_FileName: string = '';
   public DepartmentID: number = 0;
   public CollegeID: number = 0;
+
+  public CreatedBy: number = 0;
+  public ModifyBy: number = 0;
+  public IPAddress: string = '';
+
   public EducationalQualificationDetails: EducationalQualificationDetails_StaffDetail[] = [];
 }
 export class EducationalQualificationDetails_StaffDetail {
@@ -102,6 +117,8 @@ export class EducationalQualificationDetails_StaffDetail {
   public PassingYear: string = '';
   public Marks: number = 0;
   public UploadDocument: string = '';
+  public UploadDocumentPath: string = '';
+  public UploadDocument_Dis_FileName: string = '';
 }
 
 //export class BuildingDetailsDataModel {
@@ -229,6 +246,7 @@ export class BuildingDetailsDataModel {
   public UserID: number = 0;
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
+
   public lstBuildingDocDetails: DocuemntBuildingDetailsDataModel[] = [];
 }
 

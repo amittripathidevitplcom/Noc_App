@@ -472,15 +472,15 @@ export class LandDetailsComponent implements OnInit {
     this.isLoading = true;
     try {
       await this.landDetailsService.SaveData(this.request)
-        .then((data: any) => {
+        .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           console.log(this.State);
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
-            this.GetLandDetailsDataList();
-            this.ResetControl();
+            await this.GetLandDetailsDataList();
+            await this.ResetControl();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -492,7 +492,7 @@ export class LandDetailsComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
         this.isLoading = false;
-
+        this.isSubmitted = false;
       }, 200);
     }
 
@@ -554,7 +554,7 @@ export class LandDetailsComponent implements OnInit {
 
 
 
-  ResetControl() {
+  async ResetControl() {
     this.request.LandDetailID = 0;
     this.request.LandAreaID = 0;
     this.request.LandDocumentTypeID = 0;
@@ -576,7 +576,7 @@ export class LandDetailsComponent implements OnInit {
     this.request.LandDetailDocument = [];
     this.ShowConversionOrderNo = false;
     this.isDisabledGrid = false;
-    this.GetLandDocument(this.SelectedDepartmentID, 'LandDetail');
+    await this.GetLandDocument(this.SelectedDepartmentID, 'LandDetail');
     const btnSave = document.getElementById('btnAddLandDetail')
     if (btnSave) btnSave.innerHTML = "Save";
     //this.LandDocumentFile.nativeElement.value = "";
