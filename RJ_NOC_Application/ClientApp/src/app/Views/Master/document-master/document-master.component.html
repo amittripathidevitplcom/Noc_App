@@ -37,8 +37,8 @@
                       {{item.DepartmentName}}
                     </option>
                   </select>
-                  <div *ngIf="isSubmitted&&form.ddlDepartmentId.errors" class="requiredBox">
-                    <p *ngIf="!form.ddlDepartmentId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                  <div *ngIf="isSubmitted&&form.ddlDepartmentId.errors" class="text-danger">
+                    <p *ngIf="!form.ddlDepartmentId.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -48,32 +48,32 @@
                     <option value="RequiredDocument">Required Document</option>
                     <option value="OtherDocument">Other Document</option>
                   </select>
-                  <div *ngIf="isSubmitted&&form.ddlDocumentTypeId.errors" class="requiredBox">
-                    <p *ngIf="!form.ddlDocumentTypeId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                  <div *ngIf="isSubmitted&&request.DocumentTypeID == '0'" class="text-danger">
+                    <p *ngIf="request.DocumentTypeID == '0'"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label for="txtDocumentName" class="form-label mb-0">Document Name <span style="color:red;">*</span></label>
                   <input type="text" class="form-control" id="txtDocumentName" name="txtDocumentName" formControlName="txtDocumentName" [(ngModel)]="request.DocumentName">
 
-                  <div *ngIf="isSubmitted&&form.txtDocumentName.errors" class="requiredBox">
-                    <p *ngIf="form.txtDocumentName.errors.required" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                  <div *ngIf="isSubmitted&&form.txtDocumentName.errors" class="text-danger">
+                    <p *ngIf="form.txtDocumentName.errors.required" ><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label for="txtMinSize" class="form-label mb-0">Min.Size <span style="color:red;">*</span></label>
                   <input type="number" class="form-control" id="txtMinSize" name="txtMinSize" formControlName="txtMinSize" [(ngModel)]="request.MinSize">
 
-                  <div *ngIf="isSubmitted&&form.txtMinSize.errors" class="requiredBox">
-                    <p *ngIf="form.txtMinSize.errors.required" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                  <div *ngIf="isSubmitted&&request.MinSize <= 0" class="text-danger">
+                    <p *ngIf="request.MinSize <= 0" ><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label for="txtMaxSize" class="form-label mb-0">Max.Size <span style="color:red;">*</span></label>
                   <input type="number" class="form-control" id="txtMaxSize" name="txtMaxSize" formControlName="txtMaxSize" [(ngModel)]="request.MaxSize">
 
-                  <div *ngIf="isSubmitted&&form.txtMaxSize.errors" class="requiredBox">
-                    <p *ngIf="form.txtMaxSize.errors.required" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                  <div *ngIf="isSubmitted&&request.MaxSize <= 0" class="text-danger">
+                    <p *ngIf="request.MaxSize <= 0" ><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
@@ -120,8 +120,8 @@
                     <th>Document Type Name</th>
                     <th>Department Name</th>
                     <th>Document Name</th>
-                    <th>Status</th>
                     <th>IsCompulsory</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -131,8 +131,8 @@
                     <td>{{row.DocumentTypeName}}</td>
                     <td>{{row.DepartmentName_English}}</td>
                     <td>{{row.DocumentName}}</td>
-                    <td>{{row.ActiveStatus}}</td>
                     <td>{{row.Compulsory}}</td>
+                    <td>{{row.ActiveStatus}}</td>
                     <td>
                       <div class="d-flex">
                         <button type="button" (click)="Edit_OnClick(row.DocumentMasterID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>

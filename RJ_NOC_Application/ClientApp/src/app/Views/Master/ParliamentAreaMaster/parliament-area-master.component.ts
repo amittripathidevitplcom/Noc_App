@@ -189,8 +189,8 @@ export class ParliamentAreaMasterComponent implements OnInit {
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
-        //ws['!cols'] = [];
-        //ws['!cols'][0] = { hidden: true };
+        ws['!cols'] = [];
+        ws['!cols'][4] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "ParliamentAreaMaster.xlsx");
@@ -250,17 +250,17 @@ export class ParliamentAreaMasterComponent implements OnInit {
             "S.No.": i + 1,
             "DistrictName": this.ParliamentAreaList[i]['District_Eng'],
             "ParliamentAreaName": this.ParliamentAreaList[i]['ParliamentAreaName'],
-            "ActiveDeactive": this.ParliamentAreaList[i]['ActiveDeactive']
+            "Status": this.ParliamentAreaList[i]['ActiveDeactive']
           })
         }
 
         let values: any;
-        let privados = ['S.No.', "DistrictName", "ParliamentAreaName","ActiveDeactive"];
+        let privados = ['S.No.', "DistrictName", "ParliamentAreaName","Status"];
         let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
         values = pDFData.map((elemento: any) => Object.values(elemento));
 
         doc.setFontSize(16);
-        doc.text("Parliament Area Mastter", 100, 10, { align: 'center', maxWidth: 100 });
+        doc.text("Parliament Area Master", 100, 10, { align: 'center', maxWidth: 100 });
 
         autoTable(doc,
           {
@@ -344,6 +344,7 @@ export class ParliamentAreaMasterComponent implements OnInit {
     if (ddlDistrictID) ddlDistrictID.focus();
     this.isSubmitted = false;
     this.isDisabledDOJ = false;
+    this.request.ParliamentAreaID = 0;
     this.request.DistrictID = 0;
     this.request.ParliamentAreaName = '';
     this.request.ActiveStatus = true;

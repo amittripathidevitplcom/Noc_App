@@ -87,7 +87,7 @@
             </div>
             <div class="d-flex align-items-center table-filter mr-15">
               <i class="fa fa-search"></i>
-              <input type="text" class="form-control" placeholder="Search Here" />
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText"/>
             </div>
           </div>
         </div>
@@ -101,6 +101,7 @@
                   <th>District Name</th>
                   <th>Department Name</th>
                   <th>Land Area Name</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -110,7 +111,8 @@
                   <td>{{row.StateName}}</td>
                   <td>{{row.DistrictName}}</td>
                   <td>{{row.DepartmentName}}</td>
-                  <td>{{row.LandAreaName}}</td>                  
+                  <td>{{row.LandAreaName}}</td>
+                  <td>{{row.ActiveDeactive}}</td>
                   <td>
                     <div class="d-flex">
                       <button type="button" (click)="Edit_OnClick(row.LandAreaID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>

@@ -109,6 +109,9 @@ export class CommonMasterComponent implements OnInit {
     if (this.CommonMasterFormGroup.invalid) {
       return
     }
+    if (this.request.Type == '0') {
+      return;
+    }
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
@@ -209,8 +212,9 @@ export class CommonMasterComponent implements OnInit {
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
     this.isDisabledDOJ = false;
+    this.request.ID = 0;
     this.request.DepartmentID = 0;
-    this.request.Type = '';
+    this.request.Type = '0';
     this.request.Name = '';
     this.request.ActiveStatus = true;
     this.isDisabledGrid = false;
@@ -239,8 +243,8 @@ export class CommonMasterComponent implements OnInit {
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
-        //ws['!cols'] = [];
-        //ws['!cols'][0] = { hidden: true };
+        ws['!cols'] = [];
+        ws['!cols'][5] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "CommonMaster.xlsx");
@@ -282,17 +286,17 @@ export class CommonMasterComponent implements OnInit {
             "DepartmentName": this.CommonMasterDataList[i]['DepartmentName_English'],
             "Type": this.CommonMasterDataList[i]['Type'],
             "Name": this.CommonMasterDataList[i]['Name'],
-            "ActiveDeactive": this.CommonMasterDataList[i]['ActiveDeactive'],
+            "Status": this.CommonMasterDataList[i]['ActiveDeactive'],
           })
         }
 
         let values: any;
-        let privados = ['S.No.', "DepartmentName", "Type", "Name", "ActiveDeactive"];
+        let privados = ['S.No.', "DepartmentName", "Type", "Name", "Status"];
         let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
         values = pDFData.map((elemento: any) => Object.values(elemento));
 
         doc.setFontSize(16);
-        doc.text("Common Mastter", 100, 10, { align: 'center', maxWidth: 100 });
+        doc.text("Common Master", 100, 10, { align: 'center', maxWidth: 100 });
 
         autoTable(doc,
           {

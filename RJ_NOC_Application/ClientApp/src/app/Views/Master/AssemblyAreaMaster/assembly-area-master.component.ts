@@ -206,6 +206,7 @@ export class AssemblyAreaMasterComponent implements OnInit {
     if (ddlDistrictID) ddlDistrictID.focus();
     this.isSubmitted = false;
     this.isDisabledDOJ = false;
+    this.request.AssemblyAreaID = 0;
     this.request.DistrictID = 0;
     this.request.AssemblyAreaName = '';
     this.request.ActiveStatus = true;
@@ -235,8 +236,8 @@ export class AssemblyAreaMasterComponent implements OnInit {
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
-        //ws['!cols'] = [];
-        //ws['!cols'][0] = { hidden: true };
+        ws['!cols'] = [];
+        ws['!cols'][4] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "AssemblyAreaMaster.xlsx");
@@ -276,17 +277,17 @@ export class AssemblyAreaMasterComponent implements OnInit {
             "S.No.": i + 1,
             "DistrictName": this.AssemblyAreaList[i]['District_Eng'],
             "AssemblyAreaName": this.AssemblyAreaList[i]['AssemblyAreaName'],
-            "ActiveStatus": this.AssemblyAreaList[i]['ActiveStatus']
+            "Status": this.AssemblyAreaList[i]['ActiveStatus']
           })
         }
 
         let values: any;
-        let privados = ['S.No.', "DistrictName", "AssemblyAreaName","ActiveStatus"];
+        let privados = ['S.No.', "DistrictName", "AssemblyAreaName","Status"];
         let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
         values = pDFData.map((elemento: any) => Object.values(elemento));
 
         doc.setFontSize(16);
-        doc.text("Assembly Area Mastter", 100, 10, { align: 'center', maxWidth: 100 });
+        doc.text("Assembly Area Master", 100, 10, { align: 'center', maxWidth: 100 });
 
         autoTable(doc,
           {

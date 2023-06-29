@@ -207,11 +207,11 @@ export class AddRoleMasterComponent implements OnInit {
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
-        //ws['!cols'] = [];
-        //ws['!cols'][0] = { hidden: true };
+        ws['!cols'] = [];
+        ws['!cols'][3] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
-        XLSX.writeFile(wb, "ParliamentAreaMaster.xlsx");
+        XLSX.writeFile(wb, "AddRoleMaster.xlsx");
       }
       catch (Ex) {
         console.log(Ex);
@@ -267,17 +267,17 @@ export class AddRoleMasterComponent implements OnInit {
           pDFData.push({
             "S.No.": i + 1,
             "RoleName": this.AddRoleMasterList[i]['RoleName'],
-            "ActiveDeactive": this.AddRoleMasterList[i]['ActiveDeactive']
+            "Status": this.AddRoleMasterList[i]['ActiveDeactive']
           })
         }
 
         let values: any;
-        let privados = ['S.No.', "RoleName", "ActiveDeactive"];
+        let privados = ['S.No.', "RoleName", "Status"];
         let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
         values = pDFData.map((elemento: any) => Object.values(elemento));
 
         doc.setFontSize(16);
-        doc.text("Add Role Mastter", 100, 10, { align: 'center', maxWidth: 100 });
+        doc.text("Add Role Master", 100, 10, { align: 'center', maxWidth: 100 });
 
         autoTable(doc,
           {

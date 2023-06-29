@@ -59,26 +59,27 @@ export class DocumentMasterComponent implements OnInit {
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) {
 
   }
-  
-  
- 
-ngOnInit(): void {
-  this.DocumentFormGroup = this.formBuilder.group(
-    {
-      ddlDepartmentId: ['0', [DropdownValidators]],
-      ddlDocumentTypeId: ['0'],
-      txtDocumentName: ['', Validators.required],
-      txtMinSize: ['', Validators.required],
-      txtMaxSize: ['', Validators.required],
-      chkIsActiveStatus: ['false'],
-      chkIsCompulsory: ['false'],
-    })
-  const txtDocumentName = document.getElementById('txtDocumentName')
-  if (txtDocumentName) txtDocumentName.focus();
-  this.UserID = 1;
-  this.GetAllList();
+
+
+
+  ngOnInit(): void {
+    this.request.DocumentTypeID = "0"
+    this.DocumentFormGroup = this.formBuilder.group(
+      {
+        ddlDepartmentId: ['0', [DropdownValidators]],
+        ddlDocumentTypeId: ['0'],
+        txtDocumentName: ['', Validators.required],
+        txtMinSize: [0, Validators.required],
+        txtMaxSize: [0, Validators.required],
+        chkIsActiveStatus: ['false'],
+        chkIsCompulsory: ['false'],
+      })
+    const txtDocumentName = document.getElementById('txtDocumentName')
+    if (txtDocumentName) txtDocumentName.focus();
+    this.UserID = 1;
+    this.GetAllList();
     this.GetDepartmentList();
-}
+  }
 
   get form() { return this.DocumentFormGroup.controls; }
 
@@ -105,11 +106,11 @@ ngOnInit(): void {
   }
   async GetAllList() {
     try {
-      
+
       this.loaderService.requestStarted();
       await this.documentMasterService.GetList(this.UserID)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -131,6 +132,9 @@ ngOnInit(): void {
     this.isSubmitted = true;
     if (this.DocumentFormGroup.invalid) {
       return
+    }
+    if (this.request.DocumentTypeID == '0' || this.request.MinSize <= 0 || (this.request.MinSize).toString() == '' || this.request.MaxSize <= 0 || (this.request.MaxSize).toString() == '') {
+      return;
     }
     //Show Loading
     this.loaderService.requestStarted();
@@ -165,7 +169,7 @@ ngOnInit(): void {
   async ResetControl() {
     const txtDocumentName = document.getElementById('txtDocumentName')
     if (txtDocumentName) txtDocumentName.focus();
-   
+
     //const ddlDepartmentId = document.getElementById('ddlDepartmentId')
     //if (ddlDepartmentId) ddlDepartmentId.focus();
 
@@ -174,8 +178,8 @@ ngOnInit(): void {
     this.request.DepartmentID = 0;
     this.request.DocumentTypeID = '0';
     this.request.DocumentName = '';
-    this.request.IsActiveStatus = true;
-    this.request.IsCompulsory = true;
+    this.request.IsActiveStatus = false;
+    this.request.IsCompulsory = false;
     this.request.MinSize = 0;
     this.request.MaxSize = 0;
     this.request.UserID = 0;
@@ -193,7 +197,7 @@ ngOnInit(): void {
       this.loaderService.requestStarted();
       await this.documentMasterService.GetByID(DocumentMasterID, this.UserID)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.request.DocumentMasterID = data['Data'][0]["DocumentMasterID"];
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
@@ -252,7 +256,7 @@ ngOnInit(): void {
   btnCopyTable_Click() {
     const tabellist = document.getElementById('tabellist')
     if (tabellist) {
-      
+
       this.clipboard.copy(tabellist.innerText);
     }
   }
@@ -267,8 +271,8 @@ ngOnInit(): void {
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
-        //ws['!cols'] = [];
-        //ws['!cols'][0] = { hidden: true };
+        ws['!cols'] = [];
+        ws['!cols'][6] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "DocumentType.xlsx");
@@ -295,33 +299,57 @@ ngOnInit(): void {
 
   @ViewChild('content') content: ElementRef | any;
   btnSavePDF_Click(): void {
+
     this.loaderService.requestStarted();
     if (this.documentMasterData.length > 0) {
       try {
 
 
         let doc = new jsPDF('p', 'mm', [432, 279])
+        let pDFData: any = [];
+        for (var i = 0; i < this.documentMasterData.length; i++) {
+          pDFData.push({
+            "S.No.": i + 1,
+            "DocumentTypeName": this.documentMasterData[i]['DocumentTypeName'],
+            "DepartmentName": this.documentMasterData[i]['DepartmentName_English'],
+            "DocumentName": this.documentMasterData[i]['DocumentName'],
+            "IsCompulsory": this.documentMasterData[i]['Compulsory'],
+            "Status": this.documentMasterData[i]['ActiveStatus'],
+          })
+        }
+
+        let values: any;
+        let privados = ['S.No.', "DocumentTypeName", "DepartmentName", "DocumentName", "IsCompulsory", "Status"];
+        let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
+        values = pDFData.map((elemento: any) => Object.values(elemento));
+
         doc.setFontSize(16);
-        doc.text("DocumentType", 100, 10, { align: 'center', maxWidth: 100 });
-        autoTable(doc, {
-          html: '#tabellist'
-          , styles: { fontSize: 8 },
-          headStyles: {
-            fillColor: '#3f51b5',
-            textColor: '#fff',
-            halign: 'center'
-          },
-          bodyStyles: {
-            halign: 'center'
-          },
-          margin: {
-            left: 5,
-            right: 5,
-            top: 15
-          },
-          tableLineWidth: 0
-        })        
-        doc.save("DocumentType" + '.pdf');
+        doc.text("Document Master", 100, 10, { align: 'center', maxWidth: 100 });
+
+        autoTable(doc,
+          {
+            head: [header],
+            body: values,
+            styles: { fontSize: 8 },
+            headStyles: {
+              fillColor: '#3f51b5',
+              textColor: '#fff',
+              halign: 'center'
+            },
+            bodyStyles: {
+              halign: 'center'
+            },
+            margin: {
+              left: 5,
+              right: 5,
+              top: 15
+            },
+            tableLineWidth: 0,
+
+          }
+        )
+
+        doc.save("DocumentMaster" + '.pdf');
 
       }
       catch (Ex) {
