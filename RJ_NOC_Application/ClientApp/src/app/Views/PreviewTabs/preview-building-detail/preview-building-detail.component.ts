@@ -5,6 +5,7 @@ import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-preview-building-detail',
@@ -22,8 +23,12 @@ export class PreviewBuildingDetailComponent implements OnInit {
   public ErrorMessage: any = [];
   public lstBuildingDetailsDocument: any = [];
   searchText: string = '';
+
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+
   constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService,
-    private loaderService: LoaderService, private router: ActivatedRoute) { }
+    private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -54,9 +59,13 @@ export class PreviewBuildingDetailComponent implements OnInit {
       }, 200);
     }
   }
-
-
-  async ViewBuildingDetails(BuildingDetailID: number) {
+  async ViewBuildingDetails(content: any, BuildingDetailID: number) {
+    this.buildingdetails = {};
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
     try {
       this.loaderService.requestStarted();
       await this.buildingDetailsMasterService.GetByID(BuildingDetailID, 0)
@@ -94,11 +103,11 @@ export class PreviewBuildingDetailComponent implements OnInit {
           this.buildingdetails.PWDNOCFileUpload = data['Data'][0]['data']['Table'][0]["PWDNOCFileUpload"];
 
           this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
-          const display = document.getElementById('ModalViewBuildingDetail');
-          if (display) display.style.display = 'block';
         }, error => console.error(error));
     }
-    catch (ex) { console.log(ex) }
+    catch (Ex) {
+      console.log(Ex);
+    }
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
@@ -106,9 +115,13 @@ export class PreviewBuildingDetailComponent implements OnInit {
     }
   }
 
-  async CloseBuildingModel() {
-    const display = document.getElementById('ModalViewBuildingDetail');
-    if (display) display.style.display = 'none';
-    this.buildingdetails = {};      
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }

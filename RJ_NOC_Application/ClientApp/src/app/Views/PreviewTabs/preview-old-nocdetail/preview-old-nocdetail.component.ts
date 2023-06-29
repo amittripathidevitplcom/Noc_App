@@ -4,14 +4,12 @@ import { CommonMasterService } from '../../../Services/CommonMaster/common-maste
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OldNocDataModel, OldNocDetailsDataModel, OldNocDetails_SubjectDataModel } from '../../../Models/TabDetailDataModel';
-import { DropdownValidators, createPasswordStrengthValidator, MustMatch } from '../../../Services/CustomValidators/custom-validators.service';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { async } from 'rxjs';
-import { parse } from 'path';
 import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-preview-old-nocdetail',
   templateUrl: './preview-old-nocdetail.component.html',
@@ -27,8 +25,11 @@ export class PreviewOldNOCDetailComponent implements OnInit {
   public OldNocDetails: OldNocDetailsDataModel[] = [];
   public SubjectDataModel: OldNocDetails_SubjectDataModel[] = [];
   request = new OldNocDetailsDataModel();
+
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private fileUploadService: FileUploadService,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private oldnocdetailService: OldnocdetailService) { }
+    private modalService: NgbModal,private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private oldnocdetailService: OldnocdetailService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -59,13 +60,13 @@ export class PreviewOldNOCDetailComponent implements OnInit {
     }
   }
 
-  async CloseOldNOCDetailModel() {
-    const display = document.getElementById('ModalViewOldNOCDetail');
-    if (display) display.style.display = 'none';
+  async ViewOldNOCDetail(content: any, OldNocID: number) {
     this.request = new OldNocDetailsDataModel();
-  }
-
-  async ViewOldNOCDetail(OldNocID: number) {
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
     try {
       this.loaderService.requestStarted();
       await this.oldnocdetailService.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, OldNocID)
@@ -86,6 +87,16 @@ export class PreviewOldNOCDetailComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
     }
   }
 }
