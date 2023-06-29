@@ -1,0 +1,45 @@
+<div class="card tabCard1 mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp; Apply NOC Application List</b>
+  </div>
+  <div class="card-body">
+    <div class="clearfix"></div>
+    <div class="card">
+      <div class="card-header">
+        <b>NOC Applications List</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Department Name</th>
+                    <th>College Name</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of ApplyNocDetails let idx =index">
+                    <td>{{idx+1}}</td>
+                    <!--<td>{{item.DepartmentName}}</td>
+                    <td>{{item.CollegeName}}</td>-->
+                    <td>
+                      <button type="button" class="btn btn-sm btn-info" title="Approve"><i class="fa fa-check"></i>Approve</button>
+                      <button type="button" class="btn btn-sm btn-info" title="Revert"><i class="fa-solid fa-file">Revert</i></button>
+                    </td>
+                  </tr>
+                  <!--<tr *ngIf="ApplyNocDetails.length<=0">
+                    <td colspan="4" style="color:red">No Data Found.!</td>
+                  </tr>-->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
