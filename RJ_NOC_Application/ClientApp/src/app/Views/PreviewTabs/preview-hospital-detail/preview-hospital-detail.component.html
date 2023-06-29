@@ -26,12 +26,12 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let row of HospitalParentNotDataModelList;let idx=index;">
-                    <td>{{idx+1}}"/></td>
-                    <td>{{row.ParentHospitalID==1?'Yes':'No'}}"/></td>
-                    <td>{{row.HospitalAreaName}}"/></td>
-                    <td>{{row.HospitalName}}"/></td>
-                    <td>{{row.HospitalDistance}}"/></td>
-                    <td>{{row.OccupancyPercentegeBeds}}"/></td>
+                    <td>{{idx+1}}</td>
+                    <td>{{row.ParentHospitalID==1?'Yes':'No'}}</td>
+                    <td>{{row.HospitalAreaName}}</td>
+                    <td>{{row.HospitalName}}</td>
+                    <td>{{row.HospitalDistance}}</td>
+                    <td>{{row.OccupancyPercentegeBeds}}</td>
                     <td>
                       <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewHospitalDetail(mymodal,row.HospitalID)"><i class="fa fa-eye"></i></button>
                     </td>
