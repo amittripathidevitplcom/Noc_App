@@ -55,10 +55,14 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label">College Logo <span style="color:red;">*</span></label>
                     <div class="d-flex">
-                      <input type="file" class="form-control" id="fCollegeLogo" name="fCollegeLogo" (change)="onFilechange($event,'CollegeLogo')" [ngModelOptions]="{standalone: true}" [(ngModel)]="request.CollegeLogo">
+                      <input type="file" style="display:none;" class="form-control" id="fCollegeLogo" name="fCollegeLogo" (change)="onFilechange($event,'CollegeLogo')" formControlName="fCollegeLogo">
+                      <label class="btn upload" for="fCollegeLogo">
+                        <span class="filename">Choose file</span>
+                        {{request.CollegeLogo === '' ? 'No File Choosen' : request.CollegeLogo_Dis_FileName}}
+                      </label>
                       <div class="btn-group" *ngIf="showCollegeLogo">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{request.CollegeLogo}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('CollegeLogo')"><i class="fa fa-trash-o"></i></button>
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.CollegeLogoPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('CollegeLogo',request.CollegeLogo)"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
                     <div *ngIf="ProfileLogoValidationMessage!=''" class="text-danger">
@@ -148,20 +152,20 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtMobileNumber" class="form-label">College Mobile Number <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtMobileNumber" name="txtMobileNumber" [(ngModel)]="request.MobileNumber" formControlName="txtMobileNumber" maxlength="10" >
+                    <input type="number" class="form-control" id="txtMobileNumber" name="txtMobileNumber" [(ngModel)]="request.MobileNumber" formControlName="txtMobileNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
                     <div *ngIf="isSubmitted&&form.txtMobileNumber.errors" class="text-danger">
                       <p *ngIf="form.txtMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form.txtMobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
+                      <p *ngIf="form.txtMobileNumber.errors.pattern"><i aria-hidden="true"></i> College Mobile number is not valid .!</p>
                     </div>
                   </div>
 
 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtCollegeLandlineNumber" class="form-label">College Landline Number <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtCollegeLandlineNumber" name="txtCollegeLandlineNumber" [(ngModel)]="request.CollegeLandlineNumber" formControlName="txtCollegeLandlineNumber"  maxlength="10" >
+                    <input type="number" class="form-control" id="txtCollegeLandlineNumber" name="txtCollegeLandlineNumber" [(ngModel)]="request.CollegeLandlineNumber" formControlName="txtCollegeLandlineNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
                     <div *ngIf="isSubmitted&&form.txtCollegeLandlineNumber.errors" class="text-danger">
                       <p *ngIf="form.txtCollegeLandlineNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                     <p *ngIf="form.txtCollegeLandlineNumber.errors.pattern"><i aria-hidden="true"></i> Landline number is not valid .!</p> 
+                      <p *ngIf="form.txtCollegeLandlineNumber.errors.pattern"><i aria-hidden="true"></i> College Landline number is not valid .!</p>
                     </div>
                   </div>
 
@@ -298,7 +302,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtPincode" class="form-label">Pincode <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode">
+                    <input type="number" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" (keypress)="MaxLengthValidation_KeyPress($event,6);">
                     <div *ngIf="isSubmitted&&form.txtPincode.errors" class="text-danger">
                       <p *ngIf="form.txtPincode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -338,7 +342,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtCDMobileNumber" class="form-label">Mobile Number <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtCDMobileNumber" name="txtCDMobileNumber" [(ngModel)]="request_ContactDetailsDataModel.MobileNumber" formControlName="txtCDMobileNumber">
+                    <input type="number" class="form-control" id="txtCDMobileNumber" name="txtCDMobileNumber" [(ngModel)]="request_ContactDetailsDataModel.MobileNumber" formControlName="txtCDMobileNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
                     <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDMobileNumber.errors" class="text-danger">
                       <p *ngIf="form_ContactDetails.txtCDMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form_ContactDetails.txtCDMobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
@@ -429,14 +433,17 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label for="txtGCD_MobileNumber" class="form-label">Mobile Number</label>
-                  <input type="number" class="form-control" id="txtGCD_MobileNumber" name="txtGCD_MobileNumber" [(ngModel)]="request.GCD_MobileNumber" formControlName="txtGCD_MobileNumber">
+                  <input type="number" class="form-control" id="txtGCD_MobileNumber" name="txtGCD_MobileNumber" [(ngModel)]="request.GCD_MobileNumber" formControlName="txtGCD_MobileNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
                   <div *ngIf="isSubmitted&&form.txtGCD_MobileNumber.errors" class="text-danger">
                     <p *ngIf="form.txtGCD_MobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label for="txtGCD_LandlineNumber" class="form-label">Landline Number</label>
-                  <input type="number" class="form-control" id="txtGCD_LandlineNumber" name="txtGCD_LandlineNumber" [(ngModel)]="request.GCD_LandlineNumber" formControlName="txtGCD_LandlineNumber">
+                  <input type="number" class="form-control" id="txtGCD_LandlineNumber" name="txtGCD_LandlineNumber" [(ngModel)]="request.GCD_LandlineNumber" formControlName="txtGCD_LandlineNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
+                  <div *ngIf="isSubmitted&&form.txtGCD_LandlineNumber.errors" class="text-danger">
+                    <p *ngIf="form.txtGCD_LandlineNumber.errors.pattern"><i aria-hidden="true"></i> Landline number is not valid .!</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -545,7 +552,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtPincode_Nearest" name="txtPincode_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.Pincode" formControlName="txtPincode_Nearest">
+                    <input type="number" class="form-control" id="txtPincode_Nearest" name="txtPincode_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.Pincode" formControlName="txtPincode_Nearest" (keypress)="MaxLengthValidation_KeyPress($event,6);">
                     <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtPincode_Nearest.errors" class="text-danger">
                       <p *ngIf="form_NearestGovernmentHospitals.txtPincode_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form_NearestGovernmentHospitals.txtPincode_Nearest.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -561,16 +568,17 @@
                   </div>
                   <!--hospital document-->
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label class="form-label">Document <span style="color:red;">*</span></label>
+                    <label class="form-label">Hospital Documents <span style="color:red;">*</span></label>
                     <div class="d-flex">
-                      <input type="file" class="form-control" id="fHospitalDocument" name="fHospitalDocument" (change)="onFilechange($event,'HospitalDocument')" [(ngModel)]="request_NearestGovernmentHospitals.HospitalDocument" formControlName="fHospitalDocument">
+                      <input type="file" style="display:none;" class="form-control" id="fHospitalDocument" name="fHospitalDocument" (change)="onFilechange($event,'HospitalDocument')" formControlName="fHospitalDocument">
+                      <label class="btn upload" for="fHospitalDocument">
+                        <span class="filename">Choose file</span>
+                        {{request_NearestGovernmentHospitals.HospitalDocument === '' ? 'No File Choosen' : request_NearestGovernmentHospitals.HospitalDocument_Dis_FileName}}
+                      </label>
                       <div class="btn-group" *ngIf="showHospitalDocument">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{request_NearestGovernmentHospitals.HospitalDocument}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('HospitalDocument')"><i class="fa fa-trash-o"></i></button>
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request_NearestGovernmentHospitals.HospitalDocumentPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('HospitalDocument',request_NearestGovernmentHospitals.HospitalDocument)"><i class="fa fa-trash-o"></i></button>
                       </div>
-                    </div>
-                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.fHospitalDocument.errors&&HospitalDocumentValidationMessage==''" class="text-danger">
-                      <p *ngIf="form_NearestGovernmentHospitals.fHospitalDocument.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
                     </div>
                     <div *ngIf="HospitalDocumentValidationMessage!=''" class="text-danger">
                       <p><i aria-hidden="true"></i>{{HospitalDocumentValidationMessage}}</p>
@@ -589,7 +597,9 @@
                         <thead>
                           <tr>
                             <th>Sr. No.</th>
+                            <th>Hospital Reg. No.</th>
                             <th>Hospital Name</th>
+                            <th>Hospital Address</th>
                             <th>Distance From Institute(KM)</th>
                             <th>Hospital Document</th>
                             <th>Action</th>
@@ -598,9 +608,21 @@
                         <tbody>
                           <tr *ngFor="let row of request.NearestGovernmentHospitalsList;let idx=index;">
                             <td>{{idx+1}}</td>
+                            <td>{{row.HospitalRegNo}}</td>
                             <td>{{row.HospitalName}}</td>
+                            <td>
+                              <p class="m-0"><b>Area : </b> {{row.RuralUrbanName}}</p>
+                              <p class="m-0"><b>Address Line 1 : </b> {{row.AddressLine1}}</p>
+                              <p class="m-0"><b>Address Line 2 : </b>{{row.AddressLine2}}</p>
+                              <p class="m-0"><b>Division : </b> {{row.DivisionName}}</p>
+                              <p class="m-0"><b>District : </b> {{row.DistrictName}}</p>
+                              <p *ngIf="row.RuralUrban==1" class="m-0"><b>Tehsil : </b>{{row.TehsilName}}</p>
+                              <p *ngIf="row.RuralUrban==1" class="m-0"><b>PanchayatSamiti : </b>{{row.PanchayatSamitiName}}</p>
+                              <p class="m-0"><b>City/Town/Village : </b>{{row.CityTownVillage}}</p>
+                              <p class="m-0"><b>Pincode : </b>{{row.Pincode}}</p>
+                            </td>
                             <td>{{row.HospitalDistance}}</td>
-                            <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocument}}"><i class="fa fa-eye"></i></a></td>
+                            <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocumentPath}}"><i class="fa fa-eye"></i></a></td>
                             <td>
                               <div class="d-flex">
                                 <button type="button" class="btn btn-danger" (click)="DelNearestGovernmentHospitalsDetail(row)"><i class="fa fa-trash-o"></i></button>
