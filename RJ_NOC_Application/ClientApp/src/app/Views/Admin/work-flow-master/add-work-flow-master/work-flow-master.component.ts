@@ -95,15 +95,18 @@ export class WorkFlowMasterComponent implements OnInit {
   }
 
   async GetDepartmentList() {
+
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetDepartmentList()
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.DepartmentData = data['Data'][0]['data'];
+          this.DepartmentData = data['Data'];
+          console.log(this.DepartmentData);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -125,7 +128,7 @@ export class WorkFlowMasterComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.SchemeData = data['Data'][0]['data'];
+          this.SchemeData = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -146,7 +149,7 @@ export class WorkFlowMasterComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.ModuleData = data['Data'][0]['data'];
+          this.ModuleData = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -168,7 +171,7 @@ export class WorkFlowMasterComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.SubModuleData = data['Data'][0]['data'];
+          this.SubModuleData = data['Data'];
 
         }, error => console.error(error));
     }
@@ -190,7 +193,7 @@ export class WorkFlowMasterComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.RoleLevelData = data['Data'][0]['data'];
+          this.RoleLevelData = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -214,11 +217,11 @@ export class WorkFlowMasterComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (i != -1) {
             this.request.WorkFlowMasterDetailList[i].NextRoleID = this.WorkFlowMasterID <= 0 ? 0 : this.request.WorkFlowMasterDetailList[i].NextRoleID;
-            this.request.WorkFlowMasterDetailList[i].NextUserGroupList = data['Data'][0]['data'];
+            this.request.WorkFlowMasterDetailList[i].NextUserGroupList = data['Data'];
           }
           else {
             this.request.RoleID = this.WorkFlowMasterID <= 0 ? 0 : this.request.RoleID;
-            this.RoleData = data['Data'][0]['data'];
+            this.RoleData = data['Data'];
           }
         }, error => console.error(error));
     }
@@ -300,7 +303,7 @@ export class WorkFlowMasterComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.ActionHeadData = data['Data'][0]['data'];
+          this.ActionHeadData = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -321,7 +324,7 @@ export class WorkFlowMasterComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.request.WorkFlowMasterDetailList[i].ActionList = data['Data'][0]['data'];
+          this.request.WorkFlowMasterDetailList[i].ActionList = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
