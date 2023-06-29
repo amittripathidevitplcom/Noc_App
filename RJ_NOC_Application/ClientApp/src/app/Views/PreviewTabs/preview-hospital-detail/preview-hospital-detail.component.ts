@@ -13,6 +13,7 @@ import { async } from '@angular/core/testing';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-preview-hospital-detail',
@@ -29,7 +30,10 @@ export class PreviewHospitalDetailComponent implements OnInit {
   public HospitalParentNotDataModelList: any = [];
   public IsShowSuperSpecialtyHospital: boolean = false;
   public HospitalData: any = {};
-  constructor(private hospitalDetailService: HospitalDetailService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+
+  constructor(private modalService: NgbModal,private hospitalDetailService: HospitalDetailService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -80,21 +84,40 @@ export class PreviewHospitalDetailComponent implements OnInit {
       }, 200);
     }
   }
-  async ViewHospitalDetail(HospitalID: number) {
-    const display = document.getElementById('ModalViewHospitalDetail');
-    if (display) display.style.display = 'block';
-    await this.hospitalDetailService.GetData(HospitalID)
-      .then(async (data: any) => {
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        this.HospitalData = data['Data'];
-        console.log(this.HospitalData);
-      })
-  }
-  async CloseHospitalDetailModel() {
-    const display = document.getElementById('ModalViewHospitalDetail');
-    if (display) display.style.display = 'none';
+  async ViewHospitalDetail(content: any, HospitalID: number) {
     this.HospitalData = {};
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.hospitalDetailService.GetData(HospitalID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.HospitalData = data['Data'];
+          console.log(this.HospitalData);
+        });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }
