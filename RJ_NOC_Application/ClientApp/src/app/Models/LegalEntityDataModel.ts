@@ -16,15 +16,23 @@ export class LegalEntityDataModel {
   public ElectionPresentManagementCommitteeDate: string = '';
   public SocietyRegisteredAddress: string = '';
   public Pincode: string = '';
+  public Dis_TrustLogoDocName: string = '';
+  public TrustLogoDocPath: string = '';
   public TrustLogoDoc: string = '';
+  public Dis_TrusteeMemberProofDocName: string = '';
+  public TrusteeMemberProofDocPath: string = '';
   public TrusteeMemberProofDoc: string = '';
   public IsOtherInstitution: string = '';
   public IsWomenMembers: string = '';
   public IsDateOfElection: string = '';
   public ManagementCommitteeCertified: string = '';
   public PresidentAadhaarNumber: string = '';
+  public Dis_PresidentAadhaarProofDocName: string = '';
+  public PresidentAadhaarProofDocPath: string = '';
   public PresidentAadhaarProofDoc: string = '';
   public SocietyPANNumber: string = '';
+  public Dis_SocietyPanProofDocName: string = '';
+  public SocietyPanProofDocPath: string = '';
   public SocietyPanProofDoc: string = '';
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
@@ -46,8 +54,12 @@ export class LegalEntityMemberDetailsDataModel {
   public MemberMobileNo: string = '';
   public MemberPostID: number = 0;
   public MembersPostName: string = '';
+  public Dis_MemberPhotoName: string = '';
   public MemberPhoto: string = '';
+  public MemberPhotoPath: string = '';
   public MemberSignature: string = '';
+  public Dis_MemberSignatureName: string = '';
+  public MemberSignaturePath: string = '';
 }
 export class LegalEntityInstituteDetailsDataModel {
   public InstituteID: number = 0;

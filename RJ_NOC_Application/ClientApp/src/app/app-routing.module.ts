@@ -57,6 +57,7 @@ import { FacilitiesComponent } from './Views/Master/FacilitiesMaster/facilities-
 import { QualificationMasterComponent } from './Views/Master/QualificationMaster/qualification-master.component';
 import { SubjectMasterComponent } from './Views/Master/SubjectMaster/subject-master.component';
 import { DocumentMasterComponent } from './Views/Master/document-master/document-master.component';
+import { TotalLegalEntityPreviewComponent } from './Views/NoOfficer/total-legal-entity-preview/total-legal-entity-preview.component';
 
 const routes: Routes = [
   {
@@ -240,6 +241,9 @@ const routes: Routes = [
       },   
       {
         path: 'documentmaster', component: DocumentMasterComponent
+      },
+      {
+        path: 'totallegalentitypreview', component: TotalLegalEntityPreviewComponent
       },   
     ]
   },

@@ -82,6 +82,7 @@ import { SubjectMasterComponent } from './Views/Master/SubjectMaster/subject-mas
 import { DocumentMasterComponent } from './Views/Master/document-master/document-master.component';
 import { AddRoleMasterComponent } from './Views/Master/add-role-master/add-role-master.component';
 import { HospitalDetailComponent } from './Views/TabDetail/hospital-detail/hospital-detail.component';
+import { TotalLegalEntityPreviewComponent } from './Views/NoOfficer/total-legal-entity-preview/total-legal-entity-preview.component';
 
 @NgModule({
   declarations: [
@@ -155,7 +156,8 @@ import { HospitalDetailComponent } from './Views/TabDetail/hospital-detail/hospi
     QualificationMasterComponent,
     SubjectMasterComponent,
     DocumentMasterComponent,
-    AddRoleMasterComponent
+    AddRoleMasterComponent,
+    TotalLegalEntityPreviewComponent
     //LoaderModule,
 
 
