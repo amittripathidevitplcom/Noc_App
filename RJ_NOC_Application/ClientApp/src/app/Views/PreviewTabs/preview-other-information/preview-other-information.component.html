@@ -40,15 +40,21 @@
                     <label>
                       <b>Upload Image  : &nbsp;&nbsp;</b>
                     </label>
-                    <img *ngIf="item.ImageFileName!=''" src="{{item.ImageFilePath}}" alt="Document Image" height="50" width="50" />
-                    <!--<a class="btn btn-outline-primary" target="_blank" href="{{items.FilePath}}"><i class="fa fa-eye"></i></a>-->
+                    <!--<img *ngIf="item.ImageFileName!=''" src="{{item.ImageFilePath}}" alt="Document Image" height="50" width="50" />-->
+                    <div class="clearfix"></div>
+                    <a data-fancybox="gallery" *ngIf="item.ImageFilePath!=''" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{item.ImageFilePath}}" alt="Upload Image" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="item.CourseName=='Library'">
                     <label>
                       <b>Book's Details Document  : &nbsp;&nbsp;</b>
                     </label>
-                    <img *ngIf="item.BookImageFileName!=''" src="{{item.BookImageFilePath}}" alt="Document Image" height="50" width="50" />
-                    <!--<a class="btn btn-outline-primary" target="_blank" href="{{items.FilePath}}"><i class="fa fa-eye"></i></a>-->
+                    <!--<img *ngIf="item.BookImageFileName!=''" src="{{item.BookImageFilePath}}" alt="Document Image" height="50" width="50" />-->
+                    <div class="clearfix"></div>
+                    <a data-fancybox="gallery" *ngIf="item.BookImageFileName!=''" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{item.BookImageFilePath}}" alt="Book Image" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
                   </div>
                 </div>
               </td>

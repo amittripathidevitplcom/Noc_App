@@ -24,6 +24,7 @@ export class LegalEntityComponent implements OnInit {
   showPresidentAadhaarProofDoc: boolean = false;
   showSocietyPanProofDoc: boolean = false;
   showMemberPhoto: boolean = false;
+  ShowNewRegistrationButton: boolean = true;
   showMemberSign: boolean = false;
   public ShowTimer: boolean = false;
   public isTimerDisabled: boolean = false;
@@ -525,9 +526,19 @@ export class LegalEntityComponent implements OnInit {
   }
 
   async GetSocietyDetailByRegistrationNo() {
+    this.ShowNewRegistrationButton = true;
     this.UserOTP = '';
     this.isGetRegistration = true;
     if (this.legalentityOlRegistrationForm.invalid) {
+      return;
+    }
+    var DistrictName = this.lstDistrict.find((x: { DistrictID: number; }) => x.DistrictID == this.RegistrationDistrict).DistrictName;
+    if (!this.OldRegistrationNo.toLowerCase().includes(DistrictName.toLowerCase())) {
+      const display = document.getElementById('NotRegistered')
+      if (display) display.style.display = "block";
+      this.ShowNewRegistrationButton = false;
+      this.isSocietyList = false;
+      this.isDisabled = false;
       return;
     }
     try {
@@ -784,20 +795,31 @@ export class LegalEntityComponent implements OnInit {
   }
   async ResendOTP() {
     this.timer(1);
-    var MaskedMobileNo = this.OldRegistrationNo != '' ? this.ScoietyData.PresidentMobileNo : this.request.PresidentMobileNo;
-    this.loaderService.requestStarted();
-    await this.commonMasterService.SendMessage(MaskedMobileNo, 'OTP')
-      .then((data: any) => {
-        this.OTP = data['Data'];
-        this.CustomOTP = '123456';
-        if (MaskedMobileNo.length > 0) {
-          const visibleDigits = 4;
-          let maskedSection = this.ScoietyData.PresidentMobileNo.slice(0, -visibleDigits);
-          let visibleSection = this.ScoietyData.PresidentMobileNo.slice(-visibleDigits);
-          MaskedMobileNo = maskedSection.replace(/./g, 'X') + visibleSection;
-        }
-        this.toastr.info('Successfully Resend OTP on ' + MaskedMobileNo);
-      }, error => console.error(error));
+    try {
+      this.loaderService.requestStarted();
+      var MaskedMobileNo = this.OldRegistrationNo != '' ? this.ScoietyData.PresidentMobileNo : this.request.PresidentMobileNo;
+
+      await this.commonMasterService.SendMessage(MaskedMobileNo, 'OTP')
+        .then((data: any) => {
+          this.OTP = data['Data'];
+          this.CustomOTP = '123456';
+          if (MaskedMobileNo.length > 0) {
+            const visibleDigits = 4;
+            let maskedSection = this.ScoietyData.PresidentMobileNo.slice(0, -visibleDigits);
+            let visibleSection = this.ScoietyData.PresidentMobileNo.slice(-visibleDigits);
+            MaskedMobileNo = maskedSection.replace(/./g, 'X') + visibleSection;
+          }
+          this.toastr.info('Successfully Resend OTP on ' + MaskedMobileNo);
+        }, error => console.error(error));
+
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isSubmitted_Registration = false;
+      }, 200);
+    }
   }
 
   ValidateImage(event: any, Type: string) {

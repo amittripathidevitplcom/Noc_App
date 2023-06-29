@@ -682,13 +682,13 @@
                 <div class="modal-body">
                   <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-                      <p>You have recieved a OTP Verification massage on <b>{{MaskedMobileNo}}</b></p>
+                      <p>You have recieved a OTP Verification Message on <b>{{MaskedMobileNo}}</b></p>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
                       <label class="mb-2" for="EnterOTP">Enter OTP</label>
-                      <input type="text" class="form-control" id="EnterOTP" [(ngModel)]="UserOTP" autocomplete="off" (keypress)="numberOnly($event)" />
+                      <input type="text" class="form-control" id="EnterOTP" [(ngModel)]="UserOTP" autocomplete="off" (keypress)="numberOnly($event)" maxlength="6"/>
                       <div *ngIf="isUserOTP" class="text-danger">
                         <p *ngIf="isUserOTP">This field is required .!</p>
                       </div>
@@ -722,13 +722,14 @@
                 <div class="modal-body">
                   <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-                      <p>Please check your entered <b> Registration Number</b> is wrong. If you want to new Registration then click on Registration button.</p>
+                      <p *ngIf="ShowNewRegistrationButton">The registration number provided by you is incorrect, please check your registration number again. If you want to do new registration then click on the registration button.</p>
+                      <p *ngIf="!ShowNewRegistrationButton">The district selected by you is not the same as the registration number, please re-check your selection.</p>
                     </div>
                   </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal" (click)="CloseWarningOTPModel()">Cancel</button>
-                  <button type="button" (click)="NewRegistration()" class="btn btn-primary">New Registration</button>
+                  <button *ngIf="ShowNewRegistrationButton" type="button" (click)="NewRegistration()" class="btn btn-primary">New Registration</button>
                 </div>
               </div>
             </div>

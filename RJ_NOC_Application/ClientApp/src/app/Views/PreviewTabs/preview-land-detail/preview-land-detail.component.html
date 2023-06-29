@@ -29,7 +29,8 @@
               <td>{{item.LandTypeName}}</td>
               <td>{{item.LandOwnerName}}</td>
               <td>
-                <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(item.LandDetailID)"><i class="fa fa-eye"></i></button>
+                <!--<button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(item.LandDetailID)"><i class="fa fa-eye"></i></button>-->
+                <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(mymodal,item.LandDetailID)"><i class="fa fa-eye"></i></button>
               </td>
             </tr>
             <tr *ngIf="LandDetailList.length<=0">
@@ -39,20 +40,18 @@
         </table>
       </div>
     </div>
-
-
-    <div class="modal" id="ModalViewLandDetail" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
+    <ng-template #mymodal let-modal>  
           <div class="modal-header">
-            <h5 class="modal-title">Land Detail</h5>
-            <button type="button" class="btn btn-danger" (click)="CloseLandDetailModel()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Land Details</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <i class="fa fa-close"></i>
+            </button>
           </div>
           <div class="modal-body">
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label><b> College:</b></label>
-                {{request.CollegeName}}
+                <input class="form-control disabled" disabled value="{{request.CollegeName}}" />
               </div>
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -61,7 +60,7 @@
                     Land Area Situated In :
                   </b>
                 </label>
-                {{request.LandAreaSituatedName}}
+                <input class="form-control disabled" disabled value="{{request.LandAreaSituatedName}}" />
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label>
@@ -70,7 +69,7 @@
                     :
                   </b>
                 </label>
-                {{request.LandDocumentTypeName}}
+                <input class="form-control disabled" disabled value="{{request.LandDocumentTypeName}}" />
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label>
@@ -79,7 +78,7 @@
                     :
                   </b>
                 </label>
-                {{request.IsConvereted}}
+                <input class="form-control disabled" disabled value="{{request.IsConvereted}}" />
 
               </div>
 
@@ -90,7 +89,7 @@
                     :
                   </b>
                 </label>
-                {{request.LandTypeName}}
+                <input class="form-control disabled" disabled value="{{request.LandTypeName}}" />
               </div>
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -100,7 +99,7 @@
                     :
                   </b>
                 </label>
-                {{request.KhasraNumber}}
+                <input class="form-control disabled" disabled value="{{request.KhasraNumber}}" />
               </div>
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -110,7 +109,7 @@
                     :
                   </b>
                 </label>
-                {{request.LandOwnerName}}
+                <input class="form-control disabled" disabled value="{{request.LandOwnerName}}" />
               </div>
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -120,7 +119,7 @@
                     :
                   </b>
                 </label>
-                {{request.BuildingHostelQuartersRoadArea}}
+                <input class="form-control disabled" disabled value="{{request.BuildingHostelQuartersRoadArea}}" />
               </div>
 
 
@@ -129,11 +128,11 @@
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
                 <label>
                   <b>
-                    Land Conversion Order Date(DD/MM/YYYY) <!---->
+                    Land Conversion Order Date(DD/MM/YYYY)
                     :
                   </b>
                 </label>
-                {{request.LandConversionOrderDate}}
+                <input class="form-control disabled" disabled value="{{request.LandConversionOrderDate}}" />
               </div>
 
 
@@ -145,32 +144,35 @@
                     :
                   </b>
                 </label>
-                {{request.LandConversionOrderNo}}
+                <input class="form-control disabled" disabled value="{{request.LandConversionOrderNo}}" />
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')"> 
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')">
                 <label>
                   <b>
                     Affidavit Date(DD/MM/YYYY)
                     :
                   </b>
                 </label>
-                {{request.AffidavitDate}}
+                <input class="form-control disabled" disabled value="{{request.AffidavitDate}}" />
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of request.LandDetailDocument ; let idx =index">
+
+            </div>
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngFor="let item of request.LandDetailDocument ; let idx =index">
                 <label>
                   <b>
                     {{item.DocumentName}} :
                   </b>
                 </label>
-                <img src="{{item.FilePath}}" alt="Land Document" height="50" width="50"/>
-              </div>
-              <div class="modal-footer">
-
+                <div class="clearfix"></div>
+                <a data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{item.FilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        
+    </ng-template>
   </div>
-  </div>
+</div>
+

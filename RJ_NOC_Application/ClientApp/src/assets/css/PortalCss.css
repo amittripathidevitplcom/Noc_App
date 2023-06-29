@@ -28,7 +28,9 @@ body, html {
   font-family: 'fontawesome';
   src: url('font-awesome/fonts/fontawesome-webfont.ttf') format('truetype');
 }
-
+button, input[type='button'], input[type='submit'], a {
+    cursor:pointer !important;
+}
 
 
 .mainPortal {
@@ -1229,3 +1231,24 @@ td .btn {
 .form-switch .form-check-label {
   margin-left: 5px;
 }
+
+.fancybox__container {
+    z-index:9999 !important;
+}
+
+.modal-header {
+    background:#132649 !important;
+    color:#ffffff !important;
+}
+  .modal-header h4, .modal-header b {
+      color:#fff !important;
+  }
+  .modal-header button {
+    background: none !important;
+    border: none;
+    outline: none;
+    color: #fff !important;
+    padding: 0px !important;
+    font-size: 24px;
+    line-height: 24px;
+  }

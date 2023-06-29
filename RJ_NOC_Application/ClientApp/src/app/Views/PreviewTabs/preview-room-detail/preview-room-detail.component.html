@@ -35,7 +35,10 @@
                 {{item.StudentCapacity}}
               </td>
               <td>
-                <img *ngIf="item.ImageFileName!=''" src="{{item.ImageFilePath}}" alt="Document Image" height="50" width="50" />
+                <div class="clearfix"></div>
+                <a data-fancybox="gallery" *ngIf="item.ImageFilePath!=''" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{item.ImageFilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
               </td>
               
             </tr>
