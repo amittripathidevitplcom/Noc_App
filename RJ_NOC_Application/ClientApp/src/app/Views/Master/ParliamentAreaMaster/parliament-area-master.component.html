@@ -30,8 +30,8 @@
                             <option value="0" selected>--Select District--</option>
                             <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
                         </select>
-                        <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="requiredBox">
-                            <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>This field is required .!</p>
+                        <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
+                            <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators">This field is required .!</p>
                         </div>
                     </div>
 
@@ -39,8 +39,8 @@
                         <label for="txtPaliamentAreaName" class="form-label">Paliament Area Name <span style="color:red;">*</span></label>
                         <input type="text" class="form-control" id="txtPaliamentAreaName" name="txtPaliamentAreaName" formControlName="txtPaliamentAreaName" [(ngModel)]="request.ParliamentAreaName">
 
-                        <div *ngIf="isSubmitted&&form.txtPaliamentAreaName.errors" class="requiredBox">
-                            <p *ngIf="form.txtPaliamentAreaName.errors.required" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                        <div *ngIf="isSubmitted&&form.txtPaliamentAreaName.errors" class="text-danger">
+                            <p *ngIf="form.txtPaliamentAreaName.errors.required"> This field is required .!</p>
                         </div>
 
                     </div>
@@ -94,7 +94,7 @@
                   Parliament Area Name
                 </th>
                 <th>
-                  Active Status
+                  Status
                 </th>
                 <th>
                   Action

@@ -30,8 +30,8 @@
                     <option value="0" selected>--Select Department--</option>
                     <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
                   </select>
-                  <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="requiredBox">
-                    <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>This field is required .!</p>
+                  <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                    <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators" ><i aria-hidden="true"></i>This field is required .!</p>
                   </div>
                 </div>
 
@@ -39,8 +39,8 @@
                   <label for="txtQualificationName" class="form-label">Qualification Name <span style="color:red;">*</span></label>
                   <input type="text" class="form-control" id="txtQualificationName" name="txtQualificationName" formControlName="txtQualificationName" [(ngModel)]="request.QualificationName" autocomplete="off">
 
-                  <div *ngIf="isSubmitted&&form.txtQualificationName.errors" class="requiredBox">
-                    <p *ngIf="form.txtQualificationName.errors.required" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                  <div *ngIf="isSubmitted&&form.txtQualificationName.errors" class="text-danger">
+                    <p *ngIf="form.txtQualificationName.errors.required" ><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
 
                 </div>
@@ -54,12 +54,9 @@
                     <label class="form-check-label" for="rbIsDocCompulsory">Yes</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="rbIsDocCompulsory" formControlName="rbIsDocCompulsory" id="rbIsDocCompulsory"  [value]="0" [(ngModel)]="request.IsDocCompulsory" [checked]='true'>
+                    <input class="form-check-input" type="radio" name="rbIsDocCompulsory" formControlName="rbIsDocCompulsory" id="rbIsDocCompulsory" [value]="0" [(ngModel)]="request.IsDocCompulsory" [checked]='true'>
                     <label class="form-check-label" for="rbIsDocCompulsory">No</label>
                   </div>
-                  <!--<div class="requiredBox">
-                    <p *ngIf="isSubmitted && request.IsDocCompulsory == '0'" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
-                  </div>-->
                 </div>
 
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -121,7 +118,7 @@
                     Is Document Compulsory
                   </th>
                   <th>
-                    Active Status
+                    Status
                   </th>
                   <th>
                     Action

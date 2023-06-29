@@ -271,8 +271,8 @@ export class LandAreaSituatedComponent implements OnInit {
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
-        //ws['!cols'] = [];
-        //ws['!cols'][0] = { hidden: true };
+        ws['!cols'] = [];
+        ws['!cols'][6] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "LandAreaSituatedMaster.xlsx");
@@ -296,32 +296,60 @@ export class LandAreaSituatedComponent implements OnInit {
     }
   }
   @ViewChild('content') content: ElementRef | any;
+
   btnSavePDF_Click(): void {
+
     this.loaderService.requestStarted();
     if (this.LandAreaSituatedMasterData.length > 0) {
       try {
+
+
         let doc = new jsPDF('p', 'mm', [432, 279])
+        let pDFData: any = [];
+        for (var i = 0; i < this.LandAreaSituatedMasterData.length; i++) {
+          pDFData.push({
+            "S.No.": i + 1,
+            "StateName": this.LandAreaSituatedMasterData[i]['StateName'],
+            "DistrictName": this.LandAreaSituatedMasterData[i]['DistrictName'],
+            "DepartmentName": this.LandAreaSituatedMasterData[i]['DepartmentName'],
+            "LandAreaName": this.LandAreaSituatedMasterData[i]['LandAreaName'],
+            "Status": this.LandAreaSituatedMasterData[i]['ActiveDeactive'],
+          })
+        }
+
+        let values: any;
+        let privados = ['S.No.', "StateName", "DistrictName", "DepartmentName", "LandAreaName", "Status"];
+        let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
+        values = pDFData.map((elemento: any) => Object.values(elemento));
+
         doc.setFontSize(16);
-        doc.text("Land Area Situated Master", 100, 10, { align: 'center', maxWidth: 100 });
-        autoTable(doc, {
-          html: '#tabellist'
-          , styles: { fontSize: 8 },
-          headStyles: {
-            fillColor: '#3f51b5',
-            textColor: '#fff',
-            halign: 'center'
-          },
-          bodyStyles: {
-            halign: 'center'
-          },
-          margin: {
-            left: 5,
-            right: 5,
-            top: 15
-          },
-          tableLineWidth: 0
-        })
+        doc.text("LandArea Situated Master", 100, 10, { align: 'center', maxWidth: 100 });
+
+        autoTable(doc,
+          {
+            head: [header],
+            body: values,
+            styles: { fontSize: 8 },
+            headStyles: {
+              fillColor: '#3f51b5',
+              textColor: '#fff',
+              halign: 'center'
+            },
+            bodyStyles: {
+              halign: 'center'
+            },
+            margin: {
+              left: 5,
+              right: 5,
+              top: 15
+            },
+            tableLineWidth: 0,
+
+          }
+        )
+
         doc.save("LandAreaSituatedMaster" + '.pdf');
+
       }
       catch (Ex) {
         console.log(Ex);
@@ -340,6 +368,7 @@ export class LandAreaSituatedComponent implements OnInit {
         this.isLoadingExport = false;
       }, 200);
     }
+
   }
 
 }
