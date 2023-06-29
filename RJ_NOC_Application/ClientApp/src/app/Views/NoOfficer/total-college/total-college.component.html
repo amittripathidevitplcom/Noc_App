@@ -43,6 +43,7 @@
                       <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="DraftEdit_OnClick(row.CollegeID)"><i class="fa fa-edit"></i></a>
                       <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
                       <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
+                      <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)"><i class="fa fa-eye"></i></a>
                     </div>
                   </td>
                 </tr>
@@ -81,6 +82,244 @@
         <button type="button" *ngIf="SsoSuccessMessage==''" class="btn btn-sm btn-primary" (click)="VerifySSOID()">Verify</button>
         <button type="button" *ngIf="SsoSuccessMessage!=''" class="btn btn-sm btn-success" (click)="MapSSOIDInCollege()">Update</button>
         <button type="button" class="btn btn-sm btn-danger" (click)="ResetSSOIDVerify()"> Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="ViewTotalCollege" tabindex="-1" aria-labelledby="ViewTotalCollege" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">College List</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewTotalCollege"></button>
+      </div>
+      <div class="modal-body py-4">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i> College List </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Department : <strong>{{collegeListData.DepartmentName_English}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Status : <strong>{{collegeListData.CollegeStatus}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Logo : <a target="_blank" href="{{collegeListData.CollegeLogo}}" title="View College Logo"><i class="fa fa-eye"></i></a></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Present Status of College : <strong>{{collegeListData.PresentCollegeStatus}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Type : <strong>{{collegeListData.CollegeType}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Level : <strong>{{collegeListData.CollegeLevel}}</strong></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Name in English : <strong>{{collegeListData.CollegeNameEn}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Name in Hindi : <strong>{{collegeListData.CollegeNameHi}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" style="display:none">
+                    <label>AISHE Code Status : <strong>{{collegeListData.AISHECodeStatus}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" style="display:none">
+                    <label>AISHE Code : <strong>{{collegeListData.AISHECode}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Medium : <strong>{{collegeListData.CollegeMediumName}}</strong></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>University : <strong>{{collegeListData.UniversityName}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Mobile Number : <strong>{{collegeListData.MobileNumber}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Email : <strong>{{collegeListData.Email}}</strong></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Address Line 1 : <strong>{{collegeListData.AddressLine1}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Address Line 2 : <strong>{{collegeListData.AddressLine2}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Area : <strong>{{collegeListData.RuralUrbanArea}}</strong></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                    <label>Distance from City(km) : <strong>{{collegeListData.DistanceFromCity}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Division : <strong>{{collegeListData.Division_English}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>District : <strong>{{collegeListData.District_Eng}}</strong></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Subdivision : <strong>{{collegeListData.SubdivisionName}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                    <label>Tehsil : <strong>{{collegeListData.TehsilName}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                    <label>Panchayat Samiti : <strong>{{collegeListData.PanchyatSamitiName}}</strong></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Parliament Area : <strong>{{collegeListData.ParliamentAreaName}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Assembly Area : <strong>{{collegeListData.AssemblyAreaName}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>City/Town/Village : <strong>{{collegeListData.CityTownVillage}}</strong></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Year of Establishment : <strong>{{collegeListData.FinancialYearName}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Pincode : <strong>{{collegeListData.Pincode}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Website Link : <strong>{{collegeListData.WebsiteLink}}</strong></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="collegeContactDetailsList.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i> Contact Details </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr.No.</th>
+                        <th>Name Of Person</th>
+                        <th>Designation</th>
+                        <th>Mobile Number</th>
+                        <th>Email Address</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of collegeContactDetailsList; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td>{{row.NameOfPerson}}</td>
+                        <td>{{row.DesignationName}}</td>
+                        <td>{{row.MobileNumber}}</td>
+                        <td>{{row.EmailAddress}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i> General Contact Details </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Designation : <strong>{{collegeListData.DesignationName}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Mobile Number : <strong>{{collegeListData.GCD_MobileNumber}}</strong></label>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Landline Number : <strong>{{collegeListData.GCD_LandlineNumber}}</strong></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="collegeNearestGovernmentHospitalsList.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i> 10 Government hospitals nearest to the institution </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Hospital Name</th>
+                        <th>Hospital RegNo.</th>
+                        <th>Distance From Institute(KM)</th>
+                        <th>Address Line1</th>
+                        <th>Address Line2</th>
+                        <th>Area</th>
+                        <th>Division</th>
+                        <th>District</th>
+                        <th>Tehsil</th>
+                        <th>Panchyat Samiti</th>
+                        <th>City/Town/Village</th>
+                        <th>Pincode</th>
+                        <th>Hospital Document</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of collegeNearestGovernmentHospitalsList; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td>{{row.HospitalName}}</td>
+                        <td>{{row.HospitalRegNo}}</td>
+                        <td>{{row.HospitalDistance}}</td>
+                        <td>{{row.AddressLine1}}</td>
+                        <td>{{row.AddressLine2}}</td>
+                        <td>{{row.RuralUrbanArea}}</td>
+                        <td>{{row.Division_English}}</td>
+                        <td>{{row.District_Eng}}</td>
+                        <td>{{row.TehsilName}}</td>
+                        <td>{{row.PanchyatSamitiName}}</td>
+                        <td>{{row.CityTownVillage}}</td>
+                        <td>{{row.Pincode}}</td>
+                        <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocument}}" title="View Hospital Document"><i class="fa fa-eye"></i></a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
       </div>
     </div>
   </div>

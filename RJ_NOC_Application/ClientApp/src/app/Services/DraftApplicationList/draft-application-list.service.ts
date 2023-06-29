@@ -29,6 +29,12 @@ export class DraftApplicationListService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-  } 
+  }
+  public async ViewTotalCollegeDataByID(CollegeID: number, UserID: number) {
+    return await this.http.get(this.APIUrl_CommonMaster + "/ViewTotalCollegeDataByID/" + CollegeID + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
 }

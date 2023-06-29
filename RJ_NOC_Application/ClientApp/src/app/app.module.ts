@@ -82,6 +82,7 @@ import { SubjectMasterComponent } from './Views/Master/SubjectMaster/subject-mas
 import { DocumentMasterComponent } from './Views/Master/document-master/document-master.component';
 import { AddRoleMasterComponent } from './Views/Master/add-role-master/add-role-master.component';
 import { HospitalDetailComponent } from './Views/TabDetail/hospital-detail/hospital-detail.component';
+import { TotalLegalEntityPreviewComponent } from './Views/NoOfficer/total-legal-entity-preview/total-legal-entity-preview.component';
 
 import { PreviewLandDetailComponent } from './Views/PreviewTabs/preview-land-detail/preview-land-detail.component';
 import { PreviewFacilityDetailComponent } from './Views/PreviewTabs/preview-facility-detail/preview-facility-detail.component';
@@ -170,6 +171,8 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     QualificationMasterComponent,
     SubjectMasterComponent,
     DocumentMasterComponent,
+    AddRoleMasterComponent,
+    TotalLegalEntityPreviewComponent
     AddRoleMasterComponent,
 
     PreviewLandDetailComponent,

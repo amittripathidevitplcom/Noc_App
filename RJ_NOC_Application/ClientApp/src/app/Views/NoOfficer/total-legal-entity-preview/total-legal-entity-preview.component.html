@@ -1,0 +1,263 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Total Legal Entity </h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Total Legal Entity</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Total Legal Entity List </b>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Society Name</th>
+                  <th>Registration No.</th>
+                  <th>President Mobile No.</th>
+                  <th>Society Registered Address</th>
+                  <th>Society Registration Date</th>
+                  <th>President Aadhaar Number</th>
+                  <th>Society PAN Number</th>
+                  <th>SSO ID</th>
+                  <th>Society Present Status</th>
+                  <th>State</th>
+                  <th>District</th>
+                  <th>Registered Act</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of legalEntityListData ;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.SocietyName}}</td>
+                  <td>{{row.RegistrationNo}}</td>
+                  <td>{{row.PresidentMobileNo}}</td>
+                  <td>{{row.SocietyRegisteredAddress}}</td>
+                  <td>{{row.SocietyRegistrationDate}}</td>
+                  <td>{{row.PresidentAadhaarNumber}}</td>
+                  <td>{{row.SocietyPANNumber}}</td>
+                  <td>{{row.SSOID}}</td>
+                  <td>{{row.SocietyPresentStatusName}}</td>
+                  <td>{{row.StateName_English}}</td>
+                  <td>{{row.District_Eng}}</td>
+                  <td>{{row.RegisteredAct}}</td>
+                  <td>
+                    <div class="d-flex">
+                      <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#ViewLegalEntity" (click)="ViewlegalEntityDataByID(row.LegalEntityID)"><i class="fa fa-eye"></i></a>
+                      <!--<a target="_blank" href="{{row.MemberPhoto}}" title="View Member Photo"><i class="fa fa-eye"></i></a>-->
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="ViewLegalEntity" tabindex="-1" aria-labelledby="ViewLegalEntity" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Legal Entity</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewLegalEntity_Close"></button>
+        </div>
+        <div class="modal-body py-4">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i> Legal Entity </b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Legal Entity : <strong>{{legalEntityListData1.IsLegalEntity}}</strong></label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Registration No : <strong>{{legalEntityListData1.RegistrationNo}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>President Mobile Number : <strong>{{legalEntityListData1.PresidentMobileNo}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>President Email ID : <strong>{{legalEntityListData1.PresidentEmail}}</strong></label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Name  : <strong>{{legalEntityListData1.SocietyName}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Present Status : <strong>{{legalEntityListData1.SocietyPresentStatusName}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>State  : <strong>{{legalEntityListData1.StateName_English}}</strong></label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>District  : <strong>{{legalEntityListData1.District_Eng}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Act (Which Act You Registered)  : <strong>{{legalEntityListData1.RegisteredAct}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Date Of Registration : <strong>{{legalEntityListData1.SocietyRegistrationDate}}</strong></label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Date of Election of Present Management Committee : <strong>{{legalEntityListData1.ElectionPresentManagementCommitteeDate}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Registered Address : <strong>{{legalEntityListData1.SocietyRegisteredAddress}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Pincode : <strong>{{legalEntityListData1.Pincode}}</strong></label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Other Institution run by the Society : <strong>{{legalEntityListData1.IsOtherInstitution}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Women Member of Management Committee is more than 30% of Total Members : <strong>{{legalEntityListData1.IsWomenMembers}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Date of Election of Management Committee not more than 3 Year : <strong>{{legalEntityListData1.IsDateOfElection}}</strong></label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Management Committee certified By Registrar : <strong>{{legalEntityListData1.ManagementCommitteeCertified}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Aadhaar Number Of President : <strong>{{legalEntityListData1.PresidentAadhaarNumber}}</strong></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>PAN Number : <strong>{{legalEntityListData1.SocietyPANNumber}}</strong></label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Trust Logo : <a target="_blank" href="{{legalEntityListData1.TrustLogoDocPath}}" title="View Trust Logo"><i class="fa fa-eye"></i></a></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Trustee Member Proof : <a target="_blank" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" title="View Trustee Member Proof Document"><i class="fa fa-eye"></i></a></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Aadhaar Proof of President : <a target="_blank" href="{{legalEntityListData1.PresidentAadhaarProofDocPath}}" title="View President Aadhaar Proof Document"><i class="fa fa-eye"></i></a></label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Pan Proof : <a target="_blank" href="{{legalEntityListData1.SocietyPanProofDocPath}}" title="View Society Pan Proof Document"><i class="fa fa-eye"></i></a></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="legalEntityMemberDetailData.length>0">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i> Member Details </b>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th>Sr. No.</th>
+                          <th>Member Name</th>
+                          <th>Father's Name</th>
+                          <th>Date Of Birth</th>
+                          <th>Mobile No.</th>
+                          <th>Post</th>
+                          <th>Member Photo</th>
+                          <th>Member Sing</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of legalEntityMemberDetailData; let indexOfelement=index;">
+                          <td> {{indexOfelement+1}}</td>
+                          <td>{{row.MemberName}}</td>
+                          <td>{{row.MemberFatherName}}</td>
+                          <td>{{row.MemberDOB}}</td>
+                          <td>{{row.MemberMobileNo}}</td>
+                          <td>{{row.MemberPostName}}</td>
+                          <td><a *ngIf="row.MemberPhoto!=''" target="_blank" href="{{row.MemberPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a></td>
+                          <td><a *ngIf="row.MemberSignature!=''" target="_blank" href="{{row.MemberSignaturePath}}" title="View Member Sign"><i class="fa fa-eye"></i></a>  </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="legalEntityInstituteDetailData.length>0">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i> Institute Details </b>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th>Sr. No.</th>
+                          <th>Registration No.</th>
+                          <th>Institute Name</th>
+                          <th>Contact Person Name</th>
+                          <th>Designation</th>
+                          <th>Contact Number</th>
+                          <th>State</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of legalEntityInstituteDetailData; let indexOfelement=index;">
+                          <td> {{indexOfelement+1}}</td>
+                          <td>{{row.RegistrationNo}}</td>
+                          <td>{{row.InstituteName}}</td>
+                          <td>{{row.InstitutePersonName}}</td>
+                          <td>{{row.InstituteDesignation}}</td>
+                          <td>{{row.InstituteContactNumber}}</td>
+                          <td>{{row.StateName_English}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>

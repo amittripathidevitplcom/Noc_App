@@ -57,6 +57,7 @@ import { FacilitiesComponent } from './Views/Master/FacilitiesMaster/facilities-
 import { QualificationMasterComponent } from './Views/Master/QualificationMaster/qualification-master.component';
 import { SubjectMasterComponent } from './Views/Master/SubjectMaster/subject-master.component';
 import { DocumentMasterComponent } from './Views/Master/document-master/document-master.component';
+import { TotalLegalEntityPreviewComponent } from './Views/NoOfficer/total-legal-entity-preview/total-legal-entity-preview.component';
 
 import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
 
@@ -246,6 +247,10 @@ const routes: Routes = [
       {
         path: 'applicationpreview/:DepartmentID/:CollegeID', component: ApplicationPreviewComponent
       },
+      },
+      {
+        path: 'totallegalentitypreview', component: TotalLegalEntityPreviewComponent
+      },   
     ]
   },
 

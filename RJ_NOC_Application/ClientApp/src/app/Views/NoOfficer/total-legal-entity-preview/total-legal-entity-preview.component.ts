@@ -5,31 +5,30 @@ import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
-import { DraftApplicationListService } from '../../../Services/DraftApplicationList/draft-application-list.service';
+import { LegalEntityService } from '../../../Services/LegalEntity/legal-entity.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
-
+import { AbstractControl,  FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 @Component({
-  selector: 'app-total-college',
-  templateUrl: './total-college.component.html',
-  styleUrls: ['./total-college.component.css']
+  selector: 'app-total-legal-entity-preview',
+  templateUrl: './total-legal-entity-preview.component.html',
+  styleUrls: ['./total-legal-entity-preview.component.css']
 })
-export class TotalCollegeComponent implements OnInit {
-
-  constructor(private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
+export class TotalLegalEntityPreviewComponent implements OnInit {
+  legalEntityForm!: FormGroup;
+  constructor(private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
 
   }
-
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public isLoading: boolean = false;
 
   public UserID: number = 0;
-  public draftApplicatoinListData: any = [];
-  public collegeListData: any = [];
-  public collegeContactDetailsList: any = [];
-  public collegeNearestGovernmentHospitalsList: any = [];
+  public legalEntityListData: any = [];
+  public legalEntityListData1: any = [];
+  public legalEntityInstituteDetailData: any = [];
+  public legalEntityMemberDetailData: any = [];
   public searchText: string = '';
   public SsoValidationMessage: string = '';
   public SsoSuccessMessage: string = '';
@@ -43,26 +42,54 @@ export class TotalCollegeComponent implements OnInit {
   //
   public SSOID: string = '';
 
-  async ngOnInit() {
-    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+  ngOnInit() {
+    
+    this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
     //
     this.ModifyBy = 1;
     // get college list
-    await this.GetApplicationList();
+    this.GetApplicationList();
   }
-
   async GetApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.draftApplicationListService.DraftApplicationList(this.sSOLoginDataModel.SSOID)
+      await this.legalEntityListService.GetLegalEntityList(this.UserID)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // data
-          this.draftApplicatoinListData = data['Data'][0]['data'];
+          this.legalEntityListData = data['Data'][0]['data']['Table'];
+
+          //console.log(this.draftApplicatoinListData);
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ViewlegalEntityDataByID(LegalEntityID:any) {
+    try {
+      this.loaderService.requestStarted();
+      await this.legalEntityListService.ViewlegalEntityDataByID(LegalEntityID, this.UserID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.legalEntityListData1 = data['Data'][0]['data']['Table'][0];
+          this.legalEntityInstituteDetailData = data['Data'][0]['data']['Table1'];
+          this.legalEntityMemberDetailData = data['Data'][0]['data']['Table2'];
 
           //console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));
@@ -94,9 +121,9 @@ export class TotalCollegeComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             // data
-            const index: number = this.draftApplicatoinListData.indexOf(row);
+            const index: number = this.legalEntityListData.indexOf(row);
             if (index != -1) {
-              this.draftApplicatoinListData.splice(index, 1)
+              this.legalEntityListData.splice(index, 1)
             }
           }
           else {
@@ -227,34 +254,6 @@ export class TotalCollegeComponent implements OnInit {
 
   async DraftEdit_OnClick(CollegeID: number) {
     this.routers.navigate(['/addcollege' + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
-  }
-
-  async ViewTotalCollegeDataByID(CollegeID: any) {
-    try {
-      this.loaderService.requestStarted();
-      await this.draftApplicationListService.ViewTotalCollegeDataByID(CollegeID, this.UserID)
-        .then((data: any) => {
-          debugger;
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          // data
-          this.collegeListData = data['Data'][0]['data']['Table'][0];
-          this.collegeContactDetailsList = data['Data'][0]['data']['Table1'];
-          this.collegeNearestGovernmentHospitalsList = data['Data'][0]['data']['Table2'];
-
-          //console.log(this.draftApplicatoinListData);
-        }, (error: any) => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
   }
 
 }

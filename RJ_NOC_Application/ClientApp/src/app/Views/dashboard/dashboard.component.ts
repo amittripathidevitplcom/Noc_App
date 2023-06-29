@@ -30,11 +30,13 @@ export class DashboardComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetDashboardDataSSOWise(SSOID)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.dashboardDataModel = data['Data'][0];
+          console.log(this.dashboardDataModel);
         }, error => console.error(error));
     }
     catch (Ex) {
