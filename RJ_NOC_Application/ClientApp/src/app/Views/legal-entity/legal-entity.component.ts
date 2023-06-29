@@ -98,7 +98,7 @@ export class LegalEntityComponent implements OnInit {
   public StartTimer: any = '';
   public isValidMobileNo: boolean = false;
   sSOLoginDataModel = new SSOLoginDataModel();
-
+  public IsNotMoreThen3Year: boolean = true;
 
   constructor(private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService) {
 
@@ -369,32 +369,39 @@ export class LegalEntityComponent implements OnInit {
       this.isValidPresidentAadhaarProofDoc = false;
       this.isValidSocietyPanProofDoc = false;
       this.isSubmitted = true;
-
+      let isValid = true;
       if (this.legalentityForm.invalid) {
-        return
+        isValid = false;
       }
       if (this.request.TrusteeMemberProofDoc == '') {
         this.ImageValidate = 'This field is required .!';
-        return
+        isValid = false;
       }
       if (this.request.PresidentAadhaarProofDoc == '') {
         this.ImageValidate = 'This field is required .!';
-        return
+        isValid = false;
       }
       if (this.request.SocietyPanProofDoc == '') {
         this.ImageValidate = 'This field is required .!';
-        return
+        isValid = false;
       }
       if (this.request.MemberDetails.length < 3) {
         this.toastr.warning("Add Atleast three member details");
-        return;
+        isValid = false;
       }
       if (this.request.IsOtherInstitution == 'Yes') {
         if (this.request.InstituteDetails.length <= 0) {
           this.toastr.warning("Add atleast one institute details");
-          return;
+          isValid = false;
         }
       }
+
+      //check all
+      if (!isValid) {
+        return;
+      }
+
+      //post
       this.request.SSOID = this.sSOLoginDataModel.SSOID;
       await this.legalEntityService.SaveData(this.request)
         .then((data: any) => {
@@ -913,9 +920,9 @@ export class LegalEntityComponent implements OnInit {
     }
   }
 
-  ValidateDocument(event: any, Type: string) {
+  async ValidateDocument(event: any, Type: string) {
     try {
-      debugger;
+      
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;
@@ -1000,7 +1007,7 @@ export class LegalEntityComponent implements OnInit {
           return
         }
         this.file = event.target.files[0];
-        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           event.target.value = '';
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -1043,9 +1050,9 @@ export class LegalEntityComponent implements OnInit {
       }, 200);
     }
   }
-  ValidateImage(event: any, Type: string) {
+  async ValidateImage(event: any, Type: string) {
     try {
-      debugger;
+      
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;
@@ -1128,7 +1135,7 @@ export class LegalEntityComponent implements OnInit {
         }
 
         this.file = event.target.files[0];
-        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           event.target.value = '';
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -1172,43 +1179,58 @@ export class LegalEntityComponent implements OnInit {
     }
   }
 
-  DeleteImage(Type: string) {
+  async DeleteImage(Type: string, file: string) {
     try {
       this.loaderService.requestStarted();
-      if (Type == 'MemberPhoto') {
-        this.showMemberPhoto = false;
-        this.memberdetails.Dis_MemberPhotoName = '';
-        this.memberdetails.MemberPhotoPath = '';
-        this.memberdetails.MemberPhoto = '';
-      }
-      else if (Type == 'MemberSign') {
-        this.showMemberSign = false;
-        this.memberdetails.Dis_MemberSignatureName = '';
-        this.memberdetails.MemberSignaturePath = '';
-        this.memberdetails.MemberSignature = '';
-      }
-      else if (Type == 'TrustLogo') {
-        this.showTrustLogoDoc = false;
-        this.request.TrustLogoDoc = '';
-      }
-      else if (Type == 'TrusteeMember') {
-        this.showTrusteeMemberProofDoc = false;
-        this.request.Dis_TrusteeMemberProofDocName = '';
-        this.request.TrusteeMemberProofDocPath = '';
-        this.request.TrusteeMemberProofDoc = '';
-      }
-      else if (Type == 'PresidentAadhaar') {
-        this.showPresidentAadhaarProofDoc = false;
-        this.request.Dis_PresidentAadhaarProofDocName = '';
-        this.request.PresidentAadhaarProofDocPath = '';
-        this.request.PresidentAadhaarProofDoc = '';
-      }
-      else if (Type == 'SocietyPan') {
-        this.showSocietyPanProofDoc = false;
-        this.request.Dis_SocietyPanProofDocName = '';
-        this.request.SocietyPanProofDocPath = '';
-        this.request.SocietyPanProofDoc = '';
-      }
+      // delete from server folder
+      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        //
+        if (this.State == 0) {
+          if (Type == 'MemberPhoto') {
+            this.showMemberPhoto = false;
+            this.memberdetails.Dis_MemberPhotoName = '';
+            this.memberdetails.MemberPhotoPath = '';
+            this.memberdetails.MemberPhoto = '';
+          }
+          else if (Type == 'MemberSign') {
+            this.showMemberSign = false;
+            this.memberdetails.Dis_MemberSignatureName = '';
+            this.memberdetails.MemberSignaturePath = '';
+            this.memberdetails.MemberSignature = '';
+          }
+          else if (Type == 'TrustLogo') {
+            this.showTrustLogoDoc = false;
+            this.request.TrustLogoDoc = '';
+          }
+          else if (Type == 'TrusteeMember') {
+            this.showTrusteeMemberProofDoc = false;
+            this.request.Dis_TrusteeMemberProofDocName = '';
+            this.request.TrusteeMemberProofDocPath = '';
+            this.request.TrusteeMemberProofDoc = '';
+          }
+          else if (Type == 'PresidentAadhaar') {
+            this.showPresidentAadhaarProofDoc = false;
+            this.request.Dis_PresidentAadhaarProofDocName = '';
+            this.request.PresidentAadhaarProofDocPath = '';
+            this.request.PresidentAadhaarProofDoc = '';
+          }
+          else if (Type == 'SocietyPan') {
+            this.showSocietyPanProofDoc = false;
+            this.request.Dis_SocietyPanProofDocName = '';
+            this.request.SocietyPanProofDocPath = '';
+            this.request.SocietyPanProofDoc = '';
+          }
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
     }
     catch (Ex) {
       console.log(Ex);
@@ -1263,10 +1285,43 @@ export class LegalEntityComponent implements OnInit {
   }
 
   SetDOBmindate() {
-    debugger;
+    
     const mindate1 = new Date();
-    mindate1.setFullYear(mindate1.getFullYear() - 100);
+    mindate1.setFullYear(mindate1.getFullYear() - 3);
     this.MinDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
     console.log(this.MinDate);
+  }
+  
+  ElectionPresentManagementCommitteeDate_Change() {
+    if (this.request.ElectionPresentManagementCommitteeDate != '') {
+      this.request.IsDateOfElection = 'Yes';
+      this.IsNotMoreThen3Year = true;
+    }
+    else {
+      this.request.IsDateOfElection = 'No';
+      this.IsNotMoreThen3Year = false;
+    }
+    this.ToggleElectionPresentManagementCommitteeDateValidation();
+  }
+
+  ToggleElectionPresentManagementCommitteeDateValidation() {
+    if (this.IsNotMoreThen3Year) {
+      this.legalentityForm.get('txtElectionPresentManagementCommitteeDate')?.setValidators([Validators.required]);
+    }
+    else {
+      this.legalentityForm.get('txtElectionPresentManagementCommitteeDate')?.clearValidators();
+    }
+    this.legalentityForm.get('txtElectionPresentManagementCommitteeDate')?.updateValueAndValidity();
+  }
+
+  IsDateOfElection_Change() {
+    if (this.request.IsDateOfElection == 'Yes') {
+      this.IsNotMoreThen3Year = true;
+    }
+    else {
+      this.IsNotMoreThen3Year = false;
+      this.request.ElectionPresentManagementCommitteeDate = '';
+    }
+    this.ToggleElectionPresentManagementCommitteeDateValidation();
   }
 }
