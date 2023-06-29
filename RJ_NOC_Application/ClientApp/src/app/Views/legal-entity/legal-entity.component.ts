@@ -384,7 +384,7 @@ export class LegalEntityComponent implements OnInit {
       if (this.request.SocietyPanProofDoc == '') {
         this.ImageValidate = 'This field is required .!';
         return
-      } 
+      }
       if (this.request.MemberDetails.length < 3) {
         this.toastr.warning("Add Atleast three member details");
         return;
@@ -394,7 +394,7 @@ export class LegalEntityComponent implements OnInit {
           this.toastr.warning("Add atleast one institute details");
           return;
         }
-      }      
+      }
       this.request.SSOID = this.sSOLoginDataModel.SSOID;
       await this.legalEntityService.SaveData(this.request)
         .then((data: any) => {
@@ -886,33 +886,6 @@ export class LegalEntityComponent implements OnInit {
     }
   }
   async ResendOTP() {
-    this.timer(1);
-    try {
-      this.loaderService.requestStarted();
-      var MaskedMobileNo = this.OldRegistrationNo != '' ? this.ScoietyData.PresidentMobileNo : this.request.PresidentMobileNo;
-
-      await this.commonMasterService.SendMessage(MaskedMobileNo, 'OTP')
-        .then((data: any) => {
-          this.OTP = data['Data'];
-          this.CustomOTP = '123456';
-          if (MaskedMobileNo.length > 0) {
-            const visibleDigits = 4;
-            let maskedSection = this.ScoietyData.PresidentMobileNo.slice(0, -visibleDigits);
-            let visibleSection = this.ScoietyData.PresidentMobileNo.slice(-visibleDigits);
-            MaskedMobileNo = maskedSection.replace(/./g, 'X') + visibleSection;
-          }
-          this.toastr.info('Successfully Resend OTP on ' + MaskedMobileNo);
-        }, error => console.error(error));
-
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-        this.isSubmitted_Registration = false;
-      }, 200);
-    }
-  }
     try {
       this.loaderService.requestStarted();
       this.timer(1);
@@ -939,6 +912,7 @@ export class LegalEntityComponent implements OnInit {
       }, 200);
     }
   }
+
   ValidateDocument(event: any, Type: string) {
     try {
       debugger;
@@ -949,7 +923,7 @@ export class LegalEntityComponent implements OnInit {
       this.isValidTrusteeMemberProofDoc = false;
       this.isValidPresidentAadhaarProofDoc = false;
       this.isValidSocietyPanProofDoc = false;
-      if (event.target.files && event.target.files[0]) {   
+      if (event.target.files && event.target.files[0]) {
 
         if (event.target.files[0].type === 'application/pdf') {
           if (event.target.files[0].size > 2000000) {
@@ -1031,7 +1005,7 @@ export class LegalEntityComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {           
+          if (this.State == 0) {
             if (Type == 'TrusteeMember') {
               this.showTrusteeMemberProofDoc = true;
               this.request.Dis_TrusteeMemberProofDocName = data['Data'][0]["Dis_FileName"];
@@ -1151,7 +1125,7 @@ export class LegalEntityComponent implements OnInit {
             this.request.TrustLogoDoc = '';
           }
           return
-        }      
+        }
 
         this.file = event.target.files[0];
         this.fileUploadService.UploadDocument(this.file).then((data: any) => {
@@ -1177,7 +1151,7 @@ export class LegalEntityComponent implements OnInit {
               this.request.Dis_TrustLogoDocName = data['Data'][0]["Dis_FileName"];
               this.request.TrustLogoDocPath = data['Data'][0]["FilePath"];
               this.request.TrustLogoDoc = data['Data'][0]["FileName"];
-            }            
+            }
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -1186,7 +1160,7 @@ export class LegalEntityComponent implements OnInit {
             this.toastr.warning(this.ErrorMessage)
           }
         });
-      }      
+      }
     }
     catch (Ex) {
       console.log(Ex);

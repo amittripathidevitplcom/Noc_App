@@ -173,7 +173,7 @@ import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-l
     SubjectMasterComponent,
     DocumentMasterComponent,
     AddRoleMasterComponent,
-    TotalLegalEntityPreviewComponent
+    TotalLegalEntityPreviewComponent,
     AddRoleMasterComponent,
 
     PreviewLandDetailComponent,

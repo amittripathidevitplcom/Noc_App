@@ -82,8 +82,8 @@ const routes: Routes = [
       },
       {
         path: 'projectmaster', component: ProjectMasterComponent
-      }, {
-
+      },
+      {
         path: 'adduser', component: AddUserComponent
 
       },
@@ -238,10 +238,10 @@ const routes: Routes = [
       },
       {
         path: 'qualificationmaster', component: QualificationMasterComponent
-      },  
+      },
       {
         path: 'subjectmaster', component: SubjectMasterComponent
-      },   
+      },
       {
         path: 'documentmaster', component: DocumentMasterComponent
       },
@@ -251,10 +251,9 @@ const routes: Routes = [
       {
         path: 'applynocapplicationlist', component: ApplyNOCApplicationListComponent
       },
-      },
       {
         path: 'totallegalentitypreview', component: TotalLegalEntityPreviewComponent
-      },   
+      },
     ]
   },
 

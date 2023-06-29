@@ -174,7 +174,7 @@ export class AddRoleMasterComponent implements OnInit {
 
 
   async ResetControl() {
-    const txtRoleName = document.getElementById('txtRoleName')
+    const txtRoleName = document.getElementById('txtRoleName');
     if (txtRoleName) txtRoleName.focus();
     this.isSubmitted = false;
     this.isDisabledDOJ = false;
