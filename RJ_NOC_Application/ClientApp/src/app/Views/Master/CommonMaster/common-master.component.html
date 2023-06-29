@@ -41,7 +41,11 @@
                   <select class="form-select" id="ddlType" name="ddlType" [(ngModel)]="request.Type" formControlName="ddlType">
                     <option value="0" selected>--Select--</option>
                     <option value="CourseLevel">Course Level</option>
+                    <option value="LandConversion">Land Conversion</option>
+                    <option value="LandUnit">Land Unit</option>
+                    <option value="BuildingMinimumArea">Building Minimum Area</option>
                     <option value="CollegeType">College Type</option>
+                    <option value="RegisteredAct">Registered Act</option>
                     <option value="CollegeMedium">College Medium</option>
                     <option value="BuildingType">Building Type</option>
                   </select>
@@ -70,7 +74,7 @@
 
 
                 <div class="card-footer text-end">
-                  <button type="submit" (click)="SaveData()" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                  <button type="submit" (click)="SaveData()" id="btnSave" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
                   <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
                 </div>
               </div>

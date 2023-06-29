@@ -133,9 +133,9 @@ export class DocumentMasterComponent implements OnInit {
     if (this.DocumentFormGroup.invalid) {
       return
     }
-    if (this.request.DocumentTypeID == '0' || this.request.MinSize <= 0 || (this.request.MinSize).toString() == '' || this.request.MaxSize <= 0 || (this.request.MaxSize).toString() == '') {
-      return;
-    }
+    //if (this.request.DocumentTypeID == '0' || this.request.MinSize <= 0 || (this.request.MinSize).toString() == '' || this.request.MaxSize <= 0 || (this.request.MaxSize).toString() == '') {
+    //  return;
+    //}
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;

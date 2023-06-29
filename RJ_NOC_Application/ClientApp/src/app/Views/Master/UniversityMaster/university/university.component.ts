@@ -104,6 +104,7 @@ export class UniversityComponent implements OnInit {
     }
   }
   async SaveData() {
+    debugger;
     this.isSubmitted = true;
     if (this.UniversityMasterForm.invalid) {
       return

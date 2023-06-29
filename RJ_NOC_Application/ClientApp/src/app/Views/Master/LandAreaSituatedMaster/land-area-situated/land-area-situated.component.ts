@@ -213,6 +213,7 @@ export class LandAreaSituatedComponent implements OnInit {
           this.request.DistrictID = data['Data'][0]["DistrictID"];
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
           this.request.LandAreaName = data['Data'][0]["LandAreaName"];
+          this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
