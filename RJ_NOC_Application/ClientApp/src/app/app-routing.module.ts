@@ -59,6 +59,7 @@ import { SubjectMasterComponent } from './Views/Master/SubjectMaster/subject-mas
 import { DocumentMasterComponent } from './Views/Master/document-master/document-master.component';
 
 import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
+import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
 
 const routes: Routes = [
   {
@@ -245,6 +246,9 @@ const routes: Routes = [
       },
       {
         path: 'applicationpreview/:DepartmentID/:CollegeID', component: ApplicationPreviewComponent
+      },
+      {
+        path: 'applynocapplicationlist', component: ApplyNOCApplicationListComponent
       },
     ]
   },
