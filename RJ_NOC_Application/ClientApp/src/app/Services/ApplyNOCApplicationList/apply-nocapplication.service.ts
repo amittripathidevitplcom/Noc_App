@@ -9,7 +9,7 @@ import { GlobalConstants } from '../../Common/GlobalConstants';
   providedIn: 'root'
 })
 export class ApplyNOCApplicationService {
-  readonly APIUrl = GlobalConstants.apiURL + "ApplyNOCApplicationService";
+  readonly APIUrl = GlobalConstants.apiURL + "ApplyNOC";
   constructor(private http: HttpClient) { }
   extractData(res: Response) {
     return res;
@@ -19,24 +19,24 @@ export class ApplyNOCApplicationService {
     return throwError(error);
   }
   //Get 
-  public async GetApplyNocDetailsList(RoleId: number) {
+  public async GetApplyNOCApplicationListByRole(RoleId: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + RoleId)
+    return await this.http.get(this.APIUrl + "/GetApplyNOCApplicationListByRole/" + RoleId)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async DocumentScruitny(RoleId: number, UserID: number, Action: string, PKeyId: number) {
+  public async DocumentScrutiny(RoleID: number, UserID: number, ActionType: string, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + RoleId + "/" + UserID + "/" + Action + "/" + PKeyId)
+    return await this.http.post(this.APIUrl + '/DocumentScrutiny/' + ApplyNOCID + '/' + RoleID + '/' + UserID + '/' + ActionType, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

@@ -61,6 +61,8 @@ import { TotalLegalEntityPreviewComponent } from './Views/NoOfficer/total-legal-
 
 import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
+import { WorkFlowMasterComponent } from './Views/Admin/work-flow-master/add-work-flow-master/work-flow-master.component';
+import { WorkFlowMasterListComponent } from './Views/Admin/work-flow-master/work-flow-master-list/work-flow-master-list.component';
 
 const routes: Routes = [
   {
@@ -244,6 +246,15 @@ const routes: Routes = [
       },
       {
         path: 'documentmaster', component: DocumentMasterComponent
+      },
+      {
+        path: 'workflowmaster', component: WorkFlowMasterComponent
+      }      ,
+      {
+        path: 'workflowmasterlist', component: WorkFlowMasterListComponent
+      },
+      {
+        path: 'workflowmaster/:id', component: WorkFlowMasterComponent
       },
       {
         path: 'applicationpreview/:DepartmentID/:CollegeID', component: ApplicationPreviewComponent
