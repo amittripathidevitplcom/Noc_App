@@ -47,7 +47,7 @@ export class FacilitiesComponent implements OnInit {
         ddlDepartmentID: ['', [DropdownValidators]],
         txtFacilitiesName: ['', Validators.required],
         chkActiveStatus: [''],
-        MinSize: ['', Validators.required],
+        MinSize: ['0', Validators.required],
         txtUnit: ['', Validators.required],
       }
     )
@@ -101,10 +101,13 @@ export class FacilitiesComponent implements OnInit {
       }, 200);
     }
   }
-  async SaveData() {   
+  async SaveData() {
     this.isSubmitted = true;
     if (this.FacilitiesMasterForm.invalid) {
-      return
+      return;
+    }
+    if (this.request.MinSize <= 0) {
+      return;
     }
     this.loaderService.requestStarted();
     this.isLoading = true;
@@ -144,7 +147,7 @@ export class FacilitiesComponent implements OnInit {
     this.request.MinSize = 0.00;
     this.request.Unit = '';
     this.request.UserID = 0;
-    this.request.ActiveStatus = false;
+    this.request.ActiveStatus = true;
     this.isDisabledGrid = false;
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";
@@ -163,6 +166,7 @@ export class FacilitiesComponent implements OnInit {
           this.request.FacilitiesName = data['Data'][0]["FacilitiesName"];
           this.request.MinSize = data['Data'][0]["MinSize"];
           this.request.Unit = data['Data'][0]["Unit"];
+          this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
@@ -221,8 +225,8 @@ export class FacilitiesComponent implements OnInit {
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
-        //ws['!cols'] = [];
-        //ws['!cols'][0] = { hidden: true };
+        ws['!cols'] = [];
+        ws['!cols'][6] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "FacilitiesMaster.xlsx");
@@ -247,31 +251,58 @@ export class FacilitiesComponent implements OnInit {
   }
   @ViewChild('content') content: ElementRef | any;
   btnSavePDF_Click(): void {
+
     this.loaderService.requestStarted();
     if (this.FacilitiesMasterData.length > 0) {
       try {
+
+
         let doc = new jsPDF('p', 'mm', [432, 279])
+        let pDFData: any = [];
+        for (var i = 0; i < this.FacilitiesMasterData.length; i++) {
+          pDFData.push({
+            "S.No.": i + 1,
+            "DepartmentName": this.FacilitiesMasterData[i]['DepartmentName'],
+            "FacilitiesName": this.FacilitiesMasterData[i]['FacilitiesName'],
+            "MinSize": this.FacilitiesMasterData[i]['MinSize'],
+            "Unit": this.FacilitiesMasterData[i]['Unit'],
+            "Status": this.FacilitiesMasterData[i]['ActiveDeactive'],
+          })
+        }
+
+        let values: any;
+        let privados = ['S.No.', "DepartmentName", "FacilitiesName", "MinSize", "Unit", "Status"];
+        let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
+        values = pDFData.map((elemento: any) => Object.values(elemento));
+
         doc.setFontSize(16);
         doc.text("Facilities Master", 100, 10, { align: 'center', maxWidth: 100 });
-        autoTable(doc, {
-          html: '#tabellist'
-          , styles: { fontSize: 8 },
-          headStyles: {
-            fillColor: '#3f51b5',
-            textColor: '#fff',
-            halign: 'center'
-          },
-          bodyStyles: {
-            halign: 'center'
-          },
-          margin: {
-            left: 5,
-            right: 5,
-            top: 15
-          },
-          tableLineWidth: 0
-        })
+
+        autoTable(doc,
+          {
+            head: [header],
+            body: values,
+            styles: { fontSize: 8 },
+            headStyles: {
+              fillColor: '#3f51b5',
+              textColor: '#fff',
+              halign: 'center'
+            },
+            bodyStyles: {
+              halign: 'center'
+            },
+            margin: {
+              left: 5,
+              right: 5,
+              top: 15
+            },
+            tableLineWidth: 0,
+
+          }
+        )
+
         doc.save("FacilitiesMaster" + '.pdf');
+
       }
       catch (Ex) {
         console.log(Ex);
@@ -292,6 +323,5 @@ export class FacilitiesComponent implements OnInit {
     }
 
   }
-
 }
 

@@ -27,6 +27,9 @@ export class TotalCollegeComponent implements OnInit {
 
   public UserID: number = 0;
   public draftApplicatoinListData: any = [];
+  public collegeListData: any = [];
+  public collegeContactDetailsList: any = [];
+  public collegeNearestGovernmentHospitalsList: any = [];
   public searchText: string = '';
   public SsoValidationMessage: string = '';
   public SsoSuccessMessage: string = '';
@@ -224,6 +227,34 @@ export class TotalCollegeComponent implements OnInit {
 
   async DraftEdit_OnClick(CollegeID: number) {
     this.routers.navigate(['/addcollege' + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+  }
+
+  async ViewTotalCollegeDataByID(CollegeID: any) {
+    try {
+      this.loaderService.requestStarted();
+      await this.draftApplicationListService.ViewTotalCollegeDataByID(CollegeID, this.UserID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.collegeListData = data['Data'][0]['data']['Table'][0];
+          this.collegeContactDetailsList = data['Data'][0]['data']['Table1'];
+          this.collegeNearestGovernmentHospitalsList = data['Data'][0]['data']['Table2'];
+
+          //console.log(this.draftApplicatoinListData);
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
 }

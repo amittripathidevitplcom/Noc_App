@@ -363,3 +363,7 @@ function js_RemoveRemarks(elem) {
 
 
 
+
+  Fancybox.bind('[data-fancybox="gallery"]', {
+    //
+  });

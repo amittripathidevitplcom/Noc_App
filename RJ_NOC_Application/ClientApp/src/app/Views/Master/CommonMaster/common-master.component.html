@@ -30,8 +30,8 @@
                     <option value="0" selected>--Select Department--</option>
                     <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
                   </select>
-                  <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="requiredBox">
-                    <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>This field is required .!</p>
+                  <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                    <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators" ><i aria-hidden="true"></i>This field is required .!</p>
                   </div>
                 </div>
 
@@ -41,24 +41,25 @@
                   <select class="form-select" id="ddlType" name="ddlType" [(ngModel)]="request.Type" formControlName="ddlType">
                     <option value="0" selected>--Select--</option>
                     <option value="CourseLevel">Course Level</option>
+                    <option value="LandConversion">Land Conversion</option>
+                    <option value="LandUnit">Land Unit</option>
+                    <option value="BuildingMinimumArea">Building Minimum Area</option>
                     <option value="CollegeType">College Type</option>
+                    <option value="RegisteredAct">Registered Act</option>
                     <option value="CollegeMedium">College Medium</option>
                     <option value="BuildingType">Building Type</option>
                   </select>
-                  <!--<div *ngIf="isValidType" class="requiredBox">
-                    <p *ngIf="isValidType" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>   This field is required .!</p>
-                  </div>-->
-                  <!--<div *ngIf="isSubmitted&&form.ddlType.errors" class="requiredBox">
-                    <p *ngIf="!form.ddlType.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>This field is required .!</p>
-                  </div>-->
+                  <div *ngIf="isSubmitted&&request.Type == '0'" class="text-danger">
+                    <p *ngIf="request.Type == '0'" ><i aria-hidden="true"></i>   This field is required .!</p>
+                  </div>
                 </div>
 
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label for="txtName" class="form-label">Name <span style="color:red;">*</span></label>
                   <input type="text" class="form-control" id="txtName" name="txtName" formControlName="txtName" [(ngModel)]="request.Name" autocomplete="off">
 
-                  <div *ngIf="isSubmitted&&form.txtName.errors" class="requiredBox">
-                    <p *ngIf="form.txtName.errors.required" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                  <div *ngIf="isSubmitted&&form.txtName.errors" class="text-danger">
+                    <p *ngIf="form.txtName.errors.required" ><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
 
                 </div>
@@ -73,7 +74,7 @@
 
 
                 <div class="card-footer text-end">
-                  <button type="submit" (click)="SaveData()" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                  <button type="submit" (click)="SaveData()" id="btnSave" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
                   <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
                 </div>
               </div>
@@ -117,7 +118,7 @@
                     Name
                   </th>
                   <th>
-                    Active Status
+                    Status
                   </th>
                   <th>
                     Action

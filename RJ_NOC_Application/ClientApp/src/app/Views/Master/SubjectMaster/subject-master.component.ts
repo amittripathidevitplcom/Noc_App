@@ -166,7 +166,7 @@ export class SubjectMasterComponent implements OnInit {
     this.request.CourseID = 0;
     this.request.SubjectName = '';
     this.request.UserID = 0;
-    this.request.ActiveStatus = false;
+    this.request.ActiveStatus = true;
     this.isDisabledGrid = false;
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";
@@ -185,6 +185,7 @@ export class SubjectMasterComponent implements OnInit {
           this.DepartmentChangecourse(null,this.request.DepartmentID);          
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.SubjectName = data['Data'][0]["SubjectName"];
+          this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
@@ -243,8 +244,8 @@ export class SubjectMasterComponent implements OnInit {
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
-        //ws['!cols'] = [];
-        //ws['!cols'][0] = { hidden: true };
+        ws['!cols'] = [];
+        ws['!cols'][5] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "SubjectMaster.xlsx");
@@ -269,31 +270,57 @@ export class SubjectMasterComponent implements OnInit {
   }
   @ViewChild('content') content: ElementRef | any;
   btnSavePDF_Click(): void {
+
     this.loaderService.requestStarted();
     if (this.SubjectMasterData.length > 0) {
       try {
+
+
         let doc = new jsPDF('p', 'mm', [432, 279])
+        let pDFData: any = [];
+        for (var i = 0; i < this.SubjectMasterData.length; i++) {
+          pDFData.push({
+            "S.No.": i + 1,
+            "DepartmentName": this.SubjectMasterData[i]['DepartmentName'],
+            "CourseName": this.SubjectMasterData[i]['CourseName'],
+            "SubjectName": this.SubjectMasterData[i]['SubjectName'],
+            "Status": this.SubjectMasterData[i]['ActiveDeactive']
+          })
+        }
+
+        let values: any;
+        let privados = ['S.No.', "DepartmentName", "CourseName", "SubjectName", "Status"];
+        let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
+        values = pDFData.map((elemento: any) => Object.values(elemento));
+
         doc.setFontSize(16);
-        doc.text(" Subject Master", 100, 10, { align: 'center', maxWidth: 100 });
-        autoTable(doc, {
-          html: '#tabellist'
-          , styles: { fontSize: 8 },
-          headStyles: {
-            fillColor: '#3f51b5',
-            textColor: '#fff',
-            halign: 'center'
-          },
-          bodyStyles: {
-            halign: 'center'
-          },
-          margin: {
-            left: 5,
-            right: 5,
-            top: 15
-          },
-          tableLineWidth: 0
-        })       
+        doc.text("Subject Master", 100, 10, { align: 'center', maxWidth: 100 });
+
+        autoTable(doc,
+          {
+            head: [header],
+            body: values,
+            styles: { fontSize: 8 },
+            headStyles: {
+              fillColor: '#3f51b5',
+              textColor: '#fff',
+              halign: 'center'
+            },
+            bodyStyles: {
+              halign: 'center'
+            },
+            margin: {
+              left: 5,
+              right: 5,
+              top: 15
+            },
+            tableLineWidth: 0,
+
+          }
+        )
+
         doc.save("SubjectMaster" + '.pdf');
+
       }
       catch (Ex) {
         console.log(Ex);

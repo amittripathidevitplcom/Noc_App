@@ -2,21 +2,23 @@ export class CollegeDataModel {
   public CollegeID: number = 0;
   public DepartmentID: number = 0;
   public CollegeStatusID: number = 0;
-  public CollegeLogo: string = null;
+  public CollegeLogo: string = '';
+  public CollegeLogoPath: string = '';
+  public CollegeLogo_Dis_FileName: string = '';
   public PresentCollegeStatusID: number = 0;
   public CollegeTypeID: number = 0;
   public CollegeLevelID: number = 0;
-  public CollegeNameEn: string = null;
-  public CollegeNameHi: string = null;
+  public CollegeNameEn: string = '';
+  public CollegeNameHi: string = '';
   public AISHECodeStatus: number = null;
   public AISHECode: string = null;
   public CollegeMedium: number = 0;
   public UniversityID: number = 0;
   public MobileNumber: string = '';
   public CollegeLandlineNumber: string = '';
-  public Email: string = null;
-  public AddressLine1: string = null;
-  public AddressLine2: string = null;
+  public Email: string = '';
+  public AddressLine1: string = '';
+  public AddressLine2: string = '';
   public RuralUrban: number = null;
   public DistanceFromCity: number = null;
   public DivisionID: number = 0;
@@ -26,17 +28,17 @@ export class CollegeDataModel {
   public PanchayatSamitiID: number = 0;
   public ParliamentAreaID: number = 0;
   public AssemblyAreaID: number = 0;
-  public CityTownVillage: string = null;
+  public CityTownVillage: string = '';
   public YearofEstablishment: number = 0;
   public Pincode: number = null;
-  public WebsiteLink: string = null;
+  public WebsiteLink: string = '';
   public GCD_DesignationID: number = 0;
   public GCD_MobileNumber: string = '';
   public GCD_LandlineNumber: string = '';
-  public TGC_Latitude: string = null;
-  public TGC_Longitude: string = null;
-  public CreatedBy: number = null;
-  public ModifyBy: number = null;
+  public TGC_Latitude: string = '';
+  public TGC_Longitude: string = '';
+  public CreatedBy: number = 0;
+  public ModifyBy: number = 0;
   public ParentSSOID: string = '';
   public MappingSSOID: string = '';
 
@@ -44,29 +46,36 @@ export class CollegeDataModel {
   public NearestGovernmentHospitalsList: NearestGovernmentHospitalsDataModel[] = [];
 }
 export class ContactDetailsDataModel {
-  public ContactID: number = null;
+  public ContactID: number = 0;
   public CollegeDetailsID: number = 0;//foreign key of M_CollegeMaster
-  public NameOfPerson: string = null;
+  public NameOfPerson: string = '';
   public DesignationID: number = 0;
   public DesignationName: string = '';
   public MobileNumber: string = '';
-  public EmailAddress: string = null;  
+  public EmailAddress: string = '';  
 }
 export class NearestGovernmentHospitalsDataModel {
   public NearestGovernmentHospitalsID: number = 0;
   public CollegeDetailsID: number = 0;//foreign key of M_CollegeMaster
-  public HospitalName: string = null;  
+  public HospitalName: string = '';  
   public HospitalRegNo: string = '';
-  public HospitalDocument: string = null;
+  public HospitalDocument: string = '';
+  public HospitalDocumentPath: string = '';
+  public HospitalDocument_Dis_FileName: string = '';
   public HospitalDistance: number = null;
-  public AddressLine1: string = null;
-  public AddressLine2: string = null;
+  public AddressLine1: string = '';
+  public AddressLine2: string = '';
   public RuralUrban: number = null;
+  public RuralUrbanName: string = '';
   public DivisionID: number = 0;
+  public DivisionName: string = '';
   public DistrictID: number = 0;
+  public DistrictName: string = '';
   public TehsilID: number = 0;
+  public TehsilName: string = '';
   public PanchayatSamitiID: number = 0;
-  public CityTownVillage: string = null;
+  public PanchayatSamitiName: string = '';
+  public CityTownVillage: string = '';
   public Pincode: number = null;
 }
 

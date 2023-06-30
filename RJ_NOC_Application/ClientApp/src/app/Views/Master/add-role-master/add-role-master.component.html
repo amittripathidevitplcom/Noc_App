@@ -28,8 +28,8 @@
                   <label for="txtRoleName" class="form-label">Role Name <span style="color:red;">*</span></label>
                   <input type="text" class="form-control" id="txtRoleName" name="txtRoleName" formControlName="txtRoleName" [(ngModel)]="request.RoleName">
 
-                  <div *ngIf="isSubmitted&&form.txtRoleName.errors" class="requiredBox">
-                    <p *ngIf="form.txtRoleName.errors.required" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                  <div *ngIf="isSubmitted&&form.txtRoleName.errors" class="text-danger">
+                    <p *ngIf="form.txtRoleName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
 
                 </div>
@@ -80,7 +80,7 @@
                    Role Name
                   </th>
                   <th>
-                    Active Status
+                    Status
                   </th>
                   <th>
                     Action

@@ -8,7 +8,7 @@
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label class="form-label" style="margin-right:15px">Select Type :</label>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeTeaching" [(ngModel)]="request.TeachingType" value="Teaching" formControlName="rdTeachingType" >
+            <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeTeaching" [(ngModel)]="request.TeachingType" value="Teaching" formControlName="rdTeachingType">
             <label class="form-check-label" for="rdTeachingTypeTeaching">Teaching</label>
           </div>
           <div class="form-check form-check-inline">
@@ -75,10 +75,14 @@
             Profile Photo
           </label>
           <div class="d-flex">
-            <input type="file" name="ProfilePhoto" id="ProfilePhoto" class="form-control" [(ngModel)]="request.ProfilePhoto" formControlName="ProfilePhoto" (change)="ValidateDocumentImage($event,'ProfilePhoto')" />
+            <input type="file" style="display:none" name="ProfilePhoto" id="ProfilePhoto" class="form-control" formControlName="ProfilePhoto" (change)="ValidateDocumentImage($event,'ProfilePhoto')" />
+            <label class="btn upload" for="ProfilePhoto">
+              <span class="filename">Choose file</span>
+              {{request.ProfilePhoto === '' ? 'No File Choosen' : request.ProfilePhoto_Dis_FileName}}
+            </label>
             <div class="btn-group" *ngIf="showProfilePhoto">
-              <a class="btn btn-outline-primary" target="_blank" href="{{request.ProfilePhoto}}"><i class="fa fa-eye"></i></a>
-              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ProfilePhoto')"><i class="fa fa-trash-o"></i></button>
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.ProfilePhotoPath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.ProfilePhoto,'ProfilePhoto')"><i class="fa fa-trash-o"></i></button>
             </div>
           </div>
         </div>
@@ -107,10 +111,14 @@
             Aadhaar Card <span style="color:red;">*</span>
           </label>
           <div class="d-flex">
-            <input type="file" name="AadhaarCard" id="AadhaarCard" class="form-control" [(ngModel)]="request.AadhaarCard" formControlName="AadhaarCard" (change)="ValidateDocumentImage($event,'AadhaarCard')" />
+            <input type="file" name="AadhaarCard" style="display:none" id="AadhaarCard" class="form-control" formControlName="AadhaarCard" (change)="ValidateDocumentImage($event,'AadhaarCard')" />
+            <label class="btn upload" for="AadhaarCard">
+              <span class="filename">Choose file</span>
+              {{request.AadhaarCard === '' ? 'No File Choosen' : request.AadhaarCard_Dis_FileName}}
+            </label>
             <div class="btn-group" *ngIf="showAadhaarCard">
-              <a class="btn btn-outline-primary" target="_blank" href="{{request.AadhaarCard}}"><i class="fa fa-eye"></i></a>
-              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AadhaarCard')"><i class="fa fa-trash-o"></i></button>
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.AadhaarCardPath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.AadhaarCard,'AadhaarCard')"><i class="fa fa-trash-o"></i></button>
             </div>
           </div>
           <div *ngIf="isAadhaarCard" class="text-danger">
@@ -130,10 +138,14 @@
             PAN Card <span style="color:red;" *ngIf="request.TeachingType=='Teaching'">*</span>
           </label>
           <div class="d-flex">
-            <input type="file" name="PANCard" id="PANCard" class="form-control" [(ngModel)]="request.PANCard" formControlName="PANCard" (change)="ValidateDocumentImage($event,'PANCard')" />
+            <input type="file" style="display:none" name="PANCard" id="PANCard" class="form-control" formControlName="PANCard" (change)="ValidateDocumentImage($event,'PANCard')" />
+            <label class="btn upload" for="PANCard">
+              <span class="filename">Choose file</span>
+              {{request.PANCard === '' ? 'No File Choosen' : request.PANCard_Dis_FileName}}
+            </label>
             <div class="btn-group" *ngIf="showPANCard">
-              <a class="btn btn-outline-primary" target="_blank" href="{{request.PANCard}}"><i class="fa fa-eye"></i></a>
-              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PANCard')"><i class="fa fa-trash-o"></i></button>
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.PANCardPath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.PANCard,'PANCard')"><i class="fa fa-trash-o"></i></button>
             </div>
           </div>
           <div *ngIf="isPANCard" class="text-danger">
@@ -145,16 +157,20 @@
             Experience Certificate
           </label>
           <div class="d-flex">
-            <input type="file" name="ExperienceCertificate" id="ExperienceCertificate" [(ngModel)]="request.ExperienceCertificate" class="form-control" formControlName="ExperienceCertificate" (change)="ValidateDocumentImage($event,'ExperienceCertificate')" />
+            <input type="file" style="display:none" name="ExperienceCertificate" id="ExperienceCertificate" class="form-control" formControlName="ExperienceCertificate" (change)="ValidateDocumentImage($event,'ExperienceCertificate')" />
+            <label class="btn upload" for="ExperienceCertificate">
+              <span class="filename">Choose file</span>
+              {{request.ExperienceCertificate === '' ? 'No File Choosen' : request.ExperienceCertificate_Dis_FileName}}
+            </label>
             <div class="btn-group" *ngIf="showExperienceCertificate">
-              <a class="btn btn-outline-primary" target="_blank" href="{{request.ExperienceCertificate}}"><i class="fa fa-eye"></i></a>
-              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ExperienceCertificate')"><i class="fa fa-trash-o"></i></button>
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.ExperienceCertificatePath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.ExperienceCertificate,'ExperienceCertificate')"><i class="fa fa-trash-o"></i></button>
             </div>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <label>Date Of Birth <span style="color:red;">*</span></label>
-          <input type="date" id="dtDOB" name="dtDOB" class="form-control" [(ngModel)]="request.DateOfBirth" formControlName="dtDOB" (change)="SetDateofAppointment()" max="{{MaxDate | date:'yyyy-MM-dd'}}"/>
+          <input type="date" id="dtDOB" name="dtDOB" class="form-control" [(ngModel)]="request.DateOfBirth" formControlName="dtDOB" (change)="SetDateofAppointment()" max="{{MaxDate | date:'yyyy-MM-dd'}}" />
           <div *ngIf="isSubmitted&&form.dtDOB.errors" class="text-danger">
             <p *ngIf="form.dtDOB.errors.required"> This field is required .!</p>
           </div>
@@ -258,7 +274,7 @@
           <div class="row">
             <div class="col-md-2 mb-2">
               <label>Qualification <span style="color:red">*</span></label>
-              <select id="ddlProfessionalQualificationID" name="ddlProfessionalQualificationID" formControlName="ddlProfessionalQualificationID" [(ngModel)]="request.ProfessionalQualificationID" class="form-control">
+              <select id="ddlProfessionalQualificationID" name="ddlProfessionalQualificationID" formControlName="ddlProfessionalQualificationID" [(ngModel)]="request.ProfessionalQualificationID" class="form-control" (change)="ProfessionalQualification_Change()">
                 <option value="0" disabled>--Select--</option>
                 <option *ngFor="let item of ProfessionalQualificationData"
                         value="{{item.QualificationID}}">
@@ -288,7 +304,7 @@
             <div class="col-md-2 mb-2">
               <label>Passing year <span style="color:red">*</span></label>
               <select id="ddlPassingYearID" name="ddlPassingYearID" [(ngModel)]="request.PassingYearID" class="form-control" formControlName="ddlPassingYearID">
-                <option value="0" disabled>--Select Passing Year--</option>
+                <option value="0" disabled>--Select--</option>
                 <option *ngFor="let item of YearData"
                         value="{{item.YearID}}">
                   {{item.YearName}}
@@ -307,24 +323,26 @@
             </div>
             <div class="col-md-2 mb-2">
               <label>
-                Upload Document<!--<span style="color:red;">*</span>-->
+                Upload Document <span *ngIf="isUploadDocRequried" style="color:red">*</span>
               </label>
-              <div  class="d-flex">
-                <input type="file" name="UploadDocument" id="UploadDocument" class="form-control" [(ngModel)]="request.UploadDocument" formControlName="UploadDocument" (change)="ValidateDocumentImage($event,'UploadDocument')" />
+              <div class="d-flex">
+                <input type="file" style="display:none" name="UploadDocument" id="UploadDocument" class="form-control" formControlName="UploadDocument" (change)="ValidateDocumentImage($event,'UploadDocument')" />
+                <label class="btn upload" for="UploadDocument">
+                  <span class="filename">Choose file</span>
+                  {{request.UploadDocument === '' ? 'No File Choosen' : request.UploadDocument_Dis_FileName}}
+                </label>
                 <div class="btn-group" *ngIf="showUploadDocument">
-                  <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadDocument}}"><i class="fa fa-eye"></i></a>
-                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadDocument')"><i class="fa fa-trash-o"></i></button>
+                  <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadDocumentPath}}"><i class="fa fa-eye"></i></a>
+                  <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.UploadDocument,'UploadDocument')"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
               <div *ngIf="isUploadDocRequried" class="text-danger">
                 <p *ngIf="isUploadDocRequried"> This field is required .!</p>
               </div>
-
-
             </div>
           </div>
           <div class="col-md-12 text-end">
-            <button class="btn btn-primary" type="button" (click)="AddMoreEducationalQualification()"><i class="fa fa-plus"></i></button>
+            <button class="btn btn-primary" type="button" (click)="AddMoreEducationalQualification()"><i class="fa fa-plus"></i> Add</button>
           </div>
 
         </form>
@@ -360,7 +378,7 @@
                     {{item.Marks}}
                   </td>
                   <td>
-                    <a href="{{item.UploadDocument}}" target="_blank"><i class="fa fa-eye"></i></a>
+                    <a *ngIf="item.UploadDocument" href="{{item.UploadDocumentPath}}" target="_blank"><i class="fa fa-eye"></i></a>
                   </td>
                   <td>
                     <button type="button" class="btn btn-sm btn-danger" title="View Upload Document" (click)="DeleteEducationalQualification(idx)"><i class="fa fa-trash"></i></button>
@@ -379,7 +397,8 @@
     <div class="clearfix"></div>
     <div class="row">
       <div class="col-md-12 mb-2 text-end">
-        <button class="btn btn-primary" id="btnAdd" type="button" (click)="SaveData()"><i class="fa fa-plus"></i>&nbsp;Add & Save</button> &nbsp; &nbsp;
+        <button class="btn btn-primary" id="btnAdd" type="button" (click)="SaveData()"> Save</button> &nbsp;
+        <button type="button" class="btn btn-danger" (click)="ResetControl()"> Reset</button>
       </div>
     </div>
     <div class="clearfix"></div>
@@ -420,7 +439,7 @@
                 <tbody>
                   <tr *ngFor="let item of StaffDetailModel let idx =index">
                     <td>{{idx+1}}</td>
-                    <td><img [src]="item.ProfilePhoto" *ngIf="item.ProfilePhoto!='' && item.ProfilePhoto!=undefined" class="imgPlaceholder" height="50" width="100" /><p *ngIf="item.ProfilePhoto==''">NO Image</p></td>
+                    <td><img [src]="item.ProfilePhotoPath" *ngIf="item.ProfilePhoto!='' && item.ProfilePhoto!=undefined" class="imgPlaceholder" height="50" width="100" /><p *ngIf="item.ProfilePhoto==''">NO Image</p></td>
                     <td>
                       <p class="m-0"><b> NAME : </b> {{item.PersonName}}</p>
 
@@ -435,7 +454,7 @@
                       <p class="m-0"><b>DATE OF APPOINTMENT : </b>{{item.DateOfAppointment}}</p>
                       <p class="m-0"><b>DATE OF JOINING : </b>{{item.DateOfJoining}}</p>
                       <p class="m-0"><b>Year of Experience : </b>{{item.NumberofExperience}}</p>
-                      <p class="m-0"><b>Experience Certificate : </b>&nbsp; <a [hidden]="item.ExperienceCertificate==''" href="{{item.ExperienceCertificate}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
+                      <p class="m-0"><b>Experience Certificate : </b>&nbsp; <a [hidden]="item.ExperienceCertificate==''" href="{{item.ExperienceCertificatePath}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
 
                     </td>
                     <td>
@@ -448,8 +467,8 @@
                     </td>
                     <td>
 
-                      <p class="m-0"><b>Aadhaar No. :</b> {{item.MaskedAadhaarNo}}&nbsp; <a href="{{item.AadhaarCard}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
-                      <p class="m-0 text-uppercase"><b>PAN Card : </b> <a [hidden]="item.PANCard==''" href="{{item.PANCard}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
+                      <p class="m-0"><b>Aadhaar No. :</b> {{item.MaskedAadhaarNo}}&nbsp; <a *ngIf="item.AadhaarCard" href="{{item.AadhaarCardPath}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
+                      <p class="m-0 text-uppercase"><b>PAN Card : </b> <a [hidden]="item.PANCard==''" href="{{item.PANCardPath}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
                       <p class="m-0"><b>Research Guide : </b>{{item.ResearchGuide}}</p>
                       <p class="m-0"><b>PF Deduction : </b>{{item.PFDeduction}}</p>
                       <p class="m-0"><b>PF Number : </b>{{item.UANNumber}}</p>

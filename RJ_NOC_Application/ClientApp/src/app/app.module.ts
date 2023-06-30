@@ -82,6 +82,7 @@ import { SubjectMasterComponent } from './Views/Master/SubjectMaster/subject-mas
 import { DocumentMasterComponent } from './Views/Master/document-master/document-master.component';
 import { AddRoleMasterComponent } from './Views/Master/add-role-master/add-role-master.component';
 import { HospitalDetailComponent } from './Views/TabDetail/hospital-detail/hospital-detail.component';
+import { TotalLegalEntityPreviewComponent } from './Views/NoOfficer/total-legal-entity-preview/total-legal-entity-preview.component';
 
 import { PreviewLandDetailComponent } from './Views/PreviewTabs/preview-land-detail/preview-land-detail.component';
 import { PreviewFacilityDetailComponent } from './Views/PreviewTabs/preview-facility-detail/preview-facility-detail.component';
@@ -97,6 +98,7 @@ import { PreviewHospitalDetailComponent } from './Views/PreviewTabs/preview-hosp
 import { PreviewHostelDetailsComponent } from './Views/PreviewTabs/preview-hostel-detail/preview-hostel-details.component';
 import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
 
 @NgModule({
   declarations: [
@@ -171,6 +173,8 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     SubjectMasterComponent,
     DocumentMasterComponent,
     AddRoleMasterComponent,
+    TotalLegalEntityPreviewComponent,
+    AddRoleMasterComponent,
 
     PreviewLandDetailComponent,
     PreviewFacilityDetailComponent,
@@ -184,7 +188,8 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     PreviewOtherDocumentComponent,
     PreviewHospitalDetailComponent,
     PreviewHostelDetailsComponent,
-    ApplicationPreviewComponent
+    ApplicationPreviewComponent,
+    ApplyNOCApplicationListComponent
     //LoaderModule,
 
 
@@ -196,6 +201,7 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    NgbPopoverModule,
     //DataTablesModule,
     //AutocompleteLibModule,
     MatTabsModule,

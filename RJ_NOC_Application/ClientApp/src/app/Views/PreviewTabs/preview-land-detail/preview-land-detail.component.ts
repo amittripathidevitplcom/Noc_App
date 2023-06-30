@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LandDetailDataModel } from '../../../Models/LandDetailDataModel';
 import { LandDetailsService } from '../../../Services/Tabs/LandDetails/land-details.service'
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-preview-land-detail',
   templateUrl: './preview-land-detail.component.html',
@@ -17,7 +18,12 @@ export class PreviewLandDetailComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   public LandDetailList: LandDetailDataModel[] = [];
   public UnitOfLand: string = '';
-  constructor(private landDetailsService: LandDetailsService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService) { }
+
+  closeResult: string | undefined ;
+  modalReference: NgbModalRef | undefined;
+
+  constructor(private landDetailsService: LandDetailsService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
+    private modalService: NgbModal) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -64,15 +70,20 @@ export class PreviewLandDetailComponent implements OnInit {
       }, 200);
     }
   }
-  async ViewLandDetail(LandDetailID: number) {
+
+  async ViewLandDetail(content: any, LandDetailID: number) {
+    this.request = new LandDetailDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
     try {
       this.loaderService.requestStarted();
       await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request = data['Data'][0];
-          const display = document.getElementById('ModalViewLandDetail');
-          if (display) display.style.display = 'block';
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -84,11 +95,13 @@ export class PreviewLandDetailComponent implements OnInit {
       }, 200);
     }
   }
-
-  async CloseLandDetailModel() {
-    const display = document.getElementById('ModalViewLandDetail');
-    if (display) display.style.display = 'none';
-    this.request = new LandDetailDataModel();
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
-
 }

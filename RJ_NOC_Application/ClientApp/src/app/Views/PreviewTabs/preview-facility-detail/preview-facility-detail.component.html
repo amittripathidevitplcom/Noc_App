@@ -28,8 +28,9 @@
                     <label>
                       <b>Image : &nbsp;&nbsp; </b>
                     </label>
-                    <img *ngIf="item.FacilitiesUrl!=''" src="{{item.FacilitiesUrl}}" alt="Document Image" height="50" width="50" />
-                    <img *ngIf="item.FacilitiesUrl==''" src="../../../../assets/images/userImg.jpg" alt="No Image" height="50" width="50" />
+                    <a data-fancybox="gallery" *ngIf="item.FacilitiesUrl!=''" href="{{item.FacilitiesUrl}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{item.FacilitiesUrl}}" alt="Document Image" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
                   </div>
                 </div>
               </td>

@@ -5,6 +5,7 @@ import { HostelDataModel, HostelDetailsDataModel_Hostel } from '../../../Models/
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-preview-hostel-details',
@@ -25,8 +26,11 @@ export class PreviewHostelDetailsComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   public showRentDocument: boolean = false;
 
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+
   readonly imageUrlPath = 'http://localhost:62778/ImageFile/';
-  constructor(private loaderService: LoaderService, private hostelDetailService: HostelDetailService, private commonMasterService: CommonMasterService, private router: ActivatedRoute) {
+  constructor(private modalService: NgbModal,private loaderService: LoaderService, private hostelDetailService: HostelDetailService, private commonMasterService: CommonMasterService, private router: ActivatedRoute) {
 
   }
 
@@ -45,7 +49,6 @@ export class PreviewHostelDetailsComponent implements OnInit {
   }
 
   async GetHostelDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, HostelDetailID: number) {
-    debugger;
     try {
       this.loaderService.requestStarted();
       await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, HostelDetailID)
@@ -68,8 +71,13 @@ export class PreviewHostelDetailsComponent implements OnInit {
     }
   }
 
-  async ViewItem(HostelDetailID: number) {
-    debugger;
+  async ViewItem(content: any, HostelDetailID: number) {
+    this.request = new HostelDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
     try {
       this.loaderService.requestStarted();
       await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HostelDetailID)
@@ -85,9 +93,6 @@ export class PreviewHostelDetailsComponent implements OnInit {
           }
           this.request.RentDocumentPath = this.imageUrlPath + this.request.RentDocument;
 
-          const display1 = document.getElementById('PreviewHostelDetails')
-          if (display1) display1.style.display = 'block';
-
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -97,6 +102,15 @@ export class PreviewHostelDetailsComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
     }
   }
 

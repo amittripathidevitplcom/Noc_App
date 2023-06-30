@@ -46,7 +46,10 @@
                     <td>{{item.MobileNo}}</td>
                     <td>{{item.HighestQualificationName}}</td>
                     <td>{{item.DateOfBirth}}</td>
-                    <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewStaffDetail(item.StaffDetailID)"><i class="fa fa-eye"></i></button></td>
+                    <td>
+                      <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewStaffDetail(mymodal,item.StaffDetailID)"><i class="fa fa-eye"></i></button>
+                    </td>
+
                   </tr>
                   <tr *ngIf="StaffDetailModel.length<=0">
                     <td colspan="7" style="color:red">No Data Found.!</td>
@@ -59,176 +62,184 @@
       </div>
     </div>
 
-    <div class="modal" id="ModalViewStaffDetail" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Staff Detail</h5>
-            <button type="button" class="btn btn-danger" (click)="CloseStaffDetailModel()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <ng-template #mymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Staff Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label class="form-label" style="margin-right:15px"><b> Type :</b></label>
+
+              <input class="form-control disabled" disabled value="{{request.TeachingType}}" />
+
           </div>
-          <div class="modal-body">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching'">
+            <label><b>Subject :</b></label>
+            <input class="form-control disabled" disabled value="{{request.SubjectName}}" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label><b>Name of Person:</b> </label>
+            <input class="form-control disabled" disabled value="{{request.PersonName}}" />
+          </div>
+          <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
+            <label><b>Role :</b> </label>
+            <input class="form-control disabled" disabled value="{{request.RoleName}}" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label><b>Mobile No. :</b> </label>
+            <input class="form-control disabled" disabled value="{{request.MobileNo}}" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label><b>Email :</b></label>
+            <input class="form-control disabled" disabled value="{{request.Email}}" />
+          </div>
 
+          <div class="col-md-4 mb-3">
+            <label><b>Highest Qualification :</b></label>
+            <input class="form-control disabled" disabled value="{{request.HighestQualificationName}}" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label><b>Total Number of Experience (Year) :</b></label>
+            <input class="form-control disabled" disabled value="{{request.NumberofExperience}}" />
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label><b>Aadhar Number :</b></label>
+            <input class="form-control disabled" disabled value="{{request.AadhaarNo}}" />
+          </div>
+
+
+          <div class="col-md-4 mb-3">
+            <label><b>Date Of Birth :</b></label>
+            <input class="form-control disabled" disabled value="{{request.DateOfBirth}}" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label><b>Date Of Appointment :</b></label>
+            <input class="form-control disabled" disabled value="{{request.DateOfAppointment}}" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label><b>Date Of Joining :</b></label>
+            <input class="form-control disabled" disabled value="{{request.DateOfJoining}}" />
+          </div>
+          <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
+            <label><b>Specialization Subject :</b></label>
+            <input class="form-control disabled" disabled value="{{request.SpecializationSubject}}" />
+          </div>
+          <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='NonTeaching'">
+            <label><b>Role Mapping :</b></label>
+            <input class="form-control disabled" disabled value="{{request.RoleMapping}}" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label><b>Salary :</b></label>
+            <input class="form-control disabled" disabled value="{{request.Salary}}" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label" style="margin-right:15px"><b>Staff Status :</b></label>
+            <input class="form-control disabled" disabled value="{{request.StaffStatus}}" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label" style="margin-right:15px"><b>PF Deduction :</b></label>
+            <input class="form-control disabled" disabled value="{{request.PFDeduction}}" />
+
+            <label *ngIf="request.PFDeduction=='Yes'"><b> UAN No. :</b></label>
+            <input *ngIf="request.PFDeduction=='Yes'" class="form-control disabled" disabled value=" {{request.UANNumber}}" />
+
+          </div>
+          <div class="col-md-4 mb-3">
+            <label class="form-label" style="margin-right:15px"><b>Research Guide :</b></label>
+            <input class="form-control disabled" disabled value="{{request.ResearchGuide}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>
+              <b> Profile Photo :</b>
+            </label>
+            <div class="clearfix"></div>
+            <a data-fancybox="gallery" *ngIf="request.ProfilePhoto!=''"  href="{{request.ProfilePhoto}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.ProfilePhoto}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            </a>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>
+              <b> Aadhaar Card :</b>
+            </label>
+            <div class="clearfix"></div>
+            <a data-fancybox="gallery" *ngIf="request.AadhaarCard!=''" href="{{request.AadhaarCard}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.AadhaarCard}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            </a>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>
+              <b> PAN Card  :</b>
+            </label>
+            <div class="clearfix"></div>
+            <a data-fancybox="gallery" *ngIf="request.PANCard!=''" href="{{request.PANCard}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.PANCard}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            </a>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>
+              <b> Experience Certificate :</b>
+            </label>
+            <div class="clearfix"></div>
+            <a data-fancybox="gallery" *ngIf="request.ExperienceCertificate!=''" href="{{request.ExperienceCertificate}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.ExperienceCertificate}}" alt="Experience Certificate" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            </a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <b>Educational Qualification Details</b>
+          </div>
+          <div class="card-body">
             <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label class="form-label" style="margin-right:15px"><b> Type :</b></label>
-                <div class="form-check form-check-inline">
-                  {{request.TeachingType}}
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching'">
-                <label><b>Subject :</b></label>
-                {{request.SubjectName}}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4 mb-3">
-                <label><b>Name of Person:</b> </label>
-                {{request.PersonName}}
-              </div>
-              <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
-                <label><b>Role :</b> </label>
-                {{request.RoleName}}
-              </div>
-              <div class="col-md-4 mb-3">
-                <label><b>Mobile No. :</b> </label>
-                {{request.MobileNo}}
-              </div>
-              <div class="col-md-4 mb-3">
-                <label><b>Email :</b></label>
-                {{request.Email}}
-              </div>
-
-              <div class="col-md-4 mb-3">
-                <label><b>Highest Qualification :</b></label>
-                {{request.HighestQualificationName}}
-              </div>
-              <div class="col-md-4 mb-3">
-                <label><b>Total Number of Experience (Year) :</b></label>
-                {{request.NumberofExperience}}
-              </div>
-
-              <div class="col-md-4 mb-3">
-                <label><b>Aadhar Number :</b></label>
-                {{request.AadhaarNo}}
-              </div>
-
-
-              <div class="col-md-4 mb-3">
-                <label><b>Date Of Birth :</b></label>
-                {{request.DateOfBirth}}
-              </div>
-              <div class="col-md-4 mb-3">
-                <label><b>Date Of Appointment :</b></label>
-                {{request.DateOfAppointment}}
-              </div>
-              <div class="col-md-4 mb-3">
-                <label><b>Date Of Joining :</b></label>
-                {{request.DateOfJoining}}
-              </div>
-              <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
-                <label><b>Specialization Subject :</b></label>
-                {{request.SpecializationSubject}}
-              </div>
-              <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='NonTeaching'">
-                <label><b>Role Mapping :</b></label>
-                {{request.RoleMapping}}
-              </div>
-              <div class="col-md-4 mb-3">
-                <label><b>Salary :</b></label>
-                {{request.Salary}}
-              </div>
-              <div class="col-md-4 mb-3">
-                <label class="form-label" style="margin-right:15px"><b>Staff Status :</b></label>
-                {{request.StaffStatus}}
-              </div>
-              <div class="col-md-4 mb-3">
-                <label class="form-label" style="margin-right:15px"><b>PF Deduction :</b></label>
-                {{request.PFDeduction}}
-
-                <label *ngIf="request.PFDeduction=='Yes'"><b> UAN No. :</b></label>
-                {{request.UANNumber}}
-
-              </div>
-              <div class="col-md-4 mb-3">
-                <label class="form-label" style="margin-right:15px"><b>Research Guide :</b></label>
-                {{request.ResearchGuide}}
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  <b> Profile Photo :</b>
-                </label>
-                <img *ngIf="request.ProfilePhoto!=''" src="{{request.ProfilePhoto}}" alt="Upload Document" height="50" width="50" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  <b> Aadhaar Card :</b>
-                </label>
-                <img *ngIf="request.AadhaarCard!=''" src="{{request.AadhaarCard}}" alt="Upload Document" height="50" width="50" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  <b> PAN Card  :</b>
-                </label>
-                <img *ngIf="request.PANCard!=''" src="{{request.PANCard}}" alt="Upload Document" height="50" width="50" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  <b> Experience Certificate :</b>
-                </label>
-                <img *ngIf="request.ExperienceCertificate!=''" src="{{request.ExperienceCertificate}}" alt="Upload Document" height="50" width="50" />
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header">
-                <b>Educational Qualification Details</b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="table-responsive" *ngIf="request.EducationalQualificationDetails.length>0">
-                    <table class="table table-hover table-striped-columns">
-                      <thead>
-                        <tr>
-                          <th>Professional Qualification</th>
-                          <th> Stream/Subject </th>
-                          <th>University/Board/ Institution</th>
-                          <th>Passing Year</th>
-                          <th>Percentage/Grade</th>
-                          <th>Upload Document</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of request.EducationalQualificationDetails let idx =index">
-                          <td>
-                            {{item.ProfessionalQualification}}
-                          </td>
-                          <td>
-                            {{item.StreamSubject}}
-                          </td>
-                          <td>
-                            {{item.UniversityBoardInstitutionName}}
-                          </td>
-                          <td>
-                            {{item.PassingYear}}
-                          </td>
-                          <td>
-                            {{item.Marks}}
-                          </td>
-                          <td>
-                            <img src="{{item.UploadDocument}}" alt="Upload Document" height="50" width="50"/>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-                <div class="modal-footer">
-
-                </div>
+              <div class="table-responsive" *ngIf="request.EducationalQualificationDetails.length>0">
+                <table class="table table-hover table-striped-columns">
+                  <thead>
+                    <tr>
+                      <th>Professional Qualification</th>
+                      <th> Stream/Subject </th>
+                      <th>University/Board/ Institution</th>
+                      <th>Passing Year</th>
+                      <th>Percentage/Grade</th>
+                      <th>Upload Document</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of request.EducationalQualificationDetails let idx =index">
+                      <td>
+                        {{item.ProfessionalQualification}}
+                      </td>
+                      <td>
+                        {{item.StreamSubject}}
+                      </td>
+                      <td>
+                        {{item.UniversityBoardInstitutionName}}
+                      </td>
+                      <td>
+                        {{item.PassingYear}}
+                      </td>
+                      <td>
+                        {{item.Marks}}
+                      </td>
+                      <td>
+                        <a data-fancybox="gallery" *ngIf="item.UploadDocument!=''" href="{{item.UploadDocument}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{item.UploadDocument}}" alt="Upload Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
-    </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

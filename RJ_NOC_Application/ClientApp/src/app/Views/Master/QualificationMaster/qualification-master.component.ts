@@ -211,6 +211,7 @@ export class QualificationMasterComponent implements OnInit {
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
     this.isDisabledDOJ = false;
+    this.request.QualificationID = 0;
     this.request.DepartmentID = 0;
     this.request.IsDocCompulsory = 0;
     this.request.Orderby = 0;
@@ -243,8 +244,8 @@ export class QualificationMasterComponent implements OnInit {
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
-        //ws['!cols'] = [];
-        //ws['!cols'][0] = { hidden: true };
+        ws['!cols'] = [];
+        ws['!cols'][5] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "QualificationMaster.xlsx");
@@ -287,12 +288,12 @@ export class QualificationMasterComponent implements OnInit {
             "QualificationName": this.QualificationMasterDataList[i]['QualificationName'],
             "IsDocCompulsory": this.QualificationMasterDataList[i]['IsDocCompulsory'],
             "Orderby": this.QualificationMasterDataList[i]['Orderby'],
-            "ActiveStatus": this.QualificationMasterDataList[i]['ActiveStatus']
+            "Status": this.QualificationMasterDataList[i]['ActiveDeactive']
           })
         }
 
         let values: any;
-        let privados = ['S.No.', "DepartmentName", "QualificationName", "IsDocCompulsory", "Orderby","ActiveStatus"];
+        let privados = ['S.No.', "DepartmentName", "QualificationName", "IsDocCompulsory", "Orderby","Status"];
         let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
         values = pDFData.map((elemento: any) => Object.values(elemento));
 

@@ -4,5 +4,6 @@ export class DashboardDataModel {
   public TotalDraftApplication: number = 0;
   public NOCIssued: number = 0;
   public PendingNOC: number = 0;
+  public TotalLegalEntity: number = 0;
   
 }

@@ -37,6 +37,7 @@
               "src/assets/css/font-awesome/css/font-awesome.min.css",
               "src/assets/css/bootstrap-icons.css",
               "src/assets/css/owl.carousel.min.css",
+              "src/assets/css/fancybox.css",
               "./node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
@@ -44,6 +45,7 @@
               //"src/assets/js/owl.carousel.min.js",
               //"src/assets/js/highcharts.js",
               "src/assets/js/zingchart.min.js",
+              "src/assets/js/fancybox.umd.js",
               "src/assets/js/custom.js",
               "src/assets/js/bootstrap.bundle.js"
             ]

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-preview-staff-detail',
@@ -23,8 +24,12 @@ export class PreviewStaffDetailComponent implements OnInit {
   public TotalNonTeachingStaffDetail: number = 0;
   public TotalTeachingStaffDetail: number = 0;
   request = new StaffDetailDataModel();
+
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+
   constructor(private loaderService: LoaderService, private staffDetailService: StaffDetailService
-    , private commonMasterService: CommonMasterService, private router: ActivatedRoute) { }
+    , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private modalService: NgbModal) { }
 
  async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -73,13 +78,13 @@ export class PreviewStaffDetailComponent implements OnInit {
     }
   }
 
-  async CloseStaffDetailModel() {
-    const display = document.getElementById('ModalViewStaffDetail');
-    if (display) display.style.display = 'none';
+  async ViewStaffDetail(content: any, StaffDetailID: number) {
     this.request = new StaffDetailDataModel();
-  }
-
-  async ViewStaffDetail(StaffDetailID: number) {
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
     try {
       this.loaderService.requestStarted();
       await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, StaffDetailID)
@@ -90,8 +95,6 @@ export class PreviewStaffDetailComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request = data['Data'][0];
-          const display = document.getElementById('ModalViewStaffDetail');
-          if (display) display.style.display = 'block';
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -101,6 +104,16 @@ export class PreviewStaffDetailComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
     }
   }
 }

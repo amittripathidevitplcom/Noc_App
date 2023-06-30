@@ -104,6 +104,7 @@ export class UniversityComponent implements OnInit {
     }
   }
   async SaveData() {
+    debugger;
     this.isSubmitted = true;
     if (this.UniversityMasterForm.invalid) {
       return
@@ -161,6 +162,7 @@ export class UniversityComponent implements OnInit {
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
           this.request.UniversityID = data['Data'][0]["UniversityID"];
           this.request.UniversityName = data['Data'][0]["UniversityName"];          
+          this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];          
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
@@ -219,8 +221,8 @@ export class UniversityComponent implements OnInit {
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
-        //ws['!cols'] = [];
-        //ws['!cols'][0] = { hidden: true };
+        ws['!cols'] = [];
+        ws['!cols'][4] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "UniversityMaster.xlsx");
@@ -244,32 +246,58 @@ export class UniversityComponent implements OnInit {
     }
   }
   @ViewChild('content') content: ElementRef | any;
+
   btnSavePDF_Click(): void {
+
     this.loaderService.requestStarted();
     if (this.UniversityMasterData.length > 0) {
       try {
+
+
         let doc = new jsPDF('p', 'mm', [432, 279])
+        let pDFData: any = [];
+        for (var i = 0; i < this.UniversityMasterData.length; i++) {
+          pDFData.push({
+            "S.No.": i + 1,
+            "DepartmentName": this.UniversityMasterData[i]['DepartmentName'],
+            "UniversityName": this.UniversityMasterData[i]['UniversityName'],
+            "Status": this.UniversityMasterData[i]['ActiveDeactive'],
+          })
+        }
+
+        let values: any;
+        let privados = ['S.No.', "DepartmentName", "UniversityName", "Status"];
+        let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
+        values = pDFData.map((elemento: any) => Object.values(elemento));
+
         doc.setFontSize(16);
         doc.text("University Master", 100, 10, { align: 'center', maxWidth: 100 });
-        autoTable(doc, {
-          html: '#tabellist'
-          , styles: { fontSize: 8 },
-          headStyles: {
-            fillColor: '#3f51b5',
-            textColor: '#fff',
-            halign: 'center'
-          },
-          bodyStyles: {
-            halign: 'center'
-          },
-          margin: {
-            left: 5,
-            right: 5,
-            top: 15
-          },
-          tableLineWidth: 0
-        })
+
+        autoTable(doc,
+          {
+            head: [header],
+            body: values,
+            styles: { fontSize: 8 },
+            headStyles: {
+              fillColor: '#3f51b5',
+              textColor: '#fff',
+              halign: 'center'
+            },
+            bodyStyles: {
+              halign: 'center'
+            },
+            margin: {
+              left: 5,
+              right: 5,
+              top: 15
+            },
+            tableLineWidth: 0,
+
+          }
+        )
+
         doc.save("UniversityMaster" + '.pdf');
+
       }
       catch (Ex) {
         console.log(Ex);
