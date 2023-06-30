@@ -100,6 +100,7 @@ import { ApplicationPreviewComponent } from './Views/ApplicationPreview/applicat
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
+import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
 
 @NgModule({
   declarations: [
@@ -191,7 +192,8 @@ import { ApplicationSummaryComponent } from './Views/ApplicationSummary/applicat
     PreviewHostelDetailsComponent,
     ApplicationPreviewComponent,
     ApplyNOCApplicationListComponent,
-    ApplicationSummaryComponent
+    ApplicationSummaryComponent,
+    ApplyNOCPreviewComponent
     //LoaderModule,
 
 
