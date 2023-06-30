@@ -289,7 +289,7 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="">Date of Election of Present Management Committee <span *ngIf="IsNotMoreThen3Year" style="color:red">*</span></label>
-                <input class="form-control" type="date" id="txtElectionPresentManagementCommitteeDate" [(ngModel)]="request.ElectionPresentManagementCommitteeDate" formControlName="txtElectionPresentManagementCommitteeDate" min="{{MinDate | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}" [disabled]="IsNotMoreThen3Year" (change)="ElectionPresentManagementCommitteeDate_Change()" />
+                <input class="form-control" type="date" id="txtElectionPresentManagementCommitteeDate" [(ngModel)]="request.ElectionPresentManagementCommitteeDate" formControlName="txtElectionPresentManagementCommitteeDate" min="{{MinDate_ElectionPresentManagementCommitteeDate | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}" [disabled]="IsNotMoreThen3Year" (change)="ElectionPresentManagementCommitteeDate_Change()" />
                 <div *ngIf="isSubmitted&&form.txtElectionPresentManagementCommitteeDate.errors" class="text-danger">
                   <p *ngIf="form.txtElectionPresentManagementCommitteeDate.errors.required"> This field is required .!</p>
                 </div>
@@ -473,7 +473,7 @@
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
                         <label for="txtDOB" class="form-label">Date of Birth <span style="color:red">*</span></label>
-                        <input type="date" class="form-control" id="txtMemberDOB" [(ngModel)]="memberdetails.MemberDOB" formControlName="txtMemberDOB" max="{{MaxDate | date:'yyyy-MM-dd'}}">
+                        <input type="date" class="form-control" id="txtMemberDOB" [(ngModel)]="memberdetails.MemberDOB" formControlName="txtMemberDOB" min="{{MinDate_DOB | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}">
                         <div *ngIf="isMemberAdded&&AMform.txtMemberDOB.errors" class="text-danger">
                           <p *ngIf="AMform.txtMemberDOB.errors.required">  This field is required .!</p>
                         </div>
