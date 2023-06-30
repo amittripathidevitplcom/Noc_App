@@ -32,7 +32,7 @@
                 </tr>
               </thead>
               <tbody>
-               
+
                 <tr *ngFor="let row of draftApplicatoinListData ;let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>{{row.CreateDate}}</td>
@@ -41,6 +41,7 @@
                   <td style="width:300px">
                     <div class="d-flex">
                       <a href="javascript:void(0)" (click)="DraftEdit_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                      <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       <!--<a href="javascript:void(0)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>-->
                     </div>
                   </td>
@@ -54,4 +55,4 @@
     </div>
   </div>
 </div>
- 
+

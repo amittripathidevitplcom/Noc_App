@@ -78,6 +78,8 @@ export class DraftApplicationListComponent implements OnInit {
   async DraftEdit_OnClick(DepartmentID: number, CollegeID: number) {
     this.routers.navigate(['/applicationdetailentry' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
-
+  async ApplicationSummary_OnClick(DepartmentID: number, CollegeID: number) {
+    this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+  }
 }
 

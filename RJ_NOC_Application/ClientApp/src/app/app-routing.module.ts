@@ -63,6 +63,7 @@ import { ApplicationPreviewComponent } from './Views/ApplicationPreview/applicat
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
 import { WorkFlowMasterComponent } from './Views/Admin/work-flow-master/add-work-flow-master/work-flow-master.component';
 import { WorkFlowMasterListComponent } from './Views/Admin/work-flow-master/work-flow-master-list/work-flow-master-list.component';
+import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
 
 const routes: Routes = [
   {
@@ -258,6 +259,9 @@ const routes: Routes = [
       },
       {
         path: 'applicationpreview/:DepartmentID/:CollegeID', component: ApplicationPreviewComponent
+      },
+      {
+        path: 'applicationsummary/:DepartmentID/:CollegeID', component: ApplicationSummaryComponent
       },
       {
         path: 'applynocapplicationlist', component: ApplyNOCApplicationListComponent
