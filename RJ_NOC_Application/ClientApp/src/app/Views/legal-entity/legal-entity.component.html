@@ -473,7 +473,7 @@
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
                         <label for="txtDOB" class="form-label">Date of Birth <span style="color:red">*</span></label>
-                        <input type="date" class="form-control" id="txtMemberDOB" [(ngModel)]="memberdetails.MemberDOB" formControlName="txtMemberDOB" min="{{MinDate | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}">
+                        <input type="date" class="form-control" id="txtMemberDOB" [(ngModel)]="memberdetails.MemberDOB" formControlName="txtMemberDOB" max="{{MaxDate | date:'yyyy-MM-dd'}}">
                         <div *ngIf="isMemberAdded&&AMform.txtMemberDOB.errors" class="text-danger">
                           <p *ngIf="AMform.txtMemberDOB.errors.required">  This field is required .!</p>
                         </div>
