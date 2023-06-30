@@ -49,7 +49,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
     //await this.GetCollageMaster();
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
-    this.GetTabFieldByTabName('LandDetail');
+    this.GetTabFieldByTabName('Land Information');
     this.dropdownSettings = {
       singleSelection: false,
       selectAllText: 'Select All',
@@ -63,18 +63,20 @@ export class ApplyNOCPreviewComponent implements OnInit {
   NextStep() {
     if (this.selectedIndex != this.maxNumberOfTabs) {
       this.selectedIndex = this.selectedIndex + 1;
+      this.GetTabFieldByTabName(this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel']);
     }
   }
 
   PreviousStep() {
     if (this.selectedIndex != 0) {
       this.selectedIndex = this.selectedIndex - 1;
+      this.GetTabFieldByTabName(this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel']);
     }
   }
 
   onTabChange(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
-    console.log(event);
+    this.GetTabFieldByTabName(this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel']);
   }
   async GetTabFieldByTabName(TabName: string) {
     try {
