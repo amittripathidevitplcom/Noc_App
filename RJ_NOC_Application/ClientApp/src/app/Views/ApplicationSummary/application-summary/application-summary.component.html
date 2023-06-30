@@ -22,7 +22,7 @@
 
           <div class="row">
             <app-preview-land-detail></app-preview-land-detail>
-
+          </div>
             <div class="row">
               <!--Facility-->
               <app-preview-facility-detail></app-preview-facility-detail>
@@ -49,7 +49,7 @@
               <app-preview-staff-detail></app-preview-staff-detail>
             </div>
 
-            <div *ngIf="CollegeType_IsExisting">
+            <div class="row" *ngIf="CollegeType_IsExisting">
               <!--OLD NOC Details Only for New-->
               <app-preview-old-nocdetail></app-preview-old-nocdetail>
             </div>
@@ -74,4 +74,3 @@
       </div>
     </div>
   </div>
-</div>
