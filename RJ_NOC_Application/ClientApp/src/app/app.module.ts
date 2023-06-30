@@ -96,6 +96,7 @@ import { PreviewOtherDocumentComponent } from './Views/PreviewTabs/preview-other
 import { PreviewHospitalDetailComponent } from './Views/PreviewTabs/preview-hospital-detail/preview-hospital-detail.component';
 import { PreviewHostelDetailsComponent } from './Views/PreviewTabs/preview-hostel-detail/preview-hostel-details.component';
 import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -199,6 +200,7 @@ import { ApplicationPreviewComponent } from './Views/ApplicationPreview/applicat
     //AutocompleteLibModule,
     MatTabsModule,
     FormsModule,
+    NgbPopoverModule,
     NgMultiSelectDropDownModule.forRoot(),
     //NgSelect2Module,
     //ChartsModule,

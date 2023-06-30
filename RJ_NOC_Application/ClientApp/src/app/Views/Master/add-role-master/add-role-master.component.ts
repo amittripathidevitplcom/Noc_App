@@ -11,6 +11,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { style } from '@angular/animations';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-role-master',
@@ -34,12 +35,13 @@ export class AddRoleMasterComponent implements OnInit {
   public isDisabledDOJ: boolean = false;
   isSubmittedItemDetails: boolean = false;
   public isLoadingExport: boolean = false;
-
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
 
 
   request = new AddRoleMasterDataModel();
 
-  constructor(private clipboard: Clipboard, private addRoleMasterService: AddRoleMasterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
+  constructor(private clipboard: Clipboard, private addRoleMasterService: AddRoleMasterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private modalService: NgbModal) {
   }
 
   async ngOnInit() {
@@ -325,6 +327,23 @@ export class AddRoleMasterComponent implements OnInit {
 
   }
 
+  open(content: any, BookingId: string) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+     
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 
   
 

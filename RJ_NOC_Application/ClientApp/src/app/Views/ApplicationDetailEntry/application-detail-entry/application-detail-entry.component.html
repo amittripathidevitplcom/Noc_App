@@ -19,77 +19,122 @@
     <div class="col-md-12">
       <div class="row align-items-center">
         <div class="col-md-12">
-          
+
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
-
-
-            <!--<mat-tab label="Land Information" class="tabs-Link LandInformation">-->
             <!--Land Information-->
-            <!--<mat-tab>
-              <ng-template mat-tab-label>
-                <span [ngClass]="{'color-red'}">Security</span>
-              </ng-template>
-              <app-land-details></app-land-details>
-            </mat-tab>-->
             <mat-tab>
               <ng-template mat-tab-label>
-                <i class="fa fa-check text-success" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LandInformation']>0"></i>
                 <span>Land Information</span>
               </ng-template>
               <app-land-details></app-land-details>
             </mat-tab>
-
-
-            <mat-tab label="Facility">
-              <!--Facility-->
+            <!--Facility-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Facility']>0"></i>
+                <span>Facility</span>
+              </ng-template>
               <app-facility-details></app-facility-details>
             </mat-tab>
-            <mat-tab label="Required Document">
-              <!--Required Document-->
+            <!--Required Document-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RequiredDocument']>0"></i>
+                <span>Required Document</span>
+              </ng-template>
               <app-required-document></app-required-document>
             </mat-tab>
-            <mat-tab label="Room Details">
-              <!--Room Details-->
+            <!--Room Details-->
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0 && CheckTabsEntryData['OtherInformation']>0"></i>
+                <span>Room Details</span>
+              </ng-template>
               <mat-tab-group mat-align-tabs="left" class="tabUl1 d-block w-100">
-                <mat-tab label="Room Details">
+                <mat-tab>
+                  <ng-template mat-tab-label>
+                    <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
+                    <span>Room Details</span>
+                  </ng-template>
                   <app-room-details></app-room-details>
                 </mat-tab>
-                <mat-tab label="Other Information">
-                  <!--Other Information-->
+
+                <!--Other Information-->
+                <mat-tab>
+                  <ng-template mat-tab-label>
+                    <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherInformation']>0"></i>
+                    <span>Other Information</span>
+                  </ng-template>
                   <app-other-information></app-other-information>
                 </mat-tab>
               </mat-tab-group>
             </mat-tab>
-            <mat-tab label="Building Documents">
-              <!--Building Documents-->
+
+
+            <!--Building Documents-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
+                <span>Building Documents</span>
+              </ng-template>
               <app-building-details></app-building-details>
             </mat-tab>
-            <mat-tab label="Staff Details">
-              <!--Staff Details-->
+
+            <!--Staff Details-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
+                <span>Staff Details</span>
+              </ng-template>
               <app-staff-details></app-staff-details>
             </mat-tab>
+            <!--OLD NOC Details Only for New-->
 
-            <mat-tab label="OLD NOC Details" *ngIf="CollegeType_IsExisting">
-              <!--OLD NOC Details Only for New-->
+            <mat-tab *ngIf="CollegeType_IsExisting">
+              <ng-template mat-tab-label>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
+                <span>OLD NOC Details</span>
+              </ng-template>
               <app-old-nocdetails></app-old-nocdetails>
             </mat-tab>
 
-            <mat-tab label="Academic Information" *ngIf="CollegeType_IsExisting">
-              <!--Academic Information Only for New-->
+            <!--Academic Information Only for New-->
+            <mat-tab *ngIf="CollegeType_IsExisting">
+              <ng-template mat-tab-label>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AcademicInformation']>0"></i>
+                <span>Academic Information</span>
+              </ng-template>
               <app-academic-information></app-academic-information>
             </mat-tab>
-            <mat-tab label="Other Document">
-              <!--Other Document-->
+
+            <!--Other Document-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
+                <span>Other Document</span>
+              </ng-template>
               <app-other-document></app-other-document>
             </mat-tab>
-            <mat-tab label="Hospital Details">
-              <!--Hospital Details-->
+
+            <!--Hospital Details-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HospitalDetails']>0"></i>
+                <span>Hospital Details</span>
+              </ng-template>
               <app-hospital-detail></app-hospital-detail>
             </mat-tab>
-            <mat-tab label="Hostel Details">
-              <!--Hostel Details-->
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HostelDetails']>0"></i>
+                <span>Hostel Details</span>
+              </ng-template>
               <app-hostel-details></app-hostel-details>
             </mat-tab>
+
           </mat-tab-group>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">

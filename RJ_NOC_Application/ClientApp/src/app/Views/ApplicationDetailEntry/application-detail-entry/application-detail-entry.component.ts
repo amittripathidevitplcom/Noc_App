@@ -24,6 +24,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
   public CollegeID: number = 0;
   public LandClass: string = 'tabs-Link LandInformation';
   public CollegeName: string = '';
+  public CheckTabsEntryData: any = [];
 
   selectedIndex: number = 0;
   maxNumberOfTabs: number = 0;
@@ -46,6 +47,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     //await this.GetCollageMaster();
     await this.GetCollageDetails();
     await this.GetCollegeBasicDetails();
+    await this.CheckTabsEntry();
 
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
@@ -98,6 +100,25 @@ export class ApplicationDetailEntryComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.CollegeName = data['Data'][0]['data'][0]['CollegeNameEn'];
 
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async CheckTabsEntry() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.CheckTabsEntry(this.SelectedCollageID.toString())
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
+          console.log(this.CheckTabsEntryData);
         }, error => console.error(error));
     }
     catch (Ex) {

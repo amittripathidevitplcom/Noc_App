@@ -115,4 +115,38 @@
     </div>
   </div>
 </div>
+<span style="margin-left:20px !important;cursor:pointer !important" (click)="open(mymodal,'0')" title="View Deatils">
+  Open MD
+</span>
 
+<ng-template #mymodal let-modal style="width:1024px !important">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Voucher Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body" style="padding: 0rem !important;">
+    <div class="fixTableHead" style="height: auto !important;">
+      <table id="LedgerEntryDetails_RoomDetails" class="table table-bordered table-striped dataTable dtr-inline table-head-fixed text-nowrap">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Voucher Date</th>
+            <th>Particular</th>
+            <th>Voucher Type</th>
+            <th>Voucher No.</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+         
+      </table>
+      <br />
+    </div>
+
+
+
+  </div>
+</ng-template>
