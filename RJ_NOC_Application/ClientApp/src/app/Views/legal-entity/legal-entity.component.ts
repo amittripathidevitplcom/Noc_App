@@ -91,7 +91,6 @@ export class LegalEntityComponent implements OnInit {
   public isValidPresidentAadhaarProofDoc: boolean = false;
   public isValidSocietyPanProofDoc: boolean = false;
 
-  public ImageValidationMessage: string = '';
   public MaskedMobileNo: string = '';
   public file: any = '';
   public DisplayTimer: string = ''
@@ -100,6 +99,12 @@ export class LegalEntityComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public IsNotMoreThen3Year: boolean = true;
 
+  public ImageValidationMessage_TrusteeMemberProofDoc: string = '';
+  public ImageValidationMessage_PresidentAadhaarProofDoc: string = '';
+  public ImageValidationMessage_SocietyPanProofDoc: string = '';
+  public ImageValidationMessage_MemberPhoto: string = '';
+  public ImageValidationMessage_MemberSignature: string = '';
+  public ImageValidationMessage_TrustLogoDoc: string = '';
   constructor(private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService) {
 
   }
@@ -374,15 +379,15 @@ export class LegalEntityComponent implements OnInit {
         isValid = false;
       }
       if (this.request.TrusteeMemberProofDoc == '') {
-        this.ImageValidate = 'This field is required .!';
+        this.ImageValidationMessage_TrusteeMemberProofDoc = 'This field is required .!';
         isValid = false;
       }
       if (this.request.PresidentAadhaarProofDoc == '') {
-        this.ImageValidate = 'This field is required .!';
+        this.ImageValidationMessage_PresidentAadhaarProofDoc = 'This field is required .!';
         isValid = false;
       }
       if (this.request.SocietyPanProofDoc == '') {
-        this.ImageValidate = 'This field is required .!';
+        this.ImageValidationMessage_SocietyPanProofDoc = 'This field is required .!';
         isValid = false;
       }
       if (this.request.MemberDetails.length < 3) {
@@ -935,74 +940,80 @@ export class LegalEntityComponent implements OnInit {
         if (event.target.files[0].type === 'application/pdf') {
           if (event.target.files[0].size > 2000000) {
             event.target.value = '';
-            this.ImageValidationMessage = 'Select less then 2MB File';
-
+            
             if (Type == 'TrusteeMember') {
               this.isValidTrusteeMemberProofDoc = true;
               this.request.Dis_TrusteeMemberProofDocName = '';
               this.request.TrusteeMemberProofDocPath = '';
               this.request.TrusteeMemberProofDoc = '';
+              this.ImageValidationMessage_TrusteeMemberProofDoc = 'Select less then 2MB File';
             }
             else if (Type == 'PresidentAadhaar') {
               this.isValidPresidentAadhaarProofDoc = true;
               this.request.Dis_PresidentAadhaarProofDocName = '';
               this.request.PresidentAadhaarProofDocPath = '';
               this.request.PresidentAadhaarProofDoc = '';
+              this.ImageValidationMessage_PresidentAadhaarProofDoc = 'Select less then 2MB File';
             }
             else if (Type == 'SocietyPan') {
               this.isValidSocietyPanProofDoc = true;
               this.request.Dis_SocietyPanProofDocName = '';
               this.request.SocietyPanProofDocPath = '';
               this.request.SocietyPanProofDoc = '';
+              this.ImageValidationMessage_SocietyPanProofDoc = 'Select less then 2MB File';
             }
             return
           }
           if (event.target.files[0].size < 100000) {
             event.target.value = '';
-            this.ImageValidationMessage = 'Select more then 100kb File';
 
             if (Type == 'TrusteeMember') {
               this.isValidTrusteeMemberProofDoc = true;
               this.request.Dis_TrusteeMemberProofDocName = '';
               this.request.TrusteeMemberProofDocPath = '';
               this.request.TrusteeMemberProofDoc = '';
+              this.ImageValidationMessage_TrusteeMemberProofDoc = 'Select more then 100kb File';
             }
             else if (Type == 'PresidentAadhaar') {
               this.isValidPresidentAadhaarProofDoc = true;
               this.request.Dis_PresidentAadhaarProofDocName = '';
               this.request.PresidentAadhaarProofDocPath = '';
               this.request.PresidentAadhaarProofDoc = '';
+              this.ImageValidationMessage_PresidentAadhaarProofDoc = 'Select more then 100kb File';
             }
             else if (Type == 'SocietyPan') {
               this.isValidSocietyPanProofDoc = true;
               this.request.Dis_SocietyPanProofDocName = '';
               this.request.SocietyPanProofDocPath = '';
               this.request.SocietyPanProofDoc = '';
+              this.ImageValidationMessage_SocietyPanProofDoc = 'Select more then 100kb File';
             }
             return
           }
         }
         else {
           event.target.value = '';
-          this.ImageValidationMessage = 'Select Only pdf file';
 
           if (Type == 'TrusteeMember') {
             this.isValidTrusteeMemberProofDoc = true;
             this.request.Dis_TrusteeMemberProofDocName = '';
             this.request.TrusteeMemberProofDocPath = '';
             this.request.TrusteeMemberProofDoc = '';
+            this.ImageValidationMessage_TrusteeMemberProofDoc = 'Select Only pdf file';
           }
           else if (Type == 'PresidentAadhaar') {
             this.isValidPresidentAadhaarProofDoc = true;
             this.request.Dis_PresidentAadhaarProofDocName = '';
             this.request.PresidentAadhaarProofDocPath = '';
             this.request.PresidentAadhaarProofDoc = '';
+            this.ImageValidationMessage_PresidentAadhaarProofDoc = 'Select Only pdf file';
           }
           else if (Type == 'SocietyPan') {
             this.isValidSocietyPanProofDoc = true;
             this.request.Dis_SocietyPanProofDocName = '';
             this.request.SocietyPanProofDocPath = '';
             this.request.SocietyPanProofDoc = '';
+            this.ImageValidationMessage_SocietyPanProofDoc = 'Select Only pdf file';
           }
           return
         }
@@ -1018,18 +1029,21 @@ export class LegalEntityComponent implements OnInit {
               this.request.Dis_TrusteeMemberProofDocName = data['Data'][0]["Dis_FileName"];
               this.request.TrusteeMemberProofDocPath = data['Data'][0]["FilePath"];
               this.request.TrusteeMemberProofDoc = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_TrusteeMemberProofDoc = '';
             }
             else if (Type == 'PresidentAadhaar') {
               this.showPresidentAadhaarProofDoc = true;
               this.request.Dis_PresidentAadhaarProofDocName = data['Data'][0]["Dis_FileName"];
               this.request.PresidentAadhaarProofDocPath = data['Data'][0]["FilePath"];
               this.request.PresidentAadhaarProofDoc = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_PresidentAadhaarProofDoc = '';
             }
             else if (Type == 'SocietyPan') {
               this.showSocietyPanProofDoc = true;
               this.request.Dis_SocietyPanProofDocName = data['Data'][0]["Dis_FileName"];
               this.request.SocietyPanProofDocPath = data['Data'][0]["FilePath"];
               this.request.SocietyPanProofDoc = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_SocietyPanProofDoc = '';
             }
           }
           if (this.State == 1) {
@@ -1064,72 +1078,81 @@ export class LegalEntityComponent implements OnInit {
         if (event.target.files[0].type === 'image/jpeg' || event.target.files[0].type === 'image/jpg') {
           if (event.target.files[0].size > 2000000) {
             event.target.value = '';
-            this.ImageValidationMessage = 'Select less then 2MB File';
+
             if (Type == 'MemberPhoto') {
               this.isValidMemberPhoto = true;
               this.memberdetails.Dis_MemberPhotoName = '';
               this.memberdetails.MemberPhotoPath = '';
               this.memberdetails.MemberPhoto = '';
+              this.ImageValidationMessage_MemberPhoto = 'Select less then 2MB File';
             }
             else if (Type == 'MemberSign') {
               this.isValidMemberSignature = true;
               this.memberdetails.Dis_MemberSignatureName = '';
               this.memberdetails.MemberSignaturePath = '';
               this.memberdetails.MemberSignature = '';
+              this.ImageValidationMessage_MemberSignature = 'Select less then 2MB File';
             }
             else if (Type == 'TrustLogo') {
               this.isValidTrustLogoDoc = true;
               this.request.Dis_TrustLogoDocName = '';
               this.request.TrustLogoDocPath = '';
               this.request.TrustLogoDoc = '';
+              this.ImageValidationMessage_TrustLogoDoc = 'Select less then 2MB File';
             }
             return
           }
           if (event.target.files[0].size < 100000) {
             event.target.value = '';
-            this.ImageValidationMessage = 'Select more then 100kb File';
+            
             //this.toastr.warning('Select more then 100kb File');
             if (Type == 'MemberPhoto') {
               this.isValidMemberPhoto = true;
               this.memberdetails.Dis_MemberPhotoName = '';
               this.memberdetails.MemberPhotoPath = '';
               this.memberdetails.MemberPhoto = '';
+              this.ImageValidationMessage_MemberPhoto = 'Select more then 100kb File';
             }
             else if (Type == 'MemberSign') {
               this.isValidMemberSignature = true;
               this.memberdetails.Dis_MemberSignatureName = '';
               this.memberdetails.MemberSignaturePath = '';
               this.memberdetails.MemberSignature = '';
+              this.ImageValidationMessage_MemberSignature = 'Select more then 100kb File';
             }
             else if (Type == 'TrustLogo') {
               this.isValidTrustLogoDoc = true;
               this.request.Dis_TrustLogoDocName = '';
               this.request.TrustLogoDocPath = '';
               this.request.TrustLogoDoc = '';
+              this.ImageValidationMessage_TrustLogoDoc = 'Select more then 100kb File';
             }
             return
           }
         }
         else {
           event.target.value = '';
-          this.ImageValidationMessage = 'Select Only jpg/jpeg';
+          
           if (Type == 'MemberPhoto') {
             this.isValidMemberPhoto = true;
             this.memberdetails.Dis_MemberPhotoName = '';
             this.memberdetails.MemberPhotoPath = '';
             this.memberdetails.MemberPhoto = '';
+            this.ImageValidationMessage_MemberPhoto = 'Select Only jpg/jpeg';
           }
           else if (Type == 'MemberSign') {
             this.isValidMemberSignature = true;
             this.memberdetails.Dis_MemberSignatureName = '';
             this.memberdetails.MemberSignaturePath = '';
             this.memberdetails.MemberSignature = '';
+            this.ImageValidationMessage_MemberSignature = 'Select Only jpg/jpeg';
           }
           else if (Type == 'TrustLogo') {
             this.isValidTrustLogoDoc = true;
             this.request.Dis_TrustLogoDocName = '';
             this.request.TrustLogoDocPath = '';
             this.request.TrustLogoDoc = '';
+            this.ImageValidationMessage_TrustLogoDoc = 'Select Only jpg/jpeg';
           }
           return
         }
@@ -1146,18 +1169,21 @@ export class LegalEntityComponent implements OnInit {
               this.memberdetails.Dis_MemberPhotoName = data['Data'][0]["Dis_FileName"];
               this.memberdetails.MemberPhotoPath = data['Data'][0]["FilePath"];
               this.memberdetails.MemberPhoto = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_MemberPhoto = '';
             }
             else if (Type == 'MemberSign') {
               this.showMemberSign = true;
               this.memberdetails.Dis_MemberSignatureName = data['Data'][0]["Dis_FileName"];
               this.memberdetails.MemberSignaturePath = data['Data'][0]["FilePath"];
               this.memberdetails.MemberSignature = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_MemberSignature = '';
             }
             else if (Type == 'TrustLogo') {
               this.showTrustLogoDoc = true;
               this.request.Dis_TrustLogoDocName = data['Data'][0]["Dis_FileName"];
               this.request.TrustLogoDocPath = data['Data'][0]["FilePath"];
               this.request.TrustLogoDoc = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_TrustLogoDoc = '';
             }
           }
           if (this.State == 1) {
@@ -1194,12 +1220,14 @@ export class LegalEntityComponent implements OnInit {
             this.memberdetails.Dis_MemberPhotoName = '';
             this.memberdetails.MemberPhotoPath = '';
             this.memberdetails.MemberPhoto = '';
+            this.ImageValidationMessage_MemberPhoto = '';
           }
           else if (Type == 'MemberSign') {
             this.showMemberSign = false;
             this.memberdetails.Dis_MemberSignatureName = '';
             this.memberdetails.MemberSignaturePath = '';
             this.memberdetails.MemberSignature = '';
+            this.ImageValidationMessage_MemberSignature = '';
           }
           else if (Type == 'TrustLogo') {
             this.showTrustLogoDoc = false;
@@ -1210,18 +1238,21 @@ export class LegalEntityComponent implements OnInit {
             this.request.Dis_TrusteeMemberProofDocName = '';
             this.request.TrusteeMemberProofDocPath = '';
             this.request.TrusteeMemberProofDoc = '';
+            this.ImageValidationMessage_TrusteeMemberProofDoc = '';
           }
           else if (Type == 'PresidentAadhaar') {
             this.showPresidentAadhaarProofDoc = false;
             this.request.Dis_PresidentAadhaarProofDocName = '';
             this.request.PresidentAadhaarProofDocPath = '';
             this.request.PresidentAadhaarProofDoc = '';
+            this.ImageValidationMessage_PresidentAadhaarProofDoc = '';
           }
           else if (Type == 'SocietyPan') {
             this.showSocietyPanProofDoc = false;
             this.request.Dis_SocietyPanProofDocName = '';
             this.request.SocietyPanProofDocPath = '';
             this.request.SocietyPanProofDoc = '';
+            this.ImageValidationMessage_SocietyPanProofDoc = '';
           }
         }
         if (this.State == 1) {
