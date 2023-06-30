@@ -91,7 +91,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">College List</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewTotalCollege"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewTotalCollege"><i class="fa fa-close"></i></button>
       </div>
       <div class="modal-body py-4">
         <div class="row">
@@ -103,107 +103,139 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Department : <strong>{{collegeListData.DepartmentName_English}}</strong></label>
+                    <label>Department :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.DepartmentName_English}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>College Status : <strong>{{collegeListData.CollegeStatus}}</strong></label>
+                    <label>College Status :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeStatus}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>College Logo : <a target="_blank" href="{{collegeListData.CollegeLogo}}" title="View College Logo"><i class="fa fa-eye"></i></a></label>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Present Status of College : <strong>{{collegeListData.PresentCollegeStatus}}</strong></label>
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>College Type : <strong>{{collegeListData.CollegeType}}</strong></label>
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>College Level : <strong>{{collegeListData.CollegeLevel}}</strong></label>
+                    <label><b>College Logo :</b></label>
+                    <div class="clearfix"></div>
+                    <a data-fancybox="gallery" href="{{collegeListData.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{collegeListData.CollegeLogoPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>College Name in English : <strong>{{collegeListData.CollegeNameEn}}</strong></label>
+                    <label>Present Status of College :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.PresentCollegeStatus}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>College Name in Hindi : <strong>{{collegeListData.CollegeNameHi}}</strong></label>
+                    <label>College Type :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeType}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Level :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeLevel}}" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Name in English :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeNameEn}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Name in Hindi :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeNameHi}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" style="display:none">
-                    <label>AISHE Code Status : <strong>{{collegeListData.AISHECodeStatus}}</strong></label>
+                    <label>AISHE Code Status :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECodeStatus}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" style="display:none">
-                    <label>AISHE Code : <strong>{{collegeListData.AISHECode}}</strong></label>
+                    <label>AISHE Code :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECode}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>College Medium : <strong>{{collegeListData.CollegeMediumName}}</strong></label>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>University : <strong>{{collegeListData.UniversityName}}</strong></label>
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Mobile Number : <strong>{{collegeListData.MobileNumber}}</strong></label>
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Email : <strong>{{collegeListData.Email}}</strong></label>
+                    <label>College Medium :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeMediumName}}" />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Address Line 1 : <strong>{{collegeListData.AddressLine1}}</strong></label>
+                    <label>University :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.UniversityName}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Address Line 2 : <strong>{{collegeListData.AddressLine2}}</strong></label>
+                    <label>Mobile Number :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.MobileNumber}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Area : <strong>{{collegeListData.RuralUrbanArea}}</strong></label>
+                    <label>Email :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Email}}" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Address Line 1 :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AddressLine1}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Address Line 2 :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AddressLine2}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Area :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.RuralUrbanArea}}" />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
-                    <label>Distance from City(km) : <strong>{{collegeListData.DistanceFromCity}}</strong></label>
+                    <label>Distance from City(km) :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.DistanceFromCity}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Division : <strong>{{collegeListData.Division_English}}</strong></label>
+                    <label>Division :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Division_English}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>District : <strong>{{collegeListData.District_Eng}}</strong></label>
+                    <label>District :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.District_Eng}}" />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Subdivision : <strong>{{collegeListData.SubdivisionName}}</strong></label>
+                    <label>Subdivision :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.SubdivisionName}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
-                    <label>Tehsil : <strong>{{collegeListData.TehsilName}}</strong></label>
+                    <label>Tehsil :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.TehsilName}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
-                    <label>Panchayat Samiti : <strong>{{collegeListData.PanchyatSamitiName}}</strong></label>
+                    <label>Panchayat Samiti :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.PanchyatSamitiName}}" />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Parliament Area : <strong>{{collegeListData.ParliamentAreaName}}</strong></label>
+                    <label>Parliament Area :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.ParliamentAreaName}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Assembly Area : <strong>{{collegeListData.AssemblyAreaName}}</strong></label>
+                    <label>Assembly Area :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AssemblyAreaName}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>City/Town/Village : <strong>{{collegeListData.CityTownVillage}}</strong></label>
+                    <label>City/Town/Village :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CityTownVillage}}" />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Year of Establishment : <strong>{{collegeListData.FinancialYearName}}</strong></label>
+                    <label>Year of Establishment :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.FinancialYearName}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Pincode : <strong>{{collegeListData.Pincode}}</strong></label>
+                    <label>Pincode :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Pincode}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Website Link : <strong>{{collegeListData.WebsiteLink}}</strong></label>
+                    <label>Website Link :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.WebsiteLink}}" />
                   </div>
                 </div>
               </div>
@@ -253,13 +285,16 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Designation : <strong>{{collegeListData.DesignationName}}</strong></label>
+                    <label>Designation :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.DesignationName}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Mobile Number : <strong>{{collegeListData.GCD_MobileNumber}}</strong></label>
+                    <label>Mobile Number :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.GCD_MobileNumber}}" />
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Landline Number : <strong>{{collegeListData.GCD_LandlineNumber}}</strong></label>
+                    <label>Landline Number :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.GCD_LandlineNumber}}" />
                   </div>
                 </div>
               </div>
@@ -308,7 +343,7 @@
                         <td>{{row.PanchyatSamitiName}}</td>
                         <td>{{row.CityTownVillage}}</td>
                         <td>{{row.Pincode}}</td>
-                        <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocument}}" title="View Hospital Document"><i class="fa fa-eye"></i></a></td>
+                        <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocumentPath}}" title="View Hospital Document"><i class="fa fa-eye"></i></a></td>
                       </tr>
                     </tbody>
                   </table>
