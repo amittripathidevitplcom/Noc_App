@@ -910,8 +910,8 @@ export class LegalEntityComponent implements OnInit {
           this.CustomOTP = '123456';
           if (MaskedMobileNo.length > 0) {
             const visibleDigits = 4;
-            let maskedSection = this.ScoietyData.PresidentMobileNo.slice(0, -visibleDigits);
-            let visibleSection = this.ScoietyData.PresidentMobileNo.slice(-visibleDigits);
+            let maskedSection = MaskedMobileNo.slice(0, -visibleDigits);
+            let visibleSection = MaskedMobileNo.slice(-visibleDigits);
             MaskedMobileNo = maskedSection.replace(/./g, 'X') + visibleSection;
           }
           this.toastr.info('Successfully Resend OTP on ' + MaskedMobileNo);
