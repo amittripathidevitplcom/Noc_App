@@ -75,7 +75,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Legal Entity</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewLegalEntity_Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewLegalEntity_Close"><i class="fa fa-close"></i></button>
         </div>
         <div class="modal-body py-4">
           <div class="row">
@@ -84,92 +84,127 @@
                 <div class="card-header">
                   <b><i class="bi bi-table"></i> Legal Entity </b>
                 </div>
-                <div class="card-body">
+                <div class="card-body">                 
                   <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Legal Entity : <strong>{{legalEntityListData1.IsLegalEntity}}</strong></label>
+                      <label>Legal Entity :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsLegalEntity}}" />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Registration No : <strong>{{legalEntityListData1.RegistrationNo}}</strong></label>
+                      <label>Registration No :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.RegistrationNo}}" />
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>President Mobile Number : <strong>{{legalEntityListData1.PresidentMobileNo}}</strong></label>
+                      <label>President Mobile Number :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.PresidentMobileNo}}" />
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>President Email ID : <strong>{{legalEntityListData1.PresidentEmail}}</strong></label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Name  : <strong>{{legalEntityListData1.SocietyName}}</strong></label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Present Status : <strong>{{legalEntityListData1.SocietyPresentStatusName}}</strong></label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>State  : <strong>{{legalEntityListData1.StateName_English}}</strong></label>
+                      <label>President Email ID :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.PresidentEmail}}" />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>District  : <strong>{{legalEntityListData1.District_Eng}}</strong></label>
+                      <label>Name  :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyName}}" />
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Act (Which Act You Registered)  : <strong>{{legalEntityListData1.RegisteredAct}}</strong></label>
+                      <label>Present Status :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyPresentStatusName}}" />
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Date Of Registration : <strong>{{legalEntityListData1.SocietyRegistrationDate}}</strong></label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Date of Election of Present Management Committee : <strong>{{legalEntityListData1.ElectionPresentManagementCommitteeDate}}</strong></label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Registered Address : <strong>{{legalEntityListData1.SocietyRegisteredAddress}}</strong></label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Pincode : <strong>{{legalEntityListData1.Pincode}}</strong></label>
+                      <label>State  :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.StateName_English}}" />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Other Institution run by the Society : <strong>{{legalEntityListData1.IsOtherInstitution}}</strong></label>
+                      <label>District  :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.District_Eng}}" />
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Women Member of Management Committee is more than 30% of Total Members : <strong>{{legalEntityListData1.IsWomenMembers}}</strong></label>
+                      <label>Act (Which Act You Registered)  :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.RegisteredAct}}" />
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Date of Election of Management Committee not more than 3 Year : <strong>{{legalEntityListData1.IsDateOfElection}}</strong></label>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Management Committee certified By Registrar : <strong>{{legalEntityListData1.ManagementCommitteeCertified}}</strong></label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Aadhaar Number Of President : <strong>{{legalEntityListData1.PresidentAadhaarNumber}}</strong></label>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>PAN Number : <strong>{{legalEntityListData1.SocietyPANNumber}}</strong></label>
+                      <label>Date Of Registration :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyRegistrationDate}}" />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Trust Logo : <a target="_blank" href="{{legalEntityListData1.TrustLogoDocPath}}" title="View Trust Logo"><i class="fa fa-eye"></i></a></label>
+                      <label>Date of Election of Present Management Committee :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.ElectionPresentManagementCommitteeDate}}" />
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Trustee Member Proof : <a target="_blank" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" title="View Trustee Member Proof Document"><i class="fa fa-eye"></i></a></label>
+                      <label>Registered Address :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyRegisteredAddress}}" />
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Aadhaar Proof of President : <a target="_blank" href="{{legalEntityListData1.PresidentAadhaarProofDocPath}}" title="View President Aadhaar Proof Document"><i class="fa fa-eye"></i></a></label>
+                      <label>Pincode :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.Pincode}}" />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Pan Proof : <a target="_blank" href="{{legalEntityListData1.SocietyPanProofDocPath}}" title="View Society Pan Proof Document"><i class="fa fa-eye"></i></a></label>
+                      <label>Other Institution run by the Society :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsOtherInstitution}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Women Member of Management Committee is more than 30% of Total Members :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsWomenMembers}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Date of Election of Management Committee not more than 3 Year :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsDateOfElection}}" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Management Committee certified By Registrar :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.ManagementCommitteeCertified}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Aadhaar Number Of President :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.PresidentAadhaarNumber}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>PAN Number :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyPANNumber}}" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Trust Logo :</b></label>
+                      <div class="clearfix"></div>
+                      <a data-fancybox="gallery" href="{{legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{legalEntityListData1.TrustLogoDocPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Trustee Member Proof :</b></label>
+                      <div class="clearfix"></div>
+                      <a data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Aadhaar Proof of President :</b></label>
+                      <div class="clearfix"></div>
+                      <a data-fancybox="gallery" href="{{legalEntityListData1.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{legalEntityListData1.PresidentAadhaarProofDocPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label><b>Pan Proof :</b></label>
+                      <div class="clearfix"></div>
+                      <a data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{legalEntityListData1.SocietyPanProofDocPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
                     </div>
                   </div>
                 </div>
