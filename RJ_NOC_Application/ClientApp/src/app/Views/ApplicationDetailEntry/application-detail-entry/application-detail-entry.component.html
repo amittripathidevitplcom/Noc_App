@@ -7,7 +7,12 @@
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-primary" type="button" (click)="DraftFinalSubmit(1)">Draft Final Submit</button></li>
+          <li class="breadcrumb-item">
+
+          <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="DraftFinalSubmit(1)">
+            Draft Final Submit</button>
+
+          </li>
           <li class="breadcrumb-item"><a href="#">Application</a></li>
           <li class="breadcrumb-item active" aria-current="page">Application Details</li>
         </ol>

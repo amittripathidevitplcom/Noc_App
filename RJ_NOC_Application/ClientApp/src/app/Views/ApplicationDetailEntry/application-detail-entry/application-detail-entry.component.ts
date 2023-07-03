@@ -78,6 +78,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
   onTabChange(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
     this.ShowDraftFinalSubmitBtn();
+
   }
 
   async GetCollageDetails() {
@@ -155,7 +156,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           console.log(this.State);
           if (!this.State) {
-            this.toastr.success(this.SuccessMessage)           
+            this.toastr.success(this.SuccessMessage)
+
+            setTimeout(() => {
+              this.routers.navigate(['/draftapplicationlist']);
+            }, 500);
+
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -172,6 +178,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
   }
   async ShowDraftFinalSubmitBtn() {
+    await this.CheckTabsEntry();
     this.IsShowDraftFinalSubmit = true;
     if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['OtherDocument'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
       this.IsShowDraftFinalSubmit = false;

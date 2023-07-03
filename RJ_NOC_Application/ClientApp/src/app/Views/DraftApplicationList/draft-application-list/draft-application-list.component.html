@@ -28,6 +28,7 @@
                   <th>Creation Date</th>
                   <th>Society Name</th>
                   <th>College Name</th>
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -38,9 +39,15 @@
                   <td>{{row.CreateDate}}</td>
                   <td>{{row.SocietyName}}</td>
                   <td>{{row.CollegeName}}</td>
+
+                  <td>{{row.Status}}</td>
+
                   <td style="width:300px">
                     <div class="d-flex">
-                      <a href="javascript:void(0)" (click)="DraftEdit_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                      <a href="javascript:void(0)" (click)="DraftEdit_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"
+                         *ngIf="row.ApplicationStatus==0">
+                        <i class="fa fa-edit"></i>
+                      </a>
                       <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       <!--<a href="javascript:void(0)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>-->
                     </div>
