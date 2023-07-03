@@ -1,0 +1,261 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Create User</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Master</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Create User</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="CreatUserMasterForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-body">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Create User</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtSSOID" class="form-label">Enter SSO ID <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtSSOID" name="txtSSOID" [(ngModel)]="request.SSOID" formControlName="txtSSOID">
+                    <div *ngIf="isSubmitted&&form.txtSSOID.errors" class="text-danger">
+                      <p *ngIf="form.txtSSOID.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <!--<p *ngIf="form.txtSSOID.minLength"><i aria-hidden="true"></i> SSO ID is not valid .!</p>-->
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtMobileNumber" class="form-label">Mobile Number <span style="color:red;">*</span></label>
+                    <input type="number" class="form-control" id="txtMobileNumber" name="txtMobileNumber" [(ngModel)]="request.MobileNumber" formControlName="txtMobileNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
+                    <div *ngIf="isSubmitted&&form.txtMobileNumber.errors" class="text-danger">
+                      <p *ngIf="form.txtMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtMobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtEmailAddress" class="form-label">Email Address <span style="color:red;">*</span></label>
+                    <input type="email" class="form-control" id="txtEmailAddress" name="txtEmailAddress" [(ngModel)]="request.EmailAddress" formControlName="txtEmailAddress">
+                    <div *ngIf="isSubmitted&&form.txtEmailAddress.errors" class="text-danger">
+                      <p *ngIf="form.txtEmailAddress.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtEmailAddress.errors.email"><i aria-hidden="true"></i> Email address is not valid .!</p>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtName" class="form-label">Name <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtName" name="txtName" formControlName="txtName" [(ngModel)]="request.Name" autocomplete="off">
+
+                    <div *ngIf="isSubmitted&&form.txtName.errors" class="text-danger">
+                      <p *ngIf="form.txtName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="ddlDesignationID" class="form-label">Select Designation <span style="color:red;">*</span> </label>
+                    <select class="form-select" id="ddlDesignationID" name="ddlDesignationID" [(ngModel)]="request.DesignationID" formControlName="ddlDesignationID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of DesignationList" value="{{item.DesignationID}}">{{item.DesignationName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlDesignationID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlDesignationID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="ddlDepartmentID" class="form-label">Select Department <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="ddlRoleID" class="form-label">Select Role <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlRoleID" name="ddlRoleID" [(ngModel)]="request.RoleID" formControlName="ddlRoleID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of RoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlRoleID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlRoleID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Select Member Type <span style="color:red;">*</span></label>
+                    <div class="clearfix"></div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rbMemberType" formControlName="rbMemberType" id="rbMemberType" value="State" [(ngModel)]="request.MemberType" (input)="MemberTypeSelection('State')">
+                      <label class="form-check-label" for="rbMemberType">State</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rbMemberType" formControlName="rbMemberType" id="rbMemberType" value="District" [(ngModel)]="request.MemberType" (input)="MemberTypeSelection('District')">
+                      <label class="form-check-label" for="rbMemberType">District</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="rbMemberType" name="rbMemberType" formControlName="rbMemberType" value="Tehsil" [(ngModel)]="request.MemberType" (input)="MemberTypeSelection('Tehsil')">
+                      <label class="form-check-label" for="rbMemberType">Tehsil</label>
+                    </div>
+                    <div *ngIf="isSubmitted&&form.rbMemberType.errors" class="text-danger">
+                      <p *ngIf="form.rbMemberType.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="!IsDistrict">
+                    <label class="form-label">District <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" #SelectedDistrictID (input)="FillTehsilByDistrictId(SelectedDistrictID.value)">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&request.DistrictID == 0" class="text-danger">
+                      <p *ngIf="request.DistrictID == 0"><i aria-hidden="true"></i>   This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="!IsTehsil">
+                    <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&request.TehsilID == 0" class="text-danger">
+                      <p *ngIf="request.TehsilID == 0"><i aria-hidden="true"></i>   This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="chkActiveStatus" class="form-label">Status</label>
+                    <div class="form-check form-switch d-flex align-items-center">
+                      <input class="form-check-input" type="checkbox" id="Active" [(ngModel)]="request.ActiveStatus" formControlName="chkActiveStatus">
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button type="submit" (click)="SaveData()" id="btnSave" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </div>
+
+      </form>
+
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Create User List </b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <i class="fa fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="tabellist">
+              <thead>
+                <tr>
+                  <th>
+                    Sr. No
+                  </th>
+                  <th>
+                    SSO ID
+                  </th>
+                  <th>
+                    Mobile Number
+                  </th>
+                  <th>
+                    E-Mail Address
+                  </th>
+                  <th>
+                    Name
+                  </th>
+                  <th>
+                    Designation
+                  </th>
+                  <th>
+                    Department
+                  </th>
+                  <th>
+                    Role
+                  </th>
+                  <th>
+                    Member Type
+                  </th>
+                  <th>
+                    Status
+                  </th>
+                  <th>
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of UsersDataList  | tableSearchFilter:searchText;let idx=index;">
+                  <td>
+                    {{idx+1}}
+                  </td>
+                  <td>
+                    {{row.SSOID}}
+                  </td>
+                  <td>
+                    {{row.MobileNumber}}
+                  </td>
+                  <td>
+                    {{row.EmailAddress}}
+                  </td>
+                  <td>
+                    {{row.Name}}
+                  </td>
+                  <td>
+                    {{row.DesignationName}}
+                  </td>
+                  <td>
+                    {{row.DepartmentName_English}}
+                  </td>
+                  <td>
+                    {{row.RoleName}}
+                  </td>
+                  <td>
+                    {{row.MemberType}}
+                  </td>
+                  <td>
+                    {{row.ActiveDeactive}}
+                  </td>
+                  <td>
+                    <div class="d-flex">
+                      <button type="button" (click)="Edit_OnClick(row.UId)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                      <button type="button" class="btn btn-danger" (click)="DelUsersData(row.UId)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
