@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } 
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ApplyNOCApplicationDataModel } from '../../Models/ApplyNOCApplicationDataModel';
+import { DocumentScrutinyDataModel, DocumentScrutinyDetail_DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
 
 import { GlobalConstants } from '../../Common/GlobalConstants';
 @Injectable({
@@ -30,18 +31,38 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async DocumentScrutiny(RoleID: number, UserID: number, ActionType: string, ApplyNOCID: number) {
+  public async DocumentScrutiny(RoleID: number, UserID: number, ActionType: string, ApplyNOCID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.post(this.APIUrl + '/DocumentScrutiny/' + ApplyNOCID + '/' + RoleID + '/' + UserID + '/' + ActionType, httpOptions)
+    return await this.http.post(this.APIUrl + '/DocumentScrutiny/' + ApplyNOCID + '/' + RoleID + '/' + UserID + '/' + ActionType + '/' + DepartmentID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async SaveDocumentScrutiny(request: DocumentScrutinyDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    console.log(body);
+    return await this.http.post(this.APIUrl +'/SaveDocumentScrutiny/', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
 
 
+  public async GetDocumentScrutinyData_TabNameCollegeWise(TabName: string, CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetDocumentScrutinyData_TabNameCollegeWise/" + TabName + '/' + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
 

@@ -54,38 +54,9 @@ export class ApplyNOCApplicationListComponent implements OnInit {
       }, 200);
     }
   }
-  async DocumentScrutiny(ActionType: string, ApplyNOCID:number) {
-    try {
-      this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, ApplyNOCID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.GetApplyNOCApplicationListByRole(this.RoleID);
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  
 
-  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number) {
-    this.routers.navigate(['/appnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number) {
+    this.routers.navigate(['/appnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString()))]);
   }
 }
