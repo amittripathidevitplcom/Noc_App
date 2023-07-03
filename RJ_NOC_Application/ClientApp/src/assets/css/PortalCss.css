@@ -557,15 +557,15 @@ ol.breadcrumb {
     list-style: none;
     padding: 0px;
     margin: 0px;
-    display: flex;
-    overflow: auto;
+    /*display: flex;
+    overflow: auto;*/
    /* justify-content:space-between;*/
   }
 
     .tabUl1 ul li {
-      float: left;
+      /*float: left;*/
       position: relative;
-    /*  width: 100%;*/
+      width: 100%;
     }
 
       .tabUl1 ul li a {
@@ -595,7 +595,7 @@ ol.breadcrumb {
           background: #f4f4f4;
         }
 
-      .tabUl1 ul li::after {
+      /*.tabUl1 ul li::after {
         position: absolute;
         background: #132649;
         width: 100%;
@@ -603,7 +603,7 @@ ol.breadcrumb {
         content: "";
         left: 0px;
         top: 26px;
-      }
+      }*/
 
       .tabUl1 ul li:hover a i {
         background: linear-gradient(45deg, #132649, #96a7c7);

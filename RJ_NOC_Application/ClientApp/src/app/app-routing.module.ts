@@ -284,7 +284,7 @@ const routes: Routes = [
         path: 'totallegalentitypreview', component: TotalLegalEntityPreviewComponent
       },
       {
-        path: 'appnocpreview/:DepartmentID/:CollegeID', component: ApplyNOCPreviewComponent
+        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCPreviewComponent
       },
     ]
   },
