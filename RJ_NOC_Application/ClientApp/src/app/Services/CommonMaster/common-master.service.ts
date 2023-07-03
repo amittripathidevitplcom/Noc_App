@@ -758,4 +758,34 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async CheckTabsEntry(CollegeID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/CheckTabsEntry/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  } 
+  public async DraftFinalSubmit(CollegeID: string, IsDraftSubmited: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + '/DraftFinalSubmit/' + CollegeID + "/" + IsDraftSubmited, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetTabFieldByTabName(TabName: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetTabFieldByTabName/" + TabName)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

@@ -82,6 +82,7 @@ import { SubjectMasterComponent } from './Views/Master/SubjectMaster/subject-mas
 import { DocumentMasterComponent } from './Views/Master/document-master/document-master.component';
 import { AddRoleMasterComponent } from './Views/Master/add-role-master/add-role-master.component';
 import { HospitalDetailComponent } from './Views/TabDetail/hospital-detail/hospital-detail.component';
+import { TotalLegalEntityPreviewComponent } from './Views/NoOfficer/total-legal-entity-preview/total-legal-entity-preview.component';
 
 import { PreviewLandDetailComponent } from './Views/PreviewTabs/preview-land-detail/preview-land-detail.component';
 import { PreviewFacilityDetailComponent } from './Views/PreviewTabs/preview-facility-detail/preview-facility-detail.component';
@@ -99,6 +100,8 @@ import { ApplicationPreviewComponent } from './Views/ApplicationPreview/applicat
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
+import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
+import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
 
 @NgModule({
   declarations: [
@@ -173,6 +176,8 @@ import { CreateUserComponent } from './Views/Master/UserMaster/create-user/creat
     SubjectMasterComponent,
     DocumentMasterComponent,
     AddRoleMasterComponent,
+    TotalLegalEntityPreviewComponent,
+    AddRoleMasterComponent,
 
     PreviewLandDetailComponent,
     PreviewFacilityDetailComponent,
@@ -187,8 +192,10 @@ import { CreateUserComponent } from './Views/Master/UserMaster/create-user/creat
     PreviewHospitalDetailComponent,
     PreviewHostelDetailsComponent,
     ApplicationPreviewComponent,
-    ApplyNOCApplicationListComponent,
     CreateUserComponent
+    ApplyNOCApplicationListComponent,
+    ApplicationSummaryComponent,
+    ApplyNOCPreviewComponent
     //LoaderModule,
 
 
@@ -205,6 +212,7 @@ import { CreateUserComponent } from './Views/Master/UserMaster/create-user/creat
     //AutocompleteLibModule,
     MatTabsModule,
     FormsModule,
+    NgbPopoverModule,
     NgMultiSelectDropDownModule.forRoot(),
     //NgSelect2Module,
     //ChartsModule,

@@ -57,11 +57,15 @@ import { FacilitiesComponent } from './Views/Master/FacilitiesMaster/facilities-
 import { QualificationMasterComponent } from './Views/Master/QualificationMaster/qualification-master.component';
 import { SubjectMasterComponent } from './Views/Master/SubjectMaster/subject-master.component';
 import { DocumentMasterComponent } from './Views/Master/document-master/document-master.component';
+import { TotalLegalEntityPreviewComponent } from './Views/NoOfficer/total-legal-entity-preview/total-legal-entity-preview.component';
 
 import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
 import { WorkFlowMasterComponent } from './Views/Admin/work-flow-master/add-work-flow-master/work-flow-master.component';
 import { WorkFlowMasterListComponent } from './Views/Admin/work-flow-master/work-flow-master-list/work-flow-master-list.component';
+import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
+import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
+
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
 
 const routes: Routes = [
@@ -84,8 +88,8 @@ const routes: Routes = [
       },
       {
         path: 'projectmaster', component: ProjectMasterComponent
-      }, {
-
+      },
+      {
         path: 'adduser', component: AddUserComponent
 
       },
@@ -240,10 +244,10 @@ const routes: Routes = [
       },
       {
         path: 'qualificationmaster', component: QualificationMasterComponent
-      },  
+      },
       {
         path: 'subjectmaster', component: SubjectMasterComponent
-      },   
+      },
       {
         path: 'documentmaster', component: DocumentMasterComponent
       }
@@ -256,13 +260,31 @@ const routes: Routes = [
         path: 'workflowmasterlist', component: WorkFlowMasterListComponent
       }, 
       {
+        path: 'workflowmaster', component: WorkFlowMasterComponent
+      }      ,
+      {
+        path: 'workflowmasterlist', component: WorkFlowMasterListComponent
+      },
+      {
+        path: 'workflowmaster/:id', component: WorkFlowMasterComponent
+      },
+      {
         path: 'applicationpreview/:DepartmentID/:CollegeID', component: ApplicationPreviewComponent
+      },
+      {
+        path: 'applicationsummary/:DepartmentID/:CollegeID', component: ApplicationSummaryComponent
       },
       {
         path: 'applynocapplicationlist', component: ApplyNOCApplicationListComponent
       },
       {
         path: 'createuser', component: CreateUserComponent
+      },
+      {
+        path: 'totallegalentitypreview', component: TotalLegalEntityPreviewComponent
+      },
+      {
+        path: 'appnocpreview/:DepartmentID/:CollegeID', component: ApplyNOCPreviewComponent
       },
     ]
   },

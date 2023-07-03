@@ -24,6 +24,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
   public CollegeID: number = 0;
   public LandClass: string = 'tabs-Link LandInformation';
   public CollegeName: string = '';
+  public CheckTabsEntryData: any = [];
 
   selectedIndex: number = 0;
   maxNumberOfTabs: number = 0;
@@ -31,7 +32,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   //public isOLDNOCDetails: boolean = true;
   //public isAcademicInformation: boolean = true;
-
+  isSubmitted: boolean = false;
+  public isLoading: boolean = false;
+  public State: number = -1;
+  public SuccessMessage: any = [];
+  public ErrorMessage: any = [];
+  public IsShowDraftFinalSubmit: boolean = true;
 
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService) { }
@@ -46,6 +52,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
     //await this.GetCollageMaster();
     await this.GetCollageDetails();
     await this.GetCollegeBasicDetails();
+    await this.CheckTabsEntry();
+    await this.ShowDraftFinalSubmitBtn();
 
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
@@ -55,17 +63,21 @@ export class ApplicationDetailEntryComponent implements OnInit {
   NextStep() {
     if (this.selectedIndex != this.maxNumberOfTabs) {
       this.selectedIndex = this.selectedIndex + 1;
+      
     }
+    this.ShowDraftFinalSubmitBtn();
   }
 
   PreviousStep() {
     if (this.selectedIndex != 0) {
       this.selectedIndex = this.selectedIndex - 1;
     }
+    this.ShowDraftFinalSubmitBtn();
   }
 
   onTabChange(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
+    this.ShowDraftFinalSubmitBtn();
   }
 
   async GetCollageDetails() {
@@ -109,9 +121,61 @@ export class ApplicationDetailEntryComponent implements OnInit {
       }, 200);
     }
   }
+  async CheckTabsEntry() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.CheckTabsEntry(this.SelectedCollageID.toString())
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
+          console.log(this.CheckTabsEntryData);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
 
+  async DraftFinalSubmit(IsDraftSubmited: any) {
+    this.isSubmitted = true;   
+    this.loaderService.requestStarted();
+    this.isLoading = true;
+    try {
+      await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+        .then((data: any) => {
+          debugger;
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          console.log(this.State);
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)           
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
 
-
+      }, 200);
+    }
+  }
+  async ShowDraftFinalSubmitBtn() {
+    this.IsShowDraftFinalSubmit = true;
+    if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['OtherDocument'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
+      this.IsShowDraftFinalSubmit = false;
+      } 
+  }
   
 }
