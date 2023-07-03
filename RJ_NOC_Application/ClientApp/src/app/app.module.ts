@@ -98,6 +98,7 @@ import { PreviewHostelDetailsComponent } from './Views/PreviewTabs/preview-hoste
 import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
+import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
 
 @NgModule({
   declarations: [
@@ -186,7 +187,8 @@ import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-l
     PreviewHospitalDetailComponent,
     PreviewHostelDetailsComponent,
     ApplicationPreviewComponent,
-    ApplyNOCApplicationListComponent
+    ApplyNOCApplicationListComponent,
+    CreateUserComponent
     //LoaderModule,
 
 

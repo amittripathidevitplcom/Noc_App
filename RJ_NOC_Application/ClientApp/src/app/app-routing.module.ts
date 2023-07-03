@@ -60,6 +60,9 @@ import { DocumentMasterComponent } from './Views/Master/document-master/document
 
 import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
+import { WorkFlowMasterComponent } from './Views/Admin/work-flow-master/add-work-flow-master/work-flow-master.component';
+import { WorkFlowMasterListComponent } from './Views/Admin/work-flow-master/work-flow-master-list/work-flow-master-list.component';
+import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
 
 const routes: Routes = [
   {
@@ -243,12 +246,23 @@ const routes: Routes = [
       },   
       {
         path: 'documentmaster', component: DocumentMasterComponent
-      },
+      }
+      ,
+      {
+        path: 'workflowmaster', component: WorkFlowMasterComponent
+      }
+      ,
+      {
+        path: 'workflowmasterlist', component: WorkFlowMasterListComponent
+      }, 
       {
         path: 'applicationpreview/:DepartmentID/:CollegeID', component: ApplicationPreviewComponent
       },
       {
         path: 'applynocapplicationlist', component: ApplyNOCApplicationListComponent
+      },
+      {
+        path: 'createuser', component: CreateUserComponent
       },
     ]
   },

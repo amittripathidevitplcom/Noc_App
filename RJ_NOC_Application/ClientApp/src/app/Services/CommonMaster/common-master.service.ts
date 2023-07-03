@@ -746,4 +746,16 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetRoleList() {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetRoleList/")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
