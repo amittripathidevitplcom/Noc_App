@@ -36,9 +36,6 @@ export class WorkFlowMasterComponent implements OnInit {
     this.WorkFlowMasterForm = this.formBuilder.group(
       {
         ddlDepartmentId: ['', [DropdownValidators]],
-        ddlSchemeId: ['', [DropdownValidators]],
-        ddlModuleId: ['', [DropdownValidators]],
-        ddlSubModuleId: ['', [DropdownValidators]],
         ddlRoleLevelId: ['', [DropdownValidators]],
         ddlRoleId: ['', [DropdownValidators]]
       });
@@ -57,7 +54,7 @@ export class WorkFlowMasterComponent implements OnInit {
   }
   ngOnInit(): void {
     this.GetDepartmentList();
-    this.GetModuleList();
+    //this.GetModuleList();
     this.GetLevelList();
     this.GetActionHeadList();
     this.request.WorkFlowMasterDetailList = []
@@ -118,72 +115,7 @@ export class WorkFlowMasterComponent implements OnInit {
       }, 200);
     }
   }
-  async GetSchemeListByDepartment(DepatmentID: number) {
-    try {
-      this.request.SchemeID = this.WorkFlowMasterID <= 0 ? 0 : this.request.SchemeID;
-      this.loaderService.requestStarted();
-      await this.commonMasterService.GetSchemeListByDepartment(DepatmentID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.SchemeData = data['Data'];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  async GetModuleList() {
-    try {
-      this.loaderService.requestStarted();
-      await this.commonMasterService.GetModuleList()
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.ModuleData = data['Data'];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  async GetSubmoduleListByModule(ModuleID: number) {
-    try {
-      this.request.SubModuleID = this.WorkFlowMasterID <= 0 ? 0 : this.request.SubModuleID;
-      this.loaderService.requestStarted();
-      await this.commonMasterService.GetSubmoduleListByModule(ModuleID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.SubModuleData = data['Data'];
-
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  
   async GetLevelList() {
     try {
       this.loaderService.requestStarted();
@@ -444,8 +376,8 @@ export class WorkFlowMasterComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request = data['Data'][0];
-          this.GetSchemeListByDepartment(this.request.DepartmentID);
-          this.GetSubmoduleListByModule(this.request.ModuleID);
+          //this.GetSchemeListByDepartment(this.request.DepartmentID);
+          //this.GetSubmoduleListByModule(this.request.ModuleID);
           this.GetRoleListByLevel(this.request.RoleLevelID, -1);
           for (var i = 0; i < this.request.WorkFlowMasterDetailList.length; i++) {
             this.GetActionListByActionHead(this.request.WorkFlowMasterDetailList[i].ActionHeadID, i);

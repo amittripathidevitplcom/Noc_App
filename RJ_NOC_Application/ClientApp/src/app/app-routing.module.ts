@@ -66,6 +66,8 @@ import { WorkFlowMasterListComponent } from './Views/Admin/work-flow-master/work
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
 import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
 
+import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
+
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -248,7 +250,15 @@ const routes: Routes = [
       },
       {
         path: 'documentmaster', component: DocumentMasterComponent
-      },
+      }
+      ,
+      {
+        path: 'workflowmaster', component: WorkFlowMasterComponent
+      }
+      ,
+      {
+        path: 'workflowmasterlist', component: WorkFlowMasterListComponent
+      }, 
       {
         path: 'workflowmaster', component: WorkFlowMasterComponent
       }      ,
@@ -268,10 +278,13 @@ const routes: Routes = [
         path: 'applynocapplicationlist', component: ApplyNOCApplicationListComponent
       },
       {
+        path: 'createuser', component: CreateUserComponent
+      },
+      {
         path: 'totallegalentitypreview', component: TotalLegalEntityPreviewComponent
       },
       {
-        path: 'appnocpreview/:DepartmentID/:CollegeID', component: ApplyNOCPreviewComponent
+        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCPreviewComponent
       },
     ]
   },
