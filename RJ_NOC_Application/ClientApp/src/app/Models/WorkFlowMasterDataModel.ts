@@ -1,9 +1,6 @@
 export class WorkFlowMasterDataModel {
   public WorkFlowMasterID: number = 0;
   public DepartmentID: number = 0;
-  public SchemeID: number = 0;
-  public ModuleID: number = 0;
-  public SubModuleID: number = 0;
   public RoleLevelID: number = 0;
   public RoleID: number = 0;
   public DepartmentName: string = '';

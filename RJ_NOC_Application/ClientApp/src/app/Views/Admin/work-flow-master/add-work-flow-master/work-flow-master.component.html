@@ -28,54 +28,16 @@
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlDepartmentId">Department *</label>
-                <select id="ddlDepartmentId" name="ddlDepartmentId" [(ngModel)]="request.DepartmentID" class="form-control" formControlName="ddlDepartmentId" (change)="GetSchemeListByDepartment(request.DepartmentID)">
+                <select id="ddlDepartmentId" name="ddlDepartmentId" [(ngModel)]="request.DepartmentID" class="form-control" formControlName="ddlDepartmentId">
+                  <!--(change)="GetSchemeListByDepartment(request.DepartmentID)"-->
                   <option value="0" disabled>--Select--</option>
                   <option *ngFor="let item of DepartmentData"
                           value="{{item.DepartmentID}}">
                     {{item.DepartmentName}}
                   </option>
                 </select>
-                <div *ngIf="isSubmitted&&form.ddlDepartmentId.errors" class="requiredBox">
-                  <p *ngIf="!form.ddlDepartmentId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label for="ddlSchemeId">Scheme *</label>
-                <select id="ddlSchemeId" name="ddlSchemeId" [(ngModel)]="request.SchemeID" class="form-control" formControlName="ddlSchemeId">
-                  <option value="0" disabled>--Select--</option>
-                  <option *ngFor="let item of SchemeData"
-                          value="{{item.SchemeID}}">
-                    {{item.SchemeName}}
-                  </option>
-                </select>
-                <div *ngIf="isSubmitted&&form.ddlSchemeId.errors" class="requiredBox">
-                  <p *ngIf="!form.ddlSchemeId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label for="ddlModuleId">Module *</label>
-                <select id="ddlModuleId" name="ddlModuleId" [(ngModel)]="request.ModuleID" class="form-control" formControlName="ddlModuleId" (change)="GetSubmoduleListByModule(request.ModuleID)">
-                  <option value="0" disabled>--Select--</option>
-                  <option *ngFor="let item of ModuleData"
-                          value="{{item.ModuleID}}">
-                    {{item.ModuleName}}
-                  </option>
-                </select>
-                <div *ngIf="isSubmitted&&form.ddlModuleId.errors" class="requiredBox">
-                  <p *ngIf="!form.ddlModuleId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label for="ddlSubModuleId">Sub Module *</label>
-                <select id="ddlSubModuleId" name="ddlSchemeId" [(ngModel)]="request.SubModuleID" class="form-control" formControlName="ddlSubModuleId">
-                  <option value="0" disabled>--Select--</option>
-                  <option *ngFor="let item of SubModuleData"
-                          value="{{item.SubModuleID}}">
-                    {{item.SubModuleName}}
-                  </option>
-                </select>
-                <div *ngIf="isSubmitted&&form.ddlSubModuleId.errors" class="requiredBox">
-                  <p *ngIf="!form.ddlSubModuleId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isSubmitted&&form.ddlDepartmentId.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDepartmentId.errors.DropdownValidators"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -87,8 +49,8 @@
                     {{item.LevelName}}
                   </option>
                 </select>
-                <div *ngIf="isSubmitted&&form.ddlRoleLevelId.errors" class="requiredBox">
-                  <p *ngIf="!form.ddlRoleLevelId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isSubmitted&&form.ddlRoleLevelId.errors" class="text-danger">
+                  <p *ngIf="!form.ddlRoleLevelId.errors.DropdownValidators" ><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -100,8 +62,8 @@
                     {{item.RoleName}}
                   </option>
                 </select>
-                <div *ngIf="isSubmitted&&form.ddlRoleId.errors" class="requiredBox">
-                  <p *ngIf="!form.ddlRoleId.errors.DropdownValidators" class="cross-validation-error-message alert text-danger"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isSubmitted&&form.ddlRoleId.errors" class="text-danger">
+                  <p *ngIf="!form.ddlRoleId.errors.DropdownValidators"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
             </div>
