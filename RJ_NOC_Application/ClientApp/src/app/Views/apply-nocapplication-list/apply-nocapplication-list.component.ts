@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApplyNOCApplicationDataModel } from '../../Models/ApplyNOCApplicationDataModel';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
+import { CommonMasterService } from '../../Services/CommonMaster/common-master.service';
 
 
 
@@ -25,7 +26,7 @@ export class ApplyNOCApplicationListComponent implements OnInit {
   public UserID: number = 0;
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder) { }
+    private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -84,5 +85,7 @@ export class ApplyNOCApplicationListComponent implements OnInit {
     }
   }
 
-
+  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number) {
+    this.routers.navigate(['/appnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+  }
 }

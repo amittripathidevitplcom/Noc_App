@@ -32,7 +32,8 @@ export class LegalEntityComponent implements OnInit {
   public ImageValidate: string = '';
 
   public MaxDate: Date = new Date();
-  public MinDate: Date = new Date();
+  public MinDate_DOB: Date = new Date();
+  public MinDate_ElectionPresentManagementCommitteeDate: Date = new Date();
 
   legalentityForm!: FormGroup;
   legalentityForm_Registration!: FormGroup;
@@ -194,6 +195,7 @@ export class LegalEntityComponent implements OnInit {
       this.GetMemberPost();
       this.GetRegisteredActList();
       this.SetDOBmindate();
+      this.SetElectionPresentManagementCommitteeDatemindate();
     }
     catch (Ex) {
       console.log(Ex);
@@ -908,8 +910,8 @@ export class LegalEntityComponent implements OnInit {
           this.CustomOTP = '123456';
           if (MaskedMobileNo.length > 0) {
             const visibleDigits = 4;
-            let maskedSection = this.ScoietyData.PresidentMobileNo.slice(0, -visibleDigits);
-            let visibleSection = this.ScoietyData.PresidentMobileNo.slice(-visibleDigits);
+            let maskedSection = MaskedMobileNo.slice(0, -visibleDigits);
+            let visibleSection = MaskedMobileNo.slice(-visibleDigits);
             MaskedMobileNo = maskedSection.replace(/./g, 'X') + visibleSection;
           }
           this.toastr.info('Successfully Resend OTP on ' + MaskedMobileNo);
@@ -1318,9 +1320,15 @@ export class LegalEntityComponent implements OnInit {
   SetDOBmindate() {
     
     const mindate1 = new Date();
+    mindate1.setFullYear(mindate1.getFullYear() - 100);
+    this.MinDate_DOB = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
+  }
+
+  SetElectionPresentManagementCommitteeDatemindate() {
+    
+    const mindate1 = new Date();
     mindate1.setFullYear(mindate1.getFullYear() - 3);
-    this.MinDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
-    console.log(this.MinDate);
+    this.MinDate_ElectionPresentManagementCommitteeDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
   }
   
   ElectionPresentManagementCommitteeDate_Change() {

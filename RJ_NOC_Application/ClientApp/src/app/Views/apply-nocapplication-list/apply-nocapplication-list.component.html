@@ -27,8 +27,9 @@
                     <td>{{item.DepartmentName}}</td>
                     <td>{{item.CollegeName}}</td>
                     <td>
-                      <button type="button" class="btn btn-sm btn-success" (click)="DocumentScrutiny('Approve',item.ApplyNOCID)" title="Approve"><i class="fa fa-check"></i>Approve</button>
-                      <button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Revert',item.ApplyNOCID)" title="Revert"><i class="fa fa-close">Revert</i></button>
+                      <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <!--<button type="button" class="btn btn-sm btn-success" (click)="DocumentScrutiny('Approve',item.ApplyNOCID)" title="Approve"><i class="fa fa-check"></i>Approve</button>
+  <button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Revert',item.ApplyNOCID)" title="Revert"><i class="fa fa-close">Revert</i></button>-->
                     </td>
                   </tr>
                   <tr>
