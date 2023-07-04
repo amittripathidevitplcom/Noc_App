@@ -645,7 +645,7 @@
               </div>
             </mat-tab>
 
-            <mat-tab label="Document Scrutiny Preview" *ngIf="ShowFinalDocumentScrutiny">
+            <mat-tab label="Document Scrutiny Preview">
 
               <div class="card tabCard1 mb-0">
                 <div class="card-header">
@@ -667,7 +667,7 @@
                                   <label><b>{{item.TabName}} : </b></label>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                                  <label>{{item.ActionID==1?'Approve':item.ActionID==2?'Revert':item.ActionID==3?'Reject':''}} </label>
+                                  <label>{{item.ActionID==1?'Approve':item.ActionID==2?'Revert':item.ActionID==3?'Reject':'Pending'}} </label>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="(item.ActionID==2 || item.ActionID==3)">
                                   <span *ngFor="let items of item.DocumentScrutinyDetail; let iidx =index">
@@ -687,7 +687,7 @@
                 </div>
 
                 <div class="card-footer">
-                  <button type="button" class="btn btn-sm btn-success" (click)="DocumentScrutiny(DocumentScrutinyButtonText)" title="{{DocumentScrutinyButtonText}}"><i class="fa fa-check"></i>{{DocumentScrutinyButtonText}}</button>
+                  <button type="button" class="btn btn-sm btn-success" [attr.disabled]="ShowFinalDocumentScrutiny ? true : null" (click)="DocumentScrutiny(DocumentScrutinyButtonText)" title="{{DocumentScrutinyButtonText}}">{{DocumentScrutinyButtonText}}</button>
     <!--<button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Revert',1)" title="Revert"><i class="fa fa-close">Revert</i></button>-->
   </div>
               </div>

@@ -176,7 +176,18 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetRoleListByLevelID(LevelID: number) {
 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetRoleListByLevelID/" + LevelID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
 
   public async GetActionHeadList() {
