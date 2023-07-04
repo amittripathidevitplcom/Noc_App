@@ -42,7 +42,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlRoleLevelId">Role Level *</label>
-                <select id="ddlRoleLevelId" name="ddlRoleLevelId" [(ngModel)]="request.RoleLevelID" class="form-control" formControlName="ddlRoleLevelId" (change)="GetRoleListByLevel(request.RoleLevelID,-1)">
+                <select id="ddlRoleLevelId" name="ddlRoleLevelId" [(ngModel)]="request.RoleLevelID" class="form-control" formControlName="ddlRoleLevelId" (change)="GetRoleListByLevelID(request.RoleLevelID,-1)">
                   <option value="0" disabled>--Select--</option>
                   <option *ngFor="let item of RoleLevelData"
                           value="{{item.LevelID}}">
@@ -118,7 +118,7 @@
                       <input type="text" placeholder="List Code" class="form-control" id="txtListCode{{idx}}" name="txtListCode{{idx}}" [(ngModel)]="item.ListCode" autocomplete="off">
                     </td>
                     <td *ngIf="item.DeleteStatus !=true">
-                      <select id="ddlRoleLevelID{{idx}}" name="ddlRoleLevelID{{idx}}" [(ngModel)]="item.RoleLevelID" class="form-control" (change)="GetRoleListByLevel(item.RoleLevelID,idx)">
+                      <select id="ddlRoleLevelID{{idx}}" name="ddlRoleLevelID{{idx}}" [(ngModel)]="item.RoleLevelID" class="form-control" (change)="GetRoleListByLevelID(item.RoleLevelID,idx)">
                         <option value="0" disabled>--Select--</option>
                         <option *ngFor="let item of RoleLevelData"
                                 value="{{item.LevelID}}">
