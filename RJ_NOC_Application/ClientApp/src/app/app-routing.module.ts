@@ -64,6 +64,7 @@ import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-l
 import { WorkFlowMasterComponent } from './Views/Admin/work-flow-master/add-work-flow-master/work-flow-master.component';
 import { WorkFlowMasterListComponent } from './Views/Admin/work-flow-master/work-flow-master-list/work-flow-master-list.component';
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
+import { ApplyNocParameterComponent } from './Views/Master/apply-noc-parameter/apply-noc-parameter.component';
 import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
 import { PreviewScurtenyComitteeComponent } from './Views/PreviewTabs/preview-scurteny-comittee/preview-scurteny-comittee.component';
 import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncregistrat/preview-rncregistrat.component';
@@ -284,6 +285,9 @@ const routes: Routes = [
       },
       {
         path: 'totallegalentitypreview', component: TotalLegalEntityPreviewComponent
+      },
+      {
+        path: 'applynocforparameter', component: ApplyNocParameterComponent
       },
       {
         path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCPreviewComponent
