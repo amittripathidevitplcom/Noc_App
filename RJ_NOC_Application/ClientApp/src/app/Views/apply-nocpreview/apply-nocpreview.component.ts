@@ -37,7 +37,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
   maxNumberOfTabs: number = 0;
   public CollegeType_IsExisting: boolean = true;
   public ShowObjectionField: boolean = false;
-  public ShowFinalDocumentScrutiny: boolean = false;
+  public ShowFinalDocumentScrutiny: boolean = true;
 
   public TabFieldDataList: any = [];
   public SelectedTabFieldDataList: any = [];
@@ -59,6 +59,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
   ApprovedCount: number = 0;
   RevertCount: number = 0;
   RejectCount: number = 0;
+  TotalCount: number = 0;
   public AllTabDocumentScrutinyData: any = [];
   public DocumentScrutinyButtonText: string = '';
 
@@ -266,6 +267,10 @@ export class ApplyNOCPreviewComponent implements OnInit {
             this.isRemarkValid = false;
             this.isFormvalid = true;
             this.ShowObjectionField = false;
+            if (this.selectedIndex != this.maxNumberOfTabs) {
+              this.selectedIndex = this.selectedIndex + 1;
+              this.GetTabFieldByTabName(this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel']);
+            }
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -287,10 +292,11 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
 
   async GetAllTabData() {
-    this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    this.ShowFinalDocumentScrutiny = true;
     this.ApprovedCount = 0;
     this.RevertCount= 0;
     this.RejectCount= 0;
+    this.TotalCount = 0;
     try {
       await this.applyNOCApplicationService.GetDocumentScrutinyData_TabNameCollegeWise('All', this.SelectedCollageID)
         .then((data: any) => {
@@ -298,9 +304,11 @@ export class ApplyNOCPreviewComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
+          console.log(data['Data']);
           if (data['Data'].length > 0) {
             this.AllTabDocumentScrutinyData = data['Data'];
             for (var i = 0; i < data['Data'].length; i++) {
+              this.TotalCount++;
               if (data['Data'][i]['ActionID'] == 1) {
                 this.ApprovedCount++;
               }
@@ -312,22 +320,23 @@ export class ApplyNOCPreviewComponent implements OnInit {
               //}
 
             }
-
             if (this.RevertCount > 0) {
-              this.maxNumberOfTabs = this.maxNumberOfTabs + 1;
-              this.ShowFinalDocumentScrutiny = true;
+              if (this.TotalCount == this.maxNumberOfTabs) {
+                this.ShowFinalDocumentScrutiny = false;
+              }
               this.DocumentScrutinyButtonText = 'Revert';
             }
-            if (this.RejectCount > 0) {
-              this.ShowFinalDocumentScrutiny = true;
+            if (this.RejectCount > 0 && this.TotalCount == this.maxNumberOfTabs - 1) {
+              if (this.TotalCount == this.maxNumberOfTabs) {
+                this.ShowFinalDocumentScrutiny = false;
+              }
               this.DocumentScrutinyButtonText = 'Reject';
-
-              this.maxNumberOfTabs = this.maxNumberOfTabs + 1;
             }
-            if (this.ApprovedCount == this.tabGroup._tabs.length) {
-              this.ShowFinalDocumentScrutiny = true;
+            if (this.ApprovedCount == this.maxNumberOfTabs ) {
+              if (this.TotalCount == this.maxNumberOfTabs) {
+                this.ShowFinalDocumentScrutiny = false;
+              }
               this.DocumentScrutinyButtonText = 'Approve';
-              this.maxNumberOfTabs = this.maxNumberOfTabs + 1;
             }
           }
         }, error => console.error(error));
