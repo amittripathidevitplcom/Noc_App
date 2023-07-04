@@ -192,7 +192,7 @@ import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocprev
     PreviewHospitalDetailComponent,
     PreviewHostelDetailsComponent,
     ApplicationPreviewComponent,
-    CreateUserComponent
+    CreateUserComponent,
     ApplyNOCApplicationListComponent,
     ApplicationSummaryComponent,
     ApplyNOCPreviewComponent

@@ -137,11 +137,11 @@ export class WorkFlowMasterComponent implements OnInit {
       }, 200);
     }
   }
-  async GetRoleListByLevel(LevelID: number, i: number) {
+  async GetRoleListByLevelID(LevelID: number, i: number) {
     try {
 
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetRoleListByLevel(LevelID)
+      await this.commonMasterService.GetRoleListByLevelID(LevelID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -378,10 +378,10 @@ export class WorkFlowMasterComponent implements OnInit {
           this.request = data['Data'][0];
           //this.GetSchemeListByDepartment(this.request.DepartmentID);
           //this.GetSubmoduleListByModule(this.request.ModuleID);
-          this.GetRoleListByLevel(this.request.RoleLevelID, -1);
+          this.GetRoleListByLevelID(this.request.RoleLevelID, -1);
           for (var i = 0; i < this.request.WorkFlowMasterDetailList.length; i++) {
             this.GetActionListByActionHead(this.request.WorkFlowMasterDetailList[i].ActionHeadID, i);
-            this.GetRoleListByLevel(this.request.WorkFlowMasterDetailList[i].RoleLevelID, i);
+            this.GetRoleListByLevelID(this.request.WorkFlowMasterDetailList[i].RoleLevelID, i);
           }
           console.log(this.request);
         }, error => console.error(error));
