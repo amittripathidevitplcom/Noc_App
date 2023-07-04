@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
   async GetDashboardDataSSOWise(SSOID: string) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetDashboardDataSSOWise(SSOID)
+      await this.commonMasterService.GetDashboardDataSSOWise(SSOID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));

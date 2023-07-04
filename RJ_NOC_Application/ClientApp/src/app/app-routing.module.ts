@@ -76,6 +76,9 @@ const routes: Routes = [
     path: 'ssologin/:id1/:id2', component: SSOLoginComponent
   },
   {
+    path: 'ssologin/:id1', component: SSOLoginComponent
+  },
+  {
     path: 'ssologin', component: SSOLoginComponent
   },
 

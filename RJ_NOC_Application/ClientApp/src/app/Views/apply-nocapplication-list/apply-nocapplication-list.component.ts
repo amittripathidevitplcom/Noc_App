@@ -22,7 +22,7 @@ export class ApplyNOCApplicationListComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public ApplyNocDetails: ApplyNOCApplicationDataModel[] = [];
-  public RoleID: number = 13;
+  public RoleID: number = 0;
   public UserID: number = 0;
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
@@ -30,7 +30,7 @@ export class ApplyNOCApplicationListComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetApplyNOCApplicationListByRole(this.RoleID);
+    await this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID);
   }
 
   async GetApplyNOCApplicationListByRole(RoleId:number) {

@@ -131,8 +131,12 @@ export class SSOLoginComponent implements OnInit {
 
   async ngOnInit() {
     //this.loaderService.requestStarted();
-    //this.Username = this.router.snapshot.queryParams.id1;
+   // this.Username = this.router.snapshot.queryParams.id1;
     //this.LoginType = this.router.snapshot.queryParams.id2;
+     
+    this.Username = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id1')?.toString());
+    console.log(this.Username);
+    // this.LoginType = this.router.snapshot.queryParams.id1;
     await this.Citizenlogin(this.Username, this.LoginType);
     //setTimeout(() => {
     //  this.loaderService.requestEnded();
@@ -140,32 +144,51 @@ export class SSOLoginComponent implements OnInit {
   }
 
 
+  public DepartmentID: number = 0;
+  public RoleID: number = 0;
+  public RoleName: string = '';
 
-  async Citizenlogin(Username: string, LoginType: string) {
+  async Citizenlogin(LoginSSOID: string, LoginType: string) {
     try {
-      this.sSOLandingDataDataModel.Username = Username;
-      this.sSOLandingDataDataModel.LoginType = LoginType;
+      //this.sSOLandingDataDataModel.Username = Username;
+      //this.sSOLandingDataDataModel.LoginType = LoginType;
+      debugger;
+      if (LoginSSOID == undefined || LoginSSOID == '' || LoginSSOID == 'NaN' || LoginSSOID.toString() == NaN.toString()) {
+        LoginSSOID = "RISHIKAPOORDELHI";
+
+      }
+
+      await this.commonMasterService.Check_SSOIDWise_LegalEntity(LoginSSOID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          console.log(data);
+          if (data['Data'][0]['data'].length > 0) {
+            debugger;
+            LoginSSOID = data['Data'][0]['data'][0]['SSOID'];
+            this.RoleID = data['Data'][0]['data'][0]['RoleID'];
+            this.RoleName = data['Data'][0]['data'][0]['RoleName'];
+            this.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+          }
+        }, error => console.error(error));
 
 
 
-      this.SSOjson = "{\"SSOID\": \"RISHIKAPOORDELHI\",\"AadhaarId\": \"444088094507722\",\"BhamashahId\": null,\"BhamashahMemberId\": null,\"DisplayName\": \"RISHI KAPOOR\",\"DateOfBirth\": \"17/09/1991\",\"Gender\": \"MALE\",\"MobileNo\": null,\"TelephoneNumber\": \"07742860212\",\"IpPhone\": null,\"MailPersonal\": \"RISHIKAPOORDELHI@GMAIL.COM\",\"PostalAddress\": \"D-119D 119, GALI NO 6 GAUTAM MARG, NIRMAN NAGAR\",\"PostalCode\": \"302019\",\"l\": \"JAIPUR\",\"st\": \"RAJASTHAN\",\"Photo\": null,\"Designation\": \"CITIZEN\",\"Department\": \"GOOGLE\",\"MailOfficial\": null,\"EmployeeNumber\": null,\"DepartmentId\": null,\"FirstName\": \"RISHI\",\"LastName\": \"KAPOOR\",\"SldSSOIDs\": null,\"JanaadhaarId\": null,\"ManaadhaarMemberId\": null,\"UserType\": \"CITIZEN\",\"Mfa\": \"0\"} ";
+      this.SSOjson = "{\"SSOID\": \"" + LoginSSOID + "\",\"AadhaarId\": \"444088094507722\",\"BhamashahId\": null,\"BhamashahMemberId\": null,\"DisplayName\": \"RISHI KAPOOR\",\"DateOfBirth\": \"17/09/1991\",\"Gender\": \"MALE\",\"MobileNo\": null,\"TelephoneNumber\": \"07742860212\",\"IpPhone\": null,\"MailPersonal\": \"RISHIKAPOORDELHI@GMAIL.COM\",\"PostalAddress\": \"D-119D 119, GALI NO 6 GAUTAM MARG, NIRMAN NAGAR\",\"PostalCode\": \"302019\",\"l\": \"JAIPUR\",\"st\": \"RAJASTHAN\",\"Photo\": null,\"Designation\": \"CITIZEN\",\"Department\": \"GOOGLE\",\"MailOfficial\": null,\"EmployeeNumber\": null,\"DepartmentId\": null,\"FirstName\": \"RISHI\",\"LastName\": \"KAPOOR\",\"SldSSOIDs\": null,\"JanaadhaarId\": null,\"ManaadhaarMemberId\": null,\"UserType\": \"CITIZEN\",\"Mfa\": \"0\",\"RoleID\": \"" + this.RoleID + "\",\"RoleName\": \"" + this.RoleName + "\",\"DepartmentID\": \"" + this.DepartmentID + "\"} ";
+
       localStorage.setItem('SSOLoginUser', this.SSOjson)
-
+      debugger;
+      console.log(this.SSOjson);
 
       try {
         this.loaderService.requestStarted();
         this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-        await this.commonMasterService.Check_SSOIDWise_LegalEntity(this.sSOLoginDataModel.SSOID)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            console.log(data);
-            if (data['Data'].length > 0) {
-              this.routers.navigate(['/dashboard']);
-            }
-            else {
-              this.routers.navigate(['/legalentity']);
-            }
-          }, error => console.error(error));
+
+        if (this.RoleName.length > 0) {
+          this.routers.navigate(['/dashboard']);
+        }
+        else {
+          this.routers.navigate(['/legalentity']);
+        }
       }
       catch (Ex) {
         console.log(Ex);
@@ -180,7 +203,7 @@ export class SSOLoginComponent implements OnInit {
 
 
 
-     // this.routers.navigate(['/legalentity']);
+      // this.routers.navigate(['/legalentity']);
 
     }
     catch (Ex) {

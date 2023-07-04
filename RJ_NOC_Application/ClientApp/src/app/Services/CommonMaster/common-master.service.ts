@@ -733,14 +733,14 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetDashboardDataSSOWise(SSOID: string) {
+  public async GetDashboardDataSSOWise(SSOID: string, DepartmentID: number, RoleID: number) {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetDashboardDataSSOWise/" + SSOID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDashboardDataSSOWise/" + SSOID + "/" + DepartmentID + "/" + RoleID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

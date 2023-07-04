@@ -1,3 +1,5 @@
+import internal from "stream";
+
 export class SSOLoginDataModel {
   public SSOID: string = '';
   public AadhaarId: string = '';
@@ -27,6 +29,9 @@ export class SSOLoginDataModel {
   public ManaadhaarMemberId: string = '';
   public UserType: string = '';
   public Mfa: string = '';
+  public RoleID: number = 0;
+  public RoleName: string = '';
+  public DepartmentID: number = 0;
 }
 
 
