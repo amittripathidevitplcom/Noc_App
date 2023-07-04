@@ -102,6 +102,8 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
 import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
+import { PreviewScurtenyComitteeComponent } from './Views/PreviewTabs/preview-scurteny-comittee/preview-scurteny-comittee.component';
+import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncregistrat/preview-rncregistrat.component';
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
 
 @NgModule({
@@ -196,7 +198,9 @@ import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-l
     CreateUserComponent,
     ApplyNOCApplicationListComponent,
     ApplicationSummaryComponent,
-    ApplyNOCPreviewComponent
+    ApplyNOCPreviewComponent,
+    PreviewScurtenyComitteeComponent,
+    PreviewRNCRegistratComponent
     //LoaderModule,
 
 

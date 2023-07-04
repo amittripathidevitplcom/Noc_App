@@ -65,6 +65,8 @@ import { WorkFlowMasterComponent } from './Views/Admin/work-flow-master/add-work
 import { WorkFlowMasterListComponent } from './Views/Admin/work-flow-master/work-flow-master-list/work-flow-master-list.component';
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
 import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
+import { PreviewScurtenyComitteeComponent } from './Views/PreviewTabs/preview-scurteny-comittee/preview-scurteny-comittee.component';
+import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncregistrat/preview-rncregistrat.component';
 
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
 
@@ -285,6 +287,12 @@ const routes: Routes = [
       },
       {
         path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCPreviewComponent
+      },
+      {
+        path: 'scurtenyComitteePreview/:DepartmentID/:CollegeID', component: PreviewScurtenyComitteeComponent
+      },
+      {
+        path: 'rncRegistratPreview/:DepartmentID/:CollegeID', component: PreviewRNCRegistratComponent
       },
     ]
   },
