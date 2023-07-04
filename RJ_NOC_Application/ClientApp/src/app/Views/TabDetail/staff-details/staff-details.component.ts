@@ -62,6 +62,7 @@ export class StaffDetailsComponent implements OnInit {
   public file: any = '';
 
   public MaxDate: Date = new Date();
+  public StartYear: number = 0;
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private staffDetailService: StaffDetailService, private fileUploadService: FileUploadService
     , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder) {
@@ -113,7 +114,6 @@ export class StaffDetailsComponent implements OnInit {
     await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, 'HighestQualification');
     await this.GetRoleListByLevel(0);
     await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
-    await this.FillYearData();
     await this.GetQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID);
     await this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
     this.loaderService.requestEnded();
@@ -148,8 +148,8 @@ export class StaffDetailsComponent implements OnInit {
         return;
       }
 
-      if (this.request.Marks > 100) {
-        this.request.Marks = 0;
+      if (Number(this.request.Marks) > 100) {
+        this.request.Marks = '';
         this.toastr.warning('Invalid Percentage/Grade');
         return;
       }
@@ -161,7 +161,7 @@ export class StaffDetailsComponent implements OnInit {
         StreamSubject: this.request.StreamSubject,
         UniversityBoardInstitutionName: this.request.UniversityBoardInstitutionName,
         PassingYearID: this.request.PassingYearID,
-        Marks: this.request.Marks,
+        Marks: Number(this.request.Marks),
         ProfessionalQualification: this.ProfessionalQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.ProfessionalQualificationID).QualificationName,
         PassingYear: this.request.PassingYearID.toString(),
         UploadDocument: this.request.UploadDocument,
@@ -172,7 +172,7 @@ export class StaffDetailsComponent implements OnInit {
       this.request.PassingYearID = 0;
       this.request.StreamSubject = '';
       this.request.UniversityBoardInstitutionName = '';
-      this.request.Marks = 0;
+      this.request.Marks = '';
       this.request.UploadDocument = '';
       this.isAddMore = false;
       this.showUploadDocument = false;
@@ -317,9 +317,9 @@ export class StaffDetailsComponent implements OnInit {
     this.isAadhaarCard = false;
     this.isPANCard = false;
     if (event.target.files && event.target.files[0]) {
-      if (event.target.files[0].type === 'image/jpeg' ||
+      if ((event.target.files[0].type === 'image/jpeg' && Type == 'ProfilePhoto') ||
         (Type != 'ProfilePhoto' && event.target.files[0].type === 'application/pdf') ||
-        event.target.files[0].type === 'image/jpg') {
+        (event.target.files[0].type === 'image/jpg' && Type == 'ProfilePhoto')) {
         if (event.target.files[0].size > 2000000) {
           event.target.value = '';
           this.toastr.warning('Select less then 2MB File');
@@ -333,25 +333,35 @@ export class StaffDetailsComponent implements OnInit {
       }
       else {
         event.target.value = '';
-        this.toastr.warning('Select Only jpg/jpeg' + (Type != 'ProfilePhoto' ? '/pdf file' : ''));
+        this.toastr.warning(Type == 'ProfilePhoto' ? 'Select Only jpg/jpeg' : 'Select Only pdf');
         return
       }
       // upload
       this.file = event.target.files[0];
-      await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          this.ResetFiles(Type, true, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"]);
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
+      try {
+        this.loaderService.requestStarted();
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFiles(Type, true, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"]);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      catch (ex) { }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+
     }
     else {
       this.ResetFiles(Type, false, '', '', '');
@@ -530,8 +540,9 @@ export class StaffDetailsComponent implements OnInit {
 
   }
 
-  async FillYearData() {
-    for (var i = 2023; i > 1958; i--) {
+  async FillYearData(Maxyear: number, StartYear: number) {
+    this.YearData = [];
+    for (var i = Maxyear; i > StartYear; i--) {
       var data = { YearID: i, YearName: i };
       this.YearData.push(data);
     }
@@ -548,11 +559,13 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   SetDateofAppointment() {
+    debugger;
     const DOB = new Date(this.request.DateOfBirth);
+    this.StartYear = DOB.getFullYear() + 18;
     DOB.setFullYear(DOB.getFullYear() + 21);
     this.AppointmentMinDate = new Date(DOB.getFullYear(), DOB.getMonth(), DOB.getDate());
-    //this.request.DateOfAppointment = '';
-    //this.request.DateOfJoining = '';
+    const Maxyear = this.StartYear == 0 ? 0 : this.MaxDate.getFullYear();
+    this.FillYearData(Maxyear, this.StartYear);
   }
 
   async GetQualificationList_DepartmentAndTypeWise(DepartmentID: number) {
@@ -670,7 +683,7 @@ export class StaffDetailsComponent implements OnInit {
           this.request = data['Data'][0];
           this.request.ProfessionalQualificationID = 0;
           this.request.PassingYearID = 0;
-          this.request.Marks = 0;
+          this.request.Marks = '';
           this.GetCollegeWiseSubjectList(this.SelectedCollageID);
           this.OnChangeHighestQualification();
           this.SetDateofAppointment();

@@ -23,20 +23,24 @@
               <p *ngIf="!form.OtherInformation_ddlCourse.errors.DropdownValidators">This field is required .!</p>
             </div>
             <div *ngIf="request.CourseID>0">
-              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
+              <p *ngIf="WidthMin>0 && request.Width>0 && request.Length>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
             </div>
           </div>
           <div class="col-md-3 mb-2">
             <label>Width (In Feet)<span style="color:red;">*</span></label>
-            <input type="number" class="form-control" id="OtherInformation_txtWidth" name="OtherInformation_txtWidth"
+            <input type="text" class="form-control" id="OtherInformation_txtWidth" name="OtherInformation_txtWidth"
                    placeholder="Enter Width (In Feet)"
-                   [(ngModel)]="request.Width" formControlName="OtherInformation_txtWidth">
+                   [(ngModel)]="request.Width" formControlName="OtherInformation_txtWidth" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted&&form.OtherInformation_txtWidth.errors" class="text-danger">
+              <p *ngIf="form.OtherInformation_txtWidth.errors.required">This field is required .!</p>
+              <p *ngIf="form.OtherInformation_txtWidth.errors.min">Width will be greater than zero .!</p>
+            </div>
           </div>
           <div class="col-md-3 mb-2">
             <label>Length (In Feet)<span style="color:red;">*</span></label>
-            <input type="number" class="form-control" id="OtherInformation_txtLength" name="OtherInformation_txtLength"
+            <input type="text" class="form-control" id="OtherInformation_txtLength" name="OtherInformation_txtLength"
                    placeholder="Enter Length (In Feet)"
-                   [(ngModel)]="request.Length" formControlName="OtherInformation_txtLength">
+                   [(ngModel)]="request.Length" formControlName="OtherInformation_txtLength" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.OtherInformation_txtLength.errors" class="text-danger">
               <p *ngIf="form.OtherInformation_txtLength.errors.required">This field is required .!</p>
               <p *ngIf="form.OtherInformation_txtLength.errors.min">Length will be greater than zero .!</p>
@@ -45,7 +49,11 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="fileUploadImage" class="form-label">Upload Image<span style="color:red;">*</span></label>
             <div class="d-flex">
-              <input type="file" class="form-control" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage" (change)="ValidateUploadImage($event,'ImageFile')" #fileUploadImage />
+              <input type="file" class="form-control" style="display:none" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage" (change)="ValidateUploadImage($event,'ImageFile')" #fileUploadImage />
+              <label class="btn upload" for="fileUploadImage">
+                <span class="filename">Choose file</span>
+                {{request.ImageFileName === '' ? 'No File Choosen' : request.Image_Dis_FileName}}
+              </label>
               <div class="btn-group" *ngIf="showImageFilePath">
                 <a class="btn btn-outline-primary" target="_blank" href="{{request.ImageFilePath}}"><i class="fa fa-eye"></i></a>
                 <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ImageFile')"><i class="fa fa-trash-o"></i></button>
@@ -60,8 +68,8 @@
         <div class="row">
           <div class="col-md-3 mb-2" *ngIf="ShowHideBook">
             <label>No of books<span style="color:red;">*</span></label>
-            <input type="number" class="form-control" id="OtherInformation_Noofbooks" [(ngModel)]="request.NoofBooks" name="OtherInformation_Noofbooks"
-                   formControlName="OtherInformation_Noofbooks">
+            <input type="text" class="form-control" id="OtherInformation_Noofbooks" [(ngModel)]="request.NoofBooks" name="OtherInformation_Noofbooks"
+                   formControlName="OtherInformation_Noofbooks" (keypress)="numberOnly($event)">
             <div *ngIf="isNoofBookRequired" class="text-danger">
               <p *ngIf="isNoofBookRequired">This field is required .!</p>
             </div>
@@ -69,7 +77,11 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideBook">
             <label for="fileUploadBookImage" class="form-label">Upload Book's Details Document<span style="color:red;">*</span></label>
             <div class="d-flex">
-              <input type="file" class="form-control" id="fileUploadBookImage" name="fileUploadBookImage" formControlName="fileUploadBookImage" (change)="ValidateUploadImage($event,'UploadBook')" #fileUploadBookImage />
+              <input type="file" style="display:none" class="form-control" id="fileUploadBookImage" name="fileUploadBookImage" formControlName="fileUploadBookImage" (change)="ValidateUploadImage($event,'UploadBook')" #fileUploadBookImage />
+              <label class="btn upload" for="fileUploadBookImage">
+                <span class="filename">Choose file</span>
+                {{request.BookImageFileName === '' ? 'No File Choosen' : request.BookImage_Dis_FileName}}
+              </label>
               <div class="btn-group" *ngIf="showBookImageFilePath">
                 <a class="btn btn-outline-primary" target="_blank" href="{{request.BookImageFilePath}}"><i class="fa fa-eye"></i></a>
                 <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('UploadBook')"><i class="fa fa-trash-o"></i></button>
@@ -127,7 +139,7 @@
                         <td>{{row.Length}}</td>
                         <td>{{row.NoofBooks}}</td>
                         <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
-                        <td><a target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>
+                        <td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                         <td>
                           <div class="d-flex">
                             <button type="button" (click)="Edit_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
