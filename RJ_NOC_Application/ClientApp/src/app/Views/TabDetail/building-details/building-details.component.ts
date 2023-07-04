@@ -101,6 +101,7 @@ export class BuildingDetailsComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   isUploadImage: boolean = false;
+  public MaxDate: Date = new Date();
 
 
   constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
@@ -223,6 +224,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async SaveData() {
+
     this.isValidOwnBuildingFileUpload = false;
     this.isValidFireNOCFileUpload = false;
     this.isValidPWDNOCFileUpload = false;
@@ -230,7 +232,6 @@ export class BuildingDetailsComponent implements OnInit {
     this.CssClass_TextDangerLength = '';
     this.isSubmitted = true;
     this.isFormValid = true;
-    console.log(this.buildingdetails);
     if (this.buildingdetailsForm.invalid) {
       this.isFormValid = false;
     }
@@ -255,7 +256,7 @@ export class BuildingDetailsComponent implements OnInit {
     if (this.buildingdetails.PWDNOCFileUpload == '') {
       this.ImageValidate = 'This field is required .!';
       return
-    } 
+    }
     if (!this.isFormValid) {
       return;
     }    
@@ -438,14 +439,14 @@ export class BuildingDetailsComponent implements OnInit {
     if (txtOwnerName) txtOwnerName.focus();
     this.isSubmitted = false;
     this.buildingdetails.SchoolBuildingDetailsID = 0;
-    this.buildingdetails.BuildingTypeID = 0;
+    this.buildingdetails.BuildingTypeID = null;
     this.buildingdetails.OwnerName = '';
     this.buildingdetails.AddressLine1 = '';
     this.buildingdetails.AddressLine2 = '';
     this.buildingdetails.TehsilID = 0;
     this.buildingdetails.RuralUrban = '';
     this.buildingdetails.PWDNOCFileUpload = '';
-    this.buildingdetails.Pincode = 0;
+    this.buildingdetails.Pincode = '';
     this.buildingdetails.PanchayatSamitiID = 0;
     this.buildingdetails.OwnBuildingOrderNo = '';
     this.buildingdetails.OwnBuildingOrderDate = '';
@@ -935,5 +936,4 @@ export class BuildingDetailsComponent implements OnInit {
     }
 
   }
-
 }

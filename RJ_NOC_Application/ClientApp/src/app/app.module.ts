@@ -102,6 +102,8 @@ import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-l
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
 import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
+import { ApplyNOCJointSecPreviewComponent } from './Views/apply-nocjoint-sec-preview/apply-nocjoint-sec-preview.component';
+import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-preview/apply-nocsecretary-preview.component';
 
 @NgModule({
   declarations: [
@@ -195,7 +197,9 @@ import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocprev
     CreateUserComponent,
     ApplyNOCApplicationListComponent,
     ApplicationSummaryComponent,
-    ApplyNOCPreviewComponent
+    ApplyNOCPreviewComponent,
+    ApplyNOCJointSecPreviewComponent,
+    ApplyNOCSecretaryPreviewComponent
     //LoaderModule,
 
 

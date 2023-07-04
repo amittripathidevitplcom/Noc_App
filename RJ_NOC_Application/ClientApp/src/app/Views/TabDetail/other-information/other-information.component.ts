@@ -106,7 +106,7 @@ export class OtherInformationComponent implements OnInit {
     this.OtherInformationForm = this.formBuilder.group(
       {
         OtherInformation_ddlCourse: ['', [DropdownValidators]],
-        OtherInformation_txtWidth: [''],
+        OtherInformation_txtWidth: ['', [Validators.required, Validators.min(1)]],
         OtherInformation_txtLength: ['', [Validators.required, Validators.min(1)]],        
         fileUploadImage: [''],
         fileUploadBookImage: [''],
@@ -188,14 +188,13 @@ export class OtherInformationComponent implements OnInit {
       }, 200);
     }
   }
-  ValidateUploadImage(event: any, Type: string) {
+  async ValidateUploadImage(event: any, Type: string) {
     try {
 
     this.isValidImageFilePath = false;
     this.isValidBookImageFilePath = false;
     if (event.target.files && event.target.files[0]) {
       if (event.target.files[0].type === 'image/jpeg' ||
-        event.target.files[0].type === 'application/pdf' ||
         event.target.files[0].type === 'image/jpg') {
         if (event.target.files[0].size > 2000000) {
           this.ImageValidationMessage = 'Select less then 2MB File';
@@ -203,11 +202,13 @@ export class OtherInformationComponent implements OnInit {
             this.isValidImageFilePath = true;
             this.request.ImageFileName = '';
             this.request.ImageFilePath = '';
+            this.request.Image_Dis_FileName = '';
           }
           else if (Type == 'UploadBook') {
             this.isValidBookImageFilePath = true;
             this.request.BookImageFileName = '';
             this.request.BookImageFilePath = '';
+            this.request.BookImage_Dis_FileName = '';
           }
           return
         }
@@ -217,32 +218,37 @@ export class OtherInformationComponent implements OnInit {
             this.isValidImageFilePath = true;
             this.request.ImageFileName = '';
             this.request.ImageFilePath = '';
+            this.request.Image_Dis_FileName = '';
           }
           else if (Type == 'UploadBook') {
             this.isValidBookImageFilePath = true;
             this.request.BookImageFileName = '';
             this.request.BookImageFilePath = '';
+            this.request.BookImage_Dis_FileName = '';
           }
           return
         }
       }
       else {
-        this.ImageValidationMessage = 'Select Only jpg/jpeg/pdf file';
+        this.ImageValidationMessage = 'Select Only jpg/jpeg file';
         if (Type == 'ImageFile') {
           this.isValidImageFilePath = true;
           this.request.ImageFileName = '';
           this.request.ImageFilePath = '';
+          this.request.Image_Dis_FileName = '';
         }
         else if (Type == 'UploadBook') {
           this.isValidBookImageFilePath = true;
           this.request.BookImageFileName = '';
           this.request.BookImageFilePath = '';
+          this.request.BookImage_Dis_FileName = '';
         }
         return
       }
 
       this.file = event.target.files[0];
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+      try {
+      await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
         
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
@@ -252,11 +258,13 @@ export class OtherInformationComponent implements OnInit {
             this.showImageFilePath = true;
             this.request.ImageFileName = data['Data'][0]["FileName"];
             this.request.ImageFilePath = data['Data'][0]["FilePath"];
+            this.request.Image_Dis_FileName = data['Data'][0]["Dis_FileName"];
           }
           else if (Type == 'UploadBook') {
             this.showBookImageFilePath = true;
             this.request.BookImageFileName = data['Data'][0]["FileName"];
             this.request.BookImageFilePath = data['Data'][0]["FilePath"];
+            this.request.BookImage_Dis_FileName = data['Data'][0]["Dis_FileName"];
           }
         }
         if (this.State == 1) {
@@ -266,6 +274,16 @@ export class OtherInformationComponent implements OnInit {
           this.toastr.warning(this.ErrorMessage)
         }
       });
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+          event.target.value = '';
+        }, 200);
+      }
       }
     }
     catch (Ex) {
@@ -290,9 +308,9 @@ export class OtherInformationComponent implements OnInit {
       this.request.BookImageFilePath = '';
     }
   }
-
+  public isformvalid: boolean = true;
   async SaveData() {
-    
+    this.isformvalid = true;
     this.isNoofBookRequired = false;
 
     this.isValidImageFilePath = false;
@@ -301,27 +319,30 @@ export class OtherInformationComponent implements OnInit {
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
     if (this.OtherInformationForm.invalid) {
-      return
+      this.isformvalid = false;
     }
     if (Number((this.request.Width) * (this.request.Length)) < this.WidthMin) {
       this.CssClass_TextDangerWidth = 'text-danger';
-      return
+      this.isformvalid = false;
     }
     if (this.request.ImageFilePath == '') {
       this.ImageValidate = 'This field is required .!';
-      return
+      this.isformvalid = false;
     } 
     var OtherName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID).Name;
     if (OtherName == 'Library') {
       if (this.request.NoofBooks <= 0) {
         this.isNoofBookRequired = true;
-        return
+        this.isformvalid = false;
       }
       if (this.request.BookImageFilePath == '') {
         this.isValidBookImageFilePath = true;
         this.ImageValidate = 'This field is required .!';
-        return
+        this.isformvalid = false;
       }
+    }
+    if (!this.isformvalid) {
+      return;
     }
     //Show Loading
     this.loaderService.requestStarted();
@@ -368,8 +389,10 @@ export class OtherInformationComponent implements OnInit {
     this.request.Length = 0;
     this.request.ImageFileName = '';
     this.request.ImageFilePath = '';
+    this.request.Image_Dis_FileName = '';
     this.request.BookImageFileName = '';
     this.request.BookImageFilePath = '';
+    this.request.BookImage_Dis_FileName = '';
     this.request.NoofBooks = 0;
     this.request.UserID = 0;
     this.isDisabledGrid = false;
@@ -418,12 +441,16 @@ export class OtherInformationComponent implements OnInit {
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.Width = data['Data'][0]["Width"];
           this.request.Length = data['Data'][0]["Length"];
+          this.request.ImageFileName = data['Data'][0]["ImageFileName"];
           this.request.ImageFilePath = data['Data'][0]["ImageFilePath"];
+          this.request.Image_Dis_FileName = data['Data'][0]["Image_Dis_FileName"];
           if (data['Data'][0]["NoofBooks"] != '' || data['Data'][0]["NoofBooks"] != 0 || data['Data'][0]["BookImageFilePath"] != '') {
             this.ShowHideBook = true;
             this.showBookImageFilePath = true;
             this.request.NoofBooks = data['Data'][0]["NoofBooks"];
+            this.request.BookImageFileName = data['Data'][0]["BookImageFileName"];
             this.request.BookImageFilePath = data['Data'][0]["BookImageFilePath"];
+            this.request.BookImage_Dis_FileName = data['Data'][0]["BookImage_Dis_FileName"];
           } 
           this.showImageFilePath = true;
           this.isDisabledGrid = true;
@@ -432,7 +459,7 @@ export class OtherInformationComponent implements OnInit {
           if (btnSave) btnSave.innerHTML = "Update";
           const btnReset = document.getElementById('btnReset')
           if (btnReset) btnReset.innerHTML = "Reset";
-
+          console.log(this.request);
         }, error => console.error(error));
     }
     catch (ex) { console.log(ex) }
@@ -566,7 +593,14 @@ export class OtherInformationComponent implements OnInit {
     }
 
   }
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
 
+  }
 }
 
 
