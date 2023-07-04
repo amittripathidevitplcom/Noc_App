@@ -22,7 +22,7 @@ export class ApplyNOCApplicationListComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public ApplyNocDetails: ApplyNOCApplicationDataModel[] = [];
-  public RoleID: number = 10;
+  public RoleID: number = 13;
   public UserID: number = 0;
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,

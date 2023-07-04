@@ -53,13 +53,13 @@ export class ApplyNOCApplicationService {
   }
 
 
-  public async GetDocumentScrutinyData_TabNameCollegeWise(TabName: string, CollegeID: number) {
+  public async GetDocumentScrutinyData_TabNameCollegeWise(TabName: string, CollegeID: number, RoleID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetDocumentScrutinyData_TabNameCollegeWise/" + TabName + '/' + CollegeID)
+    return await this.http.get(this.APIUrl + "/GetDocumentScrutinyData_TabNameCollegeWise/" + TabName + '/' + CollegeID + '/' + RoleID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

@@ -52,7 +52,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
   public DocumentScrutinyDetail: DocumentScrutinyDetail_DocumentScrutinyDataModel[] = [];
 
-  public RoleID: number = 10;
+  public RoleID: number = 13;
   public UserID: number = 0;
 
 
@@ -139,7 +139,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.TabFieldDataList = data['Data'];
         }, error => console.error(error));
-      await this.applyNOCApplicationService.GetDocumentScrutinyData_TabNameCollegeWise(TabName, this.SelectedCollageID)
+      await this.applyNOCApplicationService.GetDocumentScrutinyData_TabNameCollegeWise(TabName, this.SelectedCollageID, this.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -218,8 +218,8 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.DocumentScrutinyDetail = [];
     this.request.DepartmentID = this.SelectedDepartmentID;
     this.request.CollegeID = this.SelectedCollageID;
-    this.request.UserID = 10;
-    this.request.RoleID = 10;
+    this.request.UserID = this.UserID;
+    this.request.RoleID = this.RoleID;
     this.request.TabName = this.selectedIndex == 0 ? 'Land Information' : this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel'];
 
     this.isActionValid = false;
@@ -298,7 +298,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.RejectCount= 0;
     this.TotalCount = 0;
     try {
-      await this.applyNOCApplicationService.GetDocumentScrutinyData_TabNameCollegeWise('All', this.SelectedCollageID)
+      await this.applyNOCApplicationService.GetDocumentScrutinyData_TabNameCollegeWise('All', this.SelectedCollageID, this.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -308,7 +308,9 @@ export class ApplyNOCPreviewComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.AllTabDocumentScrutinyData = data['Data'];
             for (var i = 0; i < data['Data'].length; i++) {
-              this.TotalCount++;
+              if (data['Data'][i]['DocumentScrutinyID'] > 0) {
+                this.TotalCount++;
+              }
               if (data['Data'][i]['ActionID'] == 1) {
                 this.ApprovedCount++;
               }
