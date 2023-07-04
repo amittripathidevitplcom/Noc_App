@@ -64,6 +64,7 @@ import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-l
 import { WorkFlowMasterComponent } from './Views/Admin/work-flow-master/add-work-flow-master/work-flow-master.component';
 import { WorkFlowMasterListComponent } from './Views/Admin/work-flow-master/work-flow-master-list/work-flow-master-list.component';
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
+import { ApplyNocParameterComponent } from './Views/Master/apply-noc-parameter/apply-noc-parameter.component';
 
 const routes: Routes = [
   {
@@ -268,6 +269,9 @@ const routes: Routes = [
       },
       {
         path: 'totallegalentitypreview', component: TotalLegalEntityPreviewComponent
+      },
+      {
+        path: 'applynocforparameter', component: ApplyNocParameterComponent
       },
     ]
   },

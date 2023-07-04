@@ -1,0 +1,251 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Apply Noc Parameter</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Entity</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Apply Noc Parameter</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="ApplyNocParameterForm" class="form-horizontal">
+            <div class="row">
+
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label for="ddlCollege" class="form-label">College</label>
+                  <select class="form-select" id="ddlCollege" name="ddlCollege" (change)="College_ddlChange($event)" formControlName="ddlCollege" [(ngModel)]="request.CollegeID">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of CollegeList_ddl" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlCollege.errors" class="text-danger">
+                    <p *ngIf="!form.ddlCollege.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label for="rbApplicationType">Select Application Type</label>
+                  <div class="clearfix"></div>
+                  <div class="form-check form-check-inline" *ngFor="let item of ApplicationTypeList">
+                    <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID">
+                    <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
+                  </div>
+                  <div *ngIf="isSubmitted&&form.rbApplicationType.errors" class="text-danger">
+                    <p *ngIf="form.rbApplicationType.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ApplyNocParameterMasterList_ddl.length>0">
+                <label for="">Noc for</label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline" *ngFor="let item of ApplyNocParameterMasterList_ddl">
+                  <input class="form-check-input" type="checkbox" name="cbNocFor" id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}" formControlName="cbNocFor" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item)" [(ngModel)]="item.IsChecked" [attr.checked]="item.IsChecked">
+                  <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}">{{item.ApplyNocFor}}</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.cbNocFor.errors" class="text-danger">
+                  <p *ngIf="form.cbNocFor.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <!--TNOC Extension-->
+                <div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtension != null">
+                  <div class="card-header">
+                    <b>{{ApplyNocParameterMasterList_TNOCExtension.ApplyNocFor}} : {{ApplyNocParameterMasterList_TNOCExtension.FeeAmount}}</b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th>Sr. No.</th>
+                              <th>Course</th>
+                              <th>Subject</th>
+                            </tr>
+                          </thead>
+                          <tbody *ngFor="let item of ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList;let idx=index;">
+                            <tr>
+                              <td>{{idx+1}}</td>
+                              <td>
+                                <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="checkbox" name="cbCourse_TNOCExtension" id="cbCourse_TNOCExtension_{{item.CourseID}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked" formControlName="cbCourse_TNOCExtension" [attr.checked]="item.IsChecked" #SelectedcbCourseID_TNOCExtension (change)="cbCourse_TNOCExtension_change($event,SelectedcbCourseID_TNOCExtension.value,item)">
+                                  <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="form-check form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;">
+                                  <input class="form-check-input" type="checkbox" name="cbSubject_TNOCExtension" id="cbSubject_TNOCExtension_{{item1.SubjectID}}" value="{{item1.SubjectID}}" formControlName="cbSubject_TNOCExtension" [attr.disabled]="true" [attr.checked]="item1.IsChecked" [(ngModel)]="item1.IsChecked">
+                                  <label class="form-check-label" for="cbSubject_TNOCExtension_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--end-->
+                <!--Addition of New Seats(60)-->
+                <div class="card" *ngIf="ApplyNocParameterMasterList_AdditionOfNewSeats60 != null">
+                  <div class="card-header">
+                    <b>{{ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocFor}} : {{ApplyNocParameterMasterList_AdditionOfNewSeats60.FeeAmount}}</b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th>Sr. No.</th>
+                              <th>Course</th>
+                            </tr>
+                          </thead>
+                          <tbody *ngFor="let item of ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocParameterCourseList;let idx=index;">
+                            <tr>
+                              <td>{{idx+1}}</td>
+                              <td>
+                                <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="checkbox" name="cbCourse_AdditionOfNewSeats60" id="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}" value="{{item.CourseID}}" formControlName="cbCourse_AdditionOfNewSeats60" [attr.checked]="item.IsChecked" [(ngModel)]="item.IsChecked">
+                                  <label class="form-check-label" for="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}">{{item.CourseName}}</label>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--end-->
+              </div>
+              <div class="card-footer text-end" *ngIf="HasData()">
+                <button type="button" class="btn btn-danger" aria-label="Reset">Reset</button>
+                <button type="button" class="btn btn-primary" (click)="Preview_click(mymodal)">Preview</button>
+              </div>
+            </div>
+          </form>
+          <!--model-->
+          <ng-template #mymodal let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Preview</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label><b> College:</b></label>
+                  <input class="form-control disabled" disabled value="{{request.CollegeName}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>
+                    <b>
+                      Application Type :
+                    </b>
+                  </label>
+                  <input class="form-control disabled" disabled value="{{request.ApplicationTypeName}}" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <label>
+                    <b>
+                      Noc For :  {{request.TotalFeeAmount}}
+                    </b>
+                  </label>
+                  <!--TNOC Extension-->
+                  <div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtension_Preview != null">
+                    <div class="card-header">
+                      <b>{{ApplyNocParameterMasterList_TNOCExtension_Preview.ApplyNocFor}} : {{ApplyNocParameterMasterList_TNOCExtension_Preview.FeeAmount}}</b>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th>Sr. No.</th>
+                                <th>Course</th>
+                                <th>Subject</th>
+                              </tr>
+                            </thead>
+                            <tbody *ngFor="let item of ApplyNocParameterMasterList_TNOCExtension_Preview.ApplyNocParameterCourseList;let idx=index;">
+                              <tr>
+                                <td>{{idx+1}}</td>
+                                <td>
+                                  <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="cbCourse_TNOCExtension" id="cbCourse_TNOCExtension_{{item.CourseID}}" value="{{item.CourseID}}" [attr.disabled]="true" [attr.checked]="item.IsChecked">
+                                    <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="form-check form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;">
+                                    <input class="form-check-input" type="checkbox" name="cbSubject_TNOCExtension" id="cbSubject_TNOCExtension_{{item1.SubjectID}}" value="{{item1.SubjectID}}" [attr.disabled]="true" [attr.checked]="item1.IsChecked" >
+                                    <label class="form-check-label" for="cbSubject_TNOCExtension_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end-->
+                  <!--Addition of New Seats(60)-->
+                  <div class="card" *ngIf="request.ApplyNocParameterMasterList_AdditionOfNewSeats60 != null">
+                    <div class="card-header">
+                      <b>{{request.ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocFor}} : {{request.ApplyNocParameterMasterList_AdditionOfNewSeats60.FeeAmount}}</b>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th>Sr. No.</th>
+                                <th>Course</th>
+                              </tr>
+                            </thead>
+                            <tbody *ngFor="let item of request.ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocParameterCourseList;let idx=index;">
+                              <tr>
+                                <td>{{idx+1}}</td>
+                                <td>
+                                  <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="cbCourse_AdditionOfNewSeats60" id="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}" value="{{item.CourseID}}" [attr.disabled]="true" [attr.checked]="item.IsChecked" >
+                                    <label class="form-check-label" for="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}">{{item.CourseName}}</label>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end-->
+                </div>
+              </div>
+              <div class="card-footer text-end">
+                <button type="button" class="btn btn-primary" (click)="Payment_click()">Payment</button>
+              </div>
+            </div>
+          </ng-template>
+          <!--end-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
