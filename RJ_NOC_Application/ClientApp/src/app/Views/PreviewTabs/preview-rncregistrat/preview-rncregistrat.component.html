@@ -89,27 +89,23 @@
                   <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID">
+                      <select class="form-select" id="ddlLandActionID" >
                         <option value="0" disabled>--Select--</option>
                         <option value="1">Approve</option>
                         <option value="2">Revert</option>
                         <option value="3">Reject</option>
                       </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
+             
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Remarks</label>
-                      <textarea id="HostelDetailRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
+                      <textarea id="HostelDetailRemark" class="form-control" ></textarea>
+      
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
+                      <button class="btn btn-primary" type="button" >Submit</button>
                     </div>
                   </div>
                 </div>
