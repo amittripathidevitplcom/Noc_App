@@ -101,6 +101,8 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
 import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
+import { PreviewScurtenyComitteeComponent } from './Views/PreviewTabs/preview-scurteny-comittee/preview-scurteny-comittee.component';
+import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncregistrat/preview-rncregistrat.component';
 
 @NgModule({
   declarations: [
@@ -193,7 +195,9 @@ import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocprev
     ApplicationPreviewComponent,
     ApplyNOCApplicationListComponent,
     ApplicationSummaryComponent,
-    ApplyNOCPreviewComponent
+    ApplyNOCPreviewComponent,
+    PreviewScurtenyComitteeComponent,
+    PreviewRNCRegistratComponent
     //LoaderModule,
 
 
