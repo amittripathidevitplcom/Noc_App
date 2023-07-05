@@ -113,7 +113,8 @@ import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-pr
   declarations: [
     AppComponent,
     MasterPageComponent,
-
+    
+    
     ApplicationListComponent,
     CollegeDetailsComponent,
     BasicBscNursingComponent,
@@ -201,9 +202,13 @@ import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-pr
     CreateUserComponent,
     ApplyNOCApplicationListComponent,
     ApplicationSummaryComponent,
-    ApplyNOCPreviewComponent
+    ApplyNOCPreviewComponent,
     //LoaderModule,
-
+    ApplyNOCJointSecPreviewComponent,
+    ApplyNOCSecretaryPreviewComponent,
+    ApplyNocParameterComponent,
+    PreviewScurtenyComitteeComponent,
+    PreviewRNCRegistratComponent
 
   ],
   imports: [

@@ -78,6 +78,8 @@ export class RoomDetailsComponent implements OnInit {
   isUploadImage: boolean = false;
   public isValidImageFilePath: boolean = false;
   public showImageFilePath: boolean = false;
+  public isformvalid: boolean = true;
+  public WidthMin1: number = 0;
 
   // ssologin model
   ssoLoginModel = new SSOLoginDataModel();
@@ -157,6 +159,7 @@ export class RoomDetailsComponent implements OnInit {
           this.RoomSizeDataList = data['Data'];
 
           this.WidthMin = this.RoomSizeDataList[0]['WidthMin'];
+          this.WidthMin1 = this.RoomSizeDataList[0]['WidthMin'];
           this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
           console.log(this.RoomSizeDataList);
         }, error => console.error(error));
@@ -254,8 +257,8 @@ export class RoomDetailsComponent implements OnInit {
     this.request.ImageFileName = '';
     this.request.ImageFilePath = '';
   }
-  public isformvalid: boolean = true;
   async SaveData() {
+    this.WidthMin = this.WidthMin1;
     this.isformvalid = true;
     this.isValidImageFilePath = false;
     this.isSubmitted = true;

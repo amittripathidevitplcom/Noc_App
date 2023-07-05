@@ -558,6 +558,7 @@ export class LandDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
+          debugger;
           this.LandDetailsList = data['Data'][0]['data']['Table'];
           this.LandDetailsDocumentList = data['Data'][0]['data']['Table1'];
         }, error => console.error(error));
