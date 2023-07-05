@@ -72,6 +72,7 @@ import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncreg
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
 import { ApplyNOCJointSecPreviewComponent } from './Views/apply-nocjoint-sec-preview/apply-nocjoint-sec-preview.component';
 import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-preview/apply-nocsecretary-preview.component';
+import { ApplyNocParameterDetailsComponent } from './Views/Master/apply-noc-parameter-details/apply-noc-parameter-details.component';
 
 const routes: Routes = [
   {
@@ -308,6 +309,9 @@ const routes: Routes = [
       },
       {
         path: 'rncRegistratPreview/:DepartmentID/:CollegeID', component: PreviewRNCRegistratComponent
+      },
+      {
+        path: 'applynocapplicationdetail', component: ApplyNocParameterDetailsComponent
       },
     ]
   },
