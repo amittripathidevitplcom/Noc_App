@@ -107,6 +107,7 @@ import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncreg
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
 import { ApplyNOCJointSecPreviewComponent } from './Views/apply-nocjoint-sec-preview/apply-nocjoint-sec-preview.component';
 import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-preview/apply-nocsecretary-preview.component';
+import { ApplyNocParameterDetailsComponent } from './Views/Master/apply-noc-parameter-details/apply-noc-parameter-details.component';
 import { ScurtenyComitteeComponent } from './Views/ScurtenyComittee/scurteny-comittee/scurteny-comittee.component';
 import { PreviewLegalEntityComponent } from './Views/PreviewTabs/preview-legal-entity/preview-legal-entity.component';
 import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/preview-college.component';
@@ -213,6 +214,9 @@ import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/pre
     ScurtenyComitteeComponent,
     PreviewLegalEntityComponent,
     PreviewCollegeComponent
+    PreviewScurtenyComitteeComponent,
+    PreviewRNCRegistratComponent,
+    ApplyNocParameterDetailsComponent
 
   ],
   imports: [

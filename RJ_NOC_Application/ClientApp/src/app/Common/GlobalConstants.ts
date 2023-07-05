@@ -1,10 +1,9 @@
-
-
 export class GlobalConstants {
-  public static apiURL: string = "http://localhost:62778/api/";
- // public static apiURL: string = "https://unocapi.devitsandbox.com/api/";
+  //public static apiURL: string = "http://localhost:62778/api/";
+ public static apiURL: string = "https://unocapi.devitsandbox.com/api/";
   public static ApplicationTitle: string = "RJ_NOC";
 }
+
 
 //export class GlobalFuncation {
 //  public Encrypt(planTest: string) {

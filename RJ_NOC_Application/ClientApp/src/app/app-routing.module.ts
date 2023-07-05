@@ -74,6 +74,7 @@ import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-pr
 import { ScurtenyComitteeComponent } from './Views/ScurtenyComittee/scurteny-comittee/scurteny-comittee.component';
 import { PreviewLegalEntityComponent } from './Views/PreviewTabs/preview-legal-entity/preview-legal-entity.component';
 import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/preview-college.component';
+import { ApplyNocParameterDetailsComponent } from './Views/Master/apply-noc-parameter-details/apply-noc-parameter-details.component';
 
 const routes: Routes = [
   {
@@ -316,6 +317,9 @@ const routes: Routes = [
       },
       {
         path: 'previewCollege/:CollegeID', component: PreviewCollegeComponent
+      },
+      {
+        path: 'applynocapplicationdetail', component: ApplyNocParameterDetailsComponent
       },
     ]
   },
