@@ -9,6 +9,7 @@ import { CommonMasterService } from '../../Services/CommonMaster/common-master.s
 import { DropdownValidators } from '../../Services/CustomValidators/custom-validators.service';
 import { FileUploadService } from '../../Services/FileUpload/file-upload.service';
 import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
+import { DisableRightClickService } from '../../Services/DisableRightClick/disable-right-click.service';
 @Component({
   selector: 'app-legal-entity',
   templateUrl: './legal-entity.component.html',
@@ -106,7 +107,7 @@ export class LegalEntityComponent implements OnInit {
   public ImageValidationMessage_MemberPhoto: string = '';
   public ImageValidationMessage_MemberSignature: string = '';
   public ImageValidationMessage_TrustLogoDoc: string = '';
-  constructor(private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService) {
+  constructor(private rightClickDisable: DisableRightClickService,private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService) {
 
   }
 
@@ -117,6 +118,7 @@ export class LegalEntityComponent implements OnInit {
   //}
 
   async ngOnInit() {
+    this.rightClickDisable.disableRightClick();
     this.loaderService.requestStarted();
 
     try {
