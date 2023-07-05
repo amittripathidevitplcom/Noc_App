@@ -52,7 +52,6 @@
           <label>
             Is Your Land converted to Institution/Education <span style="color:red;">*</span>
           </label>
-
           <select formControlName="ddlLandconvertedId" id="ddlLandconvertedId" [(ngModel)]="request.LandConvertedID" class="form-control"
                   #SeletedLandConvertedID (change)="GetLandDocuments(SeletedLandConvertedID.value,'No')">
             <option value="0">--Select--</option>
@@ -65,7 +64,6 @@
             <p *ngIf="!form.ddlLandconvertedId.errors.DropdownValidators"> This field is required .!</p>
           </div>
         </div>
-
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
             Land Type <span style="color:red;">*</span>
@@ -81,7 +79,6 @@
             <p *ngIf="!form.ddlLandTypeId.errors.DropdownValidators"> This field is required .!</p>
           </div>
         </div>
-
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
             Khasra Number <span style="color:red;">*</span>
@@ -91,63 +88,48 @@
             <p *ngIf="form.txtKhasraNumber.errors.required"> This field is required .!</p>
           </div>
         </div>
-
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
             Name of Owner of Land <span style="color:red;">*</span>
           </label>
           <input type="text" id="txtLandOwnerName" class="form-control" [(ngModel)]="request.LandOwnerName" formControlName="txtLandOwnerName" />
 
-          <div *ngIf="isSubmitted&&form.txtKhasraNumber.errors" class="text-danger">
-            <p *ngIf="form.txtKhasraNumber.errors.required"> This field is required .!</p>
+          <div *ngIf="isSubmitted&&form.txtLandOwnerName.errors" class="text-danger">
+            <p *ngIf="form.txtLandOwnerName.errors.required"> This field is required .!</p>
           </div>
-
-          <!--<div *ngIf="isSubmitted&&form.txtLandOwnerName.errors" class="text-danger">
-                  <p *ngIf="form.txtLandOwnerName.errors.required">  This field is required .!</p>
-                </div>-->
         </div>
-
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
             Total Building Area (in {{UnitOfLand}}) <span style="color:red;">*</span>
           </label>
           <input type="text" id="txtBuildingHostelQuartersRoadArea" class="form-control" [(ngModel)]="request.BuildingHostelQuartersRoadArea" formControlName="txtBuildingHostelQuartersRoadArea" (keypress)="numberOnly($event)" />
           <p *ngIf="IstxtBuildingHostel" class="text-danger"><i aria-hidden="true"></i>Enter the Building/Hostel/Quarters/Road Area(A1) .!</p>
+          <div *ngIf="isSubmitted&&form.txtBuildingHostelQuartersRoadArea.errors" class="text-danger">
+            <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.required">This field is required .!</p>
+            <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.min">This field is required .!</p>
+          </div>
         </div>
-
-
-
-
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowConversionOrderNo">
           <label>
             Land Conversion Order Date(DD/MM/YYYY) <!--<span style="color:red;">*</span>-->
           </label>
-          <input type="date" id="dtLandConversionOrderDate" name="dtLandConversionOrderDate" class="form-control" [(ngModel)]="request.LandConversionOrderDate" formControlName="dtLandConversionOrderDate" />
-
-
-          <!--<div *ngIf="isSubmitted&&form.dtLandConversionOrderDate.errors" class="text-danger">
-          <p *ngIf="form.dtLandConversionOrderDate.errors.required"> This field is required .!</p>
-        </div>-->
-
+          <input type="date" id="dtLandConversionOrderDate" name="dtLandConversionOrderDate" class="form-control" [(ngModel)]="request.LandConversionOrderDate" formControlName="dtLandConversionOrderDate" onkeypress="return false;" />
 
         </div>
-
-
-
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowConversionOrderNo">
           <label>
             Land Conversion Order No <span style="color:red;">*</span>
           </label>
           <input type="text" id="txtLandConversionOrderNo" class="form-control" [(ngModel)]="request.LandConversionOrderNo" formControlName="txtLandConversionOrderNo" />
+          <p *ngIf="isSubmitted&&request.LandConversionOrderNo ==''" class="text-danger"><i aria-hidden="true"></i> {{LandConversionOrderNoValidate}}</p>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowAffidavitDate">
           <label>
             Affidavit Date(DD/MM/YYYY) <span style="color:red;">*</span>
           </label>
-          <input type="date" id="dtAffidavitDate" name="v" class="form-control" [(ngModel)]="request.AffidavitDate" formControlName="dtAffidavitDate" />
+          <input type="date" id="dtAffidavitDate" name="v" class="form-control" [(ngModel)]="request.AffidavitDate" formControlName="dtAffidavitDate" onkeypress="return false;" />
+          <p *ngIf="isSubmitted&&request.AffidavitDate ==''" class="text-danger"><i aria-hidden="true"></i> {{AffidavitDateValidate}}</p>
         </div>
-
-
 
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of request.LandDetailDocument ; let idx =index">
           <label>
@@ -214,7 +196,7 @@
                 <td>{{item.LandDocumentTypeName}}</td>
                 <td>{{item.IsConvereted}}</td>
                 <td>{{item.LandConversionOrderNo}}</td>
-                <td>{{item.LandConversionOrderDate}}</td>
+                <td>{{item.LandConversionOrderDate | date:'dd-MM-yyyy'}}</td>
                 <td>{{item.LandTypeName}}</td>
                 <td>{{item.KhasraNumber}}</td>
                 <td>{{item.LandOwnerName}}</td>
@@ -223,6 +205,7 @@
                   <div class="d-flex">
                     <button type="button" (click)="Edit_OnClick(item.LandDetailID)" title="Edit" class="btn btn-sm btn-info" [disabled]="isDisabledGrid"><i class="fa fa-edit"></i></button>
                     <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteLandDetail(item.LandDetailID)" [disabled]="isDisabledGrid"><i class="fa fa-trash"></i></button>
+                    <!--<a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewLandDetailDocument" (click)="ViewViewLandDetailDocumentByID(item.LandDetailID)"><i class="fa fa-eye"></i></a>-->
                   </div>
                 </td>
               </tr>
@@ -242,6 +225,52 @@
         </ol>
       </div>
     </div>
+    <!--<div class="modal fade" id="ViewLandDetailDocument" tabindex="-1" aria-labelledby="ViewLandDetailDocument" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Land Details Document</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewLandDetailDocument"><i class="fa fa-close"></i></button>
+          </div>
+          <div class="modal-body py-4">
+            <div class="row" *ngIf="collegeContactDetailsList.length>0">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="card-header">
+                    <b><i class="bi bi-table"></i>Land Details Document </b>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                          <tr>
+                            <th>Sr.No.</th>
+                            <th>Document Name</th>
+                            <th>Document Type</th>
+                            <th>File Path</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of collegeContactDetailsList; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.DocumentName}}</td>
+                            <td>{{row.DocumentType}}</td>
+                            <td>{{row.FilePath}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
   </div>
 </div>
 

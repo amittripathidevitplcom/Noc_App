@@ -24,13 +24,17 @@
           </div>
           <div class="col-md-3 mb-2">
             <label>Width (In Feet)<span style="color:red;">*</span></label>
-            <input type="number" class="form-control" id="txtWidth_Room" name="txtWidth_Room" placeholder="Enter Width (In Feet)"
-                   [(ngModel)]="request.Width" formControlName="txtWidth_Room">
+            <input type="text" class="form-control" id="txtWidth_Room" name="txtWidth_Room" placeholder="Enter Width (In Feet)"
+                   [(ngModel)]="request.Width" formControlName="txtWidth_Room" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted&&form.txtWidth_Room.errors" class="text-danger">
+              <p *ngIf="form.txtWidth_Room.errors.required">This field is required .!</p>
+              <p *ngIf="form.txtWidth_Room.errors.min">Width will be greater than zero .!</p>
+            </div>
           </div>
           <div class="col-md-3 mb-2">
             <label>Length (In Feet)<span style="color:red;">*</span></label>
-            <input type="number" class="form-control" id="txtLength_Room" name="txtLength_Room" placeholder="Enter Length (In Feet)"
-                   [(ngModel)]="request.Length" formControlName="txtLength_Room">
+            <input type="text" class="form-control" id="txtLength_Room" name="txtLength_Room" placeholder="Enter Length (In Feet)"
+                   [(ngModel)]="request.Length" formControlName="txtLength_Room"  (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtLength_Room.errors" class="text-danger">
               <p *ngIf="form.txtLength_Room.errors.required">This field is required .!</p>
               <p *ngIf="form.txtLength_Room.errors.min">Length will be greater than zero .!</p>
@@ -39,8 +43,8 @@
 
           <div class="col-md-3 mb-2">
             <label>Student Capacity<span style="color:red;">*</span></label>
-            <input type="number" class="form-control" id="txtStudentCapacity_Room" name="txtStudentCapacity_Room" placeholder="Enter Student Capacity"
-                   [(ngModel)]="request.StudentCapacity" formControlName="txtStudentCapacity_Room">
+            <input type="text" class="form-control" id="txtStudentCapacity_Room" name="txtStudentCapacity_Room" placeholder="Enter Student Capacity"
+                   [(ngModel)]="request.StudentCapacity" formControlName="txtStudentCapacity_Room" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtStudentCapacity_Room.errors" class="text-danger">
               <p *ngIf="form.txtStudentCapacity_Room.errors.required">This field is required .!</p>
               <p *ngIf="form.txtStudentCapacity_Room.errors.min">Student capacity will be greater than zero .!</p>
@@ -51,13 +55,17 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="fileUploadImage" class="form-label">Upload Image<span style="color:red;">*</span></label>
             <div class="d-flex">
-              <input type="file" class="form-control" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage" (change)="ValidateUploadImage($event)" #fileUploadImage />
+              <input type="file" class="form-control" style="display:none" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage" (change)="ValidateUploadImage($event)" #fileUploadImage />
+              <label class="btn upload" for="fileUploadImage">
+                <span class="filename">Choose file</span>
+                {{request.ImageFileName === '' ? 'No File Choosen' : request.Image_Dis_FileName}}
+              </label>
               <div class="btn-group" *ngIf="showImageFilePath">
                 <a class="btn btn-outline-primary" target="_blank" href="{{request.ImageFilePath}}"><i class="fa fa-eye"></i></a>
                 <button type="button" class="btn btn-outline-danger" (click)="DeleteImage()"><i class="fa fa-trash-o"></i></button>
               </div>
             </div>
-            <p *ngIf="isSubmitted&&request.ImageFilePath ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>           
+            <p *ngIf="isSubmitted&&request.ImageFilePath ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
             <div *ngIf="isValidImageFilePath" class="text-danger">
               <p *ngIf="isValidImageFilePath"> {{ImageValidationMessage}}</p>
             </div>

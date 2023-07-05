@@ -151,7 +151,7 @@
 
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
                     <label for="txtOwnBuildingOrderDate">Order Date<span style="color:red;">*</span></label>
-                    <input class="form-control" type="date" id="txtOwnBuildingOrderDate" [(ngModel)]="buildingdetails.OwnBuildingOrderDate" formControlName="txtOwnBuildingOrderDate" />
+                    <input class="form-control" type="date" id="txtOwnBuildingOrderDate"  [(ngModel)]="buildingdetails.OwnBuildingOrderDate" formControlName="txtOwnBuildingOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"/>
                     <div *ngIf="isSubmitted&&form.txtOwnBuildingOrderDate.errors" class="text-danger">
                       <p *ngIf="form.txtOwnBuildingOrderDate.errors.required"> This field is required .!</p>
                     </div>
@@ -181,7 +181,7 @@
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="">From Date</label>
-                    <input class="form-control" type="date" id="txtFromDate" placeholder="Enter From Date" [(ngModel)]="buildingdetails.FromDate" formControlName="txtFromDate" />
+                    <input class="form-control" type="date" id="txtFromDate" placeholder="Enter From Date" [(ngModel)]="buildingdetails.FromDate" formControlName="txtFromDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"/>
                     <div *ngIf="isSubmitted&&form.txtFromDate.errors" class="text-danger">
                       <p *ngIf="form.txtFromDate.errors.required"> This field is required .!</p>
                     </div>
@@ -189,7 +189,7 @@
 
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="">To Date</label>
-                    <input class="form-control" type="date" id="txtToDate" placeholder="Enter To Date" [(ngModel)]="buildingdetails.ToDate" formControlName="txtToDate" />
+                    <input class="form-control" type="date" id="txtToDate" placeholder="Enter To Date" [(ngModel)]="buildingdetails.ToDate" formControlName="txtToDate" min="{{MaxDate | date:'yyyy-MM-dd'}}"onkeypress="return false;"/>
                     <div *ngIf="isSubmitted&&form.txtToDate.errors" class="text-danger">
                       <p *ngIf="form.txtToDate.errors.required"> This field is required .!</p>
                     </div>
@@ -227,14 +227,14 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
                     <label for="txtOrderDate">Order Date<span style="color:red;">*</span></label>
-                    <input class="form-control" type="date" id="txtOrderDate" placeholder="Enter Order Date" [(ngModel)]="buildingdetails.OrderDate" formControlName="txtOrderDate" />
+                    <input class="form-control" type="date" id="txtOrderDate" placeholder="Enter Order Date" [(ngModel)]="buildingdetails.OrderDate" formControlName="txtOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}"onkeypress="return false;"/>
                     <div *ngIf="isSubmitted&&form.txtOrderDate.errors" class="text-danger">
                       <p *ngIf="form.txtOrderDate.errors.required"> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
                     <label for="txtExpiringOn">Expiring On<span style="color:red;">*</span></label>
-                    <input class="form-control" type="date" id="txtExpiringOn" placeholder="Enter To Date" [(ngModel)]="buildingdetails.ExpiringOn" formControlName="txtExpiringOn" />
+                    <input class="form-control" type="date" id="txtExpiringOn" placeholder="Enter To Date" [(ngModel)]="buildingdetails.ExpiringOn" formControlName="txtExpiringOn" min="{{MaxDate | date:'yyyy-MM-dd'}}"onkeypress="return false;"/>
                     <div *ngIf="isSubmitted&&form.txtExpiringOn.errors" class="text-danger">
                       <p *ngIf="form.txtExpiringOn.errors.required"> This field is required .!</p>
                     </div>
@@ -290,7 +290,7 @@
 
       
           <div class="card-footer text-end saveCancelBtn">
-            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
             <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
           </div>
           <div class="card mb-0" *ngIf="lstBuildingDetails.length>0">

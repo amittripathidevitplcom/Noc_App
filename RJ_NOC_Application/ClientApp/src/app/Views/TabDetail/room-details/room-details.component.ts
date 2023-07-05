@@ -95,7 +95,7 @@ export class RoomDetailsComponent implements OnInit {
     this.RoomDetailsForm = this.formBuilder.group(
       {
         ddlCourse_Room: ['', [DropdownValidators]],
-        txtWidth_Room: [''],
+        txtWidth_Room: ['', [Validators.required, Validators.min(1)]],
         txtLength_Room: ['', [Validators.required, Validators.min(1)]],
         txtStudentCapacity_Room: ['', [Validators.required, Validators.min(1)]],
         fileUploadImage: [''],
@@ -171,13 +171,12 @@ export class RoomDetailsComponent implements OnInit {
     }
   }
 
-  ValidateUploadImage(event: any) {
+  async ValidateUploadImage(event: any) {
     this.loaderService.requestStarted();
     try {
       this.isValidImageFilePath = false;
       if (event.target.files && event.target.files[0]) {
         if (event.target.files[0].type === 'image/jpeg' ||
-          event.target.files[0].type === 'application/pdf' ||
           event.target.files[0].type === 'image/jpg') {
           if (event.target.files[0].size > 2000000) {
             this.fileUploadImage.nativeElement.value = "";
@@ -185,6 +184,7 @@ export class RoomDetailsComponent implements OnInit {
             this.isValidImageFilePath = true;
             this.request.ImageFileName = '';
             this.request.ImageFilePath = '';
+            this.request.Image_Dis_FileName = '';
             return
           }
           if (event.target.files[0].size < 100000) {
@@ -193,36 +193,50 @@ export class RoomDetailsComponent implements OnInit {
             this.isValidImageFilePath = true;
             this.request.ImageFileName = '';
             this.request.ImageFilePath = '';
+            this.request.Image_Dis_FileName = '';
             return
           }
         }
         else {
-          this.ImageValidationMessage = 'Select Only jpg/jpeg/pdf file';
+          this.ImageValidationMessage = 'Select Only jpg/jpeg file';
           this.fileUploadImage.nativeElement.value = "";
           this.isValidImageFilePath = true;
           this.request.ImageFileName = '';
           this.request.ImageFilePath = '';
+          this.request.Image_Dis_FileName = '';
           return
         }
         this.file = event.target.files[0];
-        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+        try {
+          await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
 
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.showImageFilePath = true;
-            this.request.ImageFilePath = data['Data'][0]["FilePath"];
-            this.request.ImageFileName = data['Data'][0]["FileName"];
-
-          }
-          if (this.State == 1) {
-            this.toastr.error(this.ErrorMessage)
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-        });
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.showImageFilePath = true;
+              this.request.ImageFilePath = data['Data'][0]["FilePath"];
+              this.request.ImageFileName = data['Data'][0]["FileName"];
+              this.request.Image_Dis_FileName = data['Data'][0]["Dis_FileName"];
+              this.isUploadImage = false;
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+        }
+        catch (Ex) {
+          console.log(Ex);
+        }
+        finally {
+          setTimeout(() => {
+            this.loaderService.requestEnded();
+            event.target.value = '';
+          }, 200);
+        }
       }
     }
     catch (Ex) {
@@ -240,23 +254,37 @@ export class RoomDetailsComponent implements OnInit {
     this.request.ImageFileName = '';
     this.request.ImageFilePath = '';
   }
+  public isformvalid: boolean = true;
   async SaveData() {
-
+    this.isformvalid = true;
     this.isValidImageFilePath = false;
     this.isSubmitted = true;
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
     if (this.RoomDetailsForm.invalid) {
-      return
+      this.isformvalid = false;
     }
-    
+    if (this.request.StudentCapacity > 60 && this.request.StudentCapacity <= 120) {
+      this.WidthMin = this.WidthMin + this.WidthMin;
+    }
+    else if (this.request.StudentCapacity > 120) {
+      this.WidthMin = this.WidthMin + this.WidthMin + this.WidthMin;
+    }
+    else {
+
+    }
+    console.log(this.WidthMin);
     if (Number((this.request.Width) * (this.request.Length)) < this.WidthMin) {
       this.CssClass_TextDangerWidth = 'text-danger';
-      return
+      this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
+      this.isformvalid = false;
     }
     if (this.request.ImageFilePath == '') {
       this.ImageValidate = 'This field is required .!';
-      return
+      this.isformvalid = false;
+    }
+    if (!this.isformvalid) {
+      return;
     }
     //Show Loading
     this.request.CollegeID = this.SelectedCollageID;
@@ -302,8 +330,9 @@ export class RoomDetailsComponent implements OnInit {
     this.request.Width = 0;
     this.request.Length = 0;
     this.request.StudentCapacity = 0;
-    const fileUploadImage = '';
+    this.request.ImageFileName = '';
     this.request.ImageFilePath = '';
+    this.request.Image_Dis_FileName = '';
     this.request.UserID = 0;
     this.isDisabledGrid = false;
     this.showImageFilePath = false;
@@ -352,7 +381,8 @@ export class RoomDetailsComponent implements OnInit {
           this.request.Length = data['Data'][0]["Length"];
           this.request.StudentCapacity = data['Data'][0]["StudentCapacity"];
           this.request.ImageFilePath = data['Data'][0]["ImageFilePath"];
-
+          this.request.ImageFileName = data['Data'][0]["ImageFileName"];
+          this.request.Image_Dis_FileName = data['Data'][0]["Image_Dis_FileName"];
           this.showImageFilePath = true;
           this.isDisabledGrid = true;
 
@@ -492,6 +522,15 @@ export class RoomDetailsComponent implements OnInit {
         this.isLoadingExport = false;
       }, 200);
     }
+
+  }
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
 
   }
 }

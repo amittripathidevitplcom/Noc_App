@@ -11,6 +11,7 @@ export class HostelDataModel {
   public OwnerContactNo: string = '';
   public RentDocument: string = '';
   public RentDocumentPath: string = '';
+  public RentDocument_Dis_FileName: string = '';
   public ContactPersonNo: string = '';
   public FromDate: string = '';
   public ToDate: string = '';
@@ -45,9 +46,9 @@ export class HostelDetailsDataModel_Hostel {
   public CourseName: string = '';
   public DepartmentID: number = 0;
   public NoOf: number = null;
-  public Width: number = 0;
-  public Length: number = 0;
-  public StudentCapacity: number = 0;
+  public Width: number = null;
+  public Length: number = null;
+  public StudentCapacity: number = null;
   public ImageFileName: string = '';
   public Dis_FileName: string = '';
   public ImageFilePath: string = '';

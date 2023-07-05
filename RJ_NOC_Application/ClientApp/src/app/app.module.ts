@@ -106,6 +106,8 @@ import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocprev
 import { PreviewScurtenyComitteeComponent } from './Views/PreviewTabs/preview-scurteny-comittee/preview-scurteny-comittee.component';
 import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncregistrat/preview-rncregistrat.component';
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
+import { ApplyNOCJointSecPreviewComponent } from './Views/apply-nocjoint-sec-preview/apply-nocjoint-sec-preview.component';
+import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-preview/apply-nocsecretary-preview.component';
 
 @NgModule({
   declarations: [
@@ -199,11 +201,7 @@ import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-l
     CreateUserComponent,
     ApplyNOCApplicationListComponent,
     ApplicationSummaryComponent,
-    ApplyNocParameterComponent,
-    ApplicationSummaryComponent,
-    ApplyNOCPreviewComponent,
-    PreviewScurtenyComitteeComponent,
-    PreviewRNCRegistratComponent
+    ApplyNOCPreviewComponent
     //LoaderModule,
 
 

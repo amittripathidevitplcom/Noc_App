@@ -61,11 +61,11 @@ export class StaffDetailDataModel {
   public SubjectID: number = 0;
   public PersonName: string = '';
   public RoleID: number = 0;
-  public MobileNo: number = 0;
+  public MobileNo: string = '';
   public Email: string = '';
   public HighestQualification: number = 0;
   public HighestQualificationName: string = '';
-  public NumberofExperience: number = 0;
+  public NumberofExperience: string = '';
   public AadhaarNo: string = '';
   public MaskedAadhaarNo: string = '';
   public DateOfBirth: string = '';
@@ -73,7 +73,7 @@ export class StaffDetailDataModel {
   public DateOfJoining: string = '';
   public SpecializationSubject: string = '';
   public RoleMapping: string = '';
-  public Salary: number = 0;
+  public Salary: string = '';
   public StaffStatus: string = '';
   public PFDeduction: string = '';
   public UANNumber: string = '';
@@ -82,7 +82,7 @@ export class StaffDetailDataModel {
   public StreamSubject: string = '';
   public UniversityBoardInstitutionName: string = '';
   public PassingYearID: number = 0;
-  public Marks: number = 0;
+  public Marks: string = '';
   public ProfilePhoto: string = '';
   public ProfilePhotoPath: string = '';
   public ProfilePhoto_Dis_FileName: string = '';
@@ -209,7 +209,7 @@ export class OtherDocumentDataModel {
 export class BuildingDetailsDataModel {
   public CollegeID: number = 0;
   public SchoolBuildingDetailsID: number = 0;
-  public BuildingTypeID: number = 0;
+  public BuildingTypeID: number = null;
   //public BuildingTypeName: string = '';
   public FromDate: string = '';
   public ToDate: string = '';
@@ -237,7 +237,7 @@ export class BuildingDetailsDataModel {
   public TehsilID: number = 1;
   public PanchayatSamitiID: number = 1;
   public CityTownVillage: string = '';
-  public Pincode: number = 0;
+  public Pincode: string = '';
   public ContactNo: string = '';
   public OwnerName: string = '';
   public OwnBuildingOrderNo: string = '';

@@ -7,8 +7,10 @@ export class OtherInformationDataModel {
   public Length: number = 0;
   public ImageFileName: string = '';
   public ImageFilePath: string = '';
+  public Image_Dis_FileName: string = '';
   public BookImageFileName: string = '';
   public BookImageFilePath: string = '';
+  public BookImage_Dis_FileName: string = '';
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
   public NoofBooks: number = 0;

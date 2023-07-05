@@ -70,6 +70,8 @@ import { PreviewScurtenyComitteeComponent } from './Views/PreviewTabs/preview-sc
 import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncregistrat/preview-rncregistrat.component';
 
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
+import { ApplyNOCJointSecPreviewComponent } from './Views/apply-nocjoint-sec-preview/apply-nocjoint-sec-preview.component';
+import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-preview/apply-nocsecretary-preview.component';
 
 const routes: Routes = [
   {
@@ -294,6 +296,12 @@ const routes: Routes = [
       },
       {
         path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCPreviewComponent
+      },
+      {
+        path: 'applynocjointsec/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCJointSecPreviewComponent
+      },
+      {
+        path: 'applynocsecretary/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCSecretaryPreviewComponent
       },
       {
         path: 'scurtenyComitteePreview/:DepartmentID/:CollegeID', component: PreviewScurtenyComitteeComponent

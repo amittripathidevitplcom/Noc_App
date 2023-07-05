@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
-          <label>Role <span style="color:red;">*</span></label>
+          <label>Designation <span style="color:red;">*</span></label>
           <select id="ddlRoleId" name="ddlRoleId" class="form-control" formControlName="ddlRoleId" [(ngModel)]="request.RoleID">
             <option disabled value="0">--Select Role--</option>
             <option *ngFor="let item of RoleData"
@@ -126,7 +126,7 @@
           </div>
         </div>
         <div class="col-md-4 mb-3">
-          <label>Aadhar Number <span style="color:red;">*</span></label>
+          <label>Aadhaar Number <span style="color:red;">*</span></label>
           <input type="text" id="txtAadhaarNo" name="txtAadhaarNo" class="form-control" formControlName="txtAadhaarNo" [(ngModel)]="request.AadhaarNo" (keypress)="numberOnly($event)" maxlength="12" />
           <div *ngIf="isSubmitted&&form.txtAadhaarNo.errors" class="text-danger">
             <p *ngIf="form.txtAadhaarNo.errors.required"> This field is required .!</p>
@@ -170,21 +170,21 @@
         </div>
         <div class="col-md-4 mb-3">
           <label>Date Of Birth <span style="color:red;">*</span></label>
-          <input type="date" id="dtDOB" name="dtDOB" class="form-control" [(ngModel)]="request.DateOfBirth" formControlName="dtDOB" (change)="SetDateofAppointment()" max="{{MaxDate | date:'yyyy-MM-dd'}}" />
+          <input type="date" id="dtDOB" name="dtDOB" class="form-control" [(ngModel)]="request.DateOfBirth" formControlName="dtDOB" (change)="SetDateofAppointment()" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"/>
           <div *ngIf="isSubmitted&&form.dtDOB.errors" class="text-danger">
             <p *ngIf="form.dtDOB.errors.required"> This field is required .!</p>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <label>Date Of Appointment <span style="color:red;">*</span></label>
-          <input type="date" id="dtDateOfAppointment" name="dtDateOfAppointment" class="form-control" [(ngModel)]="request.DateOfAppointment" formControlName="dtDateOfAppointment" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" />
+          <input type="date" id="dtDateOfAppointment" name="dtDateOfAppointment" class="form-control" [(ngModel)]="request.DateOfAppointment" formControlName="dtDateOfAppointment" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"/>
           <div *ngIf="isSubmitted&&form.dtDateOfAppointment.errors" class="text-danger">
             <p *ngIf="form.dtDateOfAppointment.errors.required"> This field is required .!</p>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <label>Date Of Joining <span style="color:red;">*</span></label>
-          <input type="date" id="dtDateOfJoining" name="dtDateOfJoining" class="form-control" [(ngModel)]="request.DateOfJoining" formControlName="dtDateOfJoining" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" />
+          <input type="date" id="dtDateOfJoining" name="dtDateOfJoining" class="form-control" [(ngModel)]="request.DateOfJoining" formControlName="dtDateOfJoining" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"/>
           <div *ngIf="isSubmitted&&form.dtDateOfJoining.errors" class="text-danger">
             <p *ngIf="form.dtDateOfJoining.errors.required"> This field is required .!</p>
           </div>
@@ -197,7 +197,7 @@
           </div>
         </div>
         <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='NonTeaching'">
-          <label>Role Mapping <span style="color:red;">*</span></label>
+          <label>Designation <span style="color:red;">*</span></label>
           <input type="text" id="txtRoleMapping" name="txtRoleMapping" class="form-control" formControlName="txtRoleMapping" [(ngModel)]="request.RoleMapping" (keypress)="alphaOnly($event)" />
           <div *ngIf="isRoleMapping" class="text-danger">
             <p *ngIf="isRoleMapping"> This field is required .!</p>
@@ -458,9 +458,10 @@
 
                     </td>
                     <td>
-                      <p class="m-0"><b>Role : </b>{{item.RoleName}}</p>
+                      <p class="m-0" *ngIf="item.TeachingType=='Teaching'"><b>Designation : </b>{{item.RoleName}}</p>
+                      <p class="m-0" *ngIf="item.TeachingType=='NonTeaching'"><b>Designation : </b>{{item.RoleMapping}}</p>
                       <p class="m-0"><b>Course : </b>NA</p>
-                      <p class="m-0"><b>Subject : </b>{{item.SubjectName}}</p>
+                      <p class="m-0" *ngIf="item.TeachingType=='Teaching'"><b>Subject : </b>{{item.SubjectName}}</p>
                       <p class="m-0"><b>Staff Status : </b> {{item.StaffStatus}}</p>
                       <p class="m-0"><b>SALARY : </b>{{item.Salary}}</p>
 
