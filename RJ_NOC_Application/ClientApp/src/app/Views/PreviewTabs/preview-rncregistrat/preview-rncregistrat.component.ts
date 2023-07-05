@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
-import { DocumentScrutinyDataModel, DocumentScrutinyDetail_DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
+//import { DocumentScrutinyDataModel, DocumentScrutinyDetail_DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
@@ -41,7 +41,7 @@ export class PreviewRNCRegistratComponent implements OnInit {
 
   public TabFieldDataList: any = [];
   public SelectedTabFieldDataList: any = [];
-  request = new DocumentScrutinyDataModel();
+  //request = new DocumentScrutinyDataModel();
   
 
   public isFormvalid: boolean = true;

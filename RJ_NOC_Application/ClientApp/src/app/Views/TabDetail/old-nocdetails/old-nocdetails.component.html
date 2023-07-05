@@ -6,7 +6,7 @@
     <form [formGroup]="oldNOCForm" class="form-horizontal">
       <div class="row">
 
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" style="display:none">
           <label>College Name <span style="color:red;">*</span></label>
           <select class="form-select" id="ddlCollegeID" [(ngModel)]="request.CollegeID" formControlName="ddlCollegeID">
             <option *ngFor="let item of lstCollege"
@@ -100,16 +100,16 @@
         </div>
         <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
           <label> NOC Received On <span style="color:red;">*</span></label>
-          <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCReceivedDate" [(ngModel)]="request.NOCReceivedDate" formControlName="dtNOCReceivedDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" (change)="SetExpiryDate()" />
+          <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCReceivedDate" [(ngModel)]="request.NOCReceivedDate" formControlName="dtNOCReceivedDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" (change)="SetExpiryDate()" onkeypress="return false;"/>
           <div *ngIf="isSubmitted&&form.dtNOCReceivedDate.errors" class="text-danger">
             <p *ngIf="form.dtNOCReceivedDate.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
           </div>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3" *ngIf="ShowOldNOCType">
           <label>NOC Expire Date <span style="color:red;">*</span></label>
-          <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCExpireDate" [(ngModel)]="request.NOCExpireDate" formControlName="dtNOCExpireDate" min="{{ExpiryMinDate | date:'yyyy-MM-dd'}}" />
-          <div *ngIf="isSubmitted&&NOCExpireDateRequried" class="text-danger">
-            <p *ngIf="isSubmitted&&NOCExpireDateRequried"><i aria-hidden="true"></i> This field is required .!</p>
+          <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCExpireDate" [(ngModel)]="request.NOCExpireDate" formControlName="dtNOCExpireDate" min="{{ExpiryMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"/>
+          <div *ngIf="NOCExpireDateRequried" class="text-danger">
+            <p *ngIf="NOCExpireDateRequried"> This field is required .!</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -234,8 +234,8 @@
                     <td>{{row.FinancialYearName}}</td>
                     <td>{{row.IssuedYear}} Year</td>
                     <td>{{row.NOCNumber}}</td>
-                    <td>{{row.NOCReceivedDate}}</td>
-                    <td>{{row.NOCExpireDate=='1900-01-01'?'':row.NOCExpireDate}}</td>
+                    <td>{{row.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
+                    <td>{{row.NOCExpireDate=='1900-01-01'?'':row.NOCExpireDate | date:'dd-MM-yyyy'}}</td>
                     <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
                     <td>{{row.Remark}}</td>
                     <td>

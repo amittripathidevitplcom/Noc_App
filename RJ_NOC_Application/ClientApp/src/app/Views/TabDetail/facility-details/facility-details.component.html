@@ -24,9 +24,12 @@
         <div class="col-md-3 mb-2">
           <label>Minimum Size ({{Unit}})<span style="color:red;">*</span></label>
           <input type="number" class="form-control" id="txtMinSize" name="txtMinSize" [(ngModel)]="request.MinSize" formControlName="txtMinSize" placeholder="Enter Minimum Size In ({{Unit}})">
+          <div *ngIf="isSubmitted&&form.txtMinSize.errors" class="text-danger">
+            <p *ngIf="form.txtMinSize.errors.min">Minimum size must be greater then -1 .!</p>
+          </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-          <label for="fileUploadImage" class="form-label">Upload Image (Only jpg/jpeg/pdf file.)(Min.Size 100KB)(Max.Size 2MB)</label>
+          <label for="fileUploadImage" class="form-label">Upload Image (Only jpeg/jpg file.)(Min.Size 100KB)(Max.Size 2MB)<span style="color:red;">*</span></label>
           <div class="d-flex">
 
             <input type="file" style="display:none;" class="form-control" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage" (change)="ValidateUploadImage($event)" #fileUploadImage />
@@ -41,7 +44,7 @@
 
 
           </div>
-          <p *ngIf="isSubmitted&&request.FacilitiesUrl ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+          <p *ngIf="isSubmitted&&request.FacilitiesUrl ==''" class="text-danger"><i aria-hidden="true"></i>{{ImageValidate}}</p>
           <div *ngIf="!isValidFacilitiesUrl" class="text-danger">
             <p *ngIf="!isValidFacilitiesUrl"> {{ImageValidationMessage}}</p>
           </div>

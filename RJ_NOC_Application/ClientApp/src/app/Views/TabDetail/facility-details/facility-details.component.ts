@@ -74,6 +74,7 @@ export class FacilityDetailsComponent implements OnInit {
 
 
   public ImageValidationMessage: string = '';
+  public ImageValidate: string = '';
   public file: any = '';
 
   request = new FacilityDetailsDataModel();
@@ -91,7 +92,7 @@ export class FacilityDetailsComponent implements OnInit {
         ddlFacilitiesId: ['', [DropdownValidators]],
         fileUploadImage: [''],
         //fileUploadImage: ['', Validators.required],
-        txtMinSize: ['', Validators.required],
+        txtMinSize: ['', [Validators.required, Validators.min(0)]],
         Unit: [''],
         txtsearchText: [''],
       });
@@ -176,8 +177,8 @@ export class FacilityDetailsComponent implements OnInit {
       this.isValidFacilitiesUrl = true;
       if (event.target.files && event.target.files[0]) {
         if (event.target.files[0].type === 'image/jpeg' ||
-          event.target.files[0].type === 'application/pdf' ||
-          event.target.files[0].type === 'image/jpg') {
+          //event.target.files[0].type === 'application/pdf' ||
+          event.target.files[0].type === 'image/jpg'){
           if (event.target.files[0].size > 2000000) {
             this.fileUploadImage.nativeElement.value = "";
             this.ImageValidationMessage = 'Select less then 2MB File';
@@ -194,7 +195,7 @@ export class FacilityDetailsComponent implements OnInit {
           }
         }
         else {
-          this.ImageValidationMessage = 'Select Only jpg/jpeg/pdf file';
+          this.ImageValidationMessage = 'Select Only jpeg/jpg file';
           this.fileUploadImage.nativeElement.value = "";
           this.ResetFile(false, '', '', '');
           this.isValidFacilitiesUrl = false;
@@ -278,6 +279,10 @@ export class FacilityDetailsComponent implements OnInit {
       this.CssClass_TextDangerWidth = 'text-danger';
       return
     }
+    if (this.request.FacilitiesUrl == '') {
+      this.ImageValidate = 'This field is required .!';
+      return
+    }  
     //owner
     if (this.request.FacilitiesID > 0) {
       this.request.ModifyBy = 1;
