@@ -11,6 +11,7 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { debug, log } from 'console';
 import { Table } from 'jspdf-autotable';
+
 @Component({
   selector: 'app-land-details',
   templateUrl: './land-details.component.html',
@@ -61,6 +62,7 @@ export class LandDetailsComponent implements OnInit {
 
   public MinimumAreaBuildingHostelQuartersRoad: string = '';
   public MinimumAreaGroundCycleStand: string = '';
+
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private landDetailsService: LandDetailsService, private fileUploadService: FileUploadService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder) {
 
@@ -571,35 +573,22 @@ export class LandDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  //async ViewTotalCollegeDataByID(CollegeID: any) {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    this.LandDetailsDocumentListByID = this.LandDetailsDocumentList.filter((element: any) => { return element.Name.includes('General'); });
-  //    //this.LandDetailsDocumentListByID = this.LandDetailsDocumentList()
-  //    //await this.draftApplicationListService.ViewTotalCollegeDataByID(CollegeID, this.UserID)
-  //    //  .then((data: any) => {
-  //    //    debugger;
-  //    //    data = JSON.parse(JSON.stringify(data));
-  //    //    this.State = data['State'];
-  //    //    this.SuccessMessage = data['SuccessMessage'];
-  //    //    this.ErrorMessage = data['ErrorMessage'];
-  //    //    // data
-  //    //    this.collegeListData = data['Data'][0]['data']['Table'][0];
-  //    //    this.collegeContactDetailsList = data['Data'][0]['data']['Table1'];
-  //    //    this.collegeNearestGovernmentHospitalsList = data['Data'][0]['data']['Table2'];
-
-  //    //    //console.log(this.draftApplicatoinListData);
-  //    //  }, (error: any) => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
+  async ViewViewLandDetailDocumentByID(LandDetailID: any) {
+    try {
+      debugger;
+      this.LandDetailsDocumentListByID = [];
+      this.loaderService.requestStarted();
+      this.LandDetailsDocumentListByID = this.LandDetailsDocumentList.filter((x: any) => x.LandDetailID === LandDetailID);
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
 
   async ResetControl() {
