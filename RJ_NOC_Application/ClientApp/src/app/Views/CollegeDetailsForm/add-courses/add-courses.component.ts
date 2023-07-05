@@ -307,13 +307,16 @@ export class AddCoursesComponent implements OnInit {
 
           this.request.CollegeWiseCourseID = data['Data'][0]["CollegeWiseCourseID"];
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-          await this.ddlDepartment_change(this.request.DepartmentID);
+          
           this.request.CollegeID = data['Data'][0]["CollegeID"];
+          await this.ddlCollege_change(this.request.CollegeID);
           this.request.CourseID = data['Data'][0]["CourseID"];
           await this.ddlCourse_change(null, this.request.CourseID);
 
           this.request.CourseTypeID = data['Data'][0]["CourseTypeID"];
-          this.request.Seats = data['Data'][0]["Seats"];
+          setTimeout(() => {
+            this.request.Seats = data['Data'][0]["Seats"];
+          }, 500);
 
           console.log(data['Data'][0]["SelectedSubjectDetails"]);
           this.request.SelectedSubjectDetails = data['Data'][0]["SelectedSubjectDetails"];
