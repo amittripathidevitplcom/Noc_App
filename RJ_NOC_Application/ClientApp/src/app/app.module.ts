@@ -108,6 +108,9 @@ import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncreg
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
 import { ApplyNOCJointSecPreviewComponent } from './Views/apply-nocjoint-sec-preview/apply-nocjoint-sec-preview.component';
 import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-preview/apply-nocsecretary-preview.component';
+import { RevertApplyNOCApplicationListComponent } from './Views/revert-apply-nocapplication-list/revert-apply-nocapplication-list.component';
+import { CollegeManagementSocietyComponent } from './Views/PreviewTabs/college-management-society/college-management-society.component';
+import { PreviewTrusteeGeneralInfoComponent } from './Views/PreviewTabs/preview-trustee-general-info/preview-trustee-general-info.component';
 
 @NgModule({
   declarations: [
@@ -208,7 +211,10 @@ import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-pr
     ApplyNOCSecretaryPreviewComponent,
     ApplyNocParameterComponent,
     PreviewScurtenyComitteeComponent,
-    PreviewRNCRegistratComponent
+    PreviewRNCRegistratComponent,
+    RevertApplyNOCApplicationListComponent,
+    CollegeManagementSocietyComponent,
+    PreviewTrusteeGeneralInfoComponent
 
   ],
   imports: [
