@@ -249,6 +249,7 @@ export class RoomDetailsComponent implements OnInit {
     if (this.RoomDetailsForm.invalid) {
       return
     }
+    
     if (Number((this.request.Width) * (this.request.Length)) < this.WidthMin) {
       this.CssClass_TextDangerWidth = 'text-danger';
       return

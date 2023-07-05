@@ -100,6 +100,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .mat-tab-label[aria-controls='mat-tab-content-0-11']::before {
     content: '\f0f7';
   }
+.mat-tab-label[aria-controls='mat-tab-content-0-12']::before {
+  content: '\f016';
+}
 
 .upload {
   border: 1px solid #ced4da !important;
