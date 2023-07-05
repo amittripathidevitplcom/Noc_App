@@ -70,6 +70,8 @@ import { PreviewScurtenyComitteeComponent } from './Views/PreviewTabs/preview-sc
 import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncregistrat/preview-rncregistrat.component';
 
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
+import { CommitteeMasterComponent } from './Views/Master/CommitteeMaster/AddCommitteeMaster/committee-master.component';
+import { CommitteeMasterListComponent } from './Views/Master/CommitteeMaster/CommitteeMasterList/committee-master-list.component';
 import { ApplyNOCJointSecPreviewComponent } from './Views/apply-nocjoint-sec-preview/apply-nocjoint-sec-preview.component';
 import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-preview/apply-nocsecretary-preview.component';
 import { ApplyNocParameterDetailsComponent } from './Views/Master/apply-noc-parameter-details/apply-noc-parameter-details.component';
@@ -267,10 +269,10 @@ const routes: Routes = [
       ,
       {
         path: 'workflowmasterlist', component: WorkFlowMasterListComponent
-      }, 
+      },
       {
         path: 'workflowmaster', component: WorkFlowMasterComponent
-      }      ,
+      },
       {
         path: 'workflowmasterlist', component: WorkFlowMasterListComponent
       },
@@ -312,6 +314,15 @@ const routes: Routes = [
       },
       {
         path: 'applynocapplicationdetail', component: ApplyNocParameterDetailsComponent
+      },
+      {
+        path: 'committeemaster', component: CommitteeMasterComponent
+      },
+      {
+        path: 'committeemasterlist', component: CommitteeMasterListComponent
+      },
+      {
+        path: 'committeemaster/:id', component: CommitteeMasterComponent
       },
     ]
   },

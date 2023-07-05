@@ -109,6 +109,8 @@ import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-l
 import { ApplyNOCJointSecPreviewComponent } from './Views/apply-nocjoint-sec-preview/apply-nocjoint-sec-preview.component';
 import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-preview/apply-nocsecretary-preview.component';
 import { ApplyNocParameterDetailsComponent } from './Views/Master/apply-noc-parameter-details/apply-noc-parameter-details.component';
+import { CommitteeMasterComponent } from './Views/Master/CommitteeMaster/AddCommitteeMaster/committee-master.component';
+import { CommitteeMasterListComponent } from './Views/Master/CommitteeMaster/CommitteeMasterList/committee-master-list.component';
 
 @NgModule({
   declarations: [
@@ -204,6 +206,8 @@ import { ApplyNocParameterDetailsComponent } from './Views/Master/apply-noc-para
     ApplyNOCApplicationListComponent,
     ApplicationSummaryComponent,
     ApplyNOCPreviewComponent,
+    CommitteeMasterComponent,
+    CommitteeMasterListComponent,
     //LoaderModule,
     ApplyNOCJointSecPreviewComponent,
     ApplyNOCSecretaryPreviewComponent,
