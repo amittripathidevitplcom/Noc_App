@@ -702,6 +702,7 @@ export class StaffDetailsComponent implements OnInit {
           //profile
           //this.ResetFiles('UploadDocument', true, this.request.UploadDocument, this.request.UploadDocumentPath, this.request.UploadDocument_Dis_FileName);
           this.isDisabled = true;
+          this.SetDateofAppointment();
           const btnAdd = document.getElementById('btnAdd')
           if (btnAdd) { btnAdd.innerHTML = "Update"; }
         }, error => console.error(error));
