@@ -57,9 +57,10 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>Hospital Contact No. <span style="color:red;">*</span></label>
-            <input type="number" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="request.HospitalContactNo" formControlName="txtHospitalContactNo" />
+            <input type="number" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="request.HospitalContactNo" formControlName="txtHospitalContactNo" (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
             <div *ngIf="isSubmitted&&form.txtHospitalContactNo.errors" class="text-danger">
               <p *ngIf="form.txtHospitalContactNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              <p *ngIf="form.txtHospitalContactNo.errors.pattern"><i aria-hidden="true"></i> Hospital Contact number is not valid .!</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -103,7 +104,7 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label class="form-label">Division <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL($event,SelectedDivisionID.value,null)">
-              <option value="0">--Select Division--</option>
+              <option value="0">--Select--</option>
               <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
             </select>
             <div *ngIf="isSubmitted&&form.ddlDivisionID.errors" class="text-danger">
@@ -113,7 +114,7 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label class="form-label">District <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL($event,SelectedDistrictID.value,null)">
-              <option value="0">--Select District--</option>
+              <option value="0">--Select--</option>
               <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
             </select>
             <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
@@ -123,7 +124,7 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
             <label class="form-label">Tehsil <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
-              <option value="0">--Select Tehsil--</option>
+              <option value="0">--Select--</option>
               <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
             </select>
             <div *ngIf="isSubmitted&&form.ddlTehsilID.errors" class="text-danger">
@@ -133,7 +134,7 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
             <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID">
-              <option value="0">--Select Panchayat Samiti--</option>
+              <option value="0">--Select--</option>
               <option *ngFor="let item of PanchyatSamitiList" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
             </select>
             <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID.errors" class="text-danger">
@@ -149,7 +150,7 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label class="form-label">Pincode <span style="color:red;">*</span></label>
-            <input type="number" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode">
+            <input type="number" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode"  (keypress)="MaxLengthValidation_KeyPress($event,6);">
             <div *ngIf="isSubmitted&&form.txtPincode.errors" class="text-danger">
               <p *ngIf="form.txtPincode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
               <p *ngIf="form.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -491,7 +492,7 @@
         <div class="card">
           <div class="card-header">
             <b>
-              <i class="bi bi-table"></i>&nbsp; Manage by
+              <i class="bi bi-table"></i>&nbsp; Manage by of the Parental Hospital
             </b>
           </div>
           <div class="card-body">
@@ -506,9 +507,10 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Manage by Contact No. <span style="color:red;">*</span></label>
-                  <input class="form-control" type="number" id="txtManageByPhone" name="txtManageByPhone" formControlName="txtManageByPhone" [(ngModel)]="request.ManageByPhone" />
+                  <input class="form-control" type="number" id="txtManageByPhone" name="txtManageByPhone" formControlName="txtManageByPhone" [(ngModel)]="request.ManageByPhone" (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
                   <div *ngIf="isSubmitted&&form.txtManageByPhone.errors" class="text-danger">
                     <p *ngIf="form.txtManageByPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form.txtManageByPhone.errors.pattern"><i aria-hidden="true"></i> Manage by Contact number is not valid .!</p>
                   </div>
                 </div>
                 <!-- address -->
@@ -544,7 +546,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Division <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlDivisionID_ManageBy" name="ddlDivisionID_ManageBy" [(ngModel)]="request.DivisionID_ManageBy" formControlName="ddlDivisionID_ManageBy" #SelectedDivisionID_ManageBy (change)="FillDivisionRelatedDDL($event,SelectedDivisionID_ManageBy.value,'ManageBy')">
-                    <option value="0">--Select Division--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
                   </select>
                   <div *ngIf="isSubmitted&&form.ddlDivisionID_ManageBy.errors" class="text-danger">
@@ -554,7 +556,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">District <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlDistrictID_ManageBy" name="ddlDistrictID_ManageBy" [(ngModel)]="request.DistrictID_ManageBy" formControlName="ddlDistrictID_ManageBy" #SelectedDistrictID_ManageBy (change)="FillDistrictRelatedDDL($event,SelectedDistrictID_ManageBy.value,'ManageBy')">
-                    <option value="0">--Select District--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of DistrictList_ManageBy" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
                   </select>
                   <div *ngIf="isSubmitted&&form.ddlDistrictID_ManageBy.errors" class="text-danger">
@@ -564,7 +566,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_ManageBy">
                   <label class="form-label">Tehsil <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlTehsilID_ManageBy" name="ddlTehsilID_ManageBy" [(ngModel)]="request.TehsilID_ManageBy" formControlName="ddlTehsilID_ManageBy">
-                    <option value="0">--Select Tehsil--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of TehsilList_ManageBy" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
                   </select>
                   <div *ngIf="isSubmitted&&form.ddlTehsilID_ManageBy.errors" class="text-danger">
@@ -574,7 +576,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_ManageBy">
                   <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlPanchayatSamitiID_ManageBy" name="ddlPanchayatSamitiID_ManageBy" [(ngModel)]="request.PanchayatSamitiID_ManageBy" formControlName="ddlPanchayatSamitiID_ManageBy">
-                    <option value="0">--Select Panchayat Samiti--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of PanchyatSamitiList_ManageBy" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
                   </select>
                   <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID_ManageBy.errors" class="text-danger">
@@ -590,7 +592,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                  <input type="number" class="form-control" id="txtPincode_ManageBy" name="txtPincode_ManageBy" [(ngModel)]="request.Pincode_ManageBy" formControlName="txtPincode_ManageBy">
+                  <input type="number" class="form-control" id="txtPincode_ManageBy" name="txtPincode_ManageBy" [(ngModel)]="request.Pincode_ManageBy" formControlName="txtPincode_ManageBy"  (keypress)="MaxLengthValidation_KeyPress($event,6);">
                   <div *ngIf="isSubmitted&&form.txtPincode_ManageBy.errors" class="text-danger">
                     <p *ngIf="form.txtPincode_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtPincode_ManageBy.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -604,7 +606,7 @@
         <div class="card">
           <div class="card-header">
             <b>
-              <i class="bi bi-table"></i>&nbsp; Owner
+              <i class="bi bi-table"></i>&nbsp; Owner of the Parental Hospital
             </b>
           </div>
           <div class="card-body">
@@ -619,9 +621,10 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Owner Contact No. <span style="color:red;">*</span></label>
-                  <input class="form-control" type="number" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="request.OwnerPhone" />
+                  <input class="form-control" type="number" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="request.OwnerPhone" (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
                   <div *ngIf="isSubmitted&&form.txtOwnerPhone.errors" class="text-danger">
                     <p *ngIf="form.txtOwnerPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form.txtOwnerPhone.errors.pattern"><i aria-hidden="true"></i> Owner Contact number is not valid .!</p>
                   </div>
                 </div>
                 <!-- address -->
@@ -657,7 +660,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Division <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlDivisionID_Owner" name="ddlDivisionID_Owner" [(ngModel)]="request.DivisionID_Owner" formControlName="ddlDivisionID_Owner" #SelectedDivisionID_Owner (change)="FillDivisionRelatedDDL($event,SelectedDivisionID_Owner.value,'Owner')">
-                    <option value="0">--Select Division--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
                   </select>
                   <div *ngIf="isSubmitted&&form.ddlDivisionID_Owner.errors" class="text-danger">
@@ -667,7 +670,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">District <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlDistrictID_Owner" name="ddlDistrictID_Owner" [(ngModel)]="request.DistrictID_Owner" formControlName="ddlDistrictID_Owner" #SelectedDistrictID_Owner (change)="FillDistrictRelatedDDL($event,SelectedDistrictID_Owner.value,'Owner')">
-                    <option value="0">--Select District--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of DistrictList_Owner" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
                   </select>
                   <div *ngIf="isSubmitted&&form.ddlDistrictID_Owner.errors" class="text-danger">
@@ -677,7 +680,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Owner">
                   <label class="form-label">Tehsil <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="request.TehsilID_Owner" formControlName="ddlTehsilID_Owner">
-                    <option value="0">--Select Tehsil--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of TehsilList_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
                   </select>
                   <div *ngIf="isSubmitted&&form.ddlTehsilID_Owner.errors" class="text-danger">
@@ -687,7 +690,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Owner">
                   <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlPanchayatSamitiID_Owner" name="ddlPanchayatSamitiID_Owner" [(ngModel)]="request.PanchayatSamitiID_Owner" formControlName="ddlPanchayatSamitiID_Owner">
-                    <option value="0">--Select Panchayat Samiti--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of PanchyatSamitiList_Owner" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
                   </select>
                   <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID_Owner.errors" class="text-danger">
@@ -703,7 +706,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                  <input type="number" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="request.Pincode_Owner" formControlName="txtPincode_Owner">
+                  <input type="number" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="request.Pincode_Owner" formControlName="txtPincode_Owner" (keypress)="MaxLengthValidation_KeyPress($event,6);">
                   <div *ngIf="isSubmitted&&form.txtPincode_Owner.errors" class="text-danger">
                     <p *ngIf="form.txtPincode_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtPincode_Owner.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -747,9 +750,10 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label>Organization Contact No. <span style="color:red;">*</span></label>
-                    <input class="form-control" type="number" id="txtOrganizationPhone" name="txtOrganizationPhone" formControlName="txtOrganizationPhone" [(ngModel)]="request.OrganizationPhone" />
+                    <input class="form-control" type="number" id="txtOrganizationPhone" name="txtOrganizationPhone" formControlName="txtOrganizationPhone" [(ngModel)]="request.OrganizationPhone"  (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
                     <div *ngIf="isSubmitted&&form.txtOrganizationPhone.errors" class="text-danger">
                       <p *ngIf="form.txtOrganizationPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtOrganizationPhone.errors.pattern"><i aria-hidden="true"></i> Organization Contact number is not valid .!</p>
                     </div>
                   </div>
                   <!-- address -->
@@ -785,7 +789,7 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label">Division <span style="color:red;">*</span></label>
                     <select class="form-select" id="ddlDivisionID_Other" name="ddlDivisionID_Other" [(ngModel)]="request.DivisionID_Other" formControlName="ddlDivisionID_Other" #SelectedDivisionID_Other (change)="FillDivisionRelatedDDL($event,SelectedDivisionID_Other.value,'Other')">
-                      <option value="0">--Select Division--</option>
+                      <option value="0">--Select--</option>
                       <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
                     </select>
                     <div *ngIf="isSubmitted&&form.ddlDivisionID_Other.errors" class="text-danger">
@@ -795,7 +799,7 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label">District <span style="color:red;">*</span></label>
                     <select class="form-select" id="ddlDistrictID_Other" name="ddlDistrictID_Other" [(ngModel)]="request.DistrictID_Other" formControlName="ddlDistrictID_Other" #SelectedDistrictID_Other (change)="FillDistrictRelatedDDL($event,SelectedDistrictID_Other.value,'Other')">
-                      <option value="0">--Select District--</option>
+                      <option value="0">--Select--</option>
                       <option *ngFor="let item of DistrictList_Other" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
                     </select>
                     <div *ngIf="isSubmitted&&form.ddlDistrictID_Other.errors" class="text-danger">
@@ -805,7 +809,7 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Other">
                     <label class="form-label">Tehsil <span style="color:red;">*</span></label>
                     <select class="form-select" id="ddlTehsilID_Other" name="ddlTehsilID_Other" [(ngModel)]="request.TehsilID_Other" formControlName="ddlTehsilID_Other">
-                      <option value="0">--Select Tehsil--</option>
+                      <option value="0">--Select--</option>
                       <option *ngFor="let item of TehsilList_Other" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
                     </select>
                     <div *ngIf="isSubmitted&&form.ddlTehsilID_Other.errors" class="text-danger">
@@ -815,7 +819,7 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Other">
                     <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
                     <select class="form-select" id="ddlPanchayatSamitiID_Other" name="ddlPanchayatSamitiID_Other" [(ngModel)]="request.PanchayatSamitiID_Other" formControlName="ddlPanchayatSamitiID_Other">
-                      <option value="0">--Select Panchayat Samiti--</option>
+                      <option value="0">--Select--</option>
                       <option *ngFor="let item of PanchyatSamitiList_Other" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
                     </select>
                     <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID_Other.errors" class="text-danger">
@@ -831,7 +835,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtPincode_Other" name="txtPincode_Other" [(ngModel)]="request.Pincode_Other" formControlName="txtPincode_Other">
+                    <input type="number" class="form-control" id="txtPincode_Other" name="txtPincode_Other" [(ngModel)]="request.Pincode_Other" formControlName="txtPincode_Other"  (keypress)="MaxLengthValidation_KeyPress($event,6);">
                     <div *ngIf="isSubmitted&&form.txtPincode_Other.errors" class="text-danger">
                       <p *ngIf="form.txtPincode_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form.txtPincode_Other.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -847,7 +851,7 @@
           <button type="button" class="btn btn-primary" (click)="SaveDataOfParent()"> {{request.HospitalID>0?'Update':'Save'}}</button>
           <button type="button" class="btn btn-danger" (click)="ResetHospitalOfParent()"> Reset</button>
         </div>
-        <div class="card">
+        <div class="card" *ngIf="HospitalDataModelList.length>0">
           <div class="row">
             <div class="col-md-12">
               <div class="card-header">
@@ -957,9 +961,10 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Hospital Contact No. <span style="color:red;">*</span></label>
-                  <input type="number" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="requestNot.HospitalContactNo" formControlName="txtHospitalContactNo" />
+                  <input type="number" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="requestNot.HospitalContactNo" formControlName="txtHospitalContactNo" (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtHospitalContactNo.errors" class="text-danger">
                     <p *ngIf="form_ParentNot.txtHospitalContactNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form_ParentNot.txtHospitalContactNo.errors.pattern"><i aria-hidden="true"></i> Hospital Contact number is not valid .!</p>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -1003,7 +1008,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Division <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="requestNot.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL_ParentNot($event,SelectedDivisionID.value,null)">
-                    <option value="0">--Select Division--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
                   </select>
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlDivisionID.errors" class="text-danger">
@@ -1013,7 +1018,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">District <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="requestNot.DistrictID" formControlName="ddlDistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL_ParentNot($event,SelectedDistrictID.value,null)">
-                    <option value="0">--Select District--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of DistrictList_ParentNot" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
                   </select>
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlDistrictID.errors" class="text-danger">
@@ -1023,7 +1028,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_ParentNot">
                   <label class="form-label">Tehsil <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="requestNot.TehsilID" formControlName="ddlTehsilID">
-                    <option value="0">--Select Tehsil--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of TehsilList_ParentNot" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
                   </select>
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlTehsilID.errors" class="text-danger">
@@ -1033,7 +1038,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_ParentNot">
                   <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="requestNot.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID">
-                    <option value="0">--Select Panchayat Samiti--</option>
+                    <option value="0">--Select--</option>
                     <option *ngFor="let item of PanchyatSamitiList_ParentNot" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
                   </select>
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlPanchayatSamitiID.errors" class="text-danger">
@@ -1049,7 +1054,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                  <input type="number" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="requestNot.Pincode" formControlName="txtPincode">
+                  <input type="number" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="requestNot.Pincode" formControlName="txtPincode" (keypress)="MaxLengthValidation_KeyPress($event,6);">
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPincode.errors" class="text-danger">
                     <p *ngIf="form_ParentNot.txtPincode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form_ParentNot.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -1172,7 +1177,7 @@
               <div class="card">
                 <div class="card-header">
                   <b>
-                    <i class="bi bi-table"></i>&nbsp; Manage by
+                    <i class="bi bi-table"></i>&nbsp; Manage by of the Affiliated Hospital
                   </b>
                 </div>
                 <div class="card-body">
@@ -1187,9 +1192,10 @@
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label>Manage by Contact No. <span style="color:red;">*</span></label>
-                        <input class="form-control" type="number" id="txtManageByPhone" name="txtManageByPhone" formControlName="txtManageByPhone" [(ngModel)]="requestNot.ManageByPhone" />
+                        <input class="form-control" type="number" id="txtManageByPhone" name="txtManageByPhone" formControlName="txtManageByPhone" [(ngModel)]="requestNot.ManageByPhone" (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtManageByPhone.errors" class="text-danger">
                           <p *ngIf="form_ParentNot.txtManageByPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          <p *ngIf="form_ParentNot.txtManageByPhone.errors.pattern"><i aria-hidden="true"></i> Manage by Contact number is not valid .!</p>
                         </div>
                       </div>
                       <!-- address -->
@@ -1225,7 +1231,7 @@
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label class="form-label">Division <span style="color:red;">*</span></label>
                         <select class="form-select" id="ddlDivisionID_ManageBy" name="ddlDivisionID_ManageBy" [(ngModel)]="requestNot.DivisionID_ManageBy" formControlName="ddlDivisionID_ManageBy" #SelectedDivisionID_ManageBy (change)="FillDivisionRelatedDDL_ParentNot($event,SelectedDivisionID_ManageBy.value,'ManageBy')">
-                          <option value="0">--Select Division--</option>
+                          <option value="0">--Select--</option>
                           <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
                         </select>
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlDivisionID_ManageBy.errors" class="text-danger">
@@ -1235,7 +1241,7 @@
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label class="form-label">District <span style="color:red;">*</span></label>
                         <select class="form-select" id="ddlDistrictID_ManageBy" name="ddlDistrictID_ManageBy" [(ngModel)]="requestNot.DistrictID_ManageBy" formControlName="ddlDistrictID_ManageBy" #SelectedDistrictID_ManageBy (change)="FillDistrictRelatedDDL_ParentNot($event,SelectedDistrictID_ManageBy.value,'ManageBy')">
-                          <option value="0">--Select District--</option>
+                          <option value="0">--Select--</option>
                           <option *ngFor="let item of DistrictList_ParentNot_ManageBy" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
                         </select>
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlDistrictID_ManageBy.errors" class="text-danger">
@@ -1245,7 +1251,7 @@
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_ParentNot_ManageBy">
                         <label class="form-label">Tehsil <span style="color:red;">*</span></label>
                         <select class="form-select" id="ddlTehsilID_ManageBy" name="ddlTehsilID_ManageBy" [(ngModel)]="requestNot.TehsilID_ManageBy" formControlName="ddlTehsilID_ManageBy">
-                          <option value="0">--Select Tehsil--</option>
+                          <option value="0">--Select--</option>
                           <option *ngFor="let item of TehsilList_ParentNot_ManageBy" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
                         </select>
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlTehsilID_ManageBy.errors" class="text-danger">
@@ -1255,7 +1261,7 @@
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_ParentNot_ManageBy">
                         <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
                         <select class="form-select" id="ddlPanchayatSamitiID_ManageBy" name="ddlPanchayatSamitiID_ManageBy" [(ngModel)]="requestNot.PanchayatSamitiID_ManageBy" formControlName="ddlPanchayatSamitiID_ManageBy">
-                          <option value="0">--Select Panchayat Samiti--</option>
+                          <option value="0">--Select--</option>
                           <option *ngFor="let item of PanchyatSamitiList_ParentNot_ManageBy" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
                         </select>
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlPanchayatSamitiID_ManageBy.errors" class="text-danger">
@@ -1271,7 +1277,7 @@
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                        <input type="number" class="form-control" id="txtPincode_ManageBy" name="txtPincode_ManageBy" [(ngModel)]="requestNot.Pincode_ManageBy" formControlName="txtPincode_ManageBy">
+                        <input type="number" class="form-control" id="txtPincode_ManageBy" name="txtPincode_ManageBy" [(ngModel)]="requestNot.Pincode_ManageBy" formControlName="txtPincode_ManageBy" (keypress)="MaxLengthValidation_KeyPress($event,6);">
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPincode_ManageBy.errors" class="text-danger">
                           <p *ngIf="form_ParentNot.txtPincode_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                           <p *ngIf="form_ParentNot.txtPincode_ManageBy.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -1285,7 +1291,7 @@
               <div class="card">
                 <div class="card-header">
                   <b>
-                    <i class="bi bi-table"></i>&nbsp; Owner
+                    <i class="bi bi-table"></i>&nbsp; Owner of the Affiliated Hospital
                   </b>
                 </div>
                 <div class="card-body">
@@ -1300,9 +1306,10 @@
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label>Owner Contact No. <span style="color:red;">*</span></label>
-                        <input class="form-control" type="number" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="requestNot.OwnerPhone" />
+                        <input class="form-control" type="number" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="requestNot.OwnerPhone"  (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOwnerPhone.errors" class="text-danger">
                           <p *ngIf="form_ParentNot.txtOwnerPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                          <p *ngIf="form_ParentNot.txtOwnerPhone.errors.pattern"><i aria-hidden="true"></i> Owner Contact number is not valid .!</p>
                         </div>
                       </div>
                       <!-- address -->
@@ -1338,7 +1345,7 @@
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label class="form-label">Division <span style="color:red;">*</span></label>
                         <select class="form-select" id="ddlDivisionID_Owner" name="ddlDivisionID_Owner" [(ngModel)]="requestNot.DivisionID_Owner" formControlName="ddlDivisionID_Owner" #SelectedDivisionID_Owner (change)="FillDivisionRelatedDDL_ParentNot($event,SelectedDivisionID_Owner.value,'Owner')">
-                          <option value="0">--Select Division--</option>
+                          <option value="0">--Select--</option>
                           <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
                         </select>
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlDivisionID_Owner.errors" class="text-danger">
@@ -1348,7 +1355,7 @@
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label class="form-label">District <span style="color:red;">*</span></label>
                         <select class="form-select" id="ddlDistrictID_Owner" name="ddlDistrictID_Owner" [(ngModel)]="requestNot.DistrictID_Owner" formControlName="ddlDistrictID_Owner" #SelectedDistrictID_Owner (change)="FillDistrictRelatedDDL_ParentNot($event,SelectedDistrictID_Owner.value,'Owner')">
-                          <option value="0">--Select District--</option>
+                          <option value="0">--Select--</option>
                           <option *ngFor="let item of DistrictList_ParentNot_Owner" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
                         </select>
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlDistrictID_Owner.errors" class="text-danger">
@@ -1358,7 +1365,7 @@
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_ParentNot_Owner">
                         <label class="form-label">Tehsil <span style="color:red;">*</span></label>
                         <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="requestNot.TehsilID_Owner" formControlName="ddlTehsilID_Owner">
-                          <option value="0">--Select Tehsil--</option>
+                          <option value="0">--Select--</option>
                           <option *ngFor="let item of TehsilList_ParentNot_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
                         </select>
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlTehsilID_Owner.errors" class="text-danger">
@@ -1368,7 +1375,7 @@
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_ParentNot_Owner">
                         <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
                         <select class="form-select" id="ddlPanchayatSamitiID_Owner" name="ddlPanchayatSamitiID_Owner" [(ngModel)]="requestNot.PanchayatSamitiID_Owner" formControlName="ddlPanchayatSamitiID_Owner">
-                          <option value="0">--Select Panchayat Samiti--</option>
+                          <option value="0">--Select--</option>
                           <option *ngFor="let item of PanchyatSamitiList_ParentNot_Owner" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
                         </select>
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.ddlPanchayatSamitiID_Owner.errors" class="text-danger">
@@ -1384,7 +1391,7 @@
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                        <input type="number" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="requestNot.Pincode_Owner" formControlName="txtPincode_Owner">
+                        <input type="number" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="requestNot.Pincode_Owner" formControlName="txtPincode_Owner"  (keypress)="MaxLengthValidation_KeyPress($event,6);">
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPincode_Owner.errors" class="text-danger">
                           <p *ngIf="form_ParentNot.txtPincode_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                           <p *ngIf="form_ParentNot.txtPincode_Owner.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -1399,7 +1406,7 @@
                 <button type="button" class="btn btn-primary" (click)="SaveDataOfParentNot()"> {{requestNot.HospitalID>0?'Update':'Save'}}</button>
                 <button type="button" class="btn btn-danger" (click)="ResetHospitalOfParentNot()"> Reset</button>
               </div>
-              <div class="card">
+              <div class="card" *ngIf="HospitalParentNotDataModelList.length>0">
                 <div class="row">
                   <div class="col-md-12">
                     <div class="card-header">
