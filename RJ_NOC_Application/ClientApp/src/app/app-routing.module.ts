@@ -67,6 +67,8 @@ import { ApplicationSummaryComponent } from './Views/ApplicationSummary/applicat
 import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
 
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
+import { CommitteeMasterComponent } from './Views/Master/CommitteeMaster/AddCommitteeMaster/committee-master.component';
+import { CommitteeMasterListComponent } from './Views/Master/CommitteeMaster/CommitteeMasterList/committee-master-list.component';
 
 const routes: Routes = [
   {
@@ -285,6 +287,15 @@ const routes: Routes = [
       },
       {
         path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCPreviewComponent
+      },
+      {
+        path: 'committeemaster', component: CommitteeMasterComponent
+      },
+      {
+        path: 'committeemasterlist', component: CommitteeMasterListComponent
+      },
+      {
+        path: 'committeemaster/:id', component: CommitteeMasterComponent
       },
     ]
   },

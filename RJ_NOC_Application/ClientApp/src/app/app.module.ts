@@ -102,6 +102,8 @@ import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-l
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
 import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
+import { CommitteeMasterComponent } from './Views/Master/CommitteeMaster/AddCommitteeMaster/committee-master.component';
+import { CommitteeMasterListComponent } from './Views/Master/CommitteeMaster/CommitteeMasterList/committee-master-list.component';
 
 @NgModule({
   declarations: [
@@ -195,7 +197,9 @@ import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocprev
     CreateUserComponent,
     ApplyNOCApplicationListComponent,
     ApplicationSummaryComponent,
-    ApplyNOCPreviewComponent
+    ApplyNOCPreviewComponent,
+    CommitteeMasterComponent,
+    CommitteeMasterListComponent
     //LoaderModule,
 
 
