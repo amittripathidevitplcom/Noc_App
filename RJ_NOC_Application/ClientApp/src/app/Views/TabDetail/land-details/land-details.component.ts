@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { debug, log } from 'console';
+import { Table } from 'jspdf-autotable';
 @Component({
   selector: 'app-land-details',
   templateUrl: './land-details.component.html',
@@ -32,6 +33,8 @@ export class LandDetailsComponent implements OnInit {
   public IstxtBuildingHostel: boolean = false;
   public LandDetailDocumentDataModel: any = [];
   public LandDetailsList: any = [];
+  public LandDetailsDocumentList: any = [];
+  public LandDetailsDocumentListByID: any = [];
   public isDisabledGrid: boolean = false;
   public LandConversionData: any = [];
   public LandTypeData: any = [];
@@ -53,6 +56,8 @@ export class LandDetailsComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   @ViewChild('fileUploader')
   fileUploader!: ElementRef;
+  public LandConversionOrderNoValidate: string = '';
+  public AffidavitDateValidate: string = '';
 
   public MinimumAreaBuildingHostelQuartersRoad: string = '';
   public MinimumAreaGroundCycleStand: string = '';
@@ -72,12 +77,12 @@ export class LandDetailsComponent implements OnInit {
         txtKhasraNumber: ['', Validators.required],
         txtLandOwnerName: ['', Validators.required],
         //txtLandOwnerName: [''],
-        txtBuildingHostelQuartersRoadArea: [''],
+        txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
         //txtGroundCycleStandArea: ['', Validators.required],
         txtTotalLandArea: [{ value: '', disabled: true }, Validators.required],
         dtLandConversionOrderDate: [''],
         dtAffidavitDate: [''],
-        txtLandConversionOrderNo: ['', Validators.required],
+        txtLandConversionOrderNo: [''],
       });
     this.request.LandDetailDocument = [];
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -454,6 +459,19 @@ export class LandDetailsComponent implements OnInit {
       this.IstxtBuildingHostel = true;
       return;
     }
+    var LandConversionName = this.LandConversionData.find((x: { ID: number; }) => x.ID == this.request.LandConvertedID).Name;
+    if (LandConversionName == 'Partially Converted' || LandConversionName == 'Not Converted') {
+      if (this.request.AffidavitDate == '' || this.request.AffidavitDate == null) {
+        this.AffidavitDateValidate = 'This field is required .!';
+        return
+      }      
+    }
+    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted') {
+      if (this.request.LandConversionOrderNo == '' || this.request.LandConversionOrderNo == null) {
+        this.LandConversionOrderNoValidate = 'This field is required .!';
+        return
+      }
+    }
     //for (var i = 0; i < this.LandDetailDocument.length-1; i++) {
     //  if (this.LandDetailDocument[i].SelectedFilePath == '' || this.LandDetailDocument[i].SelectedFilePath == undefined) {
     //    message = 'Please choose ' + this.LandDetailDocument[i].DocumentName + ' document';
@@ -535,11 +553,13 @@ export class LandDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.landDetailsService.GetLandDetailsList(this.SelectedCollageID, 0)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.LandDetailsList = data['Data'][0]['data'];
+          this.LandDetailsList = data['Data'][0]['data']['Table'];
+          this.LandDetailsDocumentList = data['Data'][0]['data']['Table1'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -551,7 +571,35 @@ export class LandDetailsComponent implements OnInit {
       }, 200);
     }
   }
+  //async ViewTotalCollegeDataByID(CollegeID: any) {
+  //  try {
+  //    this.loaderService.requestStarted();
+  //    this.LandDetailsDocumentListByID = this.LandDetailsDocumentList.filter((element: any) => { return element.Name.includes('General'); });
+  //    //this.LandDetailsDocumentListByID = this.LandDetailsDocumentList()
+  //    //await this.draftApplicationListService.ViewTotalCollegeDataByID(CollegeID, this.UserID)
+  //    //  .then((data: any) => {
+  //    //    debugger;
+  //    //    data = JSON.parse(JSON.stringify(data));
+  //    //    this.State = data['State'];
+  //    //    this.SuccessMessage = data['SuccessMessage'];
+  //    //    this.ErrorMessage = data['ErrorMessage'];
+  //    //    // data
+  //    //    this.collegeListData = data['Data'][0]['data']['Table'][0];
+  //    //    this.collegeContactDetailsList = data['Data'][0]['data']['Table1'];
+  //    //    this.collegeNearestGovernmentHospitalsList = data['Data'][0]['data']['Table2'];
 
+  //    //    //console.log(this.draftApplicatoinListData);
+  //    //  }, (error: any) => console.error(error));
+  //  }
+  //  catch (Ex) {
+  //    console.log(Ex);
+  //  }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
 
 
   async ResetControl() {

@@ -62,6 +62,9 @@ export class OldNOCDetailsComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   public Seats: number = 0;
   public MaxDate: Date = new Date();
+  public IsFormValid: boolean = true;
+  public SubjectRequried: boolean = false;
+  public NOCExpireDateRequried: boolean = false;
   //NOC Details
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private fileUploadService: FileUploadService,
@@ -297,9 +300,7 @@ export class OldNOCDetailsComponent implements OnInit {
     }
     //this.routers.navigate(['/addcollege']);
   }
-  public IsFormValid: boolean = true;
-  public SubjectRequried: boolean = false;
-  public NOCExpireDateRequried: boolean = false;
+  
 
   async AddOldNOCDetails() {
     this.IsFormValid = true;
@@ -404,9 +405,10 @@ export class OldNOCDetailsComponent implements OnInit {
   public file: any = '';
   ValidateDocumentImage(event: any) {
     if (event.target.files && event.target.files[0]) {
-      if (event.target.files[0].type === 'image/jpeg' ||
-        event.target.files[0].type === 'application/pdf' ||
-        event.target.files[0].type === 'image/jpg') {
+      //if (event.target.files[0].type === 'image/jpeg' ||
+      //  event.target.files[0].type === 'application/pdf' ||
+      //  event.target.files[0].type === 'image/jpg') {
+      if (event.target.files[0].type === 'application/pdf') {
         if (event.target.files[0].size > 2000000) {
           event.target.value = '';
           this.toastr.warning('Select less then 2MB File');
@@ -420,7 +422,7 @@ export class OldNOCDetailsComponent implements OnInit {
       }
       else {
         event.target.value = '';
-        this.toastr.warning('Select Only jpg/jpeg/pdf file');
+        this.toastr.warning('Select Only pdf file');
         return
       }
 
