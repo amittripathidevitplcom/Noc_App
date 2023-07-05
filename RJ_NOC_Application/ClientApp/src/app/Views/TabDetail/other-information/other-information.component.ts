@@ -162,7 +162,7 @@ export class OtherInformationComponent implements OnInit {
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
     try {
-      var OtherName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID).Name;
+      var OtherName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID)?.Name;
       if (OtherName == 'Library') {
         this.ShowHideBook = true;
       }
@@ -430,6 +430,8 @@ export class OtherInformationComponent implements OnInit {
   }
 
   async Edit_OnClick(CollegeWiseOtherInfoID: number) {
+    this.ShowHideBook = false;
+    this.showBookImageFilePath = false;
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
@@ -444,7 +446,7 @@ export class OtherInformationComponent implements OnInit {
           this.request.ImageFileName = data['Data'][0]["ImageFileName"];
           this.request.ImageFilePath = data['Data'][0]["ImageFilePath"];
           this.request.Image_Dis_FileName = data['Data'][0]["Image_Dis_FileName"];
-          if (data['Data'][0]["NoofBooks"] != '' || data['Data'][0]["NoofBooks"] != 0 || data['Data'][0]["BookImageFilePath"] != '') {
+          if (data['Data'][0]["NoofBooks"] != '' && data['Data'][0]["NoofBooks"] != 0 && data['Data'][0]["BookImageFileName"] != '') {
             this.ShowHideBook = true;
             this.showBookImageFilePath = true;
             this.request.NoofBooks = data['Data'][0]["NoofBooks"];

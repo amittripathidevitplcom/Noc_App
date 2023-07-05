@@ -473,7 +473,7 @@
                       <p class="m-0"><b>Research Guide : </b>{{item.ResearchGuide}}</p>
                       <p class="m-0"><b>PF Deduction : </b>{{item.PFDeduction}}</p>
                       <p class="m-0"><b>PF Number : </b>{{item.UANNumber}}</p>
-                      <p class="m-0"><b>Specialization : </b>{{item.SpecializationSubject}}</p>
+                      <p class="m-0" *ngIf="item.TeachingType=='Teaching'"><b>Specialization : </b>{{item.SpecializationSubject}}</p>
 
                     </td>
                     <td>
