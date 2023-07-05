@@ -2,13 +2,13 @@
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
-      <h3>Application Preview Details</h3>
+      <h3>Scruteny Comittee (M.D.H.N.M.)</h3>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Application</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Application Preview</li>
+          <li class="breadcrumb-item"><a href="#">Scruteny Comittee</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Scruteny Comittee (M.D.H.N.M.)</li>
         </ol>
       </nav>
     </div>
@@ -19,72 +19,68 @@
     <div class="col-md-12">
       <div class="row align-items-center">
         <div class="col-md-12">
-
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
-
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class=" text-success" aria-hidden="true"></i>
                 <span>Land Information</span>
               </ng-template>
-              <app-preview-land-detail></app-preview-land-detail>             
+              <app-preview-land-detail></app-preview-land-detail>
             </mat-tab>
-
             <mat-tab label="Facility">
-              <!--Facility-->
+              Facility
               <app-preview-facility-detail></app-preview-facility-detail>
             </mat-tab>
             <mat-tab label="Required Document">
-              <!--Required Document-->
+              Required Document
               <app-preview-required-document></app-preview-required-document>
             </mat-tab>
-
-            <!--Room Details-->
+            Room Details
             <mat-tab label="Room Details">
+              Room Details
               <app-preview-room-detail></app-preview-room-detail>
             </mat-tab>
-            <!--Other Information-->
             <mat-tab label="Other Information">
+              Other Information
               <app-preview-other-information></app-preview-other-information>
             </mat-tab>
 
             <mat-tab label="Building Documents">
-              <!--Building Documents-->
+              Building Documents
               <app-preview-building-detail></app-preview-building-detail>
             </mat-tab>
             <mat-tab label="Staff Details">
-              <!--Staff Details-->
+              Staff Details
               <app-preview-staff-detail></app-preview-staff-detail>
             </mat-tab>
 
             <mat-tab label="OLD NOC Details" *ngIf="CollegeType_IsExisting">
-              <!--OLD NOC Details Only for New-->
+              OLD NOC Details Only for New
               <app-preview-old-nocdetail></app-preview-old-nocdetail>
             </mat-tab>
 
             <mat-tab label="Academic Information" *ngIf="CollegeType_IsExisting">
-              <!--Academic Information Only for New-->
+              Academic Information Only for New
               <app-preview-academic-information></app-preview-academic-information>
             </mat-tab>
             <mat-tab label="Other Document">
-              <!--Other Document-->
+              Other Document
               <app-preview-other-document></app-preview-other-document>
             </mat-tab>
             <mat-tab label="Hospital Details">
-              <!--Hospital Details-->
+              Hospital Details
               <app-preview-hospital-detail></app-preview-hospital-detail>
             </mat-tab>
             <mat-tab label="Hostel Details">
-              <!--Hostel Details-->
+              Hostel Details
               <app-preview-hostel-details></app-preview-hostel-details>
             </mat-tab>
 
-            <mat-tab label="Scurteny Comittee(M.D.H.N.M.)">
-              <!--Scurteny Comittee-->
-              <app-preview-scurteny-comittee></app-preview-scurteny-comittee>
-              <!--<div class="card tabCard1  mb-0">
+            <mat-tab label="Scurteny Comittee">
+              Scurteny Comittee (M.D.H.N.M.)
+              <div class="card tabCard1  mb-0">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
+                  <b><i class="bi bi-table"></i>&nbsp; Scurteny Comittee (M.D.H.N.M.)</b>
                 </div>
                 <div class="card-body">
                   <div class="row">
@@ -110,11 +106,11 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
+                      <button class="btn btn-primary" type="button" >Submit</button>
                     </div>
                   </div>
                 </div>
-              </div>-->
+              </div>
             </mat-tab>
           </mat-tab-group>
         </div>

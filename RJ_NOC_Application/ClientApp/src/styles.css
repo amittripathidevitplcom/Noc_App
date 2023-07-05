@@ -123,3 +123,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-right: 1px solid #ced4da;
 }
 
+ 
+ 
+
+.modal-backdrop {
+  display: none !important;
+}
+
