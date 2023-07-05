@@ -28,6 +28,8 @@ export class HospitalDetailComponent implements OnInit {
   HospitalParentNotForm!: FormGroup;
 
   public PinNoRegex = new RegExp(/[0-9]{5}/)
+  public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
+  public LandLineRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
 
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -114,12 +116,12 @@ export class HospitalDetailComponent implements OnInit {
         txtHospitalName: ['', Validators.required],
         txtHospitalRegNo: ['', Validators.required],
         txtHospitalDistance: ['', Validators.required],
-        txtHospitalContactNo: ['', Validators.required],
+        txtHospitalContactNo: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtHospitalEmailID: ['', [Validators.required, Validators.email]],
         txtManageByName: ['', Validators.required],
-        txtManageByPhone: ['', Validators.required],
+        txtManageByPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtOwnerName: ['', Validators.required],
-        txtOwnerPhone: ['', Validators.required],
+        txtOwnerPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtMedicalBeds: ['', [Validators.required, Validators.min(30)]],
         txtSurgicalBeds: ['', [Validators.required, Validators.min(30)]],
         txtObstAndGynaecologyBeds: ['', [Validators.required, Validators.min(30)]],
@@ -129,7 +131,7 @@ export class HospitalDetailComponent implements OnInit {
         txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
         rbParentHospitalRelatedToOtherID: [''],
         txtInstitutionName: ['', Validators.required],
-        txtOrganizationPhone: ['', Validators.required],
+        txtOrganizationPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
 
         txtCardioThoracicTotalBeds: ['', [Validators.required, Validators.min(50)]],
         txtCardioThoracicCCUBeds: [''],
@@ -231,12 +233,12 @@ export class HospitalDetailComponent implements OnInit {
         txtHospitalName: ['', Validators.required],
         txtHospitalRegNo: ['', Validators.required],
         txtHospitalDistance: ['', Validators.required],
-        txtHospitalContactNo: ['', Validators.required],
+        txtHospitalContactNo: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtHospitalEmailID: ['', [Validators.required, Validators.email]],
         txtManageByName: ['', Validators.required],
-        txtManageByPhone: ['', Validators.required],
+        txtManageByPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtOwnerName: ['', Validators.required],
-        txtOwnerPhone: ['', Validators.required],
+        txtOwnerPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtMedicalBeds: ['', [Validators.required, Validators.min(30)]],
         txtSurgicalBeds: ['', [Validators.required, Validators.min(30)]],
         txtObstAndGynaecologyBeds: ['', [Validators.required, Validators.min(30)]],
@@ -322,7 +324,7 @@ export class HospitalDetailComponent implements OnInit {
   get form_ParentNot() { return this.HospitalParentNotForm.controls; }
 
   ToggleSuperSpecialtyHospitalValidation() {
-    
+
     if (this.IsShowSuperSpecialtyHospital) {
       this.HospitalParentForm.get('txtCardioThoracicTotalBeds')?.setValidators([Validators.required, Validators.min(50)]);
       this.HospitalParentForm.get('txtCriticalCareNursingTotalBeds')?.setValidators([Validators.required, Validators.min(250)]);
@@ -1301,9 +1303,9 @@ export class HospitalDetailComponent implements OnInit {
   async onFilechange(event: any, Type: string) {
     this.file = event.target.files[0];
     if (this.file) {
-      if (this.file.type === 'image/jpeg' ||
-        this.file.type === 'application/pdf' ||
-        this.file.type === 'image/jpg') {
+      if ((Type != 'ConsentForm' && (this.file.type === 'image/jpeg' || this.file.type === 'image/jpg')) ||
+        (Type == 'ConsentForm' && this.file.type === 'application/pdf')
+      ) {
         //size validation
         if (this.file.size > 2000000) {
           this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', false);
@@ -1315,7 +1317,7 @@ export class HospitalDetailComponent implements OnInit {
         }
       }
       else {// type validation
-        this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg/pdf file', '', false);
+        this.ResetFileAndValidation(Type, 'Select Only ' + (Type == 'ConsentForm' ? 'pdf file' : 'jpg/jpeg'), '', false);
         return
       }
       // upload to server folder
@@ -1399,6 +1401,13 @@ export class HospitalDetailComponent implements OnInit {
   btnCancel_Click() {
     this.routers.navigate(['/dashboard']);
 
+  }
+
+  MaxLengthValidation_KeyPress(event: any, length: number): boolean {
+    if (event.target.value.length == length) {
+      return false;
+    }
+    return true;
   }
 
 }

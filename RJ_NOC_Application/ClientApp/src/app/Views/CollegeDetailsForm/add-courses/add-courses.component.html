@@ -27,7 +27,7 @@
           <div class="card-body">
             <div class="row">
               <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-          <label for="ddlDepartment" class="form-label">Department*</label>
+          <label for="ddlDepartment" class="form-label">Department <span style="color:red">*</span></label>
           <select formControlName="ddlDepartment" id="ddlDepartment" [(ngModel)]="request.DepartmentID" class="form-control"
                   #SeletedDepartmentID (change)="ddlDepartment_change($event, SeletedDepartmentID.value)">
             <option value="0">--Select--</option>
@@ -40,7 +40,7 @@
           </div>
         </div>-->
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtCollege" class="form-label">College*</label>
+                <label for="txtCollege" class="form-label">College <span style="color:red">*</span></label>
                 <select formControlName="ddlCollege" id="ddlCollege" [(ngModel)]="request.CollegeID" class="form-control"
                         #SeletedCollegeID (change)="ddlCollege_change(SeletedCollegeID.value)">
                   <option value="0">--Select--</option>
@@ -53,7 +53,7 @@
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtCourse" class="form-label">Course*</label>
+                <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
                 <select formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-control"
                         #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
                   <option value="0">--Select--</option>
@@ -66,7 +66,7 @@
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="ddlSubject" class="form-label">Subject*</label>
+                <label for="ddlSubject" class="form-label">Subject <span style="color:red">*</span></label>
                 <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
                                          [settings]="dropdownSettings"
                                          [data]="subjectDataList"
@@ -77,7 +77,7 @@
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="ddlCourseType" class="form-label">Course Type *</label>
+                <label for="ddlCourseType" class="form-label">Course Type  <span style="color:red">*</span></label>
                 <select formControlName="ddlCourseType" id="ddlCourseType" [(ngModel)]="request.CourseTypeID" class="form-control"
                         [attr.disabled]="isCollegExisting ? true : null">
                   <option value="0">--Select--</option>
@@ -90,7 +90,7 @@
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="ddlSeatInformation" class="form-label">Seat Information *</label>
+                <label for="ddlSeatInformation" class="form-label">Seat Information  <span style="color:red">*</span></label>
                 <select formControlName="ddlSeatInformation" id="ddlSeatInformation" [(ngModel)]="request.Seats" class="form-control">
                   <option value="0">--Select--</option>
                   <option [value]="item.ID" *ngFor="let item of seatInformationDataList">
@@ -134,7 +134,7 @@
               </div>
             </div>
           </div>
-          <div class="card-body">
+          <div class="card-body" *ngIf="AllCourseList.length>0">
             <div class="table-responsive">
               <table class="table table-hover table-striped-columns" id="tabellist" #content>
                 <thead>
