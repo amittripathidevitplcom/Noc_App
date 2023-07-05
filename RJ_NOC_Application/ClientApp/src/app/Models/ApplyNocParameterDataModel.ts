@@ -1,4 +1,6 @@
 export class ApplyNocParameterDataModel {
+  public ApplyNocApplicationID: number = 0;
+
   public ApplyNocID: number = 0;
   public DepartmentID: number = 0;
   public ApplyNocFor: string = '';
@@ -8,6 +10,9 @@ export class ApplyNocParameterDataModel {
   public ApplicationTypeID: number = null;
   public ApplicationTypeName: string = '';
   public TotalFeeAmount: number = 0;
+  public CreatedBy: number = 0;
+  public ModifyBy: number = 0;
+
   public ApplyNocParameterMasterListDataModel: ApplyNocParameterMasterListDataModel[] = [];
 
   public ApplyNocParameterMasterList_TNOCExtension: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
@@ -41,3 +46,6 @@ export class ApplyNocParameterSubjectDataModel {
 export class ApplyNocParameterMaster_AdditionOfNewSeats60DataModel extends ApplyNocParameterMasterListDataModel {
   public ApplyNocParameterCourseList: ApplyNocParameterCourseDataModel[] = [];
 }
+
+// list details
+
