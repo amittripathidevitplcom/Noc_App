@@ -65,7 +65,7 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-striped">
+                        <table class="table table-hover table-striped-columns">
                           <thead>
                             <tr>
                               <th>Sr. No.</th>
@@ -73,8 +73,8 @@
                               <th>Subject</th>
                             </tr>
                           </thead>
-                          <tbody *ngFor="let item of ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList;let idx=index;">
-                            <tr>
+                          <tbody >
+                            <tr *ngFor="let item of ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList;let idx=index;">
                               <td>{{idx+1}}</td>
                               <td>
                                 <div class="form-check form-check-inline">
@@ -111,8 +111,8 @@
                               <th>Course</th>
                             </tr>
                           </thead>
-                          <tbody *ngFor="let item of ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocParameterCourseList;let idx=index;">
-                            <tr>
+                          <tbody >
+                            <tr *ngFor="let item of ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocParameterCourseList;let idx=index;">
                               <td>{{idx+1}}</td>
                               <td>
                                 <div class="form-check form-check-inline">

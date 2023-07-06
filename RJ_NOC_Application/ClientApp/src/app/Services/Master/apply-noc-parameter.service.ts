@@ -70,4 +70,11 @@ export class ApplyNocParameterService {
     return response;
   }
 
+  public async GetApplyNocApplicationList() {
+    return await this.http.get(this.APIUrl + "/GetApplyNocApplicationList")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }
