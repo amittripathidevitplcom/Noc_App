@@ -65,10 +65,10 @@
                 {{item.StudentCapacity}}
               </td>
               <td>
-                <div class="clearfix"></div>
-                <a data-fancybox="gallery" *ngIf="item.ImageFilePath!=''" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                  <img src="{{item.ImageFilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{item.ImageFilePath}}" alt="Image/File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                 </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
               </td>
 
             </tr>
