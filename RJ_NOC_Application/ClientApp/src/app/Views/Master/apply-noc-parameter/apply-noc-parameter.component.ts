@@ -356,15 +356,20 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
-  async cbCourse_TNOCExtension_change(event: any, cbCourseID_TNOCExtension: string, item: any) {
-    let courseID = Number(cbCourseID_TNOCExtension);
+  async cbCourse_TNOCExtension_change(event: any, courseID: string) {
+    let _courseID = Number(courseID);
     let isChecked = false;
     if (event.target.checked) {
       isChecked = true;
     }
-
-    for (let i = 0; i < item.ApplyNocParameterSubjectList.length; i++) {
-      item.ApplyNocParameterSubjectList[i].IsChecked = isChecked;
+    debugger
+    for (let i = 0; i < this.ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList.length; i++) {
+      if (this.ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList[i].CourseID == _courseID) {
+        for (let j = 0; j < this.ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList[i].ApplyNocParameterSubjectList.length; j++) {
+          this.ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList[i].ApplyNocParameterSubjectList[j].IsChecked = isChecked;
+        }
+        break;
+      }
     }
   }
 
