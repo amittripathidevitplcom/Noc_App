@@ -66,9 +66,12 @@ import { WorkFlowMasterListComponent } from './Views/Admin/work-flow-master/work
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
 import { ApplyNocParameterComponent } from './Views/Master/apply-noc-parameter/apply-noc-parameter.component';
 import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
+
 import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncregistrat/preview-rncregistrat.component';
 
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
+import { CommitteeMasterComponent } from './Views/Master/CommitteeMaster/AddCommitteeMaster/committee-master.component';
+import { CommitteeMasterListComponent } from './Views/Master/CommitteeMaster/CommitteeMasterList/committee-master-list.component';
 import { ApplyNOCJointSecPreviewComponent } from './Views/apply-nocjoint-sec-preview/apply-nocjoint-sec-preview.component';
 import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-preview/apply-nocsecretary-preview.component';
 import { ScurtenyComitteeComponent } from './Views/ScurtenyComittee/scurteny-comittee/scurteny-comittee.component';
@@ -271,10 +274,10 @@ const routes: Routes = [
       ,
       {
         path: 'workflowmasterlist', component: WorkFlowMasterListComponent
-      }, 
+      },
       {
         path: 'workflowmaster', component: WorkFlowMasterComponent
-      }      ,
+      },
       {
         path: 'workflowmasterlist', component: WorkFlowMasterListComponent
       },
@@ -322,6 +325,15 @@ const routes: Routes = [
       },
       {
         path: 'applynocapplicationdetail', component: ApplyNocParameterDetailsComponent
+      },
+      {
+        path: 'committeemaster', component: CommitteeMasterComponent
+      },
+      {
+        path: 'committeemasterlist', component: CommitteeMasterListComponent
+      },
+      {
+        path: 'committeemaster/:id', component: CommitteeMasterComponent
       },
       {
         path: 'revertapplynoclist', component: RevertApplyNOCApplicationListComponent

@@ -108,6 +108,8 @@ import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-l
 import { ApplyNOCJointSecPreviewComponent } from './Views/apply-nocjoint-sec-preview/apply-nocjoint-sec-preview.component';
 import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-preview/apply-nocsecretary-preview.component';
 import { ApplyNocParameterDetailsComponent } from './Views/Master/apply-noc-parameter-details/apply-noc-parameter-details.component';
+import { CommitteeMasterComponent } from './Views/Master/CommitteeMaster/AddCommitteeMaster/committee-master.component';
+import { CommitteeMasterListComponent } from './Views/Master/CommitteeMaster/CommitteeMasterList/committee-master-list.component';
 import { ScurtenyComitteeComponent } from './Views/ScurtenyComittee/scurteny-comittee/scurteny-comittee.component';
 import { PreviewLegalEntityComponent } from './Views/PreviewTabs/preview-legal-entity/preview-legal-entity.component';
 import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/preview-college.component';
@@ -209,6 +211,8 @@ import { PreviewTrusteeGeneralInfoComponent } from './Views/PreviewTabs/preview-
     ApplyNOCApplicationListComponent,
     ApplicationSummaryComponent,
     ApplyNOCPreviewComponent,
+    CommitteeMasterComponent,
+    CommitteeMasterListComponent,
     //LoaderModule,
     ApplyNOCJointSecPreviewComponent,
     ApplyNOCSecretaryPreviewComponent,
