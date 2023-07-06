@@ -216,12 +216,11 @@ import { PreviewTrusteeGeneralInfoComponent } from './Views/PreviewTabs/preview-
     PreviewRNCRegistratComponent,
     ScurtenyComitteeComponent,
     PreviewLegalEntityComponent,
-    PreviewCollegeComponent
-    PreviewScurtenyComitteeComponent,
+    PreviewCollegeComponent,
     PreviewRNCRegistratComponent,
     RevertApplyNOCApplicationListComponent,
     CollegeManagementSocietyComponent,
-    PreviewTrusteeGeneralInfoComponent
+    PreviewTrusteeGeneralInfoComponent,
     PreviewRNCRegistratComponent,
     ApplyNocParameterDetailsComponent
 

@@ -57,7 +57,6 @@ export class PreviewLegalEntityComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.legalEntityListService.GetLegalEntityBySSOID(SSOID, this.UserID)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
