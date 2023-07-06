@@ -1,0 +1,82 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
+import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
+import { LegalEntityService } from '../../../Services/LegalEntity/legal-entity.service';
+import { LoaderService } from '../../../Services/Loader/loader.service';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
+import { AbstractControl, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+
+@Component({
+  selector: 'app-preview-legal-entity',
+  templateUrl: './preview-legal-entity.component.html',
+  styleUrls: ['./preview-legal-entity.component.css']
+})
+export class PreviewLegalEntityComponent implements OnInit {
+
+  legalEntityForm!: FormGroup;
+  constructor(private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
+
+  }
+  public State: number = -1;
+  public SuccessMessage: any = [];
+  public ErrorMessage: any = [];
+  public isLoading: boolean = false;
+
+  public UserID: number = 0;
+  public legalEntityListData: any = [];
+  public legalEntityListData1: any = [];
+  public legalEntityInstituteDetailData: any = [];
+  public legalEntityMemberDetailData: any = [];
+  public searchText: string = '';
+  public SsoValidationMessage: string = '';
+  public SsoSuccessMessage: string = '';
+
+  // sso ligin
+  sSOLoginDataModel = new SSOLoginDataModel();
+  public CollegeID: number = 0;
+  public ModifyBy: number = 0;
+
+  //
+  public SSOID: string = '';
+  public SelectedLegalEntityID: number = 0;
+
+  async ngOnInit() {
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+
+    //
+    this.ModifyBy = 1;
+    // get college list
+    this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+  }
+  async ViewlegalEntityDataByID(SSOID: any) {
+    try {
+      this.loaderService.requestStarted();
+      await this.legalEntityListService.GetLegalEntityBySSOID(SSOID, this.UserID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.legalEntityListData1 = data['Data'][0]['data']['Table'][0];
+          this.legalEntityInstituteDetailData = data['Data'][0]['data']['Table1'];
+          this.legalEntityMemberDetailData = data['Data'][0]['data']['Table2'];
+
+          //console.log(this.draftApplicatoinListData);
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+}

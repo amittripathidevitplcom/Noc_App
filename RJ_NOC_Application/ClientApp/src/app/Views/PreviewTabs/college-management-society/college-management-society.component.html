@@ -1,0 +1,53 @@
+<div class="card mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp;College Management Society</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped-columns" id="tabellist" #content>
+            <thead>
+              <tr>
+                <th>SNo</th>
+                <th>Name</th>
+                <th>Father Name</th>
+                <th>Mobile No</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Aadhaar</th>
+                <th>Pan</th>
+                <th>PAN Card Document</th>
+                <th>Aadhaar Card Document</th>
+                <th>Signature Document</th>
+                <th>Profile Photo</th>
+                <th>Authorized Document</th>
+                <th>Is Primary</th>
+                <th>Is Authorize</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of SocietyAllList let idx=index;">
+                <td>{{idx+1}}</td>
+                <td>{{row.PersonName}}</td>
+                <td>{{row.FatherName}}</td>
+                <td>{{row.MobileNo}}</td>
+                <td>{{row.Gender}}</td>
+                <td>{{row.Email}}</td>
+                <td>{{row.AadhaarNo}}</td>
+                <td>{{row.PANNo}}</td>
+                <td><a target="_blank" href="{{row.PANCard}}"><i class="fa fa-eye"></i></a></td>
+                <td><a target="_blank" href="{{row.AadhaarCard}}"><i class="fa fa-eye"></i></a></td>
+                <td><a target="_blank" href="{{row.SignatureDoc}}"><i class="fa fa-eye"></i></a></td>
+                <td><a target="_blank" href="{{row.ProfilePhoto}}"><i class="fa fa-eye"></i></a></td>
+                <td><a *ngIf="row.IsAuthorized==true" target="_blank" href="{{row.AuthorizedDocument}}"><i class="fa fa-eye"></i></a></td>
+                <td>{{row.IsPrimary}}</td>
+                <td>{{row.IsAuthorized}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

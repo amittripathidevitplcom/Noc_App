@@ -19,57 +19,62 @@
     <div class="col-md-12">
       <div class="row align-items-center">
         <div class="col-md-12">
-
+          <div class="row">
+            <app-college-management-society></app-college-management-society>
+          </div>
+          <div class="row">
+            <app-preview-trustee-general-info></app-preview-trustee-general-info>
+          </div>
           <div class="row">
             <app-preview-land-detail></app-preview-land-detail>
           </div>
-            <div class="row">
-              <!--Facility-->
-              <app-preview-facility-detail></app-preview-facility-detail>
-            </div>
-            <div class="row">
-              <!--Required Document-->
-              <app-preview-required-document></app-preview-required-document>
-            </div>
-
-            <!--Room Details-->
-            <div class="row">
-              <app-preview-room-detail></app-preview-room-detail>
-            </div>
-            <div class="row">
-              <!--Other Information-->
-              <app-preview-other-information></app-preview-other-information>
-            </div>
-            <div class="row">
-              <!--Building Documents-->
-              <app-preview-building-detail></app-preview-building-detail>
-            </div>
-            <div class="row">
-              <!--Staff Details-->
-              <app-preview-staff-detail></app-preview-staff-detail>
-            </div>
-
-            <div class="row" *ngIf="CollegeType_IsExisting">
-              <!--OLD NOC Details Only for New-->
-              <app-preview-old-nocdetail></app-preview-old-nocdetail>
-            </div>
-            <!--Academic Information Only for New-->
-            <div class="row" *ngIf="CollegeType_IsExisting">
-              <app-preview-academic-information></app-preview-academic-information>
-            </div>
-            <div class="row">
-              <!--Other Document-->
-              <app-preview-other-document></app-preview-other-document>
-            </div>
-            <div class="row">
-              <!--Hospital Details-->
-              <app-preview-hospital-detail></app-preview-hospital-detail>
-            </div>
-            <div class="row">
-              <!--Hostel Details-->
-              <app-preview-hostel-details></app-preview-hostel-details>
-            </div>
+          <div class="row">
+            <!--Facility-->
+            <app-preview-facility-detail></app-preview-facility-detail>
           </div>
+          <div class="row">
+            <!--Required Document-->
+            <app-preview-required-document></app-preview-required-document>
+          </div>
+
+          <!--Room Details-->
+          <div class="row">
+            <app-preview-room-detail></app-preview-room-detail>
+          </div>
+          <div class="row">
+            <!--Other Information-->
+            <app-preview-other-information></app-preview-other-information>
+          </div>
+          <div class="row">
+            <!--Building Documents-->
+            <app-preview-building-detail></app-preview-building-detail>
+          </div>
+          <div class="row">
+            <!--Staff Details-->
+            <app-preview-staff-detail></app-preview-staff-detail>
+          </div>
+
+          <div class="row" *ngIf="CollegeType_IsExisting">
+            <!--OLD NOC Details Only for New-->
+            <app-preview-old-nocdetail></app-preview-old-nocdetail>
+          </div>
+          <!--Academic Information Only for New-->
+          <div class="row" *ngIf="CollegeType_IsExisting">
+            <app-preview-academic-information></app-preview-academic-information>
+          </div>
+          <div class="row">
+            <!--Other Document-->
+            <app-preview-other-document></app-preview-other-document>
+          </div>
+          <div class="row">
+            <!--Hospital Details-->
+            <app-preview-hospital-detail></app-preview-hospital-detail>
+          </div>
+          <div class="row">
+            <!--Hostel Details-->
+            <app-preview-hostel-details></app-preview-hostel-details>
+          </div>
+        </div>
         </div>
       </div>
     </div>

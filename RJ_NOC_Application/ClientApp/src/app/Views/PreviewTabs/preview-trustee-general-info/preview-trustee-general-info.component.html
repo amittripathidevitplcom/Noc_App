@@ -1,0 +1,113 @@
+<div class="card mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp;Trustee General Info</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-filter"></i>&nbsp;Society General Information</b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td>Name of Society</td>
+                        <td>{{LegalEntityDataModel.SocietyName}}</td>
+                        <td>Entity Type</td>
+                        <td>{{LegalEntityDataModel.LegalEntity}}</td>
+                      </tr>
+                      <tr>
+                        <td>Registration No</td>
+                        <td>{{LegalEntityDataModel.RegistrationNo}}</td>
+                        <td>SSO ID</td>
+                        <td>{{LegalEntityDataModel.SSOID}}</td>
+                      </tr>
+                      <tr>
+                        <td>District</td>
+                        <td>{{LegalEntityDataModel.District_Eng}}</td>
+                        <td>ACT</td>
+                        <td>{{LegalEntityDataModel.RegisteredAct}}</td>
+                      </tr>
+                      <tr>
+                        <td>Status</td>
+                        <td>{{LegalEntityDataModel.SocietyPresentStatus}}</td>
+                        <td>Date Of Registration</td>
+                        <td>{{LegalEntityDataModel.SocietyRegistrationDate}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-filter"></i>&nbsp;Society Document Details</b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>
+                          Sr.No.
+                        </th>
+                        <th>
+                          Election Present Management Committee Date
+                        </th>
+                        <th>
+                          Women Members Of Management Committee
+                        </th>
+                        <th>
+                          Election Of Management Committee
+                        </th>
+                        <th>
+                          Other Institution run by the Society
+                        </th>
+                        <th>
+                          Society Registration Document
+                        </th>
+                        <th>
+                          Society Logo
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of TrusteeGeneralInfoList;let idx=index;">
+                        <td>
+                          {{idx+1}}
+                        </td>
+                        <td>
+                          {{row.DateOfElectionOfPresentManagementCommittee}}
+                        </td>
+                        <td>
+                          {{row.WomenMembersOfManagementCommitteeID==1?'Yes':'No'}}
+                        </td>
+                        <td>
+                          {{row.DateOfElectionOfManagementCommitteeID==1?'Yes':'No'}}
+                        </td>
+                        <td>
+                          {{row.OtherInstitutionRunByTheSocietyID==1?'Yes':'No'}}
+                        </td>
+                        <td><a *ngIf="row.SocietyRegistrationDocument!=''" target="_blank" href="{{row.SocietyRegistrationDocument}}"><i class="fa fa-eye"></i></a></td>
+                        <td><a *ngIf="row.SocietyLogo!=''" target="_blank" href="{{row.SocietyLogo}}"><i class="fa fa-eye"></i></a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

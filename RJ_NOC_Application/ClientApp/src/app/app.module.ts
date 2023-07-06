@@ -103,7 +103,6 @@ import { CreateUserComponent } from './Views/Master/UserMaster/create-user/creat
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
 import { ApplyNocParameterComponent } from './Views/Master/apply-noc-parameter/apply-noc-parameter.component';
 import { ApplyNOCPreviewComponent } from './Views/apply-nocpreview/apply-nocpreview.component';
-import { PreviewScurtenyComitteeComponent } from './Views/PreviewTabs/preview-scurteny-comittee/preview-scurteny-comittee.component';
 import { PreviewRNCRegistratComponent } from './Views/PreviewTabs/preview-rncregistrat/preview-rncregistrat.component';
 import { ApplyNOCApplicationListComponent } from './Views/apply-nocapplication-list/apply-nocapplication-list.component';
 import { ApplyNOCJointSecPreviewComponent } from './Views/apply-nocjoint-sec-preview/apply-nocjoint-sec-preview.component';
@@ -111,6 +110,12 @@ import { ApplyNOCSecretaryPreviewComponent } from './Views/apply-nocsecretary-pr
 import { ApplyNocParameterDetailsComponent } from './Views/Master/apply-noc-parameter-details/apply-noc-parameter-details.component';
 import { CommitteeMasterComponent } from './Views/Master/CommitteeMaster/AddCommitteeMaster/committee-master.component';
 import { CommitteeMasterListComponent } from './Views/Master/CommitteeMaster/CommitteeMasterList/committee-master-list.component';
+import { ScurtenyComitteeComponent } from './Views/ScurtenyComittee/scurteny-comittee/scurteny-comittee.component';
+import { PreviewLegalEntityComponent } from './Views/PreviewTabs/preview-legal-entity/preview-legal-entity.component';
+import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/preview-college.component';
+import { RevertApplyNOCApplicationListComponent } from './Views/revert-apply-nocapplication-list/revert-apply-nocapplication-list.component';
+import { CollegeManagementSocietyComponent } from './Views/PreviewTabs/college-management-society/college-management-society.component';
+import { PreviewTrusteeGeneralInfoComponent } from './Views/PreviewTabs/preview-trustee-general-info/preview-trustee-general-info.component';
 
 @NgModule({
   declarations: [
@@ -212,7 +217,15 @@ import { CommitteeMasterListComponent } from './Views/Master/CommitteeMaster/Com
     ApplyNOCJointSecPreviewComponent,
     ApplyNOCSecretaryPreviewComponent,
     ApplyNocParameterComponent,
+    PreviewRNCRegistratComponent,
+    ScurtenyComitteeComponent,
+    PreviewLegalEntityComponent,
+    PreviewCollegeComponent
     PreviewScurtenyComitteeComponent,
+    PreviewRNCRegistratComponent,
+    RevertApplyNOCApplicationListComponent,
+    CollegeManagementSocietyComponent,
+    PreviewTrusteeGeneralInfoComponent
     PreviewRNCRegistratComponent,
     ApplyNocParameterDetailsComponent
 

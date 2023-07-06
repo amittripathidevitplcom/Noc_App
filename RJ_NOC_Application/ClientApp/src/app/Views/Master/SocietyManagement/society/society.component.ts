@@ -112,8 +112,7 @@ export class SocietyComponent implements OnInit {
     if (ddlCollegeID) ddlCollegeID.focus();
     this.UserID = 1;
 
-    // get saved society
-    this.GetSocietyAllList();
+
     // get login data
     this.ssoLoginModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     // get colleges
@@ -122,6 +121,8 @@ export class SocietyComponent implements OnInit {
     await this.GetAllDesignation();
     // get all Occupation
     await this.GetAllOccupation();
+    // get saved society
+    //await this.GetSocietyAllList(this.CollegeList[0]["CollegeID"]);
   }
   get form() { return this.SocietyDetailsForm.controls; }
 
@@ -129,10 +130,10 @@ export class SocietyComponent implements OnInit {
     this.isAuthorizedOrNot = event.target.checked;
   }
 
-  async GetSocietyAllList() {
+  async GetSocietyAllList(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.societyService.GetSocietyAllList(this.UserID)
+      await this.societyService.GetSocietyAllList(this.UserID, CollegeID)
         .then((data: any) => {
           
           data = JSON.parse(JSON.stringify(data));
@@ -256,7 +257,7 @@ export class SocietyComponent implements OnInit {
             this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'Society');
             this.GetAllDesignation();
             this.GetAllOccupation();
-            this.GetSocietyAllList();
+            //this.GetSocietyAllList(this.CollegeList[0]["CollegeID"]);
             this.ResetControl();
           }
           else {
@@ -540,7 +541,7 @@ export class SocietyComponent implements OnInit {
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage)
-              this.GetSocietyAllList(); 
+              //this.GetSocietyAllList(this.CollegeList[0]["CollegeID"]); 
             }
             else {
               this.toastr.error(this.ErrorMessage)
