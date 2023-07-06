@@ -171,6 +171,7 @@ export class ApplyNocParameterComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // TNOC Extension
           if (this.request.ApplyNocFor == 'TNOC Extension') {
+            debugger;
             this.ApplyNocParameterMasterList_TNOCExtension = data['Data'];
           }
           // Addition of New Seats(60)
@@ -356,20 +357,14 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
-  async cbCourse_TNOCExtension_change(event: any, courseID: string) {
+  async cbCourse_TNOCExtension_change(event: any, courseID: string, item: any) {
     let _courseID = Number(courseID);
     let isChecked = false;
     if (event.target.checked) {
       isChecked = true;
     }
-    debugger
-    for (let i = 0; i < this.ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList.length; i++) {
-      if (this.ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList[i].CourseID == _courseID) {
-        for (let j = 0; j < this.ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList[i].ApplyNocParameterSubjectList.length; j++) {
-          this.ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList[i].ApplyNocParameterSubjectList[j].IsChecked = isChecked;
-        }
-        break;
-      }
+    for (let j = 0; j < item.ApplyNocParameterSubjectList.length; j++) {
+      item.ApplyNocParameterSubjectList[j].IsChecked = isChecked;
     }
   }
 

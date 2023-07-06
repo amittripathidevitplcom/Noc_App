@@ -56,6 +56,8 @@
                   <p *ngIf="form.cbNocFor.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
+            </div>
+          </form>
               <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                 <!--TNOC Extension-->
                 <div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtension != null">
@@ -65,7 +67,7 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-striped">
+                        <table class="table table-hover table-striped-columns">
                           <thead>
                             <tr>
                               <th>Sr. No.</th>
@@ -73,19 +75,22 @@
                               <th>Subject</th>
                             </tr>
                           </thead>
-                          <tbody *ngFor="let item of ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList;let idx=index;">
-                            <tr>
+                          <tbody>
+                            <tr *ngFor="let item of ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList;let idx=index;">
                               <td>{{idx+1}}</td>
                               <td>
                                 <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="checkbox" name="cbCourse_TNOCExtension" id="cbCourse_TNOCExtension_{{item.CourseID}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked" formControlName="cbCourse_TNOCExtension" [attr.checked]="item.IsChecked" #SelectedcbCourseID_TNOCExtension (change)="cbCourse_TNOCExtension_change($event,SelectedcbCourseID_TNOCExtension.value)">
+                                  <input class="form-check-input" type="checkbox" name="cbCourse_TNOCExtension_{{idx+1}}" id="cbCourse_TNOCExtension_{{idx+1}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked"
+                                         #SelectedcbCourseID_TNOCExtension (change)="cbCourse_TNOCExtension_change($event,SelectedcbCourseID_TNOCExtension.value,item)">
                                   <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
                                 </div>
                               </td>
                               <td>
-                                <div class="form-check form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;">
-                                  <input class="form-check-input" type="checkbox" name="cbSubject_TNOCExtension" id="cbSubject_TNOCExtension_{{item1.SubjectID}}" value="{{item1.SubjectID}}" formControlName="cbSubject_TNOCExtension" [attr.disabled]="true" [attr.checked]="item1.IsChecked" [(ngModel)]="item1.IsChecked">
-                                  <label class="form-check-label" for="cbSubject_TNOCExtension_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                                <div class="form-check form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
+                                  <input class="form-check-input" type="checkbox" name="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}"
+                                         id="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}" value="{{item1.SubjectID}}"
+                                         [attr.disabled]="true" [(ngModel)]="item1.IsChecked">
+                                  <label class="form-check-label" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
                                 </div>
                               </td>
                             </tr>
@@ -111,8 +116,8 @@
                               <th>Course</th>
                             </tr>
                           </thead>
-                          <tbody *ngFor="let item of ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocParameterCourseList;let idx=index;">
-                            <tr>
+                          <tbody>
+                            <tr  *ngFor="let item of ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocParameterCourseList;let idx=index;">
                               <td>{{idx+1}}</td>
                               <td>
                                 <div class="form-check form-check-inline">
@@ -129,12 +134,11 @@
                 </div>
                 <!--end-->
               </div>
-              <div class="card-footer text-end" *ngIf="HasData()">
-                <button type="button" class="btn btn-danger" aria-label="Reset" (click)="ResetApplyNoc_click()">Reset</button>
+              <div class="card-footer" *ngIf="HasData()">
                 <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()">Apply Noc</button>
+                <button type="button" class="btn btn-danger" aria-label="Reset" (click)="ResetApplyNoc_click()">Reset</button>
               </div>
-            </div>
-          </form>
+            
         </div>
         <div class="card-body">
           <div class="row">
