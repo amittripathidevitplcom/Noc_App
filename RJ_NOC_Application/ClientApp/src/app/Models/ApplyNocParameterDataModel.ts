@@ -48,4 +48,11 @@ export class ApplyNocParameterMaster_AdditionOfNewSeats60DataModel extends Apply
 }
 
 // list details
-
+export class ApplyNocApplicationListDataModel {
+  public ApplyNocApplicationID: number = 0;
+  public CollegeID: number = 0;
+  public CollegeName: string = '';
+  public ApplicationTypeID: number = null;
+  public ApplicationTypeName: string = '';
+  public TotalFeeAmount: number = 0;
+}

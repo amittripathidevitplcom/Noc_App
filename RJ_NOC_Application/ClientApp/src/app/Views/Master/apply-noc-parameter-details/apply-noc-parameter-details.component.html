@@ -24,40 +24,41 @@
                 <b>Apply Noc List</b>
               </div>
               <div class="card-body">
-                <div class="row">
-                  <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped">
-                      <thead>
-                        <tr>
-                          <th>Sr. No.</th>
-                          <th>Course</th>
-                          <th>Subject</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody *ngFor="let item of ApplyNocApplicationList;let idx=index;">
-                        <tr>
-                          <td>{{idx+1}}</td>
-                          <td>
-                            {{item.CollegeName}}
-                          </td>
-                          <td>
-                            {{item.ApplicationTypeName}}
-                          </td>
-                          <td>
-                            {{item.TotalFeeAmount}}
-                          </td>
-                          <td>
-                            <div class="d-flex">
-                              <button type="button" class="btn" title="View" (click)="ViewApplyNocApplication(item.ApplyNocApplicationID)"><i class="fa fa-trash"></i></button>
-                              <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteApplyNocApplication(item.ApplyNocApplicationID)"><i class="fa fa-trash"></i></button>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>College</th>
+                        <th>Application Type</th>
+                        <th>Total Fee Amount</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of ApplyNocApplicationList;let idx=index;">
+                        <td>{{idx+1}}</td>
+                        <td>
+                          {{item.CollegeName}}
+                        </td>
+                        <td>
+                          {{item.ApplicationTypeName}}
+                        </td>
+                        <td>
+                          {{item.TotalFeeAmount}}
+                        </td>
+                        <td>
+                          <div class="d-flex">
+                            <button type="button" class="btn btn-sm btn-primary" title="View" (click)="ViewApplyNocApplication(item.ApplyNocApplicationID)">View Application</button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteApplyNocApplication(item.ApplyNocApplicationID)">Delete Application</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
+
               </div>
             </div>
           </div>
