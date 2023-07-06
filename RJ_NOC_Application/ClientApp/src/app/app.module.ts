@@ -225,6 +225,7 @@ import { PreviewTrusteeGeneralInfoComponent } from './Views/PreviewTabs/preview-
     RevertApplyNOCApplicationListComponent,
     CollegeManagementSocietyComponent,
     PreviewTrusteeGeneralInfoComponent,
+    PreviewCollegeComponent,
     PreviewRNCRegistratComponent,
     ApplyNocParameterDetailsComponent
 
