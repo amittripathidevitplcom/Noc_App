@@ -49,15 +49,11 @@ export class PreviewTrusteeGeneralInfoComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           //
           if (!this.State) {
-            //this.toastr.success(this.SuccessMessage)
-            // data
             this.TrusteeGeneralInfoList = JSON.parse(JSON.stringify(data['Data']));
           }
           else {
             this.toastr.error(this.ErrorMessage)
           }
-
-          //console.log(this.request.RuralUrban);
         })
     }
     catch (ex) { console.log(ex) }

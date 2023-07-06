@@ -18,8 +18,10 @@
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label><b>College Logo :</b></label>
                 <div class="clearfix"></div>
-                <a data-fancybox="gallery" href="{{collegeListData.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom">
+                <a *ngIf="!collegeListData.CollegeLogoPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom">
                   <img src="{{collegeListData.CollegeLogoPath}}" alt="College Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.CollegeLogoPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">                
                 </a>
               </div>
             </div>
@@ -244,7 +246,13 @@
                           <td>{{row.PanchyatSamitiName}}</td>
                           <td>{{row.CityTownVillage}}</td>
                           <td>{{row.Pincode}}</td>
-                          <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocumentPath}}" title="View Hospital Document"><i class="fa fa-eye"></i></a></td>
+                          <td>
+                            <a *ngIf="!row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                              <img src="{{row.HospitalDocumentPath}}" alt="Hospital Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                            </a>
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                            </a>
+                          </td>
                         </tr>
                       </tbody>
                     </table>

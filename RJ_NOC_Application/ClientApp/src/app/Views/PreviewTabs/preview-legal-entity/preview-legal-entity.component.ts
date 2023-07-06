@@ -34,6 +34,10 @@ export class PreviewLegalEntityComponent implements OnInit {
   public searchText: string = '';
   public SsoValidationMessage: string = '';
   public SsoSuccessMessage: string = '';
+  public TrustLogoDocPathfileExt: any = [];
+  public TrusteeMemberProofDocPathfileExt: any = [];
+  public PresidentAadhaarProofDocPathfileExt: any = [];
+  public SocietyPanProofDocPathfileExt: any = [];
 
   // sso ligin
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -65,7 +69,6 @@ export class PreviewLegalEntityComponent implements OnInit {
           this.legalEntityListData1 = data['Data'][0]['data']['Table'][0];
           this.legalEntityInstituteDetailData = data['Data'][0]['data']['Table1'];
           this.legalEntityMemberDetailData = data['Data'][0]['data']['Table2'];
-
           //console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));
     }
@@ -77,5 +80,5 @@ export class PreviewLegalEntityComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  }
+  }  
 }
