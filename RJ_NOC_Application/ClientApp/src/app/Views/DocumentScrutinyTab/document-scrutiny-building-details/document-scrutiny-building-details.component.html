@@ -19,6 +19,19 @@
         <thead>
           <tr>
             <th>Sr. No</th>
+            <th>
+              Compliance<br />
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rdSelectAllActionType" id="rdSelectAllYes" value="Yes" (change)="selectAll('Yes')">
+                <label class="form-check-label">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rdSelectAllActionType" id="rdSelectAllNo" value="No" (change)="selectAll('No')">
+                <label class="form-check-label">No</label>
+              </div>
+
+            </th>
+            <th>Action</th>
             <th>Building Type</th>
             <th>Owner Name</th>
             <th>Rural Urban</th>
@@ -28,12 +41,36 @@
             <th>Order No</th>
             <th>Order Date</th>
             <th>Expiring On</th>
-            <th>Action</th>
+
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of lstBuildingDetails | tableSearchFilter:searchText;let idx=index;">
             <td>{{idx+1}}</td>
+            <td>
+              <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rdActionType{{idx+1}}" id="rdActionTypeYes{{idx+1}}" [(ngModel)]="item.Action" value="Yes" (change)="ClickOnAction(idx)">
+                  <label class="form-check-label">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rdActionType{{idx+1}}" id="rdActionTypeNo{{idx+1}}" value="No" [(ngModel)]="item.Action" (change)="ClickOnAction(idx)">
+                  <label class="form-check-label">No</label>
+                </div>
+              </div>
+              <div class="row" [hidden]="item.Action !='No'">
+                <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                  <label>Remark : </label>
+                  <textarea type="text" class="form-control" name="txtRemark{{idx+1}}" id="txtRemark{{idx+1}}" [(ngModel)]="item.Remark"></textarea>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex">
+                <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewBuildingDetails(mymodal,item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></button>
+                <!--<button type="button" title="View" (click)="ViewBuildingDetails(item.SchoolBuildingDetailsID)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>-->
+              </div>
+            </td>
             <td>{{item.BuildingTypeName}}</td>
             <td>{{item.OwnerName}}</td>
             <td>{{item.RuralUrban}}</td>
@@ -43,20 +80,28 @@
             <td>{{item.OrderNo}}</td>
             <td>{{item.OrderDate}}</td>
             <td>{{item.ExpiringOn}}</td>
-            <td>
-              <div class="d-flex">
-                <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewBuildingDetails(mymodal,item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></button>
-                <!--<button type="button" title="View" (click)="ViewBuildingDetails(item.SchoolBuildingDetailsID)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>-->
-              </div>
-            </td>
+
           </tr>
           <tr *ngIf="lstBuildingDetails.length<=0">
-            <td colspan="11" style="color:red">No Data Found.!</td>
+            <td colspan="13" style="color:red">No Data Found.!</td>
           </tr>
         </tbody>
       </table>
     </div>
-
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <label>Remarks</label>
+        <textarea id="RoomDetailRemark" class="form-control" [(ngModel)]="dsrequest.Remark"></textarea>
+        <div *ngIf="isRemarkValid" class="text-danger">
+          <p *ngIf="isRemarkValid"> This field is required .!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-primary" type="button" (click)="SubmitBuildingDetail_Onclick()">Submit</button>
+      </div>
+    </div>
     <ng-template #mymodal let-modal>
       <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Building Details</h4>

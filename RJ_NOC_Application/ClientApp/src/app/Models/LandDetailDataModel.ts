@@ -1,6 +1,11 @@
 import { RequiredDocumentsDataModel_Documents } from "./TabDetailDataModel";
 
-export class LandDetailDataModel {
+export class DocumentScrutiny_ActionModule {
+  public Action: string = '';
+  public Remark: string = '';
+}
+
+export class LandDetailDataModel extends DocumentScrutiny_ActionModule {
   public LandDetailID: number = 0;
   public CollegeID: number = 0;
   public LandAreaID: number = 0;
@@ -24,6 +29,7 @@ export class LandDetailDataModel {
   public LandDetailDocument: LandDetailDocumentDataModel[] = [];
   public Code: string = '';
 }
+
 export class LandDetailDocumentDataModel extends RequiredDocumentsDataModel_Documents {
   
 }

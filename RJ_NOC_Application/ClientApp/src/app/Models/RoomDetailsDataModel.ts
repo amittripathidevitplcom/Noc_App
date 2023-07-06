@@ -1,3 +1,5 @@
+import { DocumentScrutiny_ActionModule } from "../Models/LandDetailDataModel";
+
 export class RoomDetailsDataModel {
   public CollegeWiseRoomID: number = 0;
   public CollegeID: number = 0;
@@ -14,7 +16,7 @@ export class RoomDetailsDataModel {
   public UserID: number = 0;
 }
 
-export class RoomDetailsDataModel_RoomDetails {
+export class RoomDetailsDataModel_RoomDetails extends DocumentScrutiny_ActionModule {
   public CollegeWiseRoomID: number = 0;
   public CourseID: number = 0;
   public CourseName: string = '';

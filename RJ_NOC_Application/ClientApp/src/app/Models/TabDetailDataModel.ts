@@ -1,3 +1,5 @@
+
+
 export class LandDetailDataModel {
   public LandDetailID: number = 0;
   public CollegeID: number = 0;
@@ -106,6 +108,10 @@ export class StaffDetailDataModel {
   public IPAddress: string = '';
 
   public EducationalQualificationDetails: EducationalQualificationDetails_StaffDetail[] = [];
+
+
+  public Action: string = '';
+  public Remark: string = '';
 }
 export class EducationalQualificationDetails_StaffDetail {
   public EducationalQualificationID: number = 0;

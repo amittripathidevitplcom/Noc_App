@@ -5,11 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
-import { DocumentScrutinyDataModel, DocumentScrutinyDetail_DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
+import { DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
 import { CommonMasterService } from '../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../Services/Loader/loader.service';
 import { CourseMasterService } from '../../Services/Master/AddCourse/course-master.service';
 import { ApplyNOCApplicationService } from '../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { PreviewLandDetailComponent } from '../PreviewTabs/preview-land-detail/preview-land-detail.component';
 
 @Component({
   selector: 'app-apply-nocpreview',
@@ -50,7 +51,6 @@ export class ApplyNOCPreviewComponent implements OnInit {
   public isObjectionValid: boolean = false;
   public isRemarkValid: boolean = false;
 
-  public DocumentScrutinyDetail: DocumentScrutinyDetail_DocumentScrutinyDataModel[] = [];
 
   public RoleID: number = 13;
   public UserID: number = 0;
@@ -64,8 +64,8 @@ export class ApplyNOCPreviewComponent implements OnInit {
   public DocumentScrutinyButtonText: string = '';
 
 
-  constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) { }
+  constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router) { }
 
   async ngOnInit() {
     this.loaderService.requestStarted();
@@ -215,7 +215,6 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
 
   async SubmitTabAction_Onclick() {
-    this.DocumentScrutinyDetail = [];
     this.request.DepartmentID = this.SelectedDepartmentID;
     this.request.CollegeID = this.SelectedCollageID;
     this.request.UserID = this.UserID;
@@ -243,14 +242,14 @@ export class ApplyNOCPreviewComponent implements OnInit {
     if (!this.isFormvalid) {
       return;
     }
-    if (this.SelectedTabFieldDataList.length > 0) {
-      for (var i = 0; i < this.SelectedTabFieldDataList.length; i++) {
-        this.DocumentScrutinyDetail.push({
-          DocumentScrutinyDetailID: 0, DocumentScrutinyID: 0, TabFieldID: this.SelectedTabFieldDataList[i].TabFieldID, TabFieldName: this.SelectedTabFieldDataList[i].FieldName
-        });
-      }
-      this.request.DocumentScrutinyDetail = this.DocumentScrutinyDetail;
-    }
+    //if (this.SelectedTabFieldDataList.length > 0) {
+    //  for (var i = 0; i < this.SelectedTabFieldDataList.length; i++) {
+    //    this.DocumentScrutinyDetail.push({
+    //      DocumentScrutinyDetailID: 0, DocumentScrutinyID: 0, TabFieldID: this.SelectedTabFieldDataList[i].TabFieldID, TabFieldName: this.SelectedTabFieldDataList[i].FieldName
+    //    });
+    //  }
+    //  this.request.DocumentScrutinyDetail = this.DocumentScrutinyDetail;
+    //}
 
     try {
       this.loaderService.requestStarted();
