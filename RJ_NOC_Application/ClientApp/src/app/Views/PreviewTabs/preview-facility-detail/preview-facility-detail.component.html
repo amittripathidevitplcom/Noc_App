@@ -2,44 +2,39 @@
   <div class="card-header">
     <b><i class="bi bi-table"></i>&nbsp; Facilitie Details</b>
   </div>
-
   <div class="card-body">
-    <div class="row">
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped">
-          <tbody>
-            <tr *ngFor="let item of FacilitiesDataAllList; let idx =index">
-              <td width="5%">
-                {{idx+1}}
-              </td>
-              <td>
-                <div class="row">
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label><b>Facilities : </b></label>
-                    {{item.FacilitiesName}}
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>
-                      <b>Minimum Size :</b>
-                    </label>
-                    {{item.MinSize}}
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>
-                      <b>Image : &nbsp;&nbsp; </b>
-                    </label>
-                    <a data-fancybox="gallery" *ngIf="item.FacilitiesUrl!=''" href="{{item.FacilitiesUrl}}" data-caption="Image 10" title="click here to zoom">
-                      <img src="{{item.FacilitiesUrl}}" alt="Document Image" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                    </a>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr *ngIf="FacilitiesDataAllList.length<=0">
-              <td colspan="2" style="color:red">No Data Found.!</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="row" *ngIf="FacilitiesDataAllList.length>0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Facilities Name</th>
+                <th>Minimum Size</th>
+                <th>Image/File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of FacilitiesDataAllList ; let indexOfelement=index;">
+                <td> {{indexOfelement+1}}</td>
+                <td>{{item.FacilitiesName}}
+                </td>
+                <td>{{item.MinSize}}
+                </td>
+                <td>
+                  <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrl}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.FacilitiesUrl}}" alt="Facilities" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrl}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </td>
+              </tr>
+              <tr *ngIf="FacilitiesDataAllList.length<=0">
+                <td colspan="2" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

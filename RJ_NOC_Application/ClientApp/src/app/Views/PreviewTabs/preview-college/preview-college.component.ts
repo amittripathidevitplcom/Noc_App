@@ -66,7 +66,6 @@ export class PreviewCollegeComponent implements OnInit {
           this.collegeListData = data['Data'][0]['data']['Table'][0];
           this.collegeContactDetailsList = data['Data'][0]['data']['Table1'];
           this.collegeNearestGovernmentHospitalsList = data['Data'][0]['data']['Table2'];
-
           //console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));
     }

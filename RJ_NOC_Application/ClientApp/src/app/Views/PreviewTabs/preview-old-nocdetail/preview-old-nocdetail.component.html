@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    
+
     <ng-template #mymodal let-modal>
       <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Old NOC Details</h4>
@@ -107,12 +107,11 @@
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label><b>Upload NOC :</b></label>
-            <div class="clearfix"></div>
-            <a data-fancybox="gallery" *ngIf="request.UploadNOCDocPath!=''" href="{{request.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom">
-              <img src="{{request.UploadNOCDocPath}}" alt="UploadNOCDocument" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            <a *ngIf="!request.UploadNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.UploadNOCDocPath}}" alt="NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
             </a>
-
-          </div>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.UploadNOCDocPath.includes('.pdf')" data-fancybox="gallery" href="{{request.UploadNOCDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
         </div>
       </div>
     </ng-template>
