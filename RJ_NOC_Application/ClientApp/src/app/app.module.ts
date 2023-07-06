@@ -213,8 +213,7 @@ import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/pre
     PreviewRNCRegistratComponent,
     ScurtenyComitteeComponent,
     PreviewLegalEntityComponent,
-    PreviewCollegeComponent
-    PreviewScurtenyComitteeComponent,
+    PreviewCollegeComponent,
     PreviewRNCRegistratComponent,
     ApplyNocParameterDetailsComponent
 
