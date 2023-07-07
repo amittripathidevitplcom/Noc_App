@@ -1,5 +1,4 @@
 
-
 export class LandDetailDataModel {
   public LandDetailID: number = 0;
   public CollegeID: number = 0;
@@ -45,6 +44,8 @@ export class RequiredDocumentsDataModel {
   public DocumentDetails: RequiredDocumentsDataModel_Documents[] = [];
 }
 
+ 
+
 export class RequiredDocumentsDataModel_Documents {
   public DID: number = 0;
   public DocumentName: string = '';
@@ -53,6 +54,8 @@ export class RequiredDocumentsDataModel_Documents {
   public Dis_FileName: string = '';
   public FileName: string = '';
   public FilePath: string = '';
+  public Action: string = '';
+  public Remark: string = '';
 }
 
 export class StaffDetailDataModel {
