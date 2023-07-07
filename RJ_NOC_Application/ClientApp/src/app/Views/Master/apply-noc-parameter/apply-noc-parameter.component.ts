@@ -8,7 +8,6 @@ import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-par
 import { ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
-import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-apply-noc-parameter',
@@ -22,9 +21,6 @@ export class ApplyNocParameterComponent implements OnInit {
   public ErrorMessage: any = [];
   public isLoading: boolean = false;
   public isSubmitted: boolean = false;
-
-  closeResult: string | undefined;
-  modalReference: NgbModalRef | undefined;
 
   public ApplicationTypeList: any = [];
   public CollegeList_ddl: any = [];
@@ -40,7 +36,7 @@ export class ApplyNocParameterComponent implements OnInit {
   public ApplyNocParameterMasterList_TNOCExtension: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_AdditionOfNewSeats60: ApplyNocParameterMaster_AdditionOfNewSeats60DataModel = null;
 
-  constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal) {
+  constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router) {
 
   }
 
@@ -196,82 +192,6 @@ export class ApplyNocParameterComponent implements OnInit {
       HasData = true;
     }
     return HasData;
-  }
-
-  async Preview_click(content: any) {
-    try {
-      let isValid = true;
-      if (this.ApplyNocParameterForm.invalid) {
-        isValid = false;
-      }
-
-      // check all
-      if (!isValid) {
-        return;
-      }
-      //debugger
-      this.loaderService.requestStarted();
-      this.isSubmitted = true;
-      //set
-      this.request.CollegeName = this.CollegeList_ddl.find((x: { CollegeID: number }) => x.CollegeID == this.request.CollegeID)?.CollegeName;
-      this.request.ApplicationTypeName = this.ApplicationTypeList.find((x: { ID: number }) => x.ID == this.request.ApplicationTypeID)?.Name;
-      // noc parameter
-      this.request.ApplyNocParameterMasterListDataModel = this.ApplyNocParameterMasterList_ddl;
-      let totalFeeList = this.request.ApplyNocParameterMasterListDataModel?.filter((element: any) => { return element.IsChecked == true; });
-      // total fee
-      this.request.TotalFeeAmount = 0;
-      for (let i = 0; i < totalFeeList.length; i++) {
-        this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
-      }
-      // TNOC Extension      
-      this.request.ApplyNocParameterMasterList_TNOCExtension = this.ApplyNocParameterMasterList_TNOCExtension;
-      // filter and validation
-      if (this.ApplyNocParameterMasterList_TNOCExtension?.ApplyNocParameterCourseList != null) {
-        let SelectedCourselist = this.ApplyNocParameterMasterList_TNOCExtension?.ApplyNocParameterCourseList?.filter((element: any) => { return element.IsChecked == true; });
-        if (SelectedCourselist.length == 0) {
-          this.toastr.error("Choose any subject from 'TNOC Extension'");
-          return;
-        }
-        this.ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList = SelectedCourselist;
-      }
-      // Addition of New Seats(60)
-      this.request.ApplyNocParameterMasterList_AdditionOfNewSeats60 = this.ApplyNocParameterMasterList_AdditionOfNewSeats60;
-      if (this.ApplyNocParameterMasterList_AdditionOfNewSeats60?.ApplyNocParameterCourseList != null) {
-        let selectedCourselist = this.ApplyNocParameterMasterList_AdditionOfNewSeats60?.ApplyNocParameterCourseList?.filter((element: any) => { return element.IsChecked == true; });
-        if (selectedCourselist.length == 0) {
-          this.toastr.error("Choose any subject from 'Addition of New Seats(60)'");
-          return;
-        }
-        this.request.ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocParameterCourseList = selectedCourselist;
-      }
-
-      // model popup
-      this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-      }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      });
-
-    }
-    catch (ex) {
-      console.log(ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-        this.isSubmitted = false;
-      }, 200);
-    }
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
   }
 
   async SaveApplyNoc_click() {
