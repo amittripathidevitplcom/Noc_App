@@ -1,4 +1,5 @@
-export class HostelDataModel {
+import { DocumentScrutiny_ActionModule} from '../Models/LandDetailDataModel'
+export class HostelDataModel extends DocumentScrutiny_ActionModule {
   public HostelCategoryID: number = 0;
   public HostelDetailID: number = 0;
   public IsHostelCampus: string = '';

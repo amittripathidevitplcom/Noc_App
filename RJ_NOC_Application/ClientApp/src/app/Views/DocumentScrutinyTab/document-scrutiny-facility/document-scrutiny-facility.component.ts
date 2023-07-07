@@ -115,7 +115,8 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.FacilitiesDataAllList[i].Action,
           Remark: this.FacilitiesDataAllList[i].Remark,
-          TabRowID: this.FacilitiesDataAllList[i].FacilityDetailID
+          TabRowID: this.FacilitiesDataAllList[i].FacilityDetailID,
+          SubTabName: ''
         });
       }
     }

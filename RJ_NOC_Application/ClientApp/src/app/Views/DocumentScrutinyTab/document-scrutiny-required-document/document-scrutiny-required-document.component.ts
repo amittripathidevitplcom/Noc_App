@@ -127,7 +127,8 @@ export class DocumentScrutinyRequiredDocumentComponent implements OnInit {
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.request.DocumentDetails[i].Action,
           Remark: this.request.DocumentDetails[i].Remark,
-          TabRowID: this.request.DocumentDetails[i].DID
+          TabRowID: this.request.DocumentDetails[i].DID,
+          SubTabName: ''
         });
       }
     }
