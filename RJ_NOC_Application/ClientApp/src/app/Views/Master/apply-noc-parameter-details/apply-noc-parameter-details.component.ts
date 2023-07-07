@@ -32,6 +32,20 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   // application view
   public ApplyNocApplicationDetail: ApplyNocApplicationDataModel = new ApplyNocApplicationDataModel();
 
+  // otp model
+  public SelectedMobileNo: string = '';
+  public SelectedApplyNocApplicationID: number = 0;
+  public OTP: string = '';
+  public UserOTP: string = '';
+  public MaskedMobileNo: string = '';
+  public CustomOTP: string = '123456';// bypass otp
+  public isUserOTP: boolean = false;
+  public isValidUserOTP: boolean = false;
+  public ShowTimer: boolean = false;
+  public isTimerDisabled: boolean = false;
+  public StartTimer: any;
+  public DisplayTimer: string = '';
+
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal) {
   }
 
@@ -155,6 +169,10 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       // do
+      // success
+      // close model
+      // get list
+      await this.GetApplyNocApplicationList();
     }
     catch (Ex) {
       console.log(Ex);
@@ -200,9 +218,154 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }
   }
 
-  async FinalSubmitApplyNocApplication_click() {
-
+  async FinalSubmitApplyNocApplication_click(item: any) {
+    // otp send and verify process then proceed
+    debugger
+    this.SelectedApplyNocApplicationID = item.ApplyNocApplicationID;
+    this.SelectedMobileNo = item.CollegeMobileNo;
+    await this.OpenOTPModel();
+    // success is in verifyotp()
   }
+
+  // mobile otp
+  CloseOTPModel() {
+    const display = document.getElementById('ModalOtpVerify');
+    if (display) display.style.display = 'none';
+  }
+
+  async OpenOTPModel() {
+    this.UserOTP = '';
+    this.MaskedMobileNo = '';
+    try {
+      this.loaderService.requestStarted();
+      if (this.SelectedMobileNo.length > 0) {
+        const visibleDigits = 4;
+        let maskedSection = this.SelectedMobileNo.slice(0, -visibleDigits);
+        let visibleSection = this.SelectedMobileNo.slice(-visibleDigits);
+        this.MaskedMobileNo = maskedSection.replace(/./g, 'X') + visibleSection;
+      }
+      await this.commonMasterService.SendMessage(this.SelectedMobileNo, 'OTP')
+        .then((data: any) => {
+          this.OTP = data['Data'];
+          this.CustomOTP = '123456';
+          const display = document.getElementById('ModalOtpVerify')
+          if (display) display.style.display = "block";
+          this.timer(1);
+        }, error => console.error(error));
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async VerifyOTP() {
+    try {
+      this.loaderService.requestStarted();
+      this.isUserOTP = false;
+      this.isValidUserOTP = false;
+      if (this.UserOTP == '') {
+        this.isUserOTP = true;
+        return;
+      }
+      if (this.UserOTP == this.OTP || this.CustomOTP == this.UserOTP) {
+        // otp success       
+        let modifyBy = 1;
+        // post
+        await this.applyNocParameterService.FinalSubmitApplyNocApplicationByApplicationID(this.SelectedApplyNocApplicationID, modifyBy)
+          .then(async (data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            // data
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              // close model
+              this.CloseOTPModel();
+              // get list
+              await this.GetApplyNocApplicationList();
+            }
+            else {
+              this.toastr.error(this.ErrorMessage);
+            }
+          }, error => console.error(error));
+      }
+      else {
+        this.isValidUserOTP = true;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async ResendOTP() {
+    try {
+      this.loaderService.requestStarted();
+      this.timer(1);
+      var MaskedMobileNo = this.SelectedMobileNo;
+      await this.commonMasterService.SendMessage(MaskedMobileNo, 'OTP')
+        .then((data: any) => {
+          this.OTP = data['Data'];
+          this.CustomOTP = '123456';
+          if (MaskedMobileNo.length > 0) {
+            const visibleDigits = 4;
+            let maskedSection = MaskedMobileNo.slice(0, -visibleDigits);
+            let visibleSection = MaskedMobileNo.slice(-visibleDigits);
+            MaskedMobileNo = maskedSection.replace(/./g, 'X') + visibleSection;
+          }
+          this.toastr.info('Successfully Resend OTP on ' + MaskedMobileNo);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  timer(minute: number) {
+    clearInterval(this.StartTimer);
+    this.ShowTimer = true;
+    this.isTimerDisabled = true;
+    // let minute = 1;
+    let seconds: number = minute * 60;
+    let textSec: any = "0";
+    let statSec: number = 60;
+
+    const prefix = minute < 10 ? "0" : "";
+
+    this.StartTimer = setInterval(() => {
+
+      seconds--;
+      if (statSec != 0) statSec--;
+      else statSec = 59;
+
+      if (statSec < 10) {
+        textSec = "0" + statSec;
+      } else textSec = statSec;
+
+      this.DisplayTimer = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
+
+      if (seconds == 0) {
+        this.ShowTimer = false;
+        this.isTimerDisabled = false;
+        clearInterval(this.StartTimer);
+      }
+    }, 1000);
+  }
+  // end mobile otp
 
   async PaymentHistoryApplyNocApplication_click() {
 
@@ -216,6 +379,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       modalRef.componentInstance.CollegeID = item.CollegeID;
       modalRef.componentInstance.ApplyNocApplicationID = item.ApplyNocApplicationID;
       modalRef.componentInstance.IsSaveFDR = item.IsSaveFDR;
+      modalRef.componentInstance.RefModal = modalRef;
     }
     catch (Ex) {
       console.log(Ex);
@@ -225,5 +389,13 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
   }
 }

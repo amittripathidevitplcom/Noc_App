@@ -10,6 +10,7 @@ import { DropdownValidators } from '../../../Services/CustomValidators/custom-va
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ApplyNocParameterDetailsComponent } from '../apply-noc-parameter-details/apply-noc-parameter-details.component';
 
 @Component({
   selector: 'app-apply-nocfdrdetails',
@@ -18,8 +19,6 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 })
 
 export class ApplyNOCFDRDetailsComponent implements OnInit {
-  @ViewChild('modal')
-  modal: NgbModal;
 
   ApplyNOCFDRDetailForm!: FormGroup;
   public IFSCRegex = new RegExp(/^[A-Z]{4}0[A-Z0-9]{6}$/);
@@ -39,10 +38,14 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   public showFDRDocument: boolean = false;
   public DocumentValidMessage: string = '';
   public SelectedCollageID: number = 0;
+
+  // apply noc application list
+  @ViewChild(ApplyNocParameterDetailsComponent) applyNocParameterDetailsComponent: any;
   // model
   @Input() public CollegeID: number = 0;
   @Input() public ApplyNocApplicationID: number = 0;
   @Input() public IsSaveFDR: boolean = false;
+  @Input() public RefModal: any;
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private modalService: NgbModal) {
@@ -59,7 +62,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
         txtFDRAmount: ['', Validators.required],
         txtFDRDate: ['', Validators.required],
         ddlPeriodOfFDR: ['0', [DropdownValidators]],
-        FDRDocument: ['', Validators.required],
+        FDRDocument: [''],
       })
 
     const txtBankName = document.getElementById('txtBankName')
@@ -70,7 +73,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
     this.request.ApplyNocID = this.ApplyNocApplicationID;
     //load
     await this.GetApplyNoc_FDRMasterByCollegeID(this.SelectedCollageID)
-    debugger
+    //debugger
     // after save fdr
     if (this.IsSaveFDR) {
       await this.GetApplyNocFDRDetails(this.request.ApplyNocFDRID, this.request.ApplyNocID);
@@ -118,11 +121,21 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
     console.log(this.request);
     if (this.ApplyNOCFDRDetailForm.invalid) {
       isValid = false;
-      return;
+    }
+    // image
+    if (this.request.FDRDocument == '') {
+      this.isValidFDRDocument = true;
+      this.DocumentValidMessage = 'This field is required .!';
+      isValid = false;
     }
     if ((this.request.FDRNumber <= 0) || (this.request.PeriodOfFDR == '0') || (this.request.FDRDocument == '') || (this.request.FDRAmount <= 0)) {
+      isValid = false;
+    }
+    // check all
+    if (!isValid) {
       return;
     }
+
     //Show Loading
     this.loaderService.requestStarted();
     this.request.CollegeID = this.SelectedCollageID;
@@ -130,7 +143,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
     this.isLoading = true;
     try {
       await this.applyNocParameterService.SaveApplyNoc_FDRMasterDetail(this.request)
-        .then((data: any) => {
+        .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -138,7 +151,10 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.ResetControl();
-            this.modal.dismissAll();
+            // close model
+            this.CloseModelPopUp();
+            // get list
+            await this.applyNocParameterDetailsComponent.GetApplyNocApplicationList();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -290,6 +306,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   }
 
   CloseModelPopUp() {
-    this.modal.dismissAll();
+    //debugger
+    this.RefModal._removeModalElements();
   }
 }

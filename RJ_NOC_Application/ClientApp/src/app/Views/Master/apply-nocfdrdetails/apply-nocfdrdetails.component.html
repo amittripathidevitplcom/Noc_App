@@ -137,13 +137,10 @@
                       <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.FDRDocument)"><i class="fa fa-trash-o"></i></button>
                     </div>
                   </div>
-                </div>
-                <div *ngIf="isSubmitted&&request.FDRDocument == ''" class="text-danger">
-                  <p *ngIf="request.FDRDocument == ''"><i aria-hidden="true"></i>   This field is required .!</p>
-                </div>
-                <div *ngIf="isValidFDRDocument" class="text-danger">
-                  <p *ngIf="isValidFDRDocument"> {{DocumentValidMessage}}</p>
-                </div>
+                  <div *ngIf="isValidFDRDocument" class="text-danger">
+                    <p> {{DocumentValidMessage}}</p>
+                  </div>
+                </div>                
               </div>
 
             </div>

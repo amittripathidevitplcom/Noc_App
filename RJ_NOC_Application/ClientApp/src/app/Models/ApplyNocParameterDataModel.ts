@@ -75,12 +75,14 @@ export class ApplyNocApplicationDataModel {
   public ApplyNocApplicationID: number = 0;
   public CollegeID: number = 0;
   public CollegeName: string = '';
+  public CollegeMobileNo: string = '';
   public ApplicationTypeID: number = null;
   public ApplicationTypeName: string = '';
   public TotalFeeAmount: number = 0;
   public ApplicationStatus: boolean = false;
   public IsFinalSubmit: boolean = false;
   public IsSaveFDR: boolean = false;
+  public IsMakePayment: boolean = false;
   public ApplyNocApplicationParameterList: ApplyNocApplicationParameterDataModel[] = [];
 }
 export class ApplyNocApplicationParameterDataModel {
@@ -100,3 +102,5 @@ export class ApplyNocApplicationDetailDataModel {
   public SubjectName: string = '';
 
 }
+
+
