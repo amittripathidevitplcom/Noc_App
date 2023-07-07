@@ -116,6 +116,7 @@ import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/pre
 import { RevertApplyNOCApplicationListComponent } from './Views/revert-apply-nocapplication-list/revert-apply-nocapplication-list.component';
 import { CollegeManagementSocietyComponent } from './Views/PreviewTabs/college-management-society/college-management-society.component';
 import { PreviewTrusteeGeneralInfoComponent } from './Views/PreviewTabs/preview-trustee-general-info/preview-trustee-general-info.component';
+import { ApplyNOCFDRDetailsComponent } from './Views/Master/apply-nocfdrdetails/apply-nocfdrdetails.component';
 import { DocumentScrutinyLandDetailComponent } from './Views/DocumentScrutinyTab/document-scrutiny-land-detail/document-scrutiny-land-detail.component';
 import { DocumentScrutinyRoomDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-room-details/document-scrutiny-room-details.component';
 import { DocumentScrutinyBuildingDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-building-details/document-scrutiny-building-details.component';
@@ -232,6 +233,7 @@ import { DocumentScrutinyOtherInformationComponent } from './Views/DocumentScrut
     ScurtenyComitteeComponent,
     PreviewLegalEntityComponent,
     PreviewCollegeComponent,
+    PreviewCollegeComponent,
     PreviewRNCRegistratComponent,
     RevertApplyNOCApplicationListComponent,
     CollegeManagementSocietyComponent,
@@ -249,7 +251,10 @@ import { DocumentScrutinyOtherInformationComponent } from './Views/DocumentScrut
     DocumentScrutinyHostalDetailsComponent,
     DocumentScrutinyFacilityComponent,
     DocumentScrutinyRequiredDocumentComponent,
-    DocumentScrutinyOtherInformationComponent
+    DocumentScrutinyOtherInformationComponent,
+    PreviewTrusteeGeneralInfoComponent,
+    ApplyNocParameterDetailsComponent,
+    ApplyNOCFDRDetailsComponent
 
   ],
   imports: [

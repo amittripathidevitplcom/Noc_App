@@ -1,6 +1,6 @@
 import { RequiredDocumentsDataModel_Documents } from "./TabDetailDataModel";
 
-export class DocumentScrutiny_ActionModule {
+ export class DocumentScrutiny_ActionModule {
   public Action: string = '';
   public Remark: string = '';
 }
