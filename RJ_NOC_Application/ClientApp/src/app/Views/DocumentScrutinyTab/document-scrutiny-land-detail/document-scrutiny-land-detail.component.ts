@@ -9,6 +9,7 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-land-detail',
@@ -23,6 +24,7 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   public SelectedApplyNOCID: number = 0;
   public LandDetailList: LandDetailDataModel[] = [];
+  public FinalRemarks: any=[];
   public UnitOfLand: string = '';
 
   closeResult: string | undefined;
@@ -35,7 +37,7 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
 
-  constructor(private landDetailsService: LandDetailsService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
+  constructor(private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
     private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -49,11 +51,14 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
   async GetLandDetailsDataList() {
     try {
       this.loaderService.requestStarted();
-      await this.landDetailsService.GetLandDetailsIDWise(0, this.SelectedCollageID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.LandDetailList = data['Data'];
+          this.LandDetailList = data['Data'][0]['LandDetails'];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          console.log('>>>>');
           console.log(this.LandDetailList);
+          console.log('>>>>');
         }, error => console.error(error));
     }
     catch (Ex) {
