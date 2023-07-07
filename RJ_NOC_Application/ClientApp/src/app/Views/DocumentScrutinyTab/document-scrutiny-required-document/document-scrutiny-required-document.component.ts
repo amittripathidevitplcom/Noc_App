@@ -108,7 +108,7 @@ export class DocumentScrutinyRequiredDocumentComponent implements OnInit {
       }
     }
 
-    if (this.dsrequest.Remark == '') {
+    if (this.dsrequest.FinalRemark == '') {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
