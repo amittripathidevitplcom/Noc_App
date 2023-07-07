@@ -28,7 +28,6 @@
                 <span>Land Information</span>
               </ng-template>
               <app-document-scrutiny-land-detail></app-document-scrutiny-land-detail>
-              
             </mat-tab>
 
 
@@ -71,7 +70,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Remarks</label>
-                      <textarea id="RequriedRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
+                      <textarea id="RequriedRemark" class="form-control" [(ngModel)]="request.FinalRemark"></textarea>
                       <div *ngIf="isRemarkValid" class="text-danger">
                         <p *ngIf="isRemarkValid"> This field is required .!</p>
                       </div>
@@ -129,7 +128,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Remarks</label>
-                      <textarea id="OtherInformationRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
+                      <textarea id="OtherInformationRemark" class="form-control" [(ngModel)]="request.FinalRemark"></textarea>
                       <div *ngIf="isRemarkValid" class="text-danger">
                         <p *ngIf="isRemarkValid"> This field is required .!</p>
                       </div>
@@ -192,7 +191,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Remarks</label>
-                      <textarea id="OldNOCRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
+                      <textarea id="OldNOCRemark" class="form-control" [(ngModel)]="request.FinalRemark"></textarea>
                       <div *ngIf="isRemarkValid" class="text-danger">
                         <p *ngIf="isRemarkValid"> This field is required .!</p>
                       </div>
@@ -242,7 +241,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Remarks</label>
-                      <textarea id="AcademicInformationRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
+                      <textarea id="AcademicInformationRemark" class="form-control" [(ngModel)]="request.FinalRemark"></textarea>
                       <div *ngIf="isRemarkValid" class="text-danger">
                         <p *ngIf="isRemarkValid"> This field is required .!</p>
                       </div>
@@ -292,7 +291,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Remarks</label>
-                      <textarea id="OtherDocumentRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
+                      <textarea id="OtherDocumentRemark" class="form-control" [(ngModel)]="request.FinalRemark"></textarea>
                       <div *ngIf="isRemarkValid" class="text-danger">
                         <p *ngIf="isRemarkValid"> This field is required .!</p>
                       </div>
@@ -344,7 +343,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Remarks</label>
-                      <textarea id="HospitalRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
+                      <textarea id="HospitalRemark" class="form-control" [(ngModel)]="request.FinalRemark"></textarea>
                       <div *ngIf="isRemarkValid" class="text-danger">
                         <p *ngIf="isRemarkValid"> This field is required .!</p>
                       </div>
@@ -393,7 +392,7 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Remarks</label>
-                      <textarea id="HostelDetailRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
+                      <textarea id="HostelDetailRemark" class="form-control" [(ngModel)]="request.FinalRemark"></textarea>
                       <div *ngIf="isRemarkValid" class="text-danger">
                         <p *ngIf="isRemarkValid"> This field is required .!</p>
                       </div>

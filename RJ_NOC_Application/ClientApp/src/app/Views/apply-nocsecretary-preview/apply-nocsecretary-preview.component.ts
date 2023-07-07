@@ -84,7 +84,7 @@ export class ApplyNOCSecretaryPreviewComponent implements OnInit {
       this.isActionValid = true;
       this.isFormvalid = false;
     }
-    if (this.request.Remark == '') {
+    if (this.request.FinalRemark == '') {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }

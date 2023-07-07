@@ -5,7 +5,7 @@ export class DocumentScrutinyDataModel {
   public UserID: number = 0;
   public RoleID: number = 0;
   public ActionID: number = 0;
-  public Remark: string = '';
+  public FinalRemark: string = '';
   public TabName: string = '';
   public ApplyNOCID: number = 0;
   public DocumentScrutinyDetail: DocumentScrutinyList_DataModel[] = [];

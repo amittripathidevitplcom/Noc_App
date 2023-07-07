@@ -235,7 +235,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
         this.isFormvalid = false;
       }
     }
-    if (this.request.Remark == '') {
+    if (this.request.FinalRemark == '') {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
