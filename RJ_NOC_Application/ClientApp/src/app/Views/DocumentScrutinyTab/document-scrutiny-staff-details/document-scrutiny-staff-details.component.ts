@@ -182,7 +182,8 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.StaffDetailModel[i].Action,
           Remark: this.StaffDetailModel[i].Remark,
-          TabRowID: this.StaffDetailModel[i].StaffDetailID
+          TabRowID: this.StaffDetailModel[i].StaffDetailID,
+          SubTabName: ''
         });
       }
     }

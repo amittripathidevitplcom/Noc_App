@@ -128,6 +128,10 @@ import { DocumentScrutinyHostalDetailsComponent } from './Views/DocumentScrutiny
 import { DocumentScrutinyFacilityComponent } from './Views/DocumentScrutinyTab/document-scrutiny-facility/document-scrutiny-facility.component';
 import { DocumentScrutinyRequiredDocumentComponent } from './Views/DocumentScrutinyTab/document-scrutiny-required-document/document-scrutiny-required-document.component';
 import { DocumentScrutinyOtherInformationComponent } from './Views/DocumentScrutinyTab/document-scrutiny-other-information/document-scrutiny-other-information.component';
+import { DocumentScrutinyOtherDocumentComponent } from './Views/DocumentScrutinyTab/document-scrutiny-other-document/document-scrutiny-other-document.component';
+import { DocumentScrutinyCollegeManagementSocietyComponent } from './Views/DocumentScrutinyTab/document-scrutiny-college-management-society/document-scrutiny-college-management-society.component';
+import { DocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab/document-scrutiny-legal-entity/document-scrutiny-legal-entity.component';
+import { DocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutinyTab/document-scrutiny-college-detail/document-scrutiny-college-detail.component';
 
 @NgModule({
   declarations: [
@@ -254,7 +258,11 @@ import { DocumentScrutinyOtherInformationComponent } from './Views/DocumentScrut
     DocumentScrutinyOtherInformationComponent,
     PreviewTrusteeGeneralInfoComponent,
     ApplyNocParameterDetailsComponent,
-    ApplyNOCFDRDetailsComponent
+    ApplyNOCFDRDetailsComponent,
+    DocumentScrutinyOtherDocumentComponent,
+    DocumentScrutinyCollegeManagementSocietyComponent,
+    DocumentScrutinyLegalEntityComponent,
+    DocumentScrutinyCollegeDetailComponent
 
   ],
   imports: [

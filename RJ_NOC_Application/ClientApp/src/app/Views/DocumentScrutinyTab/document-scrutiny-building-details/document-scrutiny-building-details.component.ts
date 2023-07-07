@@ -188,7 +188,8 @@ export class DocumentScrutinyBuildingDetailsComponent implements OnInit {
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.lstBuildingDetails[i].Action,
           Remark: this.lstBuildingDetails[i].Remark,
-          TabRowID: this.lstBuildingDetails[i].SchoolBuildingDetailsID
+          TabRowID: this.lstBuildingDetails[i].SchoolBuildingDetailsID,
+          SubTabName: ''
         });
       }
     }

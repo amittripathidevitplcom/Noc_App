@@ -114,7 +114,8 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.RoomDetails[i].Action,
           Remark: this.RoomDetails[i].Remark,
-          TabRowID: this.RoomDetails[i].CollegeWiseRoomID
+          TabRowID: this.RoomDetails[i].CollegeWiseRoomID,
+          SubTabName: ''
         });
       }
     }
