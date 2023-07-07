@@ -177,7 +177,8 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.OldNocDetails[i].Action,
           Remark: this.OldNocDetails[i].Remark,
-          TabRowID: this.OldNocDetails[i].OldNocID
+          TabRowID: this.OldNocDetails[i].OldNocID,
+          SubTabName:''
         });
       }
     }

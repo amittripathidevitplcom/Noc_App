@@ -131,7 +131,8 @@ export class DocumentScrutinyOtherInformationComponent implements OnInit {
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.OtherInformation[i].Action,
           Remark: this.OtherInformation[i].Remark,
-          TabRowID: this.OtherInformation[i].CollegeWiseOtherInfoID
+          TabRowID: this.OtherInformation[i].CollegeWiseOtherInfoID,
+          SubTabName:''
         });
       }
     }
