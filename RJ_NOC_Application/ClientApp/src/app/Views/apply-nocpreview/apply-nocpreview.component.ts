@@ -69,24 +69,13 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
   async ngOnInit() {
     this.loaderService.requestStarted();
-    console.log(this.router.snapshot.paramMap.get('DepartmentID'));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    //await this.GetCollageMaster();
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
-    this.GetTabFieldByTabName('Land Information');
-    this.dropdownSettings = {
-      singleSelection: false,
-      selectAllText: 'Select All',
-      unSelectAllText: 'Unselect All',
-      allowSearchFilter: true,
-      idField: "TabFieldID",
-      textField: "TabFieldName",
-    }
-    this.GetAllTabData();
+
   }
 
   NextStep() {
