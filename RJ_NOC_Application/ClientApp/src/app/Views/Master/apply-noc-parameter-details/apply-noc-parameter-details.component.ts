@@ -8,6 +8,7 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
+import { ApplyNOCFDRDetailsComponent } from '../apply-nocfdrdetails/apply-nocfdrdetails.component';
 
 @Component({
   selector: 'app-apply-noc-parameter-details',
@@ -207,4 +208,22 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
 
   }
 
+  async AddFDR_click(item: any) {
+    try {
+      this.loaderService.requestStarted();
+      // model
+      const modalRef = this.modalService.open(ApplyNOCFDRDetailsComponent, { backdrop: 'static', size: 'xl', keyboard: false, centered: true });
+      modalRef.componentInstance.CollegeID = item.CollegeID;
+      modalRef.componentInstance.ApplyNocApplicationID = item.ApplyNocApplicationID;
+      modalRef.componentInstance.IsSaveFDR = item.IsSaveFDR;
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

@@ -53,8 +53,8 @@
                             <button type="button" class="btn btn-primary" title="View Application" (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)"><i class="fa fa-eye"></i></button>&nbsp;
                             <button type="button" *ngIf="item.IsFinalSubmit==false" class="btn btn-sm btn-danger" title="Delete Application" (click)="DeleteApplyNocApplication_click(item)"><i class="fa fa-trash-o"></i></button>
                             &nbsp;
-                            <button type="button" class="btn btn-sm btn-primary" title="Add FDR">
-                              Add FDR
+                            <button type="button" class="btn btn-sm btn-primary" title="Add FDR" (click)="AddFDR_click(item)">
+                              {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
                             </button>&nbsp;
                             <button type="button" *ngIf="item.IsFinalSubmit==false" class="btn btn-sm btn-primary" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
                               Payment
@@ -165,7 +165,6 @@
           </div>
         </ng-template>
         <!--end-->
-
         <!--model-->
         <ng-template #mymodalpayment let-modal>
           <div class="modal-header">
@@ -210,7 +209,7 @@
               <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                 <label>
                   <b>
-                    Your Apply Noc Application Charges for followings : 
+                    Your Apply Noc Application Charges for followings :
                   </b>
                 </label>
                 <hr />
