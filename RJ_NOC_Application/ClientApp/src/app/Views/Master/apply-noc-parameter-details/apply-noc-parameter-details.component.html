@@ -49,23 +49,42 @@
                           {{item.TotalFeeAmount}}
                         </td>
                         <td>
-                          <div class="d-flex">
+                          <!--<div class="d-flex">
                             <button type="button" class="btn btn-primary" title="View Application" (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)"><i class="fa fa-eye"></i></button>&nbsp;
-                            <button type="button" *ngIf="item.IsFinalSubmit==false" class="btn btn-sm btn-danger" title="Delete Application" (click)="DeleteApplyNocApplication_click(item)"><i class="fa fa-trash-o"></i></button>
+                            <button type="button" *ngIf="item.IsMakePayment==true" class="btn btn-sm btn-danger" title="Delete Application" (click)="DeleteApplyNocApplication_click(item)"><i class="fa fa-trash-o"></i></button>
                             &nbsp;
                             <button type="button" class="btn btn-sm btn-primary" title="Add FDR" (click)="AddFDR_click(item)">
                               {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
                             </button>&nbsp;
-                            <button type="button" *ngIf="item.IsFinalSubmit==false" class="btn btn-sm btn-primary" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
+                            <button type="button" *ngIf="item.IsMakePayment==false" class="btn btn-sm btn-primary" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
+                              Payment
+                            </button>&nbsp;
+                            <button type="button" *ngIf="item.IsMakePayment==true" class="btn btn-sm btn-primary" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click()">
+                              Payment History
+                            </button>&nbsp;
+                            <button type="button" *ngIf="item.IsMakePayment==true && item.IsFinalSubmit==false" class="btn btn-sm btn-primary" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
+                              Final Submit
+                            </button>
+                          </div>-->
+
+                          <div class="d-flex">
+                            <button type="button" class="btn btn-primary" title="View Application" (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)"><i class="fa fa-eye"></i></button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-danger" title="Delete Application" (click)="DeleteApplyNocApplication_click(item)"><i class="fa fa-trash-o"></i></button>
+                            &nbsp;
+                            <button type="button" class="btn btn-sm btn-primary" title="Add FDR" (click)="AddFDR_click(item)">
+                              {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
+                            </button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-primary" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
                               Payment
                             </button>&nbsp;
                             <button type="button" class="btn btn-sm btn-primary" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
                               Payment History
                             </button>&nbsp;
-                            <button type="button" *ngIf="item.IsSaveFDR==true && item.IsFinalSubmit==false" class="btn btn-sm btn-primary" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click()">
+                            <button type="button" class="btn btn-sm btn-primary" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
                               Final Submit
                             </button>
                           </div>
+
                         </td>
                       </tr>
                     </tbody>
@@ -290,7 +309,47 @@
         </ng-template>
 
         <!--end-->
-
+        <!--otp-->
+        <div class="modal" id="ModalOtpVerify" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-md modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">OTP Verification</h5>
+                <button type="button" class="btn btn-danger" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                    <p>You have recieved a OTP Verification Message on <b>{{MaskedMobileNo}}</b></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                    <label class="mb-2" for="EnterOTP">Enter OTP</label>
+                    <input type="text" class="form-control" id="EnterOTP" [(ngModel)]="UserOTP" autocomplete="off" (keypress)="numberOnly($event)" maxlength="6" />
+                    <div *ngIf="isUserOTP" class="text-danger">
+                      <p *ngIf="isUserOTP">This field is required .!</p>
+                    </div>
+                    <div *ngIf="isValidUserOTP" class="text-danger">
+                      <p *ngIf="isValidUserOTP">Please Enter Correct OTP .!</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3 d-flex justify-content-center align-items-center">
+                    <span *ngIf="ShowTimer">Please Wait.. {{DisplayTimer}}</span>
+                    <button [attr.disabled]="isTimerDisabled ? true : null" type="button" id="ResendOTP" (click)="ResendOTP()" class="btn btn-link">Resend OTP</button>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">Cancel</span></button>
+                <button type="button" (click)="VerifyOTP()" class="btn btn-sm btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end-->
       </div>
     </div>
   </div>
