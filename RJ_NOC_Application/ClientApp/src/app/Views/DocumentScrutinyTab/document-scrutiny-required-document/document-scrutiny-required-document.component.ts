@@ -86,7 +86,7 @@ export class DocumentScrutinyRequiredDocumentComponent implements OnInit {
     }
   }
 
-  async SubmitFacility_Onclick() {
+  async SubmitRequiredDocuments_Onclick() {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;

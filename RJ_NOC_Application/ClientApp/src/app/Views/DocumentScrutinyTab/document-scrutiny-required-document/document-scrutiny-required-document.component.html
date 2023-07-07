@@ -13,11 +13,11 @@
                 <th>
                   Compliance<br />
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="rdFacilitySelectAllActionType" id="rdFacilitySelectAllYes" value="Yes" (change)="selectAll('Yes')">
+                    <input class="form-check-input" type="radio" name="rdRequiredDocumentsSelectAllActionType" id="rdRequiredDocumentsSelectAllYes" value="Yes" (change)="selectAll('Yes')">
                     <label class="form-check-label">Yes</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="rdFacilitySelectAllActionType" id="rdFacilitySelectAllNo" value="No" (change)="selectAll('No')">
+                    <input class="form-check-input" type="radio" name="rdRequiredDocumentsSelectAllActionType" id="rdRequiredDocumentsSelectAllNo" value="No" (change)="selectAll('No')">
                     <label class="form-check-label">No</label>
                   </div>
 
@@ -32,18 +32,18 @@
                 <td>
                   <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="rdFacilityActionType{{indexOfelement+1}}" id="rdFacilityActionTypeYes{{indexOfelement+1}}" [(ngModel)]="item.Action" value="Yes" (change)="ClickOnAction(indexOfelement)">
+                      <input class="form-check-input" type="radio" name="rdRequiredDocumentsActionType{{indexOfelement+1}}" id="rdRequiredDocumentsActionTypeYes{{indexOfelement+1}}" [(ngModel)]="item.Action" value="Yes" (change)="ClickOnAction(indexOfelement)">
                       <label class="form-check-label">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" name="rdFacilityActionType{{indexOfelement+1}}" id="rdFacilityActionTypeNo{{indexOfelement+1}}" value="No" [(ngModel)]="item.Action" (change)="ClickOnAction(indexOfelement)">
+                      <input class="form-check-input" type="radio" name="rdRequiredDocumentsActionType{{indexOfelement+1}}" id="rdRequiredDocumentsActionTypeNo{{indexOfelement+1}}" value="No" [(ngModel)]="item.Action" (change)="ClickOnAction(indexOfelement)">
                       <label class="form-check-label">No</label>
                     </div>
                   </div>
                   <div class="row" [hidden]="item.Action !='No'">
                     <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
                       <label>Remark : </label>
-                      <textarea type="text" class="form-control" name="txtFacilityRemark{{indexOfelement+1}}" id="txtFacilityRemark{{indexOfelement+1}}" [(ngModel)]="item.Remark"></textarea>
+                      <textarea type="text" class="form-control" name="txtRequiredDocumentsRemark{{indexOfelement+1}}" id="txtRequiredDocumentsRemark{{indexOfelement+1}}" [(ngModel)]="item.Remark"></textarea>
                     </div>
                   </div>
                 </td>
@@ -63,7 +63,7 @@
     <div class="row">
       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
         <label>Remarks</label>
-        <textarea id="FacilityRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+        <textarea id="RequiredDocumentsRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
         <div *ngIf="isRemarkValid" class="text-danger">
           <p *ngIf="isRemarkValid"> This field is required .!</p>
         </div>
@@ -71,7 +71,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <button class="btn btn-primary" type="button" (click)="SubmitFacility_Onclick()">Submit</button>
+        <button class="btn btn-primary" type="button" (click)="SubmitRequiredDocuments_Onclick()">Submit</button>
       </div>
     </div>
   </div>
