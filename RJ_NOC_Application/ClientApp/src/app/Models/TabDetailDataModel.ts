@@ -188,6 +188,9 @@ export class OldNocDetailsDataModel {
   public Dis_FileName: string = '';
   public Remark: string = '';
   public SubjectData: OldNocDetails_SubjectDataModel[] = [];
+
+  public Action: string = '';
+  //public Remark: string = '';
 }
 export class OldNocDetails_SubjectDataModel {
   public OldNOCSubjectID: number = 0;
