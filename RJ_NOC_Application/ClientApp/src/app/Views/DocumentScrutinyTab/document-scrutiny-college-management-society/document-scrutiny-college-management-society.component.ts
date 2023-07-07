@@ -3,20 +3,21 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormA
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AcademicInformationDetailsDataModel } from '../../../Models/AcademicInformationDetailsDataModel';
 import { AcademicInformationDetailsService } from '../../../Services/AcademicInformationDetails/academic-information-details.service';
 import { ToastrService } from 'ngx-toastr';
-import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
-import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { SocietyDataModel } from '../../../Models/SocietyDataModel';
+import { SocityService } from '../../../Services/Master/SocietyManagement/socity.service';
+import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 
 @Component({
-  selector: 'app-document-scrutiny-academic-information',
-  templateUrl: './document-scrutiny-academic-information.component.html',
-  styleUrls: ['./document-scrutiny-academic-information.component.css']
+  selector: 'app-document-scrutiny-college-management-society',
+  templateUrl: './document-scrutiny-college-management-society.component.html',
+  styleUrls: ['./document-scrutiny-college-management-society.component.css']
 })
-export class DocumentScrutinyAcademicInformationComponent implements OnInit {
-  public AcademicInformationList: AcademicInformationDetailsDataModel[] = [];
+export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit {
+  public SocietyAllList: any = [];
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
@@ -27,28 +28,28 @@ export class DocumentScrutinyAcademicInformationComponent implements OnInit {
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
-  constructor(private academicInformationDetailsService: AcademicInformationDetailsService, private loaderService: LoaderService, private formBuilder: FormBuilder,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute,
-    private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
+  constructor(private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedDepartmentID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+    this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
-    await this.GetAcademicInformationDetailAllList();
+    await this.GetSocietyAllList();
   }
-  async GetAcademicInformationDetailAllList() {
+
+  async GetSocietyAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.academicInformationDetailsService.GetAcademicInformationDetailAllList(0, this.SelectedCollageID)
+      await this.socityService.GetSocietyAllList(0, this.SelectedCollageID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.AcademicInformationList = data['Data'][0]['data'];
+          this.SocietyAllList = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -60,9 +61,8 @@ export class DocumentScrutinyAcademicInformationComponent implements OnInit {
       }, 200);
     }
   }
-
   async selectAll(ActionType: string) {
-    await this.AcademicInformationList.forEach((i: { Action: string, Remark: string }) => {
+    await this.SocietyAllList.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
     })
@@ -70,29 +70,29 @@ export class DocumentScrutinyAcademicInformationComponent implements OnInit {
 
 
   ClickOnAction(idx: number) {
-    for (var i = 0; i < this.AcademicInformationList.length; i++) {
+    for (var i = 0; i < this.SocietyAllList.length; i++) {
       if (i == idx) {
-        this.AcademicInformationList[i].Remark = '';
+        this.SocietyAllList[i].Remark = '';
       }
     }
   }
 
-  async SubmitAcademicInformationDetail_Onclick() {
+  async SubmitCollegeSocietyDetail_Onclick() {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
     this.dsrequest.UserID = 0;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
-    this.dsrequest.TabName = 'Academic Information';
+    this.dsrequest.TabName = 'College Management Society';
     this.isRemarkValid = false;
     this.isFormvalid = true;
-    for (var i = 0; i < this.AcademicInformationList.length; i++) {
-      if (this.AcademicInformationList[i].Action == '' || this.AcademicInformationList[i].Action == undefined) {
+    for (var i = 0; i < this.SocietyAllList.length; i++) {
+      if (this.SocietyAllList[i].Action == '' || this.SocietyAllList[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');
         return;
       }
-      if (this.AcademicInformationList[i].Action == 'No') {
-        if (this.AcademicInformationList[i].Remark == '' || this.AcademicInformationList[i].Remark == undefined) {
+      if (this.SocietyAllList[i].Action == 'No') {
+        if (this.SocietyAllList[i].Remark == '' || this.SocietyAllList[i].Remark == undefined) {
           this.toastr.warning('Please enter remark');
           return;
         }
@@ -106,9 +106,9 @@ export class DocumentScrutinyAcademicInformationComponent implements OnInit {
     if (!this.isFormvalid) {
       return;
     }
-    if (this.AcademicInformationList.length > 0) {
-      for (var i = 0; i < this.AcademicInformationList.length; i++) {
-        console.log(this.AcademicInformationList[i]);
+    if (this.SocietyAllList.length > 0) {
+      for (var i = 0; i < this.SocietyAllList.length; i++) {
+        console.log(this.SocietyAllList[i]);
         this.dsrequest.DocumentScrutinyDetail.push({
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
@@ -116,10 +116,10 @@ export class DocumentScrutinyAcademicInformationComponent implements OnInit {
           UserID: 0,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
-          Action: this.AcademicInformationList[i].Action,
-          Remark: this.AcademicInformationList[i].Remark,
-          TabRowID: this.AcademicInformationList[i].AcademicInformationID,
-          SubTabName:''
+          Action: this.SocietyAllList[i].Action,
+          Remark: this.SocietyAllList[i].Remark,
+          TabRowID: this.SocietyAllList[i].SocietyID,
+          SubTabName: ''
         });
       }
     }

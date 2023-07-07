@@ -175,7 +175,8 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.LandDetailList[i].Action,
           Remark: this.LandDetailList[i].Remark,
-          TabRowID: this.LandDetailList[i].LandDetailID
+          TabRowID: this.LandDetailList[i].LandDetailID,
+          SubTabName: ''
         });
       }
     }
