@@ -116,6 +116,7 @@ import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/pre
 import { RevertApplyNOCApplicationListComponent } from './Views/revert-apply-nocapplication-list/revert-apply-nocapplication-list.component';
 import { CollegeManagementSocietyComponent } from './Views/PreviewTabs/college-management-society/college-management-society.component';
 import { PreviewTrusteeGeneralInfoComponent } from './Views/PreviewTabs/preview-trustee-general-info/preview-trustee-general-info.component';
+import { ApplyNOCFDRDetailsComponent } from './Views/Master/apply-nocfdrdetails/apply-nocfdrdetails.component';
 
 @NgModule({
   declarations: [
@@ -220,14 +221,12 @@ import { PreviewTrusteeGeneralInfoComponent } from './Views/PreviewTabs/preview-
     PreviewRNCRegistratComponent,
     ScurtenyComitteeComponent,
     PreviewLegalEntityComponent,
-    PreviewCollegeComponent
-    PreviewScurtenyComitteeComponent,
-    PreviewRNCRegistratComponent,
+    PreviewCollegeComponent,
     RevertApplyNOCApplicationListComponent,
     CollegeManagementSocietyComponent,
-    PreviewTrusteeGeneralInfoComponent
-    PreviewRNCRegistratComponent,
-    ApplyNocParameterDetailsComponent
+    PreviewTrusteeGeneralInfoComponent,
+    ApplyNocParameterDetailsComponent,
+    ApplyNOCFDRDetailsComponent
 
   ],
   imports: [

@@ -47,5 +47,28 @@ export class ApplyNocParameterMaster_AdditionOfNewSeats60DataModel extends Apply
   public ApplyNocParameterCourseList: ApplyNocParameterCourseDataModel[] = [];
 }
 
+export class ApplyNocFDRDetailsDataModel {
+  public ApplyNocFDRID: number = 0;
+  public ApplyNocID: number = 0;
+  public CollegeID: number = 0;
+  public CollegeName: string = '';
+  public CourseType: string = '';
+  public CollegeType: string = '';
+  public DepartmentID: number = 0;
+  public Amount: number = 0;
+  public BankName: string = '';
+  public BranchName: string = '';
+  public IFSCCode: string = '';
+  public FDRNumber: number = null;
+  public FDRAmount: number = null;
+  public FDRDate: string = '';
+  public PeriodOfFDR: string = '0';
+  public IsFDRSubmited: boolean = false;
+  public FDRDocument: string = '';
+  public FDRDocumentPath: string = '';
+  public FDRDocument_Dis_FileName: string = '';
+
+}
+
 // list details
 

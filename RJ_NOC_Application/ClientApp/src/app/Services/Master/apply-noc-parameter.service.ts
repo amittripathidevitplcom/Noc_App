@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ApplyNocParameterDataModel } from '../../Models/ApplyNocParameterDataModel';
+import { ApplyNocFDRDetailsDataModel, ApplyNocParameterDataModel } from '../../Models/ApplyNocParameterDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +68,34 @@ export class ApplyNocParameterService {
         ).toPromise();
     }
     return response;
+  }
+
+  public async GetApplyNoc_FDRMasterByCollegeID(CollegeID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GetApplyNoc_FDRMasterByCollegeID/' + CollegeID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async SaveApplyNoc_FDRMasterDetail(request: ApplyNocFDRDetailsDataModel) {
+    debugger;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    let body = JSON.stringify(request)
+    return await this.http.post(this.APIUrl + "/SaveApplyNoc_FDRMasterDetail/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetApplyNocFDRDetails(ApplyNocFDRID: number, ApplyNocID:number){
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GetApplyNocFDRDetails/' + ApplyNocFDRID + "/" + ApplyNocID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
   }
 
 }

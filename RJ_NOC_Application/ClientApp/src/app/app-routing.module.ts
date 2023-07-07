@@ -80,7 +80,7 @@ import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/pre
 import { ApplyNocParameterDetailsComponent } from './Views/Master/apply-noc-parameter-details/apply-noc-parameter-details.component';
 import { RevertApplyNOCApplicationListComponent } from './Views/revert-apply-nocapplication-list/revert-apply-nocapplication-list.component';
 import { CollegeManagementSocietyComponent } from './Views/PreviewTabs/college-management-society/college-management-society.component';
-
+import { ApplyNOCFDRDetailsComponent } from './Views/Master/apply-nocfdrdetails/apply-nocfdrdetails.component';
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -340,6 +340,9 @@ const routes: Routes = [
       },
       {
         path: 'previewcollegesociety', component: CollegeManagementSocietyComponent
+      },
+      {
+        path: 'applynocfdrdetails', component:  ApplyNOCFDRDetailsComponent 
       },
     ]
   },
