@@ -77,4 +77,23 @@ export class ApplyNocParameterService {
       ).toPromise();
   }
 
+  public async GetApplyNocApplicationByApplicationID(ApplyNocApplicationID: number) {
+    return await this.http.get(this.APIUrl + "/GetApplyNocApplicationByApplicationID/" + ApplyNocApplicationID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async DeleteApplyNocApplicationByApplicationID(ApplyNocApplicationID: number, ModifyBy: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/DeleteApplyNocApplicationByApplicationID/" + ApplyNocApplicationID + "/" + ModifyBy, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }
