@@ -96,7 +96,7 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
       }
     }
 
-    if (this.dsrequest.Remark == '') {
+    if (this.dsrequest.FinalRemark == '') {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
