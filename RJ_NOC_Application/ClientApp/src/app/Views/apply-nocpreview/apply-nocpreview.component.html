@@ -21,10 +21,16 @@
         <div class="col-md-12">
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
+            <mat-tab label="Legal Entity">
+              <app-document-scrutiny-legal-entity></app-document-scrutiny-legal-entity>
+            </mat-tab>
+            <mat-tab label="College Detail">
+              <app-document-scrutiny-college-detail></app-document-scrutiny-college-detail>
+            </mat-tab>
             <mat-tab label="College Management Society">
               <app-document-scrutiny-college-management-society></app-document-scrutiny-college-management-society>
             </mat-tab>
-            <mat-tab>
+            <mat-tab label="Land Information">
               <ng-template mat-tab-label>
                 <i class=" text-success" aria-hidden="true"></i>
                 <span>Land Information</span>
@@ -40,7 +46,7 @@
             </mat-tab>
             <mat-tab label="Required Document">
               <!--Required Document-->
-              <app-document-scrutiny-required-document></app-document-scrutiny-required-document>              
+              <app-document-scrutiny-required-document></app-document-scrutiny-required-document>
             </mat-tab>
 
             <!--Room Details-->
@@ -49,7 +55,7 @@
             </mat-tab>
             <!--Other Information-->
             <mat-tab label="Other Information">
-              <app-document-scrutiny-other-information></app-document-scrutiny-other-information>             
+              <app-document-scrutiny-other-information></app-document-scrutiny-other-information>
             </mat-tab>
 
             <mat-tab label="Building Documents">
@@ -58,7 +64,7 @@
             </mat-tab>
             <mat-tab label="Staff Details">
               <!--Staff Details-->
-              <app-document-scrutiny-staff-details></app-document-scrutiny-staff-details>              
+              <app-document-scrutiny-staff-details></app-document-scrutiny-staff-details>
             </mat-tab>
 
             <mat-tab label="OLD NOC Details" *ngIf="CollegeType_IsExisting">
@@ -69,7 +75,7 @@
             <mat-tab label="Academic Information" *ngIf="CollegeType_IsExisting">
               <!--Academic Information Only for New-->
               <app-document-scrutiny-academic-information></app-document-scrutiny-academic-information>
-              
+
             </mat-tab>
             <mat-tab label="Other Document">
               <!--Other Document-->
@@ -78,12 +84,12 @@
             <mat-tab label="Hospital Details">
               <!--Hospital Details-->
               <app-document-scrutiny-hospital-details></app-document-scrutiny-hospital-details>
-              
+
             </mat-tab>
             <mat-tab label="Hostel Details">
               <!--Hostel Details-->
               <app-document-scrutiny-hostal-details></app-document-scrutiny-hostal-details>
-              
+
             </mat-tab>
 
             <mat-tab label="Document Scrutiny Preview">
@@ -129,8 +135,8 @@
 
                 <div class="card-footer">
                   <button type="button" class="btn btn-sm btn-success" [attr.disabled]="ShowFinalDocumentScrutiny ? true : null" (click)="DocumentScrutiny(DocumentScrutinyButtonText)" title="{{DocumentScrutinyButtonText}}">{{DocumentScrutinyButtonText}}</button>
-    <!--<button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Revert',1)" title="Revert"><i class="fa fa-close">Revert</i></button>-->
-  </div>
+                  <!--<button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Revert',1)" title="Revert"><i class="fa fa-close">Revert</i></button>-->
+                </div>
               </div>
             </mat-tab>
           </mat-tab-group>
