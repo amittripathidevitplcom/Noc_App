@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NocpaymentService } from '../../../Services/NocPayment/noc-payment.service';
 import { RequestDetails } from '../../../Models/PaymentDataModel';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-//import { GlobalConstants } from '../../../Common/GlobalConstants';
+import { GlobalConstants } from '../../../Common/GlobalConstants';
 
 
 @Component({

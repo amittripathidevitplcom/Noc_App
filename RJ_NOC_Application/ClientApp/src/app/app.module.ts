@@ -264,7 +264,7 @@ import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/pay
     DocumentScrutinyOtherDocumentComponent,
     DocumentScrutinyCollegeManagementSocietyComponent,
     DocumentScrutinyLegalEntityComponent,
-    DocumentScrutinyCollegeDetailComponent
+    DocumentScrutinyCollegeDetailComponent,
     ApplyNocParameterDetailsComponent,
     NocPaymentComponent,
     PaymentSuccessComponent,
