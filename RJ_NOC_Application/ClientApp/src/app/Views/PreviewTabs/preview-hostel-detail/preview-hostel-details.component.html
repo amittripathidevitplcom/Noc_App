@@ -28,7 +28,7 @@
                 <td>{{row.ContactPersonNo}}</td>
                 <td>{{row.HostelType}}</td>
                 <td>
-      
+
                   <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewItem(mymodal,row.HostelDetailID)"><i class="fa fa-eye"></i></button>
                 </td>
               </tr>
@@ -51,133 +51,133 @@
   </div>
   <div class="modal-body">
 
-      <div class="row">
+    <div class="row">
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Is Hostel In Campus</b>: &nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.IsHostelCampus}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Hostel Name</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.HostelName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Address Line 1</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.AddressLine1}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Address Line 2</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.AddressLine2}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>IsRuralUrban</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.IsRuralUrban}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Division</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.DivisionName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>District</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.DistrictName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
+        <label><b>Tehsil</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.TehsilName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
+        <label><b>Panchayat Samiti</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.PanchyatSamitiName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>City/Town/Village</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.CityTownVillage}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Pincode</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.Pincode}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Contact Person Name</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.ContactPersonName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Contact Person No.</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.ContactPersonNo}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Distance of College (KM)</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.DistanceOfCollege}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Type</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.HostelType}}" />
+      </div>
+      <div class="row" *ngIf="request.HostelType=='Rent'">
         <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>Is Hostel In Campus</b>: &nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.IsHostelCampus}}" />
+          <label><b>Owner Name</b>:&nbsp;&nbsp; </label>
+          <input class="form-control disabled" disabled value="{{request.OwnerName}}" />
         </div>
         <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>Hostel Name</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.HostelName}}" />
+          <label><b>Contact No.</b> :&nbsp;&nbsp;</label>
+          <input class="form-control disabled" disabled value="{{request.OwnerContactNo}}" />
         </div>
         <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>Address Line 1</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.AddressLine1}}" />
+          <label><b>From Date</b>:&nbsp;&nbsp; </label>
+          <input class="form-control disabled" disabled value="{{request.FromDate}}" />
         </div>
         <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>Address Line 2</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.AddressLine2}}" />
+          <label><b>To Date</b>:&nbsp;&nbsp; </label>
+          <input class="form-control disabled" disabled value="{{request.ToDate}}" />
         </div>
         <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>IsRuralUrban</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.IsRuralUrban}}" />
-        </div>
-        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>Division</b>:&nbsp;&nbsp;</label>
-          <input class="form-control disabled" disabled value="{{request.DivisionName}}" />
-        </div>
-        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>District</b>:&nbsp;&nbsp;</label>
-          <input class="form-control disabled" disabled value="{{request.DistrictName}}" />
-        </div>
-        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
-          <label><b>Tehsil</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.TehsilName}}" />
-        </div>
-        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
-          <label><b>Panchayat Samiti</b>:&nbsp;&nbsp;</label>
-          <input class="form-control disabled" disabled value="{{request.PanchyatSamitiName}}" />
-        </div>
-        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>City/Town/Village</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.CityTownVillage}}" />
-        </div>
-        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>Pincode</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.Pincode}}" />
-        </div>
-        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>Contact Person Name</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.ContactPersonName}}" />
-        </div>
-        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>Contact Person No.</b>:&nbsp;&nbsp;</label>
-          <input class="form-control disabled" disabled value="{{request.ContactPersonNo}}" />
-        </div>
-        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>Distance of College (KM)</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.DistanceOfCollege}}" />
-        </div>
-        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>Type</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.HostelType}}" />
-        </div>
-        <div class="row" *ngIf="request.HostelType=='Rent'">
-          <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-            <label><b>Owner Name</b>:&nbsp;&nbsp; </label>
-            <input class="form-control disabled" disabled value="{{request.OwnerName}}" />
-          </div>
-          <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-            <label><b>Contact No.</b> :&nbsp;&nbsp;</label>
-            <input class="form-control disabled" disabled value="{{request.OwnerContactNo}}" />
-          </div>
-          <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-            <label><b>From Date</b>:&nbsp;&nbsp; </label>
-            <input class="form-control disabled" disabled value="{{request.FromDate}}" />
-          </div>
-          <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-            <label><b>To Date</b>:&nbsp;&nbsp; </label>
-            <input class="form-control disabled" disabled value="{{request.ToDate}}" />
-          </div>
-          <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
-            <label><b>Rent Document</b> :&nbsp;&nbsp;</label>
-            <div class="clearfix"></div>
-            <a data-fancybox="gallery" *ngIf="request.RentDocument!=''" href="{{request.RentDocument}}" data-caption="Image 10" title="click here to zoom">
-              <img src="{{request.RentDocument}}" alt="RentDocument" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-            </a>
-          </div>
+          <label><b>Rent Document</b> :&nbsp;&nbsp;</label>
+          <a *ngIf="!request.RentDocument.includes('.pdf')" data-fancybox="gallery" href="{{request.RentDocument}}" data-caption="Image 10" title="click here to zoom">
+            <img src="{{request.RentDocument}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+          </a>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.RentDocument.includes('.pdf')" data-fancybox="gallery" href="{{request.RentDocument}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
         </div>
       </div>
-      <div class="row">
-        <div class="card">
-          <div class="card-header">
-            <b>Hostel Block Details</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="table-responsive">
-                  <table class="table table-hover table-striped">
-                    <thead>
-                      <tr>
-                        <th>Sr. No.</th>
-                        <th>Hostel Block</th>
-                        <th>Width (In Feet)</th>
-                        <th>Length (In Feet)</th>
-                        <th>Image</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let row of request.HostelDetails ;let idx=index;">
-                        <td>{{idx+1}}</td>
-                        <td>{{row.CourseName}}</td>
-                        <td>{{row.Width}}</td>
-                        <td>{{row.Length}}</td>
-                        <td>
-                          <a data-fancybox="gallery" *ngIf="row.ImageFileName!=''" href="{{row.ImageFileName}}" data-caption="Image 10" title="click here to zoom">
-                            <img src="{{row.ImageFileName}}" alt="Image" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                          </a>
+    </div>
+    <div class="row">
+      <div class="card">
+        <div class="card-header">
+          <b>Hostel Block Details</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Hostel Block</th>
+                      <th>Width (In Feet)</th>
+                      <th>Length (In Feet)</th>
+                      <th>Image</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of request.HostelDetails ;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.CourseName}}</td>
+                      <td>{{row.Width}}</td>
+                      <td>{{row.Length}}</td>
+                      <td>
+                        <a *ngIf="!row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFileName}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{row.ImageFileName}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFileName}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                         </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-
           </div>
+
         </div>
       </div>
-
+    </div>
   </div>
 </ng-template>

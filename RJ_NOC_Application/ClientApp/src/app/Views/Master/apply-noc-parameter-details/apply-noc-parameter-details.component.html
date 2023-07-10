@@ -24,152 +24,331 @@
                 <b>Apply Noc List</b>
               </div>
               <div class="card-body">
-                <div class="row">
-                  <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped">
-                      <thead>
-                        <tr>
-                          <th>Sr. No.</th>
-                          <th>Course</th>
-                          <th>Subject</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody *ngFor="let item of ApplyNocApplicationList;let idx=index;">
-                        <tr>
-                          <td>{{idx+1}}</td>
-                          <td>
-                            {{item.CollegeName}}
-                          </td>
-                          <td>
-                            {{item.ApplicationTypeName}}
-                          </td>
-                          <td>
-                            {{item.TotalFeeAmount}}
-                          </td>
-                          <td>
-                            <div class="d-flex">
-                              <button type="button" class="btn" title="View" (click)="ViewApplyNocApplication(item.ApplyNocApplicationID)"><i class="fa fa-trash"></i></button>
-                              <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteApplyNocApplication(item.ApplyNocApplicationID)"><i class="fa fa-trash"></i></button>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>College</th>
+                        <th>Application Type</th>
+                        <th>Total Fee Amount</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of ApplyNocApplicationList;let idx=index;">
+                        <td>{{idx+1}}</td>
+                        <td>
+                          {{item.CollegeName}}
+                        </td>
+                        <td>
+                          {{item.ApplicationTypeName}}
+                        </td>
+                        <td>
+                          {{item.TotalFeeAmount}}
+                        </td>
+                        <td>
+                          <!--<div class="d-flex">
+                            <button type="button" class="btn btn-primary" title="View Application" (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)"><i class="fa fa-eye"></i></button>&nbsp;
+                            <button type="button" *ngIf="item.IsMakePayment==true" class="btn btn-sm btn-danger" title="Delete Application" (click)="DeleteApplyNocApplication_click(item)"><i class="fa fa-trash-o"></i></button>
+                            &nbsp;
+                            <button type="button" class="btn btn-sm btn-primary" title="Add FDR" (click)="AddFDR_click(item)">
+                              {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
+                            </button>&nbsp;
+                            <button type="button" *ngIf="item.IsMakePayment==false" class="btn btn-sm btn-primary" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
+                              Payment
+                            </button>&nbsp;
+                            <button type="button" *ngIf="item.IsMakePayment==true" class="btn btn-sm btn-primary" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click()">
+                              Payment History
+                            </button>&nbsp;
+                            <button type="button" *ngIf="item.IsMakePayment==true && item.IsFinalSubmit==false" class="btn btn-sm btn-primary" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
+                              Final Submit
+                            </button>
+                          </div>-->
+
+                          <div class="d-flex">
+                            <button type="button" class="btn btn-primary" title="View Application" (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)"><i class="fa fa-eye"></i></button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-danger" title="Delete Application" (click)="DeleteApplyNocApplication_click(item)"><i class="fa fa-trash-o"></i></button>
+                            &nbsp;
+                            <button type="button" class="btn btn-sm btn-primary" title="Add FDR" (click)="AddFDR_click(item)">
+                              {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
+                            </button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-primary" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
+                              Payment
+                            </button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-primary" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
+                              Payment History
+                            </button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-primary" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
+                              Final Submit
+                            </button>
+                          </div>
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="ApplyNocApplicationList.length==0">
+              No Record Found
+            </div>
+          </div>
+        </div>
+
+        <!--model-->
+        <ng-template #mymodalview let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+              Apply Noc Application for : {{ApplyNocApplicationDetail.ApplyNocApplicationID}}
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <i class="fa fa-close"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!--application details-->
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    College :
+                  </b>
+                  {{ApplyNocApplicationDetail.CollegeName}}
+                </label>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    Application Type :
+                  </b>
+                  {{ApplyNocApplicationDetail.ApplicationTypeName}}
+                </label>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    Total fee Amount :
+                  </b>
+                  {{ApplyNocApplicationDetail.TotalFeeAmount}}
+                </label>
+              </div>
+            </div>
+            <!--end-->
+            <!--parameter detail-->
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <label>
+                  <b>
+                    Noc For :
+                  </b>
+                </label>
+                <hr />
+                <div class="card" *ngFor="let parameterDetail of ApplyNocApplicationDetail.ApplyNocApplicationParameterList;let idx=index;">
+                  <div class="card-header">
+                    <b>{{parameterDetail.ApplyNocFor}} : {{parameterDetail.FeeAmount}}</b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-striped-columns">
+                          <thead>
+                            <tr>
+                              <th>Sr. No.</th>
+                              <th>Course</th>
+                              <th *ngIf="parameterDetail.ApplyNocFor=='TNOC Extension'">Subject</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let applicationdetail of parameterDetail.ApplyNocApplicationDetailList;let idx=index;">
+                              <td>{{idx+1}}</td>
+                              <td>
+                                <label>{{applicationdetail.CourseName}}</label>
+                              </td>
+                              <td *ngIf="parameterDetail.ApplyNocFor=='TNOC Extension'">
+                                <label>{{applicationdetail.SubjectName}}</label>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <!--end-->
           </div>
-        </div>
+        </ng-template>
+        <!--end-->
         <!--model-->
-        <!--<ng-template #mymodal let-modal>
-        <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Preview</h4>
-          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <i class="fa fa-close"></i>
-          </button>
+        <ng-template #mymodalpayment let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-applynocpayment-title" style="font-size: 17px; font-weight: 600 !important;">
+              Apply Noc Application for : {{ApplyNocApplicationDetail.ApplyNocApplicationID}}
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <i class="fa fa-close"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!--application details-->
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    College :
+                  </b>
+                  {{ApplyNocApplicationDetail.CollegeName}}
+                </label>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    Application Type :
+                  </b>
+                  {{ApplyNocApplicationDetail.ApplicationTypeName}}
+                </label>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>
+                  <b>
+                    Total fee Amount :
+                  </b>
+                  {{ApplyNocApplicationDetail.TotalFeeAmount}}
+                </label>
+              </div>
+            </div>
+            <!--end-->
+            <!--parameter detail-->
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <label>
+                  <b>
+                    Your Apply Noc Application Charges for followings :
+                  </b>
+                </label>
+                <hr />
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let parameterDetail of ApplyNocApplicationDetail.ApplyNocApplicationParameterList;">
+                  <label>
+                    <b>
+                      {{parameterDetail.ApplyNocFor}} :
+                    </b>
+                    {{parameterDetail.FeeAmount}}
+                  </label>
+                </div>
+              </div>
+              <div class="card-footer text-end">
+                <button type="button" class="btn btn-primary" (click)="MakePayment_click(ApplyNocApplicationDetail.ApplyNocApplicationID)">Make Payment</button>
+              </div>
+            </div>
+            <!--end-->
+          </div>
+        </ng-template>
+        <!--end-->
+        <!--model-->
+
+        <ng-template #mymodalpaymenthistory let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+              Apply Noc Payment History for : {{ApplyNocApplicationDetail.ApplyNocApplicationID}}
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <i class="fa fa-close"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <b>Payment History</b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-striped-columns">
+                          <thead>
+                            <tr>
+                              <th>Sr. No.</th>
+                              <th>Transaction No</th>
+                              <th>Transaction Date</th>
+                              <th>Payment Status</th>
+                              <th>Amount</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let paymentdetails of PaymentHistoryDetails;let idx=index;">
+                              <td>{{idx+1}}</td>
+                              <td>
+                                <label>{{paymentdetails.TransactionNo}}</label>
+                              </td>
+                              <td>
+                                <label>{{paymentdetails.TransactionDate}}</label>
+                              </td>
+                              <td>
+                                <label>{{paymentdetails.PaymentStatus}}</label>
+                              </td>
+                              <td>
+                                <label>{{paymentdetails.Amount}}</label>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--end-->
+          </div>
+        </ng-template>
+
+        <!--end-->
+        <!--otp-->
+        <div class="modal" id="ModalOtpVerify" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-md modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">OTP Verification</h5>
+                <button type="button" class="btn btn-danger" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                    <p>You have recieved a OTP Verification Message on <b>{{MaskedMobileNo}}</b></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                    <label class="mb-2" for="EnterOTP">Enter OTP</label>
+                    <input type="text" class="form-control" id="EnterOTP" [(ngModel)]="UserOTP" autocomplete="off" (keypress)="numberOnly($event)" maxlength="6" />
+                    <div *ngIf="isUserOTP" class="text-danger">
+                      <p *ngIf="isUserOTP">This field is required .!</p>
+                    </div>
+                    <div *ngIf="isValidUserOTP" class="text-danger">
+                      <p *ngIf="isValidUserOTP">Please Enter Correct OTP .!</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3 d-flex justify-content-center align-items-center">
+                    <span *ngIf="ShowTimer">Please Wait.. {{DisplayTimer}}</span>
+                    <button [attr.disabled]="isTimerDisabled ? true : null" type="button" id="ResendOTP" (click)="ResendOTP()" class="btn btn-link">Resend OTP</button>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">Cancel</span></button>
+                <button type="button" (click)="VerifyOTP()" class="btn btn-sm btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b> College:</b></label>
-              <input class="form-control disabled" disabled value="{{request.CollegeName}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label>
-                <b>
-                  Application Type :
-                </b>
-              </label>
-              <input class="form-control disabled" disabled value="{{request.ApplicationTypeName}}" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-              <label>
-                <b>
-                  Noc For :  {{request.TotalFeeAmount}}
-                </b>
-              </label>-->
-        <!--TNOC Extension-->
-        <!--<div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtension_Preview != null">
-          <div class="card-header">
-            <b>{{ApplyNocParameterMasterList_TNOCExtension_Preview.ApplyNocFor}} : {{ApplyNocParameterMasterList_TNOCExtension_Preview.FeeAmount}}</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="table-responsive">
-                <table class="table table-hover table-striped-columns">
-                  <thead>
-                    <tr>
-                      <th>Sr. No.</th>
-                      <th>Course</th>
-                      <th>Subject</th>
-                    </tr>
-                  </thead>
-                  <tbody *ngFor="let item of ApplyNocParameterMasterList_TNOCExtension_Preview.ApplyNocParameterCourseList;let idx=index;">
-                    <tr>
-                      <td>{{idx+1}}</td>
-                      <td>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="checkbox" name="cbCourse_TNOCExtension" id="cbCourse_TNOCExtension_{{item.CourseID}}" value="{{item.CourseID}}" [attr.disabled]="true" [attr.checked]="item.IsChecked">
-                          <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
-                        </div>
-                      </td>
-                      <td>
-                        <div class="form-check form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;">
-                          <input class="form-check-input" type="checkbox" name="cbSubject_TNOCExtension" id="cbSubject_TNOCExtension_{{item1.SubjectID}}" value="{{item1.SubjectID}}" [attr.disabled]="true" [attr.checked]="item1.IsChecked">
-                          <label class="form-check-label" for="cbSubject_TNOCExtension_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>-->
-        <!--end-->
-        <!--Addition of New Seats(60)-->
-        <!--<div class="card" *ngIf="request.ApplyNocParameterMasterList_AdditionOfNewSeats60 != null">
-          <div class="card-header">
-            <b>{{request.ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocFor}} : {{request.ApplyNocParameterMasterList_AdditionOfNewSeats60.FeeAmount}}</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped">
-                  <thead>
-                    <tr>
-                      <th>Sr. No.</th>
-                      <th>Course</th>
-                    </tr>
-                  </thead>
-                  <tbody *ngFor="let item of request.ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocParameterCourseList;let idx=index;">
-                    <tr>
-                      <td>{{idx+1}}</td>
-                      <td>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="checkbox" name="cbCourse_AdditionOfNewSeats60" id="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}" value="{{item.CourseID}}" [attr.disabled]="true" [attr.checked]="item.IsChecked" >
-                          <label class="form-check-label" for="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}">{{item.CourseName}}</label>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>-->
-        <!--end-->
-        <!--</div>
-            </div>
-            <div class="card-footer text-end">
-              <button type="button" class="btn btn-primary" (click)="Payment_click()">Payment</button>
-            </div>
-          </div>
-        </ng-template>-->
         <!--end-->
       </div>
     </div>

@@ -33,7 +33,7 @@ export class CommitteeMasterComponent implements OnInit {
     private formBuilder: FormBuilder, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.CommitteeMasterForm = this.formBuilder.group(
       {
         ddlCommitteeType: ['0'],

@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } 
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ApplyNOCApplicationDataModel } from '../../Models/ApplyNOCApplicationDataModel';
-import { DocumentScrutinyDataModel, DocumentScrutinyDetail_DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
+import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../Models/DocumentScrutinyDataModel';
 
 import { GlobalConstants } from '../../Common/GlobalConstants';
 @Injectable({
@@ -45,7 +45,7 @@ export class ApplyNOCApplicationService {
   public async SaveDocumentScrutiny(request: DocumentScrutinyDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
-    console.log(body);
+    console.log(request);
     return await this.http.post(this.APIUrl +'/SaveDocumentScrutiny/', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)

@@ -116,6 +116,22 @@ import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/pre
 import { RevertApplyNOCApplicationListComponent } from './Views/revert-apply-nocapplication-list/revert-apply-nocapplication-list.component';
 import { CollegeManagementSocietyComponent } from './Views/PreviewTabs/college-management-society/college-management-society.component';
 import { PreviewTrusteeGeneralInfoComponent } from './Views/PreviewTabs/preview-trustee-general-info/preview-trustee-general-info.component';
+import { ApplyNOCFDRDetailsComponent } from './Views/Master/apply-nocfdrdetails/apply-nocfdrdetails.component';
+import { DocumentScrutinyLandDetailComponent } from './Views/DocumentScrutinyTab/document-scrutiny-land-detail/document-scrutiny-land-detail.component';
+import { DocumentScrutinyRoomDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-room-details/document-scrutiny-room-details.component';
+import { DocumentScrutinyBuildingDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-building-details/document-scrutiny-building-details.component';
+import { DocumentScrutinyStaffDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-staff-details/document-scrutiny-staff-details.component';
+import { DocumentScrutinyOldNOCDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-old-nocdetails/document-scrutiny-old-nocdetails.component';
+import { DocumentScrutinyAcademicInformationComponent } from './Views/DocumentScrutinyTab/document-scrutiny-academic-information/document-scrutiny-academic-information.component';
+import { DocumentScrutinyHospitalDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-hospital-details/document-scrutiny-hospital-details.component';
+import { DocumentScrutinyHostalDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-hostal-details/document-scrutiny-hostal-details.component';
+import { DocumentScrutinyFacilityComponent } from './Views/DocumentScrutinyTab/document-scrutiny-facility/document-scrutiny-facility.component';
+import { DocumentScrutinyRequiredDocumentComponent } from './Views/DocumentScrutinyTab/document-scrutiny-required-document/document-scrutiny-required-document.component';
+import { DocumentScrutinyOtherInformationComponent } from './Views/DocumentScrutinyTab/document-scrutiny-other-information/document-scrutiny-other-information.component';
+import { DocumentScrutinyOtherDocumentComponent } from './Views/DocumentScrutinyTab/document-scrutiny-other-document/document-scrutiny-other-document.component';
+import { DocumentScrutinyCollegeManagementSocietyComponent } from './Views/DocumentScrutinyTab/document-scrutiny-college-management-society/document-scrutiny-college-management-society.component';
+import { DocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab/document-scrutiny-legal-entity/document-scrutiny-legal-entity.component';
+import { DocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutinyTab/document-scrutiny-college-detail/document-scrutiny-college-detail.component';
 import { NocPaymentComponent } from './Views/noc-payment/payment-request/noc-payment.component';
 import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/payment-success.component';
 
@@ -223,12 +239,32 @@ import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/pay
     ScurtenyComitteeComponent,
     PreviewLegalEntityComponent,
     PreviewCollegeComponent,
+    PreviewCollegeComponent,
     PreviewRNCRegistratComponent,
     RevertApplyNOCApplicationListComponent,
     CollegeManagementSocietyComponent,
     PreviewTrusteeGeneralInfoComponent,
     PreviewCollegeComponent,
     PreviewRNCRegistratComponent,
+    ApplyNocParameterDetailsComponent,
+    DocumentScrutinyLandDetailComponent,
+    DocumentScrutinyRoomDetailsComponent,
+    DocumentScrutinyBuildingDetailsComponent,
+    DocumentScrutinyStaffDetailsComponent,
+    DocumentScrutinyOldNOCDetailsComponent,
+    DocumentScrutinyAcademicInformationComponent,
+    DocumentScrutinyHospitalDetailsComponent,
+    DocumentScrutinyHostalDetailsComponent,
+    DocumentScrutinyFacilityComponent,
+    DocumentScrutinyRequiredDocumentComponent,
+    DocumentScrutinyOtherInformationComponent,
+    PreviewTrusteeGeneralInfoComponent,
+    ApplyNocParameterDetailsComponent,
+    ApplyNOCFDRDetailsComponent,
+    DocumentScrutinyOtherDocumentComponent,
+    DocumentScrutinyCollegeManagementSocietyComponent,
+    DocumentScrutinyLegalEntityComponent,
+    DocumentScrutinyCollegeDetailComponent
     ApplyNocParameterDetailsComponent,
     NocPaymentComponent,
     PaymentSuccessComponent,

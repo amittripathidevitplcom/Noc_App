@@ -2,13 +2,13 @@
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
-      <h3>Application Preview Details</h3>
+      <h3>Application Document Scrutiny</h3>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Application</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Application Preview</li>
+          <li class="breadcrumb-item active" aria-current="page">Application Document Scrutiny</li>
         </ol>
       </nav>
     </div>
@@ -21,628 +21,75 @@
         <div class="col-md-12">
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
-
-            <mat-tab>
+            <mat-tab label="Legal Entity">
+              <app-document-scrutiny-legal-entity></app-document-scrutiny-legal-entity>
+            </mat-tab>
+            <mat-tab label="College Detail">
+              <app-document-scrutiny-college-detail></app-document-scrutiny-college-detail>
+            </mat-tab>
+            <mat-tab label="College Management Society">
+              <app-document-scrutiny-college-management-society></app-document-scrutiny-college-management-society>
+            </mat-tab>
+            <mat-tab label="Land Information">
               <ng-template mat-tab-label>
                 <i class=" text-success" aria-hidden="true"></i>
                 <span>Land Information</span>
               </ng-template>
-              <app-preview-land-detail></app-preview-land-detail>
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlLandField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="LandRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-                    </div>
-
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <app-document-scrutiny-land-detail></app-document-scrutiny-land-detail>
             </mat-tab>
 
 
             <mat-tab label="Facility">
               <!--Facility-->
-              <app-preview-facility-detail></app-preview-facility-detail>
+              <app-document-scrutiny-facility></app-document-scrutiny-facility>
 
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlFacilityField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="FacilityRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-                    </div>
-
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </mat-tab>
             <mat-tab label="Required Document">
               <!--Required Document-->
-              <app-preview-required-document></app-preview-required-document>
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlRequiredDocumentField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="RequriedRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-                    </div>
-
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <app-document-scrutiny-required-document></app-document-scrutiny-required-document>
             </mat-tab>
 
             <!--Room Details-->
             <mat-tab label="Room Details">
-              <app-preview-room-detail></app-preview-room-detail>
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlRoomDetailField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="RoomDetailRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-                    </div>
-
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <app-document-scrutiny-room-details></app-document-scrutiny-room-details>
             </mat-tab>
             <!--Other Information-->
             <mat-tab label="Other Information">
-
-              <app-preview-other-information></app-preview-other-information>
-
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlOtherInformationField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="OtherInformationRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-
-                    </div>
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <app-document-scrutiny-other-information></app-document-scrutiny-other-information>
             </mat-tab>
 
             <mat-tab label="Building Documents">
               <!--Building Documents-->
-              <app-preview-building-detail></app-preview-building-detail>
-
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlBuildingField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="BuildingRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-
-                    </div>
-
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <app-document-scrutiny-building-details></app-document-scrutiny-building-details>
             </mat-tab>
             <mat-tab label="Staff Details">
               <!--Staff Details-->
-              <app-preview-staff-detail></app-preview-staff-detail>
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlStaffDetailField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="StaffDetailRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <app-document-scrutiny-staff-details></app-document-scrutiny-staff-details>
             </mat-tab>
 
             <mat-tab label="OLD NOC Details" *ngIf="CollegeType_IsExisting">
               <!--OLD NOC Details Only for New-->
-              <app-preview-old-nocdetail></app-preview-old-nocdetail>
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlOldNOCField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="OldNOCRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <app-document-scrutiny-old-nocdetails></app-document-scrutiny-old-nocdetails>
             </mat-tab>
 
             <mat-tab label="Academic Information" *ngIf="CollegeType_IsExisting">
               <!--Academic Information Only for New-->
-              <app-preview-academic-information></app-preview-academic-information>
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlAcademicInformationField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="AcademicInformationRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-                    </div>
+              <app-document-scrutiny-academic-information></app-document-scrutiny-academic-information>
 
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </mat-tab>
             <mat-tab label="Other Document">
               <!--Other Document-->
-              <app-preview-other-document></app-preview-other-document>
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlOtherDocumentField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="OtherDocumentRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-                    </div>
-
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <app-document-scrutiny-other-document></app-document-scrutiny-other-document>
             </mat-tab>
             <mat-tab label="Hospital Details">
               <!--Hospital Details-->
-              <app-preview-hospital-detail></app-preview-hospital-detail>
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
+              <app-document-scrutiny-hospital-details></app-document-scrutiny-hospital-details>
 
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlHospitalField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="HospitalRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </mat-tab>
             <mat-tab label="Hostel Details">
               <!--Hostel Details-->
-              <app-preview-hostel-details></app-preview-hostel-details>
-              <div class="card tabCard1  mb-0">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="bi bi-table"></i></b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Action</label>
-                      <select class="form-select" id="ddlLandActionID" [(ngModel)]="request.ActionID" (change)="ShowHideObjectionDropdown()">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="1">Approve</option>
-                        <option value="2">Revert</option>
-                        <option value="3">Reject</option>
-                      </select>
-                      <div *ngIf="isActionValid" class="text-danger">
-                        <p *ngIf="isActionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowObjectionField">
-                      <label>Field </label>
-                      <ng-multiselect-dropdown [placeholder]="'--Select--'" id="ddlHostelDetailField"
-                                               [settings]="dropdownSettings"
-                                               [data]="TabFieldDataList"
-                                               [(ngModel)]="SelectedTabFieldDataList">
-                      </ng-multiselect-dropdown>
-                      <div *ngIf="isObjectionValid" class="text-danger">
-                        <p *ngIf="isObjectionValid"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Remarks</label>
-                      <textarea id="HostelDetailRemark" class="form-control" [(ngModel)]="request.Remark"></textarea>
-                      <div *ngIf="isRemarkValid" class="text-danger">
-                        <p *ngIf="isRemarkValid"> This field is required .!</p>
-                      </div>
-                    </div>
+              <app-document-scrutiny-hostal-details></app-document-scrutiny-hostal-details>
 
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" (click)="SubmitTabAction_Onclick()">Submit</button>
-                    </div>
-                  </div>
-                </div>
-                <!--<div class="card-footer">
-        <button type="button" class="btn btn-sm btn-success" (click)="DocumentScrutiny('Approve',1)" title="Approve"><i class="fa fa-check"></i>Approve</button>
-        <button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Revert',1)" title="Revert"><i class="fa fa-close">Revert</i></button>
-      </div>-->
-              </div>
             </mat-tab>
 
             <mat-tab label="Document Scrutiny Preview">
@@ -688,8 +135,8 @@
 
                 <div class="card-footer">
                   <button type="button" class="btn btn-sm btn-success" [attr.disabled]="ShowFinalDocumentScrutiny ? true : null" (click)="DocumentScrutiny(DocumentScrutinyButtonText)" title="{{DocumentScrutinyButtonText}}">{{DocumentScrutinyButtonText}}</button>
-    <!--<button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Revert',1)" title="Revert"><i class="fa fa-close">Revert</i></button>-->
-  </div>
+                  <!--<button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Revert',1)" title="Revert"><i class="fa fa-close">Revert</i></button>-->
+                </div>
               </div>
             </mat-tab>
           </mat-tab-group>

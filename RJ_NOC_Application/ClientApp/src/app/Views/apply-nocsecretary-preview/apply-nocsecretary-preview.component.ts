@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
-import { DocumentScrutinyDataModel, DocumentScrutinyDetail_DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
+import { DocumentScrutinyDataModel } from '../../Models/DocumentScrutinyDataModel';
 import { CommonMasterService } from '../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../Services/Loader/loader.service';
 import { CourseMasterService } from '../../Services/Master/AddCourse/course-master.service';
@@ -84,7 +84,7 @@ export class ApplyNOCSecretaryPreviewComponent implements OnInit {
       this.isActionValid = true;
       this.isFormvalid = false;
     }
-    if (this.request.Remark == '') {
+    if (this.request.FinalRemark == '') {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }

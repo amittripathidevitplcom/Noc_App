@@ -97,8 +97,18 @@
                         <td>
                           {{row.OtherInstitutionRunByTheSocietyID==1?'Yes':'No'}}
                         </td>
-                        <td><a *ngIf="row.SocietyRegistrationDocument!=''" target="_blank" href="{{row.SocietyRegistrationDocument}}"><i class="fa fa-eye"></i></a></td>
-                        <td><a *ngIf="row.SocietyLogo!=''" target="_blank" href="{{row.SocietyLogo}}"><i class="fa fa-eye"></i></a></td>
+                        <td>
+                          <a *ngIf="!row.SocietyRegistrationDocument.includes('.pdf')"  data-fancybox="gallery" href="{{row.SocietyRegistrationDocument}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{row.SocietyRegistrationDocument}}" alt="Society Registration Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocument}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                        <td>                        
+                          <a *ngIf="!row.SocietyLogo.includes('.pdf')"  data-fancybox="gallery" href="{{row.SocietyLogo}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{row.SocietyLogo}}" alt="Society Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyLogo.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyLogo}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>                           
+                        </td>
                       </tr>
                     </tbody>
                   </table>

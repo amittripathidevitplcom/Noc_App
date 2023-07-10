@@ -1,3 +1,4 @@
+
 export class LandDetailDataModel {
   public LandDetailID: number = 0;
   public CollegeID: number = 0;
@@ -43,6 +44,8 @@ export class RequiredDocumentsDataModel {
   public DocumentDetails: RequiredDocumentsDataModel_Documents[] = [];
 }
 
+ 
+
 export class RequiredDocumentsDataModel_Documents {
   public DID: number = 0;
   public DocumentName: string = '';
@@ -51,6 +54,8 @@ export class RequiredDocumentsDataModel_Documents {
   public Dis_FileName: string = '';
   public FileName: string = '';
   public FilePath: string = '';
+  public Action: string = '';
+  public Remark: string = '';
 }
 
 export class StaffDetailDataModel {
@@ -106,6 +111,10 @@ export class StaffDetailDataModel {
   public IPAddress: string = '';
 
   public EducationalQualificationDetails: EducationalQualificationDetails_StaffDetail[] = [];
+
+
+  public Action: string = '';
+  public Remark: string = '';
 }
 export class EducationalQualificationDetails_StaffDetail {
   public EducationalQualificationID: number = 0;
@@ -179,6 +188,9 @@ export class OldNocDetailsDataModel {
   public Dis_FileName: string = '';
   public Remark: string = '';
   public SubjectData: OldNocDetails_SubjectDataModel[] = [];
+
+  public Action: string = '';
+  //public Remark: string = '';
 }
 export class OldNocDetails_SubjectDataModel {
   public OldNOCSubjectID: number = 0;

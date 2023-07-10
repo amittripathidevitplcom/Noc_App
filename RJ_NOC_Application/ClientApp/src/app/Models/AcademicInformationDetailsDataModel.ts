@@ -1,5 +1,5 @@
-
-export class AcademicInformationDetailsDataModel {
+import { DocumentScrutiny_ActionModule} from '../Models/LandDetailDataModel'
+export class AcademicInformationDetailsDataModel extends DocumentScrutiny_ActionModule {
   public AcademicInformationID: number = 0;
   public CollegeID: number = 0;
   public YearID: number = 0;

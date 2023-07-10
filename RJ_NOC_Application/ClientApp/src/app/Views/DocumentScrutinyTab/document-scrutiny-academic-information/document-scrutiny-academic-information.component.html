@@ -1,0 +1,89 @@
+<div class="card mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp;Academic Information</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped-columns" id="tabellist" #content>
+            <thead>
+              <tr>
+                <th>
+                  Compliance<br />
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rdAcademicInformationSelectAllActionType" id="rdAcademicInformationSelectAllYes" value="Yes" (change)="selectAll('Yes')">
+                    <label class="form-check-label">Yes</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rdAcademicInformationSelectAllActionType" id="rdAcademicInformationSelectAllNo" value="No" (change)="selectAll('No')">
+                    <label class="form-check-label">No</label>
+                  </div>
+                </th>
+                <th>Sr. No.</th>
+                <th>Financial Year</th>
+                <th>Course Name</th>
+                <th>Result</th>
+                <th>Admitted Student</th>
+                <th>Appeared Student</th>
+                <th>Passed Student</th>
+                <th>Failed Student</th>
+                <th>Other Student</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of AcademicInformationList;let idx=index;">
+                <td>
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rdAcademicInformationActionType{{idx+1}}" id="rdAcademicInformationActionTypeYes{{idx+1}}" [(ngModel)]="row.Action" value="Yes" (change)="ClickOnAction(idx)">
+                      <label class="form-check-label">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rdAcademicInformationActionType{{idx+1}}" id="rdAcademicInformationActionTypeNo{{idx+1}}" value="No" [(ngModel)]="row.Action" (change)="ClickOnAction(idx)">
+                      <label class="form-check-label">No</label>
+                    </div>
+                  </div>
+                  <div class="row" [hidden]="row.Action !='No'">
+                    <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                      <label>Remark : </label>
+                      <textarea type="text" class="form-control" name="txtAcademicInformationRemark{{idx+1}}" id="txtAcademicInformationRemark{{idx+1}}" [(ngModel)]="row.Remark"></textarea>
+                    </div>
+                  </div>
+
+                </td>
+                <td>{{idx+1}}</td>
+                <td>{{row.FinancialYearName}}</td>
+                <td>{{row.CourseName}}</td>
+                <td>{{row.ResultName}}</td>
+                <td>{{row.AdmittedStudent}}</td>
+                <td>{{row.AppearedStudent}}</td>
+                <td>{{row.PassedStudent}}</td>
+                <td>{{row.FailedStudent}}</td>
+                <td>{{row.OtherStudent}}</td>
+              </tr>
+              <tr *ngIf="(AcademicInformationList.length<=0)">
+                <td colspan="10" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <label>Remarks</label>
+        <textarea id="AcademicInformationRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+        <div *ngIf="isRemarkValid" class="text-danger">
+          <p *ngIf="isRemarkValid"> This field is required .!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-primary" type="button" (click)="SubmitAcademicInformationDetail_Onclick()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
