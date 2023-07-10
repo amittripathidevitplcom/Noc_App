@@ -22,6 +22,7 @@ export class NocpaymentService
     // return Observable.throw(error);
     return throwError(error);
   }
+
   public async PaymentRequest(request: RequestDetails)
   {
     const headers = { 'content-type': 'application/json' }
@@ -31,4 +32,18 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetPaymentListIDWise(PRnNO: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl +  "/GetTransactionDetails/" + PRnNO )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
 }
