@@ -78,6 +78,7 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.UnitOfLand = data['Data'][0]['Name'];
+
         }, error => console.error(error));
     }
     catch (Ex) {

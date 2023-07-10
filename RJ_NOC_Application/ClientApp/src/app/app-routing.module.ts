@@ -96,6 +96,12 @@ const routes: Routes = [
   {
     path: 'ssologin', component: SSOLoginComponent
   },
+  {
+    path: 'paymentsuccess/:TransID', component: PaymentSuccessComponent
+  },
+  {
+    path: 'paymentfailed/:TransID', component: PaymentSuccessComponent
+  },
 
   {
     path: '',
@@ -347,12 +353,7 @@ const routes: Routes = [
         path: 'NocPayment', component: NocPaymentComponent
       },
 
-      {
-        path: 'paymentsuccess/:TransID', component: PaymentSuccessComponent
-      },
-      {
-        path: 'paymentfailed/:TransID', component: PaymentSuccessComponent
-      },
+     
 
       {
         path: 'applynocfdrdetails', component:  ApplyNOCFDRDetailsComponent 

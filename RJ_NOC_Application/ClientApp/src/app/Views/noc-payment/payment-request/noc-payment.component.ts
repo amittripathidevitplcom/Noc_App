@@ -71,6 +71,7 @@ export class NocPaymentComponent implements OnInit {
     //this.request.USERNAME = "Rav Raj";
     //this.request.USERMOBILE = "7737348604";
     //this.request.PURPOSE = "Test";
+    //this.request.ApplyNocApplicationID = 1;
 
     //debugger
     this.loaderService.requestStarted();
