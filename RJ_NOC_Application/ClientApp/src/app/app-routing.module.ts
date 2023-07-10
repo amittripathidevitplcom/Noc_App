@@ -80,7 +80,8 @@ import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/pre
 import { ApplyNocParameterDetailsComponent } from './Views/Master/apply-noc-parameter-details/apply-noc-parameter-details.component';
 import { RevertApplyNOCApplicationListComponent } from './Views/revert-apply-nocapplication-list/revert-apply-nocapplication-list.component';
 import { CollegeManagementSocietyComponent } from './Views/PreviewTabs/college-management-society/college-management-society.component';
-
+import { NocPaymentComponent } from './Views/noc-payment/payment-request/noc-payment.component';
+import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/payment-success.component'
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -341,6 +342,17 @@ const routes: Routes = [
       {
         path: 'previewcollegesociety', component: CollegeManagementSocietyComponent
       },
+      {
+        path: 'NocPayment', component: NocPaymentComponent
+      },
+
+      {
+        path: 'paymentsuccess/:TransID', component: PaymentSuccessComponent
+      },
+      {
+        path: 'paymentfailed/:TransID', component: PaymentSuccessComponent
+      },
+
     ]
   },
 

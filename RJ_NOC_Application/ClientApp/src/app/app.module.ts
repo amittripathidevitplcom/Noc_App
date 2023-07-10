@@ -116,6 +116,8 @@ import { PreviewCollegeComponent } from './Views/PreviewTabs/preview-college/pre
 import { RevertApplyNOCApplicationListComponent } from './Views/revert-apply-nocapplication-list/revert-apply-nocapplication-list.component';
 import { CollegeManagementSocietyComponent } from './Views/PreviewTabs/college-management-society/college-management-society.component';
 import { PreviewTrusteeGeneralInfoComponent } from './Views/PreviewTabs/preview-trustee-general-info/preview-trustee-general-info.component';
+import { NocPaymentComponent } from './Views/noc-payment/payment-request/noc-payment.component';
+import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/payment-success.component';
 
 @NgModule({
   declarations: [
@@ -227,7 +229,9 @@ import { PreviewTrusteeGeneralInfoComponent } from './Views/PreviewTabs/preview-
     PreviewTrusteeGeneralInfoComponent,
     PreviewCollegeComponent,
     PreviewRNCRegistratComponent,
-    ApplyNocParameterDetailsComponent
+    ApplyNocParameterDetailsComponent,
+    NocPaymentComponent,
+    PaymentSuccessComponent,
 
   ],
   imports: [
