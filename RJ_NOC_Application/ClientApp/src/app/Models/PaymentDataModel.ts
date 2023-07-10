@@ -48,4 +48,6 @@ export class RequestDetails
   public USERNAME: string = '';
   public USERMOBILE: string = '';
   public USEREMAIL: string = '';
+  public ApplyNocApplicationID: number = 0
+  
  }
