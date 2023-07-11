@@ -185,13 +185,13 @@ export class MedicalDocumentScrutinyService {
    
 
   //Get 
-  public async GetDocumentScrutinyReportByRole(RoleId: number) {
+  public async GetDocumentScrutinyReportByRole(UserID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetDocumentScrutinyReportCompleted/" + RoleId)
+    return await this.http.get(this.APIUrl + "/GetDocumentScrutinyReportCompleted/" + UserID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
