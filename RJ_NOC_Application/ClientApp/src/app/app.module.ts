@@ -132,6 +132,8 @@ import { DocumentScrutinyOtherDocumentComponent } from './Views/DocumentScrutiny
 import { DocumentScrutinyCollegeManagementSocietyComponent } from './Views/DocumentScrutinyTab/document-scrutiny-college-management-society/document-scrutiny-college-management-society.component';
 import { DocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab/document-scrutiny-legal-entity/document-scrutiny-legal-entity.component';
 import { DocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutinyTab/document-scrutiny-college-detail/document-scrutiny-college-detail.component';
+import { NocPaymentComponent } from './Views/noc-payment/payment-request/noc-payment.component';
+import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/payment-success.component';
 
 @NgModule({
   declarations: [
@@ -262,7 +264,10 @@ import { DocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutiny
     DocumentScrutinyOtherDocumentComponent,
     DocumentScrutinyCollegeManagementSocietyComponent,
     DocumentScrutinyLegalEntityComponent,
-    DocumentScrutinyCollegeDetailComponent
+    DocumentScrutinyCollegeDetailComponent,
+    ApplyNocParameterDetailsComponent,
+    NocPaymentComponent,
+    PaymentSuccessComponent,
 
   ],
   imports: [

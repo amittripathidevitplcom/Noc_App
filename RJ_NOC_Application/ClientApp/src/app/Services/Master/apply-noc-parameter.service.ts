@@ -131,4 +131,16 @@ export class ApplyNocParameterService {
   }
   
 
+  public async FinalSubmitApplyNocApplicationByApplicationID(ApplyNocApplicationID: number, ModifyBy: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/FinalSubmitApplyNocApplicationByApplicationID/" + ApplyNocApplicationID + "/" + ModifyBy, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

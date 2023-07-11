@@ -59,7 +59,8 @@ export class FacilitiesComponent implements OnInit {
   }
   get form() { return this.FacilitiesMasterForm.controls; } 
   async GetDepartmentList() {
-    try {
+    try
+    {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetDepartmentList()
         .then((data: any) => {

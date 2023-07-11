@@ -1,0 +1,58 @@
+
+<div class="container">
+  <h2 class="mt-5 mb-4">Payment</h2>
+  <div class="col-md-5 mb-2">
+    <button class="btn btn-danger btn-block" (click)="PaymentRequest()">Pay</button>
+  </div>
+
+  <!--this.request.AMOUNT = 1000;
+  this.request.USERMOBILE = "7737348604";
+  this.request.USERNAME = "Ravi Raj Singh";
+  this.request.PURPOSE = "testing";
+  this.request.USEREMAIL = "r.rajsingh04@gmail.com";-->
+
+  <form  [formGroup]="PaymentRequestForm" class="form-horizontal">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <b><i class="fa fa-plus"></i>&nbsp;Member Details <span style="color:red;">*</span></b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCMNameOfPerson" class="form-label">Name Of Person <span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtUSERNAME" name="txtUSERNAME" [(ngModel)]="request.USERNAME" formControlName="txtUSERNAME">
+
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCMNameOfPerson" class="form-label">USER EMAIL<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtUSEREMAIL" name="txtUSEREMAIL" [(ngModel)]="request.USEREMAIL" formControlName="txtUSEREMAIL">
+
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCMMobileNumber" class="form-label">Mobile Number <span style="color:red;">*</span></label>
+            <input type="number" class="form-control" [(ngModel)]="request.USERMOBILE" formControlName="txtCMMobileNumber">
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtAMOUNT" class="form-label">AMOUNT <span style="color:red;">*</span></label>
+            <input type="number" class="form-control" id="txtAMOUNT" name="txtAMOUNT" [(ngModel)]="request.AMOUNT" formControlName="txtAMOUNT">
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtPURPOSE" class="form-label">PURPOSE <span style="color:red;">*</span></label>
+            <input type="number" class="form-control" id="txtPURPOSE" name="txtPURPOSE" [(ngModel)]="request.PURPOSE" formControlName="txtPURPOSE">
+
+          </div>
+
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3 text-end">
+            <button type="button" class="btn btn-primary" (click)="PaymentRequest()"><i class="fa fa-inr"></i> Pay</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </form>
+
+</div>

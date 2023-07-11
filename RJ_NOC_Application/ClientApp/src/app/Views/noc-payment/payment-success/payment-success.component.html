@@ -1,0 +1,42 @@
+
+<div style="text-align:center" *ngIf="PaymentStatus">
+  <div class="card">
+    <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+      <i *ngIf="PaymentStatus == 'SUCCESS'" class="checkmark">✓</i>
+      <i *ngIf="PaymentStatus != 'SUCCESS'" class="checkmarkFail" style="color:red">X</i>
+    </div>
+    <h1 [ngClass]="PaymentStatus == 'SUCCESS' ? 'divSuccess' : 'divFail'">{{PaymentStatus}}</h1>
+    <p>We received your purchase request;<br /> we'll be in touch shortly!</p>
+    <br />
+    <table class="table table-bordered" >
+      <tbody>
+        <tr>
+          <td>
+            <label>PNR NO</label>
+          </td>
+          <td>{{PRNNo}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label>Amount</label>
+          </td>
+          <td>{{Amount}}</td>
+        </tr>
+        <tr>
+          <td>
+            <label>Status</label>
+          </td>
+          <td>
+            {{PaymentStatus}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>TransactionID</label>
+          </td>
+          <td>{{TransactionID}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

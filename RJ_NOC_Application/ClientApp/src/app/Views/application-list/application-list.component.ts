@@ -12,4 +12,6 @@ export class ApplicationListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+ 
+
 }
