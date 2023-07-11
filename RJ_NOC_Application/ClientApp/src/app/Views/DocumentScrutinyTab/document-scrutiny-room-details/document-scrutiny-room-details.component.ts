@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { RoomDetailsDataModel_RoomDetails } from '../../../Models/RoomDetailsDataModel';
 import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.service';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+
 
 @Component({
   selector: 'app-document-scrutiny-room-details',
@@ -27,7 +29,8 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  constructor(private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
+  public FinalRemarks: any = [];
+  constructor(private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private roomDetailsService: RoomDetailsService) { }
 
   async ngOnInit() {
@@ -40,20 +43,16 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
     await this.GetRoomDetailAllList();
   }
 
-  async selectAll(ActionType: string) {
-    await this.RoomDetails.forEach((i: { Action: string, Remark: string }) => {
-      i.Action = ActionType;
-      i.Remark = '';
-    })
-  }
   async GetRoomDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.roomDetailsService.GetRoomDetailAllList(0, this.SelectedCollageID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, 0, this.SelectedApplyNOCID)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
-          this.RoomDetails = data['Data'][0]['data'];
-        }, (error:any) => console.error(error));
+          this.RoomDetails = data['Data'][0]['RoomDetails'];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -63,6 +62,13 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+  async selectAll(ActionType: string) {
+    await this.RoomDetails.forEach((i: { Action: string, Remark: string }) => {
+      i.Action = ActionType;
+      i.Remark = '';
+    })
   }
 
   ClickOnAction(idx: number) {

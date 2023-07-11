@@ -18,6 +18,8 @@ import { CollegeDocumentService } from '../../../Services/Tabs/CollegeDocument/c
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+
 
 @Component({
   selector: 'app-document-scrutiny-old-nocdetails',
@@ -47,7 +49,9 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
   public isRemarkValid: boolean = false;
   //public RequiredDocumentsAllList: any = [];
 
-  constructor(private oldnocdetailService: OldnocdetailService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private fileUploadService: FileUploadService,
+  public FinalRemarks: any = [];
+
+  constructor(private oldnocdetailService: OldnocdetailService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
 
 
@@ -56,20 +60,42 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
     this.SelectedDepartmentID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
-    await this.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0); 
+    this.sSOLoginDataModel.RoleID = 0;
+    await this.GetOldNOCDetailList_DepartmentCollegeWise(); 
 
   }
-  async GetOldNOCDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, OldNocID: number) {
+  //async GetOldNOCDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, OldNocID: number) {
+  //  try {
+  //    this.loaderService.requestStarted();
+  //    await this.oldnocdetailService.GetOldNOCDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, OldNocID)
+  //      .then((data: any) => {
+
+  //        data = JSON.parse(JSON.stringify(data));
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        this.OldNocDetails = data['Data'];
+  //      }, error => console.error(error));
+  //  }
+  //  catch (Ex) {
+  //    console.log(Ex);
+  //  }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
+
+  async GetOldNOCDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.oldnocdetailService.GetOldNOCDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, OldNocID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_OldNOCDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.OldNocDetails = data['Data'];
+          this.OldNocDetails = data['Data'][0]['OldNOCDetails'];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
         }, error => console.error(error));
     }
     catch (Ex) {

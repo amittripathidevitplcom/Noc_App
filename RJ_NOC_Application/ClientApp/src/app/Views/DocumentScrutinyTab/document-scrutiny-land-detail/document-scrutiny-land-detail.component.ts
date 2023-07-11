@@ -51,7 +51,7 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
   async GetLandDetailsDataList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, 0, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.LandDetailList = data['Data'][0]['LandDetails'];
