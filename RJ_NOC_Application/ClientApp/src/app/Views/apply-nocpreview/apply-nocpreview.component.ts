@@ -20,8 +20,17 @@ import { MedicalDocumentScrutinyService } from '../../Services/MedicalDocumentSc
 
 
 import { FacilityDetailsDataModel } from '../../Models/FacilityDetailsDataModel';
-import { BuildingDetailsMasterService } from '../../Services/BuildingDetailsMaster/building-details-master.service'
 import { FacilityDetailsService } from '../../Services/FicilityDetais/facility-details.service';
+
+import { RoomDetailsDataModel_RoomDetails } from '../../Models/RoomDetailsDataModel';
+import { RoomDetailsService } from '../../Services/RoomDetails/room-details.service';
+
+
+import { BuildingDetailsMasterService } from '../../Services/BuildingDetailsMaster/building-details-master.service'
+import { BuildingDetailsDataModel, DocuemntBuildingDetailsDataModel, OldNocDetailsDataModel } from '../../Models/TabDetailDataModel';
+
+import { StaffDetailDataModel } from '../../Models/TabDetailDataModel';
+import { StaffDetailService } from '../../Services/StaffDetail/staff-detail.service';
 
 @Component({
   selector: 'app-apply-nocpreview',
@@ -78,19 +87,33 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
 
   ldrequest = new LandDetailDataModel();
-  public  CheckList_LandDetailList: LandDetailDataModel[] = [];
-  public  CheckList_FinalRemarks: any = [];
+  public CheckList_LandDetailList: LandDetailDataModel[] = [];
+  public CheckList_FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
+  public CheckList_RoomDetails: RoomDetailsDataModel_RoomDetails[] = [];
+  public CheckList_lstBuildingDetails: BuildingDetailsDataModel[] = [];
+  public CheckList_StaffDetailModel: StaffDetailDataModel[] = [];
+  public  LandDetail_FinalRemarks: any = [];
+  public Facility_FinalRemarks: any = [];
+  public RoomDetails_FinalRemarks: any = [];
+  public BuildingDetail_FinalRemarks: any = [];
+  public StaffDetails_FinalRemarks: any = [];
   public UnitOfLand: string = '';
 
   closeResult: string | undefined;
-  modalReference: NgbModalRef | undefined;
-
- 
+  modalReference: NgbModalRef | undefined; 
   dsrequest = new DocumentScrutinyDataModel();
-  public CheckList_FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
+  
+  public TotalStaffDetail: number = 0;
+  public TotalNonTeachingStaffDetail: number = 0;
+  public TotalTeachingStaffDetail: number = 0;
 
+
+  public CheckList_OldNocDetails: OldNocDetailsDataModel[] = [];
+  public OldNOC_FinalRemarks: any = [];
+ 
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
+    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal) { }
 
 
@@ -100,12 +123,13 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    //this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
     this.sSOLoginDataModel.RoleID = 0;
-
-
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
+    this.GetRoomDetailAllList();
+    this.GetAllBuildingDetailsList();
+    this.GetStaffDetailList_DepartmentCollegeWise();
+    this.GetOldNOCDetailList_DepartmentCollegeWise();
   }
 
   NextStep() {
@@ -165,7 +189,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckList_LandDetailList = data['Data'][0]['LandDetails'];
-          this.CheckList_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          this.LandDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -189,7 +213,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
           data = JSON.parse(JSON.stringify(data));
           this.CheckList_FacilitiesDataAllList = data['Data'][0]['FacilityDetails'];
-          this.CheckList_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          this.Facility_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -203,5 +227,114 @@ export class ApplyNOCPreviewComponent implements OnInit {
   }
   //End FacilityDetails
 
+  //Start Room Details
+  async GetRoomDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
 
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckList_RoomDetails = data['Data'][0]['RoomDetails'];
+          this.RoomDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          console.log('Vasu');
+          console.log(data['Data'][0]['RoomDetails']);
+          console.log('Vasu');
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Room Details
+
+  //Start Building Details
+  async GetAllBuildingDetailsList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckList_lstBuildingDetails = data['Data'][0]['BuildingDetails'];
+          this.BuildingDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];         
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Building Details
+
+  //End Staff Details
+  async GetStaffDetailList_DepartmentCollegeWise() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_StaffDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckList_StaffDetailModel = data['Data'][0]['StaffDetails'];
+          this.StaffDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          this.TotalStaffDetail = this.CheckList_StaffDetailModel.length;
+          this.TotalTeachingStaffDetail = 0;
+          this.TotalNonTeachingStaffDetail = 0;
+          for (var i = 0; i < this.CheckList_StaffDetailModel.length; i++) {
+
+            if (this.CheckList_StaffDetailModel[i].AadhaarNo.length > 0) {
+              const visibleDigits = 4;
+              let maskedSection = this.CheckList_StaffDetailModel[i].AadhaarNo.slice(0, -visibleDigits);
+              let visibleSection = this.CheckList_StaffDetailModel[i].AadhaarNo.slice(-visibleDigits);
+              this.CheckList_StaffDetailModel[i].MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
+            }
+            if (this.CheckList_StaffDetailModel[i].TeachingType == 'Teaching') {
+              this.TotalTeachingStaffDetail++;
+            }
+            else {
+              this.TotalNonTeachingStaffDetail++;
+            }
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Staff Details
+
+  async GetOldNOCDetailList_DepartmentCollegeWise() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_OldNOCDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckList_OldNocDetails = data['Data'][0]['OldNOCDetails'];
+          this.OldNOC_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

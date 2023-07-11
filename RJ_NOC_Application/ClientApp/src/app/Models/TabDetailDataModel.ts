@@ -220,7 +220,7 @@ export class BuildingDetailsDataModel {
   public CollegeID: number = 0;
   public SchoolBuildingDetailsID: number = 0;
   public BuildingTypeID: number = null;
-  //public BuildingTypeName: string = '';
+  public BuildingTypeName: string = '';
   public FromDate: string = '';
   public ToDate: string = '';
   public FireNOCFileUpload: string = '';
