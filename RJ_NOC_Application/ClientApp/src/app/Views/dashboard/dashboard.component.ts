@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetDashboardDataSSOWise(SSOID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
-          debugger;
+          
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

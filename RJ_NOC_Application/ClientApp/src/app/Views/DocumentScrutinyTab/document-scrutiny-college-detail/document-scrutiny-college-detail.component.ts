@@ -64,7 +64,7 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.draftApplicationListService.ViewTotalCollegeDataByID(CollegeID, this.UserID)
         .then((data: any) => {
-          debugger;
+          
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

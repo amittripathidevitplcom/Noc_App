@@ -559,7 +559,7 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   SetDateofAppointment() {
-    debugger;
+    
     const DOB = new Date(this.request.DateOfBirth);
     this.StartYear = DOB.getFullYear() + 18;
     DOB.setFullYear(DOB.getFullYear() + 21);

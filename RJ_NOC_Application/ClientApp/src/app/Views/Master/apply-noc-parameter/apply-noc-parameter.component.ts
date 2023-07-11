@@ -167,7 +167,7 @@ export class ApplyNocParameterComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // TNOC Extension
           if (this.request.ApplyNocFor == 'TNOC Extension') {
-            debugger;
+            
             this.ApplyNocParameterMasterList_TNOCExtension = data['Data'];
           }
           // Addition of New Seats(60)

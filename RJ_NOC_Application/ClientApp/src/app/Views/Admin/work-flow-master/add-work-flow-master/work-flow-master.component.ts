@@ -97,7 +97,7 @@ export class WorkFlowMasterComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetDepartmentList()
         .then((data: any) => {
-          debugger;
+          
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
