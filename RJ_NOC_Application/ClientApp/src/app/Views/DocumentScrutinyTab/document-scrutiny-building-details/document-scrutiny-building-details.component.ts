@@ -8,6 +8,8 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { ToastrService } from 'ngx-toastr';
+import { BuildingDetailsDataModel, DocuemntBuildingDetailsDataModel } from '../../../Models/TabDetailDataModel';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-building-details',
@@ -20,11 +22,12 @@ export class DocumentScrutinyBuildingDetailsComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   public SelectedApplyNOCID: number = 0;
-  public lstBuildingDetails: any = [];
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  public lstBuildingDetailsDocument: any = [];
+  public lstBuildingDetailsDocument: DocuemntBuildingDetailsDataModel[] = [];
+  public lstBuildingDetails: BuildingDetailsDataModel[] = [];
+  public FinalRemarks: any = [];
   searchText: string = '';
 
   closeResult: string | undefined;
@@ -33,7 +36,7 @@ export class DocumentScrutinyBuildingDetailsComponent implements OnInit {
   dsrequest = new DocumentScrutinyDataModel();
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
-  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService,
+  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -41,21 +44,19 @@ export class DocumentScrutinyBuildingDetailsComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.sSOLoginDataModel.RoleID = 0;
     await this.GetAllBuildingDetailsList();
   }
   async GetAllBuildingDetailsList() {
     try {
       this.loaderService.requestStarted();
-      await this.buildingDetailsMasterService.GetAllBuildingDetailsList(0, this.SelectedCollageID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.lstBuildingDetails = data['Data'][0]['data']['Table'];
-          this.lstBuildingDetailsDocument = data['Data'][0]['data']['Table1'];
-        }, (error:any) => console.error(error));
+          this.lstBuildingDetails = data['Data'][0]['BuildingDetails'];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);

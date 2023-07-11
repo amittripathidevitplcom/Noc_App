@@ -10,6 +10,7 @@ import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsM
 import { ToastrService } from 'ngx-toastr';
 import { StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
 import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-staff-details',
@@ -31,6 +32,7 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
 
   dsrequest = new DocumentScrutinyDataModel();
   public StaffDetailModel: StaffDetailDataModel[] = [];
+  public FinalRemarks: any = [];
   public TotalStaffDetail: number = 0;
   public TotalNonTeachingStaffDetail: number = 0;
   public TotalTeachingStaffDetail: number = 0;
@@ -39,7 +41,7 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
   public isRemarkValid: boolean = false;
   public isFormvalid: boolean = true;
 
-  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService,
+  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -47,20 +49,18 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
-    await this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID,0);
+    this.sSOLoginDataModel.RoleID = 0;
+    await this.GetStaffDetailList_DepartmentCollegeWise();
   }
-
-  async GetStaffDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, StaffDetailID: number) {
+  async GetStaffDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, StaffDetailID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_StaffDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.StaffDetailModel = data['Data'];
+          this.StaffDetailModel = data['Data'][0]['StaffDetails'];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.TotalStaffDetail = this.StaffDetailModel.length;
           this.TotalTeachingStaffDetail = 0;
           this.TotalNonTeachingStaffDetail = 0;

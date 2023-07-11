@@ -12,6 +12,9 @@ export class FacilityDetailsDataModel {
   public UserID: number = 0;
   public CreatedBy: number = 0;
   public ModifyBy: number = 0;
+  public Action: string = '';
+  public Remark: string = '';
+  public FacilitiesName: string = '';
 }
 
 
