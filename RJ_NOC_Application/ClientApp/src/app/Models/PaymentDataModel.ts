@@ -49,5 +49,6 @@ export class RequestDetails
   public USERMOBILE: string = '';
   public USEREMAIL: string = '';
   public ApplyNocApplicationID: number = 0
+  public PaymentRequestURL: string=''
   
  }
