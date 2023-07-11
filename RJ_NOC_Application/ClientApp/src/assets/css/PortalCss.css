@@ -38,6 +38,36 @@ button, input[type='button'], input[type='submit'], a {
   float: left;
 }
 
+  .mainPortal.sideopen .sideBars {
+    width: 250px;
+    align-items: flex-start;
+  
+  }
+  .mainPortal.sideopen .MainDivs {
+    padding-left: 182px;
+    
+  }
+  .mainPortal.sideopen .sideBars .logo .largelogo {
+    display: block;
+  }
+  .mainPortal.sideopen .sideBars .logo .smallLogo {
+    display: none;
+  }
+  .mainPortal.sideopen .sideBars .navbar, .sideBars:hover .navbar-nav, .sideBars:hover .navbar-nav .dropdown-menu {
+    width: 100% !important;
+  }
+    .mainPortal.sideopen .sideBars .navbar .navbar-nav .nav-item .nav-link span, .sideBars:hover .navbar .navbar-nav .nav-item .nav-link::after {
+      display: inline-block !important;
+      margin-left: 5px;
+    }
+  .mainPortal.sideopen .navbar-nav { width:100%;}
+.sidebarToggle {
+  border: none;
+  background: #f8a544;
+  padding: 7px 12px;
+  border-radius: 50px;
+  cursor:pointer !important;
+}
 .sideBars {
   position: fixed;
   height: 100%;
@@ -63,7 +93,9 @@ button, input[type='button'], input[type='submit'], a {
     }
 
   .sideBars .navbar .navbar-nav .nav-item .nav-link {
-    color: #96a7c7 !important;
+    color: #96a7c7;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 
   .sideBars .navbar {
@@ -77,7 +109,7 @@ button, input[type='button'], input[type='submit'], a {
     height: calc(100% - 30px);
     overflow: auto;
     width: 100%;
-    padding: 0px 15px 15px 15px;
+    /*padding: 0px 15px 15px 15px;*/
   }
 
     .sideBars .navbar .navbar-nav .nav-item .nav-link span, .sideBars .navbar .navbar-nav .nav-item .nav-link::after {
@@ -103,7 +135,7 @@ button, input[type='button'], input[type='submit'], a {
 
   .sideBars:hover {
     width: 250px;
-    align-items: flex-start;
+    align-items: flex-start;   
   }
 
     .sideBars:hover .dropdown-menu.show {
@@ -120,23 +152,42 @@ button, input[type='button'], input[type='submit'], a {
   font-size: 14px !important
 }
 
-.sideBars .dropdown-menu .dropdown-item:hover, .sideBars .dropdown-menu .nav-link:hover {
-  background: none !important;
-  color: #fff !important;
-}
+
 
 .sideBars .dropdown-toggle::after {
   position: absolute;
-  right: 0px !important;
+  right: 15px !important;
   top: 5px !important;
   font-family: 'fontawesome';
   content: "\f107" !important;
   border: 0px !important
 }
 
-.sideBars .dropdown-toggle.show::after {
-  content: "\f106" !important;
+.sideBars li.nav-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
+  .sideBars li.nav-item:hover {
+    background: #f1894e;
+
+  }
+    .sideBars li.nav-item:hover .nav-link {
+      color: #ffffff !important;
+    }
+.sideBars .dropdown-item {
+  padding: 0.5rem 1.2rem;
+  border-bottom: 1px solid #132649;
+}
+  .sideBars .dropdown-item:hover {
+    background: #f1894e;
+  }
+
+
+.sideBars .dropdown-item:hover .nav-link {
+  color: #ffffff !important;
+}
+  .sideBars .dropdown-toggle.show::after {
+    content: "\f106" !important;
+  }
 
 
 
@@ -163,6 +214,7 @@ button, input[type='button'], input[type='submit'], a {
 
 .sideBars .logo {
   padding: 15px 0px;
+  margin:0px 15px;
 }
 
   .sideBars .logo .largelogo {
@@ -265,7 +317,7 @@ button, input[type='button'], input[type='submit'], a {
   .UserDropDown li a.userClickLink {
     height: unset !important;
     width: unset !important;
-    padding: 20px 20px;
+    padding: 5px 20px;
     background: none !important;
     display: flex;
     align-items: center;
@@ -316,7 +368,7 @@ ol.breadcrumb {
   padding-top: 20px;
   padding-bottom: 20px;
   overflow: auto;
-  height: calc(100vh - 142px);
+  height: calc(100vh - 112px);
 }
 
 .pr-0 {
@@ -1047,23 +1099,27 @@ td .btn {
 .staticsCards .card-body {
   background: none !important
 }
+.staticsCards {
+  background: #132649;
+}
+
 
   .staticsCards .card-body .dashCardIcon {
     width: 50px;
     height: 50px;
-    background: #fff;
+    background: #f8a544;
     font-size: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 100%;
+    margin: 0 auto;
   }
 
   .staticsCards .card-body .dashCardContent {
-    width: calc(100% - 50px);
-    padding-left: 15px;
-    text-align: right;
+    text-align: center;
     color: #fff;
+    margin-top: 15px;
   }
 
     .staticsCards .card-body .dashCardContent h4 {
@@ -1073,6 +1129,7 @@ td .btn {
     .staticsCards .card-body .dashCardContent h2 {
       font-size: 26px;
       font-weight: 800;
+      color: #f8a544;
     }
 
 .staticsCards a {

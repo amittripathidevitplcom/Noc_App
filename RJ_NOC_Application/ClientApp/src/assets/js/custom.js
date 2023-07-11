@@ -12,6 +12,9 @@ setTimeout(function () {
 var count = 0;
 var timer;
 var flagSocietyNewOld = 0;
+function togglesidebar() {  
+  $('.mainPortal').toggleClass('sideopen'); 
+}
 
 function js_GetLegalEntity(elem) {
   var getLegalVal = $(elem).val();
@@ -367,3 +370,4 @@ function js_RemoveRemarks(elem) {
   Fancybox.bind('[data-fancybox="gallery"]', {
     //
   });
+
