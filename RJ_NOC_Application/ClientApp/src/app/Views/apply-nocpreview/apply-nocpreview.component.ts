@@ -178,6 +178,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.GetAcademicInformationDetailAllList();
     this.GetOtherDocuments('Other Document');
     this.GetHospitalDataList();
+    this.GetHostelDetailList_DepartmentCollegeWise();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
   }
 
