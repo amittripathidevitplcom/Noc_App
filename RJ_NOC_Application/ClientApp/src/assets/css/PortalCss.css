@@ -1132,14 +1132,14 @@ td .btn {
       color: #f8a544;
     }
 
-.staticsCards a {
-  display: block;
-  text-align: center;
-  padding: 5px 0px;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.2);
-  text-decoration: none;
-}
+  .staticsCards a {
+    display: block;
+    text-align: center;
+    padding: 5px 0px;
+    color: #f8a544;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+  }
 
 .staticsCards1 {
   background: #c16083;

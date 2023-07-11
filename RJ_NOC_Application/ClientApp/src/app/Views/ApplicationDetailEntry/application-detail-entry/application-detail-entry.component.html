@@ -29,7 +29,9 @@
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
             <!--Land Information-->
             <mat-tab>
+             
               <ng-template mat-tab-label>
+                <i class="fa fa-globe icon"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LandInformation']>0"></i>
                 <span>Land Information</span>
               </ng-template>
@@ -38,6 +40,7 @@
             <!--Facility-->
             <mat-tab>
               <ng-template mat-tab-label>
+                <i class="fa fa-list-alt icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Facility']>0"></i>
                 <span>Facility</span>
               </ng-template>
@@ -46,6 +49,7 @@
             <!--Required Document-->
             <mat-tab>
               <ng-template mat-tab-label>
+                <i class="fa fa-file-text-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RequiredDocument']>0"></i>
                 <span>Required Document</span>
               </ng-template>
@@ -55,12 +59,14 @@
 
             <mat-tab>
               <ng-template mat-tab-label>
+                <i class="fa fa-home icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0 && CheckTabsEntryData['OtherInformation']>0"></i>
                 <span>Room Details</span>
               </ng-template>
               <mat-tab-group mat-align-tabs="left" class="tabUl1 d-block w-100">
                 <mat-tab>
                   <ng-template mat-tab-label>
+                    <i class="fa fa-home icon" aria-hidden="true"></i>
                     <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
                     <span>Room Details</span>
                   </ng-template>
@@ -70,6 +76,7 @@
                 <!--Other Information-->
                 <mat-tab>
                   <ng-template mat-tab-label>
+                    <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
                     <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherInformation']>0"></i>
                     <span>Other Information</span>
                   </ng-template>
@@ -82,6 +89,7 @@
             <!--Building Documents-->
             <mat-tab>
               <ng-template mat-tab-label>
+                <i class="fa fa-building-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
                 <span>Building Documents</span>
               </ng-template>
@@ -91,6 +99,7 @@
             <!--Staff Details-->
             <mat-tab>
               <ng-template mat-tab-label>
+                <i class="fa fa-users icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
                 <span>Staff Details</span>
               </ng-template>
@@ -100,6 +109,7 @@
 
             <mat-tab *ngIf="CollegeType_IsExisting">
               <ng-template mat-tab-label>
+                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
                 <span>OLD NOC Details</span>
               </ng-template>
@@ -109,6 +119,7 @@
             <!--Academic Information Only for New-->
             <mat-tab *ngIf="CollegeType_IsExisting">
               <ng-template mat-tab-label>
+                <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AcademicInformation']>0"></i>
                 <span>Academic Information</span>
               </ng-template>
@@ -118,6 +129,7 @@
             <!--Other Document-->
             <mat-tab>
               <ng-template mat-tab-label>
+                <i class="fa fa-files-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
                 <span>Other Document</span>
               </ng-template>
@@ -127,6 +139,7 @@
             <!--Hospital Details-->
             <mat-tab>
               <ng-template mat-tab-label>
+                <i class="fa fa-hospital-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HospitalDetails']>0"></i>
                 <span>Hospital Details</span>
               </ng-template>
@@ -135,6 +148,7 @@
 
             <mat-tab>
               <ng-template mat-tab-label>
+                <i class="fa fa-bed icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HostelDetails']>0"></i>
                 <span>Hostel Details</span>
               </ng-template>
