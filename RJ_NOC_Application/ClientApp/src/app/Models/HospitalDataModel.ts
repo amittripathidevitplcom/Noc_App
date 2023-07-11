@@ -109,6 +109,9 @@ export class HospitalDataModel {
 
   public CreatedBy: number = null;
   public ModifyBy: number = null;
+  public HospitalAreaName: string = '';
+  public Action: string = '';
+  public Remark: string = '';
 }
 export class HospitalParentNotDataModel {// not have parent
   public ParentHospitalID: number = 0;

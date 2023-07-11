@@ -32,6 +32,12 @@ import { BuildingDetailsDataModel, DocuemntBuildingDetailsDataModel, OldNocDetai
 
 import { StaffDetailDataModel } from '../../Models/TabDetailDataModel';
 import { StaffDetailService } from '../../Services/StaffDetail/staff-detail.service';
+import { RequiredDocumentsDataModel, RequiredDocumentsDataModel_Documents } from '../../Models/TabDetailDataModel'
+
+import { OtherInformationDataModel } from '../../Models/OtherInformationDataModel';
+import { AcademicInformationDetailsDataModel } from '../../Models/AcademicInformationDetailsDataModel';
+import { HospitalDataModel, HospitalParentNotDataModel } from '../../Models/HospitalDataModel';
+
 
 @Component({
   selector: 'app-apply-nocpreview',
@@ -93,11 +99,21 @@ export class ApplyNOCPreviewComponent implements OnInit {
   public CheckList_RoomDetails: RoomDetailsDataModel_RoomDetails[] = [];
   public CheckList_lstBuildingDetails: BuildingDetailsDataModel[] = [];
   public CheckList_StaffDetailModel: StaffDetailDataModel[] = [];
+  public CheckList_DocumentDetails: RequiredDocumentsDataModel_Documents[] = [];
+  public CheckList_OtherDocumentDetails: RequiredDocumentsDataModel_Documents[] = [];
+  public CheckList_OtherInformation: OtherInformationDataModel[] = [];
+  public CheckList_AcademicInformationList: AcademicInformationDetailsDataModel[] = [];
+  public CheckList_HospitalParentNotDataModelList: HospitalDataModel[] = [];
   public LandDetail_FinalRemarks: any = [];
   public Facility_FinalRemarks: any = [];
   public RoomDetails_FinalRemarks: any = [];
   public BuildingDetail_FinalRemarks: any = [];
   public StaffDetails_FinalRemarks: any = [];
+  public RequiredDocument_FinalRemarks: any = [];
+  public OtherDocuments_FinalRemarks: any = [];
+  public OtherInformation_FinalRemarks: any = [];
+  public AcademicInformation_FinalRemarks: any = [];
+  public HospitalDetails_FinalRemarks: any = [];
   public UnitOfLand: string = '';
 
   closeResult: string | undefined;
@@ -157,6 +173,11 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.GetAllBuildingDetailsList();
     this.GetStaffDetailList_DepartmentCollegeWise();
     this.GetOldNOCDetailList_DepartmentCollegeWise();
+    this.GetRequiredDocuments('Required Document');
+    this.GetOtherInformationAllList();
+    this.GetAcademicInformationDetailAllList();
+    this.GetOtherDocuments('Other Document');
+    this.GetHospitalDataList();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
   }
 
@@ -426,7 +447,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
     }
   //End Building Details
 
-  //End Staff Details
+  //Start Staff Details
   async GetStaffDetailList_DepartmentCollegeWise() {
       try {
         this.loaderService.requestStarted();
@@ -466,7 +487,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
       }
     }
   //End Staff Details
-
+  //Start Old NOC Details
   async GetOldNOCDetailList_DepartmentCollegeWise() {
       try {
         this.loaderService.requestStarted();
@@ -486,5 +507,133 @@ export class ApplyNOCPreviewComponent implements OnInit {
           this.loaderService.requestEnded();
         }, 200);
       }
+  }
+    //End Old NOC Details
+    //Start Required Documents
+  async GetRequiredDocuments(Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_DocumentDetails = data['Data'][0]['CollegeDocument'][0];
+          this.RequiredDocument_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          console.log('college Document');
+          console.log(data['Data'][0]['CollegeDocument']);
+          console.log('college Document');
+
+        }, error => console.error(error));
     }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+    //End Required Documents
+    //Start Other Information
+  async GetOtherInformationAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_OtherInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_OtherInformation = data['Data'][0]['OtherInformations'];
+          this.OtherInformation_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+    //End Other Information
+    //Start Academic Information
+  async GetAcademicInformationDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_AcademicInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_AcademicInformationList = data['Data'][0]['AcademicInformations'];
+          this.AcademicInformation_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+    //End Academic Information
+    //Start Other Document
+  async GetOtherDocuments(Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_OtherDocumentDetails = data['Data'][0]['CollegeDocument'][0];
+          this.OtherDocuments_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+    //End Other Document
+
+    //Start Hospital Details
+  async GetHospitalDataList() {
+    this.loaderService.requestStarted();
+    try {
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_HospitalDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.CheckList_HospitalParentNotDataModelList = data['Data'][0]['HospitalDetails'];
+            this.HospitalDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+    //End Hospital Details
   }

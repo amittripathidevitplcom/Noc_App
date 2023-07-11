@@ -17,5 +17,6 @@ export class OtherInformationDataModel {
   public UserID: number = 0;
   public Action: string = '';
   public Remark: string = '';
+  public CourseName: string = '';
 }
 
