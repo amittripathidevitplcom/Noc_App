@@ -93,7 +93,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
   public CheckList_RoomDetails: RoomDetailsDataModel_RoomDetails[] = [];
   public CheckList_lstBuildingDetails: BuildingDetailsDataModel[] = [];
   public CheckList_StaffDetailModel: StaffDetailDataModel[] = [];
-  public  LandDetail_FinalRemarks: any = [];
+  public LandDetail_FinalRemarks: any = [];
   public Facility_FinalRemarks: any = [];
   public RoomDetails_FinalRemarks: any = [];
   public BuildingDetail_FinalRemarks: any = [];
@@ -123,10 +123,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
   public CheckList_hostelDataModel: HostelDataModel[] = [];
 
   public HostelDetailFinalRemarks: any = [];
-  public CheckList_FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
-  modalReference: NgbModalRef | undefined; 
-  dsrequest = new DocumentScrutinyDataModel();
-  
+
   public TotalStaffDetail: number = 0;
   public TotalNonTeachingStaffDetail: number = 0;
   public TotalTeachingStaffDetail: number = 0;
@@ -134,7 +131,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
   public CheckList_OldNocDetails: OldNocDetailsDataModel[] = [];
   public OldNOC_FinalRemarks: any = [];
- 
+
 
   public CheckFinalRemark: string = '';
 
@@ -176,8 +173,8 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
   onTabChange(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
-      }
-  
+  }
+
   async DocumentScrutiny(ActionType: string) {
     this.isRemarkValid = false;
     try {
@@ -351,11 +348,11 @@ export class ApplyNOCPreviewComponent implements OnInit {
       }, 200);
     }
   }
- //End College Management Society
+  //End College Management Society
 
 
 
- //Hostel Detail
+  //Hostel Detail
 
   async GetHostelDetailList_DepartmentCollegeWise() {
     try {
@@ -369,19 +366,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.CheckList_hostelDataModel = data['Data'][0]['HostelDetails'];
           this.HostelDetailFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-  //Start Room Details
-  async GetRoomDetailAllList() {
-    try {
-      this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
-        .then((data: any) => {
 
-          data = JSON.parse(JSON.stringify(data));
-          this.CheckList_RoomDetails = data['Data'][0]['RoomDetails'];
-          this.RoomDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          console.log('Vasu');
-          console.log(data['Data'][0]['RoomDetails']);
-          console.log('Vasu');
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -393,103 +378,112 @@ export class ApplyNOCPreviewComponent implements OnInit {
       }, 200);
     }
   }
+  //End Hostel
+  //Start Room Details
+  async GetRoomDetailAllList() {
+      try {
+        this.loaderService.requestStarted();
+        await this.medicalDocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+          .then((data: any) => {
+
+            data = JSON.parse(JSON.stringify(data));
+            this.CheckList_RoomDetails = data['Data'][0]['RoomDetails'];
+            this.RoomDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          }, error => console.error(error));
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+    }
   //End Room Details
 
   //Start Building Details
   async GetAllBuildingDetailsList() {
-    try {
-      this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
-        .then((data: any) => {
+      try {
+        this.loaderService.requestStarted();
+        await this.medicalDocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.CheckList_lstBuildingDetails = data['Data'][0]['BuildingDetails'];
+            this.BuildingDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
 
-
-        }, error => console.error(error));
+          }, error => console.error(error));
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
     }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  //End Hostel Detail
-          data = JSON.parse(JSON.stringify(data));
-          this.CheckList_lstBuildingDetails = data['Data'][0]['BuildingDetails'];
-          this.BuildingDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];         
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
   //End Building Details
 
   //End Staff Details
   async GetStaffDetailList_DepartmentCollegeWise() {
-    try {
-      this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_StaffDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
-        .then((data: any) => {
+      try {
+        this.loaderService.requestStarted();
+        await this.medicalDocumentScrutinyService.DocumentScrutiny_StaffDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+          .then((data: any) => {
 
-          data = JSON.parse(JSON.stringify(data));
-          this.CheckList_StaffDetailModel = data['Data'][0]['StaffDetails'];
-          this.StaffDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          this.TotalStaffDetail = this.CheckList_StaffDetailModel.length;
-          this.TotalTeachingStaffDetail = 0;
-          this.TotalNonTeachingStaffDetail = 0;
-          for (var i = 0; i < this.CheckList_StaffDetailModel.length; i++) {
+            data = JSON.parse(JSON.stringify(data));
+            this.CheckList_StaffDetailModel = data['Data'][0]['StaffDetails'];
+            this.StaffDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+            this.TotalStaffDetail = this.CheckList_StaffDetailModel.length;
+            this.TotalTeachingStaffDetail = 0;
+            this.TotalNonTeachingStaffDetail = 0;
+            for (var i = 0; i < this.CheckList_StaffDetailModel.length; i++) {
 
-            if (this.CheckList_StaffDetailModel[i].AadhaarNo.length > 0) {
-              const visibleDigits = 4;
-              let maskedSection = this.CheckList_StaffDetailModel[i].AadhaarNo.slice(0, -visibleDigits);
-              let visibleSection = this.CheckList_StaffDetailModel[i].AadhaarNo.slice(-visibleDigits);
-              this.CheckList_StaffDetailModel[i].MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
+              if (this.CheckList_StaffDetailModel[i].AadhaarNo.length > 0) {
+                const visibleDigits = 4;
+                let maskedSection = this.CheckList_StaffDetailModel[i].AadhaarNo.slice(0, -visibleDigits);
+                let visibleSection = this.CheckList_StaffDetailModel[i].AadhaarNo.slice(-visibleDigits);
+                this.CheckList_StaffDetailModel[i].MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
+              }
+              if (this.CheckList_StaffDetailModel[i].TeachingType == 'Teaching') {
+                this.TotalTeachingStaffDetail++;
+              }
+              else {
+                this.TotalNonTeachingStaffDetail++;
+              }
             }
-            if (this.CheckList_StaffDetailModel[i].TeachingType == 'Teaching') {
-              this.TotalTeachingStaffDetail++;
-            }
-            else {
-              this.TotalNonTeachingStaffDetail++;
-            }
-          }
-        }, error => console.error(error));
+          }, error => console.error(error));
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
     }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
   //End Staff Details
 
   async GetOldNOCDetailList_DepartmentCollegeWise() {
-    try {
-      this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_OldNOCDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
-        .then((data: any) => {
+      try {
+        this.loaderService.requestStarted();
+        await this.medicalDocumentScrutinyService.DocumentScrutiny_OldNOCDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+          .then((data: any) => {
 
-          data = JSON.parse(JSON.stringify(data));
-          this.CheckList_OldNocDetails = data['Data'][0]['OldNOCDetails'];
-          this.OldNOC_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
+            data = JSON.parse(JSON.stringify(data));
+            this.CheckList_OldNocDetails = data['Data'][0]['OldNOCDetails'];
+            this.OldNOC_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          }, error => console.error(error));
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
     }
   }
-}

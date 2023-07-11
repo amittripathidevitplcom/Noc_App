@@ -900,7 +900,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row" *ngIf="CheckList_FinalRemarks.length>0">
+                  <div class="row" *ngIf="Facility_FinalRemarks.length>0">
                     <div class="table-responsive">
                       <table class="table table-bordered table-hover table-striped">
                         <thead>
@@ -911,7 +911,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let item1 of CheckList_FinalRemarks ; let idx =index">
+                          <tr *ngFor="let item1 of Facility_FinalRemarks ; let idx =index">
                             <td>{{idx+1}}</td>
                             <td>{{item1.RoleID}}</td>
                             <td>{{item1.Remark}}</td>
