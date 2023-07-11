@@ -22,6 +22,7 @@ import { MedicalDocumentScrutinyService } from '../../Services/MedicalDocumentSc
 import { FacilityDetailsDataModel } from '../../Models/FacilityDetailsDataModel';
 import { BuildingDetailsMasterService } from '../../Services/BuildingDetailsMaster/building-details-master.service'
 import { FacilityDetailsService } from '../../Services/FicilityDetais/facility-details.service';
+import { HostelDataModel, HostelDetailsDataModel_Hostel } from '../../Models/HostelDetailsDataModel';
 
 @Component({
   selector: 'app-apply-nocpreview',
@@ -85,9 +86,30 @@ export class ApplyNOCPreviewComponent implements OnInit {
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
 
- 
+  public CheckList_legalEntityListData1: any = [];
+  public CheckList_legalEntityInstituteDetailData: any = [];
+  public CheckList_legalEntityMemberDetailData: any = [];
+  public LegalEntityFinalRemarks: any = [];
+
+
+  public CheckList_collegeListData: any = [];
+  public CheckList_collegeContactDetailsList: any = [];
+  public CheckList_collegeNearestGovernmentHospitalsList: any = [];
+  public CollegeDetailFinalRemarks: any = [];
+
+
+  public CheckList_SocietyAllList: any = [];
+  public SocietyFinalRemarks: any = [];
   dsrequest = new DocumentScrutinyDataModel();
+
+
+  public CheckList_hostelDataModel: HostelDataModel[] = [];
+
+  public HostelDetailFinalRemarks: any = [];
   public CheckList_FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
+
+
+  public CheckFinalRemark: string = '';
 
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
@@ -106,6 +128,9 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
+
+    this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    this.ViewTotalCollegeDataByID();
   }
 
   NextStep() {
@@ -125,9 +150,14 @@ export class ApplyNOCPreviewComponent implements OnInit {
       }
   
   async DocumentScrutiny(ActionType: string) {
+    this.isRemarkValid = false;
     try {
+      if (this.CheckFinalRemark == '') {
+        this.isRemarkValid = true;
+        return;
+      }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, '')
+      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -204,4 +234,124 @@ export class ApplyNOCPreviewComponent implements OnInit {
   //End FacilityDetails
 
 
+
+  //Legal Entity
+  async ViewlegalEntityDataByID(SSOID: any) {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_LegalEntity(SSOID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
+          this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
+          this.CheckList_legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
+          this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Legal Entity
+
+
+  //College Detail
+
+  async ViewTotalCollegeDataByID() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          // data
+          this.CheckList_collegeListData = data['Data'][0]['CollegeDetails'][0][0];
+          this.CheckList_collegeContactDetailsList = data['Data'][0]['CollegeContactDetails'][0];
+          this.CheckList_collegeNearestGovernmentHospitalsList = data['Data'][0]['CollegeNearestHospitalsDetails'][0];
+          this.CollegeDetailFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+          //console.log(this.draftApplicatoinListData);
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End College Detail
+
+
+  //College Management Society'
+  async GetSocietyAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_SocietyAllList = data['Data'][0]['CollegeManagementSocietys'];
+          this.SocietyFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+ //End College Management Society
+
+
+
+ //Hostel Detail
+
+  async GetHostelDetailList_DepartmentCollegeWise() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_HostelDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_hostelDataModel = data['Data'][0]['HostelDetails'];
+          this.HostelDetailFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Hostel Detail
 }
