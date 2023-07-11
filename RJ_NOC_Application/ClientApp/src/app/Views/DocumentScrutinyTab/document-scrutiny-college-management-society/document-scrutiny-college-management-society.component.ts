@@ -52,7 +52,6 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.SocietyAllList = data['Data'][0]['data'];
           this.SocietyAllList = data['Data'][0]['CollegeManagementSocietys'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
         }, error => console.error(error));

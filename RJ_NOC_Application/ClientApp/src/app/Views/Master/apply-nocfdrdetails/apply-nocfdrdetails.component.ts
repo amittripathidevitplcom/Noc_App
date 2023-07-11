@@ -114,9 +114,9 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   }
 
   async SaveData() {
-    //debugger;
+    //
     this.isSubmitted = true;
-    //debugger;
+    //
     let isValid = true;
     console.log(this.request);
     if (this.ApplyNOCFDRDetailForm.invalid) {
@@ -260,7 +260,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   }
 
   async GetApplyNocFDRDetails(ApplyNocFDRID: number, ApplyNocID: number) {
-    // debugger;
+    // 
     try {
       this.loaderService.requestStarted();
       await this.applyNocParameterService.GetApplyNocFDRDetails(ApplyNocFDRID, ApplyNocID)

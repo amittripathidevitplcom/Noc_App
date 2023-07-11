@@ -12,6 +12,27 @@ import { CourseMasterService } from '../../Services/Master/AddCourse/course-mast
 import { ApplyNOCApplicationService } from '../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { PreviewLandDetailComponent } from '../PreviewTabs/preview-land-detail/preview-land-detail.component';
 
+import { LandDetailDataModel } from '../../Models/LandDetailDataModel';
+import { LandDetailsService } from '../../Services/Tabs/LandDetails/land-details.service'
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { MedicalDocumentScrutinyService } from '../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+
+
+
+import { FacilityDetailsDataModel } from '../../Models/FacilityDetailsDataModel';
+import { FacilityDetailsService } from '../../Services/FicilityDetais/facility-details.service';
+import { HostelDataModel, HostelDetailsDataModel_Hostel } from '../../Models/HostelDetailsDataModel';
+
+import { RoomDetailsDataModel_RoomDetails } from '../../Models/RoomDetailsDataModel';
+import { RoomDetailsService } from '../../Services/RoomDetails/room-details.service';
+
+
+import { BuildingDetailsMasterService } from '../../Services/BuildingDetailsMaster/building-details-master.service'
+import { BuildingDetailsDataModel, DocuemntBuildingDetailsDataModel, OldNocDetailsDataModel } from '../../Models/TabDetailDataModel';
+
+import { StaffDetailDataModel } from '../../Models/TabDetailDataModel';
+import { StaffDetailService } from '../../Services/StaffDetail/staff-detail.service';
+
 @Component({
   selector: 'app-apply-nocpreview',
   templateUrl: './apply-nocpreview.component.html',
@@ -52,7 +73,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
   public isRemarkValid: boolean = false;
 
 
-  public RoleID: number = 13;
+  public RoleID: number = 10;
   public UserID: number = 0;
 
 
@@ -64,106 +85,106 @@ export class ApplyNOCPreviewComponent implements OnInit {
   public DocumentScrutinyButtonText: string = '';
 
 
+
+
+  ldrequest = new LandDetailDataModel();
+  public CheckList_LandDetailList: LandDetailDataModel[] = [];
+  public CheckList_FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
+  public CheckList_RoomDetails: RoomDetailsDataModel_RoomDetails[] = [];
+  public CheckList_lstBuildingDetails: BuildingDetailsDataModel[] = [];
+  public CheckList_StaffDetailModel: StaffDetailDataModel[] = [];
+  public LandDetail_FinalRemarks: any = [];
+  public Facility_FinalRemarks: any = [];
+  public RoomDetails_FinalRemarks: any = [];
+  public BuildingDetail_FinalRemarks: any = [];
+  public StaffDetails_FinalRemarks: any = [];
+  public UnitOfLand: string = '';
+
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+
+  public CheckList_legalEntityListData1: any = [];
+  public CheckList_legalEntityInstituteDetailData: any = [];
+  public CheckList_legalEntityMemberDetailData: any = [];
+  public LegalEntityFinalRemarks: any = [];
+
+
+  public CheckList_collegeListData: any = [];
+  public CheckList_collegeContactDetailsList: any = [];
+  public CheckList_collegeNearestGovernmentHospitalsList: any = [];
+  public CollegeDetailFinalRemarks: any = [];
+
+
+  public CheckList_SocietyAllList: any = [];
+  public SocietyFinalRemarks: any = [];
+  dsrequest = new DocumentScrutinyDataModel();
+
+
+  public CheckList_hostelDataModel: HostelDataModel[] = [];
+
+  public HostelDetailFinalRemarks: any = [];
+
+  public TotalStaffDetail: number = 0;
+  public TotalNonTeachingStaffDetail: number = 0;
+  public TotalTeachingStaffDetail: number = 0;
+
+
+  public CheckList_OldNocDetails: OldNocDetailsDataModel[] = [];
+  public OldNOC_FinalRemarks: any = [];
+
+
+  public CheckFinalRemark: string = '';
+
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
-     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router) { }
+    private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
+    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal) { }
+
+
 
   async ngOnInit() {
-    this.loaderService.requestStarted();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.loaderService.requestEnded();
-    this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    this.sSOLoginDataModel.RoleID = 0;
+    this.GetLandDetailsDataList();
+    this.GetFacilityDetailAllList();
 
+    this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    this.ViewTotalCollegeDataByID();
+    this.GetRoomDetailAllList();
+    this.GetAllBuildingDetailsList();
+    this.GetStaffDetailList_DepartmentCollegeWise();
+    this.GetOldNOCDetailList_DepartmentCollegeWise();
+    this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
   }
 
   NextStep() {
-    this.GetAllTabData();
     if (this.selectedIndex != this.maxNumberOfTabs) {
       this.selectedIndex = this.selectedIndex + 1;
-      this.GetTabFieldByTabName(this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel']);
     }
   }
 
   PreviousStep() {
-    this.GetAllTabData();
     if (this.selectedIndex != 0) {
       this.selectedIndex = this.selectedIndex - 1;
-      if (this.selectedIndex == 0) {
-        this.GetTabFieldByTabName('Land Information');
-      }
-      else {
-        this.GetTabFieldByTabName(this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel']);
-      }
     }
   }
 
   onTabChange(event: MatTabChangeEvent) {
-    this.GetAllTabData();
     this.selectedIndex = event.index;
-    if (this.selectedIndex == 0) {
-      this.GetTabFieldByTabName('Land Information');
-    }
-    else {
-      this.GetTabFieldByTabName(this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel']);
-    }
   }
-  async GetTabFieldByTabName(TabName: string) {
-    this.request = new DocumentScrutinyDataModel();
-    this.ShowObjectionField = false;
-    this.isActionValid = false;
-    this.isObjectionValid = false;
-    this.isRemarkValid = false;
-    this.isFormvalid = true;
-    try {
-      this.TabFieldDataList = [];
-      this.SelectedTabFieldDataList = [];
-      this.loaderService.requestStarted();
-      await this.commonMasterService.GetTabFieldByTabName(TabName)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.TabFieldDataList = data['Data'];
-        }, error => console.error(error));
-      await this.applyNOCApplicationService.GetDocumentScrutinyData_TabNameCollegeWise(TabName, this.SelectedCollageID, this.RoleID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.request = data['Data'][0];
-            if (this.request.ActionID == 2 || this.request.ActionID == 3) {
-              this.ShowObjectionField = true;
-              console.log(this.request.DocumentScrutinyDetail);
-              this.SelectedTabFieldDataList = this.request.DocumentScrutinyDetail;
-            }
-            else {
-              this.ShowObjectionField = false;
-              this.SelectedTabFieldDataList = [];
-            }
-          }
-          else {
-            this.request = new DocumentScrutinyDataModel();
-          }
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+
   async DocumentScrutiny(ActionType: string) {
+    this.isRemarkValid = false;
     try {
+      if (this.CheckFinalRemark == '') {
+        this.isRemarkValid = true;
+        return;
+      }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID)
+      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -191,144 +212,17 @@ export class ApplyNOCPreviewComponent implements OnInit {
     }
   }
 
+  // Start Land Details
 
-  async ShowHideObjectionDropdown() {
-    this.ShowObjectionField = false;
-    if (this.request.ActionID == 2 || this.request.ActionID == 3) {
-      this.ShowObjectionField = true;
-    }
-    else {
-      this.ShowObjectionField = false;
-    }
-  }
-
-
-  async SubmitTabAction_Onclick() {
-    this.request.DepartmentID = this.SelectedDepartmentID;
-    this.request.CollegeID = this.SelectedCollageID;
-    this.request.UserID = this.UserID;
-    this.request.RoleID = this.RoleID;
-    this.request.TabName = this.selectedIndex == 0 ? 'Land Information' : this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel'];
-
-    this.isActionValid = false;
-    this.isObjectionValid = false;
-    this.isRemarkValid = false;
-    this.isFormvalid = true;
-    if (this.request.ActionID <= 0) {
-      this.isActionValid = true;
-      this.isFormvalid = false;
-    }
-    if (this.request.ActionID == 2 || this.request.ActionID == 3) {
-      if (this.SelectedTabFieldDataList.length <= 0) {
-        this.isObjectionValid = true;
-        this.isFormvalid = false;
-      }
-    }
-    if (this.request.FinalRemark == '') {
-      this.isRemarkValid = true;
-      this.isFormvalid = false;
-    }
-    if (!this.isFormvalid) {
-      return;
-    }
-    //if (this.SelectedTabFieldDataList.length > 0) {
-    //  for (var i = 0; i < this.SelectedTabFieldDataList.length; i++) {
-    //    this.DocumentScrutinyDetail.push({
-    //      DocumentScrutinyDetailID: 0, DocumentScrutinyID: 0, TabFieldID: this.SelectedTabFieldDataList[i].TabFieldID, TabFieldName: this.SelectedTabFieldDataList[i].FieldName
-    //    });
-    //  }
-    //  this.request.DocumentScrutinyDetail = this.DocumentScrutinyDetail;
-    //}
-
+  async GetLandDetailsDataList() {
+    debugger;
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.SaveDocumentScrutiny(this.request)
-        .then((data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.request = new DocumentScrutinyDataModel();
-            this.isActionValid = false;
-            this.isObjectionValid = false;
-            this.isRemarkValid = false;
-            this.isFormvalid = true;
-            this.ShowObjectionField = false;
-            if (this.selectedIndex != this.maxNumberOfTabs) {
-              this.selectedIndex = this.selectedIndex + 1;
-              this.GetTabFieldByTabName(this.tabGroup._tabs['_results'][this.selectedIndex]['textLabel']);
-            }
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        })
-    } catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-
-
-  async GetAllTabData() {
-    this.ShowFinalDocumentScrutiny = true;
-    this.ApprovedCount = 0;
-    this.RevertCount= 0;
-    this.RejectCount= 0;
-    this.TotalCount = 0;
-    try {
-      await this.applyNOCApplicationService.GetDocumentScrutinyData_TabNameCollegeWise('All', this.SelectedCollageID, this.RoleID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          console.log(data['Data']);
-          if (data['Data'].length > 0) {
-            this.AllTabDocumentScrutinyData = data['Data'];
-            for (var i = 0; i < data['Data'].length; i++) {
-              if (data['Data'][i]['DocumentScrutinyID'] > 0) {
-                this.TotalCount++;
-              }
-              if (data['Data'][i]['ActionID'] == 1) {
-                this.ApprovedCount++;
-              }
-              else if (data['Data'][i]['ActionID'] == 2) {
-                this.RevertCount++;
-              }
-              //else if (data['Data'][i]['ActionID'] == 3) {
-              //  this.RejectCount++;
-              //}
-
-            }
-            if (this.RevertCount > 0) {
-              if (this.TotalCount == this.maxNumberOfTabs) {
-                this.ShowFinalDocumentScrutiny = false;
-              }
-              this.DocumentScrutinyButtonText = 'Revert';
-            }
-            if (this.RejectCount > 0 && this.TotalCount == this.maxNumberOfTabs - 1) {
-              if (this.TotalCount == this.maxNumberOfTabs) {
-                this.ShowFinalDocumentScrutiny = false;
-              }
-              this.DocumentScrutinyButtonText = 'Reject';
-            }
-            if (this.ApprovedCount == this.maxNumberOfTabs ) {
-              if (this.TotalCount == this.maxNumberOfTabs) {
-                this.ShowFinalDocumentScrutiny = false;
-              }
-              this.DocumentScrutinyButtonText = 'Approve';
-            }
-          }
+          this.CheckList_LandDetailList = data['Data'][0]['LandDetails'];
+          this.LandDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -340,4 +234,257 @@ export class ApplyNOCPreviewComponent implements OnInit {
       }, 200);
     }
   }
-}
+
+  // End Land Details
+
+  //Start Facility Details
+  async GetFacilityDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_FacilityDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckList_FacilitiesDataAllList = data['Data'][0]['FacilityDetails'];
+          this.Facility_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End FacilityDetails
+
+
+
+  //Legal Entity
+  async ViewlegalEntityDataByID(SSOID: any) {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_LegalEntity(SSOID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
+          this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
+          this.CheckList_legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
+          this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Legal Entity
+
+
+  //College Detail
+
+  async ViewTotalCollegeDataByID() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          // data
+          this.CheckList_collegeListData = data['Data'][0]['CollegeDetails'][0][0];
+          this.CheckList_collegeContactDetailsList = data['Data'][0]['CollegeContactDetails'][0];
+          this.CheckList_collegeNearestGovernmentHospitalsList = data['Data'][0]['CollegeNearestHospitalsDetails'][0];
+          this.CollegeDetailFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+          //console.log(this.draftApplicatoinListData);
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End College Detail
+
+
+  //College Management Society'
+  async GetSocietyAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_SocietyAllList = data['Data'][0]['CollegeManagementSocietys'];
+          this.SocietyFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End College Management Society
+
+
+
+  //Hostel Detail
+
+  async GetHostelDetailList_DepartmentCollegeWise() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_HostelDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_hostelDataModel = data['Data'][0]['HostelDetails'];
+          this.HostelDetailFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Hostel
+  //Start Room Details
+  async GetRoomDetailAllList() {
+      try {
+        this.loaderService.requestStarted();
+        await this.medicalDocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+          .then((data: any) => {
+
+            data = JSON.parse(JSON.stringify(data));
+            this.CheckList_RoomDetails = data['Data'][0]['RoomDetails'];
+            this.RoomDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          }, error => console.error(error));
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+    }
+  //End Room Details
+
+  //Start Building Details
+  async GetAllBuildingDetailsList() {
+      try {
+        this.loaderService.requestStarted();
+        await this.medicalDocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.CheckList_lstBuildingDetails = data['Data'][0]['BuildingDetails'];
+            this.BuildingDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+          }, error => console.error(error));
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+    }
+  //End Building Details
+
+  //End Staff Details
+  async GetStaffDetailList_DepartmentCollegeWise() {
+      try {
+        this.loaderService.requestStarted();
+        await this.medicalDocumentScrutinyService.DocumentScrutiny_StaffDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+          .then((data: any) => {
+
+            data = JSON.parse(JSON.stringify(data));
+            this.CheckList_StaffDetailModel = data['Data'][0]['StaffDetails'];
+            this.StaffDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+            this.TotalStaffDetail = this.CheckList_StaffDetailModel.length;
+            this.TotalTeachingStaffDetail = 0;
+            this.TotalNonTeachingStaffDetail = 0;
+            for (var i = 0; i < this.CheckList_StaffDetailModel.length; i++) {
+
+              if (this.CheckList_StaffDetailModel[i].AadhaarNo.length > 0) {
+                const visibleDigits = 4;
+                let maskedSection = this.CheckList_StaffDetailModel[i].AadhaarNo.slice(0, -visibleDigits);
+                let visibleSection = this.CheckList_StaffDetailModel[i].AadhaarNo.slice(-visibleDigits);
+                this.CheckList_StaffDetailModel[i].MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
+              }
+              if (this.CheckList_StaffDetailModel[i].TeachingType == 'Teaching') {
+                this.TotalTeachingStaffDetail++;
+              }
+              else {
+                this.TotalNonTeachingStaffDetail++;
+              }
+            }
+          }, error => console.error(error));
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+    }
+  //End Staff Details
+
+  async GetOldNOCDetailList_DepartmentCollegeWise() {
+      try {
+        this.loaderService.requestStarted();
+        await this.medicalDocumentScrutinyService.DocumentScrutiny_OldNOCDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+          .then((data: any) => {
+
+            data = JSON.parse(JSON.stringify(data));
+            this.CheckList_OldNocDetails = data['Data'][0]['OldNOCDetails'];
+            this.OldNOC_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          }, error => console.error(error));
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+    }
+  }

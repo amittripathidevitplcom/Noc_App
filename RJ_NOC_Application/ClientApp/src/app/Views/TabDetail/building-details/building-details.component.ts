@@ -741,7 +741,7 @@ export class BuildingDetailsComponent implements OnInit {
 
 
   ValidateUploadImage(event: any, Type: string) {
-    debugger;
+    
     this.isValidOwnBuildingFileUpload = false;
     this.isValidFireNOCFileUpload = false;
     this.isValidPWDNOCFileUpload = false;
@@ -801,7 +801,7 @@ export class BuildingDetailsComponent implements OnInit {
 
       this.file = event.target.files[0];
       this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-        debugger;
+        
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];

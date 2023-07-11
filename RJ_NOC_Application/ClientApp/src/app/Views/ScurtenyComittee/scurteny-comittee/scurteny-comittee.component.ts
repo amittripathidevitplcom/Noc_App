@@ -61,7 +61,7 @@ export class ScurtenyComitteeComponent implements OnInit {
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) { }
 
   async ngOnInit() {
-    debugger;
+    
     this.loaderService.requestStarted();
     console.log(this.router.snapshot.paramMap.get('DepartmentID'));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
