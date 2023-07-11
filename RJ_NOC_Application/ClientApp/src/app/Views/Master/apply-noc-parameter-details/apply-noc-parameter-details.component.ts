@@ -11,6 +11,10 @@ import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-par
 import { NocPaymentComponent } from '../../noc-payment/payment-request/noc-payment.component';
 import { ApplyNOCFDRDetailsComponent } from '../apply-nocfdrdetails/apply-nocfdrdetails.component';
 
+@Injectable({
+  providedIn: 'root'
+})
+
 @Component({
   selector: 'app-apply-noc-parameter-details',
   templateUrl: './apply-noc-parameter-details.component.html',
