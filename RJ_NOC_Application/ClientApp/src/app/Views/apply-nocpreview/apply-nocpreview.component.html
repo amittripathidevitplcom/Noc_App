@@ -921,11 +921,13 @@
                     </div>
                   </div>
                 </div>
+                <!--End Facility Details-->
+                <!--End Required Document-->
                 <div class="card-header">
-                  <b><i class="bi bi-table"></i>&nbsp; Facilitie Details</b>
+                  <b><i class="bi bi-table"></i>&nbsp;Required Documents</b>
                 </div>
                 <div class="card-body">
-                  <div class="row" *ngIf="CheckList_FacilitiesDataAllList.length>0">
+                  <div class="row" *ngIf="CheckList_DocumentDetails.length>0">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                       <div class="table-responsive">
                         <table class="table table-bordered table-hover table-striped">
@@ -934,38 +936,29 @@
                               <th>Sr. No.</th>
                               <th>Compliance</th>
                               <th>Remark</th>
-                              <th>Facilities Name</th>
-                              <th>Minimum Size</th>
-                              <th>Image/File</th>
+                              <th>Document Name</th>
+                              <th>File</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let item of CheckList_FacilitiesDataAllList ; let indexOfelement=index;">
+                            <tr *ngFor="let item of CheckList_DocumentDetails ; let indexOfelement=index;">
                               <td> {{indexOfelement+1}}</td>
                               <td>{{item.Action}} </td>
                               <td>{{item.Action =='No'?item.Remark:''}}</td>
+                              <td>{{item.DocumentName}}</td>
                               <td>
-                                {{item.FacilitiesName}}
-                              </td>
-                              <td>
-                                {{item.MinSize}}
-                              </td>
-                              <td>
-                                <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrl}}" data-caption="Image 10" title="click here to zoom">
-                                  <img src="{{item.FacilitiesUrl}}" alt="Facilities" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                                  <img src="{{item.FilePath}}" alt="File Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                                 </a>
-                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrl}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                               </td>
-                            </tr>
-                            <tr *ngIf="CheckList_FacilitiesDataAllList.length<=0">
-                              <td colspan="2" style="color:red">No Data Found.!</td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
                     </div>
                   </div>
-                  <div class="row" *ngIf="Facility_FinalRemarks.length>0">
+                  <div class="row" *ngIf="RequiredDocument_FinalRemarks.length>0">
                     <div class="table-responsive">
                       <table class="table table-bordered table-hover table-striped">
                         <thead>
@@ -976,7 +969,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let item1 of Facility_FinalRemarks ; let idx =index">
+                          <tr *ngFor="let item1 of RequiredDocument_FinalRemarks ; let idx =index">
                             <td>{{idx+1}}</td>
                             <td>{{item1.RoleID}}</td>
                             <td>{{item1.Remark}}</td>
@@ -986,7 +979,7 @@
                     </div>
                   </div>
                 </div>
-                <!--End Facility Details-->
+                <!--End Required Document-->
                 <!--Start Room Details-->
                 <div class="card">
                   <div class="card-header">
@@ -1064,8 +1057,92 @@
                     </div>
                   </div>
                 </div>
-
                 <!--End Room Details-->
+                <!--Start Other Information-->
+
+                <div class="card">
+                  <div class="card-header">
+                    <b><i class="bi bi-building-add"></i>&nbsp; Other Information</b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row" *ngIf="CheckList_OtherInformation.length>0">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th>Sr. No.</th>
+                                <th>Compliance</th>
+                                <th>Remark</th>
+                                <th>Facilities Name</th>
+                                <th>Width (In Feet)</th>
+                                <th>Length (In Feet)</th>
+                                <th>No of books</th>
+                                <th>Upload Image</th>
+                                <th>Book's Details Document</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of CheckList_OtherInformation ; let indexOfelement=index;">
+                                <td> {{indexOfelement+1}}</td>
+                                <td>{{item.Action}} </td>
+                                <td>{{item.Action =='No'?item.Remark:''}}</td>
+                                <td>
+                                  {{item.CourseName}}
+                                </td>
+                                <td>
+                                  {{item.Width}}
+                                </td>
+                                <td>
+                                  {{item.Length}}
+                                </td>
+                                <td>
+                                  {{item.Length}}
+                                </td>
+                                <td>
+                                  <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.ImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </td>
+                                <td>
+                                  <a *ngIf="!item.BookImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.BookImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </td>
+                              </tr>
+                              <tr *ngIf="CheckList_OtherInformation.length<=0">
+                                <td colspan="2" style="color:red">No Data Found.!</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="OtherInformation_FinalRemarks.length>0">
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th>Sr.No.</th>
+                              <th>Role</th>
+                              <th>Remark</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item1 of OtherInformation_FinalRemarks ; let idx =index">
+                              <td>{{idx+1}}</td>
+                              <td>{{item1.RoleID}}</td>
+                              <td>{{item1.Remark}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--End Other Information-->
                 <!--Start Building Documents-->
                 <div class="card mb-0">
                   <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
@@ -1136,7 +1213,7 @@
                   </div>
                 </div>
                 <!--End Building Documents-->
-                <!--End Staff Details-->
+                <!--Start Staff Details-->
                 <div class="card mb-0">
                   <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
                     <b><i class="bi bi-table"></i> Staff Details </b>
@@ -1214,54 +1291,53 @@
                     </div>
                   </div>
                 </div>
-
-                <!--Start Staff Details-->
-                <!--Start Staff Details-->
+                <!--End Staff Details-->
+                <!--Start Old Noce Details-->
                 <div class="card tabCard1 mb-0">
                   <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
                     <b><i class="bi bi-table"></i> Old NOC Details </b>
-                  </div>                
+                  </div>
                   <div class="card-body">
-                    <div class="clearfix"></div>                     
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="table-responsive">
-                              <table class="table table-hover table-striped">
-                                <thead>
-                                  <tr>
-                                    <th>S.No.</th>
-                                    <th>Compliance</th>
-                                    <th>Remark</th>
-                                    <th>Course</th>
-                                    <th>NOC Type</th>
-                                    <th>Session Year</th>
-                                    <th>NOC No.</th>
-                                    <th>NOC Received On</th>
+                    <div class="clearfix"></div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                              <thead>
+                                <tr>
+                                  <th>S.No.</th>
+                                  <th>Compliance</th>
+                                  <th>Remark</th>
+                                  <th>Course</th>
+                                  <th>NOC Type</th>
+                                  <th>Session Year</th>
+                                  <th>NOC No.</th>
+                                  <th>NOC Received On</th>
 
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor="let item of CheckList_OldNocDetails let idx =index">
-                                    <td>{{idx+1}}</td>
-                                    <td>{{item.Action}} </td>
-                                    <td>{{item.Action =='No'?item.Remark:''}}</td>                                   
-                                    <td>{{item.CourseName}}</td>
-                                    <td>{{item.NOCTypeName}}</td>
-                                    <td>{{item.FinancialYearName}}</td>
-                                    <td>{{item.NOCNumber}}</td>
-                                    <td>{{item.NOCReceivedDate}}</td>
-                                  </tr>
-                                  <tr *ngIf="CheckList_OldNocDetails.length<=0">
-                                    <td colspan="7" style="color:red">No Data Found.!</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of CheckList_OldNocDetails let idx =index">
+                                  <td>{{idx+1}}</td>
+                                  <td>{{item.Action}} </td>
+                                  <td>{{item.Action =='No'?item.Remark:''}}</td>
+                                  <td>{{item.CourseName}}</td>
+                                  <td>{{item.NOCTypeName}}</td>
+                                  <td>{{item.FinancialYearName}}</td>
+                                  <td>{{item.NOCNumber}}</td>
+                                  <td>{{item.NOCReceivedDate}}</td>
+                                </tr>
+                                <tr *ngIf="CheckList_OldNocDetails.length<=0">
+                                  <td colspan="7" style="color:red">No Data Found.!</td>
+                                </tr>
+                              </tbody>
+                            </table>
                           </div>
                         </div>
                       </div>
-                    
+                    </div>
+
                     <div class="row" *ngIf="OldNOC_FinalRemarks.length>0">
                       <div class="table-responsive">
                         <table class="table table-bordered table-hover table-striped">
@@ -1284,61 +1360,55 @@
                     </div>
                   </div>
                 </div>
-                <!--Start Staff Details-->
-
-                <!--Hostel Detail-->
-                <div class="card">
+                <!--End Old NOC Details-->
+                <!--Start Academic Information-->
+                <div class="card mb-0">
                   <div class="card-header">
-                    <b>Hostel Details</b>
+                    <b><i class="bi bi-table"></i>&nbsp;Academic Information</b>
                   </div>
                   <div class="card-body">
-
                     <div class="row">
                       <div class="col-md-12">
                         <div class="table-responsive">
-                          <table class="table table-hover table-striped">
+                          <table class="table table-hover table-striped-columns" id="tabellist" #content>
                             <thead>
                               <tr>
-                                <th>
-                                  Compliance
-                                </th>
-                                <th>
-                                  Remark
-                                </th>
-                                <th>S.No.</th>
-                                <th>Is Hostel Campus</th>
-                                <th>Hostel Name</th>
-                                <th>Contact Person Name</th>
-                                <th>Contact Person No.</th>
-                                <th>Hostel Type</th>
-
+                                <th>Sr. No.</th>
+                                <th>Compliance</th>
+                                <th>Remark</th>
+                                <th>Financial Year</th>
+                                <th>Course Name</th>
+                                <th>Result</th>
+                                <th>Admitted Student</th>
+                                <th>Appeared Student</th>
+                                <th>Passed Student</th>
+                                <th>Failed Student</th>
+                                <th>Other Student</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let row of CheckList_hostelDataModel let idx=index;">
-                                <td>
-                                  {{row.Action}}
-                                </td>
-                                <td>
-                                  {{row.Action=='No'?row.Remark:''}}
-                                </td>
+                              <tr *ngFor="let row of CheckList_AcademicInformationList;let idx=index;">
                                 <td>{{idx+1}}</td>
-                                <td>{{row.IsHostelCampus}}</td>
-                                <td>{{row.HostelName}}</td>
-                                <td>{{row.ContactPersonName}}</td>
-                                <td>{{row.ContactPersonNo}}</td>
-                                <td>{{row.HostelType}}</td>
-
+                                <td>{{row.Action}} </td>
+                                <td>{{row.Action =='No'?row.Remark:''}}</td>
+                                <td>{{row.FinancialYearName}}</td>
+                                <td>{{row.CourseName}}</td>
+                                <td>{{row.ResultName}}</td>
+                                <td>{{row.AdmittedStudent}}</td>
+                                <td>{{row.AppearedStudent}}</td>
+                                <td>{{row.PassedStudent}}</td>
+                                <td>{{row.FailedStudent}}</td>
+                                <td>{{row.OtherStudent}}</td>
                               </tr>
-                              <tr *ngIf="CheckList_hostelDataModel.length<=0">
-                                <td colspan="8" style="color:red">No Data Found.!</td>
+                              <tr *ngIf="(CheckList_AcademicInformationList.length<=0)">
+                                <td colspan="10" style="color:red">No Data Found.!</td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
                       </div>
                     </div>
-                    <div class="row" *ngIf="HostelDetailFinalRemarks.length>0">
+                    <div class="row" *ngIf="AcademicInformation_FinalRemarks.length>0">
                       <div class="table-responsive">
                         <table class="table table-bordered table-hover table-striped">
                           <thead>
@@ -1349,7 +1419,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let item1 of HostelDetailFinalRemarks ; let idx =index">
+                            <tr *ngFor="let item1 of AcademicInformation_FinalRemarks ; let idx =index">
                               <td>{{idx+1}}</td>
                               <td>{{item1.RoleID}}</td>
                               <td>{{item1.Remark}}</td>
@@ -1357,31 +1427,228 @@
                           </tbody>
                         </table>
                       </div>
-
                     </div>
                   </div>
                 </div>
-                <!--End Hostel Detail-->
+                <!--End Academic Information-->
+                <!--Start Other Document-->
 
-
-
-                <div class="row">
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Remarks</label>
-                    <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
-                    <div *ngIf="isRemarkValid" class="text-danger">
-                      <p *ngIf="isRemarkValid"> This field is required .!</p>
+                <div class="card tabCard1 mb-0" id="LandDetails1">
+                  <div class="card-header">
+                    <b><i class="bi bi-table"></i>&nbsp;Other Documents</b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row" *ngIf="CheckList_OtherDocumentDetails.length>0">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th>Sr. No.</th>
+                                <th>Compliance</th>
+                                <th>Remark</th>
+                                <th>Document Name</th>
+                                <th>File</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of CheckList_OtherDocumentDetails ; let indexOfelement=index;">
+                                <td> {{indexOfelement+1}}</td>
+                                <td>{{item.Action}} </td>
+                                <td>{{item.Action =='No'?item.Remark:''}}</td>
+                                <td>{{item.DocumentName}}</td>
+                                <td>
+                                  <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{item.FilePath}}" alt="File Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                  </a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="OtherDocuments_FinalRemarks.length>0">
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th>Sr.No.</th>
+                              <th>Role</th>
+                              <th>Remark</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item1 of OtherDocuments_FinalRemarks ; let idx =index">
+                              <td>{{idx+1}}</td>
+                              <td>{{item1.RoleID}}</td>
+                              <td>{{item1.Remark}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <button type="button" class="btn btn-sm btn-success" (click)="DocumentScrutiny('Approve')" title="Approve">Approve</button>
-                    <button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Reject')" title="Reject">Reject</button>
+
+                <!--End Other Document-->
+                <!--Start Hospital Details-->
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i>&nbsp; Hospital Details</b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th>Sr.No.</th>
+                              <th>Compliance</th>
+                              <th>Remark</th>
+                              <th>Whether the institution is a parent hospital or not</th>
+                              <th>Hospital Area</th>
+                              <th>Hospital Name</th>
+                              <th>Hospital Distance from Institutions (KM)</th>
+                              <th>Bed Occupancy</th>
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let row of CheckList_HospitalParentNotDataModelList;let idx=index;">
+                              <td>{{idx+1}}</td>
+                              <td>{{row.Action}} </td>
+                              <td>{{row.Action =='No'?row.Remark:''}}</td>
+                              <td>{{row.ParentHospitalID==1?'Yes':'No'}}</td>
+                              <td>{{row.HospitalAreaName}}</td>
+                              <td>{{row.HospitalName}}</td>
+                              <td>{{row.HospitalDistance}}</td>
+                              <td>{{row.OccupancyPercentegeBeds}}</td>
+
+                            </tr>
+                            <tr *ngIf="CheckList_HospitalParentNotDataModelList.length<=0">
+                              <td colspan="7" style="color:red">No Data Found.!</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="HospitalDetails_FinalRemarks.length>0">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                          <tr>
+                            <th>Sr.No.</th>
+                            <th>Role</th>
+                            <th>Remark</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item1 of HospitalDetails_FinalRemarks ; let idx =index">
+                            <td>{{idx+1}}</td>
+                            <td>{{item1.RoleID}}</td>
+                            <td>{{item1.Remark}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
-                
-              </div>
+                  <!--End Hospital Details-->
+                  <!--Hostel Detail-->
+                  <div class="card">
+                    <div class="card-header">
+                      <b>Hostel Details</b>
+                    </div>
+                    <div class="card-body">
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                              <thead>
+                                <tr>
+                                  <th>
+                                    Compliance
+                                  </th>
+                                  <th>
+                                    Remark
+                                  </th>
+                                  <th>S.No.</th>
+                                  <th>Is Hostel Campus</th>
+                                  <th>Hostel Name</th>
+                                  <th>Contact Person Name</th>
+                                  <th>Contact Person No.</th>
+                                  <th>Hostel Type</th>
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of CheckList_hostelDataModel let idx=index;">
+                                  <td>
+                                    {{row.Action}}
+                                  </td>
+                                  <td>
+                                    {{row.Action=='No'?row.Remark:''}}
+                                  </td>
+                                  <td>{{idx+1}}</td>
+                                  <td>{{row.IsHostelCampus}}</td>
+                                  <td>{{row.HostelName}}</td>
+                                  <td>{{row.ContactPersonName}}</td>
+                                  <td>{{row.ContactPersonNo}}</td>
+                                  <td>{{row.HostelType}}</td>
+
+                                </tr>
+                                <tr *ngIf="CheckList_hostelDataModel.length<=0">
+                                  <td colspan="8" style="color:red">No Data Found.!</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" *ngIf="HostelDetailFinalRemarks.length>0">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th>Sr.No.</th>
+                                <th>Role</th>
+                                <th>Remark</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item1 of HostelDetailFinalRemarks ; let idx =index">
+                                <td>{{idx+1}}</td>
+                                <td>{{item1.RoleID}}</td>
+                                <td>{{item1.Remark}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!--End Hostel Detail-->
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Remarks</label>
+                      <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
+                      <div *ngIf="isRemarkValid" class="text-danger">
+                        <p *ngIf="isRemarkValid"> This field is required .!</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button type="button" class="btn btn-sm btn-success" (click)="DocumentScrutiny('Approve')" title="Approve">Approve</button>
+                      <button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Reject')" title="Reject">Reject</button>
+                    </div>
+                  </div>
+                </div>
             </mat-tab>
           </mat-tab-group>
         </div>
