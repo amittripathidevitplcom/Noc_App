@@ -52,7 +52,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
   public isRemarkValid: boolean = false;
 
 
-  public RoleID: number = 13;
+  public RoleID: number = 10;
   public UserID: number = 0;
 
 
@@ -160,10 +160,10 @@ export class ApplyNOCPreviewComponent implements OnInit {
       }, 200);
     }
   }
-  async DocumentScrutiny(ActionType: string) {
+  async DocumentScrutiny(ActionType: string, CheckList_FinalRemark: string) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID)
+      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, CheckList_FinalRemark)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

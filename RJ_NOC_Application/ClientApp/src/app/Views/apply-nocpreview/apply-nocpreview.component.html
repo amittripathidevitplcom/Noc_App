@@ -99,7 +99,7 @@
                   <b><i class="bi bi-table"></i>&nbsp; Check List Details</b>
                 </div>
 
-                <div class="card-body">
+                <!--<div class="card-body">
                   <div class="row">
                     <div class="table-responsive">
                       <table class="table table-bordered table-hover table-striped">
@@ -131,10 +131,11 @@
                       </table>
                     </div>
                   </div>
-                </div>
+                </div>-->
 
                 <div class="card-footer">
-                  <button type="button" class="btn btn-sm btn-success" [attr.disabled]="ShowFinalDocumentScrutiny ? true : null" (click)="DocumentScrutiny(DocumentScrutinyButtonText)" title="{{DocumentScrutinyButtonText}}">{{DocumentScrutinyButtonText}}</button>
+                  <button type="button" class="btn btn-sm btn-success"  (click)="DocumentScrutiny('Approve','Testing')" title="{{DocumentScrutinyButtonText}}">Approve</button>
+                  <!--<button type="button" class="btn btn-sm btn-success" [attr.disabled]="ShowFinalDocumentScrutiny ? true : null" (click)="DocumentScrutiny(DocumentScrutinyButtonText,'Testing')" title="{{DocumentScrutinyButtonText}}">{{DocumentScrutinyButtonText}}</button>-->
                   <!--<button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Revert',1)" title="Revert"><i class="fa fa-close">Revert</i></button>-->
                 </div>
               </div>
