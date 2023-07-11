@@ -64,29 +64,6 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
     await this.GetOldNOCDetailList_DepartmentCollegeWise(); 
 
   }
-  //async GetOldNOCDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, OldNocID: number) {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.oldnocdetailService.GetOldNOCDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, OldNocID)
-  //      .then((data: any) => {
-
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        this.OldNocDetails = data['Data'];
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-
   async GetOldNOCDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();

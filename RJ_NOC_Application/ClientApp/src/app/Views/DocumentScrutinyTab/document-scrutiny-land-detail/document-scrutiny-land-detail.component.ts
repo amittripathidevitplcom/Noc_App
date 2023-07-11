@@ -46,12 +46,13 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     await this.GetLandDetailsDataList();
+    this.sSOLoginDataModel.RoleID = 0;
     await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
   }
   async GetLandDetailsDataList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, 0, this.SelectedApplyNOCID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.LandDetailList = data['Data'][0]['LandDetails'];
