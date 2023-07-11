@@ -49,7 +49,7 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
-    this.sSOLoginDataModel.RoleID = 0;
+    //this.sSOLoginDataModel.RoleID = 0;
     await this.GetStaffDetailList_DepartmentCollegeWise();
   }
   async GetStaffDetailList_DepartmentCollegeWise() {
@@ -142,6 +142,7 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
   }
 
   async SubmitStaffDetail_Onclick() {
+    debugger;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;

@@ -79,7 +79,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
   public isRemarkValid: boolean = false;
 
 
-  public RoleID: number = 10;
+  public RoleID: number = 0;
   public UserID: number = 0;
 
 
@@ -163,7 +163,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.sSOLoginDataModel.RoleID = 0;
+    //this.sSOLoginDataModel.RoleID = this.sSOLoginDataModel.RoleID;
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
 
