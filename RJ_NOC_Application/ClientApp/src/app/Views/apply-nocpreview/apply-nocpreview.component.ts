@@ -157,6 +157,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.GetAllBuildingDetailsList();
     this.GetStaffDetailList_DepartmentCollegeWise();
     this.GetOldNOCDetailList_DepartmentCollegeWise();
+    this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
   }
 
   NextStep() {
