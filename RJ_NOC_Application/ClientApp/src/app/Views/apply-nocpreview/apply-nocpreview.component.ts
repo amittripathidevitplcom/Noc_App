@@ -127,7 +127,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
   async DocumentScrutiny(ActionType: string) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, CheckList_FinalRemark)
+      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, '')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
