@@ -76,6 +76,7 @@ export class ApplyNocApplicationDataModel {
   public CollegeID: number = 0;
   public CollegeName: string = '';
   public CollegeMobileNo: string = '';
+  public CollegeEmail: string = '';
   public ApplicationTypeID: number = null;
   public ApplicationTypeName: string = '';
   public TotalFeeAmount: number = 0;

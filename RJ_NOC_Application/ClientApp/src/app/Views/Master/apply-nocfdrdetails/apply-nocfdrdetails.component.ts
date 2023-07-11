@@ -39,8 +39,6 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   public DocumentValidMessage: string = '';
   public SelectedCollageID: number = 0;
 
-  // apply noc application list
-  @ViewChild(ApplyNocParameterDetailsComponent) applyNocParameterDetailsComponent: any;
   // model
   @Input() public CollegeID: number = 0;
   @Input() public ApplyNocApplicationID: number = 0;
@@ -48,7 +46,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   @Input() public RefModal: any;
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService,
-    private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private modalService: NgbModal) {
+    private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private modalService: NgbModal, private applyNocParameterDetailsComponent: ApplyNocParameterDetailsComponent) {
   }
 
   async ngOnInit() {

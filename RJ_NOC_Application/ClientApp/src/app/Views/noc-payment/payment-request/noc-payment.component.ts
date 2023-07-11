@@ -9,6 +9,9 @@ import { RequestDetails } from '../../../Models/PaymentDataModel';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-noc-payment',
@@ -26,13 +29,11 @@ export class NocPaymentComponent implements OnInit {
   /*Save Data Model*/
   request = new RequestDetails();
 
-  constructor(private loaderService: LoaderService, private toastr: ToastrService,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder,
-    private nocpaymentService: NocpaymentService) {
+  constructor(private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private nocpaymentService: NocpaymentService) {
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.PaymentRequestForm = this.formBuilder.group(
       {
 
@@ -45,8 +46,7 @@ export class NocPaymentComponent implements OnInit {
       })
   }
 
-  RedirectPaymentRequest(pMERCHANTCODE: any, pENCDATA: any)
-  {
+  RedirectPaymentRequest(pMERCHANTCODE: any, pENCDATA: any) {
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", GlobalConstants.RPPRequstURL);
@@ -66,15 +66,14 @@ export class NocPaymentComponent implements OnInit {
 
 
   async PaymentRequest() {
-    this.request.AMOUNT = 1000;
-    this.request.USEREMAIL = "r.rajsingh04@gmail.com"
-    this.request.USERNAME = "Rav Raj";
-    this.request.USERMOBILE = "7737348604";
-    this.request.PURPOSE = "Test";
-    this.request.ApplyNocApplicationID = 1;
+    //this.request.AMOUNT = 1000;
+    //this.request.USEREMAIL = "r.rajsingh04@gmail.com"
+    //this.request.USERNAME = "Rav Raj";
+    //this.request.USERMOBILE = "7737348604";
+    //this.request.PURPOSE = "Test";
+    //this.request.ApplyNocApplicationID = 1;
 
-
-
+    //debugger
     this.loaderService.requestStarted();
     try {
       await this.nocpaymentService.PaymentRequest(this.request)
