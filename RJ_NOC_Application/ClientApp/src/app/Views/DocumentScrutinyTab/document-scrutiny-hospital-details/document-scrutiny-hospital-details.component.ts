@@ -11,6 +11,7 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-hospital-details',
@@ -36,8 +37,9 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
+  public FinalRemarks: any = [];
 
-  constructor(private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
+  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -72,13 +74,14 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
   async GetHospitalDataList() {
     this.loaderService.requestStarted();
     try {
-      await this.hospitalDetailService.GetDataList(this.SelectedCollageID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_HospitalDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'].length > 0) {
-            this.HospitalParentNotDataModelList = data['Data'];
+            this.HospitalParentNotDataModelList = data['Data'][0]['HospitalDetails'];
+            this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           }
         })
     }

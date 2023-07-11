@@ -11,6 +11,7 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { AbstractControl, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-legal-entity',
@@ -19,7 +20,7 @@ import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataM
 })
 export class DocumentScrutinyLegalEntityComponent implements OnInit {
 
-  constructor(private applyNOCApplicationService: ApplyNOCApplicationService,private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
+  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
 
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -58,6 +59,8 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
 
+  public FinalRemarks: any = [];
+
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString())
@@ -71,21 +74,17 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
   async ViewlegalEntityDataByID(SSOID: any) {
     try {
       this.loaderService.requestStarted();
-      await this.legalEntityListService.GetLegalEntityBySSOID(SSOID, this.UserID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_LegalEntity(SSOID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // data
-          this.legalEntityListData1 = data['Data'][0]['data']['Table'][0];
-          this.legalEntityInstituteDetailData = data['Data'][0]['data']['Table1'];
-          this.legalEntityMemberDetailData = data['Data'][0]['data']['Table2'];
-
-          console.log('Deepak');
-          console.log(this.legalEntityInstituteDetailData);
-          console.log(this.legalEntityMemberDetailData);
-          console.log('Deepak');
+          this.legalEntityListData1 = data['Data'][0]['legalEntity'];
+          this.legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
+          this.legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
         }, (error: any) => console.error(error));
     }
     catch (Ex) {

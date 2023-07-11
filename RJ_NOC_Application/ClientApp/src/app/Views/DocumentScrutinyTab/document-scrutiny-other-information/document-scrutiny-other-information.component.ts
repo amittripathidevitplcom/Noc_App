@@ -16,6 +16,7 @@ import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../..
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-other-information',
@@ -39,9 +40,10 @@ export class DocumentScrutinyOtherInformationComponent implements OnInit {
   dsrequest = new DocumentScrutinyDataModel();
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
+  public FinalRemarks: any = [];
   //public RequiredDocumentsAllList: any = [];
 
-  constructor(private otherInformationService: OtherInformationService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder,
+  constructor(private otherInformationService: OtherInformationService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
 
   async ngOnInit() {
@@ -55,14 +57,15 @@ export class DocumentScrutinyOtherInformationComponent implements OnInit {
   async GetOtherInformationAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.otherInformationService.GetOtherInformationAllList(0, this.SelectedCollageID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_OtherInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.OtherInformation = data['Data'][0]['data'];
+          this.OtherInformation = data['Data'][0]['OtherInformations'];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           console.log(this.OtherInformation);
         }, error => console.error(error));
     }
