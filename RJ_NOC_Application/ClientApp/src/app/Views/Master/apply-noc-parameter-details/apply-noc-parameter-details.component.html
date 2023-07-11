@@ -59,7 +59,7 @@
                             <button type="button" *ngIf="item.IsMakePayment==false" class="btn btn-sm btn-primary" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
                               Payment
                             </button>&nbsp;
-                            <button type="button" *ngIf="item.IsMakePayment==true" class="btn btn-sm btn-primary" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click()">
+                            <button type="button" *ngIf="item.IsMakePayment==true" class="btn btn-sm btn-primary" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
                               Payment History
                             </button>&nbsp;
                             <button type="button" *ngIf="item.IsMakePayment==true && item.IsFinalSubmit==false" class="btn btn-sm btn-primary" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">

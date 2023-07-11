@@ -87,7 +87,7 @@ export class ApplyNocParameterComponent implements OnInit {
   async GetApplicationTypeList() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, "PresentCollegeStatus")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, "NOCApply")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
