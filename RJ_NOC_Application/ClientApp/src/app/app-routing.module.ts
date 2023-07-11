@@ -83,6 +83,7 @@ import { CollegeManagementSocietyComponent } from './Views/PreviewTabs/college-m
 import { ApplyNOCFDRDetailsComponent } from './Views/Master/apply-nocfdrdetails/apply-nocfdrdetails.component';
 import { NocPaymentComponent } from './Views/noc-payment/payment-request/noc-payment.component';
 import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/payment-success.component'
+import { DocumentScrutinyReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-completed-report/document-scrutiny-completed-report.component';
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -358,6 +359,10 @@ const routes: Routes = [
       {
         path: 'applynocfdrdetails', component:  ApplyNOCFDRDetailsComponent 
       },
+      {
+        path: 'documentscrutinycompletedreport', component: DocumentScrutinyReportComponent
+      },
+
     ]
   },
 
