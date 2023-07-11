@@ -20,7 +20,7 @@ export class BuildingDetailsMasterService {
   //Get 
  
   public async SaveData(buildingdetails: BuildingDetailsDataModel) {
-    debugger;
+    
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(buildingdetails);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })

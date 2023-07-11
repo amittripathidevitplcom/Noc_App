@@ -78,7 +78,7 @@ export class ApplyNocParameterService {
       ).toPromise();
   }
   public async SaveApplyNoc_FDRMasterDetail(request: ApplyNocFDRDetailsDataModel) {
-    debugger;
+    
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
