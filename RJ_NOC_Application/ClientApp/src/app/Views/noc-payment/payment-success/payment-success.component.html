@@ -8,7 +8,7 @@
     <h1 [ngClass]="PaymentStatus == 'SUCCESS' ? 'divSuccess' : 'divFail'">{{PaymentStatus}}</h1>
     <p>We received your purchase request;<br /> we'll be in touch shortly!</p>
     <br />
-    <table class="table table-bordered" >
+    <table class="table table-bordered">
       <tbody>
         <tr>
           <td>
@@ -38,5 +38,9 @@
         </tr>
       </tbody>
     </table>
+
+
+    <a routerLink="/applynocapplicationdetail" class="btn btn-success">Exit</a>
+
   </div>
 </div>

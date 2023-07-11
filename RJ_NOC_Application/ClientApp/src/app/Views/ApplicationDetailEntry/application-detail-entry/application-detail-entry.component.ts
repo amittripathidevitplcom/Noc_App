@@ -150,7 +150,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     try {
       await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
         .then((data: any) => {
-          debugger;
+          
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];

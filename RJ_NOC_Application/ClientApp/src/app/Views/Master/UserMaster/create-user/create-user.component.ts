@@ -180,7 +180,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   async GetDistrictList(StateID: number) {
-    debugger;
+    
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.Load_StateWise_DistrictMaster(StateID)
@@ -231,7 +231,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   async MemberTypeSelection(MemberType: string) {
-    debugger;
+    
     this.request.StateID = 6;
     if (MemberType == 'State') {
       this.IsDistrict = false;
@@ -253,7 +253,7 @@ export class CreateUserComponent implements OnInit {
 
 
   async SaveData() {
-    debugger;
+    
     this.isSubmitted = true;
     if (this.CreatUserMasterForm.invalid) {
       return

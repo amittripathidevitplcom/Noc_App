@@ -10,6 +10,7 @@ import { SocietyDataModel } from '../../../Models/SocietyDataModel';
 import { SocityService } from '../../../Services/Master/SocietyManagement/socity.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-college-management-society',
@@ -24,12 +25,14 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
+  public FinalRemarks: any = [];
   public SelectedApplyNOCID: number = 0;
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
   constructor(private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService) { }
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
+    private medicalDocumentScrutinyService: MedicalDocumentScrutinyService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -42,14 +45,15 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
   async GetSocietyAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.socityService.GetSocietyAllList(0, this.SelectedCollageID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.SocietyAllList = data['Data'][0]['data'];
+          this.SocietyAllList = data['Data'][0]['CollegeManagementSocietys'];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
         }, error => console.error(error));
     }
     catch (Ex) {

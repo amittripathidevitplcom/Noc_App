@@ -31,13 +31,11 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async DocumentScrutiny(RoleID: number, UserID: number, ActionType: string, ApplyNOCID: number, DepartmentID: number) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return await this.http.post(this.APIUrl + '/DocumentScrutiny/' + ApplyNOCID + '/' + RoleID + '/' + UserID + '/' + ActionType + '/' + DepartmentID, httpOptions)
+  public async DocumentScrutiny(RoleID: number, UserID: number, ActionType: string, ApplyNOCID: number, DepartmentID: number, CheckList_FinalRemark: string) {
+    const headers = { 'content-type': 'application/json' }
+    var request = { ApplyNOCID: ApplyNOCID, RoleID: RoleID, UserID: UserID, ActionType: ActionType, DepartmentID: DepartmentID, Remark: CheckList_FinalRemark };
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/DocumentScrutiny/', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -46,7 +44,7 @@ export class ApplyNOCApplicationService {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     console.log(request);
-    return await this.http.post(this.APIUrl +'/SaveDocumentScrutiny/', body, { 'headers': headers })
+    return await this.http.post(this.APIUrl + '/SaveDocumentScrutiny/', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

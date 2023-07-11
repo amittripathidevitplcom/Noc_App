@@ -109,12 +109,10 @@ export class StaffDetailDataModel {
   public CreatedBy: number = 0;
   public ModifyBy: number = 0;
   public IPAddress: string = '';
-
-  public EducationalQualificationDetails: EducationalQualificationDetails_StaffDetail[] = [];
-
-
   public Action: string = '';
   public Remark: string = '';
+  public EducationalQualificationDetails: EducationalQualificationDetails_StaffDetail[] = [];
+
 }
 export class EducationalQualificationDetails_StaffDetail {
   public EducationalQualificationID: number = 0;
@@ -222,7 +220,7 @@ export class BuildingDetailsDataModel {
   public CollegeID: number = 0;
   public SchoolBuildingDetailsID: number = 0;
   public BuildingTypeID: number = null;
-  //public BuildingTypeName: string = '';
+  public BuildingTypeName: string = '';
   public FromDate: string = '';
   public ToDate: string = '';
   public FireNOCFileUpload: string = '';
@@ -258,7 +256,8 @@ export class BuildingDetailsDataModel {
   public UserID: number = 0;
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
-
+  public Action: string = '';
+  public Remark: string = '';
   public lstBuildingDocDetails: DocuemntBuildingDetailsDataModel[] = [];
 }
 

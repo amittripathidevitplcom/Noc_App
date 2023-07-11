@@ -4,11 +4,13 @@ import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute } from '@angular/router';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
+import { FacilityDetailsDataModel } from '../../../Models/FacilityDetailsDataModel';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { ToastrService } from 'ngx-toastr';
 import { FacilityDetailsService } from '../../../Services/FicilityDetais/facility-details.service';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-facility',
@@ -27,9 +29,10 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
   dsrequest = new DocumentScrutinyDataModel();
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
-  public FacilitiesDataAllList: any = [];
+  public FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
+  public FinalRemarks: any = [];
 
-  constructor(private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService,
+  constructor(private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -37,17 +40,20 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.sSOLoginDataModel.RoleID = 0;
     await this.GetFacilityDetailAllList();
   }
+
   async GetFacilityDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.facilityDetailsService.GetFacilityDetailAllList(0, this.SelectedCollageID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_FacilityDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
+          
           data = JSON.parse(JSON.stringify(data));
-          this.FacilitiesDataAllList = data['Data'][0]['data'];
-          console.log(this.FacilitiesDataAllList);
-        }, (error:any) => console.error(error));
+          this.FacilitiesDataAllList = data['Data'][0]['FacilityDetails'];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);

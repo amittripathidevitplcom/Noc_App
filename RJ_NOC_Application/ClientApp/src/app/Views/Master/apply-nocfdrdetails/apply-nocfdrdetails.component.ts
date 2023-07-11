@@ -39,16 +39,16 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   public DocumentValidMessage: string = '';
   public SelectedCollageID: number = 0;
 
-  // apply noc application list
-  @ViewChild(ApplyNocParameterDetailsComponent) applyNocParameterDetailsComponent: any;
   // model
   @Input() public CollegeID: number = 0;
   @Input() public ApplyNocApplicationID: number = 0;
   @Input() public IsSaveFDR: boolean = false;
   @Input() public RefModal: any;
 
+  //@ViewChild(ApplyNocParameterDetailsComponent) child: ApplyNocParameterDetailsComponent | undefined; 
+
   constructor(private applyNocParameterService: ApplyNocParameterService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService,
-    private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private modalService: NgbModal) {
+    private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private modalService: NgbModal, private applyNocParameterDetailsComponent: ApplyNocParameterDetailsComponent) {
   }
 
   async ngOnInit() {
@@ -114,9 +114,9 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   }
 
   async SaveData() {
-    //debugger;
+    //
     this.isSubmitted = true;
-    //debugger;
+    //
     let isValid = true;
     console.log(this.request);
     if (this.ApplyNOCFDRDetailForm.invalid) {
@@ -150,11 +150,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
           console.log(this.State);
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
-            this.ResetControl();
-            // close model
-            this.CloseModelPopUp();
-            // get list
-            await this.applyNocParameterDetailsComponent.GetApplyNocApplicationList();
+            window.location.reload();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -264,7 +260,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   }
 
   async GetApplyNocFDRDetails(ApplyNocFDRID: number, ApplyNocID: number) {
-    // debugger;
+    // 
     try {
       this.loaderService.requestStarted();
       await this.applyNocParameterService.GetApplyNocFDRDetails(ApplyNocFDRID, ApplyNocID)

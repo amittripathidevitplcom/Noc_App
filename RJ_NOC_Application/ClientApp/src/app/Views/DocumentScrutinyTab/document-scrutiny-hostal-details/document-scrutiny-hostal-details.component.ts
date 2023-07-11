@@ -11,6 +11,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { HostelDataModel, HostelDetailsDataModel_Hostel } from '../../../Models/HostelDetailsDataModel';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-hostal-details',
@@ -39,7 +40,9 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
-  constructor(private modalService: NgbModal, private loaderService: LoaderService, private hostelDetailService: HostelDetailService,
+  public FinalRemarks: any = [];
+
+  constructor(private modalService: NgbModal, private loaderService: LoaderService, private hostelDetailService: HostelDetailService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
 
   async ngOnInit() {
@@ -50,20 +53,23 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()))
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
 
-    await this.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0)
+    await this.GetHostelDetailList_DepartmentCollegeWise();
   }
 
-  async GetHostelDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, HostelDetailID: number) {
+  async GetHostelDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, HostelDetailID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_HostelDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.hostelDataModel = data['Data'];
+          this.hostelDataModel = data['Data'][0]['HostelDetails'];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+
         }, error => console.error(error));
     }
     catch (Ex) {

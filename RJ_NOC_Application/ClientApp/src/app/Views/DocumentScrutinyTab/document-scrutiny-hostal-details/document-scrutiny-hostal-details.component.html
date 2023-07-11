@@ -71,7 +71,27 @@
         </div>
       </div>
     </div>
+    <div class="row" *ngIf="FinalRemarks.length>0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Role</th>
+              <th>Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item1 of FinalRemarks ; let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item1.RoleID}}</td>
+              <td>{{item1.Remark}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
+    </div>
     <div class="row">
       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
         <label>Remarks</label>

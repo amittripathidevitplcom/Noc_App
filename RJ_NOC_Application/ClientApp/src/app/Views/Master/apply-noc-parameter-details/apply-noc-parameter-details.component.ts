@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +8,12 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
+import { NocPaymentComponent } from '../../noc-payment/payment-request/noc-payment.component';
 import { ApplyNOCFDRDetailsComponent } from '../apply-nocfdrdetails/apply-nocfdrdetails.component';
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-apply-noc-parameter-details',
@@ -48,7 +53,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
 
   public PaymentHistoryDetails: any = [];
 
-  constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal) {
+  constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private nocPaymentComponent: NocPaymentComponent) {
   }
 
   async ngOnInit() {
@@ -62,7 +67,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       // get
-      await this.applyNocParameterService.GetApplyNocApplicationList()
+      await this.applyNocParameterService.GetApplyNocApplicationList(this.sSOLoginDataModel.SSOID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -167,14 +172,19 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }
   }
 
-  async MakePayment_click(applyNocApplicationID: number) {
+  async MakePayment_click(item: any) {
     try {
       this.loaderService.requestStarted();
-      // do
-      // success
-      // close model
-      // get list
-      await this.GetApplyNocApplicationList();
+      //debugger
+      // payment request
+      this.nocPaymentComponent.request.ApplyNocApplicationID = item.ApplyNocApplicationID;
+      this.nocPaymentComponent.request.AMOUNT = item.TotalFeeAmount;
+      this.nocPaymentComponent.request.USEREMAIL = item.CollegeEmail;
+      this.nocPaymentComponent.request.USERNAME = item.CollegeName;
+      this.nocPaymentComponent.request.USERMOBILE = item.CollegeMobileNo;
+      this.nocPaymentComponent.request.PURPOSE = "Noc Payment";
+      // post
+      await this.nocPaymentComponent.PaymentRequest()
     }
     catch (Ex) {
       console.log(Ex);

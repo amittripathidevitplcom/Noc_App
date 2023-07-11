@@ -87,7 +87,7 @@ export class ApplyNocParameterComponent implements OnInit {
   async GetApplicationTypeList() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, "PresentCollegeStatus")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, "NOCApply")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -167,7 +167,7 @@ export class ApplyNocParameterComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // TNOC Extension
           if (this.request.ApplyNocFor == 'TNOC Extension') {
-            debugger;
+            
             this.ApplyNocParameterMasterList_TNOCExtension = data['Data'];
           }
           // Addition of New Seats(60)
@@ -217,6 +217,7 @@ export class ApplyNocParameterComponent implements OnInit {
         this.request.ModifyBy = 1;
       }
       // noc parameter
+      this.request.SSOID = this.sSOLoginDataModel.SSOID;
       this.request.ApplyNocParameterMasterListDataModel = this.ApplyNocParameterMasterList_ddl;
       let totalFeeList = this.request.ApplyNocParameterMasterListDataModel?.filter((element: any) => { return element.IsChecked == true; });
       // and total fee

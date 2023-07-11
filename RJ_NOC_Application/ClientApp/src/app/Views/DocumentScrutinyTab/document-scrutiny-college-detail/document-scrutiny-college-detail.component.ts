@@ -10,6 +10,7 @@ import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-college-detail',
@@ -17,7 +18,7 @@ import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataM
   styleUrls: ['./document-scrutiny-college-detail.component.css']
 })
 export class DocumentScrutinyCollegeDetailComponent implements OnInit {
-  constructor(private applyNOCApplicationService: ApplyNOCApplicationService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
+  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
 
   }
 
@@ -49,6 +50,9 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
+
+  public FinalRemarks: any = [];
+
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString())
@@ -57,22 +61,24 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
     //
     this.ModifyBy = 1;
     // get college list
-    await this.ViewTotalCollegeDataByID(this.SelectedCollageID);
+    await this.ViewTotalCollegeDataByID();
   }
-  async ViewTotalCollegeDataByID(CollegeID: any) {
+  async ViewTotalCollegeDataByID() {
     try {
       this.loaderService.requestStarted();
-      await this.draftApplicationListService.ViewTotalCollegeDataByID(CollegeID, this.UserID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
-          debugger;
+          
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
+
           // data
-          this.collegeListData = data['Data'][0]['data']['Table'][0];
-          this.collegeContactDetailsList = data['Data'][0]['data']['Table1'];
-          this.collegeNearestGovernmentHospitalsList = data['Data'][0]['data']['Table2'];
+          this.collegeListData = data['Data'][0]['CollegeDetails'][0][0];
+          this.collegeContactDetailsList = data['Data'][0]['CollegeContactDetails'][0];
+          this.collegeNearestGovernmentHospitalsList = data['Data'][0]['CollegeNearestHospitalsDetails'][0];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
 
           //console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));

@@ -152,7 +152,7 @@ export class SSOLoginComponent implements OnInit {
     try {
       //this.sSOLandingDataDataModel.Username = Username;
       //this.sSOLandingDataDataModel.LoginType = LoginType;
-      debugger;
+      
       if (LoginSSOID == undefined || LoginSSOID == '' || LoginSSOID == 'NaN' || LoginSSOID.toString() == NaN.toString()) {
         LoginSSOID = "RISHIKAPOORDELHI";
 
@@ -163,7 +163,7 @@ export class SSOLoginComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           console.log(data);
           if (data['Data'][0]['data'].length > 0) {
-            debugger;
+            
             LoginSSOID = data['Data'][0]['data'][0]['SSOID'];
             this.RoleID = data['Data'][0]['data'][0]['RoleID'];
             this.RoleName = data['Data'][0]['data'][0]['RoleName'];
@@ -176,7 +176,7 @@ export class SSOLoginComponent implements OnInit {
       this.SSOjson = "{\"SSOID\": \"" + LoginSSOID + "\",\"AadhaarId\": \"444088094507722\",\"BhamashahId\": null,\"BhamashahMemberId\": null,\"DisplayName\": \"RISHI KAPOOR\",\"DateOfBirth\": \"17/09/1991\",\"Gender\": \"MALE\",\"MobileNo\": null,\"TelephoneNumber\": \"07742860212\",\"IpPhone\": null,\"MailPersonal\": \"RISHIKAPOORDELHI@GMAIL.COM\",\"PostalAddress\": \"D-119D 119, GALI NO 6 GAUTAM MARG, NIRMAN NAGAR\",\"PostalCode\": \"302019\",\"l\": \"JAIPUR\",\"st\": \"RAJASTHAN\",\"Photo\": null,\"Designation\": \"CITIZEN\",\"Department\": \"GOOGLE\",\"MailOfficial\": null,\"EmployeeNumber\": null,\"DepartmentId\": null,\"FirstName\": \"RISHI\",\"LastName\": \"KAPOOR\",\"SldSSOIDs\": null,\"JanaadhaarId\": null,\"ManaadhaarMemberId\": null,\"UserType\": \"CITIZEN\",\"Mfa\": \"0\",\"RoleID\": \"" + this.RoleID + "\",\"RoleName\": \"" + this.RoleName + "\",\"DepartmentID\": \"" + this.DepartmentID + "\"} ";
 
       localStorage.setItem('SSOLoginUser', this.SSOjson)
-      debugger;
+      
       console.log(this.SSOjson);
 
       try {

@@ -21,7 +21,7 @@ export class CommitteeMasterService {
     return throwError(error);
   }
   public async SaveData(request: CommitteeMasterDataModel) {
-    debugger;
+    
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })

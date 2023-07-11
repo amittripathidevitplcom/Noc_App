@@ -8,6 +8,7 @@ import { CollegeDocumentService } from '../../../Services/Tabs/CollegeDocument/c
 import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-other-document',
@@ -29,10 +30,11 @@ export class DocumentScrutinyOtherDocumentComponent implements OnInit {
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
+  public FinalRemarks: any = [];
 
   constructor(private loaderService: LoaderService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute,
-    private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
+    private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService) { }
 
   async ngOnInit() {
 
@@ -41,18 +43,20 @@ export class DocumentScrutinyOtherDocumentComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
     this.request.DocumentDetails = [];
-    this.GetRequiredDocuments('OtherDocument')
+    this.GetOtherDocuments('Other Document')
   }
-  async GetRequiredDocuments(Type: string) {
+  async GetOtherDocuments(Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, Type)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.request.DocumentDetails = data['Data'][0]['data'];
+          this.request.DocumentDetails = data['Data'][0]['CollegeDocument'][0];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
         }, error => console.error(error));
     }
     catch (Ex) {

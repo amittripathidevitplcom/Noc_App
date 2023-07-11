@@ -56,7 +56,7 @@ export class TotalLegalEntityPreviewComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.legalEntityListService.GetLegalEntityList(this.UserID)
         .then((data: any) => {
-          debugger;
+          
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -81,7 +81,7 @@ export class TotalLegalEntityPreviewComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.legalEntityListService.ViewlegalEntityDataByID(LegalEntityID, this.UserID)
         .then((data: any) => {
-          debugger;
+          
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

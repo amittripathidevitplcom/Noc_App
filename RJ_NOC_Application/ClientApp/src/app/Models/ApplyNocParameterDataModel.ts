@@ -13,6 +13,8 @@ export class ApplyNocParameterDataModel {
   public CreatedBy: number = 0;
   public ModifyBy: number = 0;
 
+  public SSOID: string = '';
+
   public ApplyNocParameterMasterListDataModel: ApplyNocParameterMasterListDataModel[] = [];
 
   public ApplyNocParameterMasterList_TNOCExtension: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
@@ -76,6 +78,7 @@ export class ApplyNocApplicationDataModel {
   public CollegeID: number = 0;
   public CollegeName: string = '';
   public CollegeMobileNo: string = '';
+  public CollegeEmail: string = '';
   public ApplicationTypeID: number = null;
   public ApplicationTypeName: string = '';
   public TotalFeeAmount: number = 0;

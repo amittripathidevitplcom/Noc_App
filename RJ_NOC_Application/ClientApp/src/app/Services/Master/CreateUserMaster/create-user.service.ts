@@ -44,7 +44,7 @@ export class CreateUserService {
       ).toPromise();
   }
   public async SaveData(request: UserMasterDataModel) {
-    debugger;
+    
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
