@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { MasterPageRoutingModule } from './master-page-routing.module';
 
-
 @NgModule({
   declarations: [],
   imports: [

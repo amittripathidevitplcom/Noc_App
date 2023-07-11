@@ -18,25 +18,21 @@
                     <th>S.No.</th>
                     <th>Department Name</th>
                     <th>College Name</th>
+                    <th>Remarks</th>
                     <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1.</td>
-                    <td>Jaipur College</td>
-                    <td>Medical Group 3</td>
-                    <td>Approved</td>
-                  </tr>
-                  <!--<tr *ngFor="let item of ApplyNocDocumentScrutinyComplete let idx =index">
+                  <tr *ngFor="let item of ApplyNocDocumentScrutinyComplete let idx =index">
                     <td>{{idx+1}}</td>
                     <td>{{item.DepartmentName}}</td>
                     <td>{{item.CollegeName}}</td>
-                    <td>{{item.Completed}}</td>
-                  </tr>-->
-                  <!--<tr>
+                    <td>{{item.Remark}}</td>
+                    <td>{{item.Status}}</td>
+                  </tr>
+                  <tr>
                     <td colspan="7" *ngIf="ApplyNocDocumentScrutinyComplete.length<=0" style="color:red"> No Data Found.!</td>
-                  </tr>-->
+                  </tr>
                 </tbody>
               </table>
             </div>

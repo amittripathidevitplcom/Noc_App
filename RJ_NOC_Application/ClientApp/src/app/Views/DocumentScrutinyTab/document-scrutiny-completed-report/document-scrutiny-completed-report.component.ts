@@ -20,6 +20,7 @@ export class DocumentScrutinyReportComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public ApplyNocDocumentScrutinyComplete: any = [];
+  public UserID: number = 0;
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService) { }
@@ -28,20 +29,20 @@ export class DocumentScrutinyReportComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.sSOLoginDataModel.RoleID = 0;
     console.log(this.sSOLoginDataModel.RoleID);
-    await this.GetDocumentScrutinyCompletedReportRoleWise(this.sSOLoginDataModel.RoleID);
+    await this.GetDocumentScrutinyCompletedReportRoleWise(this.UserID);
   }
-  async GetDocumentScrutinyCompletedReportRoleWise(RoleId: number) {
+  async GetDocumentScrutinyCompletedReportRoleWise(UserID: number) {
     debugger;
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.GetDocumentScrutinyReportByRole(RoleId)
+      await this.medicalDocumentScrutinyService.GetDocumentScrutinyReportByRole(UserID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'][0]['data'].length > 0) {
-            this.ApplyNocDocumentScrutinyComplete = data['Data'];
+            this.ApplyNocDocumentScrutinyComplete = data['Data'][0]['data'];
           }
         }, error => console.error(error));
     }
