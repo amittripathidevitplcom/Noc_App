@@ -16,11 +16,15 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\Services\Reports\**" />
     <Compile Remove="ClientApp\src\app\Views\Master\FacilitiesMaster\facilities\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\Services\Reports\**" />
     <Content Remove="ClientApp\src\app\Views\Master\FacilitiesMaster\facilities\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\Services\Reports\**" />
     <EmbeddedResource Remove="ClientApp\src\app\Views\Master\FacilitiesMaster\facilities\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\Services\Reports\**" />
     <None Remove="ClientApp\src\app\Views\Master\FacilitiesMaster\facilities\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>

@@ -132,6 +132,7 @@ import { DocumentScrutinyOtherDocumentComponent } from './Views/DocumentScrutiny
 import { DocumentScrutinyCollegeManagementSocietyComponent } from './Views/DocumentScrutinyTab/document-scrutiny-college-management-society/document-scrutiny-college-management-society.component';
 import { DocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab/document-scrutiny-legal-entity/document-scrutiny-legal-entity.component';
 import { DocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutinyTab/document-scrutiny-college-detail/document-scrutiny-college-detail.component';
+import { DocumentScrutinyReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-completed-report/document-scrutiny-completed-report.component';
 
 @NgModule({
   declarations: [
@@ -262,7 +263,8 @@ import { DocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutiny
     DocumentScrutinyOtherDocumentComponent,
     DocumentScrutinyCollegeManagementSocietyComponent,
     DocumentScrutinyLegalEntityComponent,
-    DocumentScrutinyCollegeDetailComponent
+    DocumentScrutinyCollegeDetailComponent,
+    DocumentScrutinyReportComponent
 
   ],
   imports: [

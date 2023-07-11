@@ -81,6 +81,7 @@ import { ApplyNocParameterDetailsComponent } from './Views/Master/apply-noc-para
 import { RevertApplyNOCApplicationListComponent } from './Views/revert-apply-nocapplication-list/revert-apply-nocapplication-list.component';
 import { CollegeManagementSocietyComponent } from './Views/PreviewTabs/college-management-society/college-management-society.component';
 import { ApplyNOCFDRDetailsComponent } from './Views/Master/apply-nocfdrdetails/apply-nocfdrdetails.component';
+import { DocumentScrutinyReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-completed-report/document-scrutiny-completed-report.component';
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -344,6 +345,10 @@ const routes: Routes = [
       {
         path: 'applynocfdrdetails', component:  ApplyNOCFDRDetailsComponent 
       },
+      {
+        path: 'documentscrutinycompletedreport', component: DocumentScrutinyReportComponent
+      },
+
     ]
   },
 
