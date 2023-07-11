@@ -13,6 +13,8 @@ export class ApplyNocParameterDataModel {
   public CreatedBy: number = 0;
   public ModifyBy: number = 0;
 
+  public SSOID: string = '';
+
   public ApplyNocParameterMasterListDataModel: ApplyNocParameterMasterListDataModel[] = [];
 
   public ApplyNocParameterMasterList_TNOCExtension: ApplyNocParameterMaster_TNOCExtensionDataModel = null;

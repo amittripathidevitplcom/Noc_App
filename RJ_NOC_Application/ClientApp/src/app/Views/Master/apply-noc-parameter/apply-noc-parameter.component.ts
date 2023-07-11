@@ -217,6 +217,7 @@ export class ApplyNocParameterComponent implements OnInit {
         this.request.ModifyBy = 1;
       }
       // noc parameter
+      this.request.SSOID = this.sSOLoginDataModel.SSOID;
       this.request.ApplyNocParameterMasterListDataModel = this.ApplyNocParameterMasterList_ddl;
       let totalFeeList = this.request.ApplyNocParameterMasterListDataModel?.filter((element: any) => { return element.IsChecked == true; });
       // and total fee

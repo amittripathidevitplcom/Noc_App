@@ -45,6 +45,8 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   @Input() public IsSaveFDR: boolean = false;
   @Input() public RefModal: any;
 
+  //@ViewChild(ApplyNocParameterDetailsComponent) child: ApplyNocParameterDetailsComponent | undefined; 
+
   constructor(private applyNocParameterService: ApplyNocParameterService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private modalService: NgbModal, private applyNocParameterDetailsComponent: ApplyNocParameterDetailsComponent) {
   }
@@ -148,11 +150,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
           console.log(this.State);
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
-            this.ResetControl();
-            // close model
-            this.CloseModelPopUp();
-            // get list
-            await this.applyNocParameterDetailsComponent.GetApplyNocApplicationList();
+            window.location.reload();
           }
           else {
             this.toastr.error(this.ErrorMessage)

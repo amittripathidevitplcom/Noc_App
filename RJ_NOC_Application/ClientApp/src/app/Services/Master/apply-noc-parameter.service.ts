@@ -98,8 +98,8 @@ export class ApplyNocParameterService {
       ).toPromise();
   }
 
-  public async GetApplyNocApplicationList() {
-    return await this.http.get(this.APIUrl + "/GetApplyNocApplicationList")
+  public async GetApplyNocApplicationList(SSOID: string) {
+    return await this.http.get(this.APIUrl + "/GetApplyNocApplicationList" + "/" + SSOID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

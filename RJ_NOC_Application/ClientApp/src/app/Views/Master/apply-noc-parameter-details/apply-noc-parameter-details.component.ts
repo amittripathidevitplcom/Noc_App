@@ -67,7 +67,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       // get
-      await this.applyNocParameterService.GetApplyNocApplicationList()
+      await this.applyNocParameterService.GetApplyNocApplicationList(this.sSOLoginDataModel.SSOID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
