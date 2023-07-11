@@ -46,6 +46,7 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     await this.GetLandDetailsDataList();
+    this.sSOLoginDataModel.RoleID = 0;
     await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
   }
   async GetLandDetailsDataList() {
