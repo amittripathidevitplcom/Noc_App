@@ -180,6 +180,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.GetHospitalDataList();
     this.GetHostelDetailList_DepartmentCollegeWise();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    //this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
   }
 
   NextStep() {
@@ -206,7 +207,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
         return;
       }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
+      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
