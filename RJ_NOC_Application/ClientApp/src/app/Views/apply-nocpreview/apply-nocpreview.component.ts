@@ -166,7 +166,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
     //this.sSOLoginDataModel.RoleID = this.sSOLoginDataModel.RoleID;
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
-
+    this.GetSocietyAllList();
     this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
     this.ViewTotalCollegeDataByID();
     this.GetRoomDetailAllList();
@@ -238,7 +238,6 @@ export class ApplyNOCPreviewComponent implements OnInit {
   // Start Land Details
 
   async GetLandDetailsDataList() {
-    debugger;
     try {
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
@@ -321,7 +320,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
-
+          
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -354,7 +353,6 @@ export class ApplyNOCPreviewComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
-
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

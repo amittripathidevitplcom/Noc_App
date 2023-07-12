@@ -258,6 +258,30 @@ export class BuildingDetailsDataModel {
   public DeleteStatus: boolean = false;
   public Action: string = '';
   public Remark: string = '';
+  public TotalProjectCost: string = '';
+  public TotalProjectCostFileUpload: string = '';
+  public Dis_TotalProjectCostFileUpload: string = '';
+  public TotalProjectCostFileUploadPath: string = '';
+  public SourceCostAmount: string = '';
+  public SourceCostAmountFileUpload: string = '';
+  public Dis_SourceCostAmountFileUpload: string = '';
+  public SourceCostAmountFileUploadPath: string = '';
+  public AmountDeposited: string = '';
+  public AmountDepositedFileUpload: string = '';
+  public Dis_AmountDepositedFileUpload: string = '';
+  public AmountDepositedFileUploadPath: string = '';
+  public OtherFixedAssetsAndSecurities: string = '';
+  public OtherFixedAssetsAndSecuritiesFileUpload: string = '';
+  public Dis_OtherFixedAssetsAndSecuritiesFileUpload: string = '';
+  public OtherFixedAssetsAndSecuritiesFileUploadPath: string = '';
+  public GATEYearBalanceSecret: string = '';
+  public GATEYearBalanceSecretFileUpload: string = '';
+  public Dis_GATEYearBalanceSecretFileUpload: string = '';
+  public GATEYearBalanceSecretFileUploadPath: string = '';
+  public OtherFinancialResources: string = '';
+  public OtherFinancialResourcesFileUpload: string = '';
+  public Dis_OtherFinancialResourcesFileUpload: string = '';
+  public OtherFinancialResourcesFileUploadPath: string = '';
   public lstBuildingDocDetails: DocuemntBuildingDetailsDataModel[] = [];
 }
 

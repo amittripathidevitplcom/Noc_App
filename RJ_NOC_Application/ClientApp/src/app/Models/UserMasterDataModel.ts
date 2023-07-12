@@ -10,6 +10,8 @@ export class UserMasterDataModel {
   public DepartmentName: string = '';
   public RoleID: number = 0;
   public RoleName: string = '';
+  public CommitteeID: number = 0;
+  public CommitteeName: string = '';
   public MemberType: string = '';
   public StateID: number = 0;
   public StateName: string = '';
