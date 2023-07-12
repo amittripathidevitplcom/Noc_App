@@ -1,9 +1,9 @@
 export class GlobalConstants {
- // public static apiURL: string = "http://localhost:62778/api/";
- //public static apiURL: string = "https://unocapi.devitsandbox.com/api/";
-  public static apiURL: string = "http://172.22.33.75:1005/Devnocapi/api/";
+  public static apiURL: string = "http://localhost:62778/api/";
+  //public static apiURL: string = "https://unocapi.devitsandbox.com/api/";
+  //public static apiURL: string = "http://172.22.33.75:1005/Devnocapi/api/";
   public static ApplicationTitle: string = "RJ_NOC";
-   
+
   public static RPPRequstURL: string = "http://uat.rpp.rajasthan.gov.in/payments/v1/init"
 }
 
@@ -11,7 +11,7 @@ export class GlobalConstants {
 
 //export class GlobalFuncation {
 //  public Encrypt(planTest: string) {
-//    
+//
 //    return CryptoJS.AES.encrypt(planTest.trim(), "RJNoc465717444").toString();
 //  }
 //  public Decrypt(encryptText: string) {
