@@ -37,6 +37,7 @@ export class CreateUserComponent implements OnInit {
   public DepartmentList: any = [];
   public DesignationList: any = [];
   public RoleList: any = [];
+  public CommitteeList: any = [];
   public DistrictList: any = [];
   public TehsilList: any = [];
   public UsersDataList: any = [];
@@ -71,6 +72,7 @@ export class CreateUserComponent implements OnInit {
         ddlDesignationID: ['', [DropdownValidators]],
         ddlDepartmentID: ['', [DropdownValidators]],
         ddlRoleID: ['', [DropdownValidators]],
+        ddlCommitteeID: [''],
         rbMemberType: ['', Validators.required],
         ddlDistrictID: [''],
         ddlTehsilID: [''],
@@ -82,6 +84,8 @@ export class CreateUserComponent implements OnInit {
     await this.GetAllDesignation();
     //Role
     await this.GetRoleList();
+    //Committee
+    await this.GetCommitteeList();
     //UsersList
     await this.GetUsersList();
     //GetDistrict
@@ -157,6 +161,27 @@ export class CreateUserComponent implements OnInit {
       }, 200);
     }
   }
+  async GetCommitteeList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommitteeList()
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CommitteeList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async GetUsersList() {
     try {
       this.loaderService.requestStarted();
@@ -180,7 +205,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   async GetDistrictList(StateID: number) {
-    
+
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.Load_StateWise_DistrictMaster(StateID)
@@ -231,7 +256,6 @@ export class CreateUserComponent implements OnInit {
   }
 
   async MemberTypeSelection(MemberType: string) {
-    
     this.request.StateID = 6;
     if (MemberType == 'State') {
       this.IsDistrict = false;
@@ -244,7 +268,7 @@ export class CreateUserComponent implements OnInit {
     }
     if (MemberType == 'Tehsil') {
       await this.GetDistrictList(this.request.StateID);
-      this.FillTehsilByDistrictId((this.request.DistrictID).toString())
+      await this.FillTehsilByDistrictId((this.request.DistrictID).toString())
       this.IsDistrict = true;
       this.IsTehsil = true;
     }
@@ -253,7 +277,7 @@ export class CreateUserComponent implements OnInit {
 
 
   async SaveData() {
-    
+
     this.isSubmitted = true;
     if (this.CreatUserMasterForm.invalid) {
       return
@@ -311,6 +335,7 @@ export class CreateUserComponent implements OnInit {
           this.request = data['Data'][0];
           this.isDisabledGrid = true;
           this.MemberTypeSelection(this.request.MemberType);
+
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
           const btnReset = document.getElementById('btnReset')
@@ -369,11 +394,14 @@ export class CreateUserComponent implements OnInit {
     this.request.DesignationID = 0;
     this.request.DepartmentID = 0;
     this.request.RoleID = 0;
+    this.request.CommitteeID = 0;
+    this.request.StateID = 0;
     this.request.MemberType = '';
     this.request.DistrictID = 0;
     this.request.TehsilID = 0;
     this.request.ActiveStatus = true;
     this.isDisabledGrid = false;
+
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";
     const btnReset = document.getElementById('')
@@ -400,7 +428,7 @@ export class CreateUserComponent implements OnInit {
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
         ws['!cols'] = [];
-        ws['!cols'][10] = { hidden: true };
+        ws['!cols'][11] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "CreateUser.xlsx");
@@ -446,13 +474,14 @@ export class CreateUserComponent implements OnInit {
             "DesignationName": this.UsersDataList[i]['DesignationName'],
             "DepartmentName": this.UsersDataList[i]['DepartmentName_English'],
             "RoleName": this.UsersDataList[i]['RoleName'],
+            "CommitteeName": this.UsersDataList[i]['CommitteeName'],
             "MemberType": this.UsersDataList[i]['MemberType'],
             "Status": this.UsersDataList[i]['ActiveDeactive']
           })
         }
 
         let values: any;
-        let privados = ['S.No.', "SSOID", "MobileNumber", "EmailAddress", "Name", "DesignationName", "DepartmentName", "RoleName", "MemberType", "Status"];
+        let privados = ['S.No.', "SSOID", "MobileNumber", "EmailAddress", "Name", "DesignationName", "DepartmentName", "RoleName", "CommitteeName", "MemberType", "Status"];
         let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
         values = pDFData.map((elemento: any) => Object.values(elemento));
 

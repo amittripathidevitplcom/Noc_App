@@ -29,7 +29,7 @@
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="txtSSOID" class="form-label">Enter SSO ID <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtSSOID" name="txtSSOID" [(ngModel)]="request.SSOID" formControlName="txtSSOID">
+                    <input type="text" class="form-control" id="txtSSOID" name="txtSSOID" [(ngModel)]="request.SSOID" formControlName="txtSSOID" autocomplete="off">
                     <div *ngIf="isSubmitted&&form.txtSSOID.errors" class="text-danger">
                       <p *ngIf="form.txtSSOID.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <!--<p *ngIf="form.txtSSOID.minLength"><i aria-hidden="true"></i> SSO ID is not valid .!</p>-->
@@ -47,7 +47,7 @@
 
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="txtEmailAddress" class="form-label">Email Address <span style="color:red;">*</span></label>
-                    <input type="email" class="form-control" id="txtEmailAddress" name="txtEmailAddress" [(ngModel)]="request.EmailAddress" formControlName="txtEmailAddress">
+                    <input type="email" class="form-control" id="txtEmailAddress" name="txtEmailAddress" [(ngModel)]="request.EmailAddress" formControlName="txtEmailAddress" autocomplete="off">
                     <div *ngIf="isSubmitted&&form.txtEmailAddress.errors" class="text-danger">
                       <p *ngIf="form.txtEmailAddress.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form.txtEmailAddress.errors.email"><i aria-hidden="true"></i> Email address is not valid .!</p>
@@ -91,6 +91,14 @@
                     <div *ngIf="isSubmitted&&form.ddlRoleID.errors" class="text-danger">
                       <p *ngIf="!form.ddlRoleID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                     </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="ddlCommitteeID" class="form-label">Select Committee</label>
+                    <select class="form-select" id="ddlCommitteeID" name="ddlCommitteeID" [(ngModel)]="request.CommitteeID" formControlName="ddlCommitteeID">
+                      <option value="0">--None--</option>
+                      <option *ngFor="let item of CommitteeList" value="{{item.CommitteeID}}">{{item.CommitteeName}}</option>
+                    </select>
                   </div>
 
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -197,6 +205,9 @@
                     Role
                   </th>
                   <th>
+                    Committee
+                  </th>
+                  <th>
                     Member Type
                   </th>
                   <th>
@@ -232,6 +243,9 @@
                   </td>
                   <td>
                     {{row.RoleName}}
+                  </td>
+                  <td>
+                    {{row.CommitteeName}}
                   </td>
                   <td>
                     {{row.MemberType}}
