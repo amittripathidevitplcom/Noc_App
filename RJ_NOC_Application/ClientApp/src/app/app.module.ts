@@ -273,7 +273,7 @@ import { UserRoleRightsComponent } from './Views/Master/RoleMaster/user-role-rig
     PaymentSuccessComponent,
     DocumentScrutinyCollegeDetailComponent,
     DocumentScrutinyReportComponent,
-    RNCCheckListMasterComponent
+    RNCCheckListMasterComponent,
     DocumentScrutinyReportComponent,
     UserRoleRightsComponent
 
