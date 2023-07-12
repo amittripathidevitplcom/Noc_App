@@ -69,7 +69,6 @@ export class CreateUserComponent implements OnInit {
         txtMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
         txtEmailAddress: ['', [Validators.required, Validators.email]],
         txtName: ['', Validators.required],
-        ddlDesignationID: ['', [DropdownValidators]],
         ddlDepartmentID: ['', [DropdownValidators]],
         ddlRoleID: ['', [DropdownValidators]],
         ddlCommitteeID: [''],
@@ -80,8 +79,6 @@ export class CreateUserComponent implements OnInit {
       })
     // department
     await this.GetDepartmentList();
-    //designation
-    await this.GetAllDesignation();
     //Role
     await this.GetRoleList();
     //Committee
@@ -94,30 +91,6 @@ export class CreateUserComponent implements OnInit {
   get form() { return this.CreatUserMasterForm.controls; }
 
 
-  async GetAllDesignation() {
-    //Show Loading
-    this.loaderService.requestStarted();
-    this.isLoading = true;
-    try {
-      await this.commonMasterService.GetAllDesignation()
-        .then((data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.DesignationList = data['Data'];
-          console.log(this.State);
-        });
-    }
-    catch (ex) {
-      console.log(ex)
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-        this.isLoading = false;
-      }, 200);
-    }
-  }
   async GetDepartmentList() {
     try {
       this.loaderService.requestStarted();
@@ -391,7 +364,6 @@ export class CreateUserComponent implements OnInit {
     this.request.MobileNumber = '';
     this.request.EmailAddress = '';
     this.request.Name = '';
-    this.request.DesignationID = 0;
     this.request.DepartmentID = 0;
     this.request.RoleID = 0;
     this.request.CommitteeID = 0;

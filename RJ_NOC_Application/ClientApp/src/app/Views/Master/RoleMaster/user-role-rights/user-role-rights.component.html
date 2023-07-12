@@ -1,0 +1,110 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>User Role Rights</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Role</a></li>
+          <li class="breadcrumb-item active" aria-current="page">User Role Rights</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form #UserRoleRightForm="ngForm" class="form-horizontal">
+            <div class="row">
+              <div class="col-sm-12" style="padding: 0px !important;" id="ExportMaster_Table">
+                <div class="fixTableHead">
+                  <table class="table table-bordered dataTable dtr-inline table-head-fixed text-nowrap">
+                    <thead>
+                      <tr>
+                        <th valign="middle">Sr.No.</th>
+                        <th>Menu Name</th>
+                        <th valign="middle">
+                          <input type="checkbox" id="checkboxView" class="checkboxSize" [checked]="All_U_View"
+                                 #checkboxView (change)="checkboxthView_checkboxchange($event,checkboxView.checked)">
+                          View
+                        </th>
+                        <th valign="middle">
+                          <input type="checkbox" id="checkboxAdd" class="checkboxSize" [checked]="All_U_Add"
+                                 #checkboxAdd (change)="checkboxthAdd_checkboxchange($event,checkboxAdd.checked)">
+                          Add
+                        </th>
+                        <th valign="middle">
+                          <input type="checkbox" id="checkboxUpdate" class="checkboxSize" [checked]="All_U_Update"
+                                 #checkboxUpdate (change)="checkboxthUpdate_checkboxchange($event,checkboxUpdate.checked)">
+                          Update
+                        </th>
+                        <th valign="middle">
+                          <input type="checkbox" id="checkboxDelete" class="checkboxSize" [checked]="All_U_Delete"
+                                 #checkboxDelete (change)="checkboxthDelete_checkboxchange($event,checkboxDelete.checked)">
+                          Delete
+                        </th>
+                        <th valign="middle">
+                          <input type="checkbox" id="checkboxPrint" class="checkboxSize" [checked]="All_U_Print"
+                                 #checkboxPrint (change)="checkboxthPrint_checkboxchange($event,checkboxPrint.checked)">
+                          Print
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr *ngFor="let row of MenuList ;let idx=index;">
+
+                        <td style="width:40px !important"> {{idx+1}}</td>
+                        <td align="left">
+
+
+                          <b *ngIf="row.LevelNo==1" style="color:#01a9ac !important">{{row.MenuName}}</b>
+                          <span *ngIf="row.LevelNo==2" style="color:#01a9ac !important;margin-left: 20px !important;">{{row.MenuName}}</span>
+                          <span *ngIf="row.LevelNo==3" style="margin-left: 40px !important;">{{row.MenuName}}</span>
+
+
+                        </td>
+                        <td>
+                          <input type="checkbox" class="checkboxSize" [checked]="row.NG_U_View" *ngIf="row.U_View" [(ngModel)]="row.NG_U_View" id="NG_U_View{{idx+1}}" name="NG_U_View{{idx+1}}">
+                        </td>
+                        <td>
+                          <input type="checkbox" class="checkboxSize" [checked]="row.NG_U_Add" *ngIf="row.U_Add" [(ngModel)]="row.NG_U_Add" id="NG_U_Add{{idx+1}}" name="NG_U_Add{{idx+1}}">
+                        </td>
+                        <td>
+                          <input type="checkbox" class="checkboxSize" [checked]="row.NG_U_Update" *ngIf="row.U_Update" [(ngModel)]="row.NG_U_Update" id="NG_U_Update{{idx+1}}" name="NG_U_Update{{idx+1}}">
+                        </td>
+                        <td>
+                          <input type="checkbox" class="checkboxSize" [checked]="row.NG_U_Delete" *ngIf="row.U_Delete" [(ngModel)]="row.NG_U_Delete" id="NG_U_Delete{{idx+1}}" name="NG_U_Delete{{idx+1}}">
+                        </td>
+                        <td>
+                          <input type="checkbox" class="checkboxSize" [checked]="row.NG_U_Print" *ngIf="row.U_Print" [(ngModel)]="row.NG_U_Print" id="NG_U_Print{{idx+1}}" name="NG_U_Print{{idx+1}}">
+                        </td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="col-sm-12">
+                <div class="form-group text-end">
+                  <button  name="btnSave" id="btnSave" class="btn btn-primary" (click)="SaveData()">
+                    Save
+                  </button>
+       
+                </div>
+              </div>
+
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

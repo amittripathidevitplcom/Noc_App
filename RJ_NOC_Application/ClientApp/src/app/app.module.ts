@@ -136,6 +136,7 @@ import { NocPaymentComponent } from './Views/noc-payment/payment-request/noc-pay
 import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/payment-success.component';
 import { DocumentScrutinyReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-completed-report/document-scrutiny-completed-report.component';
 import { RNCCheckListMasterComponent } from './Views/Master/rnccheck-list-master/rnccheck-list-master.component';
+import { UserRoleRightsComponent } from './Views/Master/RoleMaster/user-role-rights/user-role-rights.component';
 
 @NgModule({
   declarations: [
@@ -272,7 +273,9 @@ import { RNCCheckListMasterComponent } from './Views/Master/rnccheck-list-master
     PaymentSuccessComponent,
     DocumentScrutinyCollegeDetailComponent,
     DocumentScrutinyReportComponent,
-    RNCCheckListMasterComponent
+    RNCCheckListMasterComponent,
+    DocumentScrutinyReportComponent,
+    UserRoleRightsComponent
 
   ],
   imports: [

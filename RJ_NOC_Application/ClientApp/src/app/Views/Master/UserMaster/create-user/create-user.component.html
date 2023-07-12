@@ -63,16 +63,6 @@
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label for="ddlDesignationID" class="form-label">Select Designation <span style="color:red;">*</span> </label>
-                    <select class="form-select" id="ddlDesignationID" name="ddlDesignationID" [(ngModel)]="request.DesignationID" formControlName="ddlDesignationID">
-                      <option value="0">--Select--</option>
-                      <option *ngFor="let item of DesignationList" value="{{item.DesignationID}}">{{item.DesignationName}}</option>
-                    </select>
-                    <div *ngIf="isSubmitted&&form.ddlDesignationID.errors" class="text-danger">
-                      <p *ngIf="!form.ddlDesignationID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="ddlDepartmentID" class="form-label">Select Department <span style="color:red;">*</span></label>
                     <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID">
                       <option value="0">--Select--</option>
@@ -196,9 +186,6 @@
                     Name
                   </th>
                   <th>
-                    Designation
-                  </th>
-                  <th>
                     Department
                   </th>
                   <th>
@@ -234,9 +221,6 @@
                   </td>
                   <td>
                     {{row.Name}}
-                  </td>
-                  <td>
-                    {{row.DesignationName}}
                   </td>
                   <td>
                     {{row.DepartmentName_English}}
