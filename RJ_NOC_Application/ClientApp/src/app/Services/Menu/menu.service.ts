@@ -30,7 +30,20 @@ export class MenuService {
     return this.http.get(this.APIUrl)
       .pipe(
         catchError(this.handleErrorObservable)
-      )
+    ).toPromise()
+  }
+
+  public GetAllMenuUserRoleRightsRoleWise(RoleID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.get(this.APIUrl + '/GetAllMenuUserRoleRightsRoleWise/' + RoleID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise()
   }
 
   public GetByID(AccountID: number) {

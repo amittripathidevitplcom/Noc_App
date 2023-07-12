@@ -84,6 +84,7 @@ import { ApplyNOCFDRDetailsComponent } from './Views/Master/apply-nocfdrdetails/
 import { NocPaymentComponent } from './Views/noc-payment/payment-request/noc-payment.component';
 import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/payment-success.component'
 import { DocumentScrutinyReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-completed-report/document-scrutiny-completed-report.component';
+import { UserRoleRightsComponent } from './Views/Master/RoleMaster/user-role-rights/user-role-rights.component';
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -362,7 +363,9 @@ const routes: Routes = [
       {
         path: 'documentscrutinycompletedreport', component: DocumentScrutinyReportComponent
       },
-
+      {
+        path: 'userrolerights/:RoleID', component: UserRoleRightsComponent
+      }
     ]
   },
 
