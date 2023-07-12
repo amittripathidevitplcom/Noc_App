@@ -58,9 +58,7 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.LandDetailList = data['Data'][0]['LandDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          console.log('>>>>');
-          console.log(this.LandDetailList);
-          console.log('>>>>');
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
         }, error => console.error(error));
     }
     catch (Ex) {

@@ -53,6 +53,7 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.RoomDetails = data['Data'][0]['RoomDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
         }, error => console.error(error));
     }
     catch (Ex) {

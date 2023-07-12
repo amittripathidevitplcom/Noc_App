@@ -73,6 +73,7 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.OldNocDetails = data['Data'][0]['OldNOCDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
         }, error => console.error(error));
     }
     catch (Ex) {

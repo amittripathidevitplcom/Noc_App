@@ -54,6 +54,7 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
           this.ErrorMessage = data['ErrorMessage'];
           this.SocietyAllList = data['Data'][0]['CollegeManagementSocietys'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
         }, error => console.error(error));
     }
     catch (Ex) {

@@ -79,6 +79,7 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
               this.TotalNonTeachingStaffDetail++;
             }
           }
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
         }, error => console.error(error));
     }
     catch (Ex) {

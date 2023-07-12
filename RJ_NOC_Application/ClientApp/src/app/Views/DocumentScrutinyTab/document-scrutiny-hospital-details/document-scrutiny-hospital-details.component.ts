@@ -82,6 +82,7 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.HospitalParentNotDataModelList = data['Data'][0]['HospitalDetails'];
             this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+            this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
           }
         })
     }

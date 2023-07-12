@@ -79,7 +79,7 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
           this.collegeContactDetailsList = data['Data'][0]['CollegeContactDetails'][0];
           this.collegeNearestGovernmentHospitalsList = data['Data'][0]['CollegeNearestHospitalsDetails'][0];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
           //console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));
     }
