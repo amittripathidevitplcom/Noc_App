@@ -53,6 +53,7 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.FacilitiesDataAllList = data['Data'][0]['FacilityDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
         }, error => console.error(error));
     }
     catch (Ex) {

@@ -68,7 +68,7 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.hostelDataModel = data['Data'][0]['HostelDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
 
         }, error => console.error(error));
     }

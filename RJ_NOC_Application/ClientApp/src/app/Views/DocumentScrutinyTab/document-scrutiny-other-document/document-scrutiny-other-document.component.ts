@@ -56,7 +56,7 @@ export class DocumentScrutinyOtherDocumentComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.request.DocumentDetails = data['Data'][0]['CollegeDocument'][0];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
         }, error => console.error(error));
     }
     catch (Ex) {

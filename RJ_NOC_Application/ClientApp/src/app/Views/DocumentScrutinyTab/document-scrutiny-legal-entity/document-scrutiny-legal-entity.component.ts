@@ -85,6 +85,8 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
           this.legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
           this.legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
