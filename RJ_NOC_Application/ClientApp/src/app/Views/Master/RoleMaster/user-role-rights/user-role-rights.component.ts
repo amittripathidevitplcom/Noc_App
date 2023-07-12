@@ -10,6 +10,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { MenuService } from '../../../../Services/Menu/menu.service';
 import { UserRoleRightsDataModel } from '../../../../Models/AddRoleMasterDataModel';
 import { SSOLoginDataModel } from '../../../../Models/SSOLoginDataModel';
+import { CommonMasterService } from '../../../../Services/CommonMaster/common-master.service';
 
 @Component({
   selector: 'app-user-role-rights',
@@ -21,7 +22,7 @@ export class UserRoleRightsComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public MenuList: UserRoleRightsDataModel[] = [];
-
+  public SelectedRoleID: number = 0;
   public All_U_View: boolean = false;
   public All_U_Add: boolean = false;
   public All_U_Update: boolean = false;
@@ -29,16 +30,17 @@ export class UserRoleRightsComponent implements OnInit {
   public All_U_Print: boolean = false;
   sSOLoginDataModel = new SSOLoginDataModel();
 
-  constructor(private menuService: MenuService, private clipboard: Clipboard, private addRoleMasterService: AddRoleMasterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) { }
+  constructor(private commonMasterService: CommonMasterService,private menuService: MenuService, private clipboard: Clipboard, private addRoleMasterService: AddRoleMasterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) { }
 
   async ngOnInit() {
+    this.SelectedRoleID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('RoleID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetAllMenuList();
   }
   async GetAllMenuList() {
     try {
       //this.loaderService.requestStarted();
-      await this.menuService.GetAllMenuUserRoleRightsRoleWise(this.sSOLoginDataModel.RoleID)
+      await this.menuService.GetAllMenuUserRoleRightsRoleWise(this.SelectedRoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -102,6 +104,9 @@ export class UserRoleRightsComponent implements OnInit {
     //Show Loading 
     this.loaderService.requestStarted();
     try {
+      for (let item of this.MenuList) {
+        item.RoleID = this.SelectedRoleID;
+      }
       await this.addRoleMasterService.SaveUserRightData(this.MenuList)
         .then((data: any) => {
           this.State = data['State'];
