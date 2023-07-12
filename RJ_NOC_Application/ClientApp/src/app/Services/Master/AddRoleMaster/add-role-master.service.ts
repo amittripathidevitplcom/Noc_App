@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { AddRoleMasterDataModel } from '../../../Models/AddRoleMasterDataModel';
+import { AddRoleMasterDataModel, UserRoleRightsDataModel } from '../../../Models/AddRoleMasterDataModel';
 
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 @Injectable({
@@ -61,5 +61,13 @@ export class AddRoleMasterService {
       ).toPromise();
 
   }
-    
+  public async SaveUserRightData(request: UserRoleRightsDataModel[]) {
+
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl +"/SaveUserRoleRight", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

@@ -12,6 +12,7 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { style } from '@angular/animations';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 
 @Component({
   selector: 'app-add-role-master',
@@ -41,7 +42,7 @@ export class AddRoleMasterComponent implements OnInit {
 
   request = new AddRoleMasterDataModel();
 
-  constructor(private clipboard: Clipboard, private addRoleMasterService: AddRoleMasterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private modalService: NgbModal) {
+  constructor(private commonMasterService: CommonMasterService,private clipboard: Clipboard, private addRoleMasterService: AddRoleMasterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private modalService: NgbModal) {
   }
 
   async ngOnInit() {
@@ -345,7 +346,9 @@ export class AddRoleMasterComponent implements OnInit {
     }
   }
 
-  
 
+  async SetUserRoleRights(RoleID: number) {
+    this.routers.navigate(['/userrolerights' + "/" + encodeURI(this.commonMasterService.Encrypt(RoleID.toString()))]);
+  }
 }
 

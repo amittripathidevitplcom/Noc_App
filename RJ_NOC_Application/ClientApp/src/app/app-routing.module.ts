@@ -85,6 +85,7 @@ import { NocPaymentComponent } from './Views/noc-payment/payment-request/noc-pay
 import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/payment-success.component'
 import { DocumentScrutinyReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-completed-report/document-scrutiny-completed-report.component';
 import { RNCCheckListMasterComponent } from './Views/Master/rnccheck-list-master/rnccheck-list-master.component';
+import { UserRoleRightsComponent } from './Views/Master/RoleMaster/user-role-rights/user-role-rights.component';
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -364,6 +365,9 @@ const routes: Routes = [
         path: 'rncchekclistmaster', component: RNCCheckListMasterComponent
       },
 
+      {
+        path: 'userrolerights/:RoleID', component: UserRoleRightsComponent
+      }
     ]
   },
 
