@@ -53,6 +53,9 @@ export class RNCCheckListMasterComponent implements OnInit {
         txtRNCCheckListName: ['', Validators.required],
         chkUploadFile: ['false'],
       })
+    const ddlDepartmentID = document.getElementById('ddlDepartmentID')
+    if (ddlDepartmentID) ddlDepartmentID.focus();
+
     await this.GetDepartmentList();
     await this.GetRNCCheckListData();
   }
@@ -204,8 +207,8 @@ export class RNCCheckListMasterComponent implements OnInit {
 
 
   async ResetControl() {
-    const ddlDistrictID = document.getElementById('ddlDistrictID')
-    if (ddlDistrictID) ddlDistrictID.focus();
+    const ddlDepartmentID = document.getElementById('ddlDepartmentID')
+    if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
     this.isDisabledDOJ = false;
     this.request.RNCCheckListID = 0;
