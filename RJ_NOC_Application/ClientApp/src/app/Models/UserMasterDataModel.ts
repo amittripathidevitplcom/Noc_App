@@ -4,8 +4,6 @@ export class UserMasterDataModel {
   public MobileNumber: string = '';
   public EmailAddress: string = '';
   public Name: string = '';
-  public DesignationID: number = 0;
-  public DesignationName: string = '';
   public DepartmentID: number = 0;
   public DepartmentName: string = '';
   public RoleID: number = 0;
