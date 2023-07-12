@@ -734,6 +734,7 @@ export class BuildingDetailsComponent implements OnInit {
             item.FileName = data['Data'][0]["FileName"];
 
             item.FilePath = data['Data'][0]["FilePath"];
+            item.Dis_FileName = data['Data'][0]["Dis_FileName"];
 
             event.Value = null;
 
@@ -1086,32 +1087,32 @@ export class BuildingDetailsComponent implements OnInit {
      
           if (Type == 'TotalProjectCostFileUpload') {
             this.buildingdetails.TotalProjectCostFileUpload = data['Data'][0]["FileName"];
-            this.buildingdetails.Dis_TotalProjectCostFileUpload = data['Data'][0]["FileName"];
+            this.buildingdetails.Dis_TotalProjectCostFileUpload = data['Data'][0]["Dis_FileName"];
             this.buildingdetails.TotalProjectCostFileUploadPath = data['Data'][0]["FilePath"];
           }
           else if (Type == 'SourceCostAmountFileUpload') {
             this.buildingdetails.SourceCostAmountFileUpload = data['Data'][0]["FileName"];
-            this.buildingdetails.Dis_SourceCostAmountFileUpload = data['Data'][0]["FileName"];
+            this.buildingdetails.Dis_SourceCostAmountFileUpload = data['Data'][0]["Dis_FileName"];
             this.buildingdetails.SourceCostAmountFileUploadPath = data['Data'][0]["FilePath"];
           }
           else if (Type == 'AmountDepositedFileUpload') {
             this.buildingdetails.AmountDepositedFileUpload = data['Data'][0]["FileName"];
-            this.buildingdetails.Dis_AmountDepositedFileUpload = data['Data'][0]["FileName"];
+            this.buildingdetails.Dis_AmountDepositedFileUpload = data['Data'][0]["Dis_FileName"];
             this.buildingdetails.AmountDepositedFileUploadPath = data['Data'][0]["FilePath"];
           }
           else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload') {
             this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]["FileName"];
-            this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]["FileName"];
+            this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]["Dis_FileName"];
             this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = data['Data'][0]["FilePath"];
           }
           else if (Type == 'GATEYearBalanceSecretFileUpload') {
             this.buildingdetails.GATEYearBalanceSecretFileUpload = data['Data'][0]["FileName"];
-            this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = data['Data'][0]["FileName"];
+            this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = data['Data'][0]["Dis_FileName"];
             this.buildingdetails.GATEYearBalanceSecretFileUploadPath = data['Data'][0]["FilePath"];
           }
           else if (Type == 'OtherFinancialResourcesFileUpload') {
             this.buildingdetails.OtherFinancialResourcesFileUpload = data['Data'][0]["FileName"];
-            this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]["FileName"];
+            this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]["Dis_FileName"];
             this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]["FilePath"];
           }
         }

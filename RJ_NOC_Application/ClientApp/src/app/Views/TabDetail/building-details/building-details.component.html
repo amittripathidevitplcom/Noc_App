@@ -442,7 +442,7 @@
                   <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (change)="onFilechange($event,item)" />
                   <label class="btn upload" for="fileLandDocument_{{item.DID}}">
                     <span class="filename">Choose file</span>
-                    {{item.FileName === '' ? 'No File Choosen' : item.FileName}}
+                    {{item.Dis_FileName === '' ? 'No File Choosen' : item.Dis_FileName}}
                   </label>
                   <div class="btn-group" *ngIf="item.FileName !== ''">
                     <a class="btn btn-outline-primary" target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a>

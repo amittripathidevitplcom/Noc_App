@@ -292,5 +292,6 @@ export class DocuemntBuildingDetailsDataModel {
   public DocumentName: string = '';
   public FilePath: string = '';
   public FileName: string = '';
+  public Dis_FileName: string = '';
   public Isfile: boolean = false;
 }
