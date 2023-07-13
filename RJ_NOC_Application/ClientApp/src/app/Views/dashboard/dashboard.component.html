@@ -15,6 +15,13 @@
 </div>
 
 
+
+
+
+
+
+
+
 <div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==0">
   <div class="row">
     <div class="col-lg-2 col-md-4 col-sm-6 col-12">
@@ -100,22 +107,22 @@
         <a routerLink="/deficiencymarked">View more <i class="fa fa-chevron-circle-right"></i></a>
       </div>
     </div>-->
-  <div class="col-lg-2 col-md-4 col-sm-6 col-12">
-    <div class="card staticsCards">
-      <div class="card-body">
-        <div class="">
-          <div class="dashCardIcon">
-            <i class="fa fa-bank"></i>
-          </div>
-          <div class="dashCardContent">
-            <h4>Total Legal Entity</h4>
-            <h2>{{dashboardDataModel.TotalLegalEntity}}</h2>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-bank"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Total Legal Entity</h4>
+              <h2>{{dashboardDataModel.TotalLegalEntity}}</h2>
+            </div>
           </div>
         </div>
+        <a routerLink="/totallegalentitypreview">View more <i class="fa fa-chevron-circle-right"></i></a>
       </div>
-      <a routerLink="/totallegalentitypreview">View more <i class="fa fa-chevron-circle-right"></i></a>
     </div>
-  </div>
 
     <div class="col-lg-2 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -171,3 +178,30 @@
     </div>
   </div>
 </div>
+
+<!--secatory Dashboard Start && this.sSOLoginDataModel.RoleName =='secretary'-->
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleName.toLowerCase() =='secretary'">
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/jointapplicationlist" style="background: none;">{{dashboardDataModel.secretary_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="#" style="background: none;"><h2>{{dashboardDataModel.secretary_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--secatory Dashboard Start-->

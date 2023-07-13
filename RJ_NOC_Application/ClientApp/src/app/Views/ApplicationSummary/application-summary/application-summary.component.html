@@ -15,6 +15,7 @@
   </div>
 </div>
 <div class="container-fluid mainContents">
+  <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
   <div class="row">
     <div class="col-md-12">
       <div class="row align-items-center">
@@ -80,8 +81,14 @@
             <!--Hostel Details-->
             <app-preview-hostel-details></app-preview-hostel-details>
           </div>
-        </div>
+
+          <div class="row">
+            <!--Payment Details-->
+            <app-preview-payment-detail></app-preview-payment-detail>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
+</div>

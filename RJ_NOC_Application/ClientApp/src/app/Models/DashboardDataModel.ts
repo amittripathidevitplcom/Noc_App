@@ -12,5 +12,8 @@ export class DashboardDataModel {
   public Clerk_Reverted: number = 0;
   public Clerk_Completed: number = 0;
 
+  //secretary
+  public secretary_Pending: number = 0;
+  public secretary_Completed: number = 0;
    
 }

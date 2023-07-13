@@ -17,6 +17,7 @@ export class RequestParameter
   public OFFICECODE: string = '';
   public REVENUEHEAD: string = '';
   public CHECKSUM: string = '';
+  public CreatedDate: string = '';
 }
 
 export class ResponseParameters {
@@ -37,6 +38,7 @@ export class ResponseParameters {
   public UDF2: string = '';
   public UDF3: string = '';
   public CHECKSUM: string = '';
+  public CreatedDate: string = '';
 }
 
 

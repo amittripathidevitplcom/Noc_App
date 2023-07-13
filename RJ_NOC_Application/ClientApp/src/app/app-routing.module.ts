@@ -84,6 +84,11 @@ import { ApplyNOCFDRDetailsComponent } from './Views/Master/apply-nocfdrdetails/
 import { NocPaymentComponent } from './Views/noc-payment/payment-request/noc-payment.component';
 import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/payment-success.component'
 import { DocumentScrutinyReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-completed-report/document-scrutiny-completed-report.component';
+import { PreviewPaymentDetailComponent } from './Views/PreviewTabs/preview-payment-detail/preview-payment-detail.component';
+import { DocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
+import { JointApplicationListComponent } from './Views/joint-application-list/joint-application-list.component'
+
+
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -361,6 +366,17 @@ const routes: Routes = [
       },
       {
         path: 'documentscrutinycompletedreport', component: DocumentScrutinyReportComponent
+      },
+
+      {
+        path: 'previewpaymentDetail', component: PreviewPaymentDetailComponent
+      },
+
+      {
+        path: 'checklistpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: DocumentScrutinyCheckListDetailsComponent
+      },
+      {
+        path: 'jointapplicationlist', component: JointApplicationListComponent
       },
 
     ]
