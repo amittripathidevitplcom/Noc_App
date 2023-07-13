@@ -7,7 +7,7 @@
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Role</a></li>
+          <li class="breadcrumb-item"><a href="/addrolemaster">Role</a></li>
           <li class="breadcrumb-item active" aria-current="page">User Role Rights</li>
         </ol>
       </nav>
@@ -93,10 +93,12 @@
 
               <div class="col-sm-12">
                 <div class="form-group text-end">
-                  <button  name="btnSave" id="btnSave" class="btn btn-primary" (click)="SaveData()">
+                  <button name="btnSave" id="btnSave" class="btn btn-primary" (click)="SaveData()">
                     Save
                   </button>
-       
+                  <button type="button" class="btn btn-danger" name="btnReset" id="btnReset" (click)="ResetControl()" style="margin-left:10px">
+                    Reset
+                  </button>
                 </div>
               </div>
 
