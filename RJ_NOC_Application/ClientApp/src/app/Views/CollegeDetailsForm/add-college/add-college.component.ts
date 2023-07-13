@@ -126,6 +126,7 @@ export class AddCollegeComponent implements OnInit {
         txtGCD_LandlineNumber: ['', [Validators.pattern(this.MobileNoRegex)]],
         txtTGC_Latitude: [''],
         txtTGC_Longitude: [''],
+        fCollegeLogo: [''],
       })
 
     this.CollegeDetailsForm_ContactDetails = this.formBuilder.group(

@@ -3,7 +3,7 @@
     <b><i class="bi bi-table"></i>&nbsp; Facilitie Details</b>
   </div>
   <div class="card-body">
-    <div class="row" *ngIf="FacilitiesDataAllList.length>0">
+    <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="table-responsive">
           <table class="table table-bordered table-hover table-striped">
@@ -62,7 +62,7 @@
                 </td>
               </tr>
               <tr *ngIf="FacilitiesDataAllList.length<=0">
-                <td colspan="2" style="color:red">No Data Found.!</td>
+                <td colspan="6" style="color:red">No Data Found.!</td>
               </tr>
             </tbody>
           </table>

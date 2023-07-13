@@ -1058,7 +1058,11 @@ export class HospitalDetailComponent implements OnInit {
     this.requestNot.AffiliationPsychiatricBeds = 0;
     this.requestNot.AffiliatedHospitalAffiliationToOtherID = null;
     this.requestNot.ParentNotDocument = '';
+    this.requestNot.Dis_ParentNotDocument = '';
+    this.requestNot.ParentNotDocumentPath = '';
     this.requestNot.ConsentForm = '';
+    this.requestNot.Dis_ConsentForm = '';
+    this.requestNot.ConsentFormPath = '';
 
 
     this.requestNot.AddressLine1 = '';
@@ -1279,12 +1283,12 @@ export class HospitalDetailComponent implements OnInit {
             // Whether the affiliated hospital has affiliation with any other institution in the past or not
             this.IsAffiliatedHospitalAffiliationToOtherOrNot(this.requestNot.AffiliatedHospitalAffiliationToOtherID == 1 ? true : false);
             // document
-            if (this.requestNot.ParentNotDocument != '') {
-              await this.ResetFileAndValidation('ParentNotDocument', '', this.requestNot.ParentNotDocument, true);
+            if (this.requestNot.ParentNotDocument != '' || this.requestNot.Dis_ParentNotDocument != '' || this.requestNot.ParentNotDocumentPath != '') {
+              await this.ResetFileAndValidation('ParentNotDocument', '', this.requestNot.ParentNotDocument, this.requestNot.Dis_ParentNotDocument, this.requestNot.ParentNotDocumentPath, true);
             }
             // consent form
-            if (this.requestNot.ConsentForm != '') {
-              await this.ResetFileAndValidation('ConsentForm', '', this.requestNot.ConsentForm, true);
+            if (this.requestNot.ConsentForm != '' || this.requestNot.Dis_ConsentForm != '' || this.requestNot.ConsentFormPath != '') {
+              await this.ResetFileAndValidation('ConsentForm', '', this.requestNot.ConsentForm, this.requestNot.Dis_ConsentForm, this.requestNot.ConsentFormPath, true);
             }
           }
           //console.log(this.request.RuralUrban);
@@ -1308,16 +1312,16 @@ export class HospitalDetailComponent implements OnInit {
       ) {
         //size validation
         if (this.file.size > 2000000) {
-          this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', false);
+          this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
           return
         }
         if (this.file.size < 100000) {
-          this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', false);
+          this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
           return
         }
       }
       else {// type validation
-        this.ResetFileAndValidation(Type, 'Select Only ' + (Type == 'ConsentForm' ? 'pdf file' : 'jpg/jpeg'), '', false);
+        this.ResetFileAndValidation(Type, 'Select Only ' + (Type == 'ConsentForm' ? 'pdf file' : 'jpg/jpeg'), '', '', '', false);
         return
       }
       // upload to server folder
@@ -1326,7 +1330,7 @@ export class HospitalDetailComponent implements OnInit {
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
-          this.ResetFileAndValidation(Type, '', data['Data'][0]["FilePath"], true);
+          this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], true);
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
@@ -1337,7 +1341,7 @@ export class HospitalDetailComponent implements OnInit {
       });
     }
     else {
-      this.ResetFileAndValidation(Type, '', '', false);
+      this.ResetFileAndValidation(Type, '', '', '', '', false);
     }
   }
 
@@ -1356,7 +1360,7 @@ export class HospitalDetailComponent implements OnInit {
       this.SuccessMessage = data['SuccessMessage'];
       this.ErrorMessage = data['ErrorMessage'];
       if (this.State == 0) {
-        this.ResetFileAndValidation(Type, '', '', false);
+        this.ResetFileAndValidation(Type, '', '', '', '', false);
       }
       if (this.State == 1) {
         this.toastr.error(this.ErrorMessage)
@@ -1367,17 +1371,21 @@ export class HospitalDetailComponent implements OnInit {
     });
   }
 
-  ResetFileAndValidation(type: string, msg: string, path: string, isShowFile: boolean) {
+  ResetFileAndValidation(type: string, msg: string, name: string, dis_name: string, path: string, isShowFile: boolean) {
     //event.target.value = '';
     if (type == 'ParentNotDocument') {
       this.showParentNotDocument = isShowFile;
       this.ParentNotDocumentValidationMessage = msg;
-      this.requestNot.ParentNotDocument = path;
+      this.requestNot.ParentNotDocument = name;
+      this.requestNot.Dis_ParentNotDocument = dis_name;
+      this.requestNot.ParentNotDocumentPath = path;
     }
     else if (type == 'ConsentForm') {
       this.showParentNotConsentForm = isShowFile;
       this.ParentNotConsentFormValidationMessage = msg;
-      this.requestNot.ConsentForm = path;
+      this.requestNot.ConsentForm = name;
+      this.requestNot.Dis_ConsentForm = dis_name;
+      this.requestNot.ConsentFormPath = path;
     }
   }
 

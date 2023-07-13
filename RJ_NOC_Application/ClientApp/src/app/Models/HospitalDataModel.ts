@@ -136,7 +136,11 @@ export class HospitalParentNotDataModel {// not have parent
   public AffiliationPsychiatricBeds: number = null;
   public AffiliatedHospitalAffiliationToOtherID: number = null;
   public ParentNotDocument: string = '';
+  public Dis_ParentNotDocument: string = '';
+  public ParentNotDocumentPath: string = '';
   public ConsentForm: string = '';
+  public Dis_ConsentForm: string = '';
+  public ConsentFormPath: string = '';
 
   public AddressLine1: string = null;
   public AddressLine2: string = null;

@@ -99,6 +99,11 @@
                 <td>{{row.IsPrimary}}</td>
                 <td>{{row.IsAuthorized}}</td>
               </tr>
+              <tr *ngIf="SocietyAllList.length==0">
+                <td colspan="20" style="color:red">
+                  No Data Found.!
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
