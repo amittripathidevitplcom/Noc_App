@@ -156,12 +156,30 @@
                       <p *ngIf="form.txtOwnBuildingOrderDate.errors.required"> This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtOwnBuildingUpload" class="form-label">Upload Own Building Document<span style="color:red;">*</span></label>
                     <div class="d-flex">
                       <input type="file" class="form-control" id="txtOwnBuildingUpload" name="txtOwnBuildingUpload" formControlName="txtOwnBuildingUpload" (change)="ValidateUploadImage($event,'OwnBuildingFileUpload')" #txtOwnBuildingUpload />
                       <div class="btn-group" *ngIf="showOwnBuildingFileUpload">
                         <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.OwnBuildingFileUpload}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('OwnBuildingFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&buildingdetails.OwnBuildingFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidOwnBuildingFileUpload" class="text-danger">
+                      <p *ngIf="isValidOwnBuildingFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>-->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtOwnBuildingUpload" class="form-label">Upload Own Building Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="txtOwnBuildingUpload" style="display:none" formControlName="txtOwnBuildingUpload" (change)="ValidateUploadImage($event,'OwnBuildingFileUpload')" #txtOwnBuildingUpload />
+                      <label class="btn upload" for="txtOwnBuildingUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.OwnBuildingFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_OwnBuildingFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.OwnBuildingFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.OwnBuildingFileUploadPath}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('OwnBuildingFileUpload')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
@@ -194,12 +212,30 @@
                       <p *ngIf="form.txtToDate.errors.required"> This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtFireNOCUpload" class="form-label">Upload Fire NOC Document<span style="color:red;">*</span></label>
                     <div class="d-flex">
                       <input type="file" class="form-control" id="txtFireNOCUpload" name="txtFireNOCUpload" formControlName="txtFireNOCUpload" (change)="ValidateUploadImage($event,'FireNOCFileUpload')" #txtFireNOCUpload />
                       <div class="btn-group" *ngIf="showFireNOCFileUpload">
                         <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.FireNOCFileUpload}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FireNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&buildingdetails.FireNOCFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidFireNOCFileUpload" class="text-danger">
+                      <p *ngIf="isValidFireNOCFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>-->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtFireNOCUpload" class="form-label">Upload Fire NOC Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="txtFireNOCUpload" style="display:none" formControlName="txtFireNOCUpload" (change)="ValidateUploadImage($event,'FireNOCFileUpload')" #txtFireNOCUpload />
+                      <label class="btn upload" for="txtFireNOCUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.FireNOCFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_FireNOCFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.FireNOCFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.FireNOCFileUploadPath}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FireNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
@@ -239,12 +275,30 @@
                       <p *ngIf="form.txtExpiringOn.errors.required"> This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtPWDNOCFileUpload" class="form-label">Upload PWD NOC Document<span style="color:red;">*</span></label>
                     <div class="d-flex">
                       <input type="file" class="form-control" id="txtPWDNOCFileUpload" name="txtPWDNOCFileUpload" formControlName="txtPWDNOCFileUpload" (change)="ValidateUploadImage($event,'PWDNOCFileUpload')" #txtPWDNOCFileUpload />
                       <div class="btn-group" *ngIf="showPWDNOCFileUpload">
                         <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.PWDNOCFileUpload}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PWDNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&buildingdetails.PWDNOCFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidPWDNOCFileUpload" class="text-danger">
+                      <p *ngIf="isValidPWDNOCFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>-->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtPWDNOCFileUpload" class="form-label">Upload PWD NOC Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="txtPWDNOCFileUpload" style="display:none" formControlName="txtPWDNOCFileUpload" (change)="ValidateUploadImage($event,'PWDNOCFileUpload')" #txtPWDNOCFileUpload />
+                      <label class="btn upload" for="txtPWDNOCFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.PWDNOCFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_PWDNOCFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.PWDNOCFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.PWDNOCFileUploadPath}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PWDNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
@@ -273,7 +327,7 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="TotalProjectCostFileUpload" class="form-label">Upload Total Project Cost Document<span style="color:red;">*</span></label>
                     <div class="d-flex">
-                      <input type="file" class="form-control" id="TotalProjectCostFileUpload" style="display:none"  formControlName="TotalProjectCostFileUpload" (change)="DescriptionValidateUploadImage($event,'TotalProjectCostFileUpload')" #TotalProjectCostFileUpload />
+                      <input type="file" class="form-control" id="TotalProjectCostFileUpload" style="display:none" formControlName="TotalProjectCostFileUpload" (change)="DescriptionValidateUploadImage($event,'TotalProjectCostFileUpload')" #TotalProjectCostFileUpload />
                       <label class="btn upload" for="TotalProjectCostFileUpload">
                         <span class="filename">Choose file</span>
                         {{buildingdetails.TotalProjectCostFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_TotalProjectCostFileUpload}}
@@ -299,7 +353,7 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="SourceCostAmountFileUpload" class="form-label">Upload Source Cost Amount Document<span style="color:red;">*</span></label>
                     <div class="d-flex">
-                      <input type="file" class="form-control" id="SourceCostAmountFileUpload" style="display:none"  formControlName="SourceCostAmountFileUpload" (change)="DescriptionValidateUploadImage($event,'SourceCostAmountFileUpload')" #SourceCostAmountFileUpload />
+                      <input type="file" class="form-control" id="SourceCostAmountFileUpload" style="display:none" formControlName="SourceCostAmountFileUpload" (change)="DescriptionValidateUploadImage($event,'SourceCostAmountFileUpload')" #SourceCostAmountFileUpload />
                       <label class="btn upload" for="SourceCostAmountFileUpload">
                         <span class="filename">Choose file</span>
                         {{buildingdetails.SourceCostAmountFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_SourceCostAmountFileUpload}}
@@ -323,11 +377,11 @@
                     <div *ngIf="isSubmitted&&form.txtAmountDeposited.errors" class="text-danger">
                       <p *ngIf="form.txtAmountDeposited.errors.required"> This field is required .!</p>
                     </div>
-                  </div>                  
+                  </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="AmountDepositedFileUpload" class="form-label">Upload Amount Deposited Document<span style="color:red;">*</span></label>
                     <div class="d-flex">
-                      <input type="file" class="form-control" id="AmountDepositedFileUpload" style="display:none"  formControlName="AmountDepositedFileUpload" (change)="DescriptionValidateUploadImage($event,'AmountDepositedFileUpload')" #AmountDepositedFileUpload />
+                      <input type="file" class="form-control" id="AmountDepositedFileUpload" style="display:none" formControlName="AmountDepositedFileUpload" (change)="DescriptionValidateUploadImage($event,'AmountDepositedFileUpload')" #AmountDepositedFileUpload />
                       <label class="btn upload" for="AmountDepositedFileUpload">
                         <span class="filename">Choose file</span>
                         {{buildingdetails.AmountDepositedFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_AmountDepositedFileUpload}}
@@ -349,11 +403,11 @@
                     <div *ngIf="isSubmitted&&form.txtOtherFixedAssetsAndSecurities.errors" class="text-danger">
                       <p *ngIf="form.txtOtherFixedAssetsAndSecurities.errors.required"> This field is required .!</p>
                     </div>
-                  </div>                  
+                  </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="OtherFixedAssetsAndSecuritiesFileUpload" class="form-label">Upload Other Fixed Assets/Securities Document<span style="color:red;">*</span></label>
                     <div class="d-flex">
-                      <input type="file" class="form-control" id="OtherFixedAssetsAndSecuritiesFileUpload" style="display:none"  formControlName="OtherFixedAssetsAndSecuritiesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFixedAssetsAndSecuritiesFileUpload')" #OtherFixedAssetsAndSecuritiesFileUpload />
+                      <input type="file" class="form-control" id="OtherFixedAssetsAndSecuritiesFileUpload" style="display:none" formControlName="OtherFixedAssetsAndSecuritiesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFixedAssetsAndSecuritiesFileUpload')" #OtherFixedAssetsAndSecuritiesFileUpload />
                       <label class="btn upload" for="OtherFixedAssetsAndSecuritiesFileUpload">
                         <span class="filename">Choose file</span>
                         {{buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload}}
@@ -381,7 +435,7 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="GATEYearBalanceSecretFileUpload" class="form-label">Upload GATE Year Balance Secret Document<span style="color:red;">*</span></label>
                     <div class="d-flex">
-                      <input type="file" class="form-control" id="GATEYearBalanceSecretFileUpload" style="display:none"  formControlName="GATEYearBalanceSecretFileUpload" (change)="DescriptionValidateUploadImage($event,'GATEYearBalanceSecretFileUpload')" #GATEYearBalanceSecretFileUpload />
+                      <input type="file" class="form-control" id="GATEYearBalanceSecretFileUpload" style="display:none" formControlName="GATEYearBalanceSecretFileUpload" (change)="DescriptionValidateUploadImage($event,'GATEYearBalanceSecretFileUpload')" #GATEYearBalanceSecretFileUpload />
                       <label class="btn upload" for="GATEYearBalanceSecretFileUpload">
                         <span class="filename">Choose file</span>
                         {{buildingdetails.GATEYearBalanceSecretFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_GATEYearBalanceSecretFileUpload}}
@@ -407,7 +461,7 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="OtherFinancialResourcesFileUpload" class="form-label">Upload Other Financial Resources Document<span style="color:red;">*</span></label>
                     <div class="d-flex">
-                      <input type="file" class="form-control" id="OtherFinancialResourcesFileUpload" style="display:none"  formControlName="OtherFinancialResourcesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFinancialResourcesFileUpload')" #OtherFinancialResourcesFileUpload />
+                      <input type="file" class="form-control" id="OtherFinancialResourcesFileUpload" style="display:none" formControlName="OtherFinancialResourcesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFinancialResourcesFileUpload')" #OtherFinancialResourcesFileUpload />
                       <label class="btn upload" for="OtherFinancialResourcesFileUpload">
                         <span class="filename">Choose file</span>
                         {{buildingdetails.OtherFinancialResourcesFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_OtherFinancialResourcesFileUpload}}
@@ -542,9 +596,9 @@
                     <td>{{item.OtherFixedAssetsAndSecurities}}</td>
                     <td>{{item.GATEYearBalanceSecret}}</td>
                     <td>{{item.OtherFinancialResources}}</td>
-                    <td><a target="_blank" href="{{item.OwnBuildingFileUpload}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.FireNOCFileUpload}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.PWDNOCFileUpload}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.OwnBuildingFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.FireNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.PWDNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td><a target="_blank" href="{{item.TotalProjectCostFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td><a target="_blank" href="{{item.SourceCostAmountFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td><a target="_blank" href="{{item.AmountDepositedFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
