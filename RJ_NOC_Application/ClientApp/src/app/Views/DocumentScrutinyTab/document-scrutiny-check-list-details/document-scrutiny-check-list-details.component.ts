@@ -135,6 +135,16 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
 
   public CheckFinalRemark: string = '';
 
+  public UserRoleList: any[] = [];
+  public UserListRoleWise: any[] = [];
+
+
+  public NextRoleID: number = 0;
+  public NextUserID: number = 0;
+
+
+
+
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
@@ -161,45 +171,10 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetAcademicInformationDetailAllList();
     this.GetOtherDocuments('Other Document');
     this.GetHospitalDataList();
-   
+    this.GetRoleListForApporval();
   }
 
-  async DocumentScrutiny(ActionType: string) {
-    this.isRemarkValid = false;
-    try {
-      if (this.CheckFinalRemark == '') {
-        this.isRemarkValid = true;
-        return;
-      }
-      this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/applynocapplicationlist']);
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
+  
   // Start Land Details
 
   async GetLandDetailsDataList() {
@@ -602,6 +577,93 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     }
   }
     //End Hospital Details
+
+
+    //Document  Post Section
+  async DocumentScrutiny(ActionType: string) {
+    this.isRemarkValid = false;
+    try {
+      if (this.CheckFinalRemark == '') {
+        this.isRemarkValid = true;
+        return;
+      }
+      this.loaderService.requestStarted();
+      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.toastr.success(this.SuccessMessage);
+            this.routers.navigate(['/applynocapplicationlist']);
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+  async GetRoleListForApporval() {
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID )
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0)
+          {
+            this.UserRoleList = data['Data'];
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async GetUserDetailsByRoleID()
+  {
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.UserListRoleWise = data['Data'];
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 
 
 
