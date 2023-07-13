@@ -57,7 +57,7 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>Hospital Contact No. <span style="color:red;">*</span></label>
-            <input type="number" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="request.HospitalContactNo" formControlName="txtHospitalContactNo" (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
+            <input type="number" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="request.HospitalContactNo" formControlName="txtHospitalContactNo" (keypress)="MaxLengthValidation_KeyPress($event,10);" />
             <div *ngIf="isSubmitted&&form.txtHospitalContactNo.errors" class="text-danger">
               <p *ngIf="form.txtHospitalContactNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
               <p *ngIf="form.txtHospitalContactNo.errors.pattern"><i aria-hidden="true"></i> Hospital Contact number is not valid .!</p>
@@ -150,7 +150,7 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label class="form-label">Pincode <span style="color:red;">*</span></label>
-            <input type="number" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode"  (keypress)="MaxLengthValidation_KeyPress($event,6);">
+            <input type="number" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" (keypress)="MaxLengthValidation_KeyPress($event,6);">
             <div *ngIf="isSubmitted&&form.txtPincode.errors" class="text-danger">
               <p *ngIf="form.txtPincode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
               <p *ngIf="form.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -507,7 +507,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Manage by Contact No. <span style="color:red;">*</span></label>
-                  <input class="form-control" type="number" id="txtManageByPhone" name="txtManageByPhone" formControlName="txtManageByPhone" [(ngModel)]="request.ManageByPhone" (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
+                  <input class="form-control" type="number" id="txtManageByPhone" name="txtManageByPhone" formControlName="txtManageByPhone" [(ngModel)]="request.ManageByPhone" (keypress)="MaxLengthValidation_KeyPress($event,10);" />
                   <div *ngIf="isSubmitted&&form.txtManageByPhone.errors" class="text-danger">
                     <p *ngIf="form.txtManageByPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtManageByPhone.errors.pattern"><i aria-hidden="true"></i> Manage by Contact number is not valid .!</p>
@@ -592,7 +592,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                  <input type="number" class="form-control" id="txtPincode_ManageBy" name="txtPincode_ManageBy" [(ngModel)]="request.Pincode_ManageBy" formControlName="txtPincode_ManageBy"  (keypress)="MaxLengthValidation_KeyPress($event,6);">
+                  <input type="number" class="form-control" id="txtPincode_ManageBy" name="txtPincode_ManageBy" [(ngModel)]="request.Pincode_ManageBy" formControlName="txtPincode_ManageBy" (keypress)="MaxLengthValidation_KeyPress($event,6);">
                   <div *ngIf="isSubmitted&&form.txtPincode_ManageBy.errors" class="text-danger">
                     <p *ngIf="form.txtPincode_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtPincode_ManageBy.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -621,7 +621,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Owner Contact No. <span style="color:red;">*</span></label>
-                  <input class="form-control" type="number" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="request.OwnerPhone" (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
+                  <input class="form-control" type="number" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="request.OwnerPhone" (keypress)="MaxLengthValidation_KeyPress($event,10);" />
                   <div *ngIf="isSubmitted&&form.txtOwnerPhone.errors" class="text-danger">
                     <p *ngIf="form.txtOwnerPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtOwnerPhone.errors.pattern"><i aria-hidden="true"></i> Owner Contact number is not valid .!</p>
@@ -750,7 +750,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label>Organization Contact No. <span style="color:red;">*</span></label>
-                    <input class="form-control" type="number" id="txtOrganizationPhone" name="txtOrganizationPhone" formControlName="txtOrganizationPhone" [(ngModel)]="request.OrganizationPhone"  (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
+                    <input class="form-control" type="number" id="txtOrganizationPhone" name="txtOrganizationPhone" formControlName="txtOrganizationPhone" [(ngModel)]="request.OrganizationPhone" (keypress)="MaxLengthValidation_KeyPress($event,10);" />
                     <div *ngIf="isSubmitted&&form.txtOrganizationPhone.errors" class="text-danger">
                       <p *ngIf="form.txtOrganizationPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form.txtOrganizationPhone.errors.pattern"><i aria-hidden="true"></i> Organization Contact number is not valid .!</p>
@@ -835,7 +835,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtPincode_Other" name="txtPincode_Other" [(ngModel)]="request.Pincode_Other" formControlName="txtPincode_Other"  (keypress)="MaxLengthValidation_KeyPress($event,6);">
+                    <input type="number" class="form-control" id="txtPincode_Other" name="txtPincode_Other" [(ngModel)]="request.Pincode_Other" formControlName="txtPincode_Other" (keypress)="MaxLengthValidation_KeyPress($event,6);">
                     <div *ngIf="isSubmitted&&form.txtPincode_Other.errors" class="text-danger">
                       <p *ngIf="form.txtPincode_Other.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form.txtPincode_Other.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -961,7 +961,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Hospital Contact No. <span style="color:red;">*</span></label>
-                  <input type="number" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="requestNot.HospitalContactNo" formControlName="txtHospitalContactNo" (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
+                  <input type="number" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="requestNot.HospitalContactNo" formControlName="txtHospitalContactNo" (keypress)="MaxLengthValidation_KeyPress($event,10);" />
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtHospitalContactNo.errors" class="text-danger">
                     <p *ngIf="form_ParentNot.txtHospitalContactNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form_ParentNot.txtHospitalContactNo.errors.pattern"><i aria-hidden="true"></i> Hospital Contact number is not valid .!</p>
@@ -1061,7 +1061,7 @@
                   </div>
                 </div>
                 <!-- end -->
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
+                <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                   <label class="form-label">Document </label>
                   <div class="d-flex">
                     <input type="file" class="form-control" id="fParentNotDocument" name="fParentNotDocument"
@@ -1069,6 +1069,23 @@
                            formControlName="fParentNotDocument" (change)="onFilechange($event,'ParentNotDocument')" />
                     <div class="btn-group" *ngIf="showParentNotDocument">
                       <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ParentNotDocument}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ParentNotDocument')"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <div *ngIf="ParentNotDocumentValidationMessage!=''" class="text-danger">
+                    <p><i aria-hidden="true"></i>{{ParentNotDocumentValidationMessage}}</p>
+                  </div>
+                </div>-->
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
+                  <label for="fParentNotDocument" class="form-label">Document</label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fParentNotDocument" style="display:none" formControlName="fParentNotDocument" (change)="onFilechange($event,'ParentNotDocument')" #fParentNotDocument />
+                    <label class="btn upload" for="fParentNotDocument">
+                      <span class="filename">Choose file</span>
+                      {{requestNot.ParentNotDocument === '' ? 'No File Choosen' : requestNot.Dis_ParentNotDocument}}
+                    </label>
+                    <div class="btn-group" *ngIf="requestNot.ParentNotDocument!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ParentNotDocumentPath}}"><i class="fa fa-eye"></i></a>
                       <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ParentNotDocument')"><i class="fa fa-trash-o"></i></button>
                     </div>
                   </div>
@@ -1092,12 +1109,29 @@
                       <p *ngIf="form_ParentNot.rbAffiliatedHospitalAffiliationToOtherID.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;" [hidden]="!IsAffiliatedHospitalAffiliationToOther">
+                  <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;" [hidden]="!IsAffiliatedHospitalAffiliationToOther">
                     <label class="form-label">Consent form </label>
                     <div class="d-flex">
                       <input type="file" class="form-control" id="fConsentForm" name="fConsentForm" [(ngModel)]="requestNot.ConsentForm" formControlName="fConsentForm" (change)="onFilechange($event,'ConsentForm')" />
                       <div class="btn-group" *ngIf="showParentNotConsentForm">
                         <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ConsentForm}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ConsentForm')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="ParentNotConsentFormValidationMessage!=''" class="text-danger">
+                      <p><i aria-hidden="true"></i>{{ParentNotConsentFormValidationMessage}}</p>
+                    </div>
+                  </div>-->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
+                    <label for="fConsentForm" class="form-label">Consent form</label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fConsentForm" style="display:none" formControlName="fConsentForm" (change)="onFilechange($event,'ConsentForm')" #fConsentForm />
+                      <label class="btn upload" for="fConsentForm">
+                        <span class="filename">Choose file</span>
+                        {{requestNot.ConsentForm === '' ? 'No File Choosen' : requestNot.Dis_ConsentForm}}
+                      </label>
+                      <div class="btn-group" *ngIf="requestNot.ConsentForm!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ConsentFormPath}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ConsentForm')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
@@ -1192,7 +1226,7 @@
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label>Manage by Contact No. <span style="color:red;">*</span></label>
-                        <input class="form-control" type="number" id="txtManageByPhone" name="txtManageByPhone" formControlName="txtManageByPhone" [(ngModel)]="requestNot.ManageByPhone" (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
+                        <input class="form-control" type="number" id="txtManageByPhone" name="txtManageByPhone" formControlName="txtManageByPhone" [(ngModel)]="requestNot.ManageByPhone" (keypress)="MaxLengthValidation_KeyPress($event,10);" />
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtManageByPhone.errors" class="text-danger">
                           <p *ngIf="form_ParentNot.txtManageByPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                           <p *ngIf="form_ParentNot.txtManageByPhone.errors.pattern"><i aria-hidden="true"></i> Manage by Contact number is not valid .!</p>
@@ -1306,7 +1340,7 @@
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label>Owner Contact No. <span style="color:red;">*</span></label>
-                        <input class="form-control" type="number" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="requestNot.OwnerPhone"  (keypress)="MaxLengthValidation_KeyPress($event,10);"/>
+                        <input class="form-control" type="number" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="requestNot.OwnerPhone" (keypress)="MaxLengthValidation_KeyPress($event,10);" />
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOwnerPhone.errors" class="text-danger">
                           <p *ngIf="form_ParentNot.txtOwnerPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                           <p *ngIf="form_ParentNot.txtOwnerPhone.errors.pattern"><i aria-hidden="true"></i> Owner Contact number is not valid .!</p>
@@ -1391,7 +1425,7 @@
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                        <input type="number" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="requestNot.Pincode_Owner" formControlName="txtPincode_Owner"  (keypress)="MaxLengthValidation_KeyPress($event,6);">
+                        <input type="number" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="requestNot.Pincode_Owner" formControlName="txtPincode_Owner" (keypress)="MaxLengthValidation_KeyPress($event,6);">
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPincode_Owner.errors" class="text-danger">
                           <p *ngIf="form_ParentNot.txtPincode_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                           <p *ngIf="form_ParentNot.txtPincode_Owner.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -1462,10 +1496,10 @@
                               {{row.OccupancyPercentegeBeds}}
                             </td>
                             <td>
-                              <a *ngIf="row.ParentNotDocument!=''" class="btn-outline-primary" target="_blank" href="{{row.ParentNotDocument}}"><i class="fa fa-eye"></i></a>
+                              <a *ngIf="row.ParentNotDocument!=''" class="btn-outline-primary" target="_blank" href="{{row.ParentNotDocumentPath}}"><i class="fa fa-eye"></i></a>
                             </td>
                             <td>
-                              <a *ngIf="row.ConsentForm!=''" class="btn-outline-primary" target="_blank" href="{{row.ConsentForm}}"><i class="fa fa-eye"></i></a>
+                              <a *ngIf="row.ConsentForm!=''" class="btn-outline-primary" target="_blank" href="{{row.ConsentFormPath}}"><i class="fa fa-eye"></i></a>
                             </td>
                             <td>
                               <div class="d-flex">

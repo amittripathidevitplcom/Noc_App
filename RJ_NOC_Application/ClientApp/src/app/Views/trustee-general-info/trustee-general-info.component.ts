@@ -211,11 +211,11 @@ export class TrusteeGeneralInfoComponent implements OnInit {
             this.request = JSON.parse(JSON.stringify(data['Data']));
 
             // Society Registration Document
-            if (this.request.SocietyRegistrationDocument != '') {
+            if (this.request.SocietyRegistrationDocument != '' || this.request.Dis_SocietyRegistrationDocument != '' || this.request.SocietyRegistrationDocumentPath != '') {
               await this.ResetFileAndValidation('SocietyRegistrationDocument', '', this.request.SocietyRegistrationDocument, this.request.Dis_SocietyRegistrationDocument, this.request.SocietyRegistrationDocumentPath, true);
             }
             // Society Logo
-            if (this.request.SocietyLogo != '') {
+            if (this.request.SocietyLogo != '' || this.request.Dis_SocietyLogo != '' || this.request.SocietyLogoPath != '') {
               await this.ResetFileAndValidation('SocietyLogo', '', this.request.SocietyLogo, this.request.Dis_SocietyLogo, this.request.SocietyLogoPath, true);
             }
           }
