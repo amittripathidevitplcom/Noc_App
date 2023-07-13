@@ -27,7 +27,6 @@ export class DocumentScrutinyReportComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    //this.sSOLoginDataModel.RoleID = 0;
     console.log(this.sSOLoginDataModel.RoleID);
     await this.GetDocumentScrutinyCompletedReportRoleWise(this.UserID);
   }

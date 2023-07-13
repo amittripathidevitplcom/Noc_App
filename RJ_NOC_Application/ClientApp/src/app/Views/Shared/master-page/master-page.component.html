@@ -52,7 +52,8 @@
                   <img src="assets/images/userImg.jpg" class="userImg" />
                   <div>
                     <b class="d-block">{{UserName}}</b>
-                    <span class="d-block">{{sSOLoginDataModel.SSOID}}</span>
+                    
+                    <span class="d-block" *ngIf="sSOLoginDataModel">{{sSOLoginDataModel.SSOID}}</span>
                   </div>
                 </div>
               </a>

@@ -90,12 +90,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { GlobalConstants } from '../../../Common/GlobalConstants';
 import { SSOLandingDataDataModel, SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
-
-
 
 @Component({
   selector: 'app-ssologin',
@@ -103,10 +102,8 @@ import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
   styleUrls: ['./ssologin.component.css']
 })
 
-
-
 export class SSOLoginComponent implements OnInit {
-  LoginType: any;
+  LoginType: any = "1";
   Username: any;
   sSOLoginDataModel = new SSOLoginDataModel();
   sSOLandingDataDataModel = new SSOLandingDataDataModel();
@@ -115,11 +112,7 @@ export class SSOLoginComponent implements OnInit {
   public ErrorMessage: any = [];
   public SSOjson: any = [];
 
-
-
   constructor(private activatedRoute: ActivatedRoute, private sSOLoginService: SSOLoginService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private commonMasterService: CommonMasterService) { }
-
-
 
   init() {
     this.loaderService.getSpinnerObserver().subscribe((status) => {
@@ -128,14 +121,19 @@ export class SSOLoginComponent implements OnInit {
   }
 
 
-
   async ngOnInit() {
     //this.loaderService.requestStarted();
-   // this.Username = this.router.snapshot.queryParams.id1;
+    // this.Username = this.router.snapshot.queryParams.id1;
     //this.LoginType = this.router.snapshot.queryParams.id2;
-     
+    debugger;
     this.Username = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id1')?.toString());
     console.log(this.Username);
+    if (this.Username == undefined) {
+      this.Username = this.router.snapshot.queryParams.id1;
+
+    }
+
+    debugger;
     // this.LoginType = this.router.snapshot.queryParams.id1;
     await this.Citizenlogin(this.Username, this.LoginType);
     //setTimeout(() => {
@@ -144,46 +142,65 @@ export class SSOLoginComponent implements OnInit {
   }
 
 
-  public DepartmentID: number = 0;
-  public RoleID: number = 0;
-  public RoleName: string = '';
+  //public DepartmentID: number = 0;
+  //public RoleID: number = 0;
+  //public RoleName: string = '';
 
   async Citizenlogin(LoginSSOID: string, LoginType: string) {
     try {
-      //this.sSOLandingDataDataModel.Username = Username;
-      //this.sSOLandingDataDataModel.LoginType = LoginType;
-      
-      if (LoginSSOID == undefined || LoginSSOID == '' || LoginSSOID == 'NaN' || LoginSSOID.toString() == NaN.toString()) {
-        LoginSSOID = "RISHIKAPOORDELHI";
+      this.sSOLandingDataDataModel.Username = LoginSSOID;
+      this.sSOLandingDataDataModel.LoginType = this.LoginType;
 
+      if (LoginSSOID == undefined || LoginSSOID == '' || LoginSSOID == 'NaN' || LoginSSOID.toString() == NaN.toString()) {
+        //LoginSSOID = "RISHIKAPOORDELHI";
+        window.open(GlobalConstants.SSOURL, "_self");
       }
 
-      await this.commonMasterService.Check_SSOIDWise_LegalEntity(LoginSSOID)
+      await this.sSOLoginService.GetSSOUserLogionDetails(this.sSOLandingDataDataModel)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.sSOLoginDataModel = data['Data'];
+          }
+        }, error => console.error(error));
+      debugger;
+      if (this.sSOLoginDataModel.SSOID == '') {
+        window.open(GlobalConstants.SSOURL, "_self");
+        return;
+      }
+
+      await this.commonMasterService.Check_SSOIDWise_LegalEntity(this.sSOLoginDataModel.SSOID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           console.log(data);
           if (data['Data'][0]['data'].length > 0) {
-            
-            LoginSSOID = data['Data'][0]['data'][0]['SSOID'];
-            this.RoleID = data['Data'][0]['data'][0]['RoleID'];
-            this.RoleName = data['Data'][0]['data'][0]['RoleName'];
-            this.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+            debugger;
+            this.sSOLoginDataModel.SSOID = data['Data'][0]['data'][0]['SSOID'];
+            this.sSOLoginDataModel.RoleID = data['Data'][0]['data'][0]['RoleID'];
+            this.sSOLoginDataModel.RoleName = data['Data'][0]['data'][0]['RoleName'];
+            this.sSOLoginDataModel.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
           }
         }, error => console.error(error));
+      console.log(this.sSOLoginDataModel.RoleID);
+      if (this.sSOLoginDataModel.RoleID == 0) {
+        this.sSOLoginDataModel.RoleID = 0;
+      }
+      //this.SSOjson = "{\"SSOID\": \"" + LoginSSOID + "\",\"AadhaarId\": \"444088094507722\",\"BhamashahId\": null,\"BhamashahMemberId\": null,\"DisplayName\": \"RISHI KAPOOR\",\"DateOfBirth\": \"17/09/1991\",\"Gender\": \"MALE\",\"MobileNo\": null,\"TelephoneNumber\": \"07742860212\",\"IpPhone\": null,\"MailPersonal\": \"RISHIKAPOORDELHI@GMAIL.COM\",\"PostalAddress\": \"D-119D 119, GALI NO 6 GAUTAM MARG, NIRMAN NAGAR\",\"PostalCode\": \"302019\",\"l\": \"JAIPUR\",\"st\": \"RAJASTHAN\",\"Photo\": null,\"Designation\": \"CITIZEN\",\"Department\": \"GOOGLE\",\"MailOfficial\": null,\"EmployeeNumber\": null,\"DepartmentId\": null,\"FirstName\": \"RISHI\",\"LastName\": \"KAPOOR\",\"SldSSOIDs\": null,\"JanaadhaarId\": null,\"ManaadhaarMemberId\": null,\"UserType\": \"CITIZEN\",\"Mfa\": \"0\",\"RoleID\": \"" + this.RoleID + "\",\"RoleName\": \"" + this.RoleName + "\",\"DepartmentID\": \"" + this.DepartmentID + "\"} ";
+      debugger;
 
+      localStorage.setItem('SSOLoginUser', JSON.stringify(this.sSOLoginDataModel))
+      /// localStorage.setItem('SSOLoginUser', this.SSOjson)
 
-
-      this.SSOjson = "{\"SSOID\": \"" + LoginSSOID + "\",\"AadhaarId\": \"444088094507722\",\"BhamashahId\": null,\"BhamashahMemberId\": null,\"DisplayName\": \"RISHI KAPOOR\",\"DateOfBirth\": \"17/09/1991\",\"Gender\": \"MALE\",\"MobileNo\": null,\"TelephoneNumber\": \"07742860212\",\"IpPhone\": null,\"MailPersonal\": \"RISHIKAPOORDELHI@GMAIL.COM\",\"PostalAddress\": \"D-119D 119, GALI NO 6 GAUTAM MARG, NIRMAN NAGAR\",\"PostalCode\": \"302019\",\"l\": \"JAIPUR\",\"st\": \"RAJASTHAN\",\"Photo\": null,\"Designation\": \"CITIZEN\",\"Department\": \"GOOGLE\",\"MailOfficial\": null,\"EmployeeNumber\": null,\"DepartmentId\": null,\"FirstName\": \"RISHI\",\"LastName\": \"KAPOOR\",\"SldSSOIDs\": null,\"JanaadhaarId\": null,\"ManaadhaarMemberId\": null,\"UserType\": \"CITIZEN\",\"Mfa\": \"0\",\"RoleID\": \"" + this.RoleID + "\",\"RoleName\": \"" + this.RoleName + "\",\"DepartmentID\": \"" + this.DepartmentID + "\"} ";
-
-      localStorage.setItem('SSOLoginUser', this.SSOjson)
-      
       console.log(this.SSOjson);
 
       try {
         this.loaderService.requestStarted();
         this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
-        if (this.RoleName.length > 0) {
+        if (this.sSOLoginDataModel.RoleName.length > 0) {
           this.routers.navigate(['/dashboard']);
         }
         else {
@@ -199,11 +216,6 @@ export class SSOLoginComponent implements OnInit {
           this.loaderService.requestEnded();
         }, 200);
       }
-
-
-
-
-      // this.routers.navigate(['/legalentity']);
 
     }
     catch (Ex) {

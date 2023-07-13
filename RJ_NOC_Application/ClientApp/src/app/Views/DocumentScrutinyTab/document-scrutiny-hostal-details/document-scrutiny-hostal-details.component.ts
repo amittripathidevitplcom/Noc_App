@@ -52,7 +52,6 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
     this.SelectedDepartmentID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString())
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()))
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
-    this.sSOLoginDataModel.RoleID = 0;
     await this.GetHostelDetailList_DepartmentCollegeWise();
   }
 

@@ -60,7 +60,6 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
     this.SelectedDepartmentID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
-    //this.sSOLoginDataModel.RoleID = 0;
     await this.GetOldNOCDetailList_DepartmentCollegeWise(); 
 
   }

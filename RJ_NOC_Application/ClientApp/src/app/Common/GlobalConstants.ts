@@ -5,6 +5,8 @@ export class GlobalConstants {
   public static ApplicationTitle: string = "RJ_NOC";
 
   public static RPPRequstURL: string = "http://uat.rpp.rajasthan.gov.in/payments/v1/init"
+
+  public static SSOURL: string = "https://ssotest.rajasthan.gov.in/signin"
 }
 
 

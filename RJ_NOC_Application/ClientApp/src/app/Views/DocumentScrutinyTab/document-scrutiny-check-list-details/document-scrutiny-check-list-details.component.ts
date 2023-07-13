@@ -147,7 +147,6 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.sSOLoginDataModel.RoleID = 0;
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
 

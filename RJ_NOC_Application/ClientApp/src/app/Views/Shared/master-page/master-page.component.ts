@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { GlobalConstants } from '../../../Common/GlobalConstants';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { MenuService } from '../../../Services/Menu/menu.service';
@@ -21,10 +22,19 @@ export class MasterPageComponent implements OnInit {
     //  this.router.navigate(['/dashboard']);
     //}
     //this.UserName = sessionStorage.getItem('UserName');
+    debugger;
     sessionStorage.setItem('UserID', "1");
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     console.log(this.sSOLoginDataModel);
-    
+    if (this.sSOLoginDataModel) {
+      if (this.sSOLoginDataModel.SSOID == null && this.sSOLoginDataModel.SSOID == '' && this.sSOLoginDataModel.SSOID == undefined) {
+        window.open(GlobalConstants.SSOURL, "_self");
+      }
+    }
+    else {
+      window.open(GlobalConstants.SSOURL, "_self");
+    }
+
     await this.LoadMenu();
 
   }
@@ -34,7 +44,7 @@ export class MasterPageComponent implements OnInit {
   async LoadMenu() {
     try {
       this.loaderService.requestStarted();
-      await this.menuService.GetUserWiseMenu(Number(sessionStorage.getItem('UserID')))
+      await this.menuService.GetUserWiseMenu(this.sSOLoginDataModel.RoleID)
         .then((MenuData: any) => {
           //alert(MenuData);
           console.log(MenuData);
@@ -94,7 +104,7 @@ export class MasterPageComponent implements OnInit {
       GetSubMenu_Level2str += " <ul class='dropdown-menu' aria-labelledby='UserMasters'> ";
       GetSubMenu_SecondLevelData.forEach((item2: any) => {
         GetSubMenu_Level3str = "";
-       // GetSubMenu_Level3str += this.GetSubMenu_Level3(item2.MenuId, SubMenuData);
+         GetSubMenu_Level3str += this.GetSubMenu_Level3(item2.MenuId, SubMenuData);
         if (GetSubMenu_Level3str == "") {
           GetSubMenu_Level2str += " <li class='dropdown-item'> ";
         /*  GetSubMenu_Level2str += " <a href=" + item2.OnSelect + " class='nav-link '> ";*/
@@ -107,10 +117,12 @@ export class MasterPageComponent implements OnInit {
           GetSubMenu_Level2str += " </li> ";
         }
         else {
-          GetSubMenu_Level2str += " <li class='nav-item title' (click)='activeFunc()'> ";
-          GetSubMenu_Level2str += " <a href='" + item2.OnSelect + "' class='nav-link '> ";
-          GetSubMenu_Level2str += " <p class='SublebelMenu'>" + item2.MenuName + "</p> ";
-          GetSubMenu_Level2str += "<i class='fas fa-angle-down right'></i> ";
+
+          
+          GetSubMenu_Level2str += " <li class='nav-item dropdown'> ";
+          GetSubMenu_Level2str += " <a href='#' id='3' class='nav-link dropdown-toggle' role='button' data-bs-toggle='dropdown' aria-expanded='false'> ";
+          GetSubMenu_Level2str += item2.MenuName;
+         
           GetSubMenu_Level2str += " </a> ";
           GetSubMenu_Level2str += GetSubMenu_Level3str;
           GetSubMenu_Level2str += " </li> ";
@@ -128,11 +140,10 @@ export class MasterPageComponent implements OnInit {
     if (GetSubMenu_Level3Data) {
       if (GetSubMenu_Level3Data.length > 0) {
         GetSubMenu_Level3str = "";
-        GetSubMenu_Level3str += " <ul class='nav nav-treeview title'> ";
+        GetSubMenu_Level3str += " <ul class='dropdown-menu' aria-labelledby='3' data-bs-popper='none'> ";
         GetSubMenu_Level3Data.forEach((item3: any) => {
-          GetSubMenu_Level3str += " <li class='nav-item title' (click)='activeFunc()'> ";
-          GetSubMenu_Level3str += " <a href='" + item3.OnSelect + "' class='nav-link ' style='padding-left: 2rem !important;'> ";
-          GetSubMenu_Level3str += " <p class='SublebelMenu' style='color: " + item3.Forecolor + " !important;'>" + item3.MenuName + "</p> ";
+          GetSubMenu_Level3str += " <li class='dropdown-item'> ";
+          GetSubMenu_Level3str += " <a href='" + item3.OnSelect + "' class='nav-link ' style='padding-left: 2rem !important;'> " + item3.MenuName + "";
           GetSubMenu_Level3str += " </a> ";
           GetSubMenu_Level3str += " </li> ";
         });
@@ -150,7 +161,8 @@ export class MasterPageComponent implements OnInit {
     sessionStorage.removeItem('LoginID');
     sessionStorage.clear();
     localStorage.clear();
-    window.open("https://ssotest.rajasthan.gov.in/signin", "_self");
+    window.open(GlobalConstants.SSOURL, "_self");
+    //window.open("https://ssotest.rajasthan.gov.in/signin", "_self");
     
    // this.router.navigate(['/login']);
   }
