@@ -55,6 +55,9 @@
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
               </tr>
+              <tr *ngIf="request.DocumentDetails.length<=0">
+                <td colspan="10" style="color:red">No Data Found.!</td>
+              </tr>
             </tbody>
           </table>
         </div>
