@@ -88,7 +88,7 @@ import { RNCCheckListMasterComponent } from './Views/Master/rnccheck-list-master
 import { UserRoleRightsComponent } from './Views/Master/RoleMaster/user-role-rights/user-role-rights.component';
 import { PreviewPaymentDetailComponent } from './Views/PreviewTabs/preview-payment-detail/preview-payment-detail.component';
 import { DocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
-import { JointApplicationListComponent } from './Views/joint-application-list/joint-application-list.component'
+import { JointApplicationListComponent } from './Views/joint-application-list/joint-application-list.component';
 
 
 const routes: Routes = [
@@ -372,7 +372,7 @@ const routes: Routes = [
 
       {
         path: 'userrolerights/:RoleID', component: UserRoleRightsComponent
-      }
+      },
       {
         path: 'previewpaymentDetail', component: PreviewPaymentDetailComponent
       },
