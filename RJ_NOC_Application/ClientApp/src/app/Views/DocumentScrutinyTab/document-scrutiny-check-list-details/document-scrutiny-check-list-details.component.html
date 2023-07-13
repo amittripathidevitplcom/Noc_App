@@ -1538,6 +1538,33 @@
   </div>
   <!--End Hostel Detail-->
   <div class="row">
+
+
+
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+      <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
+      <!--id="ddlRoleID" name="ddlRoleID" formControlName="ddlRoleID" [(ngModel)]="NextRoleID"-->
+      <select class="form-select" (change)="GetUserDetailsByRoleID()"  [(ngModel)]="NextRoleID">
+        <option value="0" selected>--Select Role--</option>
+        <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+      </select>
+      <!--<div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
+    <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+  </div>-->
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+      <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
+      <!--id="ddlDistrictID" name="ddlDistrictID" formControlName="ddlDistrictID" [(ngModel)]="NextUserID"-->
+      <select class="form-select">
+        <option value="0" selected>--Select District--</option>
+        <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
+      </select>
+      <!--<div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
+        <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+      </div>-->
+    </div>
+
     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
       <label>Remarks</label>
       <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
@@ -1545,6 +1572,7 @@
         <p *ngIf="isRemarkValid"> This field is required .!</p>
       </div>
     </div>
+
   </div>
   <div class="row">
     <div class="col-md-12">
