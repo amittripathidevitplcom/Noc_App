@@ -146,8 +146,8 @@ export class TrusteeGeneralInfoComponent implements OnInit {
     // reset
     //this.request.LegalEntityID = 0;
     this.request.TrusteeGeneralInfoID = 0;
-    this.ResetFileAndValidation('SocietyRegistrationDocument', '', '', false);
-    this.ResetFileAndValidation('SocietyLogo', '', '', false);
+    this.ResetFileAndValidation('SocietyRegistrationDocument', '', '','','', false);
+    this.ResetFileAndValidation('SocietyLogo', '', '', '', '', false);
     this.request.DateOfElectionOfPresentManagementCommittee = '';
     this.request.WomenMembersOfManagementCommitteeID = null;
     this.request.DateOfElectionOfManagementCommitteeID = null;
@@ -210,11 +210,11 @@ export class TrusteeGeneralInfoComponent implements OnInit {
 
             // Society Registration Document
             if (this.request.SocietyRegistrationDocument != '') {
-              await this.ResetFileAndValidation('SocietyRegistrationDocument', '', this.request.SocietyRegistrationDocument, true);
+              await this.ResetFileAndValidation('SocietyRegistrationDocument', '', this.request.SocietyRegistrationDocument, this.request.Dis_SocietyRegistrationDocument, this.request.SocietyRegistrationDocumentPath, true);
             }
             // Society Logo
             if (this.request.SocietyLogo != '') {
-              await this.ResetFileAndValidation('SocietyLogo', '', this.request.SocietyLogo, true);
+              await this.ResetFileAndValidation('SocietyLogo', '', this.request.SocietyLogo, this.request.Dis_SocietyLogo, this.request.SocietyLogoPath, true);
             }
           }
           else {
@@ -312,16 +312,16 @@ export class TrusteeGeneralInfoComponent implements OnInit {
         this.file.type === 'image/jpg') {
         //size validation
         if (this.file.size > 2000000) {
-          this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', false);
+          this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
           return
         }
         if (this.file.size < 100000) {
-          this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', false);
+          this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
           return
         }
       }
       else {// type validation
-        this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg/pdf file', '', false);
+        this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg/pdf file', '', '', '', false);
         return
       }
       // upload to server folder
@@ -330,7 +330,8 @@ export class TrusteeGeneralInfoComponent implements OnInit {
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
-          this.ResetFileAndValidation(Type, '', data['Data'][0]["FilePath"], true);
+          debugger;
+          this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], true);
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
@@ -341,7 +342,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
       });
     }
     else {
-      this.ResetFileAndValidation(Type, '', '', false);
+      this.ResetFileAndValidation(Type, '', '', '', '', false);
     }
   }
 
@@ -360,7 +361,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
       this.SuccessMessage = data['SuccessMessage'];
       this.ErrorMessage = data['ErrorMessage'];
       if (this.State == 0) {
-        this.ResetFileAndValidation(Type, '', '', false);
+        this.ResetFileAndValidation(Type, '', '', '', '', false);
       }
       if (this.State == 1) {
         this.toastr.error(this.ErrorMessage)
@@ -371,17 +372,21 @@ export class TrusteeGeneralInfoComponent implements OnInit {
     });
   }
 
-  async ResetFileAndValidation(type: string, msg: string, path: string, isShowFile: boolean) {
+  async ResetFileAndValidation(type: string, msg: string,name:string,dis_name: string, path: string, isShowFile: boolean) {
     //event.target.value = '';
     if (type == 'SocietyRegistrationDocument') {
       this.showSocietyRegistrationDocument = isShowFile;
       this.SocietyRegistrationDocumentValidationMessage = msg;
-      this.request.SocietyRegistrationDocument = path;
+      this.request.SocietyRegistrationDocument = name;
+      this.request.Dis_SocietyRegistrationDocument = dis_name;
+      this.request.SocietyRegistrationDocumentPath = path;
     }
     else if (type == 'SocietyLogo') {
       this.showSocietyLogoDocument = isShowFile;
       this.SocietyLogoValidationMessage = msg;
-      this.request.SocietyLogo = path;
+      this.request.SocietyLogo = name;
+      this.request.Dis_SocietyLogo = dis_name;
+      this.request.SocietyLogoPath = path;
     }
   }
 

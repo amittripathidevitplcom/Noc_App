@@ -300,22 +300,32 @@ export class SocietyComponent implements OnInit {
           if (Type == 'ProfilePhoto') {
             this.isValidProfilePhoto = true;
             this.request.ProfilePhoto = '';
+            this.request.Dis_ProfilePhoto = '';
+            this.request.ProfilePhotoPath = '';
           }
           else if (Type == 'AadhaarCard') {
             this.isValidAadhaarCard = true;
             this.request.AadhaarCard = '';
+            this.request.Dis_AadhaarCard = '';
+            this.request.AadhaarCardPath = '';
           }
           else if (Type == 'SignatureDoc') {
             this.isValidSignatureDoc = true;
             this.request.SignatureDoc = '';
+            this.request.Dis_SignatureDoc = '';
+            this.request.SignatureDocPath = '';
           }
           else if (Type == 'PANCard') {
             this.isValidPANCard = true;
             this.request.PANCard = '';
+            this.request.Dis_PANCard = '';
+            this.request.PANCardPath = '';
           }
           else if (Type == 'AuthorizedDocument') {
             this.isValidAuthorizedDocument = true;
             this.request.AuthorizedDocument = '';
+            this.request.Dis_AuthorizedDocument = '';
+            this.request.AuthorizedDocumentPath = '';
           }
           return
         }
@@ -325,22 +335,32 @@ export class SocietyComponent implements OnInit {
           if (Type == 'ProfilePhoto') {
             this.isValidProfilePhoto = true;
             this.request.ProfilePhoto = '';
+            this.request.Dis_ProfilePhoto = '';
+            this.request.ProfilePhotoPath = '';
           }
           else if (Type == 'AadhaarCard') {
             this.isValidAadhaarCard = true;
             this.request.AadhaarCard = '';
+            this.request.Dis_AadhaarCard = '';
+            this.request.AadhaarCardPath = '';
           }
           else if (Type == 'SignatureDoc') {
             this.isValidSignatureDoc = true;
             this.request.SignatureDoc = '';
+            this.request.Dis_SignatureDoc = '';
+            this.request.SignatureDocPath = '';
           }
           else if (Type == 'PANCard') {
             this.isValidPANCard = true;
             this.request.PANCard = '';
+            this.request.Dis_PANCard = '';
+            this.request.PANCardPath = '';
           }
           else if (Type == 'AuthorizedDocument') {
             this.isValidAuthorizedDocument = true;
             this.request.AuthorizedDocument = '';
+            this.request.Dis_AuthorizedDocument = '';
+            this.request.AuthorizedDocumentPath = '';
           }
           return
         }
@@ -351,22 +371,32 @@ export class SocietyComponent implements OnInit {
         if (Type == 'ProfilePhoto') {
           this.isValidProfilePhoto = true;
           this.request.ProfilePhoto = '';
+          this.request.Dis_ProfilePhoto = '';
+          this.request.ProfilePhotoPath = '';
         }
         else if (Type == 'AadhaarCard') {
           this.isValidAadhaarCard = true;
           this.request.AadhaarCard = '';
+          this.request.Dis_AadhaarCard = '';
+          this.request.AadhaarCardPath = '';
         }
         else if (Type == 'SignatureDoc') {
           this.isValidSignatureDoc = true;
           this.request.SignatureDoc = '';
+          this.request.Dis_SignatureDoc = '';
+          this.request.SignatureDocPath = '';
         }
         else if (Type == 'PANCard') {
           this.isValidPANCard = true;
           this.request.PANCard = '';
+          this.request.Dis_PANCard = '';
+          this.request.PANCardPath = '';
         }
         else if (Type == 'AuthorizedDocument') {
           this.isValidAuthorizedDocument = true;
           this.request.AuthorizedDocument = '';
+          this.request.Dis_AuthorizedDocument = '';
+          this.request.AuthorizedDocumentPath = '';
         }
         return
       }
@@ -380,24 +410,34 @@ export class SocietyComponent implements OnInit {
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
           if (Type == 'ProfilePhoto') {
-            this.showProfilePhoto = true;
-            this.request.ProfilePhoto = data['Data'][0]["FilePath"];
+            //this.showProfilePhoto = true;
+            this.request.ProfilePhoto = data['Data'][0]["FileName"];
+            this.request.Dis_ProfilePhoto = data['Data'][0]["Dis_FileName"];
+            this.request.ProfilePhotoPath = data['Data'][0]["FilePath"];
           }
           else if (Type == 'AadhaarCard') {
-            this.showAadhaarCard = true;
-            this.request.AadhaarCard = data['Data'][0]["FilePath"];
+            //this.showAadhaarCard = true;
+            this.request.AadhaarCard = data['Data'][0]["FileName"];
+            this.request.Dis_AadhaarCard = data['Data'][0]["Dis_FileName"];
+            this.request.AadhaarCardPath = data['Data'][0]["FilePath"];
           }
           else if (Type == 'SignatureDoc') {
-            this.showSignatureDoc = true;
-            this.request.SignatureDoc = data['Data'][0]["FilePath"];
+            //this.showSignatureDoc = true;
+            this.request.SignatureDoc = data['Data'][0]["FileName"];
+            this.request.Dis_SignatureDoc = data['Data'][0]["Dis_FileName"];
+            this.request.SignatureDocPath = data['Data'][0]["FilePath"];
           }
           else if (Type == 'PANCard') {
-            this.showPANCard = true;
-            this.request.PANCard = data['Data'][0]["FilePath"];
+            //this.showPANCard = true;
+            this.request.PANCard = data['Data'][0]["FileName"];
+            this.request.Dis_PANCard = data['Data'][0]["Dis_FileName"];
+            this.request.PANCardPath = data['Data'][0]["FilePath"];
           }
           else if (Type == 'AuthorizedDocument') {
-            this.showAuthorizedDocument = true;
-            this.request.AuthorizedDocument = data['Data'][0]["FilePath"];
+            //this.showAuthorizedDocument = true;
+            this.request.AuthorizedDocument = data['Data'][0]["FileName"];
+            this.request.Dis_AuthorizedDocument = data['Data'][0]["Dis_FileName"];
+            this.request.AuthorizedDocumentPath = data['Data'][0]["FilePath"];
           }
         }
         if (this.State == 1) {
@@ -412,24 +452,34 @@ export class SocietyComponent implements OnInit {
 
   DeleteImage(Type: string) {
     if (Type == 'ProfilePhoto') {
-      this.showProfilePhoto = false;
+      //this.showProfilePhoto = false;
       this.request.ProfilePhoto ='';
+      this.request.Dis_ProfilePhoto ='';
+      this.request.ProfilePhotoPath ='';
     }
     else if (Type == 'AadhaarCard') {
-      this.showAadhaarCard = false;
+      //this.showAadhaarCard = false;
       this.request.AadhaarCard = '';
+      this.request.Dis_AadhaarCard = '';
+      this.request.AadhaarCardPath = '';
     }
     else if (Type == 'SignatureDoc') {
-      this.showSignatureDoc = false;
+      //this.showSignatureDoc = false;
       this.request.SignatureDoc = '';
+      this.request.Dis_SignatureDoc = '';
+      this.request.SignatureDocPath = '';
     }
     else if (Type == 'PANCard') {
-      this.showPANCard = false;
+      //this.showPANCard = false;
       this.request.PANCard = '';
+      this.request.Dis_PANCard = '';
+      this.request.PANCardPath = '';
     }
     else if (Type == 'AuthorizedDocument') {
-      this.showAuthorizedDocument = false;
+      //this.showAuthorizedDocument = false;
       this.request.AuthorizedDocument = '';
+      this.request.Dis_AuthorizedDocument = '';
+      this.request.AuthorizedDocumentPath = '';
     }
   }
 
@@ -484,6 +534,8 @@ export class SocietyComponent implements OnInit {
           this.request.CollegeID = data['Data'][0]["CollegeID"];
           this.request.PersonName = data['Data'][0]["PersonName"];
           this.request.ProfilePhoto = data['Data'][0]["ProfilePhoto"];
+          this.request.Dis_ProfilePhoto = data['Data'][0]["Dis_ProfilePhoto"];
+          this.request.ProfilePhotoPath = data['Data'][0]["ProfilePhotoPath"];
           this.request.DesignationID = data['Data'][0]["DesignationID"];
           this.request.OccupationID = data['Data'][0]["OccupationID"];
           this.request.Educationists = data['Data'][0]["Educationists"];
@@ -493,22 +545,30 @@ export class SocietyComponent implements OnInit {
           this.request.FatherName = data['Data'][0]["FatherName"];
           this.request.AadhaarNo = data['Data'][0]["AadhaarNo"];
           this.request.AadhaarCard = data['Data'][0]["AadhaarCard"];
+          this.request.Dis_AadhaarCard = data['Data'][0]["Dis_AadhaarCard"];
+          this.request.AadhaarCardPath = data['Data'][0]["AadhaarCardPath"];
           this.request.SignatureDoc = data['Data'][0]["SignatureDoc"];
+          this.request.Dis_SignatureDoc = data['Data'][0]["Dis_SignatureDoc"];
+          this.request.SignatureDocPath = data['Data'][0]["SignatureDocPath"];
           this.request.PANNo = data['Data'][0]["PANNo"];
           this.request.PANCard = data['Data'][0]["PANCard"];
+          this.request.Dis_PANCard = data['Data'][0]["Dis_PANCard"];
+          this.request.PANCardPath = data['Data'][0]["PANCardPath"];
           this.request.IsAuthorized = data['Data'][0]["IsAuthorized"];
           if (this.request.IsAuthorized == true) {
             this.isAuthorizedOrNot = true;
             this.request.AuthorizedDocument = data['Data'][0]["AuthorizedDocument"];           
+            this.request.Dis_AuthorizedDocument = data['Data'][0]["Dis_AuthorizedDocument"];           
+            this.request.AuthorizedDocumentPath = data['Data'][0]["AuthorizedDocumentPath"];           
           }
           this.request.IsPrimary = data['Data'][0]["IsPrimary"];
           
           
-          this.showAuthorizedDocument = true;
-          this.showPANCard = true;
-          this.showSignatureDoc = true;
-          this.showProfilePhoto = true;
-          this.showAadhaarCard = true;
+          //this.showAuthorizedDocument = true;
+          //this.showPANCard = true;
+          //this.showSignatureDoc = true;
+          //this.showProfilePhoto = true;
+          //this.showAadhaarCard = true;
           
           
           this.isDisabledGrid = true;

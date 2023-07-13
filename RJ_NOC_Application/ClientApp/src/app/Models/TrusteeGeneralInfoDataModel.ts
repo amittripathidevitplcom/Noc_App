@@ -3,7 +3,11 @@ export class TrusteeGeneralInfoDataModel {
   public LegalEntityID: number = 0;
   public TrusteeGeneralInfoID: number = 0;
   public SocietyRegistrationDocument: string = '';
+  public SocietyRegistrationDocumentPath: string = '';
+  public Dis_SocietyRegistrationDocument: string = '';
   public SocietyLogo: string = '';
+  public Dis_SocietyLogo: string = '';
+  public SocietyLogoPath: string = '';
   public DateOfElectionOfPresentManagementCommittee: string = '';
   public WomenMembersOfManagementCommitteeID: number = null;
   public DateOfElectionOfManagementCommitteeID: number = null;
