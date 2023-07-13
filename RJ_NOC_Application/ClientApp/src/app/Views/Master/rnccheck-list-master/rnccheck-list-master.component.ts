@@ -281,7 +281,7 @@ export class RNCCheckListMasterComponent implements OnInit {
         for (var i = 0; i < this.RNCCheckListMasterData.length; i++) {
           pDFData.push({
             "S.No.": i + 1,
-            "DepartmentName": this.RNCCheckListMasterData[i]['DepartmentName_English'],
+            "DepartmentName": this.RNCCheckListMasterData[i]['DepartmentName'],
             "RNCCheckListName": this.RNCCheckListMasterData[i]['RNCCheckListName'],
             "FileUpload": this.RNCCheckListMasterData[i]['FileUpload']
           })
