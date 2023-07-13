@@ -278,7 +278,7 @@ import { JointApplicationListComponent } from './Views/joint-application-list/jo
     DocumentScrutinyReportComponent,
     RNCCheckListMasterComponent,
     DocumentScrutinyReportComponent,
-    UserRoleRightsComponent
+    UserRoleRightsComponent,
     DocumentScrutinyReportComponent,
     PreviewPaymentDetailComponent,
     DocumentScrutinyCheckListDetailsComponent,
