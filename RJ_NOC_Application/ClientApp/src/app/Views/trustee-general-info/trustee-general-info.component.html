@@ -64,7 +64,7 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
+              <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                 <label class="form-label">Society Registration Document(Only PDF File)(File min. size 100KB and max. size 1MB) <span style="color:red;">*</span></label>
                 <div class="d-flex">
                   <input type="file" class="form-control" id="fSocietyRegistrationDocument" name="fSocietyRegistrationDocument" [(ngModel)]="request.SocietyRegistrationDocument" formControlName="fSocietyRegistrationDocument" (change)="onFilechange($event,'SocietyRegistrationDocument')" />
@@ -76,8 +76,29 @@
                 <div *ngIf="SocietyRegistrationDocumentValidationMessage!=''" class="text-danger">
                   <p><i aria-hidden="true"></i>{{SocietyRegistrationDocumentValidationMessage}}</p>
                 </div>
-              </div>
+              </div>-->
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
+                <label for="fSocietyRegistrationDocument" class="form-label">Society Registration Document(Only PDF File)(File min. size 100KB and max. size 1MB)<span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fSocietyRegistrationDocument" style="display:none" formControlName="fSocietyRegistrationDocument" (change)="onFilechange($event,'SocietyRegistrationDocument')" #fSocietyRegistrationDocument />
+                  <label class="btn upload" for="fSocietyRegistrationDocument">
+                    <span class="filename">Choose file</span>
+                    {{request.SocietyRegistrationDocument === '' ? 'No File Choosen' : request.Dis_SocietyRegistrationDocument}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.SocietyRegistrationDocument!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.SocietyRegistrationDocumentPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SocietyRegistrationDocument')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="SocietyRegistrationDocumentValidationMessage!=''" class="text-danger">
+                  <p><i aria-hidden="true"></i>{{SocietyRegistrationDocumentValidationMessage}}</p>
+                </div>
+                <!--<p *ngIf="isSubmitted&&request.SocietyRegistrationDocument ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isValidSocietyRegistrationDocument" class="text-danger">
+                  <p *ngIf="isValidSocietyRegistrationDocument"> {{ImageValidationMessage}}</p>
+                </div>-->
+              </div>
+              <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                 <label class="form-label">Society Logo(Only PNG/JPEG/JPG File)(File min. size 50KB and max. size 1MB) <span style="color:red;">*</span></label>
                 <div class="d-flex">
                   <input type="file" class="form-control" id="fSocietyLogo" name="fSocietyLogo" [(ngModel)]="request.SocietyLogo" formControlName="fSocietyLogo" (change)="onFilechange($event,'SocietyLogo')" />
@@ -89,6 +110,27 @@
                 <div *ngIf="SocietyLogoValidationMessage!=''" class="text-danger">
                   <p><i aria-hidden="true"></i>{{SocietyLogoValidationMessage}}</p>
                 </div>
+              </div>-->
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
+                <label for="fSocietyLogo" class="form-label">Society Logo(Only PNG/JPEG/JPG File)(File min. size 50KB and max. size 1MB)<span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fSocietyLogo" style="display:none" formControlName="fSocietyLogo" (change)="onFilechange($event,'SocietyLogo')" #fSocietyLogo />
+                  <label class="btn upload" for="fSocietyLogo">
+                    <span class="filename">Choose file</span>
+                    {{request.SocietyLogo === '' ? 'No File Choosen' : request.Dis_SocietyLogo}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.SocietyLogo!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.SocietyLogoPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SocietyLogo')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="SocietyLogoValidationMessage!=''" class="text-danger">
+                  <p><i aria-hidden="true"></i>{{SocietyLogoValidationMessage}}</p>
+                </div>
+                <!--<p *ngIf="isSubmitted&&request.SocietyLogo ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isValidSocietyLogo" class="text-danger">
+                  <p *ngIf="isValidSocietyLogo"> {{ImageValidationMessage}}</p>
+                </div>-->
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label>Date Of Election Of Present Management Committee(DD/MM/YYYY) <span style="color:red;">*</span></label>
@@ -206,8 +248,8 @@
                       <td>
                         {{row.OtherInstitutionRunByTheSocietyID==1?'Yes':'No'}}
                       </td>
-                      <td><a *ngIf="row.SocietyRegistrationDocument!=''" target="_blank" href="{{row.SocietyRegistrationDocument}}"><i class="fa fa-paperclip"></i></a></td>
-                      <td><a *ngIf="row.SocietyLogo!=''" target="_blank" href="{{row.SocietyLogo}}"><i class="fa fa-paperclip"></i></a></td>
+                      <td><a *ngIf="row.SocietyRegistrationDocument!=''" target="_blank" href="{{row.SocietyRegistrationDocumentPath}}"><i class="fa fa-paperclip"></i></a></td>
+                      <td><a *ngIf="row.SocietyLogo!=''" target="_blank" href="{{row.SocietyLogoPath}}"><i class="fa fa-paperclip"></i></a></td>
                       <td>
                         <div class="d-flex">
                           <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="EditData(row.TrusteeGeneralInfoID)"><i class="fa fa-edit"></i></a>

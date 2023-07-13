@@ -420,9 +420,9 @@ export class BuildingDetailsComponent implements OnInit {
             this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
         
           this.isDisabledGrid = true;
-          this.showOwnBuildingFileUpload = true;
-          this.showFireNOCFileUpload = true;
-          this.showPWDNOCFileUpload = true;  
+          //this.showOwnBuildingFileUpload = true;
+          //this.showFireNOCFileUpload = true;
+          //this.showPWDNOCFileUpload = true;  
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
           const btnReset = document.getElementById('btnReset')
@@ -563,9 +563,9 @@ export class BuildingDetailsComponent implements OnInit {
     this.OwnBuildingFileUpload= false;
     this.FireNOCFileUpload = false;
     this.PWDNOCFileUpload = false;
-    this.showOwnBuildingFileUpload = false;
-    this.showFireNOCFileUpload = false;
-    this.showPWDNOCFileUpload = false;  
+    //this.showOwnBuildingFileUpload = false;
+    //this.showFireNOCFileUpload = false;
+    //this.showPWDNOCFileUpload = false;  
     this.buildingdetails.UserID = 0;
     this.buildingdetails.ActiveStatus = false;
     this.isDisabledGrid = false;
@@ -953,19 +953,19 @@ export class BuildingDetailsComponent implements OnInit {
   }
   DeleteImage(Type: string) {
     if (Type == 'OwnBuildingFileUpload') {
-      this.showOwnBuildingFileUpload = false;
+      //this.showOwnBuildingFileUpload = false;
       this.buildingdetails.OwnBuildingFileUpload = '';
       this.buildingdetails.Dis_OwnBuildingFileUpload = '';
       this.buildingdetails.OwnBuildingFileUploadPath = '';
     }
     else if (Type == 'FireNOCFileUpload') {
-      this.showFireNOCFileUpload = false;
+      //this.showFireNOCFileUpload = false;
       this.buildingdetails.FireNOCFileUpload = '';
       this.buildingdetails.Dis_FireNOCFileUpload = '';
       this.buildingdetails.FireNOCFileUploadPath = '';
     }
     else if (Type == 'PWDNOCFileUpload') {
-      this.showPWDNOCFileUpload = false;
+      //this.showPWDNOCFileUpload = false;
       this.buildingdetails.PWDNOCFileUpload = '';
       this.buildingdetails.Dis_PWDNOCFileUpload = '';
       this.buildingdetails.PWDNOCFileUploadPath = '';
