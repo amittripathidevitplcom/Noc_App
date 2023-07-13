@@ -1,0 +1,60 @@
+import { Component, OnInit } from '@angular/core';
+
+import { ResponseParameters } from '../../../Models/PaymentDataModel';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NocpaymentService } from '../../../Services/NocPayment/noc-payment.service';
+import { LoaderService } from '../../../Services/Loader/loader.service';
+
+
+@Component({
+  selector: 'app-preview-payment-detail',
+  templateUrl: './preview-payment-detail.component.html',
+  styleUrls: ['./preview-payment-detail.component.css']
+})
+export class PreviewPaymentDetailComponent implements OnInit
+{
+
+  public paymentResponseDataModel: any[] = [];
+  public State: number = -1;
+  public SuccessMessage: any = [];
+  public ErrorMessage: any = [];
+  public SelectedCollageID: number = 0;
+  public SelectedDepartmentID: number = 0;
+  public showRentDocument: boolean = false;
+
+  constructor(private loaderService: LoaderService,  private nocpaymentService: NocpaymentService, private router: ActivatedRoute) {
+
+  }
+
+  async ngOnInit()
+  {
+    this.GetPreviewPaymentDetails(1);
+  }
+
+  async GetPreviewPaymentDetails(ApplyNocApplicationID: number) {
+    try {
+     
+      this.loaderService.requestStarted();
+      await this.nocpaymentService.GetPreviewPaymentDetails(ApplyNocApplicationID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.paymentResponseDataModel = data['Data'];
+
+          console.log(this.paymentResponseDataModel)
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+}

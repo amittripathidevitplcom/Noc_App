@@ -264,6 +264,7 @@ export class AssemblyAreaMasterComponent implements OnInit {
 
 
   @ViewChild('content') content: ElementRef | any;
+
   btnSavePDF_Click(): void {
     
     this.loaderService.requestStarted();

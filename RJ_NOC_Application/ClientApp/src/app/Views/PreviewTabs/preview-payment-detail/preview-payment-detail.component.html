@@ -1,0 +1,41 @@
+<div class="card">
+  <div class="card-header">
+    <b>Payment Details</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>PRN</th>
+                <th>Status</th>
+                <th>Transaction Amount</th>
+                <th>RPP Transaction ID</th>
+                <th>Created Date</th>
+                <th>Payment Time Statmp</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of paymentResponseDataModel; let idx=index;">
+                <td>{{idx+1}}</td>
+                <td>{{row.PRN}}</td>
+                <td>{{row.STATUS}}</td>
+                <td>{{row.AMOUNT}}</td>
+                <td>{{row.RPPTXNID}}</td>
+                <td>{{row.CreatedDate}}</td>
+                <td>{{row.PAYMENTMODETIMESTAMP}}</td>
+              </tr>
+              <tr *ngIf="paymentResponseDataModel.length<=0">
+                <td colspan="7" style="color:red">ty>No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

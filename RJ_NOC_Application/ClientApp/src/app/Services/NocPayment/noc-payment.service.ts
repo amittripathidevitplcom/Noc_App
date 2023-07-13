@@ -46,4 +46,20 @@ export class NocpaymentService
   }
 
 
+  public async GetPreviewPaymentDetails(ApplyNocApplicationID: Number)
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetPreviewPaymentDetails/" + ApplyNocApplicationID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
+ 
+
 }
