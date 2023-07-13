@@ -418,14 +418,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFinancialResourcesFileUpload"];
 
             this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
-        //  console.log("vasu");
-        //  console.log(data['Data'][0]['data']['Table1']);
-        //  console.log(data['Data'][0]['data'][0]['Table1']);
-        ////  console.log(data);
-        // // console.log(this.buildingdetails.lstBuildingDocDetails);
-        //  console.log("vasu");
-
-
+        
           this.isDisabledGrid = true;
           this.showOwnBuildingFileUpload = true;
           this.showFireNOCFileUpload = true;
