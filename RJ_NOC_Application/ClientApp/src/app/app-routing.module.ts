@@ -372,7 +372,7 @@ const routes: Routes = [
 
       {
         path: 'userrolerights/:RoleID', component: UserRoleRightsComponent
-      }
+      },
       {
         path: 'previewpaymentDetail', component: PreviewPaymentDetailComponent
       },
