@@ -113,7 +113,8 @@ export class UserRoleRightsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage)
+            this.toastr.success(this.SuccessMessage);
+            this.routers.navigate(['/addrolemaster']);
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -126,5 +127,19 @@ export class UserRoleRightsComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+
+  ResetControl() {
+    this.All_U_View = false;
+    this.All_U_Add = false;
+    this.All_U_Update = false;
+    this.All_U_Delete = false;
+    this.All_U_Print = false;
+    this.checkboxthView_checkboxchange(null, false);
+    this.checkboxthAdd_checkboxchange(null, false);
+    this.checkboxthUpdate_checkboxchange(null, false);
+    this.checkboxthDelete_checkboxchange(null, false);
+    this.checkboxthPrint_checkboxchange(null, false);
   }
 }
