@@ -378,13 +378,19 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.OwnBuildingOrderNo = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderNo"];
           this.buildingdetails.OwnBuildingOrderDate = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderDate"];
           this.buildingdetails.OwnBuildingFileUpload = data['Data'][0]['data']['Table'][0]["OwnBuildingFileUpload"];
+          this.buildingdetails.Dis_OwnBuildingFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OwnBuildingFileUpload"];
+          this.buildingdetails.OwnBuildingFileUploadPath = data['Data'][0]['data']['Table'][0]["OwnBuildingFileUploadPath"];
           this.buildingdetails.FromDate = data['Data'][0]['data']['Table'][0]["FromDate"];
           this.buildingdetails.ToDate = data['Data'][0]['data']['Table'][0]["ToDate"];
           this.buildingdetails.FireNOCFileUpload = data['Data'][0]['data']['Table'][0]["FireNOCFileUpload"];
+          this.buildingdetails.Dis_FireNOCFileUpload = data['Data'][0]['data']['Table'][0]["Dis_FireNOCFileUpload"];
+          this.buildingdetails.FireNOCFileUploadPath = data['Data'][0]['data']['Table'][0]["FireNOCFileUploadPath"];
           this.buildingdetails.OrderNo = data['Data'][0]['data']['Table'][0]["OrderNo"];
           this.buildingdetails.OrderDate = data['Data'][0]['data']['Table'][0]["OrderDate"];
           this.buildingdetails.ExpiringOn = data['Data'][0]['data']['Table'][0]["ExpiringOn"];
           this.buildingdetails.PWDNOCFileUpload = data['Data'][0]['data']['Table'][0]["PWDNOCFileUpload"];
+          this.buildingdetails.Dis_PWDNOCFileUpload = data['Data'][0]['data']['Table'][0]["Dis_PWDNOCFileUpload"];
+          this.buildingdetails.PWDNOCFileUploadPath = data['Data'][0]['data']['Table'][0]["PWDNOCFileUploadPath"];
 
           this.buildingdetails.TotalProjectCost = data['Data'][0]['data']['Table'][0]["TotalProjectCost"];
           this.buildingdetails.SourceCostAmount = data['Data'][0]['data']['Table'][0]["SourceCostAmount"];
@@ -854,14 +860,20 @@ export class BuildingDetailsComponent implements OnInit {
           if (Type == 'OwnBuildingFileUpload') {
             this.isValidOwnBuildingFileUpload = true;
             this.buildingdetails.OwnBuildingFileUpload = '';
+            this.buildingdetails.Dis_OwnBuildingFileUpload = '';
+            this.buildingdetails.OwnBuildingFileUploadPath = '';
           }
           else if (Type == 'FireNOCFileUpload') {
             this.isValidFireNOCFileUpload = true;
             this.buildingdetails.FireNOCFileUpload = '';
+            this.buildingdetails.Dis_FireNOCFileUpload = '';
+            this.buildingdetails.FireNOCFileUploadPath = '';
           }
           else if (Type == 'PWDNOCFileUpload') {
             this.isValidPWDNOCFileUpload = true;
             this.buildingdetails.PWDNOCFileUpload = '';
+            this.buildingdetails.Dis_PWDNOCFileUpload = '';
+            this.buildingdetails.PWDNOCFileUploadPath = '';
           }
           return
         }
@@ -870,14 +882,20 @@ export class BuildingDetailsComponent implements OnInit {
           if (Type == 'OwnBuildingFileUpload') {
             this.isValidOwnBuildingFileUpload = true;
             this.buildingdetails.OwnBuildingFileUpload = '';
+            this.buildingdetails.Dis_OwnBuildingFileUpload = '';
+            this.buildingdetails.OwnBuildingFileUploadPath = '';
           }
           else if (Type == 'FireNOCFileUpload') {
             this.isValidFireNOCFileUpload = true;
             this.buildingdetails.FireNOCFileUpload = '';
+            this.buildingdetails.Dis_FireNOCFileUpload = '';
+            this.buildingdetails.FireNOCFileUploadPath = '';
           }
           else if (Type == 'PWDNOCFileUpload') {
             this.isValidPWDNOCFileUpload = true;
             this.buildingdetails.PWDNOCFileUpload = '';
+            this.buildingdetails.Dis_PWDNOCFileUpload = '';
+            this.buildingdetails.PWDNOCFileUploadPath = '';
           }
           return
         }
@@ -887,14 +905,20 @@ export class BuildingDetailsComponent implements OnInit {
         if (Type == 'OwnBuildingFileUpload') {
           this.isValidOwnBuildingFileUpload = true;
           this.buildingdetails.OwnBuildingFileUpload = '';
+          this.buildingdetails.Dis_OwnBuildingFileUpload = '';
+          this.buildingdetails.OwnBuildingFileUploadPath = '';
         }
         else if (Type == 'FireNOCFileUpload') {
           this.isValidFireNOCFileUpload = true;
           this.buildingdetails.FireNOCFileUpload = '';
+          this.buildingdetails.Dis_FireNOCFileUpload = '';
+          this.buildingdetails.FireNOCFileUploadPath = '';
         }
         else if (Type == 'PWDNOCFileUpload') {
           this.isValidPWDNOCFileUpload = true;
           this.buildingdetails.PWDNOCFileUpload = '';
+          this.buildingdetails.Dis_PWDNOCFileUpload = '';
+          this.buildingdetails.PWDNOCFileUploadPath = '';
         }
         return
       }
@@ -907,16 +931,22 @@ export class BuildingDetailsComponent implements OnInit {
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
           if (Type == 'OwnBuildingFileUpload') {
-            this.showOwnBuildingFileUpload = true;            
-            this.buildingdetails.OwnBuildingFileUpload = data['Data'][0]["FilePath"];
+            //this.showOwnBuildingFileUpload = true;            
+            this.buildingdetails.OwnBuildingFileUpload = data['Data'][0]["FileName"];
+            this.buildingdetails.Dis_OwnBuildingFileUpload = data['Data'][0]["Dis_FileName"];
+            this.buildingdetails.OwnBuildingFileUploadPath = data['Data'][0]["FilePath"];
           }
           else if (Type == 'FireNOCFileUpload') {
-            this.showFireNOCFileUpload = true;            
-            this.buildingdetails.FireNOCFileUpload = data['Data'][0]["FilePath"];
+            //this.showFireNOCFileUpload = true;            
+            this.buildingdetails.FireNOCFileUpload = data['Data'][0]["FileName"];
+            this.buildingdetails.Dis_FireNOCFileUpload = data['Data'][0]["Dis_FileName"];
+            this.buildingdetails.FireNOCFileUploadPath = data['Data'][0]["FilePath"];
           }
           else if (Type == 'PWDNOCFileUpload') {
-            this.showPWDNOCFileUpload = true;            
-            this.buildingdetails.PWDNOCFileUpload = data['Data'][0]["FilePath"];
+            //this.showPWDNOCFileUpload = true;            
+            this.buildingdetails.PWDNOCFileUpload = data['Data'][0]["FileName"];
+            this.buildingdetails.Dis_PWDNOCFileUpload = data['Data'][0]["Dis_FileName"];
+            this.buildingdetails.PWDNOCFileUploadPath = data['Data'][0]["FilePath"];
           }
         }
         if (this.State == 1) {
@@ -932,14 +962,20 @@ export class BuildingDetailsComponent implements OnInit {
     if (Type == 'OwnBuildingFileUpload') {
       this.showOwnBuildingFileUpload = false;
       this.buildingdetails.OwnBuildingFileUpload = '';
+      this.buildingdetails.Dis_OwnBuildingFileUpload = '';
+      this.buildingdetails.OwnBuildingFileUploadPath = '';
     }
     else if (Type == 'FireNOCFileUpload') {
       this.showFireNOCFileUpload = false;
       this.buildingdetails.FireNOCFileUpload = '';
+      this.buildingdetails.Dis_FireNOCFileUpload = '';
+      this.buildingdetails.FireNOCFileUploadPath = '';
     }
     else if (Type == 'PWDNOCFileUpload') {
       this.showPWDNOCFileUpload = false;
       this.buildingdetails.PWDNOCFileUpload = '';
+      this.buildingdetails.Dis_PWDNOCFileUpload = '';
+      this.buildingdetails.PWDNOCFileUploadPath = '';
     }
   }
 
