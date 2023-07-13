@@ -101,7 +101,9 @@ export class TrusteeGeneralInfoComponent implements OnInit {
             // reset    
             this.ResetData();
             // get data
-            await this.GetDataList();
+            if (this.LegalEntityDataModel != null) {
+              await this.GetDataList();
+            }
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -244,17 +246,20 @@ export class TrusteeGeneralInfoComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          //
-          if (!this.State) {
-            //this.toastr.success(this.SuccessMessage)
-            // data
+          debugger;
+          if (this.State == 0) {
             this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
-            this.request.LegalEntityID = this.LegalEntityDataModel.LegalEntityID;
-            // load trustee list
-            await this.GetDataList();
+            if (this.LegalEntityDataModel != null) {
+              this.request.LegalEntityID = this.LegalEntityDataModel.LegalEntityID;
+              // load trustee list
+              await this.GetDataList();
+            }
           }
-          else {
+          if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.SuccessMessage)
           }
           
           //console.log(this.request.RuralUrban);
