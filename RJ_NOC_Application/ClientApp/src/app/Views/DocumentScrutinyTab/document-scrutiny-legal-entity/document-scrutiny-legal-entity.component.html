@@ -6,7 +6,7 @@
         <b><i class="bi bi-table"></i> Legal Entity </b>
       </div>
       <div class="card-body">
-        <div class="col-md-12" *ngIf="legalEntityListData1!=null && legalEntityListData1.length>0">
+        <div class="col-md-12" *ngIf="legalEntityListData1!=null ">
           <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Legal Entity :</label>
@@ -290,7 +290,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-12" *ngIf="legalEntityListData1.length<=0">
+        <div class="col-md-12" *ngIf="legalEntityListData1 ==null">
           <span style="color:red"> No Data Found.!</span>
         </div>
         <div class="row" *ngIf="FinalRemarks.length>0">

@@ -29,7 +29,7 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
 
   public UserID: number = 0;
   public legalEntityListData: any = [];
-  public legalEntityListData1: any = [];
+  public legalEntityListData1: any = null;
   public legalEntityInstituteDetailData: any = [];
   public legalEntityMemberDetailData: any = [];
   public searchText: string = '';
@@ -84,8 +84,10 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
           // data
           if (data['Data'].length > 0) {
             this.legalEntityListData1 = data['Data'][0]['legalEntity'];
-            this.legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
-            this.legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
+            if (this.legalEntityListData1 != null) {
+              this.legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
+              this.legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
+            }
             this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
 
             this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
