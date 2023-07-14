@@ -30,13 +30,14 @@ export class ApplyNOCApplicationListComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID);
+
+    await this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
   }
 
-  async GetApplyNOCApplicationListByRole(RoleId:number) {
+  async GetApplyNOCApplicationListByRole(RoleId: number, UserID:number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId)
+      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId, UserID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
