@@ -463,7 +463,7 @@ export class CreateUserComponent implements OnInit {
             "EmailAddress": this.UsersDataList[i]['EmailAddress'],
             "Name": this.UsersDataList[i]['Name'],
             "DesignationName": this.UsersDataList[i]['DesignationName'],
-            "DepartmentName": this.UsersDataList[i]['DepartmentName_English'],
+            "DepartmentName": this.UsersDataList[i]['DepartmentName'],
             "RoleName": this.UsersDataList[i]['RoleName'],
             "CommitteeName": this.UsersDataList[i]['CommitteeName'],
             "MemberType": this.UsersDataList[i]['MemberType'],
