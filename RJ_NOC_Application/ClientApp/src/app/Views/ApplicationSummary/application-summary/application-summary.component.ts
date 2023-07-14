@@ -15,6 +15,9 @@ import { CourseMasterService } from '../../../Services/Master/AddCourse/course-m
   templateUrl: './application-summary.component.html',
   styleUrls: ['./application-summary.component.css']
 })
+
+ 
+
 export class ApplicationSummaryComponent implements OnInit {
   public CollegeType_IsExisting: boolean = true;
   public collegeDataList: any = [];

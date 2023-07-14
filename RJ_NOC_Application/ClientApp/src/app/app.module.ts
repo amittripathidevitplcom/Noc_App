@@ -329,7 +329,13 @@ import { JointApplicationListComponent } from './Views/joint-application-list/jo
   ],
   //exports: [TableSearchFilterPipe],
   //exports: [LoaderModule],
-  providers: [],
+  //providers: [],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false },
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
