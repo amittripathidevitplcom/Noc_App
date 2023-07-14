@@ -38,7 +38,7 @@
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="ddlCourseID" class="form-label">Select Course Name <span style="color:red;">*</span></label>
                 <select class="form-control" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID">
-                  <option value="0" selected>--Select Subject--</option>
+                  <option value="0" selected>--Select Course--</option>
                   <option *ngFor="let item of CourseList" value="{{item.CourseID}}">{{item.CourseName}}</option>
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
