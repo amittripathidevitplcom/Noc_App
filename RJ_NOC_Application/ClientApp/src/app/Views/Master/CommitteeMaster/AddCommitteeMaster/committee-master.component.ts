@@ -57,8 +57,9 @@ export class CommitteeMasterComponent implements OnInit {
   get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
 
   async SaveData() {
+    debugger;
     this.isSubmitted = true;
-    
+
     let isValid = true;
     if (this.CommitteeMasterForm.invalid) {
       isValid = false;
@@ -145,7 +146,7 @@ export class CommitteeMasterComponent implements OnInit {
 
   }
   async GetCommitteeMasterList(CommitteeMasterID: number) {
-    
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.committeeMasterService.GetCommitteeMasterList(CommitteeMasterID)
@@ -154,6 +155,10 @@ export class CommitteeMasterComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length <= 0) {
+            this.toastr.error("No Record found.!!");
+            return;
+          }
           this.request = data['Data'][0];
           this.request.CommitteeType = data[''][0]["CommitteeType"];
           this.request.CommitteeName = data['Data'][0]["CommitteeName"];
