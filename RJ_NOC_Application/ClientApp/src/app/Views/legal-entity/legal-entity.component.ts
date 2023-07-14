@@ -931,7 +931,7 @@ export class LegalEntityComponent implements OnInit {
 
   async ValidateDocument(event: any, Type: string) {
     try {
-      
+      debugger;
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;

@@ -145,7 +145,7 @@
 </div>
 
 
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6 && this.sSOLoginDataModel.RoleName =='Clerk'">
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6 &&this.sSOLoginDataModel.RoleID==20">
   <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -179,8 +179,9 @@
   </div>
 </div>
 
-<!--secatory Dashboard Start && this.sSOLoginDataModel.RoleName =='secretary'-->
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleName.toLowerCase() =='secretary'">
+
+<!--Section Officer Dashboard-->
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleID==3">
   <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -191,8 +192,113 @@
             <div class="dashCardContent text-start">
               <h4>Pending</h4>
               <h2>
-                <a href="/jointapplicationlist" style="background: none;">{{dashboardDataModel.secretary_Pending}}</a>
+                <a href="/applynocapplicationlist" style="background: none;">{{dashboardDataModel.SectionOffs_Pending}}</a>
               </h2>
+            </div>
+
+            <div class="dashCardContent  text-start">
+              <h4>Reverted</h4>
+              <a href="#" style="background: none;"><h2>{{dashboardDataModel.SectionOffs_Revert}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="#" style="background: none;"><h2>{{dashboardDataModel.SectionOffs_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Section Officer Dashboard-->
+
+<!--AssistantSecretary_Pending-->
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleID==5">
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/applynocapplicationlist" style="background: none;">{{dashboardDataModel.AssistantSecretary_Pending}}</a>
+              </h2>
+            </div>
+
+            <div class="dashCardContent  text-start">
+              <h4>Reverted</h4>
+              <a href="#" style="background: none;"><h2>{{dashboardDataModel.AssistantSecretary_Revert}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="#" style="background: none;"><h2>{{dashboardDataModel.AssistantSecretary_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--AssistantSecretary Pending-->
+
+<!--JointSecretary Count-->
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleID==6">
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/applynocapplicationlist" style="background: none;">{{dashboardDataModel.JointSecretary_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent  text-start">
+              <h4>Reverted</h4>
+              <a href="#" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Revert}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="#" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--JointSecretary ending-->
+
+
+<!--secretary Dashboard Count-->
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleID==2">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/applynocapplicationlist" style="background: none;">{{dashboardDataModel.secretary_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent  text-start">
+              <h4>Reverted</h4>
+              <a href="#" style="background: none;"><h2>{{dashboardDataModel.secretary_Revert}}</h2></a>
+            </div>
+            <div class="dashCardContent  text-start">
+              <h4>ScrutinyCommittee Forward</h4>
+              <a href="#" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Forward}}</h2></a>
+            </div>
+            <div class="dashCardContent  text-start">
+              <h4>RegistratCommittee Forward</h4>
+              <a href="#" style="background: none;"><h2>{{dashboardDataModel.RegistratCommittee_Forward}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
@@ -204,4 +310,4 @@
     </div>
   </div>
 </div>
-<!--secatory Dashboard Start-->
+<!--Clerk Dashboard Start-->

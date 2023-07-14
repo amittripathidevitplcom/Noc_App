@@ -61,6 +61,8 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   public isActionValid: boolean = false;
   public isObjectionValid: boolean = false;
   public isRemarkValid: boolean = false;
+  public ShowHideNextRoleNextUser: boolean = true;
+  public isActionTypeValid: boolean = false;
 
 
   public RoleID: number = 10;
@@ -103,7 +105,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
 
-  public CheckList_legalEntityListData1: any = [];
+  public CheckList_legalEntityListData1: any = null;
   public CheckList_legalEntityInstituteDetailData: any = [];
   public CheckList_legalEntityMemberDetailData: any = [];
   public LegalEntityFinalRemarks: any = [];
@@ -135,6 +137,16 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
 
   public CheckFinalRemark: string = '';
 
+  public UserRoleList: any[] = [];
+  public UserListRoleWise: any[] = [];
+
+
+  public NextRoleID: number = 0;
+  public NextUserID: number = 0;
+  public ActionType: string = 'Approve';
+
+
+
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
@@ -161,45 +173,10 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetAcademicInformationDetailAllList();
     this.GetOtherDocuments('Other Document');
     this.GetHospitalDataList();
-   
+    this.GetRoleListForApporval();
   }
 
-  async DocumentScrutiny(ActionType: string) {
-    this.isRemarkValid = false;
-    try {
-      if (this.CheckFinalRemark == '') {
-        this.isRemarkValid = true;
-        return;
-      }
-      this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/applynocapplicationlist']);
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
+  
   // Start Land Details
 
   async GetLandDetailsDataList() {
@@ -260,10 +237,14 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // data
-          this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
-          this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
-          this.CheckList_legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
-          this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          if (data['Data'].length > 0) {
+            this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
+            if (this.CheckList_legalEntityListData1 != null) {
+              this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
+              this.CheckList_legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
+            }
+            this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          }
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
@@ -602,6 +583,136 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     }
   }
     //End Hospital Details
+
+
+  //Document  Post Section
+  public isNextRoleIDValid: boolean = false;
+  public isNextUserIdValid: boolean = false;
+  async DocumentScrutiny() {
+    this.isFormvalid = true;
+    this.isNextUserIdValid = false;
+    this.isNextRoleIDValid = false;
+    this.isRemarkValid = false;
+    try {
+      if (this.ActionType == '') {
+        this.isActionTypeValid = true;
+        this.isFormvalid = false;
+      }
+      if (this.CheckFinalRemark == '') {
+        this.isRemarkValid = true;
+        this.isFormvalid = false;
+      }
+      if (this.ActionType == 'Approve') {
+        if (this.NextRoleID <= 0) {
+          this.isNextRoleIDValid = true;
+          this.isFormvalid = false;
+        }
+
+        if (this.NextUserID <= 0) {
+          this.isNextUserIdValid = true;
+          this.isFormvalid = false;
+        }
+      }
+      if (!this.isFormvalid) {
+        return;
+      }
+      this.loaderService.requestStarted();
+      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, this.ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.toastr.success(this.SuccessMessage);
+            this.routers.navigate(['/applynocapplicationlist']);
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+  async GetRoleListForApporval() {
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID )
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0)
+          {
+            this.UserRoleList = data['Data'];
+            if (this.UserRoleList.length > 0) {
+              this.NextRoleID = this.UserRoleList[0]['RoleID'];
+              await this.GetUserDetailsByRoleID();
+            }
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async GetUserDetailsByRoleID()
+  {
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.UserListRoleWise = data['Data'];
+            if (this.UserListRoleWise.length > 0) {
+              this.NextUserID = this.UserListRoleWise[0]['UId'];
+            }
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async On_ChangeAction() {
+    if (this.ActionType == 'Approve') {
+      this.ShowHideNextRoleNextUser = true;
+      if (this.UserRoleList.length > 0) {
+        this.NextRoleID = this.UserRoleList[0]['RoleID'];
+        await this.GetUserDetailsByRoleID();
+      }
+    }
+    else {
+      this.ShowHideNextRoleNextUser = false;
+      this.NextRoleID = 0;
+      this.NextUserID = 0;
+    }
+  }
 
 
 

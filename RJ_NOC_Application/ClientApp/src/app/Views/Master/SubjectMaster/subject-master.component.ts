@@ -23,7 +23,6 @@ export class SubjectMasterComponent implements OnInit {
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  public file: File = null;
   /*Save Data Model*/
   request = new SubjectMasterDataModel();
   public isDisabledGrid: boolean = false;
@@ -42,7 +41,7 @@ export class SubjectMasterComponent implements OnInit {
   searchText: string = '';
   public ActiveStatus: boolean = true;
   constructor(private subjectMasterService: SubjectMasterService, private toastr: ToastrService, private loaderService: LoaderService,
-  private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
   async ngOnInit() {
     this.SubjectMasterForm = this.formBuilder.group(
       {
@@ -54,8 +53,8 @@ export class SubjectMasterComponent implements OnInit {
     )
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
-    this.GetAllSubjectList();
-    this.GetDepartmentList();
+    await this.GetAllSubjectList();
+    await this.GetDepartmentList();
     this.ActiveStatus = true;
   }
   get form() { return this.SubjectMasterForm.controls; }
@@ -81,10 +80,10 @@ export class SubjectMasterComponent implements OnInit {
       }, 200);
     }
   };
-  async DepartmentChangecourse(event: any, SeletedValueDepartment: any) {    
-    this.request.DepartmentID = SeletedValueDepartment;
+  async DepartmentChangecourse(select: any) {
+    this.request.DepartmentID = select;
     try {
-      this.loaderService.requestStarted();      
+      this.loaderService.requestStarted();
       await this.subjectMasterService.GetDepartmentByCourse(this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -173,7 +172,8 @@ export class SubjectMasterComponent implements OnInit {
     const btnReset = document.getElementById('')
     if (btnReset) btnReset.innerHTML = "Reset";
   }
-  async Edit_OnClick(SubjectID: number) {     
+  async Edit_OnClick(SubjectID: number) {
+    debugger;
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
@@ -182,7 +182,7 @@ export class SubjectMasterComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.request.SubjectID = data['Data'][0]["SubjectID"];
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-          this.DepartmentChangecourse(null,this.request.DepartmentID);          
+          this.DepartmentChangecourse(this.request.DepartmentID);
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.SubjectName = data['Data'][0]["SubjectName"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
@@ -229,11 +229,11 @@ export class SubjectMasterComponent implements OnInit {
   }
   btnCopyTable_Click() {
     const tabellist = document.getElementById('tabellist')
-    if (tabellist) {     
+    if (tabellist) {
       this.clipboard.copy(tabellist.innerText);
     }
   }
-  btnExportTable_Click(): void {  
+  btnExportTable_Click(): void {
     this.loaderService.requestStarted();
     if (this.SubjectMasterData.length > 0) {
       try {

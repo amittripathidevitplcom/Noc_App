@@ -412,6 +412,9 @@
                   <i aria-hidden="true">
                   </i> {{ImageValidationMessage_TrusteeMemberProofDoc}}
                 </p>
+                <div *ngIf="isValidTrusteeMemberProofDoc" class="text-danger">
+                  <p *ngIf="isValidTrusteeMemberProofDoc"> {{ImageValidationMessage_TrusteeMemberProofDoc}}</p>
+                </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="txtPresidentAadhaarProofDoc">Aadhaar Proof of President<span style="color:red">*</span></label>
@@ -427,6 +430,9 @@
                   </div>
                 </div>
                 <p *ngIf="isSubmitted&&request.PresidentAadhaarProofDoc ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidationMessage_PresidentAadhaarProofDoc}}</p>
+                <div *ngIf="isValidPresidentAadhaarProofDoc" class="text-danger">
+                  <p *ngIf="isValidPresidentAadhaarProofDoc"> {{ImageValidationMessage_PresidentAadhaarProofDoc}}</p>
+                </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="txtSocietyPanProofDoc"> Pan Proof<span style="color:red">*</span></label>
@@ -442,6 +448,9 @@
                   </div>
                 </div>
                 <p *ngIf="isSubmitted&&request.SocietyPanProofDoc ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidationMessage_SocietyPanProofDoc}}</p>
+                <div *ngIf="isValidSocietyPanProofDoc" class="text-danger">
+                  <p *ngIf="isValidSocietyPanProofDoc"> {{ImageValidationMessage_SocietyPanProofDoc}}</p>
+                </div>
               </div>
 
             </div>

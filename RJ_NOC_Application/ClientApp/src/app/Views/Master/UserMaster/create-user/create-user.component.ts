@@ -86,7 +86,7 @@ export class CreateUserComponent implements OnInit {
     //UsersList
     await this.GetUsersList();
     //GetDistrict
-    //await this.GetDistrictList(this.request.StateID);
+    await this.GetDistrictList(this.request.StateID);
   }
   get form() { return this.CreatUserMasterForm.controls; }
 
@@ -229,23 +229,21 @@ export class CreateUserComponent implements OnInit {
   }
 
   async MemberTypeSelection(MemberType: string) {
+    debugger;
     this.request.StateID = 6;
     if (MemberType == 'State') {
       this.IsDistrict = false;
       this.IsTehsil = false;
     }
     if (MemberType == 'District') {
-      await this.GetDistrictList(this.request.StateID);
       this.IsDistrict = true;
       this.IsTehsil = false;
     }
     if (MemberType == 'Tehsil') {
-      await this.GetDistrictList(this.request.StateID);
-      await this.FillTehsilByDistrictId((this.request.DistrictID).toString())
       this.IsDistrict = true;
       this.IsTehsil = true;
     }
-
+    await this.FillTehsilByDistrictId((this.request.DistrictID).toString())
   }
 
 
@@ -255,7 +253,12 @@ export class CreateUserComponent implements OnInit {
     if (this.CreatUserMasterForm.invalid) {
       return
     }
+    if (this.request.MemberType == 'State') {
+      this.request.DistrictID = 0;
+      this.request.TehsilID = 0;
+    }
     if (this.request.MemberType == 'District') {
+      this.request.TehsilID = 0;
       if (this.request.DistrictID == 0) {
         return;
       }
@@ -300,14 +303,30 @@ export class CreateUserComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       await this.createUserService.GetUserByIDWise(UId)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.request = data['Data'][0];
-          this.isDisabledGrid = true;
+
+          this.request.UId = data['Data'][0]['UId'];
+          this.request.SSOID = data['Data'][0]['SSOID'];
+          this.request.Name = data['Data'][0]['Name'];
+          this.request.MobileNumber = data['Data'][0]['MobileNumber'];
+          this.request.EmailAddress = data['Data'][0]['EmailAddress'];
+          this.request.DepartmentID = data['Data'][0]['DepartmentID'];
+
+          this.request.RoleID = data['Data'][0]['RoleID'];
+          this.request.CommitteeID = data['Data'][0]['CommitteeID'];
+          this.request.MemberType = data['Data'][0]['MemberType'];
+          this.request.StateID = data['Data'][0]['StateID'];
+          this.request.DistrictID = data['Data'][0]['DistrictID'];
           this.MemberTypeSelection(this.request.MemberType);
+          this.request.TehsilID = data['Data'][0]['TehsilID'];
+          this.request.ActiveStatus = data['Data'][0]['ActiveStatus'];
+
+
+          this.isDisabledGrid = true;
 
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
@@ -444,7 +463,7 @@ export class CreateUserComponent implements OnInit {
             "EmailAddress": this.UsersDataList[i]['EmailAddress'],
             "Name": this.UsersDataList[i]['Name'],
             "DesignationName": this.UsersDataList[i]['DesignationName'],
-            "DepartmentName": this.UsersDataList[i]['DepartmentName_English'],
+            "DepartmentName": this.UsersDataList[i]['DepartmentName'],
             "RoleName": this.UsersDataList[i]['RoleName'],
             "CommitteeName": this.UsersDataList[i]['CommitteeName'],
             "MemberType": this.UsersDataList[i]['MemberType'],

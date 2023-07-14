@@ -20,7 +20,7 @@ import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumen
 })
 export class DocumentScrutinyLegalEntityComponent implements OnInit {
 
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
+  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
 
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -29,7 +29,7 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
 
   public UserID: number = 0;
   public legalEntityListData: any = [];
-  public legalEntityListData1: any = [];
+  public legalEntityListData1: any = null;
   public legalEntityInstituteDetailData: any = [];
   public legalEntityMemberDetailData: any = [];
   public searchText: string = '';
@@ -76,17 +76,22 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.DocumentScrutiny_LegalEntity(SSOID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // data
-          this.legalEntityListData1 = data['Data'][0]['legalEntity'];
-          this.legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
-          this.legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
-          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          if (data['Data'].length > 0) {
+            this.legalEntityListData1 = data['Data'][0]['legalEntity'];
+            if (this.legalEntityListData1 != null) {
+              this.legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
+              this.legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
+            }
+            this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
 
-          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+            this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          }
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
@@ -150,19 +155,20 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
         }
       }
     }
-    for (var i = 0; i < this.legalEntityInstituteDetailData.length; i++) {
-      if (this.legalEntityInstituteDetailData[i].Action == '' || this.legalEntityInstituteDetailData[i].Action == undefined) {
-        this.toastr.warning('Please take Institute Action on all records');
-        return;
-      }
-      if (this.legalEntityInstituteDetailData[i].Action == 'No') {
-        if (this.legalEntityInstituteDetailData[i].Remark == '' || this.legalEntityInstituteDetailData[i].Remark == undefined) {
-          this.toastr.warning('Please enter Institute remark');
+    if (this.legalEntityInstituteDetailData != null) {
+      for (var i = 0; i < this.legalEntityInstituteDetailData.length; i++) {
+        if (this.legalEntityInstituteDetailData[i].Action == '' || this.legalEntityInstituteDetailData[i].Action == undefined) {
+          this.toastr.warning('Please take Institute Action on all records');
           return;
+        }
+        if (this.legalEntityInstituteDetailData[i].Action == 'No') {
+          if (this.legalEntityInstituteDetailData[i].Remark == '' || this.legalEntityInstituteDetailData[i].Remark == undefined) {
+            this.toastr.warning('Please enter Institute remark');
+            return;
+          }
         }
       }
     }
-
     if (this.dsrequest.FinalRemark == '') {
       this.isRemarkValid = true;
       this.isFormvalid = false;
@@ -187,21 +193,23 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
         });
       }
     }
-    if (this.legalEntityInstituteDetailData.length > 0) {
-      for (var i = 0; i < this.legalEntityInstituteDetailData.length; i++) {
-        console.log(this.legalEntityInstituteDetailData[i]);
-        this.dsrequest.DocumentScrutinyDetail.push({
-          DocumentScrutinyID: 0,
-          DepartmentID: this.SelectedDepartmentID,
-          CollegeID: this.SelectedCollageID,
-          UserID: 0,
-          RoleID: this.sSOLoginDataModel.RoleID,
-          ApplyNOCID: this.SelectedApplyNOCID,
-          Action: this.legalEntityInstituteDetailData[i].Action,
-          Remark: this.legalEntityInstituteDetailData[i].Remark,
-          TabRowID: this.legalEntityInstituteDetailData[i].InstituteID,
-          SubTabName: 'InstituteDetail'
-        });
+    if (this.legalEntityInstituteDetailData != null) {
+      if (this.legalEntityInstituteDetailData.length > 0) {
+        for (var i = 0; i < this.legalEntityInstituteDetailData.length; i++) {
+          console.log(this.legalEntityInstituteDetailData[i]);
+          this.dsrequest.DocumentScrutinyDetail.push({
+            DocumentScrutinyID: 0,
+            DepartmentID: this.SelectedDepartmentID,
+            CollegeID: this.SelectedCollageID,
+            UserID: 0,
+            RoleID: this.sSOLoginDataModel.RoleID,
+            ApplyNOCID: this.SelectedApplyNOCID,
+            Action: this.legalEntityInstituteDetailData[i].Action,
+            Remark: this.legalEntityInstituteDetailData[i].Remark,
+            TabRowID: this.legalEntityInstituteDetailData[i].InstituteID,
+            SubTabName: 'InstituteDetail'
+          });
+        }
       }
     }
     try {

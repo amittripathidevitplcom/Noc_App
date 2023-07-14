@@ -163,21 +163,21 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.GetLandDetailsDataList();
-    this.GetFacilityDetailAllList();
-    this.GetSocietyAllList();
-    this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
-    this.ViewTotalCollegeDataByID();
-    this.GetRoomDetailAllList();
-    this.GetAllBuildingDetailsList();
-    this.GetStaffDetailList_DepartmentCollegeWise();
-    this.GetOldNOCDetailList_DepartmentCollegeWise();
-    this.GetRequiredDocuments('Required Document');
-    this.GetOtherInformationAllList();
-    this.GetAcademicInformationDetailAllList();
-    this.GetOtherDocuments('Other Document');
-    this.GetHospitalDataList();
-    this.GetHostelDetailList_DepartmentCollegeWise();
+    //this.GetLandDetailsDataList();
+    //this.GetFacilityDetailAllList();
+    //this.GetSocietyAllList();
+    //this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    //this.ViewTotalCollegeDataByID();
+    //this.GetRoomDetailAllList();
+    //this.GetAllBuildingDetailsList();
+    //this.GetStaffDetailList_DepartmentCollegeWise();
+    //this.GetOldNOCDetailList_DepartmentCollegeWise();
+    //this.GetRequiredDocuments('Required Document');
+    //this.GetOtherInformationAllList();
+    //this.GetAcademicInformationDetailAllList();
+    //this.GetOtherDocuments('Other Document');
+    //this.GetHospitalDataList();
+    //this.GetHostelDetailList_DepartmentCollegeWise();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
     //this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
   }
@@ -198,41 +198,41 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.selectedIndex = event.index;
   }
 
-  async DocumentScrutiny(ActionType: string) {
-    this.isRemarkValid = false;
-    try {
-      if (this.CheckFinalRemark == '') {
-        this.isRemarkValid = true;
-        return;
-      }
-      this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/applynocapplicationlist']);
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  //async DocumentScrutiny(ActionType: string) {
+  //  this.isRemarkValid = false;
+  //  try {
+  //    if (this.CheckFinalRemark == '') {
+  //      this.isRemarkValid = true;
+  //      return;
+  //    }
+  //    this.loaderService.requestStarted();
+  //    await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
+  //      .then((data: any) => {
+  //        data = JSON.parse(JSON.stringify(data));
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        if (this.State == 0) {
+  //          this.toastr.success(this.SuccessMessage);
+  //          this.routers.navigate(['/applynocapplicationlist']);
+  //        }
+  //        else if (this.State == 2) {
+  //          this.toastr.warning(this.ErrorMessage)
+  //        }
+  //        else {
+  //          this.toastr.error(this.ErrorMessage)
+  //        }
+  //      }, error => console.error(error));
+  //  }
+  //  catch (Ex) {
+  //    console.log(Ex);
+  //  }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
 
   // Start Land Details
 
@@ -294,10 +294,12 @@ export class ApplyNOCPreviewComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // data
-          this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
-          this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
-          this.CheckList_legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
-          this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          if (data['Data'].length > 0) {
+            this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
+            this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
+            this.CheckList_legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
+            this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          }
         }, (error: any) => console.error(error));
     }
     catch (Ex) {

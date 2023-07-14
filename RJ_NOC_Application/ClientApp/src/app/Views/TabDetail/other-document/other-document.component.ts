@@ -148,13 +148,14 @@ export class OtherDocumentComponent implements OnInit {
     try {
       // delete from server folder
       this.loaderService.requestEnded();
-      await this.fileUploadService.DeleteDocument(item.FilePath).then((data: any) => {
+      await this.fileUploadService.DeleteDocument(item.FileName).then((data: any) => {
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
           item.FileName = '';
           item.FilePath = '';
+          item.Dis_FileName = '';
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)

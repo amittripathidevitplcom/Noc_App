@@ -36,6 +36,8 @@ export class DashboardComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.dashboardDataModel = data['Data'][0];
+
+
           console.log(this.dashboardDataModel);
         }, error => console.error(error));
     }
