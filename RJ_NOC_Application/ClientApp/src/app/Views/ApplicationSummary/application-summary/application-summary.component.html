@@ -15,80 +15,159 @@
   </div>
 </div>
 <div class="container-fluid mainContents">
-  <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
   <div class="row">
     <div class="col-md-12">
-      <div class="row align-items-center">
-        <div class="col-md-12">
-          <div class="row">
+
+      <mat-stepper>
+        <mat-step label="Step 1" state="phone">
+          <p>Put down your phones.</p>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </mat-step>
+        <mat-step label="Step 2" state="chat">
+          <p>Socialize with each other.</p>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </mat-step>
+        <mat-step label="Step 3">
+          <p>You're welcome.</p>
+        </mat-step>
+
+        <!-- Icon overrides. -->
+        <ng-template matStepperIcon="phone">
+          <mat-icon>call_end</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="chat">
+          <mat-icon>forum</mat-icon>
+        </ng-template>
+      </mat-stepper>
+
+
+      <mat-stepper orientation="vertical">
+
+
+
+        <mat-step>
+          <ng-template matStepLabel>Legal Entity</ng-template>
+          <ng-template matStepContent>
             <app-preview-legal-entity></app-preview-legal-entity>
-          </div>
-          <div class="row">
-            <app-college-management-society></app-college-management-society>
-          </div>
-          <div class="row">
+            <button mat-button matStepperNext>Next</button>
+          </ng-template>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>College Detail</ng-template>
+          <ng-template matStepContent>
             <app-preview-college></app-preview-college>
-          </div>
-          <div class="row">
-            <app-preview-trustee-general-info></app-preview-trustee-general-info>
-          </div>
-          <div class="row">
-            <app-preview-land-detail></app-preview-land-detail>
-          </div>
-          <div class="row">
-            <!--Facility-->
-            <app-preview-facility-detail></app-preview-facility-detail>
-          </div>
-          <div class="row">
-            <!--Required Document-->
-            <app-preview-required-document></app-preview-required-document>
-          </div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </ng-template>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>College Management Society</ng-template>
+          <app-college-management-society></app-college-management-society>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Trustee General Info</ng-template>
+          <app-preview-trustee-general-info></app-preview-trustee-general-info>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Land Details</ng-template>
+          <app-preview-land-detail></app-preview-land-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Facility</ng-template>
+          <app-preview-facility-detail></app-preview-facility-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-          <!--Room Details-->
-          <div class="row">
-            <app-preview-room-detail></app-preview-room-detail>
-          </div>
-          <div class="row">
-            <!--Other Information-->
-            <app-preview-other-information></app-preview-other-information>
-          </div>
-          <div class="row">
-            <!--Building Documents-->
-            <app-preview-building-detail></app-preview-building-detail>
-          </div>
-          <div class="row">
-            <!--Staff Details-->
-            <app-preview-staff-detail></app-preview-staff-detail>
-          </div>
+        <mat-step>
+          <ng-template matStepLabel>Required Document</ng-template>
+          <app-preview-required-document></app-preview-required-document>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-          <div class="row" *ngIf="CollegeType_IsExisting">
-            <!--OLD NOC Details Only for New-->
-            <app-preview-old-nocdetail></app-preview-old-nocdetail>
-          </div>
-          <!--Academic Information Only for New-->
-          <div class="row" *ngIf="CollegeType_IsExisting">
-            <app-preview-academic-information></app-preview-academic-information>
-          </div>
-          <div class="row">
-            <!--Other Document-->
-            <app-preview-other-document></app-preview-other-document>
-          </div>
-          <div class="row">
-            <!--Hospital Details-->
-            <app-preview-hospital-detail></app-preview-hospital-detail>
-          </div>
-          <div class="row">
-            <!--Hostel Details-->
-            <app-preview-hostel-details></app-preview-hostel-details>
-          </div>
+        <mat-step>
+          <ng-template matStepLabel>Room Details</ng-template>
+          <app-preview-room-detail></app-preview-room-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-          <div class="row">
-            <!--Payment Details-->
-            <app-preview-payment-detail></app-preview-payment-detail>
-          </div>
+        <mat-step>
+          <ng-template matStepLabel>Other Information</ng-template>
+          <app-preview-other-information></app-preview-other-information>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Building Documents</ng-template>
+          <app-preview-building-detail></app-preview-building-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-        </div>
-      </div>
+        <mat-step>
+          <ng-template matStepLabel>Staff Details</ng-template>
+          <app-preview-staff-detail></app-preview-staff-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step *ngIf="CollegeType_IsExisting">
+          <ng-template matStepLabel>OLD NOC Details</ng-template>
+          <app-preview-old-nocdetail></app-preview-old-nocdetail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step *ngIf="CollegeType_IsExisting">
+          <ng-template matStepLabel>Academic Information</ng-template>
+          <app-preview-academic-information></app-preview-academic-information>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Other Document</ng-template>
+          <app-preview-other-document></app-preview-other-document>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Hospital Details</ng-template>
+          <app-preview-hospital-detail></app-preview-hospital-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Hostel Details</ng-template>
+          <app-preview-hostel-details></app-preview-hostel-details>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Payment Details</ng-template>
+          <app-preview-payment-detail></app-preview-payment-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
+      </mat-stepper>
     </div>
   </div>
-</div>
+
+   

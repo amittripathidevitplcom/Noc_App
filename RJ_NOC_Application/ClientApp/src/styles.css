@@ -1,10 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+::-webkit-scrollbar {
+  width: 10px !important;
+  height: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dee2e6;
+}
+::-webkit-scrollbar-track {
+  background: #6c757d;
+}
+.footers {
 
+  position: relative;
+  z-index: 99;
+}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .dropdown-list {
   margin-top: 0px !important;
+}
+
+.contant {
+  height: calc(100vh - 75px);
 }
 
 
@@ -65,6 +83,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-top: -30px !important;
 }
 
+.mat-step-header {
+  padding: 15px;
+  margin-bottom: 5px;
+  box-shadow: 0 0 10px #0000001c;
+}
+  .mat-step-header.cdk-keyboard-focused, .mat-step-header.cdk-program-focused, .mat-step-header:hover:not([aria-disabled]), .mat-step-header:hover[aria-disabled=false] {
+     background-color:transparent;
+  }
+.mat-stepper-vertical-line::before {
+  top: -5px;
+  bottom: 1px;
+}
+.mat-stepper-vertical-line::before {
+
+  left: -10px !important;
+}
 .upload {
   border: 1px solid #ced4da !important;
   width: 100%;
@@ -84,7 +118,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-right: 1px solid #ced4da;
 }
 
- 
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+  margin-top: 16px;
+}
  
 
 .modal-backdrop {

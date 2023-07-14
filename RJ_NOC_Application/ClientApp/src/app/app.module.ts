@@ -10,6 +10,13 @@ import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
 
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatStepperModule } from '@angular/material/stepper';
+
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
 import { CollegeDetailsComponent } from './Views/college-details/college-details.component';
 import { BasicBscNursingComponent } from './Views/CollegeDetailsForm/basic-bsc-nursing/basic-bsc-nursing.component';
@@ -140,6 +147,8 @@ import { UserRoleRightsComponent } from './Views/Master/RoleMaster/user-role-rig
 import { PreviewPaymentDetailComponent } from './Views/PreviewTabs/preview-payment-detail/preview-payment-detail.component';
 import { DocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
 import { JointApplicationListComponent } from './Views/joint-application-list/joint-application-list.component';
+
+
 
 @NgModule({
   declarations: [
@@ -298,6 +307,13 @@ import { JointApplicationListComponent } from './Views/joint-application-list/jo
     MatTabsModule,
     FormsModule,
     NgbPopoverModule,
+    MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
     NgMultiSelectDropDownModule.forRoot(),
     //NgSelect2Module,
     //ChartsModule,

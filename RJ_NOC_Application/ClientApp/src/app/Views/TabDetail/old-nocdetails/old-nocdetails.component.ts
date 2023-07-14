@@ -141,6 +141,7 @@ export class OldNOCDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.lstCourse = [];
+     // await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID, 4)//4=existing
       await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID, 4)//4=existing
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
