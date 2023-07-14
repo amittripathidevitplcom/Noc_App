@@ -136,10 +136,10 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.ParentHospitalID==2">
                     <label class="form-label"><b>Document :</b></label>
-                    <a *ngIf="!HospitalData.ParentNotDocument.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.ParentNotDocument}}" data-caption="Image 10" title="click here to zoom">
-                      <img src="{{HospitalData.ParentNotDocument}}" alt="ParentNotDocument" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    <a *ngIf="!HospitalData.ParentNotDocument.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.ParentNotDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{HospitalData.ParentNotDocumentPath}}" alt="ParentNotDocument" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                     </a>
-                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="HospitalData.ParentNotDocument.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.ParentNotDocument}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>                   
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="HospitalData.ParentNotDocument.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.ParentNotDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>                   
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.ParentHospitalID==2">
                     <label class="form-label"><b>Whether the affiliated hospital has affiliation with any other institution in the past or not  :</b></label>
@@ -148,10 +148,10 @@
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="(HospitalData.ParentHospitalID==2 && HospitalData.AffiliatedHospitalAffiliationToOtherID==1)">
                     <label class="form-label"><b>Consent form :</b></label>
                     <div class="clearfix"></div>
-                    <a *ngIf="!HospitalData.ConsentForm.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.ConsentForm}}" data-caption="Image 10" title="click here to zoom">
-                      <img src="{{HospitalData.ConsentForm}}" alt="ConsentForm" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    <a *ngIf="!HospitalData.ConsentForm.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.ConsentFormPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{HospitalData.ConsentFormPath}}" alt="ConsentForm" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                     </a>
-                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="HospitalData.ConsentForm.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.ConsentForm}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="HospitalData.ConsentForm.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.ConsentFormPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </div>
                   <!-- end -->
                 </div>

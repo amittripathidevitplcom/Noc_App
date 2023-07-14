@@ -256,6 +256,7 @@ export class RoomDetailsComponent implements OnInit {
     this.showImageFilePath = false;
     this.request.ImageFileName = '';
     this.request.ImageFilePath = '';
+    this.request.Image_Dis_FileName = '';
   }
   async SaveData() {
     this.WidthMin = this.WidthMin1;

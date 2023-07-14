@@ -781,14 +781,13 @@ export class BuildingDetailsComponent implements OnInit {
 
   }
   async DeleteImages(item: DocuemntBuildingDetailsDataModel) {
-
     try {
 
       // delete from server folder
 
       this.loaderService.requestEnded();
 
-      await this.fileUploadService.DeleteDocument(item.FilePath).then((data: any) => {
+      await this.fileUploadService.DeleteDocument(item.FileName).then((data: any) => {
 
         this.State = data['State'];
 
@@ -801,6 +800,7 @@ export class BuildingDetailsComponent implements OnInit {
           item.FileName = '';
 
           item.FilePath = '';
+          item.Dis_FileName = '';
 
         }
 

@@ -135,10 +135,10 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label><b>Upload Own Building Document :</b></label>
-                    <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUpload}}" data-caption="Image 10" title="click here to zoom">
-                      <img src="{{buildingdetails.OwnBuildingFileUpload}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.OwnBuildingFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                     </a>
-                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUpload}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </div>
                 </div>
               </div>
@@ -160,10 +160,10 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label><b>Upload Fire NOC Document :</b></label>
-                    <a *ngIf="!buildingdetails.FireNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.FireNOCFileUpload}}" data-caption="Image 10" title="click here to zoom">
-                      <img src="{{buildingdetails.FireNOCFileUpload}}" alt="Fire NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    <a *ngIf="!buildingdetails.FireNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.FireNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.FireNOCFileUploadPath}}" alt="Fire NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                     </a>
-                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.FireNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.FireNOCFileUpload}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.FireNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.FireNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </div>
                 </div>
               </div>
@@ -188,10 +188,89 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label><b>Upload PWD NOC Document :</b></label>
-                    <a *ngIf="!buildingdetails.PWDNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.PWDNOCFileUpload}}" data-caption="Image 10" title="click here to zoom">
-                      <img src="{{buildingdetails.PWDNOCFileUpload}}" alt="PWD NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    <a *ngIf="!buildingdetails.PWDNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.PWDNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.PWDNOCFileUploadPath}}" alt="PWD NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                     </a>
-                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.PWDNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.PWDNOCFileUpload}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>                   
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.PWDNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.PWDNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Description</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Total Project Cost :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.TotalProjectCost}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Source Cost Amount :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.SourceCostAmount}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Amount deposited in the Bank near the institution :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.AmountDeposited}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Other fixed assets/securities of the organization :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.OtherFixedAssetsAndSecurities}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>GATE year balance secret of the organization :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.GATEYearBalanceSecret}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Other financial resources :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.OtherFinancialResources}}" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                          <tr>
+                            <th>Upload Total Project Cost Document</th>
+                            <th>Upload Source Cost Amount Document</th>
+                            <th>Upload Amount Deposited Document</th>
+                            <th>Upload Other Fixed Assets/Securities Document</th>
+                            <th>Upload GATE Year Balance Secret Document</th>
+                            <th>Upload Other Financial Resources Document</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.TotalProjectCostFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.TotalProjectCostFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.TotalProjectCostFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.TotalProjectCostFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.SourceCostAmountFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.SourceCostAmountFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.SourceCostAmountFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.SourceCostAmountFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.AmountDepositedFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.AmountDepositedFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.AmountDepositedFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.AmountDepositedFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.GATEYearBalanceSecretFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.GATEYearBalanceSecretFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.GATEYearBalanceSecretFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.GATEYearBalanceSecretFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.OtherFinancialResourcesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFinancialResourcesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OtherFinancialResourcesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFinancialResourcesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -208,7 +287,7 @@
                         <thead>
                           <tr>
                             <th>Sr. No.</th>
-                            <th>Document Name</th>                           
+                            <th>Document Name</th>
                             <th>File</th>
                           </tr>
                         </thead>
@@ -217,7 +296,7 @@
                             <td> {{indexOfelement+1}}</td>
                             <td>
                               {{item.DocumentName}}
-                            </td>                           
+                            </td>
                             <td>
                               <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
                                 <img src="{{item.FilePath}}" alt="Image/File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
@@ -233,7 +312,7 @@
                     </div>
                   </div>
                 </div>
-              </div>             
+              </div>
             </div>
           </div>
         </div>

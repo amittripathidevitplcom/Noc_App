@@ -151,6 +151,9 @@ export class SSOLoginComponent implements OnInit {
       this.sSOLandingDataDataModel.Username = LoginSSOID;
       this.sSOLandingDataDataModel.LoginType = this.LoginType;
 
+      debugger;
+
+      
       if (LoginSSOID == undefined || LoginSSOID == '' || LoginSSOID == 'NaN' || LoginSSOID.toString() == NaN.toString()) {
         //LoginSSOID = "RISHIKAPOORDELHI";
         window.open(GlobalConstants.SSOURL, "_self");
