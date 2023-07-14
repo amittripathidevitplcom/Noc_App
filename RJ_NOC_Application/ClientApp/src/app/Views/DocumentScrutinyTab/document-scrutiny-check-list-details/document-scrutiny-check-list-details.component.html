@@ -1555,35 +1555,41 @@
   <!--End Hostel Detail-->
 
   <div class="row">
-
-
-
     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-      <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
-      <!--id="ddlRoleID" name="ddlRoleID" formControlName="ddlRoleID" [(ngModel)]="NextRoleID"-->
+      <label for="ddlAction" class="form-label">Action <span style="color:red;">*</span></label>
+      <select class="form-select" (change)="On_ChangeAction()" [(ngModel)]="ActionType">
+        <option value="Approve">Approve</option>
+        <option value="Revert">Revert</option>
+
+      </select>
+      <div *ngIf="isActionTypeValid" class="text-danger">
+        <p *ngIf="isActionTypeValid"> This field is required .!</p>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+      <label for="ddlDistrictID" class="form-label">Role <span style="color:red;">*</span></label>
       <select class="form-select" (change)="GetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
         <option value="0" selected>--Select Role--</option>
         <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
       </select>
-      <!--<div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
-        <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-      </div>-->
+      <div *ngIf="isNextRoleIDValid" class="text-danger">
+        <p *ngIf="isNextRoleIDValid"> This field is required .!</p>
+      </div>
     </div>
-
-    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-      <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
-      <!--id="ddlDistrictID" name="ddlDistrictID" formControlName="ddlDistrictID" [(ngModel)]="NextUserID"-->
-      <select class="form-select">
-        <option value="0" selected>--Select District--</option>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+      <label for="ddlDistrictID" class="form-label">User <span style="color:red;">*</span></label>
+      <select class="form-select" [(ngModel)]="NextUserID">
+        <option value="0" selected>--Select User--</option>
         <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
       </select>
-      <!--<div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
-        <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-      </div>-->
+      <div *ngIf="isNextUserIdValid" class="text-danger">
+        <p *ngIf="isNextUserIdValid"> This field is required .!</p>
+      </div>
     </div>
-
+  </div>
+  <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-      <label>Remarks</label>
+      <label>Remarks  <span style="color:red;">*</span></label>
       <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
       <div *ngIf="isRemarkValid" class="text-danger">
         <p *ngIf="isRemarkValid"> This field is required .!</p>
@@ -1591,19 +1597,10 @@
     </div>
 
   </div>
-  <!--<div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-      <label>Remarks</label>
-      <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
-      <div *ngIf="isRemarkValid" class="text-danger">
-        <p *ngIf="isRemarkValid"> This field is required .!</p>
-      </div>
-    </div>
-  </div>-->
   <div class="row">
     <div class="col-md-12">
-      <button type="button" class="btn btn-sm btn-success" (click)="DocumentScrutiny('Approve')" title="Approve">Approve</button>
-      <button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny('Reject')" title="Reject">Reject</button>
+      <button type="button" class="btn btn-sm btn-success" (click)="DocumentScrutiny()" title="Approve">Approve</button>
+      <button type="button" class="btn btn-sm btn-danger" (click)="DocumentScrutiny()" title="Reject">Reject</button>
     </div>
   </div>
 </div>

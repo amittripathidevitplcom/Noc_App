@@ -198,41 +198,41 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.selectedIndex = event.index;
   }
 
-  async DocumentScrutiny(ActionType: string) {
-    this.isRemarkValid = false;
-    try {
-      if (this.CheckFinalRemark == '') {
-        this.isRemarkValid = true;
-        return;
-      }
-      this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/applynocapplicationlist']);
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  //async DocumentScrutiny(ActionType: string) {
+  //  this.isRemarkValid = false;
+  //  try {
+  //    if (this.CheckFinalRemark == '') {
+  //      this.isRemarkValid = true;
+  //      return;
+  //    }
+  //    this.loaderService.requestStarted();
+  //    await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
+  //      .then((data: any) => {
+  //        data = JSON.parse(JSON.stringify(data));
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        if (this.State == 0) {
+  //          this.toastr.success(this.SuccessMessage);
+  //          this.routers.navigate(['/applynocapplicationlist']);
+  //        }
+  //        else if (this.State == 2) {
+  //          this.toastr.warning(this.ErrorMessage)
+  //        }
+  //        else {
+  //          this.toastr.error(this.ErrorMessage)
+  //        }
+  //      }, error => console.error(error));
+  //  }
+  //  catch (Ex) {
+  //    console.log(Ex);
+  //  }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
 
   // Start Land Details
 

@@ -61,6 +61,8 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   public isActionValid: boolean = false;
   public isObjectionValid: boolean = false;
   public isRemarkValid: boolean = false;
+  public ShowHideNextRoleNextUser: boolean = true;
+  public isActionTypeValid: boolean = false;
 
 
   public RoleID: number = 10;
@@ -141,7 +143,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
 
   public NextRoleID: number = 0;
   public NextUserID: number = 0;
-
+  public ActionType: string = 'Approve';
 
 
 
@@ -583,16 +585,39 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     //End Hospital Details
 
 
-    //Document  Post Section
-  async DocumentScrutiny(ActionType: string) {
+  //Document  Post Section
+  public isNextRoleIDValid: boolean = false;
+  public isNextUserIdValid: boolean = false;
+  async DocumentScrutiny() {
+    this.isFormvalid = true;
+    this.isNextUserIdValid = false;
+    this.isNextRoleIDValid = false;
     this.isRemarkValid = false;
     try {
+      if (this.ActionType == '') {
+        this.isActionTypeValid = true;
+        this.isFormvalid = false;
+      }
       if (this.CheckFinalRemark == '') {
         this.isRemarkValid = true;
+        this.isFormvalid = false;
+      }
+      if (this.ActionType == 'Approve') {
+        if (this.NextRoleID <= 0) {
+          this.isNextRoleIDValid = true;
+          this.isFormvalid = false;
+        }
+
+        if (this.NextUserID <= 0) {
+          this.isNextUserIdValid = true;
+          this.isFormvalid = false;
+        }
+      }
+      if (!this.isFormvalid) {
         return;
       }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark)
+      await this.applyNOCApplicationService.DocumentScrutiny(this.RoleID, this.UserID, this.ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -634,6 +659,10 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           if (data['Data'].length > 0)
           {
             this.UserRoleList = data['Data'];
+            if (this.UserRoleList.length > 0) {
+              this.NextRoleID = this.UserRoleList[0]['RoleID'];
+              await this.GetUserDetailsByRoleID();
+            }
           }
         })
     }
@@ -657,6 +686,9 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'].length > 0) {
             this.UserListRoleWise = data['Data'];
+            if (this.UserListRoleWise.length > 0) {
+              this.NextUserID = this.UserListRoleWise[0]['UId'];
+            }
           }
         })
     }
@@ -667,7 +699,20 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  async On_ChangeAction() {
+    if (this.ActionType == 'Approve') {
+      this.ShowHideNextRoleNextUser = true;
+      if (this.UserRoleList.length > 0) {
+        this.NextRoleID = this.UserRoleList[0]['RoleID'];
+        await this.GetUserDetailsByRoleID();
+      }
+    }
+    else {
+      this.ShowHideNextRoleNextUser = false;
+      this.NextRoleID = 0;
+      this.NextUserID = 0;
+    }
+  }
 
 
 
