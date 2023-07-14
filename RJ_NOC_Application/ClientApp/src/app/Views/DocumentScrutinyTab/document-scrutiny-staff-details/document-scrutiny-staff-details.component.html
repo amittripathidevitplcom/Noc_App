@@ -230,28 +230,28 @@
                   <tbody>
                     <tr>
                       <td>
-                        <a *ngIf="!request.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{request.ProfilePhoto}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{request.ProfilePhoto}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        <a *ngIf="!request.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{request.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{request.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                         </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{request.ProfilePhoto}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{request.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                       </td>
                       <td>
-                        <a *ngIf="!request.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{request.AadhaarCard}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{request.AadhaarCard}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        <a *ngIf="!request.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{request.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{request.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                         </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{request.AadhaarCard}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{request.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                       </td>
                       <td>
-                        <a *ngIf="!request.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{request.PANCard}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{request.PANCard}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        <a *ngIf="!request.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{request.PANCardPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{request.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                         </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{request.PANCard}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{request.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                       </td>
                       <td>
-                        <a *ngIf="!request.ExperienceCertificate.includes('.pdf')" data-fancybox="gallery" href="{{request.ExperienceCertificate}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{request.ExperienceCertificate}}" alt="Experience Certificate" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        <a *ngIf="!request.ExperienceCertificate.includes('.pdf')" data-fancybox="gallery" href="{{request.ExperienceCertificatePath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{request.ExperienceCertificatePath}}" alt="Experience Certificate" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                         </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.ExperienceCertificate.includes('.pdf')" data-fancybox="gallery" href="{{request.ExperienceCertificate}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.ExperienceCertificate.includes('.pdf')" data-fancybox="gallery" href="{{request.ExperienceCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                       </td>
                     </tr>
                   </tbody>
@@ -296,10 +296,10 @@
                         {{item.Marks}}
                       </td>
                       <td>
-                        <a *ngIf="!item.UploadDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadDocument}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{item.UploadDocument}}" alt="Upload Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        <a *ngIf="!item.UploadDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{item.UploadDocumentPath}}" alt="Upload Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                         </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.UploadDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadDocument}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.UploadDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                       </td>
                     </tr>
                   </tbody>

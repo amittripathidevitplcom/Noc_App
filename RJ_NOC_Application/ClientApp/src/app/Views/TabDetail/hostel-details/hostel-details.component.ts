@@ -615,10 +615,14 @@ export class HostelDetailsComponent implements OnInit {
           if (Type == 'RentDocument') {
             this.showRentDocument = false;
             this.request.RentDocument = '';
+            this.request.RentDocument_Dis_FileName = '';
+            this.request.RentDocumentPath = '';
           }
           else if (Type == 'ImageFile') {
             this.showImageFile = false;
             this.hosteldetail.ImageFileName = '';
+            this.hosteldetail.Dis_FileName = '';
+            this.hosteldetail.ImageFilePath = '';
           }
         }
         if (this.State == 1) {
