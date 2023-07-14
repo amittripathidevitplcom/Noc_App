@@ -89,7 +89,7 @@ import { UserRoleRightsComponent } from './Views/Master/RoleMaster/user-role-rig
 import { PreviewPaymentDetailComponent } from './Views/PreviewTabs/preview-payment-detail/preview-payment-detail.component';
 import { DocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
 import { JointApplicationListComponent } from './Views/joint-application-list/joint-application-list.component'
-
+import { DocumentScrutinyRejectedReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-rejected-report/document-scrutiny-rejected-report.component';
 
 const routes: Routes = [
   {
@@ -382,6 +382,9 @@ const routes: Routes = [
       },
       {
         path: 'jointapplicationlist', component: JointApplicationListComponent
+      },
+      {
+        path: 'documentscrutinyrejectedreport', component: DocumentScrutinyRejectedReportComponent
       },
 
     ]
