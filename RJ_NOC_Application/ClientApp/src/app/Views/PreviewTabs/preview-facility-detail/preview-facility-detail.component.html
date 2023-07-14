@@ -23,10 +23,10 @@
                 <td>{{item.MinSize}}
                 </td>
                 <td>
-                  <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrl}}" data-caption="Image 10" title="click here to zoom">
-                    <img src="{{item.FacilitiesUrl}}" alt="Facilities" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrl}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
               </tr>
               <tr *ngIf="FacilitiesDataAllList.length<=0">
