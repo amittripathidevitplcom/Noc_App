@@ -30,6 +30,7 @@ export class SSOLoginDataModel {
   public UserType: string = '';
   public Mfa: string = '';
   public RoleID: number = 0;
+  public UserID: number = 0;
   public RoleName: string = '';
   public DepartmentID: number = 0;
 }

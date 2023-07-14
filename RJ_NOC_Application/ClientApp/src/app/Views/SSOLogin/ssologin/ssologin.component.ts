@@ -185,6 +185,7 @@ export class SSOLoginComponent implements OnInit {
             this.sSOLoginDataModel.RoleID = data['Data'][0]['data'][0]['RoleID'];
             this.sSOLoginDataModel.RoleName = data['Data'][0]['data'][0]['RoleName'];
             this.sSOLoginDataModel.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+            this.sSOLoginDataModel.UserID = data['Data'][0]['data'][0]['UserID'];
           }
         }, error => console.error(error));
       console.log(this.sSOLoginDataModel.RoleID);

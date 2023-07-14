@@ -20,13 +20,13 @@ export class ApplyNOCApplicationService {
     return throwError(error);
   }
   //Get 
-  public async GetApplyNOCApplicationListByRole(RoleId: number) {
+  public async GetApplyNOCApplicationListByRole(RoleId: number, UserID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetApplyNOCApplicationListByRole/" + RoleId)
+    return await this.http.get(this.APIUrl + "/GetApplyNOCApplicationListByRole/" + RoleId + "/" + UserID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

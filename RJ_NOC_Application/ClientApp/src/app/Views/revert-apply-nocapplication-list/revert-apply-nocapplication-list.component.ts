@@ -24,12 +24,12 @@ export class RevertApplyNOCApplicationListComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetRevertApplyNOCApplicationDepartmentRoleWise(this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.RoleID);
+    await this.GetRevertApplyNOCApplicationDepartmentRoleWise(this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
   }
-  async GetRevertApplyNOCApplicationDepartmentRoleWise(DepartmentID: number, RoleId: number) {
+  async GetRevertApplyNOCApplicationDepartmentRoleWise(DepartmentID: number, RoleId: number, UserID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId)
+      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId, UserID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
