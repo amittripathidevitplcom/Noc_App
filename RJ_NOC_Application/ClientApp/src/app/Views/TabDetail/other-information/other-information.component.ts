@@ -301,11 +301,13 @@ export class OtherInformationComponent implements OnInit {
       this.showImageFilePath = false;
       this.request.ImageFileName = '';
       this.request.ImageFilePath = '';
+      this.request.Image_Dis_FileName = '';
     }
     else if (Type == 'UploadBook') {
       this.showBookImageFilePath = false;
       this.request.BookImageFileName = '';
       this.request.BookImageFilePath = '';
+      this.request.BookImage_Dis_FileName = '';
     }
   }
   public isformvalid: boolean = true;

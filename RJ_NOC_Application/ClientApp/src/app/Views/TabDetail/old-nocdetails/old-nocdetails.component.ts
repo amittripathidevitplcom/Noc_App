@@ -451,7 +451,7 @@ export class OldNOCDetailsComponent implements OnInit {
     try {
       // delete from server folder
       this.loaderService.requestEnded();
-      await this.fileUploadService.DeleteDocument(this.request.UploadNOCDocPath).then((data: any) => {
+      await this.fileUploadService.DeleteDocument(this.request.UploadNOCDoc).then((data: any) => {
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];

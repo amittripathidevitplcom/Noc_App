@@ -182,7 +182,7 @@ export class FacilityDetailsComponent implements OnInit {
           if (event.target.files[0].size > 2000000) {
             this.fileUploadImage.nativeElement.value = "";
             this.ImageValidationMessage = 'Select less then 2MB File';
-            this.ResetFile(false, '', '', '');
+            this.ResetFile(false, '', '','');
             this.isValidFacilitiesUrl = false;
             return
           }
@@ -197,7 +197,7 @@ export class FacilityDetailsComponent implements OnInit {
         else {
           this.ImageValidationMessage = 'Select Only jpeg/jpg file';
           this.fileUploadImage.nativeElement.value = "";
-          this.ResetFile(false, '', '', '');
+          this.ResetFile(false, '', '','');
           this.isValidFacilitiesUrl = false;
           return
         }
@@ -336,7 +336,7 @@ export class FacilityDetailsComponent implements OnInit {
     this.request.FacilitiesUrl = '';
     this.request.UserID = 0;
     this.isDisabledGrid = false;
-    this.ResetFile(false, '', '', '');
+    this.ResetFile(false, '', '','');
     await this.GetFacilityDetailAllList();
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = " Save";
