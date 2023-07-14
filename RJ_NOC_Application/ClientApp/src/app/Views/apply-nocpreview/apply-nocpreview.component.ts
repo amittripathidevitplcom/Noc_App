@@ -163,21 +163,21 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.GetLandDetailsDataList();
-    this.GetFacilityDetailAllList();
-    this.GetSocietyAllList();
-    this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
-    this.ViewTotalCollegeDataByID();
-    this.GetRoomDetailAllList();
-    this.GetAllBuildingDetailsList();
-    this.GetStaffDetailList_DepartmentCollegeWise();
-    this.GetOldNOCDetailList_DepartmentCollegeWise();
-    this.GetRequiredDocuments('Required Document');
-    this.GetOtherInformationAllList();
-    this.GetAcademicInformationDetailAllList();
-    this.GetOtherDocuments('Other Document');
-    this.GetHospitalDataList();
-    this.GetHostelDetailList_DepartmentCollegeWise();
+    //this.GetLandDetailsDataList();
+    //this.GetFacilityDetailAllList();
+    //this.GetSocietyAllList();
+    //this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    //this.ViewTotalCollegeDataByID();
+    //this.GetRoomDetailAllList();
+    //this.GetAllBuildingDetailsList();
+    //this.GetStaffDetailList_DepartmentCollegeWise();
+    //this.GetOldNOCDetailList_DepartmentCollegeWise();
+    //this.GetRequiredDocuments('Required Document');
+    //this.GetOtherInformationAllList();
+    //this.GetAcademicInformationDetailAllList();
+    //this.GetOtherDocuments('Other Document');
+    //this.GetHospitalDataList();
+    //this.GetHostelDetailList_DepartmentCollegeWise();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
     //this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
   }
@@ -294,10 +294,12 @@ export class ApplyNOCPreviewComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // data
-          this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
-          this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
-          this.CheckList_legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
-          this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          if (data['Data'].length > 0) {
+            this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
+            this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
+            this.CheckList_legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
+            this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          }
         }, (error: any) => console.error(error));
     }
     catch (Ex) {

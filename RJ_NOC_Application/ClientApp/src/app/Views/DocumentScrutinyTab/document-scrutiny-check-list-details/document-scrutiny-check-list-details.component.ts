@@ -235,10 +235,12 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // data
-          this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
-          this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
-          this.CheckList_legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
-          this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          if (data['Data'].length > 0) {
+            this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
+            this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
+            this.CheckList_legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
+            this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          }
         }, (error: any) => console.error(error));
     }
     catch (Ex) {

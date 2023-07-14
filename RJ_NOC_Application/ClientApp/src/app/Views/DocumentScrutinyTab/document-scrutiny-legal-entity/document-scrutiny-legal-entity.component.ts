@@ -20,7 +20,7 @@ import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumen
 })
 export class DocumentScrutinyLegalEntityComponent implements OnInit {
 
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
+  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
 
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -76,17 +76,20 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.DocumentScrutiny_LegalEntity(SSOID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // data
-          this.legalEntityListData1 = data['Data'][0]['legalEntity'];
-          this.legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
-          this.legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
-          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          if (data['Data'].length > 0) {
+            this.legalEntityListData1 = data['Data'][0]['legalEntity'];
+            this.legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
+            this.legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
+            this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
 
-          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+            this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          }
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
