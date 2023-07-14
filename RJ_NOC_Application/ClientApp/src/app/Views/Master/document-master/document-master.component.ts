@@ -275,7 +275,7 @@ export class DocumentMasterComponent implements OnInit {
         ws['!cols'][6] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
-        XLSX.writeFile(wb, "DocumentType.xlsx");
+        XLSX.writeFile(wb, "DocumentMaster.xlsx");
       }
       catch (Ex) {
         console.log(Ex);
