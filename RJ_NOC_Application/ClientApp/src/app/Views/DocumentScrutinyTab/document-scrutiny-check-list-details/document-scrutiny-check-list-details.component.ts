@@ -4,7 +4,7 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { LandDetailDataModel } from '../../../Models/LandDetailDataModel';
 import { FacilityDetailsDataModel } from '../../../Models/FacilityDetailsDataModel';
 import { RoomDetailsDataModel_RoomDetails } from '../../../Models/RoomDetailsDataModel';
-import {  BuildingDetailsDataModel, OldNocDetailsDataModel, RequiredDocumentsDataModel_Documents, StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
+import { BuildingDetailsDataModel, OldNocDetailsDataModel, RequiredDocumentsDataModel_Documents, StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
 import { OtherInformationDataModel } from '../../../Models/OtherInformationDataModel';
 import { AcademicInformationDetailsDataModel } from '../../../Models/AcademicInformationDetailsDataModel';
 import { HospitalDataModel, HospitalParentNotDataModel } from '../../../Models/HospitalDataModel';
@@ -139,11 +139,12 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
 
   public UserRoleList: any[] = [];
   public UserListRoleWise: any[] = [];
+  public WorkFlowActionList: any[] = [];
 
 
   public NextRoleID: number = 0;
   public NextUserID: number = 0;
-  public ActionType: string = 'Approve';
+  public ActionID: number = 0;
 
 
 
@@ -176,7 +177,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetRoleListForApporval();
   }
 
-  
+
   // Start Land Details
 
   async GetLandDetailsDataList() {
@@ -582,7 +583,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-    //End Hospital Details
+  //End Hospital Details
 
 
   //Document  Post Section
@@ -594,7 +595,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.isNextRoleIDValid = false;
     this.isRemarkValid = false;
     try {
-      if (this.ActionType == '') {
+      if (this.ActionID <=0) {
         this.isActionTypeValid = true;
         this.isFormvalid = false;
       }
@@ -602,22 +603,22 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
         this.isRemarkValid = true;
         this.isFormvalid = false;
       }
-      if (this.ActionType == 'Approve') {
-        if (this.NextRoleID <= 0) {
-          this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
 
-        if (this.NextUserID <= 0) {
-          this.isNextUserIdValid = true;
-          this.isFormvalid = false;
-        }
+      if (this.NextRoleID <= 0) {
+        this.isNextRoleIDValid = true;
+        this.isFormvalid = false;
       }
+
+      if (this.NextUserID <= 0) {
+        this.isNextUserIdValid = true;
+        this.isFormvalid = false;
+      }
+
       if (!this.isFormvalid) {
         return;
       }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionType, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID)
+      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -649,19 +650,20 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
 
 
   async GetRoleListForApporval() {
+    this.UserRoleList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID )
+      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID)
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0)
-          {
+          if (data['Data'].length > 0) {
             this.UserRoleList = data['Data'];
             if (this.UserRoleList.length > 0) {
               this.NextRoleID = this.UserRoleList[0]['RoleID'];
               await this.GetUserDetailsByRoleID();
+              await this.GetWorkFlowActionListByRole();
             }
           }
         })
@@ -675,8 +677,8 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   }
 
 
-  async GetUserDetailsByRoleID()
-  {
+  async GetUserDetailsByRoleID() {
+    this.UserListRoleWise = [];
     this.loaderService.requestStarted();
     try {
       await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID)
@@ -688,6 +690,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             this.UserListRoleWise = data['Data'];
             if (this.UserListRoleWise.length > 0) {
               this.NextUserID = this.UserListRoleWise[0]['UId'];
+              await this.GetWorkFlowActionListByRole();
             }
           }
         })
@@ -699,21 +702,29 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  async On_ChangeAction() {
-    if (this.ActionType == 'Approve') {
-      this.ShowHideNextRoleNextUser = true;
-      if (this.UserRoleList.length > 0) {
-        this.NextRoleID = this.UserRoleList[0]['RoleID'];
-        await this.GetUserDetailsByRoleID();
-      }
+
+  async GetWorkFlowActionListByRole() {
+    this.WorkFlowActionList = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.WorkFlowActionList = data['Data'];
+            if (this.WorkFlowActionList.length > 0) {
+              this.ActionID = this.WorkFlowActionList[0]['ActionID'];
+            }
+          }
+        })
     }
-    else {
-      this.ShowHideNextRoleNextUser = false;
-      this.NextRoleID = 0;
-      this.NextUserID = 0;
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
-
-
-
 }

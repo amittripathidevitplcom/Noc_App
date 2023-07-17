@@ -1555,17 +1555,6 @@
   <!--End Hostel Detail-->
 
   <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-      <label for="ddlAction" class="form-label">Action <span style="color:red;">*</span></label>
-      <select class="form-select" (change)="On_ChangeAction()" [(ngModel)]="ActionType">
-        <option value="Approve">Approve</option>
-        <option value="Revert">Revert</option>
-
-      </select>
-      <div *ngIf="isActionTypeValid" class="text-danger">
-        <p *ngIf="isActionTypeValid"> This field is required .!</p>
-      </div>
-    </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
       <label for="ddlDistrictID" class="form-label">Role <span style="color:red;">*</span></label>
       <select class="form-select" (change)="GetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
@@ -1574,6 +1563,16 @@
       </select>
       <div *ngIf="isNextRoleIDValid" class="text-danger">
         <p *ngIf="isNextRoleIDValid"> This field is required .!</p>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+      <label for="ddlAction" class="form-label">Action <span style="color:red;">*</span></label>
+      <select class="form-select"  [(ngModel)]="ActionID">
+        <option value="0" disabled selected>--Select Action--</option>
+        <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+      </select>
+      <div *ngIf="isActionTypeValid" class="text-danger">
+        <p *ngIf="isActionTypeValid"> This field is required .!</p>
       </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">

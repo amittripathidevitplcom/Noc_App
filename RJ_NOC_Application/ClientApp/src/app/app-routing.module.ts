@@ -90,6 +90,9 @@ import { PreviewPaymentDetailComponent } from './Views/PreviewTabs/preview-payme
 import { DocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
 import { JointApplicationListComponent } from './Views/joint-application-list/joint-application-list.component';
 
+import { ApplyNOCJointSecretaryListComponent } from './Views/apply-nocjoint-secretary-list/apply-nocjoint-secretary-list.component';
+import { ApplyNOCSecretaryListComponent } from './Views/apply-nocsecretary-list/apply-nocsecretary-list.component';
+
 
 const routes: Routes = [
   {
@@ -382,6 +385,12 @@ const routes: Routes = [
       },
       {
         path: 'jointapplicationlist', component: JointApplicationListComponent
+      },
+      {
+        path: 'jointsecapplicationlist', component: ApplyNOCJointSecretaryListComponent
+      },
+      {
+        path: 'secapplicationlist', component: ApplyNOCSecretaryListComponent
       },
 
     ]
