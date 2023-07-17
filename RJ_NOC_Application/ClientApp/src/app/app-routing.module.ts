@@ -92,6 +92,7 @@ import { JointApplicationListComponent } from './Views/joint-application-list/jo
 
 import { ApplyNOCJointSecretaryListComponent } from './Views/apply-nocjoint-secretary-list/apply-nocjoint-secretary-list.component';
 import { ApplyNOCSecretaryListComponent } from './Views/apply-nocsecretary-list/apply-nocsecretary-list.component';
+import { CommiteeInspectionComponent } from './Views/commitee-inspection/commitee-inspection.component';
 
 
 const routes: Routes = [
@@ -391,6 +392,11 @@ const routes: Routes = [
       },
       {
         path: 'secretaryapplicationlist', component: ApplyNOCSecretaryListComponent
+      },
+
+      
+      {
+        path: 'commiteeinspection', component: CommiteeInspectionComponent
       },
 
     ]

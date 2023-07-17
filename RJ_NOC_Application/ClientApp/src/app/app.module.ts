@@ -296,8 +296,7 @@ import { ApplyNOCSecretaryListComponent } from './Views/apply-nocsecretary-list/
     DocumentScrutinyCheckListDetailsComponent,
     JointApplicationListComponent,
     ApplyNOCJointSecretaryListComponent,
-    ApplyNOCSecretaryListComponent
-    JointApplicationListComponent,
+    ApplyNOCSecretaryListComponent,
     CommiteeInspectionComponent
 
   ],
