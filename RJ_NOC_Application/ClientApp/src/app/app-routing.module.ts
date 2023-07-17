@@ -387,10 +387,10 @@ const routes: Routes = [
         path: 'jointapplicationlist', component: JointApplicationListComponent
       },
       {
-        path: 'jointsecapplicationlist', component: ApplyNOCJointSecretaryListComponent
+        path: 'jointsecretaryapplicationlist', component: ApplyNOCJointSecretaryListComponent
       },
       {
-        path: 'secapplicationlist', component: ApplyNOCSecretaryListComponent
+        path: 'secretaryapplicationlist', component: ApplyNOCSecretaryListComponent
       },
 
     ]

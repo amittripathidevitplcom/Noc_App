@@ -38,11 +38,12 @@ export class ApplyNOCSecretaryListComponent implements OnInit {
 
   public NextRoleID: number = 0;
   public NextUserID: number = 0;
-  public ActionType: string = 'Approve';
+  public ActionID: number=0;
   public CheckFinalRemark: string = '';
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   public SelectedApplyNOCID: number = 0;
+  public WorkFlowActionList: any[] = [];
   constructor(private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService) { }
 
@@ -50,6 +51,7 @@ export class ApplyNOCSecretaryListComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
     this.GetRoleListForApporval();
+    this.GetWorkFlowActionListByRole();
   }
 
   async GetApplyNOCApplicationListByRole(RoleId: number, UserID: number) {
@@ -123,7 +125,7 @@ export class ApplyNOCSecretaryListComponent implements OnInit {
     this.isNextRoleIDValid = false;
     this.isRemarkValid = false;
     try {
-      if (this.ActionType == '') {
+      if (this.ActionID <= 0) {
         this.isActionTypeValid = true;
         this.isFormvalid = false;
       }
@@ -131,22 +133,22 @@ export class ApplyNOCSecretaryListComponent implements OnInit {
         this.isRemarkValid = true;
         this.isFormvalid = false;
       }
-      if (this.ActionType == 'Approve') {
-        if (this.NextRoleID <= 0) {
-          this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
 
-        if (this.NextUserID <= 0) {
-          this.isNextUserIdValid = true;
-          this.isFormvalid = false;
-        }
+      if (this.NextRoleID <= 0) {
+        this.isNextRoleIDValid = true;
+        this.isFormvalid = false;
       }
+
+      if (this.NextUserID <= 0) {
+        this.isNextUserIdValid = true;
+        this.isFormvalid = false;
+      }
+
       if (!this.isFormvalid) {
         return;
       }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, 0, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID)
+      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -178,6 +180,7 @@ export class ApplyNOCSecretaryListComponent implements OnInit {
 
 
   async GetRoleListForApporval() {
+    this.UserRoleList = [];
     this.loaderService.requestStarted();
     try {
       await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID)
@@ -216,6 +219,7 @@ export class ApplyNOCSecretaryListComponent implements OnInit {
             this.UserListRoleWise = data['Data'];
             if (this.UserListRoleWise.length > 0) {
               this.NextUserID = this.UserListRoleWise[0]['UId'];
+
             }
           }
         })
@@ -227,18 +231,30 @@ export class ApplyNOCSecretaryListComponent implements OnInit {
       }, 200);
     }
   }
-  async On_ChangeAction() {
-    if (this.ActionType == 'Approve') {
-      this.ShowHideNextRoleNextUser = true;
-      if (this.UserRoleList.length > 0) {
-        this.NextRoleID = this.UserRoleList[0]['RoleID'];
-        await this.GetUserDetailsByRoleID();
-      }
+
+  async GetWorkFlowActionListByRole() {
+    this.WorkFlowActionList = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.WorkFlowActionList = data['Data'];
+            if (this.WorkFlowActionList.length > 0) {
+              this.ActionID = this.WorkFlowActionList[0]['ActionID'];
+            }
+          }
+        })
     }
-    else {
-      this.ShowHideNextRoleNextUser = false;
-      this.NextRoleID = 0;
-      this.NextUserID = 0;
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
+  
 }

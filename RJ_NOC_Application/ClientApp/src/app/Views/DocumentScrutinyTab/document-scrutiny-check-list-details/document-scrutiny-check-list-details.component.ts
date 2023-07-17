@@ -175,6 +175,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetOtherDocuments('Other Document');
     this.GetHospitalDataList();
     this.GetRoleListForApporval();
+    this.GetWorkFlowActionListByRole();
   }
 
 
@@ -663,7 +664,6 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             if (this.UserRoleList.length > 0) {
               this.NextRoleID = this.UserRoleList[0]['RoleID'];
               await this.GetUserDetailsByRoleID();
-              await this.GetWorkFlowActionListByRole();
             }
           }
         })
@@ -690,7 +690,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             this.UserListRoleWise = data['Data'];
             if (this.UserListRoleWise.length > 0) {
               this.NextUserID = this.UserListRoleWise[0]['UId'];
-              await this.GetWorkFlowActionListByRole();
+
             }
           }
         })
@@ -707,7 +707,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID)
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID)
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
