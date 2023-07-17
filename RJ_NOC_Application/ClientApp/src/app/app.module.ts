@@ -147,6 +147,7 @@ import { UserRoleRightsComponent } from './Views/Master/RoleMaster/user-role-rig
 import { PreviewPaymentDetailComponent } from './Views/PreviewTabs/preview-payment-detail/preview-payment-detail.component';
 import { DocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
 import { JointApplicationListComponent } from './Views/joint-application-list/joint-application-list.component';
+import { CommiteeInspectionComponent } from './Views/commitee-inspection/commitee-inspection.component';
 
 
 
@@ -291,7 +292,8 @@ import { JointApplicationListComponent } from './Views/joint-application-list/jo
     DocumentScrutinyReportComponent,
     PreviewPaymentDetailComponent,
     DocumentScrutinyCheckListDetailsComponent,
-    JointApplicationListComponent
+    JointApplicationListComponent,
+    CommiteeInspectionComponent
 
   ],
   imports: [
