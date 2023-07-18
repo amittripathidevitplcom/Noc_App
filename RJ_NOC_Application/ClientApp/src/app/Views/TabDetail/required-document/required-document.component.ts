@@ -69,9 +69,7 @@ export class RequiredDocumentComponent implements OnInit {
     try {
       this.file = event.target.files[0];
       if (this.file) {
-        if (this.file.type === 'image/jpeg' ||
-          this.file.type === 'application/pdf' ||
-          this.file.type === 'image/jpg') {
+        if (this.file.type === 'application/pdf') {
           //size validation
           if (this.file.size > 2000000) {
             this.toastr.error('Select less then 2MB File')
@@ -83,7 +81,7 @@ export class RequiredDocumentComponent implements OnInit {
           }
         }
         else {// type validation
-          this.toastr.error('Select Only jpg/jpeg/pdf file')
+          this.toastr.error('Select Only pdf file')
           return
         }
         // upload to server folder
@@ -110,25 +108,6 @@ export class RequiredDocumentComponent implements OnInit {
               this.toastr.warning(this.ErrorMessage)
             }
           }); 
-
-
-        //await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-        //  this.State = data['State'];
-        //  this.SuccessMessage = data['SuccessMessage'];
-        //  this.ErrorMessage = data['ErrorMessage'];
-        //  if (this.State == 0) {
-
-        //    item.FileName = data['Data'][0]["FileName"];
-        //    item.FilePath = data['Data'][0]["FilePath"];
-        //    event.Value = null;
-        //  }
-        //  if (this.State == 1) {
-        //    this.toastr.error(this.ErrorMessage)
-        //  }
-        //  else if (this.State == 2) {
-        //    this.toastr.warning(this.ErrorMessage)
-        //  }
-        //});
       }
       else {
         //this.ResetFileAndValidation(Type, '', '', false);

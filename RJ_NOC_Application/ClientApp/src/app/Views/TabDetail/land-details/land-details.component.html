@@ -92,7 +92,7 @@
           <label>
             Name of Owner of Land <span style="color:red;">*</span>
           </label>
-          <input type="text" id="txtLandOwnerName" class="form-control" [(ngModel)]="request.LandOwnerName" formControlName="txtLandOwnerName" />
+          <input type="text" id="txtLandOwnerName" class="form-control" [(ngModel)]="request.LandOwnerName" formControlName="txtLandOwnerName" (keypress)="alphaOnly($event)"/>
 
           <div *ngIf="isSubmitted&&form.txtLandOwnerName.errors" class="text-danger">
             <p *ngIf="form.txtLandOwnerName.errors.required"> This field is required .!</p>
@@ -185,6 +185,11 @@
                 <th>Khasra No.</th>
                 <th>Owner Name</th>
                 <th>Building/Hostel/Quarters/Road Area(A1)</th>
+                <!--<th>Land Title Certificate</th>
+                <th>Land Document</th>
+                <th>Conversion Order Document</th>
+                <th>Conversion File Process Certificate</th>
+                <th>Affidavit document for conversion</th>-->
                 <th>Action</th>
               </tr>
             </thead>
@@ -201,6 +206,11 @@
                 <td>{{item.KhasraNumber}}</td>
                 <td>{{item.LandOwnerName}}</td>
                 <td>{{item.BuildingHostelQuartersRoadArea}}</td>
+                <!--<td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
+                <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
+                <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
+                <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
+                <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>-->
                 <td>
                   <div class="d-flex">
                     <button type="button" (click)="Edit_OnClick(item.LandDetailID)" title="Edit" class="btn btn-sm btn-info" [disabled]="isDisabledGrid"><i class="fa fa-edit"></i></button>

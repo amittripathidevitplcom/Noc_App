@@ -22,6 +22,7 @@ export class LandAreaSituatedComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public file: File = null;
+
   /*Save Data Model*/
   request = new LandAreaSituatedMasterDataModel();
   public isDisabledGrid: boolean = false;
@@ -49,7 +50,7 @@ export class LandAreaSituatedComponent implements OnInit {
         ddlStateID: ['', [DropdownValidators]],
         ddlDistrictID: ['', [DropdownValidators]],
         ddlDepartmentID: ['', [DropdownValidators]],
-        txtLandAreaSituatedName: ['', Validators.required],
+        txtLandAreaSituatedName: ['', [Validators.required]],
         chkActiveStatus: [''],
       }
     )
@@ -62,7 +63,7 @@ export class LandAreaSituatedComponent implements OnInit {
     this.ActiveStatus = true;
   }
   get form() { return this.LandAreaSituatedMasterForm.controls; }
-  async GetStateList() {    
+  async GetStateList() {
     try {
       this.loaderService.requestStarted();
       await this.landAreaSituatedMasterService.GetStateList()
@@ -151,7 +152,7 @@ export class LandAreaSituatedComponent implements OnInit {
       }, 200);
     }
   }
-  async SaveData() {    
+  async SaveData() {
     this.isSubmitted = true;
     if (this.LandAreaSituatedMasterForm.invalid) {
       return
@@ -183,6 +184,15 @@ export class LandAreaSituatedComponent implements OnInit {
 
       }, 200);
     }
+  }
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
   }
   async ResetControl() {
     const ddlStateID = document.getElementById('ddlStateID')

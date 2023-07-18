@@ -106,8 +106,8 @@ export class OtherInformationComponent implements OnInit {
     this.OtherInformationForm = this.formBuilder.group(
       {
         OtherInformation_ddlCourse: ['', [DropdownValidators]],
-        OtherInformation_txtWidth: ['', [Validators.required, Validators.min(1)]],
-        OtherInformation_txtLength: ['', [Validators.required, Validators.min(1)]],        
+        OtherInformation_txtWidth: ['', [Validators.required, Validators.min(1), Validators.max(500000)]],
+        OtherInformation_txtLength: ['', [Validators.required, Validators.min(1), Validators.max(500000)]],        
         fileUploadImage: [''],
         fileUploadBookImage: [''],
         OtherInformation_Noofbooks: [''],

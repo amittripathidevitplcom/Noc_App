@@ -31,6 +31,8 @@ export class StaffDetailsComponent implements OnInit {
   public RoleData: any = [];
   public YearData: any = [];
   public isAadhaarCard: boolean = false;
+  public isProfilePhoto: boolean = false;
+  public isExperianceCertificate: boolean = false;
   public isPANCard: boolean = false;
   public StaffDetailModel: StaffDetailDataModel[] = [];
 
@@ -63,6 +65,7 @@ export class StaffDetailsComponent implements OnInit {
 
   public MaxDate: Date = new Date();
   public StartYear: number = 0;
+
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private staffDetailService: StaffDetailService, private fileUploadService: FileUploadService
     , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder) {
@@ -315,6 +318,8 @@ export class StaffDetailsComponent implements OnInit {
 
   async ValidateDocumentImage(event: any, Type: string) {
     this.isAadhaarCard = false;
+    this.isProfilePhoto = false;
+    this.isExperianceCertificate = false;
     this.isPANCard = false;
     if (event.target.files && event.target.files[0]) {
       if ((event.target.files[0].type === 'image/jpeg' && Type == 'ProfilePhoto') ||
@@ -413,7 +418,14 @@ export class StaffDetailsComponent implements OnInit {
         this.isAadhaarCard = true;
         this.FormValid = false;
       }
-
+      if (this.request.ProfilePhoto == '') {
+        this.isProfilePhoto = true;
+        this.FormValid = false;
+      }
+      if (this.request.ExperienceCertificate == '') {
+        this.isExperianceCertificate = true;
+        this.FormValid = false;
+      }
       if (this.request.PFDeduction == 'Yes') {
         if (this.request.UANNumber == '') {
           this.isUANNumber = true;
@@ -559,7 +571,7 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   SetDateofAppointment() {
-    
+
     const DOB = new Date(this.request.DateOfBirth);
     this.StartYear = DOB.getFullYear() + 18;
     DOB.setFullYear(DOB.getFullYear() + 21);
@@ -689,6 +701,8 @@ export class StaffDetailsComponent implements OnInit {
           this.SetDateofAppointment();
           this.showPANCard = true;
           this.showAadhaarCard = true;
+          this.isProfilePhoto = false;
+          this.isExperianceCertificate = false;
           this.showProfilePhoto = this.request.ProfilePhoto != '' ? true : false;
           this.showExperienceCertificate = this.request.ExperienceCertificate != '' ? true : false;
           //profile

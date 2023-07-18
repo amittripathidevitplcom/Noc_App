@@ -47,7 +47,7 @@ export class FacilitiesComponent implements OnInit {
         ddlDepartmentID: ['', [DropdownValidators]],
         txtFacilitiesName: ['', Validators.required],
         chkActiveStatus: [''],
-        MinSize: ['0', Validators.required],
+        MinSize: ['', Validators.required],
         txtUnit: ['', Validators.required],
       }
     )

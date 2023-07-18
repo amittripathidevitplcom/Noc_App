@@ -198,6 +198,7 @@ export class AddCollegeComponent implements OnInit {
   get form_NearestGovernmentHospitals() { return this.CollegeDetailsForm_NearestGovernmentHospitals.controls; }
 
   async onFilechange(event: any, Type: string) {
+    debugger;
     this.file = event.target.files[0];
     if (this.file) {
       if (Type == 'CollegeLogo') {

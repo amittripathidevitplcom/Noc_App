@@ -837,7 +837,15 @@ export class BuildingDetailsComponent implements OnInit {
     }
 
   }
-
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
 
   ValidateUploadImage(event: any, Type: string) {
     
@@ -845,9 +853,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.isValidFireNOCFileUpload = false;
     this.isValidPWDNOCFileUpload = false;
     if (event.target.files && event.target.files[0]) {
-      if (event.target.files[0].type === 'image/jpeg' ||
-        event.target.files[0].type === 'application/pdf' ||
-        event.target.files[0].type === 'image/jpg') {
+      if (event.target.files[0].type === 'application/pdf') {
         if (event.target.files[0].size > 2000000) {
           this.ImageValidationMessage = 'Select less then 2MB File';
           if (Type == 'OwnBuildingFileUpload') {
@@ -894,7 +900,7 @@ export class BuildingDetailsComponent implements OnInit {
         }
       }
       else {
-        this.ImageValidationMessage = 'Select Only jpg/jpeg/pdf file';
+        this.ImageValidationMessage = 'Select Only pdf file';
         if (Type == 'OwnBuildingFileUpload') {
           this.isValidOwnBuildingFileUpload = true;
           this.buildingdetails.OwnBuildingFileUpload = '';
