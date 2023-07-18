@@ -38,7 +38,7 @@
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label class="form-label">Owner Name <span style="color:red;">*</span></label>
-                <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" [(ngModel)]="buildingdetails.OwnerName" formControlName="txtOwnerName">
+                <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" [(ngModel)]="buildingdetails.OwnerName" formControlName="txtOwnerName" (keypress)="alphaOnly($event)"/>
                 <div *ngIf="isSubmitted&&form.txtOwnerName.errors" class="text-danger">
                   <p *ngIf="form.txtOwnerName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>

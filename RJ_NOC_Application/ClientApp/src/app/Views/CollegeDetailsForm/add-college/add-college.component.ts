@@ -198,11 +198,10 @@ export class AddCollegeComponent implements OnInit {
   get form_NearestGovernmentHospitals() { return this.CollegeDetailsForm_NearestGovernmentHospitals.controls; }
 
   async onFilechange(event: any, Type: string) {
+    debugger;
     this.file = event.target.files[0];
     if (this.file) {
-      if (this.file.type == 'image/jpeg' ||
-        (Type == 'CollegeLogo' && this.file.type == 'application/pdf') ||
-        this.file.type == 'image/jpg') {
+      if ((Type == 'HospitalDocument' && this.file.type == 'application/pdf') || (Type == 'CollegeLogo' && this.file.type == 'image/jpeg')) {
         //size validation
         if (this.file.size > 2000000) {
           this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
@@ -214,6 +213,10 @@ export class AddCollegeComponent implements OnInit {
         }
       }
       else {// type validation
+        if (Type == 'HospitalDocument') {
+          this.ResetFileAndValidation(Type, 'Select Only pdf' + (Type != 'HospitalDocument' ? '/pdf file' : ''), '', '', '', false);
+          return
+        }
         this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg' + (Type != 'CollegeLogo' ? '/pdf file' : ''), '', '', '', false);
         return
       }

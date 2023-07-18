@@ -15,9 +15,6 @@
                 {{item.CourseName}}
               </option>
             </select>
-            <div *ngIf="request.CourseID>0">
-              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
-            </div>
             <div *ngIf="isSubmitted&&form.ddlCourse_Room.errors" class="text-danger">
               <p *ngIf="!form.ddlCourse_Room.errors.DropdownValidators">This field is required .!</p>
             </div>
@@ -29,6 +26,9 @@
             <div *ngIf="isSubmitted&&form.txtWidth_Room.errors" class="text-danger">
               <p *ngIf="form.txtWidth_Room.errors.required">This field is required .!</p>
               <p *ngIf="form.txtWidth_Room.errors.min">Width will be greater than zero .!</p>
+            </div>
+            <div *ngIf="request.CourseID>0">
+              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
             </div>
           </div>
           <div class="col-md-3 mb-2">

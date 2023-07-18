@@ -9,7 +9,7 @@ import { LandDetailsService } from '../../../Services/Tabs/LandDetails/land-deta
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
-import { debug, log } from 'console';
+import { Console, debug, log } from 'console';
 import { Table } from 'jspdf-autotable';
 
 @Component({
@@ -357,7 +357,15 @@ export class LandDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
 
   //GetTotalLandArea() {
   //  this.request.TotalLandArea = Number(this.request.BuildingHostelQuartersRoadArea) + Number(this.request.GroundCycleStandArea);
@@ -366,9 +374,7 @@ export class LandDetailsComponent implements OnInit {
     try {
       this.file = event.target.files[0];
       if (this.file) {
-        if (this.file.type === 'image/jpeg' ||
-          this.file.type === 'application/pdf' ||
-          this.file.type === 'image/jpg') {
+        if (this.file.type === 'application/pdf' ) {
           //size validation
           if (this.file.size > 2000000) {
             this.toastr.error('Select less then 2MB File')
@@ -380,7 +386,7 @@ export class LandDetailsComponent implements OnInit {
           }
         }
         else {// type validation
-          this.toastr.error('Select Only jpg/jpeg/pdf file')
+          this.toastr.error('Select Only pdf file')
           return
         }
         // upload to server folder
@@ -468,7 +474,7 @@ export class LandDetailsComponent implements OnInit {
       if (this.request.AffidavitDate == '' || this.request.AffidavitDate == null) {
         this.AffidavitDateValidate = 'This field is required .!';
         return
-      }      
+      }
     }
     if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted') {
       if (this.request.LandConversionOrderNo == '' || this.request.LandConversionOrderNo == null) {
@@ -557,14 +563,16 @@ export class LandDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.landDetailsService.GetLandDetailsList(this.SelectedCollageID, 0)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          
+
           this.LandDetailsList = data['Data'][0]['data']['Table'];
           this.LandDetailsDocumentList = data['Data'][0]['data']['Table1'];
+          console.log(this.LandDetailsDocumentList);
+         
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -578,7 +586,7 @@ export class LandDetailsComponent implements OnInit {
   }
   async ViewViewLandDetailDocumentByID(LandDetailID: any) {
     try {
-      
+
       this.LandDetailsDocumentListByID = [];
       this.loaderService.requestStarted();
       this.LandDetailsDocumentListByID = this.LandDetailsDocumentList.filter((x: any) => x.LandDetailID === LandDetailID);
@@ -644,7 +652,7 @@ export class LandDetailsComponent implements OnInit {
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
-      await this.landDetailsService.GetLandDetailsIDWise(LandDetailID,this.SelectedCollageID)
+      await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
 
@@ -656,7 +664,7 @@ export class LandDetailsComponent implements OnInit {
           this.request.LandDocumentTypeID = data['Data'][0]['LandDocumentTypeID'];
           this.request.LandConvertedID = data['Data'][0]['LandConvertedID'];
           await this.GetLandDocuments(this.request.LandConvertedID.toString(), 'Yes');
-          this.request.LandTypeID = data['Data'][0]['LandTypeID']; 
+          this.request.LandTypeID = data['Data'][0]['LandTypeID'];
           this.request.KhasraNumber = data['Data'][0]['KhasraNumber'];
           this.request.LandOwnerName = data['Data'][0]['LandOwnerName'];
           this.request.BuildingHostelQuartersRoadArea = data['Data'][0]['BuildingHostelQuartersRoadArea'];
@@ -668,8 +676,8 @@ export class LandDetailsComponent implements OnInit {
           this.request.LandAreaSituatedName = data['Data'][0]['LandAreaSituatedName'];
           this.request.LandDocumentTypeName = data['Data'][0]['LandDocumentTypeName'];
           this.request.IsConvereted = data['Data'][0]['IsConvereted'];
-          this.request.LandTypeName = data['Data'][0]['LandTypeName']; 
-           
+          this.request.LandTypeName = data['Data'][0]['LandTypeName'];
+
           this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
 
 
@@ -690,6 +698,7 @@ export class LandDetailsComponent implements OnInit {
 
 
   async GetLandDocuments(LandConvertedID: string, IsEdit: string = 'No') {
+    debugger;
     console.log(this.LandConversionData);
     var Code = this.LandConversionData.find((x: { ID: number; }) => x.ID == Number(LandConvertedID)).Code;
 

@@ -173,6 +173,7 @@
                         <div *ngIf="isSubmitted_Registration&&FormRegistration.txtEmailIDRegistration.errors" class="text-danger">
                           <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.required"> This field is required .!</p>
                           <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.email">Invalid Email</p>
+                          <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.pattern">Invalid Email</p>
                         </div>
 
                       </div>

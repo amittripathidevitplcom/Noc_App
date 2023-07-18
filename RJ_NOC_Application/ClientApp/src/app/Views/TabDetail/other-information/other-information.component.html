@@ -22,9 +22,6 @@
             <div *ngIf="isSubmitted&&form.OtherInformation_ddlCourse.errors" class="text-danger">
               <p *ngIf="!form.OtherInformation_ddlCourse.errors.DropdownValidators">This field is required .!</p>
             </div>
-            <div *ngIf="request.CourseID>0">
-              <p *ngIf="WidthMin>0 && request.Width>0 && request.Length>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
-            </div>
           </div>
           <div class="col-md-3 mb-2">
             <label>Width (In Feet)<span style="color:red;">*</span></label>
@@ -34,16 +31,21 @@
             <div *ngIf="isSubmitted&&form.OtherInformation_txtWidth.errors" class="text-danger">
               <p *ngIf="form.OtherInformation_txtWidth.errors.required">This field is required .!</p>
               <p *ngIf="form.OtherInformation_txtWidth.errors.min">Width will be greater than zero .!</p>
+              <p *ngIf="form.OtherInformation_txtWidth.errors.max">Width will be less than 500000 .!</p>
+            </div>
+            <div *ngIf="request.CourseID>0">
+              <p *ngIf="WidthMin>0 && request.Width>0 && request.Length>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
             </div>
           </div>
           <div class="col-md-3 mb-2">
             <label>Length (In Feet)<span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="OtherInformation_txtLength" name="OtherInformation_txtLength"
-                   placeholder="Enter Length (In Feet)"
+                   placeholder="Enter Length (In Feet)" 
                    [(ngModel)]="request.Length" formControlName="OtherInformation_txtLength" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.OtherInformation_txtLength.errors" class="text-danger">
               <p *ngIf="form.OtherInformation_txtLength.errors.required">This field is required .!</p>
               <p *ngIf="form.OtherInformation_txtLength.errors.min">Length will be greater than zero .!</p>
+              <p *ngIf="form.OtherInformation_txtLength.errors.max">Length will be less than 500000 .!</p>
             </div>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -127,7 +129,7 @@
                         <th>Length (In Feet)</th>
                         <th>Number Of Books</th>
                         <th>Upload Image</th>
-                        <th>Upload Book Image</th>
+                        <!--<th>Upload Book Image</th>-->
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -139,7 +141,7 @@
                         <td>{{row.Length}}</td>
                         <td>{{row.NoofBooks}}</td>
                         <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
-                        <td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>
+                        <!--<td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>-->
                         <td>
                           <div class="d-flex">
                             <button type="button" (click)="Edit_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
