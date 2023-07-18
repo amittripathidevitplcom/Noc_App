@@ -37,6 +37,7 @@ import { RequiredDocumentsDataModel, RequiredDocumentsDataModel_Documents } from
 import { OtherInformationDataModel } from '../../Models/OtherInformationDataModel';
 import { AcademicInformationDetailsDataModel } from '../../Models/AcademicInformationDetailsDataModel';
 import { HospitalDataModel, HospitalParentNotDataModel } from '../../Models/HospitalDataModel';
+import { CollegeService } from '../../services/collegedetailsform/College/college.service';
 
 
 @Component({
@@ -154,7 +155,7 @@ export class ApplyNOCPreviewComponent implements OnInit {
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal ) { }
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService ) { }
 
 
 
@@ -163,8 +164,9 @@ export class ApplyNOCPreviewComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    
+    this.GetCollageDetails();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+
   }
 
   NextStep() {
@@ -182,5 +184,26 @@ export class ApplyNOCPreviewComponent implements OnInit {
   onTabChange(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;    
   }
-
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeDataList = data['Data'];
+          if (this.collegeDataList['CollegeStatusID'] == 3) {
+            this.CollegeType_IsExisting = false;
+            //this.isAcademicInformation = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

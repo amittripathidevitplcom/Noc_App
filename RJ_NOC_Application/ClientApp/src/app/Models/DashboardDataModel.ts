@@ -33,6 +33,7 @@ export class DashboardDataModel {
   public JointSecretary_Pending: number = 0;
   public JointSecretary_Revert: number = 0;
   public JointSecretary_Completed: number = 0;
+  public JointSecretary_ReleaseNOCPending: number = 0;
 
   //JointSecretary Pending
   public ScrutinyCommittee_Pending: number = 0;
