@@ -69,12 +69,12 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
     //
     this.ModifyBy = 1;
     // get college list
-    this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    this.ViewlegalEntityDataByID();
   }
-  async ViewlegalEntityDataByID(SSOID: any) {
+  async ViewlegalEntityDataByID() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_LegalEntity(SSOID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));

@@ -56,6 +56,12 @@ export class RequiredDocumentsDataModel_Documents {
   public FilePath: string = '';
   public Action: string = '';
   public Remark: string = '';
+
+
+  public C_Action: string = '';
+  public C_Remark: string = '';
+  public S_Action: string = '';
+  public S_Remark: string = '';
 }
 
 export class StaffDetailDataModel {
@@ -113,6 +119,11 @@ export class StaffDetailDataModel {
   public Remark: string = '';
   public EducationalQualificationDetails: EducationalQualificationDetails_StaffDetail[] = [];
 
+
+  public C_Action: string = '';
+  public C_Remark: string = '';
+  public S_Action: string = '';
+  public S_Remark: string = '';
 }
 export class EducationalQualificationDetails_StaffDetail {
   public EducationalQualificationID: number = 0;
@@ -188,7 +199,10 @@ export class OldNocDetailsDataModel {
   public SubjectData: OldNocDetails_SubjectDataModel[] = [];
 
   public Action: string = '';
-  //public Remark: string = '';
+  public C_Action: string = '';
+  public S_Action: string = '';
+  public C_Remark: string = '';
+  public S_Remark: string = '';
 }
 export class OldNocDetails_SubjectDataModel {
   public OldNOCSubjectID: number = 0;
@@ -278,6 +292,11 @@ export class BuildingDetailsDataModel {
   public Dis_OtherFinancialResourcesFileUpload: string = '';
   public OtherFinancialResourcesFileUploadPath: string = '';
   public lstBuildingDocDetails: DocuemntBuildingDetailsDataModel[] = [];
+
+  public C_Action: string = '';
+  public C_Remark: string = '';
+  public S_Action: string = '';
+  public S_Remark: string = '';
 }
 
 export class DocuemntBuildingDetailsDataModel {

@@ -1,11 +1,15 @@
 import { RequiredDocumentsDataModel_Documents } from "./TabDetailDataModel";
 
- export class DocumentScrutiny_ActionModule {
+export class DocumentScrutiny_ActionModule {
   public Action: string = '';
   public Remark: string = '';
+  public C_Action: string = '';
+  public C_Remark: string = '';
+  public S_Action: string = '';
+  public S_Remark: string = '';
 }
 
-export class LandDetailDataModel{
+export class LandDetailDataModel {
   public LandDetailID: number = 0;
   public CollegeID: number = 0;
   public LandAreaID: number = 0;
@@ -30,8 +34,13 @@ export class LandDetailDataModel{
   public Code: string = '';
   public Action: string = '';
   public Remark: string = '';
+
+  public C_Action: string = '';
+  public C_Remark: string = '';
+  public S_Action: string = '';
+  public S_Remark: string = '';
 }
 
 export class LandDetailDocumentDataModel extends RequiredDocumentsDataModel_Documents {
-  
+
 }

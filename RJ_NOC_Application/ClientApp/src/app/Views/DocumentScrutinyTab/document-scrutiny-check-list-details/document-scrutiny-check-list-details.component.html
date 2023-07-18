@@ -161,6 +161,8 @@
                               Compliance
                             </th>
                             <th>Remark</th>
+                            <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                            <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
                             <th>Sr. No.</th>
                             <th>Member Name</th>
                             <th>Father's Name</th>
@@ -178,6 +180,14 @@
                             </td>
                             <td>
                               {{row.Action=='No'?row.Remark:''}}
+                            </td>
+                            <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                              Compliance: {{row.C_Action}}<br />
+                              <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                            </td>
+                            <td *ngIf="sSOLoginDataModel.RoleID==5">
+                              Compliance: {{row.S_Action}}<br />
+                              <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
                             </td>
                             <td> {{indexOfelement+1}}</td>
                             <td>{{row.MemberName}}</td>
@@ -223,6 +233,8 @@
 
                             </th>
                             <th>Remark</th>
+                            <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                            <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
                             <th>Sr. No.</th>
                             <th>Registration No.</th>
                             <th>Institute Name</th>
@@ -239,6 +251,14 @@
                             </td>
                             <td>
                               {{row.Action=='No'?row.Remark:''}}
+                            </td>
+                            <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                              Compliance: {{row.C_Action}}<br />
+                              <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                            </td>
+                            <td *ngIf="sSOLoginDataModel.RoleID==5">
+                              Compliance: {{row.S_Action}}<br />
+                              <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
                             </td>
                             <td> {{indexOfelement+1}}</td>
                             <td>{{row.RegistrationNo}}</td>
@@ -510,6 +530,8 @@
                             Compliance<br />
                           </th>
                           <th>Remark</th>
+                          <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                          <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
                           <th>Sr. No.</th>
                           <th>Hospital Name</th>
                           <th>Hospital RegNo.</th>
@@ -533,6 +555,14 @@
                           </td>
                           <td>
                             {{row.Action=='No'?row.Remark:''}}
+                          </td>
+                          <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                            Compliance: {{row.C_Action}}<br />
+                            <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                          </td>
+                          <td *ngIf="sSOLoginDataModel.RoleID==5">
+                            Compliance: {{row.S_Action}}<br />
+                            <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
                           </td>
                           <td> {{indexOfelement+1}}</td>
                           <td>{{row.HospitalName}}</td>
@@ -609,6 +639,8 @@
                   <th>
                     Remark
                   </th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
                   <th>SNo</th>
                   <th>Name</th>
                   <th>Father Name</th>
@@ -633,6 +665,14 @@
                   </td>
                   <td>
                     {{row.Action=='No'?row.Remark:''}}
+                  </td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                    Compliance: {{row.C_Action}}<br />
+                    <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                  </td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==5">
+                    Compliance: {{row.S_Action}}<br />
+                    <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
                   </td>
                   <td>{{idx+1}}</td>
                   <td>{{row.PersonName}}</td>
@@ -718,9 +758,12 @@
         <table class="table table-bordered table-hover table-striped">
           <thead>
             <tr>
-              <th>Sr.No.</th>
+
               <th>Compliance</th>
               <th>Remark</th>
+              <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+              <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+              <th>Sr.No.</th>
               <th>College</th>
               <th>Land Situated</th>
               <th>Land Doc Type</th>
@@ -732,9 +775,18 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of CheckList_LandDetailList; let idx =index">
-              <td>{{idx+1}}</td>
+
               <td>{{item.Action}} </td>
               <td>{{item.Action =='No'?item.Remark:''}}</td>
+              <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                Compliance: {{item.C_Action}}<br />
+                <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+              </td>
+              <td *ngIf="sSOLoginDataModel.RoleID==5">
+                Compliance: {{item.S_Action}}<br />
+                <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+              </td>
+              <td>{{idx+1}}</td>
               <td>{{item.CollegeName}}</td>
               <td>{{item.LandAreaSituatedName}}</td>
               <td>{{item.LandDocumentTypeName}}</td>
@@ -783,9 +835,12 @@
           <table class="table table-bordered table-hover table-striped">
             <thead>
               <tr>
-                <th>Sr. No.</th>
+
                 <th>Compliance</th>
                 <th>Remark</th>
+                <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+                <th>Sr. No.</th>
                 <th>Facilities Name</th>
                 <th>Minimum Size</th>
                 <th>Image/File</th>
@@ -793,9 +848,18 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of CheckList_FacilitiesDataAllList ; let indexOfelement=index;">
-                <td> {{indexOfelement+1}}</td>
+
                 <td>{{item.Action}} </td>
                 <td>{{item.Action =='No'?item.Remark:''}}</td>
+                <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                  Compliance: {{item.C_Action}}<br />
+                                               <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+                </td>
+                <td *ngIf="sSOLoginDataModel.RoleID==5">
+                  Compliance: {{item.S_Action}}<br />
+                                               <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+                </td>
+                <td> {{indexOfelement+1}}</td>
                 <td>
                   {{item.FacilitiesName}}
                 </td>
@@ -850,18 +914,30 @@
           <table class="table table-bordered table-hover table-striped">
             <thead>
               <tr>
-                <th>Sr. No.</th>
+
                 <th>Compliance</th>
                 <th>Remark</th>
+                <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+                <th>Sr. No.</th>
                 <th>Document Name</th>
                 <th>File</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of CheckList_DocumentDetails ; let indexOfelement=index;">
-                <td> {{indexOfelement+1}}</td>
+
                 <td>{{item.Action}} </td>
                 <td>{{item.Action =='No'?item.Remark:''}}</td>
+                <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                  Compliance: {{item.C_Action}}<br />
+                                               <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+                </td>
+                <td *ngIf="sSOLoginDataModel.RoleID==5">
+                  Compliance: {{item.S_Action}}<br />
+                                               <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+                </td>
+                <td> {{indexOfelement+1}}</td>
                 <td>{{item.DocumentName}}</td>
                 <td>
                   <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
@@ -911,9 +987,12 @@
           <table class="table table-bordered table-hover table-striped">
             <thead>
               <tr>
-                <th>Sr. No.</th>
+
                 <th>Compliance</th>
                 <th>Remark</th>
+                <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+                <th>Sr. No.</th>
                 <th>Course</th>
                 <th>Width (In Feet) Size</th>
                 <th>Length (In Feet)</th>
@@ -923,11 +1002,20 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of CheckList_RoomDetails; let idx =index">
+
+                <td>{{item.Action}} </td>
+                <td>{{item.Action =='No'?item.Remark:''}}</td>
+                <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                  Compliance: {{item.C_Action}}<br />
+                                               <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+                </td>
+                <td *ngIf="sSOLoginDataModel.RoleID==5">
+                  Compliance: {{item.S_Action}}<br />
+                                               <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+                </td>
                 <td width="5%">
                   {{idx+1}}
                 </td>
-                <td>{{item.Action}} </td>
-                <td>{{item.Action =='No'?item.Remark:''}}</td>
                 <td>
                   {{item.CourseName}}
                 </td>
@@ -991,9 +1079,12 @@
             <table class="table table-bordered table-hover table-striped">
               <thead>
                 <tr>
-                  <th>Sr. No.</th>
+
                   <th>Compliance</th>
                   <th>Remark</th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+                  <th>Sr. No.</th>
                   <th>Facilities Name</th>
                   <th>Width (In Feet)</th>
                   <th>Length (In Feet)</th>
@@ -1004,9 +1095,18 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of CheckList_OtherInformation ; let indexOfelement=index;">
-                  <td> {{indexOfelement+1}}</td>
+
                   <td>{{item.Action}} </td>
                   <td>{{item.Action =='No'?item.Remark:''}}</td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                    Compliance: {{item.C_Action}}<br />
+                                                 <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+                  </td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==5">
+                    Compliance: {{item.S_Action}}<br />
+                                                 <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+                  </td>
+                  <td> {{indexOfelement+1}}</td>
                   <td>
                     {{item.CourseName}}
                   </td>
@@ -1073,9 +1173,12 @@
         <table class="table table-hover table-striped-columns" id="tabellist" #content>
           <thead>
             <tr>
-              <th>Sr. No</th>
+
               <th>Compliance</th>
               <th>Remark</th>
+              <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+              <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+              <th>Sr. No</th>
               <th>Building Type</th>
               <th>Owner Name</th>
               <th>Rural Urban</th>
@@ -1090,9 +1193,18 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of CheckList_lstBuildingDetails; let idx=index">
-              <td>{{idx+1}}</td>
+
               <td>{{item.Action}} </td>
               <td>{{item.Action =='No'?item.Remark:''}}</td>
+              <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                Compliance: {{item.C_Action}}<br />
+                                             <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+              </td>
+              <td *ngIf="sSOLoginDataModel.RoleID==5">
+                Compliance: {{item.S_Action}}<br />
+                                             <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+              </td>
+              <td>{{idx+1}}</td>
               <td>{{item.BuildingTypeName}}</td>
               <td>{{item.OwnerName}}</td>
               <td>{{item.RuralUrban}}</td>
@@ -1159,9 +1271,12 @@
             <table class="table table-hover table-striped">
               <thead>
                 <tr>
-                  <th>S.No.</th>
+
                   <th>Compliance</th>
                   <th>Remark</th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+                  <th>S.No.</th>
                   <th>Type</th>
                   <th>Name Of Person</th>
                   <th>Mobile No.</th>
@@ -1172,9 +1287,18 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of CheckList_StaffDetailModel let idx =index">
-                  <td>{{idx+1}}</td>
+
                   <td>{{item.Action}} </td>
                   <td>{{item.Action =='No'?item.Remark:''}}</td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                    Compliance: {{item.C_Action}}<br />
+                                                 <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+                  </td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==5">
+                    Compliance: {{item.S_Action}}<br />
+                                                 <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+                  </td>
+                  <td>{{idx+1}}</td>
                   <td>{{item.TeachingType}}</td>
                   <td>{{item.PersonName}}</td>
                   <td>{{item.MobileNo}}</td>
@@ -1226,9 +1350,12 @@
               <table class="table table-hover table-striped">
                 <thead>
                   <tr>
-                    <th>S.No.</th>
+
                     <th>Compliance</th>
                     <th>Remark</th>
+                    <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                    <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+                    <th>S.No.</th>
                     <th>Course</th>
                     <th>NOC Type</th>
                     <th>Session Year</th>
@@ -1239,9 +1366,18 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of CheckList_OldNocDetails let idx =index">
-                    <td>{{idx+1}}</td>
+
                     <td>{{item.Action}} </td>
                     <td>{{item.Action =='No'?item.Remark:''}}</td>
+                    <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                      Compliance: {{item.C_Action}}<br />
+                                                   <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+                    </td>
+                    <td *ngIf="sSOLoginDataModel.RoleID==5">
+                      Compliance: {{item.S_Action}}<br />
+                                                   <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+                    </td>
+                    <td>{{idx+1}}</td>
                     <td>{{item.CourseName}}</td>
                     <td>{{item.NOCTypeName}}</td>
                     <td>{{item.FinancialYearName}}</td>
@@ -1293,9 +1429,12 @@
             <table class="table table-hover table-striped-columns" id="tabellist" #content>
               <thead>
                 <tr>
-                  <th>Sr. No.</th>
+
                   <th>Compliance</th>
                   <th>Remark</th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+                  <th>Sr. No.</th>
                   <th>Financial Year</th>
                   <th>Course Name</th>
                   <th>Result</th>
@@ -1308,9 +1447,18 @@
               </thead>
               <tbody>
                 <tr *ngFor="let row of CheckList_AcademicInformationList;let idx=index;">
-                  <td>{{idx+1}}</td>
+
                   <td>{{row.Action}} </td>
                   <td>{{row.Action =='No'?row.Remark:''}}</td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                    Compliance: {{row.C_Action}}<br />
+                    <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                  </td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==5">
+                    Compliance: {{row.S_Action}}<br />
+                    <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
+                  </td>
+                  <td>{{idx+1}}</td>
                   <td>{{row.FinancialYearName}}</td>
                   <td>{{row.CourseName}}</td>
                   <td>{{row.ResultName}}</td>
@@ -1364,18 +1512,30 @@
             <table class="table table-bordered table-hover table-striped">
               <thead>
                 <tr>
-                  <th>Sr. No.</th>
+
                   <th>Compliance</th>
                   <th>Remark</th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+                  <th>Sr. No.</th>
                   <th>Document Name</th>
                   <th>File</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let item of CheckList_OtherDocumentDetails ; let indexOfelement=index;">
-                  <td> {{indexOfelement+1}}</td>
+
                   <td>{{item.Action}} </td>
                   <td>{{item.Action =='No'?item.Remark:''}}</td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                    Compliance: {{item.C_Action}}<br />
+                                                 <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+                  </td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==5">
+                    Compliance: {{item.S_Action}}<br />
+                                                 <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+                  </td>
+                  <td> {{indexOfelement+1}}</td>
                   <td>{{item.DocumentName}}</td>
                   <td>
                     <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
@@ -1424,9 +1584,12 @@
           <table class="table table-hover table-striped">
             <thead>
               <tr>
-                <th>Sr.No.</th>
+
                 <th>Compliance</th>
                 <th>Remark</th>
+                <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+                <th>Sr.No.</th>
                 <th>Whether the institution is a parent hospital or not</th>
                 <th>Hospital Area</th>
                 <th>Hospital Name</th>
@@ -1437,9 +1600,18 @@
             </thead>
             <tbody>
               <tr *ngFor="let row of CheckList_HospitalParentNotDataModelList;let idx=index;">
-                <td>{{idx+1}}</td>
+
                 <td>{{row.Action}} </td>
                 <td>{{row.Action =='No'?row.Remark:''}}</td>
+                <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                  Compliance: {{row.C_Action}}<br />
+                  <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                </td>
+                <td *ngIf="sSOLoginDataModel.RoleID==5">
+                  Compliance: {{row.S_Action}}<br />
+                  <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
+                </td>
+                <td>{{idx+1}}</td>
                 <td>{{row.ParentHospitalID==1?'Yes':'No'}}</td>
                 <td>{{row.HospitalAreaName}}</td>
                 <td>{{row.HospitalName}}</td>
@@ -1496,6 +1668,8 @@
                   <th>
                     Remark
                   </th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
                   <th>S.No.</th>
                   <th>Is Hostel Campus</th>
                   <th>Hostel Name</th>
@@ -1512,6 +1686,14 @@
                   </td>
                   <td>
                     {{row.Action=='No'?row.Remark:''}}
+                  </td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                    Compliance: {{row.C_Action}}<br />
+                    <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                  </td>
+                  <td *ngIf="sSOLoginDataModel.RoleID==5">
+                    Compliance: {{row.S_Action}}<br />
+                    <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
                   </td>
                   <td>{{idx+1}}</td>
                   <td>{{row.IsHostelCampus}}</td>
@@ -1567,7 +1749,7 @@
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
       <label for="ddlAction" class="form-label">Action <span style="color:red;">*</span></label>
-      <select class="form-select"  [(ngModel)]="ActionID">
+      <select class="form-select" [(ngModel)]="ActionID">
         <option value="0" disabled selected>--Select Action--</option>
         <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
       </select>

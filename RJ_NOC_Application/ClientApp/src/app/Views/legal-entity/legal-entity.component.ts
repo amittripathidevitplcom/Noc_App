@@ -10,6 +10,7 @@ import { DropdownValidators } from '../../Services/CustomValidators/custom-valid
 import { FileUploadService } from '../../Services/FileUpload/file-upload.service';
 import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
 import { DisableRightClickService } from '../../Services/DisableRightClick/disable-right-click.service';
+import { log } from 'console';
 @Component({
   selector: 'app-legal-entity',
   templateUrl: './legal-entity.component.html',
@@ -142,7 +143,7 @@ export class LegalEntityComponent implements OnInit {
         {
           txtNewRegistration: ['', Validators.required],
           txtPreMobileNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
-          txtPreEmailID: ['', [Validators.required, Validators.email]],
+          txtPreEmailID: ['', [Validators.required, Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
 
           txtSocietyName: ['', Validators.required],
           ddlSocietyPresentStatus: ['', [DropdownValidators]],
@@ -161,7 +162,7 @@ export class LegalEntityComponent implements OnInit {
           txtManagementCommitteecertified: ['', Validators.required, Validators.pattern('^[a-zA-Z \-\']+')],
           txtPresidentAadhaarNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(12), Validators.maxLength(12)]],
           txtPresidentAadhaarProofDoc: [''],
-          txtSocietyPANNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+          txtSocietyPANNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[A-Za-z]{5}[0-9]{4}[A-Za-z]$")]],
           txtSocietyPanProofDoc: [''],
           txtRegisteredActName: ['']
         });
@@ -1328,19 +1329,25 @@ export class LegalEntityComponent implements OnInit {
 
   SetElectionPresentManagementCommitteeDatemindate() {
     
-    const mindate1 = new Date();
-    mindate1.setFullYear(mindate1.getFullYear() - 3);
+    const mindate1 = new Date(2000,0,1);
+   // mindate1.setFullYear(mindate1.getFullYear() - 23);
     this.MinDate_ElectionPresentManagementCommitteeDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
   }
   
   ElectionPresentManagementCommitteeDate_Change() {
-    if (this.request.ElectionPresentManagementCommitteeDate != '') {
-      this.request.IsDateOfElection = 'Yes';
-      this.IsNotMoreThen3Year = true;
-    }
-    else {
+    debugger;
+    const currndate = new Date();
+    const salecteddate = new Date(this.request.ElectionPresentManagementCommitteeDate);
+    const threeYrsAddOnDate = new Date(salecteddate.setFullYear((salecteddate.getFullYear() + 3)));
+    console.log(threeYrsAddOnDate < currndate);
+    if (threeYrsAddOnDate < currndate) {      
       this.request.IsDateOfElection = 'No';
       this.IsNotMoreThen3Year = false;
+    }
+    else {
+      this.request.IsDateOfElection = 'Yes';
+      this.IsNotMoreThen3Year = true; 
+     
     }
     this.ToggleElectionPresentManagementCommitteeDateValidation();
   }
