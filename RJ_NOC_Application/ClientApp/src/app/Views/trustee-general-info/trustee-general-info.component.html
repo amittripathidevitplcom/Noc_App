@@ -27,7 +27,7 @@
                 <table class="table table-bordered">
                   <tbody>
                     <tr>
-                      <td>Name of Society</td>
+                      <td>Name of {{LegalEntityDataModel.LegalEntity}}</td>
                       <td>{{LegalEntityDataModel.SocietyName}}</td>
                       <td>Entity Type</td>
                       <td>{{LegalEntityDataModel.LegalEntity}}</td>
@@ -100,7 +100,7 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label>Date Of Election Of Present Management Committee(DD/MM/YYYY) <span style="color:red;">*</span></label>
-                <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtDateOfElectionOfPresentManagementCommittee" [(ngModel)]="request.DateOfElectionOfPresentManagementCommittee" formControlName="txtDateOfElectionOfPresentManagementCommittee" />
+                <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtDateOfElectionOfPresentManagementCommittee" [(ngModel)]="request.DateOfElectionOfPresentManagementCommittee" formControlName="txtDateOfElectionOfPresentManagementCommittee" onkeypress="return false;" />
                 <div *ngIf="isSubmitted&&form.txtDateOfElectionOfPresentManagementCommittee.errors" class="text-danger">
                   <p *ngIf="form.txtDateOfElectionOfPresentManagementCommittee.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
                 </div>
@@ -154,8 +154,8 @@
               </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3 text-end">
-              <button type="button" class="btn btn-primary" (click)="SaveData()"> {{request.TrusteeGeneralInfoID>0?'Update':'Save'}} </button>&nbsp;
-              <button type="button" class="btn btn-danger" (click)="ResetData()"> Reset</button>
+              <button type="button" class="btn btn-primary" (click)="SaveData()" [disabled]="IsTrustee"> {{request.TrusteeGeneralInfoID>0?'Update':'Save'}} </button>&nbsp;
+              <button type="button" class="btn btn-danger" (click)="ResetData()" [disabled]="IsTrusteeReset"> Reset</button>
             </div>
           </div>
         </div>
@@ -219,7 +219,7 @@
                       <td>
                         <div class="d-flex">
                           <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="EditData(row.TrusteeGeneralInfoID)"><i class="fa fa-edit"></i></a>
-                          <button type="button" class="btn btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash-o"></i></button>
+                          <!--<button type="button" class="btn btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash-o"></i></button>-->
                         </div>
                       </td>
                     </tr>
