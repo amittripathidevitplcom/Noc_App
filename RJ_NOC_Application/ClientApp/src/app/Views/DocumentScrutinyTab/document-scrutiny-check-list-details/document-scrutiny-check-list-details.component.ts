@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { LandDetailDataModel } from '../../../Models/LandDetailDataModel';
@@ -20,8 +20,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { ToastrService } from 'ngx-toastr';
 import { HostelDataModel } from '../../../Models/HostelDetailsDataModel';
-
-
 
 @Component({
   selector: 'app-document-scrutiny-check-list-details',
@@ -162,8 +160,8 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
-
-    this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    this.ViewlegalEntityDataByID();
+    this.GetSocietyAllList();
     this.ViewTotalCollegeDataByID();
     this.GetRoomDetailAllList();
     this.GetAllBuildingDetailsList();
@@ -174,6 +172,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetAcademicInformationDetailAllList();
     this.GetOtherDocuments('Other Document');
     this.GetHospitalDataList();
+    this.GetHostelDetailList_DepartmentCollegeWise();
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
   }
@@ -229,10 +228,10 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
 
 
   //Legal Entity
-  async ViewlegalEntityDataByID(SSOID: any) {
+  async ViewlegalEntityDataByID() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_LegalEntity(SSOID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

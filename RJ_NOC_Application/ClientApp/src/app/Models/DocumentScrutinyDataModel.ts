@@ -21,4 +21,5 @@ export class DocumentScrutinyList_DataModel {
   public Remark: string = '';
   public TabRowID: number = 0;
   public SubTabName: string = '';
+
 }

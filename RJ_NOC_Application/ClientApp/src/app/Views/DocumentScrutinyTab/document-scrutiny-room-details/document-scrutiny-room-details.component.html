@@ -9,7 +9,7 @@
         <table class="table table-bordered table-hover table-striped">
           <thead>
             <tr>
-              <th>Sr. No.</th>
+
               <th>
                 Compliance<br />
                 <div class="form-check form-check-inline">
@@ -22,6 +22,9 @@
                 </div>
 
               </th>
+              <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+              <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+              <th>Sr. No.</th>
               <th>Course</th>
               <th>Width (In Feet) Size</th>
               <th>Length (In Feet)</th>
@@ -31,9 +34,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of RoomDetails; let idx =index">
-              <td width="5%">
-                {{idx+1}}
-              </td>
+
               <td>
                 <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
                   <div class="form-check form-check-inline">
@@ -51,6 +52,17 @@
                     <textarea type="text" class="form-control" name="txtRoomRemark{{idx+1}}" id="txtRoomRemark{{idx+1}}" [(ngModel)]="item.Remark"></textarea>
                   </div>
                 </div>
+              </td>
+              <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                Compliance: {{item.C_Action}}<br />
+                                             <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+              </td>
+              <td *ngIf="sSOLoginDataModel.RoleID==5">
+                Compliance: {{item.S_Action}}<br />
+                                             <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+              </td>
+              <td width="5%">
+                {{idx+1}}
               </td>
               <td>
                 {{item.CourseName}}

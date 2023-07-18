@@ -20,6 +20,8 @@
                     <label class="form-check-label">No</label>
                   </div>
                 </th>
+                <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
                 <th>Sr. No.</th>
                 <th>Financial Year</th>
                 <th>Course Name</th>
@@ -52,6 +54,14 @@
                   </div>
 
                 </td>
+                <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                  Compliance: {{row.C_Action}}<br />
+                  <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                </td>
+                <td *ngIf="sSOLoginDataModel.RoleID==5">
+                  Compliance: {{row.S_Action}}<br />
+                  <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
+                </td>
                 <td>{{idx+1}}</td>
                 <td>{{row.FinancialYearName}}</td>
                 <td>{{row.CourseName}}</td>
@@ -63,7 +73,7 @@
                 <td>{{row.OtherStudent}}</td>
               </tr>
               <tr *ngIf="(AcademicInformationList.length<=0)">
-                <td colspan="10" style="color:red">No Data Found.!</td>
+                <td colspan="20" style="color:red">No Data Found.!</td>
               </tr>
             </tbody>
           </table>
