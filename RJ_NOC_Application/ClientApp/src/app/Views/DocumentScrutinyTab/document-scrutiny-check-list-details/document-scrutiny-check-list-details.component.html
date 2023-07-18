@@ -1337,7 +1337,7 @@
   </div>
   <!--End Staff Details-->
   <!--Start Old Noce Details-->
-  <div class="card tabCard1 mb-0">
+  <div class="card tabCard1 mb-0" *ngIf="CollegeType_IsExisting">
     <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
       <b><i class="bi bi-table"></i> Old NOC Details </b>
     </div>
@@ -1418,7 +1418,7 @@
   </div>
   <!--End Old NOC Details-->
   <!--Start Academic Information-->
-  <div class="card mb-0">
+  <div class="card mb-0" *ngIf="CollegeType_IsExisting">
     <div class="card-header">
       <b><i class="bi bi-table"></i>&nbsp;Academic Information</b>
     </div>

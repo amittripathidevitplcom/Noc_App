@@ -4,6 +4,7 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
@@ -55,4 +56,5 @@ export class ApplicationPreviewComponent implements OnInit {
     this.selectedIndex = event.index;
   }
 
+  
 }

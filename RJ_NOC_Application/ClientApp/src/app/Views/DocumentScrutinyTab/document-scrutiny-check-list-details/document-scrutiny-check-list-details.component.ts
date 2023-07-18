@@ -20,6 +20,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { ToastrService } from 'ngx-toastr';
 import { HostelDataModel } from '../../../Models/HostelDetailsDataModel';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Component({
   selector: 'app-document-scrutiny-check-list-details',
@@ -149,7 +150,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal) { }
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
 
 
@@ -175,6 +176,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetHostelDetailList_DepartmentCollegeWise();
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
+    this.GetCollageDetails();
   }
 
 
@@ -720,6 +722,30 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
         })
     }
     catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeDataList = data['Data'];
+          if (this.collegeDataList['CollegeStatusID'] == 3) {
+            this.CollegeType_IsExisting = false;
+            //this.isAcademicInformation = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();

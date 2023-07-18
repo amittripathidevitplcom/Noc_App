@@ -200,7 +200,7 @@ export class CommiteeInspectionComponent implements OnInit {
               if (this.State == 0) {
                 this.toastr.success(this.SuccessMessage);
                 this.modalService.dismissAll('After Success');
-                this.routers.navigate(['/applynocapplicationlist']);
+                this.routers.navigate(['/dashboard']);
               }
               else if (this.State == 2) {
                 this.toastr.warning(this.ErrorMessage)
