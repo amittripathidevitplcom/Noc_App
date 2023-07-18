@@ -101,7 +101,7 @@ export class AddCollegeComponent implements OnInit {
         txtMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
         txtCollegeLandlineNumber: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
 
-        txtEmail: ['', [Validators.required, Validators.email]],
+        txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
         txtAddressLine1: ['', Validators.required],
         txtAddressLine2: ['', Validators.required],
         rbRuralUrban: ['', Validators.required],
@@ -120,7 +120,7 @@ export class AddCollegeComponent implements OnInit {
         txtCDNameOfPerson: [''],// handle in sub form
         txtCDDesignation: [''],// handle in sub form
         txtCDMobileNumber: [''],// handle in sub form
-        txtCDEmailAddress: [''],// handle in sub form
+        txtCDEmailAddress: ['', Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")],// handle in sub form
         ddlGCD_DesignationID: [''],
         txtGCD_MobileNumber: ['', [Validators.pattern(this.MobileNoRegex)]],
         txtGCD_LandlineNumber: ['', [Validators.pattern(this.MobileNoRegex)]],
@@ -200,9 +200,24 @@ export class AddCollegeComponent implements OnInit {
   async onFilechange(event: any, Type: string) {
     this.file = event.target.files[0];
     if (this.file) {
-      if (this.file.type == 'image/jpeg' ||
-        (Type == 'CollegeLogo' && this.file.type == 'application/pdf') ||
-        this.file.type == 'image/jpg') {
+      if (Type == 'CollegeLogo') {
+        if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+            return
+          }
+          if (this.file.size < 100000) {
+            this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+            return
+          }
+        }
+        else {// type validation
+          this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg', '', '', '', false);
+          return
+        }
+      }
+      else if (this.file.type == 'application/pdf')  {
         //size validation
         if (this.file.size > 2000000) {
           this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
@@ -214,7 +229,7 @@ export class AddCollegeComponent implements OnInit {
         }
       }
       else {// type validation
-        this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg' + (Type != 'CollegeLogo' ? '/pdf file' : ''), '', '', '', false);
+        this.ResetFileAndValidation(Type, 'Select Only pdf file' , '', '', '', false);
         return
       }
       // upload to server folder
@@ -239,21 +254,23 @@ export class AddCollegeComponent implements OnInit {
   }
 
   async DeleteImage(Type: string, file: string) {
-    // delete from server folder
-    await this.fileUploadService.DeleteDocument(file).then((data: any) => {
-      this.State = data['State'];
-      this.SuccessMessage = data['SuccessMessage'];
-      this.ErrorMessage = data['ErrorMessage'];
-      if (this.State == 0) {
-        this.ResetFileAndValidation(Type, '', '', '', '', false);
-      }
-      if (this.State == 1) {
-        this.toastr.error(this.ErrorMessage)
-      }
-      else if (this.State == 2) {
-        this.toastr.warning(this.ErrorMessage)
-      }
-    });
+    if (confirm("Are you sure you want to delete this ?")) {
+      // delete from server folder
+      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.ResetFileAndValidation(Type, '', '', '', '', false);
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
   }
 
   ResetFileAndValidation(type: string, msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean) {
@@ -407,6 +424,7 @@ export class AddCollegeComponent implements OnInit {
   }
 
   async ddlCollegeStatus_TextChange(event: any, SelectedCollegeStatusID: string) {
+    debugger;
     const selectedCollegeStatusID = Number(SelectedCollegeStatusID);
     let SelectdCollegeStatusName = this.CollegeStatusList.find((x: { ID: number; }) => x.ID == selectedCollegeStatusID).Name;
 
@@ -421,8 +439,11 @@ export class AddCollegeComponent implements OnInit {
 
     }
     else {
-      this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
-      this.CollegeLevelList_FilterData = this.CollegeLevelList;
+      this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList.filter((element: any) => {
+        return element.Name == "NOC";
+      });
+      //this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
+      //this.CollegeLevelList_FilterData = this.CollegeLevelList;
     }
   }
 
@@ -716,17 +737,21 @@ export class AddCollegeComponent implements OnInit {
 
   DelContectDetail(item: ContactDetailsDataModel) {
     //debugger
-    const index: number = this.request.ContactDetailsList.indexOf(item);
-    if (index != -1) {
-      this.request.ContactDetailsList.splice(index, 1)
+    if (confirm("Are you sure you want to delete this ?")) {
+      const index: number = this.request.ContactDetailsList.indexOf(item);
+      if (index != -1) {
+        this.request.ContactDetailsList.splice(index, 1)
+      }
     }
   }
 
   DelNearestGovernmentHospitalsDetail(item: NearestGovernmentHospitalsDataModel) {
     //debugger
-    const index: number = this.request.NearestGovernmentHospitalsList.indexOf(item);
-    if (index != -1) {
-      this.request.NearestGovernmentHospitalsList.splice(index, 1)
+    if (confirm("Are you sure you want to delete this ?")) {
+      const index: number = this.request.NearestGovernmentHospitalsList.indexOf(item);
+      if (index != -1) {
+        this.request.NearestGovernmentHospitalsList.splice(index, 1)
+      }
     }
   }
 
@@ -880,6 +905,15 @@ export class AddCollegeComponent implements OnInit {
       return false;
     }
     return true;
+  }
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
   }
 
 }

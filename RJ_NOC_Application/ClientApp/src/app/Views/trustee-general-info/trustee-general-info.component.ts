@@ -21,6 +21,8 @@ export class TrusteeGeneralInfoComponent implements OnInit {
 
   public isLoading: boolean = false;
   public isSubmitted: boolean = false;
+  public IsTrustee: boolean = true;
+  public IsTrusteeReset: boolean = true;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public State: number = -1;
@@ -54,12 +56,16 @@ export class TrusteeGeneralInfoComponent implements OnInit {
         rbWomenMembersOfManagementCommitteeID: ['', Validators.required],
         rbDateOfElectionOfManagementCommitteeID: ['', Validators.required],
         rbOtherInstitutionRunByTheSocietyID: ['', Validators.required]
-      })
+      })    
 
     // login info
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     // load legal entity
     await this.GetDataOfLegalEntity();
+    if (this.TrusteeGeneralInfoList.length == 0) {
+      this.IsTrustee = false;
+      this.IsTrusteeReset = false;
+    }
 
   }
   get form() { return this.TrusteegeneralinfoForm.controls; }
@@ -103,6 +109,10 @@ export class TrusteeGeneralInfoComponent implements OnInit {
             // get data
             if (this.LegalEntityDataModel != null) {
               await this.GetDataList();
+              if (this.TrusteeGeneralInfoList.length > 0) {
+                this.IsTrustee = true;
+                this.IsTrusteeReset = true;
+              }
             }
           }
           else {
@@ -154,6 +164,8 @@ export class TrusteeGeneralInfoComponent implements OnInit {
     this.request.WomenMembersOfManagementCommitteeID = null;
     this.request.DateOfElectionOfManagementCommitteeID = null;
     this.request.OtherInstitutionRunByTheSocietyID = null;
+    this.IsTrustee = false;
+    this.IsTrusteeReset = false;
   }
 
   async DeleteData(row: TrusteeGeneralInfoDataModel) {
@@ -397,6 +409,8 @@ export class TrusteeGeneralInfoComponent implements OnInit {
 
   async EditData(trusteeGeneralInfoId: number) {
     await this.GetData(trusteeGeneralInfoId);
+    this.IsTrustee = false;
+    this.IsTrusteeReset = true;
   }
 
 }
