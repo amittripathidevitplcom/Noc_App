@@ -18,5 +18,11 @@ export class OtherInformationDataModel {
   public Action: string = '';
   public Remark: string = '';
   public CourseName: string = '';
+
+
+  public C_Action: string = '';
+  public C_Remark: string = '';
+  public S_Action: string = '';
+  public S_Remark: string = '';
 }
 

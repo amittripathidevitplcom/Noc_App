@@ -36,7 +36,7 @@
       <div class="row">
         <div class="col-md-4 mb-3">
           <label>Name of Person <span style="color:red;">*</span></label>
-          <input type="text" id="txtNameOfPerson" name="txtNameOfPerson" class="form-control" formControlName="txtNameOfPerson" [(ngModel)]="request.PersonName" />
+          <input type="text" id="txtNameOfPerson" name="txtNameOfPerson" class="form-control" formControlName="txtNameOfPerson" [(ngModel)]="request.PersonName" (keypress)="alphaOnly($event)" />
           <div *ngIf="isSubmitted&&form.txtNameOfPerson.errors" class="text-danger">
             <p *ngIf="form.txtNameOfPerson.errors.required">This field is required .!</p>
           </div>
@@ -72,7 +72,7 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
-            Profile Photo
+            Profile Photo <span style="color:red;"> *</span>
           </label>
           <div class="d-flex">
             <input type="file" style="display:none" name="ProfilePhoto" id="ProfilePhoto" class="form-control" formControlName="ProfilePhoto" (change)="ValidateDocumentImage($event,'ProfilePhoto')" />
@@ -84,6 +84,9 @@
               <a class="btn btn-outline-primary" target="_blank" href="{{request.ProfilePhotoPath}}"><i class="fa fa-eye"></i></a>
               <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.ProfilePhoto,'ProfilePhoto')"><i class="fa fa-trash-o"></i></button>
             </div>
+          </div>
+          <div *ngIf="isProfilePhoto" class="text-danger">
+            <p *ngIf="isProfilePhoto"> This field is required .!</p>
           </div>
         </div>
         <div class="col-md-4 mb-3">
@@ -154,7 +157,7 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
-            Experience Certificate
+            Experience Certificate <span style="color:red;">*</span>
           </label>
           <div class="d-flex">
             <input type="file" style="display:none" name="ExperienceCertificate" id="ExperienceCertificate" class="form-control" formControlName="ExperienceCertificate" (change)="ValidateDocumentImage($event,'ExperienceCertificate')" />
@@ -166,6 +169,9 @@
               <a class="btn btn-outline-primary" target="_blank" href="{{request.ExperienceCertificatePath}}"><i class="fa fa-eye"></i></a>
               <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.ExperienceCertificate,'ExperienceCertificate')"><i class="fa fa-trash-o"></i></button>
             </div>
+          </div>
+          <div *ngIf="isExperianceCertificate" class="text-danger">
+            <p *ngIf="isExperianceCertificate"> This field is required .!</p>
           </div>
         </div>
         <div class="col-md-4 mb-3">
@@ -187,6 +193,7 @@
           <input type="date" id="dtDateOfJoining" name="dtDateOfJoining" class="form-control" [(ngModel)]="request.DateOfJoining" formControlName="dtDateOfJoining" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"/>
           <div *ngIf="isSubmitted&&form.dtDateOfJoining.errors" class="text-danger">
             <p *ngIf="form.dtDateOfJoining.errors.required"> This field is required .!</p>
+            <!--<div *ngIf="form.dtDateOfJoining.errors.pattern">Please enter a valid date</div>-->
           </div>
         </div>
         <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">

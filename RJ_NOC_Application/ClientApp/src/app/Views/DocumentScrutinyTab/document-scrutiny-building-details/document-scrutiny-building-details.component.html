@@ -18,7 +18,7 @@
       <table class="table table-hover table-striped-columns" id="tabellist" #content>
         <thead>
           <tr>
-            <th>Sr. No</th>
+
             <th>
               Compliance<br />
               <div class="form-check form-check-inline">
@@ -31,6 +31,9 @@
               </div>
 
             </th>
+            <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+            <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+            <th>Sr. No</th>
             <th>Action</th>
             <th>Building Type</th>
             <th>Owner Name</th>
@@ -46,7 +49,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of lstBuildingDetails | tableSearchFilter:searchText;let idx=index;">
-            <td>{{idx+1}}</td>
+
             <td>
               <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
                 <div class="form-check form-check-inline">
@@ -65,6 +68,15 @@
                 </div>
               </div>
             </td>
+            <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+              Compliance: {{item.C_Action}}<br />
+              <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+            </td>
+            <td *ngIf="sSOLoginDataModel.RoleID==5">
+              Compliance: {{item.S_Action}}<br />
+              <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+            </td>
+            <td>{{idx+1}}</td>
             <td>
               <div class="d-flex">
                 <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewBuildingDetails(mymodal,item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></button>

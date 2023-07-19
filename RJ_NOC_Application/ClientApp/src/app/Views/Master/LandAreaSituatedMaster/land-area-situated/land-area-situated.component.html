@@ -57,9 +57,10 @@
               </div>
               <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="txtLandAreaSituatedName" class="form-label">Land Area Situated Name<span style="color:red;">*</span></label>
-                <input type="text" id="txtLandAreaSituatedName"  maxlength="100" class="form-control" [(ngModel)]="request.LandAreaName" placeholder="Enter Land Area..." formControlName="txtLandAreaSituatedName">
+                <input type="text" id="txtLandAreaSituatedName"  maxlength="100" class="form-control" [(ngModel)]="request.LandAreaName" placeholder="Enter Land Area..." (keypress)="alphaOnly($event)" formControlName="txtLandAreaSituatedName">
                 <div *ngIf="isSubmitted&&form.txtLandAreaSituatedName.errors" class="text-danger">
                   <p *ngIf="form.txtLandAreaSituatedName.errors.required">This field is required .!</p>
+                  <!--<p *ngIf="form.txtLandAreaSituatedName.errors.pattern"><i aria-hidden="true"></i> Name is not valid .!</p>-->
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">

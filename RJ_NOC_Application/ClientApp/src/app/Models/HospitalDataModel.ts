@@ -112,6 +112,12 @@ export class HospitalDataModel {
   public HospitalAreaName: string = '';
   public Action: string = '';
   public Remark: string = '';
+
+
+  public C_Action: string = '';
+  public C_Remark: string = '';
+  public S_Action: string = '';
+  public S_Remark: string = '';
 }
 export class HospitalParentNotDataModel {// not have parent
   public ParentHospitalID: number = 0;

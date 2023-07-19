@@ -21,13 +21,13 @@
       <form [formGroup]="CollegeDetailsForm" class="form-horizontal">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp;Basic Information</b>
+            <b>Basic Information</b>           
             <span class="text-danger">(*) Fields is compulsory</span>
           </div>
           <div class="card-body">
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
-                <b><i class="fa fa-plus"></i>&nbsp;College Details</b>
+                <b>College Details</b>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -102,7 +102,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtCollegeNameEn" class="form-label">College Name in English <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtCollegeNameEn" name="txtCollegeNameEn" [(ngModel)]="request.CollegeNameEn" formControlName="txtCollegeNameEn">
+                    <input type="text" class="form-control" id="txtCollegeNameEn" name="txtCollegeNameEn" [(ngModel)]="request.CollegeNameEn" formControlName="txtCollegeNameEn" (keypress)="alphaOnly($event)">
                     <div *ngIf="isSubmitted&&form.txtCollegeNameEn.errors" class="text-danger">
                       <p *ngIf="form.txtCollegeNameEn.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
@@ -174,7 +174,9 @@
                     <label for="txtEmail" class="form-label">Email <span style="color:red;">*</span></label>
                     <input type="email" class="form-control" id="txtEmail" name="txtEmail" [(ngModel)]="request.Email" formControlName="txtEmail">
                     <div *ngIf="isSubmitted&&form.txtEmail.errors" class="text-danger">
-                      <p *ngIf="form.txtEmail.errors.required"><i aria-hidden="true"></i> This field is required .!</p><p *ngIf="form.txtEmail.errors.email"><i aria-hidden="true"></i> Email address is not valid .!</p>
+                      <p *ngIf="form.txtEmail.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <!--<p *ngIf="form.txtEmail.errors.email"><i aria-hidden="true"></i> Invalid Email .!</p>-->
+                      <p *ngIf="form.txtEmail.errors.pattern">Invalid Email .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -319,13 +321,13 @@
           <form [formGroup]="CollegeDetailsForm_ContactDetails" class="form-horizontal">
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
-                <b><i class="fa fa-plus"></i>&nbsp;Contact Details <span style="color:red;">*</span></b>
+                <b>Contact Details <span style="color:red;">*</span></b>
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtCDNameOfPerson" class="form-label">Name Of Person <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtCDNameOfPerson" name="txtCDNameOfPerson" [(ngModel)]="request_ContactDetailsDataModel.NameOfPerson" formControlName="txtCDNameOfPerson">
+                    <input type="text" class="form-control" id="txtCDNameOfPerson" name="txtCDNameOfPerson" [(ngModel)]="request_ContactDetailsDataModel.NameOfPerson" formControlName="txtCDNameOfPerson" (keypress)="alphaOnly($event)">
                     <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDNameOfPerson.errors" class="text-danger">
                       <p *ngIf="form_ContactDetails.txtCDNameOfPerson.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
@@ -353,7 +355,8 @@
                     <input type="email" class="form-control" id="txtCDEmailAddress" name="txtCDEmailAddress" [(ngModel)]="request_ContactDetailsDataModel.EmailAddress" formControlName="txtCDEmailAddress">
                     <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDEmailAddress.errors" class="text-danger">
                       <p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.email"><i aria-hidden="true"></i> Email address is not valid .!</p>
+                      <!--<p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.email"><i aria-hidden="true"></i> Email address is not valid .!</p>-->
+                      <p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.pattern"><i aria-hidden="true"></i> Invalid Email.!</p>
                     </div>
                   </div>
                   <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3 text-end">
@@ -410,6 +413,10 @@
                               </div>
                             </td>
                           </tr>
+
+                          <tr *ngIf="request.ContactDetailsList.length<=0">
+                            <td colspan="12" style="color:red">No Data Found.!</td>
+                          </tr>
                         </tbody>
                       </table>
                     </div>
@@ -420,7 +427,7 @@
           </form>
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-              <b><i class="fa fa-plus"></i>&nbsp;General Contact Details</b>
+              <b>General Contact Details</b>
             </div>
             <div class="card-body">
               <div class="row">
@@ -451,7 +458,7 @@
           <form [formGroup]="CollegeDetailsForm_NearestGovernmentHospitals" class="form-horizontal">
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
-                <b><i class="fa fa-plus"></i>&nbsp;10 government hospitals nearest to the institution <span style="color:red;">*</span></b>
+                <b>10 government hospitals nearest to the institution <span style="color:red;">*</span></b>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -591,7 +598,6 @@
                 </div>
                 <div class="row">
                   <div class="col-md-12">
-
                     <div class="table-responsive">
                       <table class="table table-bordered">
                         <thead>
@@ -628,6 +634,9 @@
                                 <button type="button" class="btn btn-danger" (click)="DelNearestGovernmentHospitalsDetail(row)"><i class="fa fa-trash-o"></i></button>
                               </div>
                             </td>
+                          </tr>
+                          <tr *ngIf="request.NearestGovernmentHospitalsList.length<=0">
+                            <td colspan="13" style="color:red">No Data Found.!</td>
                           </tr>
                         </tbody>
                       </table>

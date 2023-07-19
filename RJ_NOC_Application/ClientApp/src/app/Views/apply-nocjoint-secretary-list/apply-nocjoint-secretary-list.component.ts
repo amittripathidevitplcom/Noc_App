@@ -155,7 +155,8 @@ export class ApplyNOCJointSecretaryListComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.toastr.success(this.SuccessMessage);
-            window.location.reload();
+            this.modalService.dismissAll('After Success');
+            this.routers.navigate(['/dashboard']);
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)

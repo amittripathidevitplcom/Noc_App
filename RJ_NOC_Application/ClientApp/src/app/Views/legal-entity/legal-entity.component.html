@@ -121,6 +121,9 @@
                       <td>{{ScoietyData.District}}</td>
                       <td><button class="btn btn-success btn-sm" (click)="ProceedDetail()" type="button">Proceed</button></td>
                     </tr>
+                    <tr *ngIf="ScoietyData.length<=0">
+                      <td colspan="11" style="color:red">No Data Found.!</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -173,6 +176,7 @@
                         <div *ngIf="isSubmitted_Registration&&FormRegistration.txtEmailIDRegistration.errors" class="text-danger">
                           <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.required"> This field is required .!</p>
                           <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.email">Invalid Email</p>
+                          <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.pattern">Invalid Email</p>
                         </div>
 
                       </div>
@@ -211,13 +215,14 @@
                 <input type="text" class="form-control" id="txtPresidentEmail" [(ngModel)]="request.PresidentEmail" formControlName="txtPreEmailID" />
                 <div *ngIf="isSubmitted&&form.txtPreEmailID.errors" class="text-danger">
                   <p *ngIf="form.txtPreEmailID.errors.required"> This field is required .!</p>
-                  <p *ngIf="form.txtPreEmailID.errors.email">Invalid Email</p>
+                  <!--<p *ngIf="form.txtPreEmailID.errors.email">Invalid Email</p>-->
+                  <p *ngIf="form.txtPreEmailID.errors.pattern">Invalid Email</p>
                 </div>
               </div>
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="">Name <span style="color:red">*</span></label>
-                <input class="form-control" id="txtSocietyName" [(ngModel)]="request.SocietyName" formControlName="txtSocietyName" />
+                <input class="form-control" id="txtSocietyName" [(ngModel)]="request.SocietyName" formControlName="txtSocietyName" (keypress)="alphaOnly($event)"/>
                 <div *ngIf="isSubmitted&&form.txtSocietyName.errors" class="text-danger">
                   <p *ngIf="form.txtSocietyName.errors.required">  This field is required .!</p>
                 </div>
@@ -282,14 +287,14 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for=""> Date Of Registration</label>
-                <input class="form-control" type="date" id="txtSocietyRegistrationDate" [(ngModel)]="request.SocietyRegistrationDate" formControlName="txtSocietyRegistrationDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" />
+                <input class="form-control" type="date" id="txtSocietyRegistrationDate" [(ngModel)]="request.SocietyRegistrationDate" formControlName="txtSocietyRegistrationDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
                 <div *ngIf="isSubmitted&&form.txtSocietyRegistrationDate.errors" class="text-danger">
                   <p *ngIf="form.txtSocietyRegistrationDate.errors.required">This field is required .!</p>
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="">Date of Election of Present Management Committee <span *ngIf="IsNotMoreThen3Year" style="color:red">*</span></label>
-                <input class="form-control" type="date" id="txtElectionPresentManagementCommitteeDate" [(ngModel)]="request.ElectionPresentManagementCommitteeDate" formControlName="txtElectionPresentManagementCommitteeDate" min="{{MinDate_ElectionPresentManagementCommitteeDate | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}" [disabled]="IsNotMoreThen3Year" (change)="ElectionPresentManagementCommitteeDate_Change()" />
+                <input class="form-control" type="date" id="txtElectionPresentManagementCommitteeDate" [(ngModel)]="request.ElectionPresentManagementCommitteeDate" formControlName="txtElectionPresentManagementCommitteeDate" min="{{MinDate_ElectionPresentManagementCommitteeDate | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}" [disabled]="IsNotMoreThen3Year" (change)="ElectionPresentManagementCommitteeDate_Change()" onkeypress="return false;" />
                 <div *ngIf="isSubmitted&&form.txtElectionPresentManagementCommitteeDate.errors" class="text-danger">
                   <p *ngIf="form.txtElectionPresentManagementCommitteeDate.errors.required"> This field is required .!</p>
                 </div>
@@ -344,11 +349,11 @@
                 <label for="">Date of Election of Management Committee not more than 3 Year <span style="color:red">*</span></label>
                 <div class="clearfix"></div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="DateOfElection" id="DateOfElectionYes" value="Yes" [(ngModel)]="request.IsDateOfElection" formControlName="DateOfElection" (change)="IsDateOfElection_Change()">
+                  <input class="form-check-input" type="radio" name="DateOfElection" id="DateOfElectionYes" value="Yes" [(ngModel)]="request.IsDateOfElection" formControlName="DateOfElection" (change)="IsDateOfElection_Change()" [attr.disabled]="true">
                   <label class="form-check-label" for="DateOfElectionYes">Yes</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="DateOfElection" id="DateOfElectionNo" value="No" [(ngModel)]="request.IsDateOfElection" formControlName="DateOfElection" (change)="IsDateOfElection_Change()">
+                  <input class="form-check-input" type="radio" name="DateOfElection" id="DateOfElectionNo" value="No" [(ngModel)]="request.IsDateOfElection" formControlName="DateOfElection" (change)="IsDateOfElection_Change()" [attr.disabled]="true">
                   <label class="form-check-label" for="DateOfElectionNo">No</label>
                 </div>
                 <div *ngIf="isSubmitted&&form.DateOfElection.errors" class="text-danger">
@@ -468,21 +473,21 @@
                     <div class="row">
                       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
                         <label for="txtName" class="form-label">Member Name  <span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="txtMemberName" [(ngModel)]="memberdetails.MemberName" formControlName="txtMemberName">
+                        <input type="text" class="form-control" id="txtMemberName" [(ngModel)]="memberdetails.MemberName" formControlName="txtMemberName" (keypress)="alphaOnly($event)">
                         <div *ngIf="isMemberAdded&&AMform.txtMemberName.errors" class="text-danger">
                           <p *ngIf="AMform.txtMemberName.errors.required"> This field is required .!</p>
                         </div>
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
                         <label for="txtFatherName" class="form-label">Father's Name  <span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="txtMemberFatherName" [(ngModel)]="memberdetails.MemberFatherName" formControlName="txtMemberFatherName">
+                        <input type="text" class="form-control" id="txtMemberFatherName" [(ngModel)]="memberdetails.MemberFatherName" formControlName="txtMemberFatherName" (keypress)="alphaOnly($event)">
                         <div *ngIf="isMemberAdded&&AMform.txtMemberFatherName.errors" class="text-danger">
                           <p *ngIf="AMform.txtMemberFatherName.errors.required">  This field is required .!</p>
                         </div>
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
                         <label for="txtDOB" class="form-label">Date of Birth <span style="color:red">*</span></label>
-                        <input type="date" class="form-control" id="txtMemberDOB" [(ngModel)]="memberdetails.MemberDOB" formControlName="txtMemberDOB" min="{{MinDate_DOB | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}">
+                        <input type="date" class="form-control" id="txtMemberDOB" [(ngModel)]="memberdetails.MemberDOB" formControlName="txtMemberDOB" min="{{MinDate_DOB | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" >
                         <div *ngIf="isMemberAdded&&AMform.txtMemberDOB.errors" class="text-danger">
                           <p *ngIf="AMform.txtMemberDOB.errors.required">  This field is required .!</p>
                         </div>
@@ -577,6 +582,9 @@
                                 <td>
                                   <button class="btn btn-danger" type="button" (click)="DeleteMember(indexOfelement)"><i class="fa fa-trash-o"></i></button>
                                 </td>
+                              </tr>
+                              <tr *ngIf="request.MemberDetails.length<=0">
+                                <td colspan="12" style="color:red">No Data Found.!</td>
                               </tr>
                             </tbody>
                           </table>
@@ -679,6 +687,9 @@
                                 <td>
                                   <button class="btn btn-danger" type="button" (click)="DeleteInstitute(indexOfelement)"><i class="fa fa-trash-o"></i></button>
                                 </td>
+                              </tr>
+                              <tr *ngIf="request.InstituteDetails.length<=0">
+                                <td colspan="13" style="color:red">No Data Found.!</td>
                               </tr>
                             </tbody>
                           </table>
