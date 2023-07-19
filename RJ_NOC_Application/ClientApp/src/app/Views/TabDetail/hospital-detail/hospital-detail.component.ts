@@ -13,7 +13,7 @@ import { async } from '@angular/core/testing';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
-
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Injectable()
 
 @Component({
@@ -27,7 +27,7 @@ export class HospitalDetailComponent implements OnInit {
   HospitalParentForm!: FormGroup;
   HospitalParentNotForm!: FormGroup;
 
-  public PinNoRegex = new RegExp(/[0-9]{5}/)
+  public PinNoRegex = new RegExp(/[0-9]{6}/)
   public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
   public LandLineRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
 
@@ -104,7 +104,11 @@ export class HospitalDetailComponent implements OnInit {
   request = new HospitalDataModel();
   requestNot = new HospitalParentNotDataModel();
 
-  constructor(private hospitalDetailService: HospitalDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  public HospitalData: any = {};
+
+  constructor(private modalService: NgbModal,private hospitalDetailService: HospitalDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
   }
 
   async ngOnInit() {
@@ -117,7 +121,7 @@ export class HospitalDetailComponent implements OnInit {
         txtHospitalRegNo: ['', Validators.required],
         txtHospitalDistance: ['', Validators.required],
         txtHospitalContactNo: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
-        txtHospitalEmailID: ['', [Validators.required, Validators.email]],
+        txtHospitalEmailID: ['', [Validators.required, Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
         txtManageByName: ['', Validators.required],
         txtManageByPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtOwnerName: ['', Validators.required],
@@ -234,7 +238,7 @@ export class HospitalDetailComponent implements OnInit {
         txtHospitalRegNo: ['', Validators.required],
         txtHospitalDistance: ['', Validators.required],
         txtHospitalContactNo: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
-        txtHospitalEmailID: ['', [Validators.required, Validators.email]],
+        txtHospitalEmailID: ['', [Validators.required, Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
         txtManageByName: ['', Validators.required],
         txtManageByPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtOwnerName: ['', Validators.required],
@@ -289,7 +293,7 @@ export class HospitalDetailComponent implements OnInit {
 
     // set for hidden of Whether the parent hospital is related to any other institution in the past or not
     this.request.InstitutionName = 'NA';
-    this.request.OrganizationPhone = '';
+    this.request.OrganizationPhone = '0000000000';
     this.request.AddressLine1_Other = 'NA';
     this.request.AddressLine2_Other = 'NA';
     this.request.RuralUrban_Other = 0;
@@ -298,7 +302,7 @@ export class HospitalDetailComponent implements OnInit {
     this.request.TehsilID_Other = 1;
     this.request.PanchayatSamitiID_Other = 1;
     this.request.CityTownVillage_Other = 'NA';
-    this.request.Pincode_Other = 11111;
+    this.request.Pincode_Other = 111111;
 
     // get all hospital area validation
     await this.GetHospitalAreaValidationList();
@@ -385,6 +389,7 @@ export class HospitalDetailComponent implements OnInit {
   // other
   IsParentHospitalRelatedToOtherOrNot(isParentRelatedToOther: boolean) {
     this.IsParentHospitalRelatedToOther = isParentRelatedToOther;
+    debugger;
     if (isParentRelatedToOther) {
       this.request.InstitutionName = null;
       this.request.OrganizationPhone = '';
@@ -397,10 +402,11 @@ export class HospitalDetailComponent implements OnInit {
       this.request.PanchayatSamitiID_Other = 0;
       this.request.CityTownVillage_Other = '';
       this.request.Pincode_Other = null;
+
     }
     else {
       this.request.InstitutionName = 'NA';
-      this.request.OrganizationPhone = '';
+      this.request.OrganizationPhone = '0000000000';
       this.request.AddressLine1_Other = 'NA';
       this.request.AddressLine2_Other = 'NA';
       this.request.RuralUrban_Other = 0;
@@ -409,7 +415,8 @@ export class HospitalDetailComponent implements OnInit {
       this.request.TehsilID_Other = 1;
       this.request.PanchayatSamitiID_Other = 1;
       this.request.CityTownVillage_Other = 'NA';
-      this.request.Pincode_Other = 11111;
+      this.request.Pincode_Other = 111111;
+
     }
   }
 
@@ -791,6 +798,7 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   async SaveDataOfParent() {
+    debugger;
     this.isSubmitted = true;
     if (this.HospitalParentForm.invalid) {
       console.log(this.HospitalParentForm);
@@ -954,25 +962,27 @@ export class HospitalDetailComponent implements OnInit {
     this.isLoading = true;
 
     try {
-      await this.hospitalDetailService.DeleteData(row.HospitalID, row.ModifyBy)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          // data
-          const index: number = this.HospitalDataModelList.indexOf(row);
-          if (index != -1) {
-            this.HospitalDataModelList.splice(index, 1)
-          }
-          //console.log(this.request.RuralUrban);
+      if (confirm("Are you sure you want to delete this ?")) {
+        await this.hospitalDetailService.DeleteData(row.HospitalID, row.ModifyBy)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            // data
+            const index: number = this.HospitalDataModelList.indexOf(row);
+            if (index != -1) {
+              this.HospitalDataModelList.splice(index, 1)
+            }
+            //console.log(this.request.RuralUrban);
 
-          if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        })
+            if (!this.State) {
+              this.toastr.success(this.SuccessMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1105,25 +1115,27 @@ export class HospitalDetailComponent implements OnInit {
     this.isLoading = true;
 
     try {
-      await this.hospitalDetailService.DeleteData(row.HospitalID, row.ModifyBy)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          // data
-          const index: number = this.HospitalParentNotDataModelList.indexOf(row);
-          if (index != -1) {
-            this.HospitalParentNotDataModelList.splice(index, 1)
-          }
-          //console.log(this.request.RuralUrban);
+      if (confirm("Are you sure you want to delete this ?")) {
+        await this.hospitalDetailService.DeleteData(row.HospitalID, row.ModifyBy)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            // data
+            const index: number = this.HospitalParentNotDataModelList.indexOf(row);
+            if (index != -1) {
+              this.HospitalParentNotDataModelList.splice(index, 1)
+            }
+            //console.log(this.request.RuralUrban);
 
-          if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        })
+            if (!this.State) {
+              this.toastr.success(this.SuccessMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1307,9 +1319,9 @@ export class HospitalDetailComponent implements OnInit {
   async onFilechange(event: any, Type: string) {
     this.file = event.target.files[0];
     if (this.file) {
-      if ((Type != 'ConsentForm' && (this.file.type === 'image/jpeg' || this.file.type === 'image/jpg')) ||
-        (Type == 'ConsentForm' && this.file.type === 'application/pdf')
-      ) {
+      // (Type != 'ConsentForm' && (this.file.type === 'image/jpeg' || this.file.type === 'image/jpg')) ||
+      if (this.file.type === 'application/pdf')
+    {
         //size validation
         if (this.file.size > 2000000) {
           this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
@@ -1321,7 +1333,8 @@ export class HospitalDetailComponent implements OnInit {
         }
       }
       else {// type validation
-        this.ResetFileAndValidation(Type, 'Select Only ' + (Type == 'ConsentForm' ? 'pdf file' : 'jpg/jpeg'), '', '', '', false);
+        //'Select Only ' + (Type == 'ConsentForm' ? 'pdf file' : 'jpg/jpeg')
+        this.ResetFileAndValidation(Type, 'Select Only pdf', '', '', '', false);
         return
       }
       // upload to server folder
@@ -1416,6 +1429,74 @@ export class HospitalDetailComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+  alphaandNumberOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z0-9 ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+  NumberOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
+  async ViewHospitalDetail(content: any, HospitalID: number) {
+    this.HospitalData = {};
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.hospitalDetailService.GetData(HospitalID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.HospitalData = data['Data'];
+          console.log('Deepak');
+          console.log(this.HospitalData);
+          console.log('Deepak');
+        });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
 }

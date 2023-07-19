@@ -38,6 +38,9 @@ export class HostelDataModel extends DocumentScrutiny_ActionModule {
 
   public CreatedBy: number = 0;
   public ModifyBy: number = 0;
+
+
+  public HostelCategory: string = '';
 }
 
 export class HostelDetailsDataModel_Hostel {

@@ -20,8 +20,6 @@ export class CommonMasterService {
 
   constructor(private http: HttpClient) { }
 
-
-
   extractData(res: Response) {
     return res;
   }
