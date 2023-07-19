@@ -140,7 +140,7 @@ export class BuildingDetailsComponent implements OnInit {
         ddlPanchayatSamitiID_Owner: [''],
         txtCityTownVillage_Owner: ['', Validators.required],
         txtPincode_Owner: ['', [Validators.required]],
-        txtContactNo_Owner: ['', [Validators.required]],
+        txtContactNo_Owner: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
 
         txtFromDate: ['', Validators.required],
         txtToDate: ['', Validators.required],

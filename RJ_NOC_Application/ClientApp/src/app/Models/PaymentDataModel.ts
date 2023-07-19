@@ -58,7 +58,7 @@ export class EmitraRequestDetails {
 
   public AppRequestID: string = '';
   public ServiceID: string = '';
-  public NocApplicationIdEnc: string = '';
+  public ApplicationIdEnc: string = '';
   public Amount: number = 0;
   public UserName: string = ''
   public MobileNo: string = ''

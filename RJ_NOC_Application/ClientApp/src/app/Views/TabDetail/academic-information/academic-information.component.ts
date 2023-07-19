@@ -49,6 +49,8 @@ export class AcademicInformationComponent implements OnInit {
   isEdit: boolean = false;
   public ValidationMessage: string = '';
 
+  public isselectresult: boolean = false;
+
   public isView: boolean = true;
   public isAddButton: boolean = true;
   public isEditButton: boolean = true;
@@ -61,6 +63,10 @@ export class AcademicInformationComponent implements OnInit {
   public dropdownList: any = [];
   public dropdownSettings: IDropdownSettings = {};
 
+  public isFailStudent: boolean = false;
+  public isPassStudent: boolean = false;
+  public isOtherStudent: boolean = false;
+
   // ssologin model
   ssoLoginModel = new SSOLoginDataModel();
 
@@ -68,8 +74,8 @@ export class AcademicInformationComponent implements OnInit {
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
 
   constructor(private academicInformationDetailsService: AcademicInformationDetailsService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }    
- 
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
+
 
   ngOnInit(): void {
 
@@ -80,9 +86,9 @@ export class AcademicInformationComponent implements OnInit {
         txtTotalAdmittedStudent: ['', Validators.required],
         txtAppearedStudent: ['', Validators.required],
         ddlResultId: ['', [DropdownValidators]],
-        txtPassedStudent: ['', Validators.required],
-        txtFailedStudent: ['', Validators.required],
-        txtOtherStudent: ['', Validators.required],
+        txtPassedStudent: [''],
+        txtFailedStudent: [''],
+        txtOtherStudent: [''],
         txtsearchText: [''],
       });
 
@@ -173,27 +179,55 @@ export class AcademicInformationComponent implements OnInit {
     }
     return true;
   }
+  OnChangeDropdownDisable(SeletedResultId: any) {
+    console.log(SeletedResultId.value);
+    if (SeletedResultId.value == 36) {
+      this.isselectresult = false;
+    }
+    else {
+      this.isselectresult = true;
+      this.request.PassedStudent = null;
+      this.request.FailedStudent = null;
+      this.request.OtherStudent = null;
+    }
+  }
+
   async SaveData() {
-    
     this.isSubmitted = true;
-    console.log(this.request);
+    if (this.request.ResultID == 36) {
+      if (this.request.PassedStudent == null) {
+        this.isPassStudent = true;
+      }
+      if (this.request.FailedStudent == null) {
+        this.isFailStudent = true;
+      }
+      if (this.request.OtherStudent == null) {
+        this.isOtherStudent = true;
+        return;
+      }
+      if (Number(this.request.PassedStudent) > Number(this.request.AppearedStudent)) {
+        this.toastr.warning('Please Enter No Of Passed Student less than  of No Of Appeared Student..!');
+        return;
+      }
+      this.TotalStudent = Number(this.request.PassedStudent) + Number(this.request.FailedStudent) + Number(this.request.OtherStudent);
+      if (Number(this.TotalStudent) != Number(this.request.AppearedStudent)) {
+        this.toastr.warning('Please Enter No Of Passed Student + No Of Failed Student + Other(Withheld Result / Supplimentry) = No Of Appeared Student ...!');
+        return;
+      }
+    }
+    if (this.request.ResultID == 37) {
+      this.isFailStudent = false;
+      this.isPassStudent = false;
+      this.isOtherStudent = false;
+    }
     if (Number(this.request.AppearedStudent) > Number(this.request.AdmittedStudent)) {
       this.toastr.warning('Please Enter No Of Appeared Student less than of Total Admitted Student..!');
-      return;
-    }
-    if (Number(this.request.PassedStudent) > Number(this.request.AppearedStudent)) {
-      this.toastr.warning('Please Enter No Of Passed Student less than  of No Of Appeared Student..!');
-      return;
-    }
-    this.TotalStudent = Number(this.request.PassedStudent) + Number(this.request.FailedStudent) + Number(this.request.OtherStudent);
-    if (Number(this.TotalStudent) != Number(this.request.AppearedStudent)) {
-      this.toastr.warning('Please Enter No Of Passed Student + No Of Failed Student + Other(Withheld Result / Supplimentry) = No Of Appeared Student ...!');
       return;
     }
     if (this.AcademicInformationDetailForm.invalid) {
       return
     }
-    
+
     if (this.AcademicInformationDetailForm.invalid) {
       return
     }
@@ -222,6 +256,7 @@ export class AcademicInformationComponent implements OnInit {
             this.toastr.error(this.ErrorMessage)
           }
         })
+      this.GetAcademicInformationDetailAllList();
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -241,14 +276,19 @@ export class AcademicInformationComponent implements OnInit {
     this.isSubmitted = false;
     this.request.YearID = 0;
     this.request.CourseID = 0;
-    this.request.AdmittedStudent = 0;
-    this.request.AppearedStudent = 0;
+    this.request.AcademicInformationID = 0;
+    this.request.AdmittedStudent = null;
+    this.request.AppearedStudent = null;
     this.request.ResultID = 0;
-    this.request.PassedStudent = 0;
-    this.request.FailedStudent = 0;
-    this.request.OtherStudent = 0;
+    this.request.PassedStudent = null;
+    this.request.FailedStudent = null;
+    this.request.OtherStudent = null;
     this.request.UserID = 0;
     this.isDisabledGrid = false;
+    this.isselectresult = false;
+    this.isPassStudent = false;
+    this.isFailStudent = false;
+    this.isOtherStudent = false;
     this.GetAcademicInformationDetailAllList();
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
@@ -261,7 +301,7 @@ export class AcademicInformationComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.academicInformationDetailsService.GetAcademicInformationDetailAllList(this.UserID, this.SelectedCollageID)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -285,7 +325,7 @@ export class AcademicInformationComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.academicInformationDetailsService.GetAcademicInformationDetailByID(AcademicInformationID, this.UserID, this.SelectedCollageID)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.request.AcademicInformationID = data['Data'][0]["AcademicInformationID"];
           this.request.YearID = data['Data'][0]["YearID"];
@@ -293,10 +333,13 @@ export class AcademicInformationComponent implements OnInit {
           this.request.AdmittedStudent = data['Data'][0]["AdmittedStudent"];
           this.request.AppearedStudent = data['Data'][0]["AppearedStudent"];
           this.request.ResultID = data['Data'][0]["ResultID"];
+          if (this.request.ResultID == 37) {
+            this.isselectresult = true;
+          }
           this.request.PassedStudent = data['Data'][0]["PassedStudent"];
           this.request.FailedStudent = data['Data'][0]["FailedStudent"];
           this.request.OtherStudent = data['Data'][0]["OtherStudent"];
-         
+
           this.isDisabledGrid = true;
 
           const btnSave = document.getElementById('btnSave')
@@ -346,7 +389,7 @@ export class AcademicInformationComponent implements OnInit {
   btnCopyTable_Click() {
     const tabellist = document.getElementById('tabellist')
     if (tabellist) {
-      
+
       this.clipboard.copy(tabellist.innerText);
     }
   }

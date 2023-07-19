@@ -143,7 +143,7 @@
             </div>-->
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>Contact Person Name <span style="color:red;">*</span></label>
-              <input type="text" class="form-control" id="txtContactPersonName" name="txtContactPersonName" [(ngModel)]="request.ContactPersonName" autocomplete="off"
+              <input type="text" class="form-control" id="txtContactPersonName" name="txtContactPersonName" (keypress)="alphaOnly($event)" [(ngModel)]="request.ContactPersonName" autocomplete="off"
                      formControlName="txtContactPersonName">
               <div *ngIf="isSubmitted&&Hform.txtContactPersonName.errors" class="text-danger">
                 <p *ngIf="Hform.txtContactPersonName.errors.required"> This field is required .!</p>
@@ -192,7 +192,7 @@
           <div class="row" *ngIf="this.request.IsHostelCampus =='No' && request.HostelType=='Rent'">
             <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
               <label>Owner Name <span style="color:red;">*</span></label>
-              <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" [(ngModel)]="request.OwnerName" autocomplete="off"
+              <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" (keypress)="alphaOnly($event)" [(ngModel)]="request.OwnerName" autocomplete="off"
                      formControlName="txtOwnerName">
               <div *ngIf="isOwnerName" class="text-danger">
                 <p *ngIf="isOwnerName">This field is required .!</p>
@@ -211,14 +211,14 @@
             </div>
             <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
               <label> From Date <span style="color:red;">*</span></label>
-              <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtFromDate" [(ngModel)]="request.FromDate" formControlName="dtFromDate" max="{{MaxFromDate | date:'yyyy-MM-dd'}}" (change)="SetToDate()" onkeypress="return false"/>
+              <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtFromDate" [(ngModel)]="request.FromDate" formControlName="dtFromDate" max="{{MaxFromDate | date:'yyyy-MM-dd'}}" (change)="SetToDate()" onkeypress="return false" />
               <div *ngIf="isFromDate" class="text-danger">
                 <p *ngIf="isFromDate"> This field is required .!</p>
               </div>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
               <label>To Date <span style="color:red;">*</span></label>
-              <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtToDate" [(ngModel)]="request.ToDate" min="{{MinToDate | date:'yyyy-MM-dd'}}" formControlName="dtToDate" onkeypress="return false"/>
+              <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtToDate" [(ngModel)]="request.ToDate" min="{{MinToDate | date:'yyyy-MM-dd'}}" formControlName="dtToDate" onkeypress="return false" />
               <div *ngIf="isToDate" class="text-danger">
                 <p *ngIf="isToDate"> This field is required .!</p>
               </div>
@@ -276,7 +276,7 @@
 
                   <div class="col-md-3 mb-2">
                     <label>No. of <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="hosteldetail.NoOf" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)">
+                    <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="hosteldetail.NoOf" (blur)="onKeyChange($event)" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)">
                     <div *ngIf="isHostelSubmitted&&form.txtNoOf.errors" class="text-danger">
                       <p *ngIf="form.txtNoOf.errors.required">This field is required .!</p>
                     </div>
@@ -284,9 +284,7 @@
 
                   <div class="col-md-3 mb-2">
                     <label>
-
-                      Width (In Feet)
-
+                      Width (In Feet) <span style="color:red;">*</span>
                     </label>
 
                     <input type="number" class="form-control" id="txtWidth" name="txtWidth"
@@ -295,38 +293,25 @@
 
 
                     <!--<p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Width More than or Equal to {{WidthMin}} ft</p>-->
-                    <!--<div *ngIf="isSubmitted&&form.txtWidth.errors" class="text-danger">
+                    <div *ngIf="isHostelSubmitted&&form.txtWidth.errors" class="text-danger">
                       <p *ngIf="form.txtWidth.errors.required">This field is required .!</p>
-                    </div>-->
-                    <p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
+                    </div>
+                    <p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size (W * L): {{WidthMin}} sq. ft</p>
                   </div>
 
                   <div class="col-md-3 mb-2">
-                    <label>Length (In Feet) </label>
+                    <label>Length (In Feet) <span style="color:red;">*</span></label>
                     <input type="number" class="form-control" id="txtLength" name="txtLength"
-                           [(ngModel)]="hosteldetail.Length" formControlName="txtLength" min="0"  (keypress)="numberOnly($event)">
-
-
-
-
-
-
-
-
-
-
-
-
-
+                           [(ngModel)]="hosteldetail.Length" formControlName="txtLength" min="0" (keypress)="numberOnly($event)">
 
 
                     <!--<p *ngIf="LengthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerLength}}">
                       Please Enter Length More than or Equal to {{LengthMin}} ft
                     </p>-->
-                    <!--<div *ngIf="isSubmitted&&form.txtLength.errors" class="text-danger">
+                    <div *ngIf="isHostelSubmitted&&form.txtLength.errors" class="text-danger">
                       <p *ngIf="form.txtLength.errors.required">This field is required .!</p>
-                    </div>-->
-                    <p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
+                    </div>
+                    <!--<p *ngIf="WidthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{LengthMin}} sq. ft</p>-->
                   </div>
 
                   <div class="col-md-3 mb-2">
@@ -427,7 +412,7 @@
                   <th>Hostel Name</th>
                   <th>Contact Person Name</th>
                   <th>Contact Person No.</th>
-                  <th>Hostel Type</th>
+                  <th>Hostel Category</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -438,9 +423,10 @@
                   <td>{{row.HostelName}}</td>
                   <td>{{row.ContactPersonName}}</td>
                   <td>{{row.ContactPersonNo}}</td>
-                  <td>{{row.HostelType}}</td>
+                  <td>{{row.HostelCategory}}</td>
                   <td>
                     <button type="button" class="btn btn-sm btn-primary" title="Edit" (click)="EditItem(row.HostelDetailID)" [attr.disabled]="isDisabled ? true : null"><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewItem(mymodal,row.HostelDetailID)"><i class="fa fa-eye"></i></button>
                     <button type="button" class="btn btn-sm btn-danger" (click)="DeleteHostelDetails(row.HostelDetailID)" title="Delete" [attr.disabled]="isDisabled ? true : null"><i class="fa fa-trash"></i></button>
 
                   </td>
@@ -453,3 +439,146 @@
     </div>
   </div>
 </div>
+
+<!--Start model-->
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Hostel Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Is Hostel In Campus</b>: &nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.IsHostelCampus}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Hostel Name</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.HostelName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Address Line 1</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.AddressLine1}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Address Line 2</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.AddressLine2}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>IsRuralUrban</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.IsRuralUrban}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Division</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.DivisionName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>District</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.DistrictName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
+        <label><b>Tehsil</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.TehsilName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
+        <label><b>Panchayat Samiti</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.PanchyatSamitiName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>City/Town/Village</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.CityTownVillage}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Pincode</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.Pincode}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Contact Person Name</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.ContactPersonName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Contact Person No.</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.ContactPersonNo}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Distance of College (KM)</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.DistanceOfCollege}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Type</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.HostelType}}" />
+      </div>
+      <div class="row" *ngIf="request.HostelType=='Rent'">
+        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+          <label><b>Owner Name</b>:&nbsp;&nbsp; </label>
+          <input class="form-control disabled" disabled value="{{request.OwnerName}}" />
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+          <label><b>Contact No.</b> :&nbsp;&nbsp;</label>
+          <input class="form-control disabled" disabled value="{{request.OwnerContactNo}}" />
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+          <label><b>From Date</b>:&nbsp;&nbsp; </label>
+          <input class="form-control disabled" disabled value="{{request.FromDate}}" />
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+          <label><b>To Date</b>:&nbsp;&nbsp; </label>
+          <input class="form-control disabled" disabled value="{{request.ToDate}}" />
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+          <label><b>Rent Document</b> :&nbsp;&nbsp;</label>
+          <a *ngIf="!request.RentDocument.includes('.pdf')" data-fancybox="gallery" href="{{request.RentDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+            <img src="{{request.RentDocumentPath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+          </a>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.RentDocument.includes('.pdf')" data-fancybox="gallery" href="{{request.RentDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card">
+        <div class="card-header">
+          <b>Hostel Block Details</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Hostel Block</th>
+                      <th>Width (In Feet)</th>
+                      <th>Length (In Feet)</th>
+                      <th>Image</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of request.HostelDetails ;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.CourseName}}</td>
+                      <td>{{row.Width}}</td>
+                      <td>{{row.Length}}</td>
+                      <td>
+                        <a *ngIf="!row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{row.ImageFilePath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--END model-->

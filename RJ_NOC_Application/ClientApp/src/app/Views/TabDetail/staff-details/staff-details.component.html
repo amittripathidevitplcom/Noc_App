@@ -67,7 +67,7 @@
           <input type="text" id="txtEmail" name="txtEmail" class="form-control" formControlName="txtEmail" [(ngModel)]="request.Email" />
           <div *ngIf="isSubmitted&&form.txtEmail.errors" class="text-danger">
             <p *ngIf="form.txtEmail.errors.required"> This field is required .!</p>
-            <p *ngIf="form.txtEmail.errors.pattern"> Email not valid .!</p>
+            <p *ngIf="form.txtEmail.errors.pattern"> Invalid Email .!</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">

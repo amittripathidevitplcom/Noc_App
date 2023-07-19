@@ -69,9 +69,7 @@ export class OtherDocumentComponent implements OnInit {
     try {
       this.file = event.target.files[0];
       if (this.file) {
-        if (this.file.type === 'image/jpeg' ||
-          this.file.type === 'application/pdf' ||
-          this.file.type === 'image/jpg') {
+        if (this.file.type === 'application/pdf' ) {
           //size validation
           if (this.file.size > 2000000) {
             this.toastr.error('Select less then 2MB File')
@@ -83,7 +81,7 @@ export class OtherDocumentComponent implements OnInit {
           }
         }
         else {// type validation
-          this.toastr.error('Select Only jpg/jpeg/pdf file')
+          this.toastr.error('Select Only pdf file')
           return
         }
         // upload to server folder

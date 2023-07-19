@@ -586,10 +586,17 @@ export class LandDetailsComponent implements OnInit {
   }
   async ViewViewLandDetailDocumentByID(LandDetailID: any) {
     try {
-
+      debugger;
       this.LandDetailsDocumentListByID = [];
       this.loaderService.requestStarted();
-      this.LandDetailsDocumentListByID = this.LandDetailsDocumentList.filter((x: any) => x.LandDetailID === LandDetailID);
+      await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+
+          this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
+          this.LandDetailsDocumentListByID = this.request.LandDetailDocument;
+          console.log(this.request.LandDetailDocument);          
+        }, error => console.error(error));     
     }
     catch (Ex) {
       console.log(Ex);
