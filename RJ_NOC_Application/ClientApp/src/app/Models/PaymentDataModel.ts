@@ -1,5 +1,4 @@
-export class RequestParameter
-{
+export class RequestParameter {
   public MERCHANTCODE: string = '';
   public PRN: string = '';
   public REQTIMESTAMP: string = '';
@@ -43,14 +42,33 @@ export class ResponseParameters {
 
 
 
-export class RequestDetails
-{
+export class RequestDetails {
   public AMOUNT: number = 0
   public PURPOSE: string = '';
   public USERNAME: string = '';
   public USERMOBILE: string = '';
   public USEREMAIL: string = '';
   public ApplyNocApplicationID: number = 0
-  public PaymentRequestURL: string=''
-  
- }
+  public PaymentRequestURL: string = ''
+}
+
+//Emitra Request
+
+export class EmitraRequestDetails {
+
+  public AppRequestID: string = '';
+  public ServiceID: string = '';
+  public NocApplicationIdEnc: string = '';
+  public Amount: number = 0;
+  public UserName: string = ''
+  public MobileNo: string = ''
+  public RegistrationNo: string = ''
+  public SsoID: string = ''
+  public RESPONSEJSON: string = ''
+  public STATUS: string = ''
+  public ENCDATA: string = ''
+  public PaymentRequestURL: string = ''
+  public MERCHANTCODE: string = ''
+  public IsKiosk: boolean = false;
+
+}

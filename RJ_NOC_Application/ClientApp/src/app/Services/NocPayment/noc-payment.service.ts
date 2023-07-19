@@ -3,7 +3,7 @@ import { GlobalConstants } from '../../Common/GlobalConstants';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import { RequestDetails } from '../../Models/PaymentDataModel';
+import { EmitraRequestDetails, RequestDetails } from '../../Models/PaymentDataModel';
 
 
 @Injectable({
@@ -60,6 +60,15 @@ export class NocpaymentService
   }
 
 
- 
+
+  public async EmitraPayment(request: EmitraRequestDetails)
+  {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/EmitraPayment", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
 }
