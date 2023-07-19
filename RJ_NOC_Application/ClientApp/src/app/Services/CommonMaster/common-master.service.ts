@@ -667,8 +667,7 @@ export class CommonMasterService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-  }
-
+  }  
 
   public async GetCollegeWiseSubjectList(CollegeID: number) {
     const httpOptions = {
@@ -707,7 +706,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetAssembelyAreaByDistrictId(districtId: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
