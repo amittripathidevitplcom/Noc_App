@@ -81,7 +81,7 @@ export class StaffDetailsComponent implements OnInit {
         ddlRoleId: [''],
         txtNameOfPerson: ['', Validators.required],
         txtMobileNo: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
-        txtEmail: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]")]],
+        txtEmail: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
         ddlHighestQualificationId: ['', [DropdownValidators]],
         txtNoOfYearExperience: ['', Validators.required],
         ProfilePhoto: [''],
@@ -117,7 +117,7 @@ export class StaffDetailsComponent implements OnInit {
     await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, 'HighestQualification');
     await this.GetRoleListByLevel(0);
     await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
-    await this.GetQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID);
+    //await this.GetQualificationList_DepartmentAndTypeWise();
     await this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
     this.loaderService.requestEnded();
   }
@@ -541,6 +541,7 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   OnChangeHighestQualification() {
+    this.GetQualificationList_DepartmentAndTypeWise();
     var QualificationName = this.HighestQualificationData.find((x: { ID: number; }) => x.ID == this.request.HighestQualification).Name;
     if (QualificationName != 'PHD') {
       this.request.ResearchGuide = 'No';
@@ -553,6 +554,7 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   async FillYearData(Maxyear: number, StartYear: number) {
+    debugger;
     this.YearData = [];
     for (var i = Maxyear; i > StartYear; i--) {
       var data = { YearID: i, YearName: i };
@@ -571,7 +573,7 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   SetDateofAppointment() {
-
+    debugger;
     const DOB = new Date(this.request.DateOfBirth);
     this.StartYear = DOB.getFullYear() + 18;
     DOB.setFullYear(DOB.getFullYear() + 21);
@@ -580,16 +582,25 @@ export class StaffDetailsComponent implements OnInit {
     this.FillYearData(Maxyear, this.StartYear);
   }
 
-  async GetQualificationList_DepartmentAndTypeWise(DepartmentID: number) {
+  async GetQualificationList_DepartmentAndTypeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(DepartmentID)
+      var QualificationName = this.HighestQualificationData.find((x: { ID: number; }) => x.ID == this.request.HighestQualification).Name;
+      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ProfessionalQualificationData = data['Data'];
+          var OrderBy = this.ProfessionalQualificationData.find((x: { QualificationName: string; }) => x.QualificationName == QualificationName)?.Orderby;
+          if (OrderBy != undefined && OrderBy >= 0) {
+            this.ProfessionalQualificationData = this.ProfessionalQualificationData.filter((element: any) => element.Orderby >= OrderBy);
+          }
+          else {
+            this.ProfessionalQualificationData = [];
+          }
         }, error => console.error(error));
     }
     catch (Ex) {

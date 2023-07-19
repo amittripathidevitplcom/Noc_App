@@ -639,7 +639,7 @@ export class CommonMasterService {
 
   public async GetIssuedYearDetails() {
     var lstIssuedYear = [];
-
+    lstIssuedYear.push({ yearid: 11, yearname: 'Permanently' })
     for (var i = 1; i <= 10; i++) {
       lstIssuedYear.push({ yearid: i, yearname: i + ' Year' });
     }
@@ -667,8 +667,7 @@ export class CommonMasterService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-  }
-
+  }  
 
   public async GetCollegeWiseSubjectList(CollegeID: number) {
     const httpOptions = {
@@ -707,7 +706,6 @@ export class CommonMasterService {
       ).toPromise();
   }
   public async GetAssembelyAreaByDistrictId(districtId: number) {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

@@ -35,7 +35,7 @@
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>Subject <span style="color:red;">*</span></label>
 
-          <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
+          <ng-multiselect-dropdown [disabled]="isToDisable" [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
                                    [settings]="dropdownSettings"
                                    [data]="subjectDataList"
                                    [(ngModel)]="SelectedSubjectDetails">
@@ -100,14 +100,14 @@
         </div>
         <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
           <label> NOC Received On <span style="color:red;">*</span></label>
-          <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCReceivedDate" [(ngModel)]="request.NOCReceivedDate" formControlName="dtNOCReceivedDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" (change)="SetExpiryDate()" onkeypress="return false;"/>
+          <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCReceivedDate" [(ngModel)]="request.NOCReceivedDate" formControlName="dtNOCReceivedDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" (change)="SetExpiryDate()" onkeypress="return false;" />
           <div *ngIf="isSubmitted&&form.dtNOCReceivedDate.errors" class="text-danger">
             <p *ngIf="form.dtNOCReceivedDate.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
           </div>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3" *ngIf="ShowOldNOCType">
           <label>NOC Expire Date <span style="color:red;">*</span></label>
-          <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCExpireDate" [(ngModel)]="request.NOCExpireDate" formControlName="dtNOCExpireDate" min="{{ExpiryMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"/>
+          <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCExpireDate" [(ngModel)]="request.NOCExpireDate" formControlName="dtNOCExpireDate" min="{{ExpiryMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
           <div *ngIf="NOCExpireDateRequried" class="text-danger">
             <p *ngIf="NOCExpireDateRequried"> This field is required .!</p>
           </div>
@@ -120,7 +120,7 @@
               <span class="filename">Choose file</span>
               {{request.UploadNOCDoc === '' ? 'No File Choosen' : request.Dis_FileName}}
             </label>
-            <div class="btn-group" *ngIf="request.UploadNOCDoc!=''">
+            <div class="btn-group" *ngIf="showImageFilePath">
               <a class="btn btn-outline-primary" target="_blank" href="{{request.UploadNOCDocPath}}"><i class="fa fa-eye"></i></a>
               <button type="button" class="btn btn-outline-danger" (click)="DeleteImage()"><i class="fa fa-trash-o"></i></button>
             </div>
@@ -215,7 +215,7 @@
                     <th>Issued for Year</th>
                     <th>NOC No.</th>
                     <th>NOC Received On</th>
-                    <th>NOC Expire Date</th>
+                    <!--<th>NOC Expire Date</th>-->
                     <th>NOC Document</th>
                     <th>Remark</th>
                     <th>Action</th>
@@ -232,10 +232,10 @@
                     </td>
                     <td>{{row.NOCTypeName}}</td>
                     <td>{{row.FinancialYearName}}</td>
-                    <td>{{row.IssuedYear}} Year</td>
+                    <td>{{row.IssuedYear == 11 ? 'Permanently':row.IssuedYear + " Year"}} </td>
                     <td>{{row.NOCNumber}}</td>
                     <td>{{row.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
-                    <td>{{row.NOCExpireDate=='1900-01-01'?'':row.NOCExpireDate | date:'dd-MM-yyyy'}}</td>
+                    <!--<td>{{row.NOCExpireDate=='1900-01-01'?'':row.NOCExpireDate | date:'dd-MM-yyyy'}}</td>-->
                     <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
                     <td>{{row.Remark}}</td>
                     <td>

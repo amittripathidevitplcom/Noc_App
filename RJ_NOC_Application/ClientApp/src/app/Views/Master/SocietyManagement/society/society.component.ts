@@ -71,6 +71,7 @@ export class SocietyComponent implements OnInit {
   request = new SocietyDataModel();
 
   public ImageValidationMessage: string = '';
+  public CollegeName: string = '';
   public isValidProfilePhoto: boolean = false;
   public isValidAadhaarCard: boolean = false;
   public isValidSignatureDoc: boolean = false;
@@ -122,7 +123,7 @@ export class SocietyComponent implements OnInit {
     // get all Occupation
     await this.GetAllOccupation();
     // get saved society
-    //await this.GetSocietyAllList(this.CollegeList[0]["CollegeID"]);
+    //await this.GetSocietyAllList(this.CollegeList[0]["CollegeID"]);   
   }
   get form() { return this.SocietyDetailsForm.controls; }
 
@@ -141,6 +142,10 @@ export class SocietyComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.SocietyAllList = data['Data'][0]['data'];
+          this.CollegeName = this.CollegeList.find((x: { CollegeID: number; }) => x.CollegeID == this.request.CollegeID).CollegeName;
+          console.log('this.CollegeName');
+          console.log(this.CollegeName);
+          console.log('this.CollegeName');
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -152,7 +157,6 @@ export class SocietyComponent implements OnInit {
       }, 200);
     }
   }
-
   async GetCollegesByDepartmentAndSsoId(departmentId: number, ssoId: string, type: string) {
     //Show Loading
     this.loaderService.requestStarted();
