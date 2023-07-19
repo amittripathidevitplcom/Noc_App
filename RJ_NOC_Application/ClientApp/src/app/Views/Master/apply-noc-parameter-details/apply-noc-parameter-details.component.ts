@@ -162,6 +162,50 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }
   }
 
+
+
+  async EmitraPaymentApplyNocApplication_click(content: any, applyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationDetail = data['Data'];
+            // model popup
+            this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocpayment-title', backdrop: 'static' }).result.then((result) => {
+              this.closeResult = `Closed with: ${result}`;
+            }, (reason) => {
+              this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            });
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+
+
+
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -195,6 +239,39 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+
+
+  async MakeEmitraPayment_click(item: any) {
+    try {
+      this.loaderService.requestStarted();
+      //debugger
+      // payment request
+      //this.nocPaymentComponent.request.ApplyNocApplicationID = item.ApplyNocApplicationID;
+      //this.nocPaymentComponent.request.AMOUNT = item.TotalFeeAmount;
+      //this.nocPaymentComponent.request.USEREMAIL = item.CollegeEmail;
+      //this.nocPaymentComponent.request.USERNAME = item.CollegeName;
+      //this.nocPaymentComponent.request.USERMOBILE = item.CollegeMobileNo;
+      //this.nocPaymentComponent.request.PURPOSE = "Noc Payment";
+      // post
+      await this.nocPaymentComponent.EmitraPaymentRequest()
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+
+
+
 
   async DeleteApplyNocApplication_click(item: any) {
     try {

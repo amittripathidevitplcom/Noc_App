@@ -93,6 +93,7 @@ import { JointApplicationListComponent } from './Views/joint-application-list/jo
 import { ApplyNOCJointSecretaryListComponent } from './Views/apply-nocjoint-secretary-list/apply-nocjoint-secretary-list.component';
 import { ApplyNOCSecretaryListComponent } from './Views/apply-nocsecretary-list/apply-nocsecretary-list.component';
 import { CommiteeInspectionComponent } from './Views/commitee-inspection/commitee-inspection.component';
+import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payment-response/emitra-payment-response.component'
 
 
 const routes: Routes = [
@@ -114,6 +115,13 @@ const routes: Routes = [
   {
     path: 'paymentfailed/:TransID', component: PaymentSuccessComponent
   },
+  {
+    path: 'emitrapaymentsuccess', component: EmitraPaymentResponseComponent
+  },
+  {
+    path: 'emitrapaymentfail', component: EmitraPaymentResponseComponent
+  },
+
 
   {
     path: '',
@@ -398,6 +406,12 @@ const routes: Routes = [
       {
         path: 'commiteeinspection', component: CommiteeInspectionComponent
       },
+
+     
+
+
+
+
 
     ]
   },
