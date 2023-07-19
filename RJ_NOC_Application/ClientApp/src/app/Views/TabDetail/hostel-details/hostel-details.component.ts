@@ -13,6 +13,10 @@ import { DropdownValidators } from '../../../Services/CustomValidators/custom-va
 import { Clipboard } from '@angular/cdk/clipboard';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import {GlobalConstants } from '../../../Common/GlobalConstants'
+
+
 /*import * as jsPDF from 'jspdf'*/
 
 import jsPDF from 'jspdf'
@@ -103,6 +107,12 @@ export class HostelDetailsComponent implements OnInit {
   public CssClass_TextDangerWidth: string = '';
   public CssClass_TextDangerLength: string = '';
 
+
+  public DefaultWidthMin: number = 0;
+  public DefaultLengthMin: number = 0;
+
+
+
   public IsTehsilRequried: boolean = false;
   public IsPanchyatSamitiRequried: boolean = false;
 
@@ -119,9 +129,16 @@ export class HostelDetailsComponent implements OnInit {
   public MinToDate: Date = new Date();
   public HostelCategoryList: any = [];
 
+
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+
+
+  readonly imageUrlPath = GlobalConstants.ImagePathURL;
+
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
-    private clipboard: Clipboard, private fileUploadService: FileUploadService, private hostelDetailService: HostelDetailService) {
+    private clipboard: Clipboard, private fileUploadService: FileUploadService, private hostelDetailService: HostelDetailService, private modalService: NgbModal ) {
 
   }
 
@@ -310,8 +327,12 @@ export class HostelDetailsComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.RoomSizeDataList = data['Data'];
 
-          this.WidthMin = this.RoomSizeDataList[0]['WidthMin'];
-          this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
+          //this.WidthMin = this.RoomSizeDataList[0]['WidthMin'];
+          //this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
+
+          this.DefaultWidthMin = this.RoomSizeDataList[0]['WidthMin'];
+          this.DefaultLengthMin = this.RoomSizeDataList[0]['LengthMin'];
+    
           console.log(this.RoomSizeDataList);
         }, error => console.error(error));
     }
@@ -346,7 +367,8 @@ export class HostelDetailsComponent implements OnInit {
     //  this.CssClass_TextDangerLength = 'text-danger';
     //  this.isFormValid = false;
     //}
-    if (Number(this.hosteldetail.Width * this.hosteldetail.Length) <= this.WidthMin) {
+
+    if (Number(this.hosteldetail.Width * this.hosteldetail.Length)  <= this.WidthMin) {
       this.CssClass_TextDangerWidth = 'text-danger';
       this.isFormValid = false;
     }
@@ -852,6 +874,73 @@ export class HostelDetailsComponent implements OnInit {
     this.HostelForm.get('txtCollegeDistance')?.updateValueAndValidity();
     this.HostelForm.get('rdHostelType')?.updateValueAndValidity();
   }
+
+
+
+  async ViewItem(content: any, HostelDetailID: number) {
+    this.request = new HostelDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HostelDetailID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.request = data['Data'][0];
+          if (this.request.HostelType == 'Rent') {
+            this.showRentDocument = true;
+          }
+          this.request.RentDocumentPath = this.imageUrlPath + this.request.RentDocument;
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  //validation
+
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
+
+  onKeyChange(searchValue: any): void
+  {
+    this.WidthMin = searchValue.target.value * this.DefaultWidthMin;
+    this.LengthMin = searchValue.target.value * this.DefaultLengthMin;
+   // console.log(searchValue.target.value);
+  }
+ 
+
 
 }
 

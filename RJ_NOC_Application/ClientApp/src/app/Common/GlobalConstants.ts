@@ -7,6 +7,9 @@ export class GlobalConstants {
   public static RPPRequstURL: string = "http://uat.rpp.rajasthan.gov.in/payments/v1/init"
   public static SSOURL: string = "https://ssotest.rajasthan.gov.in/signin"
 
+
+  public static ImagePathURL: string= "http://localhost:62778/ImageFile/"
+
 }
 
 
