@@ -107,24 +107,21 @@ export class NocPaymentComponent implements OnInit {
 
 
 
-  async EmitraPaymentRequest() {
+  async EmitraPaymentRequest()
+  {
     //this.request.AMOUNT = 1000;
     //this.request.USEREMAIL = "r.rajsingh04@gmail.com"
     //this.request.USERNAME = "Rav Raj";
     //this.request.USERMOBILE = "7737348604";
     //this.request.PURPOSE = "Test";
     //this.request.ApplyNocApplicationID = 1;
-
     this.emitraRequest.Amount = 10;
     this.emitraRequest.AppRequestID = "1";
     this.emitraRequest.ServiceID = "8184"
-
-    
     this.emitraRequest.UserName = "Rav Raj";
     this.emitraRequest.MobileNo = "7737348604";
     this.emitraRequest.SsoID = "geeta.saini87";
-
-    
+    this.emitraRequest.ApplicationIdEnc = "1";
 
     //debugger
     this.loaderService.requestStarted();
