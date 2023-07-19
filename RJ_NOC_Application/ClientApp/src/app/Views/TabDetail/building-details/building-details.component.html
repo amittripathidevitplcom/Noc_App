@@ -124,6 +124,7 @@
                 <input type="text" class="form-control" id="txtContactNo_Owner" name="txtContactNo_Owner" [(ngModel)]="buildingdetails.ContactNo" formControlName="txtContactNo_Owner" maxlength="10" (keypress)="numberOnly($event)">
                 <div *ngIf="isSubmitted&&form.txtContactNo_Owner.errors" class="text-danger">
                   <p *ngIf="form.txtContactNo_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtContactNo_Owner.errors.pattern || form.txtContactNo_Owner.errors.maxlength || form.txtContactNo_Owner.errors.minlength">Invalid Mobile number</p>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">

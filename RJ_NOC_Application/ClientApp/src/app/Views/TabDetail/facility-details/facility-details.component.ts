@@ -66,8 +66,6 @@ export class FacilityDetailsComponent implements OnInit {
   public UserID: number = 0;
 
   searchText: string = '';
-  public dropdownList: any = [];
-  public dropdownSettings: IDropdownSettings = {};
 
   // ssologin model
   ssoLoginModel = new SSOLoginDataModel();
@@ -92,7 +90,7 @@ export class FacilityDetailsComponent implements OnInit {
         ddlFacilitiesId: ['', [DropdownValidators]],
         fileUploadImage: [''],
         //fileUploadImage: ['', Validators.required],
-        txtMinSize: ['', [Validators.required, Validators.min(0)]],
+        txtMinSize: ['', [Validators.required, Validators.min(0),Validators.max(100000000)]],
         Unit: [''],
         txtsearchText: [''],
       });
@@ -110,6 +108,13 @@ export class FacilityDetailsComponent implements OnInit {
   get form() { return this.FacilitiesForm.controls; }
 
 
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
   async GetFacilities(DepartmentID: number, Type: string) {
     try {
 
@@ -267,14 +272,20 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   async SaveData() {
-
+    debugger;
     this.request.CollegeID = this.SelectedCollageID;
 
     this.isSubmitted = true;
     console.log(this.request);
+    if ((this.request.MinSize).toString() == "") {
+      this.toastr.warning("Please Select Min Size.!");
+      return;
+    }
+
     if (this.FacilitiesForm.invalid) {
       return
     }
+   
     if (this.WidthMin > this.request.MinSize) {
       this.CssClass_TextDangerWidth = 'text-danger';
       return
@@ -330,6 +341,7 @@ export class FacilityDetailsComponent implements OnInit {
     this.isValidFacilitiesUrl = true;
     this.showFacilitiesUrl = false;
     this.isSubmitted = false;
+    this.request.FacilityDetailID = 0;
     this.request.FacilitiesID = 0;
     this.request.MinSize = 0;
     const fileUploadImage = '';
@@ -477,8 +489,6 @@ export class FacilityDetailsComponent implements OnInit {
     this.loaderService.requestStarted();
     if (this.FacilitiesDataAllList.length > 0) {
       try {
-
-
         let doc = new jsPDF('p', 'mm', [432, 279])
         doc.setFontSize(16);
         doc.text("FacilityDetail", 100, 10, { align: 'center', maxWidth: 100 });

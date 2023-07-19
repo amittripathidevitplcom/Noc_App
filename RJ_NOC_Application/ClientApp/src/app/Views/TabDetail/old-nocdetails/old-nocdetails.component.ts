@@ -1,17 +1,15 @@
-import { Component, OnInit, Input, Injectable, ViewChild, ElementRef } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
-import { LoaderService } from '../../../Services/Loader/loader.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OldNocDataModel, OldNocDetailsDataModel, OldNocDetails_SubjectDataModel } from '../../../Models/TabDetailDataModel';
-import { DropdownValidators, createPasswordStrengthValidator, MustMatch } from '../../../Services/CustomValidators/custom-validators.service';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { async } from 'rxjs';
-import { parse } from 'path';
-import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
+import { OldNocDetailsDataModel, OldNocDetails_SubjectDataModel } from '../../../Models/TabDetailDataModel';
+import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
+import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
+import { LoaderService } from '../../../Services/Loader/loader.service';
+import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
 
 @Component({
   selector: 'app-old-nocdetails',
@@ -43,7 +41,7 @@ export class OldNOCDetailsComponent implements OnInit {
   public SelectedSubjectDetails: any = [];
   public SubjectID: any = [];
   public dropdownSettings: IDropdownSettings = {};
-
+  public showImageFilePath: boolean = false;
 
   //NOC Details
   public CollegeID: number = 0;
@@ -65,6 +63,7 @@ export class OldNOCDetailsComponent implements OnInit {
   public IsFormValid: boolean = true;
   public SubjectRequried: boolean = false;
   public NOCExpireDateRequried: boolean = false;
+  public isToDisable = true;
   //NOC Details
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private fileUploadService: FileUploadService,
@@ -111,6 +110,7 @@ export class OldNOCDetailsComponent implements OnInit {
     });
     await this.GetCourseList();
 
+
   }
 
   get form() { return this.oldNOCForm.controls; }
@@ -141,7 +141,7 @@ export class OldNOCDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.lstCourse = [];
-     // await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID, 4)//4=existing
+      // await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID, 4)//4=existing
       await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID, 4)//4=existing
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -173,6 +173,8 @@ export class OldNOCDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.subjectDataList = data['Data'];
           this.SelectedSubjectDetails = data['Data'];
+          this.dropdownSettings = Object.assign({}, this.dropdownSettings);
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -195,6 +197,9 @@ export class OldNOCDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.lstNOCType = data['Data'];
+          this.lstNOCType = this.lstNOCType.filter((element: any) => {
+            return element.Name == "NOC";
+          });
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -301,7 +306,7 @@ export class OldNOCDetailsComponent implements OnInit {
     }
     //this.routers.navigate(['/addcollege']);
   }
-  
+
 
   async AddOldNOCDetails() {
     this.IsFormValid = true;
@@ -437,6 +442,7 @@ export class OldNOCDetailsComponent implements OnInit {
           this.request.UploadNOCDocPath = data['Data'][0]["FilePath"];
           this.request.Dis_FileName = data['Data'][0]["Dis_FileName"];
           this.IsUploadDocRequried = false;
+          this.showImageFilePath = true;
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
@@ -460,6 +466,7 @@ export class OldNOCDetailsComponent implements OnInit {
           this.request.UploadNOCDoc = '';
           this.request.UploadNOCDocPath = '';
           this.request.Dis_FileName = '';
+          this.showImageFilePath = false;
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
@@ -484,7 +491,7 @@ export class OldNOCDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.oldnocdetailService.GetOldNOCDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, OldNocID)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -556,6 +563,8 @@ export class OldNOCDetailsComponent implements OnInit {
           this.request.UploadNOCDoc = this.request.UploadNOCDoc;
           this.request.UploadNOCDocPath = this.request.UploadNOCDocPath;
           this.request.Dis_FileName = this.request.Dis_FileName;
+          console.log(this.request);
+          this.showImageFilePath = true;
           this.isDisabled = true;
           const btnAdd = document.getElementById('btnAddNOCDetail')
           if (btnAdd) { btnAdd.innerHTML = "Update"; }
@@ -579,6 +588,7 @@ export class OldNOCDetailsComponent implements OnInit {
     this.SelectedSubjectDetails = [];
     this.isSubmitted = false;
     this.isDisabled = false;
+    this.showImageFilePath = false;
     const btnAdd = document.getElementById('btnAddNOCDetail')
     if (btnAdd) { btnAdd.innerHTML = "Add"; }
     this.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
