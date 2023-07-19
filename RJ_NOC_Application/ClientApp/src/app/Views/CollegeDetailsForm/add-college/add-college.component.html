@@ -152,7 +152,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtMobileNumber" class="form-label">College Mobile Number <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtMobileNumber" name="txtMobileNumber" [(ngModel)]="request.MobileNumber" formControlName="txtMobileNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
+                    <input class="form-control" id="txtMobileNumber" name="txtMobileNumber" [(ngModel)]="request.MobileNumber" formControlName="txtMobileNumber" maxlength="10" (keypress)="numberOnly($event)">
                     <div *ngIf="isSubmitted&&form.txtMobileNumber.errors" class="text-danger">
                       <p *ngIf="form.txtMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form.txtMobileNumber.errors.pattern"><i aria-hidden="true"></i> College Mobile number is not valid .!</p>
@@ -162,7 +162,7 @@
 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtCollegeLandlineNumber" class="form-label">College Landline Number <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtCollegeLandlineNumber" name="txtCollegeLandlineNumber" [(ngModel)]="request.CollegeLandlineNumber" formControlName="txtCollegeLandlineNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
+                    <input class="form-control" id="txtCollegeLandlineNumber" name="txtCollegeLandlineNumber" [(ngModel)]="request.CollegeLandlineNumber" formControlName="txtCollegeLandlineNumber" maxlength="10" (keypress)="numberOnly($event)">
                     <div *ngIf="isSubmitted&&form.txtCollegeLandlineNumber.errors" class="text-danger">
                       <p *ngIf="form.txtCollegeLandlineNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form.txtCollegeLandlineNumber.errors.pattern"><i aria-hidden="true"></i> College Landline number is not valid .!</p>
@@ -210,7 +210,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
                     <label for="txtDistanceFromCity" class="form-label">Distance from City(km) <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtDistanceFromCity" name="txtDistanceFromCity" [(ngModel)]="request.DistanceFromCity" formControlName="txtDistanceFromCity">
+                    <input class="form-control" id="txtDistanceFromCity" name="txtDistanceFromCity" [(ngModel)]="request.DistanceFromCity" formControlName="txtDistanceFromCity" (keypress)="numberOnly($event)">
                     <div *ngIf="isSubmitted&&IsRural&&form.txtDistanceFromCity.errors" class="text-danger">
                       <p *ngIf="form.txtDistanceFromCity.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
@@ -304,7 +304,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtPincode" class="form-label">Pincode <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" (keypress)="MaxLengthValidation_KeyPress($event,6);">
+                    <input class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" maxlength="6" (keypress)="numberOnly($event)">
                     <div *ngIf="isSubmitted&&form.txtPincode.errors" class="text-danger">
                       <p *ngIf="form.txtPincode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -344,7 +344,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtCDMobileNumber" class="form-label">Mobile Number <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtCDMobileNumber" name="txtCDMobileNumber" [(ngModel)]="request_ContactDetailsDataModel.MobileNumber" formControlName="txtCDMobileNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
+                    <input class="form-control" id="txtCDMobileNumber" name="txtCDMobileNumber" [(ngModel)]="request_ContactDetailsDataModel.MobileNumber" formControlName="txtCDMobileNumber" maxlength="10" (keypress)="numberOnly($event)">
                     <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDMobileNumber.errors" class="text-danger">
                       <p *ngIf="form_ContactDetails.txtCDMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form_ContactDetails.txtCDMobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
@@ -440,14 +440,14 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label for="txtGCD_MobileNumber" class="form-label">Mobile Number</label>
-                  <input type="number" class="form-control" id="txtGCD_MobileNumber" name="txtGCD_MobileNumber" [(ngModel)]="request.GCD_MobileNumber" formControlName="txtGCD_MobileNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
+                  <input class="form-control" id="txtGCD_MobileNumber" name="txtGCD_MobileNumber" [(ngModel)]="request.GCD_MobileNumber" formControlName="txtGCD_MobileNumber" maxlength="10" (keypress)="numberOnly($event)">
                   <div *ngIf="isSubmitted&&form.txtGCD_MobileNumber.errors" class="text-danger">
                     <p *ngIf="form.txtGCD_MobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label for="txtGCD_LandlineNumber" class="form-label">Landline Number</label>
-                  <input type="number" class="form-control" id="txtGCD_LandlineNumber" name="txtGCD_LandlineNumber" [(ngModel)]="request.GCD_LandlineNumber" formControlName="txtGCD_LandlineNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
+                  <input class="form-control" id="txtGCD_LandlineNumber" name="txtGCD_LandlineNumber" [(ngModel)]="request.GCD_LandlineNumber" formControlName="txtGCD_LandlineNumber" maxlength="10" (keypress)="numberOnly($event)">
                   <div *ngIf="isSubmitted&&form.txtGCD_LandlineNumber.errors" class="text-danger">
                     <p *ngIf="form.txtGCD_LandlineNumber.errors.pattern"><i aria-hidden="true"></i> Landline number is not valid .!</p>
                   </div>
@@ -559,7 +559,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtPincode_Nearest" name="txtPincode_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.Pincode" formControlName="txtPincode_Nearest" (keypress)="MaxLengthValidation_KeyPress($event,6);">
+                    <input class="form-control" id="txtPincode_Nearest" name="txtPincode_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.Pincode" formControlName="txtPincode_Nearest" maxlength="6" (keypress)="numberOnly($event)">
                     <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtPincode_Nearest.errors" class="text-danger">
                       <p *ngIf="form_NearestGovernmentHospitals.txtPincode_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form_NearestGovernmentHospitals.txtPincode_Nearest.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
@@ -568,7 +568,7 @@
                   <!-- end -->
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtHospitalDistance" class="form-label">Hospital Distance From Institute <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtHospitalDistance" name="txtHospitalDistance" [(ngModel)]="request_NearestGovernmentHospitals.HospitalDistance" formControlName="txtHospitalDistance">
+                    <input class="form-control" id="txtHospitalDistance" name="txtHospitalDistance" [(ngModel)]="request_NearestGovernmentHospitals.HospitalDistance" formControlName="txtHospitalDistance" (keypress)="numberOnly($event)">
                     <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtHospitalDistance.errors" class="text-danger">
                       <p *ngIf="form_NearestGovernmentHospitals.txtHospitalDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
