@@ -20,6 +20,7 @@ export class AnimalmasterService {
   }
   //Get 
   public async GetAllAnimalList(UserID: number) {
+    debugger;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

@@ -89,7 +89,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
           if (this.collegeDataList['CollegeStatusID'] == 3) {
-            //this.CollegeType_IsExisting = false;
+            this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
           }
         }, error => console.error(error));
