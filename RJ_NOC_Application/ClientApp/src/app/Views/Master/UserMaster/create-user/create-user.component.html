@@ -41,7 +41,7 @@
                     <input type="number" class="form-control" id="txtMobileNumber" name="txtMobileNumber" [(ngModel)]="request.MobileNumber" formControlName="txtMobileNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
                     <div *ngIf="isSubmitted&&form.txtMobileNumber.errors" class="text-danger">
                       <p *ngIf="form.txtMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form.txtMobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
+                      <p *ngIf="form.txtMobileNumber.errors.pattern || form.txtMobileNumber.errors.maxlength || form.txtMobileNumber.errors.minlength">Mobile Number must be at least 10 number</p>
                     </div>
                   </div>
 
@@ -50,13 +50,13 @@
                     <input type="email" class="form-control" id="txtEmailAddress" name="txtEmailAddress" [(ngModel)]="request.EmailAddress" formControlName="txtEmailAddress" autocomplete="off">
                     <div *ngIf="isSubmitted&&form.txtEmailAddress.errors" class="text-danger">
                       <p *ngIf="form.txtEmailAddress.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form.txtEmailAddress.errors.email"><i aria-hidden="true"></i> Email address is not valid .!</p>
+                      <p *ngIf="form.txtEmailAddress.errors.pattern">Invalid Email</p>
                     </div>
                   </div>
 
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="txtName" class="form-label">Name <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtName" name="txtName" formControlName="txtName" [(ngModel)]="request.Name" autocomplete="off">
+                    <input type="text" class="form-control" id="txtName" name="txtName" formControlName="txtName" [(ngModel)]="request.Name" (keypress)="alphaOnly($event)" autocomplete="off">
 
                     <div *ngIf="isSubmitted&&form.txtName.errors" class="text-danger">
                       <p *ngIf="form.txtName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>

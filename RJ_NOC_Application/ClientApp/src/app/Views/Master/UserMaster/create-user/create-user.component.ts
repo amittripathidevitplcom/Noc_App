@@ -26,8 +26,6 @@ export class CreateUserComponent implements OnInit {
   CreatUserMasterForm!: FormGroup;
   //public SelectedDepartmentID: number = 0;
 
-  public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
-
   public isValid: boolean = true;
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -66,8 +64,8 @@ export class CreateUserComponent implements OnInit {
     this.CreatUserMasterForm = this.formBuilder.group(
       {
         txtSSOID: ['', Validators.required],
-        txtMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
-        txtEmailAddress: ['', [Validators.required, Validators.email]],
+        txtMobileNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
+        txtEmailAddress: ['', [Validators.required, Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
         txtName: ['', Validators.required],
         ddlDepartmentID: ['', [DropdownValidators]],
         ddlRoleID: ['', [DropdownValidators]],
@@ -91,6 +89,15 @@ export class CreateUserComponent implements OnInit {
   get form() { return this.CreatUserMasterForm.controls; }
 
 
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
   async GetDepartmentList() {
     try {
       this.loaderService.requestStarted();
