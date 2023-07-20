@@ -475,7 +475,9 @@ export class LegalEntityComponent implements OnInit {
       }
       else {
         this.memberdetails.MemberPhoto = '';
+        this.memberdetails.MemberPhotoPath = '';
         this.memberdetails.MemberSignature = '';
+        this.memberdetails.MemberSignaturePath = '';
         this.isMemberPhoto = false;
         this.isMemberSignature = false;
       }
@@ -488,10 +490,10 @@ export class LegalEntityComponent implements OnInit {
         MemberPostID: this.memberdetails.MemberPostID,
         MembersPostName: this.lstMemberPost.find((x: { RoleID: number; }) => x.RoleID == this.memberdetails.MemberPostID).RoleName,
         MemberPhoto: this.memberdetails.MemberPhoto,
-        MemberPhotoPath: this.memberdetails.MemberPhotoPath,
+        MemberPhotoPath: this.memberdetails.MemberPhotoPath == '' ? 'N/A' : this.memberdetails.MemberPhotoPath,
         Dis_MemberPhotoName: this.memberdetails.Dis_MemberPhotoName,
         MemberSignature: this.memberdetails.MemberSignature,
-        MemberSignaturePath: this.memberdetails.MemberSignaturePath,
+        MemberSignaturePath: this.memberdetails.MemberSignaturePath == '' ? 'N/A' : this.memberdetails.MemberSignaturePath,
         Dis_MemberSignatureName: this.memberdetails.Dis_MemberSignatureName,
       });
       this.memberdetails = new LegalEntityMemberDetailsDataModel();

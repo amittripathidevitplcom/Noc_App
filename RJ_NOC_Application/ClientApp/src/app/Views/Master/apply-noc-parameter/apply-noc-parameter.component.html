@@ -46,7 +46,7 @@
               </div>
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ApplyNocParameterMasterList_ddl.length>0">
-                <label for="">Noc for</label>
+                <label for="">Application Apply For</label>
                 <div class="clearfix"></div>
                 <div class="form-check form-check-inline" *ngFor="let item of ApplyNocParameterMasterList_ddl">
                   <input class="form-check-input" type="checkbox" name="cbNocFor" id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}" formControlName="cbNocFor" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item)" [(ngModel)]="item.IsChecked" [attr.checked]="item.IsChecked">
