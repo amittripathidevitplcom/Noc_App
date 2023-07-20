@@ -32,7 +32,7 @@ export class SocityService {
       ).toPromise();
   }
   public async GetSocietyAllList(UserID: number, CollegeID: number) {
-
+    debugger;
     return await this.http.get(this.APIUrl + "/GetSocietyAllList/" + UserID + '/' + CollegeID)
       .pipe(
         catchError(this.handleErrorObservable)

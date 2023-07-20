@@ -73,7 +73,7 @@
                             <input type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)"/>
                             <label class="btn upload" for="fileUpload{{idx+1}}">
                               <span class="filename">Choose file</span>
-                              {{item.FileUploadName === '' ? 'No File Choosen' : item.FileUploadName_Dis_FileName}}
+                              {{item.FileUploadName === '' || item.FileUploadName == undefined ? 'No File Choosen' : item.FileUploadName_Dis_FileName}}
                             </label>
                             <div class="btn-group" *ngIf="item.ShowHideImgButton">
                               <a class="btn btn-outline-primary" target="_blank" href="{{item.FileUploadNamePath}}"><i class="fa fa-eye"></i></a>

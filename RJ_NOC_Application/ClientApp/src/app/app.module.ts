@@ -152,8 +152,8 @@ import { ApplyNOCJointSecretaryListComponent } from './Views/apply-nocjoint-secr
 import { ApplyNOCSecretaryListComponent } from './Views/apply-nocsecretary-list/apply-nocsecretary-list.component';
 import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payment-response/emitra-payment-response.component';
 import { AnimalMasterComponent } from './Views/Master/AnimalMaster/animal-master.component';
+import { VeterinaryHospitalComponent } from './Views/VeterinaryHospital/veterinary-hospital/veterinary-hospital.component';
 import { StreamMasterComponent } from './Views/Master/StreamMaster/stream-master.component';
-
 
 
 @NgModule({
@@ -303,6 +303,7 @@ import { StreamMasterComponent } from './Views/Master/StreamMaster/stream-master
     CommiteeInspectionComponent,
     EmitraPaymentResponseComponent,
     AnimalMasterComponent,
+    VeterinaryHospitalComponent,
     StreamMasterComponent
 
   ],
