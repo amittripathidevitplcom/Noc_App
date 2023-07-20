@@ -407,7 +407,6 @@ const routes: Routes = [
         path: 'commiteeinspection', component: CommiteeInspectionComponent
       },
 
-     
 
 
 

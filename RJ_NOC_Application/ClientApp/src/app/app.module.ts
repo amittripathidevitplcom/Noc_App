@@ -153,7 +153,6 @@ import { ApplyNOCSecretaryListComponent } from './Views/apply-nocsecretary-list/
 import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payment-response/emitra-payment-response.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -299,7 +298,8 @@ import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payme
     ApplyNOCJointSecretaryListComponent,
     ApplyNOCSecretaryListComponent,
     CommiteeInspectionComponent,
-    EmitraPaymentResponseComponent
+    EmitraPaymentResponseComponent,
+
 
   ],
   imports: [
