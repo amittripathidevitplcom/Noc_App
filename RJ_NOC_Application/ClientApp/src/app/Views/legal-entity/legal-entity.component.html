@@ -175,7 +175,7 @@
 
                         <div *ngIf="isSubmitted_Registration&&FormRegistration.txtEmailIDRegistration.errors" class="text-danger">
                           <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.required"> This field is required .!</p>
-                          <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.email">Invalid Email</p>
+                          <!--<p *ngIf="FormRegistration.txtEmailIDRegistration.errors.email">Invalid Email</p>-->
                           <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.pattern">Invalid Email</p>
                         </div>
 
@@ -526,6 +526,9 @@
                             <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('MemberPhoto', memberdetails.MemberPhoto)"><i class="fa fa-trash-o"></i></button>
                           </div>
                         </div>
+                        <div *ngIf="isMemberPhoto" class="text-danger">
+                          <p *ngIf="isMemberPhoto"> This field is required .!</p>
+                        </div>
                         <div *ngIf="isValidMemberPhoto" class="text-danger">
                           <p *ngIf="isValidMemberPhoto"> {{ImageValidationMessage_MemberPhoto}}</p>
                         </div>
@@ -542,6 +545,9 @@
                             <a class="btn btn-outline-primary" target="_blank" href="{{memberdetails.MemberSignaturePath}}"><i class="fa fa-eye"></i></a>
                             <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('MemberSign', memberdetails.MemberSignature)"><i class="fa fa-trash-o"></i></button>
                           </div>
+                        </div>
+                        <div *ngIf="isMemberSignature" class="text-danger">
+                          <p *ngIf="isMemberSignature"> This field is required .!</p>
                         </div>
                         <div *ngIf="isValidMemberSignature" class="text-danger">
                           <p *ngIf="isValidMemberSignature"> {{ImageValidationMessage_MemberSignature}}</p>

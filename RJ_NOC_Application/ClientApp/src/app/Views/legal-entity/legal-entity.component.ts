@@ -447,6 +447,7 @@ export class LegalEntityComponent implements OnInit {
 
   async AddMember() {
     try {
+      debugger;
       this.loaderService.requestStarted();
       this.isMemberSignature = false;
       this.isMemberPhoto = false;

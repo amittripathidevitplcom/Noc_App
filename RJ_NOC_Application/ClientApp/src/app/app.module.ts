@@ -154,7 +154,6 @@ import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payme
 import { AnimalMasterComponent } from './Views/Master/AnimalMaster/animal-master.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
