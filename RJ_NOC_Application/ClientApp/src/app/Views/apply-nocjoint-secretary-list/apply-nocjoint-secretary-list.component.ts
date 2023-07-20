@@ -37,6 +37,7 @@ export class ApplyNOCJointSecretaryListComponent implements OnInit {
 
   public NextRoleID: number = 0;
   public NextUserID: number = 0;
+  public NextActionID: number = 0;
   public ActionID: number=0;
   public CheckFinalRemark: string = '';
   public SelectedCollageID: number = 0;
@@ -147,7 +148,7 @@ export class ApplyNOCJointSecretaryListComponent implements OnInit {
         return;
       }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID)
+      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -233,7 +234,7 @@ export class ApplyNOCJointSecretaryListComponent implements OnInit {
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID)
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID,"Current")
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

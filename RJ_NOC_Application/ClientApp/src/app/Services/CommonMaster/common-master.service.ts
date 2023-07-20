@@ -833,14 +833,14 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetWorkFlowActionListByRole(RoleID: number) {
+  public async GetWorkFlowActionListByRole(RoleID: number, Type: string) {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetWorkFlowActionListByRole/" + RoleID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetWorkFlowActionListByRole/" + RoleID + "/" + Type)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

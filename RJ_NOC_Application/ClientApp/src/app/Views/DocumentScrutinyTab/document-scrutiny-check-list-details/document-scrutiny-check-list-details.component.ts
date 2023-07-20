@@ -139,11 +139,13 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   public UserRoleList: any[] = [];
   public UserListRoleWise: any[] = [];
   public WorkFlowActionList: any[] = [];
+  public NextWorkFlowActionList: any[] = [];
 
 
   public NextRoleID: number = 0;
   public NextUserID: number = 0;
   public ActionID: number = 0;
+  public NextActionID: number = 0;
 
 
 
@@ -176,6 +178,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetHostelDetailList_DepartmentCollegeWise();
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
+    this.NextGetWorkFlowActionListByRole();
     this.GetCollageDetails();
   }
 
@@ -620,7 +623,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
         return;
       }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID)
+      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -664,7 +667,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             this.UserRoleList = data['Data'];
             if (this.UserRoleList.length > 0) {
               this.NextRoleID = this.UserRoleList[0]['RoleID'];
-              await this.GetUserDetailsByRoleID();
+              await this.NextGetUserDetailsByRoleID();
             }
           }
         })
@@ -678,7 +681,33 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   }
 
 
-  async GetUserDetailsByRoleID() {
+  //async GetUserDetailsByRoleID() {
+  //  this.UserListRoleWise = [];
+  //  this.loaderService.requestStarted();
+  //  try {
+  //    await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID)
+  //      .then(async (data: any) => {
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        if (data['Data'].length > 0) {
+  //          this.UserListRoleWise = data['Data'];
+  //          if (this.UserListRoleWise.length > 0) {
+  //            this.NextUserID = this.UserListRoleWise[0]['UId'];
+
+  //          }
+  //        }
+  //      })
+  //  }
+  //  catch (ex) { console.log(ex) }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
+
+  async NextGetUserDetailsByRoleID() {
     this.UserListRoleWise = [];
     this.loaderService.requestStarted();
     try {
@@ -691,7 +720,31 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             this.UserListRoleWise = data['Data'];
             if (this.UserListRoleWise.length > 0) {
               this.NextUserID = this.UserListRoleWise[0]['UId'];
-
+              await this.NextGetWorkFlowActionListByRole();
+            }
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async NextGetWorkFlowActionListByRole() {
+    this.NextWorkFlowActionList = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID,"Next")
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.NextWorkFlowActionList = data['Data'];
+            if (this.NextWorkFlowActionList.length > 0) {
+              this.NextActionID = this.NextWorkFlowActionList[0]['ActionID'];
             }
           }
         })
@@ -704,11 +757,13 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     }
   }
 
+
+
   async GetWorkFlowActionListByRole() {
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID)
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID,"Current")
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

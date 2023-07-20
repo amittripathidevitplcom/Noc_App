@@ -47,6 +47,7 @@ export class CommiteeInspectionComponent implements OnInit {
   public SelectedApplyNOCID: number = 0;
   public WorkFlowActionList: any[] = [];
   public CheckListData: any[] = [];
+  public NextActionID: number = 0;
 
   public All_U_Select: boolean = false;
   constructor(private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
@@ -138,7 +139,7 @@ export class CommiteeInspectionComponent implements OnInit {
     }
   }
 
-
+  
   public isNextRoleIDValid: boolean = false;
   public isNextUserIdValid: boolean = false;
   async DocumentScrutiny() {
@@ -191,7 +192,7 @@ export class CommiteeInspectionComponent implements OnInit {
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
-          this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID)
+          this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
             .then((data: any) => {
               data = JSON.parse(JSON.stringify(data));
               this.State = data['State'];
@@ -289,7 +290,7 @@ export class CommiteeInspectionComponent implements OnInit {
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID)
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID,"Current")
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
