@@ -62,7 +62,7 @@
                 <input type="text" id="txtStreamName" formControlName="txtStreamName" maxlength="100" class="form-control" [(ngModel)]="request.StreamName" autocomplete="off" (keypress)="alphaOnly($event)">
                 <div *ngIf="isSubmitted&&form.txtStreamName.errors" class="text-danger">
                   <p *ngIf="form.txtStreamName.errors.required">This field is required .!</p>
-                  <p *ngIf="form.txtStreamName.errors.maxlength">Animal Name is too big .!</p>
+                  <p *ngIf="form.txtStreamName.errors.maxlength">Stream Name is too big .!</p>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">

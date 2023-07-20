@@ -31,11 +31,10 @@ export class SubjectMasterComponent implements OnInit {
   public isLoadingExport: boolean = false;
   public EditID: any;
   public isDeleteButton: boolean = true;
-  public CurrentPageName: any = "";
   public UserID: number = 0;
   public DepartmentList: any;
-  public CourseList: any;
   public SubjectMasterData: any;
+  public CourseDataList: any;
   public isDisabledClient: boolean = true;
   public checked: boolean = true;
   searchText: string = '';
@@ -47,17 +46,28 @@ export class SubjectMasterComponent implements OnInit {
       {
         ddlDepartmentID: ['', [DropdownValidators]],
         ddlCourseID: ['', [DropdownValidators]],
-        txtSubjectName: ['', Validators.required],
+        txtSubjectName: ['', [Validators.required, Validators.maxLength(100)]],
         chkActiveStatus: [''],
       }
     )
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
-    await this.GetAllSubjectList();
     await this.GetDepartmentList();
+    await this.GetAllSubjectList();
     this.ActiveStatus = true;
   }
   get form() { return this.SubjectMasterForm.controls; }
+
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
   async GetDepartmentList() {
     try {
       this.loaderService.requestStarted();
@@ -68,6 +78,7 @@ export class SubjectMasterComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.DepartmentList = data['Data'];
+          this.request.CourseID = 0;
 
         }, error => console.error(error));
     }
@@ -80,17 +91,23 @@ export class SubjectMasterComponent implements OnInit {
       }, 200);
     }
   };
-  async DepartmentChangecourse(select: any) {
-    this.request.DepartmentID = select;
+
+  async DepartmentChangecourse(event: any, SeletedDepartmentID: string) {
+    this.request.CourseID = 0;
     try {
       this.loaderService.requestStarted();
-      await this.subjectMasterService.GetDepartmentByCourse(this.request.DepartmentID)
+      const departmentId = Number(SeletedDepartmentID);
+      if (departmentId <= 0) {
+        return;
+      }
+      // Deparment level
+      await this.commonMasterService.GetCourseList_DepartmentIDWise(departmentId)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.CourseList = data['Data'];
+          this.CourseDataList = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -101,7 +118,52 @@ export class SubjectMasterComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  };
+  }
+
+  async ResetControl() {
+    const ddlDepartmentID = document.getElementById('ddlDepartmentID')
+    if (ddlDepartmentID) ddlDepartmentID.focus();
+    this.isSubmitted = false;
+    this.request.SubjectID = 0;
+    this.request.DepartmentID = 0;
+    this.request.CourseID = 0;
+    this.request.SubjectName = '';
+    this.request.UserID = 0;
+    this.request.ActiveStatus = true;
+    this.isDisabledGrid = false;
+    const btnSave = document.getElementById('btnSave')
+    if (btnSave) btnSave.innerHTML = "Save";
+    const btnReset = document.getElementById('')
+    if (btnReset) btnReset.innerHTML = "Reset";
+  }
+  async Edit_OnClick(SubjectID: number) {
+    debugger;
+    this.isSubmitted = false;
+    try {
+      this.loaderService.requestStarted();
+      await this.subjectMasterService.GetByID(SubjectID, this.UserID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.SubjectID = data['Data'][0]["SubjectID"];
+          this.request.DepartmentID = data['Data'][0]["DepartmentID"];
+          this.DepartmentChangecourse('', (this.request.DepartmentID).toString())
+          this.request.CourseID = data['Data'][0]["CourseID"];
+          this.request.SubjectName = data['Data'][0]["SubjectName"];
+          this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
+          this.isDisabledGrid = true;
+          const btnSave = document.getElementById('btnSave')
+          if (btnSave) btnSave.innerHTML = "Update";
+          const btnReset = document.getElementById('btnReset')
+          if (btnReset) btnReset.innerHTML = "Cancel";
+        }, error => console.error(error));
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async GetAllSubjectList() {
     try {
       this.loaderService.requestStarted();
@@ -156,50 +218,50 @@ export class SubjectMasterComponent implements OnInit {
       }, 200);
     }
   }
-  async ResetControl() {
-    const ddlDepartmentID = document.getElementById('ddlDepartmentID')
-    if (ddlDepartmentID) ddlDepartmentID.focus();
-    this.isSubmitted = false;
-    this.request.SubjectID = 0;
-    this.request.DepartmentID = 0;
-    this.request.CourseID = 0;
-    this.request.SubjectName = '';
-    this.request.UserID = 0;
-    this.request.ActiveStatus = true;
-    this.isDisabledGrid = false;
-    const btnSave = document.getElementById('btnSave')
-    if (btnSave) btnSave.innerHTML = "Save";
-    const btnReset = document.getElementById('')
-    if (btnReset) btnReset.innerHTML = "Reset";
-  }
-  async Edit_OnClick(SubjectID: number) {
-    debugger;
-    this.isSubmitted = false;
-    try {
-      this.loaderService.requestStarted();
-      await this.subjectMasterService.GetByID(SubjectID, this.UserID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.request.SubjectID = data['Data'][0]["SubjectID"];
-          this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-          this.DepartmentChangecourse(this.request.DepartmentID);
-          this.request.CourseID = data['Data'][0]["CourseID"];
-          this.request.SubjectName = data['Data'][0]["SubjectName"];
-          this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
-          this.isDisabledGrid = true;
-          const btnSave = document.getElementById('btnSave')
-          if (btnSave) btnSave.innerHTML = "Update";
-          const btnReset = document.getElementById('btnReset')
-          if (btnReset) btnReset.innerHTML = "Cancel";
-        }, error => console.error(error));
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  //async ResetControl() {
+  //  const ddlDepartmentID = document.getElementById('ddlDepartmentID')
+  //  if (ddlDepartmentID) ddlDepartmentID.focus();
+  //  this.isSubmitted = false;
+  //  this.request.SubjectID = 0;
+  //  this.request.DepartmentID = 0;
+  //  this.request.CourseID = 0;
+  //  this.request.SubjectName = '';
+  //  this.request.UserID = 0;
+  //  this.request.ActiveStatus = true;
+  //  this.isDisabledGrid = false;
+  //  const btnSave = document.getElementById('btnSave')
+  //  if (btnSave) btnSave.innerHTML = "Save";
+  //  const btnReset = document.getElementById('')
+  //  if (btnReset) btnReset.innerHTML = "Reset";
+  //}
+  //async Edit_OnClick(SubjectID: number) {
+  //  debugger;
+  //  this.isSubmitted = false;
+  //  try {
+  //    this.loaderService.requestStarted();
+  //    await this.subjectMasterService.GetByID(SubjectID, this.UserID)
+  //      .then((data: any) => {
+  //        data = JSON.parse(JSON.stringify(data));
+  //        this.request.SubjectID = data['Data'][0]["SubjectID"];
+  //        this.request.DepartmentID = data['Data'][0]["DepartmentID"];
+  //        this.DepartmentChangecourse(this.request.DepartmentID);
+  //        this.request.CourseID = data['Data'][0]["CourseID"];
+  //        this.request.SubjectName = data['Data'][0]["SubjectName"];
+  //        this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
+  //        this.isDisabledGrid = true;
+  //        const btnSave = document.getElementById('btnSave')
+  //        if (btnSave) btnSave.innerHTML = "Update";
+  //        const btnReset = document.getElementById('btnReset')
+  //        if (btnReset) btnReset.innerHTML = "Cancel";
+  //      }, error => console.error(error));
+  //  }
+  //  catch (ex) { console.log(ex) }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
   async Delete_OnClick(SubjectID: number) {
     this.isSubmitted = false;
     try {

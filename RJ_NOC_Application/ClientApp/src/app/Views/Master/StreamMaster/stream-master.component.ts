@@ -124,6 +124,7 @@ export class StreamMasterComponent implements OnInit {
   }
 
   async FillCourses(event: any, SeletedCourseLevelID: string) {
+    this.request.CourseID = 0;
     try {
       this.loaderService.requestStarted();
       const courseLevelId = Number(SeletedCourseLevelID);
