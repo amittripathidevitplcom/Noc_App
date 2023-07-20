@@ -32,17 +32,16 @@ button, input[type='button'], input[type='submit'], a {
     cursor:pointer !important;
 }
 
-
+.dropdown-menu-right { right:0 !important; left:auto}
 .mainPortal {
   width: 100%;
   float: left;
 }
-
-  .mainPortal.sideopen .sideBars {
-    width: 250px;
-    align-items: flex-start;
-  
-  }
+.designation { font-size:12px; font-style:italic;}
+.mainPortal.sideopen .sideBars {
+  width: 250px;
+  align-items: flex-start;
+}
   .mainPortal.sideopen .MainDivs {
     padding-left: 182px;
     

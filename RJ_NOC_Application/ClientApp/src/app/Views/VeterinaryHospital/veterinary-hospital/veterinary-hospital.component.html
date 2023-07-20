@@ -1,0 +1,607 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Veterinary Hospital Details With Help Of Them.</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <!--<li class="breadcrumb-item"><a href="#">Details</a></li>-->
+          <li class="breadcrumb-item active" aria-current="page">Veterinary Hospital</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-filter"></i>&nbsp;Veterinary Hospital</b>
+        </div>
+        <form [formGroup]="veterinaryHospitalForm" class="form-horizontal">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Hospital Name <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtHospitalName" name="txtHospitalName" [(ngModel)]="request.HospitalName" formControlName="txtHospitalName" (keypress)="alphaOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtHospitalName.errors" class="text-danger">
+                  <p *ngIf="form.txtHospitalName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Distance From Institute(in KM) <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtDistanceFromInstitute" name="txtDistanceFromInstitute" [(ngModel)]="request.DistanceFromInstitute" formControlName="txtDistanceFromInstitute" (keypress)="numberOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtDistanceFromInstitute.errors" class="text-danger">
+                  <p *ngIf="form.txtDistanceFromInstitute.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Authorized Person <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtAuthorizedPerson" name="txtAuthorizedPerson" [(ngModel)]="request.AuthorizedPerson" formControlName="txtAuthorizedPerson" (keypress)="alphaOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtAuthorizedPerson.errors" class="text-danger">
+                  <p *ngIf="form.txtAuthorizedPerson.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Mobile No <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtMobileNo" name="txtMobileNo" [(ngModel)]="request.MobileNo" formControlName="txtMobileNo" maxlength="10" (keypress)="numberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtMobileNo.errors" class="text-danger">
+                  <p *ngIf="form.txtMobileNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtMobileNo.errors.pattern || form.txtMobileNo.errors.maxlength || form.txtMobileNo.errors.minlength">Invalid Mobile number</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtAddressLine1" name="txtAddressLine1" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1">
+                <div *ngIf="isSubmitted&&form.txtAddressLine1.errors" class="text-danger">
+                  <p *ngIf="form.txtAddressLine1.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Address Line 2 <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2">
+                <div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
+                  <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label" style="margin-right:15px"></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbRural" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="Rural" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(true)">
+                  <label class="form-check-label" for="rbRural">Rural</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbUrban" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="Urban" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(false)">
+                  <label class="form-check-label" for="rbUrban">Urban</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rbRuralUrban.errors" class="text-danger">
+                  <p *ngIf="form.rbRuralUrban.errors.required"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Division <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SeletedValueDivision (change)="FillDivisionRelatedDDL($event,SeletedValueDivision.value)">
+                  <option value="0">--Select Division--</option>
+                  <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDivisionID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDivisionID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">District <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" #SeletedValueDistrict (change)="FillDistrictRelatedDDL($event,SeletedValueDistrict.value)">
+                  <option value="0">--Select District--</option>
+                  <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
+                  <option value="0">--Select Tehsil--</option>
+                  <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&IsTehsilrequired" class="text-danger">
+                  <p *ngIf="isSubmitted&&IsTehsilrequired"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID">
+                  <option value="0">--Select Panchayat Samiti--</option>
+                  <option *ngFor="let item of PanchyatSamitiList" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&IsPanchayatSamitirequried" class="text-danger">
+                  <p *ngIf="isSubmitted&&IsPanchayatSamitirequried"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtCityTownVillage" name="txtCityTownVillage" [(ngModel)]="request.CityTownVillage" formControlName="txtCityTownVillage">
+                <div *ngIf="isSubmitted&&form.txtCityTownVillage.errors" class="text-danger">
+                  <p *ngIf="form.txtCityTownVillage.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Pincode <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" maxlength="6" (keypress)="numberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtPincode.errors" class="text-danger">
+                  <p *ngIf="form.txtPincode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Email Address <span style="color:red">*</span></label>
+                <input type="text" class="form-control" id="txtEmailAddress" name="txtEmailAddress" [(ngModel)]="request.EmailAddress" formControlName="txtEmailAddress">
+                <div *ngIf="isSubmitted&&form.txtEmailAddress.errors" class="text-danger">
+                  <p *ngIf="form.txtEmailAddress.errors.required"> This field is required .!</p>
+                  <p *ngIf="form.txtEmailAddress.errors.pattern">Invalid Email</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label" style="margin-right:15px">If Person From Admin/Finance Field are On Board <span style="color:red">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbYes" name="rbYesNo" [(ngModel)]="request.PersonField" value="Yes" formControlName="rbYesNo">
+                  <label class="form-check-label" for="rbRural">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbNo" name="rbYesNo" [(ngModel)]="request.PersonField" value="No" formControlName="rbYesNo">
+                  <label class="form-check-label" for="rbUrban">No</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rbYesNo.errors" class="text-danger">
+                  <p *ngIf="form.rbYesNo.errors.required"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Relation With Institute <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtRelation" name="txtRelation" [(ngModel)]="request.Relation" formControlName="txtRelation" (keypress)="alphaOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtRelation.errors" class="text-danger">
+                  <p *ngIf="form.txtRelation.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Objectives of Society With Reference To Vertinary/Animal Husbandry & Education </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Remark <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" id="txtRemark" name="txtRemark" [(ngModel)]="request.Remark" formControlName="txtRemark"  />
+                    <div *ngIf="isSubmitted&&form.txtRemark.errors" class="text-danger">
+                      <p *ngIf="form.txtRemark.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtFileUpload" class="form-label">Upload Own Building Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="txtFileUpload" style="display:none" formControlName="txtFileUpload" (change)="ValidateUploadImage($event,'FileUpload')" #txtFileUpload />
+                      <label class="btn upload" for="txtFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{request.FileUpload === '' ? 'No File Choosen' : request.Dis_FileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.FileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.FileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.FileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidFileUpload" class="text-danger">
+                      <p *ngIf="isValidFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--<div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Fire NOC Validity</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="">From Date</label>
+                    <input class="form-control" type="date" id="txtFromDate" placeholder="Enter From Date" [(ngModel)]="request.FromDate" formControlName="txtFromDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <div *ngIf="isSubmitted&&form.txtFromDate.errors" class="text-danger">
+                      <p *ngIf="form.txtFromDate.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="">To Date</label>
+                    <input class="form-control" type="date" id="txtToDate" placeholder="Enter To Date" [(ngModel)]="request.ToDate" formControlName="txtToDate" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <div *ngIf="isSubmitted&&form.txtToDate.errors" class="text-danger">
+                      <p *ngIf="form.txtToDate.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtFireNOCUpload" class="form-label">Upload Fire NOC Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="txtFireNOCUpload" style="display:none" formControlName="txtFireNOCUpload" (change)="ValidateUploadImage($event,'FireNOCFileUpload')" #txtFireNOCUpload />
+                      <label class="btn upload" for="txtFireNOCUpload">
+                        <span class="filename">Choose file</span>
+                        {{request.FireNOCFileUpload === '' ? 'No File Choosen' : request.Dis_FireNOCFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.FireNOCFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.FireNOCFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FireNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.FireNOCFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidFireNOCFileUpload" class="text-danger">
+                      <p *ngIf="isValidFireNOCFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Current Year Building Safety Certificate Order No. & Order Date: </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOrderNo" class="form-label">Order No<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtOrderNo" name="txtOrderNo" [(ngModel)]="request.OrderNo" formControlName="txtOrderNo" placeholder="Enter Order Number.">
+
+                    <div *ngIf="isSubmitted&&form.txtOrderNo.errors" class="text-danger">
+                      <p *ngIf="form.txtOrderNo.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOrderDate">Order Date<span style="color:red;">*</span></label>
+                    <input class="form-control" type="date" id="txtOrderDate" placeholder="Enter Order Date" [(ngModel)]="request.OrderDate" formControlName="txtOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <div *ngIf="isSubmitted&&form.txtOrderDate.errors" class="text-danger">
+                      <p *ngIf="form.txtOrderDate.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtExpiringOn">Expiring On<span style="color:red;">*</span></label>
+                    <input class="form-control" type="date" id="txtExpiringOn" placeholder="Enter To Date" [(ngModel)]="request.ExpiringOn" formControlName="txtExpiringOn" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <div *ngIf="isSubmitted&&form.txtExpiringOn.errors" class="text-danger">
+                      <p *ngIf="form.txtExpiringOn.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtPWDNOCFileUpload" class="form-label">Upload PWD NOC Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="txtPWDNOCFileUpload" style="display:none" formControlName="txtPWDNOCFileUpload" (change)="ValidateUploadImage($event,'PWDNOCFileUpload')" #txtPWDNOCFileUpload />
+                      <label class="btn upload" for="txtPWDNOCFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{request.PWDNOCFileUpload === '' ? 'No File Choosen' : request.Dis_PWDNOCFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.PWDNOCFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.PWDNOCFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PWDNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.PWDNOCFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidPWDNOCFileUpload" class="text-danger">
+                      <p *ngIf="isValidPWDNOCFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Description: </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtTotalProjectCost" class="form-label">Total Project Cost<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtTotalProjectCost" name="txtTotalProjectCost" [(ngModel)]="request.TotalProjectCost" formControlName="txtTotalProjectCost" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted&&form.txtTotalProjectCost.errors" class="text-danger">
+                      <p *ngIf="form.txtTotalProjectCost.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="TotalProjectCostFileUpload" class="form-label">Upload Total Project Cost Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="TotalProjectCostFileUpload" style="display:none" formControlName="TotalProjectCostFileUpload" (change)="DescriptionValidateUploadImage($event,'TotalProjectCostFileUpload')" #TotalProjectCostFileUpload />
+                      <label class="btn upload" for="TotalProjectCostFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{request.TotalProjectCostFileUpload === '' ? 'No File Choosen' : request.Dis_TotalProjectCostFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.TotalProjectCostFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.TotalProjectCostFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('TotalProjectCostFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.TotalProjectCostFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidTotalProjectCostFileUpload" class="text-danger">
+                      <p *ngIf="isValidTotalProjectCostFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtSourceCostAmount" class="form-label">Source Cost Amount<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtSourceCostAmount" name="txtSourceCostAmount" [(ngModel)]="request.SourceCostAmount" formControlName="txtSourceCostAmount" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted&&form.txtSourceCostAmount.errors" class="text-danger">
+                      <p *ngIf="form.txtSourceCostAmount.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="SourceCostAmountFileUpload" class="form-label">Upload Source Cost Amount Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="SourceCostAmountFileUpload" style="display:none" formControlName="SourceCostAmountFileUpload" (change)="DescriptionValidateUploadImage($event,'SourceCostAmountFileUpload')" #SourceCostAmountFileUpload />
+                      <label class="btn upload" for="SourceCostAmountFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{request.SourceCostAmountFileUpload === '' ? 'No File Choosen' : request.Dis_SourceCostAmountFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.SourceCostAmountFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.SourceCostAmountFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('SourceCostAmountFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.SourceCostAmountFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidSourceCostAmountFileUpload" class="text-danger">
+                      <p *ngIf="isValidSourceCostAmountFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtAmountDeposited" class="form-label">Amount deposited in the Bank near the institution<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtAmountDeposited" name="txtAmountDeposited" [(ngModel)]="request.AmountDeposited" formControlName="txtAmountDeposited" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted&&form.txtAmountDeposited.errors" class="text-danger">
+                      <p *ngIf="form.txtAmountDeposited.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="AmountDepositedFileUpload" class="form-label">Upload Amount Deposited Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="AmountDepositedFileUpload" style="display:none" formControlName="AmountDepositedFileUpload" (change)="DescriptionValidateUploadImage($event,'AmountDepositedFileUpload')" #AmountDepositedFileUpload />
+                      <label class="btn upload" for="AmountDepositedFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{request.AmountDepositedFileUpload === '' ? 'No File Choosen' : request.Dis_AmountDepositedFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.AmountDepositedFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.AmountDepositedFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('AmountDepositedFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.AmountDepositedFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidAmountDepositedFileUpload" class="text-danger">
+                      <p *ngIf="isValidAmountDepositedFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOtherFixedAssetsAndSecurities" class="form-label">Other fixed assets/securities of the organization<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtOtherFixedAssetsAndSecurities" name="txtOtherFixedAssetsAndSecurities" [(ngModel)]="request.OtherFixedAssetsAndSecurities" formControlName="txtOtherFixedAssetsAndSecurities" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted&&form.txtOtherFixedAssetsAndSecurities.errors" class="text-danger">
+                      <p *ngIf="form.txtOtherFixedAssetsAndSecurities.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="OtherFixedAssetsAndSecuritiesFileUpload" class="form-label">Upload Other Fixed Assets/Securities Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="OtherFixedAssetsAndSecuritiesFileUpload" style="display:none" formControlName="OtherFixedAssetsAndSecuritiesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFixedAssetsAndSecuritiesFileUpload')" #OtherFixedAssetsAndSecuritiesFileUpload />
+                      <label class="btn upload" for="OtherFixedAssetsAndSecuritiesFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{request.OtherFixedAssetsAndSecuritiesFileUpload === '' ? 'No File Choosen' : request.Dis_OtherFixedAssetsAndSecuritiesFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.OtherFixedAssetsAndSecuritiesFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.OtherFixedAssetsAndSecuritiesFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('OtherFixedAssetsAndSecuritiesFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.OtherFixedAssetsAndSecuritiesFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidOtherFixedAssetsAndSecuritiesFileUpload" class="text-danger">
+                      <p *ngIf="isValidOtherFixedAssetsAndSecuritiesFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtGATEYearBalanceSecret" class="form-label">GATE year balance secret of the organization<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtGATEYearBalanceSecret" name="txtGATEYearBalanceSecret" [(ngModel)]="request.GATEYearBalanceSecret" formControlName="txtGATEYearBalanceSecret" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted&&form.txtGATEYearBalanceSecret.errors" class="text-danger">
+                      <p *ngIf="form.txtGATEYearBalanceSecret.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="GATEYearBalanceSecretFileUpload" class="form-label">Upload GATE Year Balance Secret Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="GATEYearBalanceSecretFileUpload" style="display:none" formControlName="GATEYearBalanceSecretFileUpload" (change)="DescriptionValidateUploadImage($event,'GATEYearBalanceSecretFileUpload')" #GATEYearBalanceSecretFileUpload />
+                      <label class="btn upload" for="GATEYearBalanceSecretFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{request.GATEYearBalanceSecretFileUpload === '' ? 'No File Choosen' : request.Dis_GATEYearBalanceSecretFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.GATEYearBalanceSecretFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.GATEYearBalanceSecretFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('GATEYearBalanceSecretFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.GATEYearBalanceSecretFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidGATEYearBalanceSecretFileUpload" class="text-danger">
+                      <p *ngIf="isValidGATEYearBalanceSecretFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOtherFinancialResources" class="form-label">Other financial resources<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtOtherFinancialResources" name="txtOtherFinancialResources" [(ngModel)]="request.OtherFinancialResources" formControlName="txtOtherFinancialResources" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted&&form.txtOtherFinancialResources.errors" class="text-danger">
+                      <p *ngIf="form.txtOtherFinancialResources.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="OtherFinancialResourcesFileUpload" class="form-label">Upload Other Financial Resources Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="OtherFinancialResourcesFileUpload" style="display:none" formControlName="OtherFinancialResourcesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFinancialResourcesFileUpload')" #OtherFinancialResourcesFileUpload />
+                      <label class="btn upload" for="OtherFinancialResourcesFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{request.OtherFinancialResourcesFileUpload === '' ? 'No File Choosen' : request.Dis_OtherFinancialResourcesFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.OtherFinancialResourcesFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.OtherFinancialResourcesFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('OtherFinancialResourcesFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&request.OtherFinancialResourcesFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidOtherFinancialResourcesFileUpload" class="text-danger">
+                      <p *ngIf="isValidOtherFinancialResourcesFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>-->
+          </div>
+        </form>
+
+        <!--<div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-filter"></i>&nbsp;Building Photos</b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of request.lstBuildingDocDetails  let idx =index">
+                <label>
+                  {{item.DocumentName}} <span style="color:red;">*</span>
+                </label>
+                <div class="d-flex">
+                  <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (change)="onFilechange($event,item)" />
+                  <label class="btn upload" for="fileLandDocument_{{item.DID}}">
+                    <span class="filename">Choose file</span>
+                    {{item.Dis_FileName === '' ? 'No File Choosen' : item.Dis_FileName}}
+                  </label>
+                  <div class="btn-group" *ngIf="item.FileName !== ''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImages(item)"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="isSubmitted&&item.FileName == ''" class="text-danger">
+                  <p>This field is required .!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-end saveCancelBtn">
+          <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
+          <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+        </div>
+        <div class="card mb-0" *ngIf="lstBuildingDetails.length>0">
+          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+            <b><i class="bi bi-table"></i> Building Details List </b>
+            <div class="d-flex align-items-center">
+              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+                <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+                <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+              </div>
+              <div class="d-flex align-items-center table-filter mr-15">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control" placeholder="Search Here" />
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                <thead>
+                  <tr>
+                    <th>Sr. No</th>
+                    <th>Building Type</th>
+                    <th>Owner Name</th>
+                    <th>Address Line1</th>
+                    <th>Address Line2</th>
+                    <th>Rural Urban</th>
+                    <th>DivisionName</th>
+                    <th>DistrictName</th>
+                    <th>TehsilName</th>
+                    <th>PanchyatSamitiName</th>
+                    <th>CityTownVillage</th>
+                    <th>Pincode</th>
+                    <th>ContactNo</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Order No</th>
+                    <th>Order Date</th>
+                    <th>Expiring On</th>
+                    <th>Total Project Cost</th>
+                    <th>Source Cost Amount</th>
+                    <th>Amount Deposited</th>
+                    <th>Other Fixed Assets/Securities</th>
+                    <th>GATE Year Balance Secret</th>
+                    <th>Other Financial Resources</th>
+                    <th>Own Building File Upload</th>
+                    <th>Fire NOC File Upload</th>
+                    <th>PWD NOC File Upload</th>
+                    <th>Total Project Cost File Upload</th>
+                    <th>Source Cost Amount File Upload</th>
+                    <th>Amount Deposited File Upload</th>
+                    <th>Other Fixed Assets/Securities File Upload</th>
+                    <th>GATE Year Balance Secret File Upload</th>
+                    <th>Other Financial Resources File Upload</th>
+                    <th *ngIf="!downloadingPDF">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstBuildingDetails | tableSearchFilter:searchText;let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.BuildingTypeName}}</td>
+                    <td>{{item.OwnerName}}</td>
+                    <td>{{item.AddressLine1}}</td>
+                    <td>{{item.AddressLine2}}</td>
+                    <td>{{item.RuralUrban}}</td>
+                    <td>{{item.Division_English}}</td>
+                    <td>{{item.District_Eng}}</td>
+                    <td>{{item.TehsilName}}</td>
+                    <td>{{item.PanchyatSamitiName}}</td>
+                    <td>{{item.CityTownVillage}}</td>
+                    <td>{{item.Pincode}}</td>
+                    <td>{{item.ContactNo}}</td>
+                    <td>{{item.FromDate}}</td>
+                    <td>{{item.ToDate}}</td>
+                    <td>{{item.OrderNo}}</td>
+                    <td>{{item.OrderDate}}</td>
+                    <td>{{item.ExpiringOn}}</td>
+                    <td>{{item.TotalProjectCost}}</td>
+                    <td>{{item.SourceCostAmount}}</td>
+                    <td>{{item.AmountDeposited}}</td>
+                    <td>{{item.OtherFixedAssetsAndSecurities}}</td>
+                    <td>{{item.GATEYearBalanceSecret}}</td>
+                    <td>{{item.OtherFinancialResources}}</td>
+                    <td><a target="_blank" href="{{item.OwnBuildingFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.FireNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.PWDNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.TotalProjectCostFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.SourceCostAmountFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.AmountDepositedFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.OtherFixedAssetsAndSecuritiesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.GATEYearBalanceSecretFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.OtherFinancialResourcesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                        <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
