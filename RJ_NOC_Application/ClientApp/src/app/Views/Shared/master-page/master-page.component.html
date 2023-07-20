@@ -32,12 +32,9 @@
         <div class="col-md-8 d-flex align-items-center justify-content-end topUlsControl">
           <ul class="topBarRight">
             <!--<li>
-             
+
               <a href="javascript:void(0)" class="language HiLanguage" title="Choose Language"></a>
             </li>-->
-
-
-
             <!--<li class="dropdown">
               <a href="javascript:void(0)" class="dropdown-toggle" title="Notification" id="notificationBox" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-bell"></i></a>
               <div class="TopslideBox notificationBox dropdown-menu" aria-labelledby="notificationBox">
@@ -52,19 +49,21 @@
                   <img src="assets/images/userImg.jpg" class="userImg" />
                   <div>
                     <b class="d-block">{{UserName}}</b>
-                    
                     <span class="d-block" *ngIf="sSOLoginDataModel">{{sSOLoginDataModel.SSOID}}</span>
                   </div>
                 </div>
               </a>
-              <div class="UserBox dropdown-menu" aria-labelledby="notificationBox">
+              <div class="UserBox dropdown-menu dropdown-menu-right pb-0" aria-labelledby="notificationBox">
                 <!--<a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-people"></i>&nbsp;Profile</a>
                 <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-gear"></i>&nbsp;Setting</a>
-                <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-envelope"></i>&nbsp;Messege</a>
-                <div class="dropdown-divider"></div>-->
-                <div class="d-flex justify-content-center">
-                  <button type="button" class="btn btn-soft-primary" (click)="Logout()"><i class="bi bi-box-arrow-right"></i>&nbsp;Signout</button>
-                </div>
+                <a href="javascript:void(0)" class="dropdown-item"><i class="bi bi-envelope"></i>&nbsp;Messege</a>-->
+
+                <h5 class="dropdown-item">{{sSOLoginDataModel.FirstName}} {{sSOLoginDataModel.LastName}} <br /><span class="designation">{{sSOLoginDataModel.Designation}}</span></h5>
+
+
+                <div class="dropdown-divider mb-0"></div>
+                <button type="button" class="dropdown-item" (click)="Logout()"><i class="bi bi-box-arrow-right"></i> Signout</button>
+
               </div>
             </li>
           </ul>

@@ -40,7 +40,9 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\app\Services\Admin\" />
     <Folder Include="ClientApp\src\app\Services\FacilitiesMaser\Facilities\" />
+    <Folder Include="ClientApp\src\app\Services\VeterinaryHospital\" />
     <Folder Include="ClientApp\src\app\Views\Master\SocietyManagement\" />
+    <Folder Include="ClientApp\src\app\Views\VeterinaryHospital\" />
     <Folder Include="ClientApp\src\app\Views\noc-payment\payment-success\" />
   </ItemGroup>
 
