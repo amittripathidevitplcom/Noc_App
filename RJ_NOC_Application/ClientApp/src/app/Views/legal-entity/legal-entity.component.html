@@ -583,8 +583,11 @@
                                 <td>{{row.MemberDOB}}</td>
                                 <td>{{row.MemberMobileNo}}</td>
                                 <td>{{row.MembersPostName}}</td>
-                                <td><a *ngIf="row.MemberPhoto!=''" target="_blank" href="{{row.MemberPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a></td>
-                                <td><a *ngIf="row.MemberSignature!=''" target="_blank" href="{{row.MemberSignaturePath}}" title="View Member Sign"><i class="fa fa-eye"></i></a>  </td>
+                                <td><a *ngIf="row.MemberPhoto!='' && row.MemberPhotoPath!='N/A'" target="_blank" href="{{row.MemberPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
+                                    <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
+                                </td>
+                                <td><a *ngIf="row.MemberSignature!='' && row.MemberSignaturePath!='N/A'" target="_blank" href="{{row.MemberSignaturePath}}" title="View Member Sign"><i class="fa fa-eye"></i></a>
+                                    <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label></td>
                                 <td>
                                   <button class="btn btn-danger" type="button" (click)="DeleteMember(indexOfelement)"><i class="fa fa-trash-o"></i></button>
                                 </td>

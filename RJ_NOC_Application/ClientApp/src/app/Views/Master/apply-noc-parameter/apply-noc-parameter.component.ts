@@ -153,7 +153,7 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.ApplyNocID = Number(SelectedApplyNocForID);
       this.request.ApplyNocFor = item.ApplyNocFor;
       // TNOC Extension
-      if (this.request.ApplyNocFor == 'TNOC Extension') {
+      if (this.request.ApplyNocFor == 'NOC For New Course') {
         this.ApplyNocParameterMasterList_TNOCExtension = null;
       }
       // Addition of New Seats(60)
@@ -178,7 +178,7 @@ export class ApplyNocParameterComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // TNOC Extension
-          if (this.request.ApplyNocFor == 'TNOC Extension') {
+          if (this.request.ApplyNocFor == 'NOC For New Course') {
             
             this.ApplyNocParameterMasterList_TNOCExtension = data['Data'];
           }
@@ -246,7 +246,7 @@ export class ApplyNocParameterComponent implements OnInit {
       if (this.ApplyNocParameterMasterList_TNOCExtension?.ApplyNocParameterCourseList != null) {
         let SelectedCourselist = this.ApplyNocParameterMasterList_TNOCExtension?.ApplyNocParameterCourseList?.filter((element: any) => { return element.IsChecked == true; });
         if (SelectedCourselist.length == 0) {
-          this.toastr.error("Choose any subject from 'TNOC Extension'");
+          this.toastr.error("Choose any subject from 'NOC For New Course'");
           return;
         }
       }
