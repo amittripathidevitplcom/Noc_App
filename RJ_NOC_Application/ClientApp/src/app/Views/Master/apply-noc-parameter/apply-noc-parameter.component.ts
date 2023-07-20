@@ -106,6 +106,7 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
+  public CollegeDepartmentID: number =0;
   async College_ddlChange(event: any) {
     try {
       //reset
@@ -123,7 +124,18 @@ export class ApplyNocParameterComponent implements OnInit {
           //
           this.ApplyNocParameterMasterList_ddl = data['Data'];
         }, error => console.error(error));
+
+      await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          console.log(data);
+          this.CollegeDepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+        }, error => console.error(error));
+      
     }
+
+
+
     catch (ex) {
       console.log(ex);
     }
@@ -193,8 +205,11 @@ export class ApplyNocParameterComponent implements OnInit {
     }
     return HasData;
   }
-
+  public isSave: boolean = true;
   async SaveApplyNoc_click() {
+    this.isSave = false;
+
+
     try {
       let isValid = true;
       if (this.ApplyNocParameterForm.invalid) {
@@ -259,21 +274,24 @@ export class ApplyNocParameterComponent implements OnInit {
             setTimeout(() => {
               //move to list page
               this.routers.navigate(['/applynocapplicationdetail']);
-            }, 2000);
+            }, 1000);
           }
           else {
             this.toastr.error(this.ErrorMessage);
+            this.isSave = true;
           }
 
         }, error => console.error(error));
     }
     catch (ex) {
       console.log(ex);
+      this.isSave = true;
     }
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
         this.isSubmitted = false;
+        
       }, 200);
     }
   }

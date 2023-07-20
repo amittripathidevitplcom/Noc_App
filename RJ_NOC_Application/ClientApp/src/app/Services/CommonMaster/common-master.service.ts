@@ -857,4 +857,16 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetApplicationTrail_DepartmentApplicationWise(ApplicationID: number, DepartmentID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetApplicationTrail_DepartmentApplicationWise/" + ApplicationID + "/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

@@ -134,9 +134,10 @@
             </div>
             <!--end-->
           </div>
-          <div class="card-footer" *ngIf="HasData()">
-            <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()">Apply Noc</button>
-            <button type="button" class="btn btn-danger" aria-label="Reset" (click)="ResetApplyNoc_click()">Reset</button>
+          <div class="card-footer" >
+            <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()" [attr.disabled]="isSave ? null : true" *ngIf="HasData()">Apply Noc</button>
+            <button type="button" class="btn btn-danger" aria-label="Reset" (click)="ResetApplyNoc_click()" *ngIf="HasData()">Reset</button>
+            <a class="btn btn-info" href="/applicationsummary/{{CollegeDepartmentID}}/{{request.CollegeID}}" target="_blank" aria-label="Preview Application" *ngIf="request.CollegeID>0">Preview Application</a>
           </div>
 
         </div>
