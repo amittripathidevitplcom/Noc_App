@@ -153,6 +153,7 @@ import { ApplyNOCSecretaryListComponent } from './Views/apply-nocsecretary-list/
 import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payment-response/emitra-payment-response.component';
 import { AnimalMasterComponent } from './Views/Master/AnimalMaster/animal-master.component';
 import { VeterinaryHospitalComponent } from './Views/VeterinaryHospital/veterinary-hospital/veterinary-hospital.component';
+import { StreamMasterComponent } from './Views/Master/StreamMaster/stream-master.component';
 
 
 @NgModule({
@@ -302,7 +303,8 @@ import { VeterinaryHospitalComponent } from './Views/VeterinaryHospital/veterina
     CommiteeInspectionComponent,
     EmitraPaymentResponseComponent,
     AnimalMasterComponent,
-    VeterinaryHospitalComponent
+    VeterinaryHospitalComponent,
+    StreamMasterComponent
 
   ],
   imports: [

@@ -97,6 +97,7 @@ import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payme
 
 import { AnimalMasterComponent } from './Views/Master/AnimalMaster/animal-master.component';
 import { VeterinaryHospitalComponent } from './Views/VeterinaryHospital/veterinary-hospital/veterinary-hospital.component';
+import { StreamMasterComponent } from './Views/Master/StreamMaster/stream-master.component';
 
 
 const routes: Routes = [
@@ -419,6 +420,9 @@ const routes: Routes = [
         path: 'veterinaryhospital', component: VeterinaryHospitalComponent
       },
 
+      {
+        path: 'streammaster', component: StreamMasterComponent
+      },
 
 
 
