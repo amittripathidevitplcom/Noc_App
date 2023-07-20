@@ -34,6 +34,7 @@ export class CollegeManagementSocietyComponent implements OnInit {
 
   async GetSocietyAllList() {
     try {
+      debugger;
       this.loaderService.requestStarted();
       await this.socityService.GetSocietyAllList(0, this.SelectedCollageID)
         .then((data: any) => {
