@@ -75,6 +75,7 @@ export class ApplyNocFDRDetailsDataModel {
 // list details
 export class ApplyNocApplicationDataModel {
   public ApplyNocApplicationID: number = 0;
+  public ApplicationNo: string = '';
   public DepartmentID: number = 0;
   public CollegeID: number = 0;
   public CollegeName: string = '';

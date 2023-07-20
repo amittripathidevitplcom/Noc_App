@@ -333,7 +333,10 @@ const routes: Routes = [
         path: 'applynocforparameter', component: ApplyNocParameterComponent
       },
       {
-        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCPreviewComponent
+        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNo', component: ApplyNOCPreviewComponent
+      },
+      {
+        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNOCPreviewComponent
       },
       {
         path: 'applynocjointsec/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCJointSecPreviewComponent

@@ -1,12 +1,12 @@
 <div class="card tabCard1 mb-0">
   <div class="card-header">
-    <b><i class="bi bi-table"></i>&nbsp; Apply NOC Application List</b>
+    <b><i class="bi bi-table"></i>&nbsp;Application List</b>
   </div>
   <div class="card-body">
     <div class="clearfix"></div>
     <div class="card">
       <div class="card-header">
-        <b>Apply NOC Applications</b>
+        <b>Application List</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -18,7 +18,9 @@
                     <th>S.No.</th>
                     <th>Department Name</th>
                     <th>College Name</th>
+                    <th>Application No.</th>
                     <th>Action</th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -26,8 +28,9 @@
                     <td>{{idx+1}}</td>
                     <td>{{item.DepartmentName}}</td>
                     <td>{{item.CollegeName}}</td>
+                    <td>{{item.ApplicationNo}}</td>
                     <td>
-                      <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                     </td>
                   </tr>
                   <tr>
