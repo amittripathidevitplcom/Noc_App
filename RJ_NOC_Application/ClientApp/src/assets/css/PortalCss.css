@@ -899,10 +899,12 @@ ol.breadcrumb {
   }
 }
 
-td .btn {
+td .btn-info, td .btn-success {
   color: #fff !important;
   margin-left: 2px !important;
 }
+
+
 
 .userDashImg {
   max-width: 100px;
