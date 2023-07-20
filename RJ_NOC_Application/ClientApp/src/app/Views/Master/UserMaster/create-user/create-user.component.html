@@ -113,7 +113,7 @@
 
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="!IsDistrict">
                     <label class="form-label">District <span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" #SelectedDistrictID (input)="FillTehsilByDistrictId(SelectedDistrictID.value)">
+                    <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" #SelectedDistrictID (change)="FillTehsilByDistrictId($event,SelectedDistrictID.value)">
                       <option value="0">--Select--</option>
                       <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
                     </select>

@@ -178,7 +178,8 @@ export class CreateUserComponent implements OnInit {
   }
 
   async GetDistrictList(StateID: number) {
-
+    this.request.DistrictID = 0;
+    this.request.TehsilID = 0;
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.Load_StateWise_DistrictMaster(StateID)
@@ -200,7 +201,8 @@ export class CreateUserComponent implements OnInit {
     }
   }
 
-  async FillTehsilByDistrictId(SelectedDistrictID: string) {
+  async FillTehsilByDistrictId(event: any, SelectedDistrictID: string) {
+    this.request.TehsilID = 0;
     try {
       this.loaderService.requestStarted();
       const districtId = Number(SelectedDistrictID);
@@ -236,14 +238,18 @@ export class CreateUserComponent implements OnInit {
       this.IsTehsil = false;
     }
     if (MemberType == 'District') {
+      this.request.DistrictID = 0;
       this.IsDistrict = true;
       this.IsTehsil = false;
     }
     if (MemberType == 'Tehsil') {
+      this.request.DistrictID = 0;
+      this.request.TehsilID = 0;
       this.IsDistrict = true;
       this.IsTehsil = true;
+      await this.FillTehsilByDistrictId('', (this.request.DistrictID).toString())
     }
-    await this.FillTehsilByDistrictId((this.request.DistrictID).toString())
+
   }
 
 
@@ -315,14 +321,30 @@ export class CreateUserComponent implements OnInit {
           this.request.MobileNumber = data['Data'][0]['MobileNumber'];
           this.request.EmailAddress = data['Data'][0]['EmailAddress'];
           this.request.DepartmentID = data['Data'][0]['DepartmentID'];
-
+          debugger;
           this.request.RoleID = data['Data'][0]['RoleID'];
           this.request.CommitteeID = data['Data'][0]['CommitteeID'];
           this.request.MemberType = data['Data'][0]['MemberType'];
           this.request.StateID = data['Data'][0]['StateID'];
-          this.request.DistrictID = data['Data'][0]['DistrictID'];
-          this.MemberTypeSelection(this.request.MemberType);
-          this.request.TehsilID = data['Data'][0]['TehsilID'];
+          if (this.request.MemberType == 'State') {
+            this.IsDistrict = false;
+            this.IsTehsil = false;
+            this.request.DistrictID = 0;
+            this.request.TehsilID = 0;
+          }
+          if (this.request.MemberType == 'District') {
+            this.IsDistrict = true;
+            this.IsTehsil = false;
+            await this.GetDistrictList(this.request.StateID);
+            this.request.DistrictID = data['Data'][0]['DistrictID'];
+          }
+          if (this.request.MemberType == 'Tehsil') {
+            this.IsDistrict = true;
+            this.IsTehsil = true;
+            this.request.DistrictID = data['Data'][0]['DistrictID'];
+            await this.FillTehsilByDistrictId('', (this.request.DistrictID).toString());
+            this.request.TehsilID = data['Data'][0]['TehsilID'];
+          }
           this.request.ActiveStatus = data['Data'][0]['ActiveStatus'];
 
 
