@@ -95,6 +95,8 @@ import { ApplyNOCSecretaryListComponent } from './Views/apply-nocsecretary-list/
 import { CommiteeInspectionComponent } from './Views/commitee-inspection/commitee-inspection.component';
 import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payment-response/emitra-payment-response.component'
 
+import { AnimalMasterComponent } from './Views/Master/AnimalMaster/animal-master.component';
+
 
 const routes: Routes = [
   {
@@ -338,7 +340,7 @@ const routes: Routes = [
       },
       {
         path: 'applynocsecretary/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCSecretaryPreviewComponent
-      },      
+      },
       {
         path: 'rncRegistratPreview/:DepartmentID/:CollegeID', component: PreviewRNCRegistratComponent
       },
@@ -373,7 +375,7 @@ const routes: Routes = [
         path: 'NocPayment', component: NocPaymentComponent
       },
       {
-        path: 'applynocfdrdetails', component:  ApplyNOCFDRDetailsComponent 
+        path: 'applynocfdrdetails', component: ApplyNOCFDRDetailsComponent
       },
       {
         path: 'documentscrutinycompletedreport', component: DocumentScrutinyReportComponent
@@ -402,12 +404,14 @@ const routes: Routes = [
         path: 'secretaryapplicationlist', component: ApplyNOCSecretaryListComponent
       },
 
-      
+
       {
         path: 'commiteeinspection', component: CommiteeInspectionComponent
       },
+      {
+        path: 'animalmaster', component: AnimalMasterComponent
+      },
 
-     
 
 
 
