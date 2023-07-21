@@ -62,6 +62,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   public isRemarkValid: boolean = false;
   public ShowHideNextRoleNextUser: boolean = true;
   public isActionTypeValid: boolean = false;
+  public isNextActionValid: boolean = false;
 
 
   public RoleID: number = 10;
@@ -146,6 +147,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   public NextUserID: number = 0;
   public ActionID: number = 0;
   public NextActionID: number = 0;
+  public TotalDocumentScrutinyTab: number = 0;
 
 
 
@@ -180,13 +182,13 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetWorkFlowActionListByRole();
     this.NextGetWorkFlowActionListByRole();
     this.GetCollageDetails();
+    this.CheckDocumentScrutinyTabsData();
   }
 
 
   // Start Land Details
 
   async GetLandDetailsDataList() {
-    debugger;
     try {
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
@@ -598,6 +600,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
     this.isNextRoleIDValid = false;
+    this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
       if (this.ActionID <=0) {
@@ -609,16 +612,37 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
         this.isFormvalid = false;
       }
 
-      if (this.NextRoleID <= 0) {
-        this.isNextRoleIDValid = true;
-        this.isFormvalid = false;
+      if (this.ShowHideNextRoleNextUser) {
+        if (this.NextRoleID <= 0) {
+          this.isNextRoleIDValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.NextActionID <= 0) {
+          this.isNextActionValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.NextUserID <= 0) {
+          this.isNextUserIdValid = true;
+          this.isFormvalid = false;
+        }
       }
-
-      if (this.NextUserID <= 0) {
-        this.isNextUserIdValid = true;
-        this.isFormvalid = false;
+      else {
+        this.NextRoleID = 4;
+        this.NextUserID = 0;
+        this.NextActionID = 0;
       }
-
+      if (this.CollegeType_IsExisting) {
+        if (this.TotalDocumentScrutinyTab < 15) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please do document scrutiny all tabs');
+        }
+      }
+      else {
+        if (this.TotalDocumentScrutinyTab < 13) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please do document scrutiny all tabs');
+        }
+      }
       if (!this.isFormvalid) {
         return;
       }
@@ -680,32 +704,6 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     }
   }
 
-
-  //async GetUserDetailsByRoleID() {
-  //  this.UserListRoleWise = [];
-  //  this.loaderService.requestStarted();
-  //  try {
-  //    await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID)
-  //      .then(async (data: any) => {
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        if (data['Data'].length > 0) {
-  //          this.UserListRoleWise = data['Data'];
-  //          if (this.UserListRoleWise.length > 0) {
-  //            this.NextUserID = this.UserListRoleWise[0]['UId'];
-
-  //          }
-  //        }
-  //      })
-  //  }
-  //  catch (ex) { console.log(ex) }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
 
   async NextGetUserDetailsByRoleID() {
     this.UserListRoleWise = [];
@@ -772,6 +770,13 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
+              var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
+              if (IsNextAction == true) {
+                this.ShowHideNextRoleNextUser = true;
+              }
+              else {
+                this.ShowHideNextRoleNextUser = false;
+              }
             }
           }
         })
@@ -796,6 +801,35 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
           }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  OnChangeCurrentAction() {
+    var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
+    if (IsNextAction == true) {
+      this.ShowHideNextRoleNextUser = true;
+    }
+    else {
+      this.ShowHideNextRoleNextUser = false;
+    }
+  }
+
+  async CheckDocumentScrutinyTabsData() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.TotalDocumentScrutinyTab=data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
