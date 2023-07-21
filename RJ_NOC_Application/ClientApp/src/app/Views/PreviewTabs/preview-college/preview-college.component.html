@@ -152,6 +152,56 @@
             </div>
           </div>
         </div>
+        <div class="row" *ngIf="CollegeGeoTaggingList.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i> Geo Tagging Status Details </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr.No.</th>
+                        <th>Geo Tagging Status</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Image 1</th>
+                        <th>Image 2</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of CollegeGeoTaggingList; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td>{{row.IsGeoTagging}}</td>
+                        <td>{{row.TGC_Latitude}}</td>
+                        <td>{{row.TGC_Longitude}}</td>
+                        <td>
+                          <a *ngIf="row.Image1!='N/A'" data-fancybox="gallery" href="{{row.Image1}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{row.Image1}}" alt="Image 1" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.Image1=='N/A'">{{row.Image1}}</label>
+                          <!--<a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                          </a>-->
+                        </td>
+                        <td>
+                          <a *ngIf="row.Image2!='N/A'" data-fancybox="gallery" href="{{row.Image2}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{row.Image2}}" alt="Image 2" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <label *ngIf="row.Image1=='N/A'">{{row.Image2}}</label>
+                          <!--<a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                          </a>-->
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row" *ngIf="collegeContactDetailsList.length>0">
           <div class="col-md-12">
             <div class="card mb-0">
