@@ -44,6 +44,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   @Input() public ApplyNocApplicationID: number = 0;
   @Input() public IsSaveFDR: boolean = false;
   @Input() public RefModal: any;
+  public MaxDate: Date = new Date();
 
   //@ViewChild(ApplyNocParameterDetailsComponent) child: ApplyNocParameterDetailsComponent | undefined; 
 
@@ -88,6 +89,22 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
     }
     return true;
 
+  }
+  numbersOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode == 47 || charCode < 46 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
   }
 
   async GetApplyNoc_FDRMasterByCollegeID(CollegeID: number) {
@@ -205,7 +222,8 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
     try {
       this.isValidFDRDocument = false;
       if (event.target.files && event.target.files[0]) {
-        if ((event.target.files[0].type === 'image/jpeg') || (event.target.files[0].type === 'application/pdf')) {
+        if (/*(event.target.files[0].type === 'image/jpeg') ||*/
+          (event.target.files[0].type === 'application/pdf')) {
           if (event.target.files[0].size > 2000000) {
             event.target.value = '';
             this.isValidFDRDocument = true;
@@ -226,7 +244,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
           let msg = 'Select Only ';
           this.isValidFDRDocument = true;
           this.request.FDRDocument = '';
-          msg += 'jpeg/pdf file';
+          msg += 'pdf file';
           this.DocumentValidMessage = msg;
 
           return

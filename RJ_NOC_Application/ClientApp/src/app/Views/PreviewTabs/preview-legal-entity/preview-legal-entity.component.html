@@ -170,17 +170,19 @@
                         <td>{{row.MemberMobileNo}}</td>
                         <td>{{row.MemberPostName}}</td>
                         <td>
-                          <a *ngIf="!row.MemberPhotoPath.includes('.pdf')" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                          <a *ngIf="!row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom">
                             <img src="{{row.MemberPhotoPath}}" alt="Member Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                           </a>
-                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberPhotoPath.includes('.pdf')" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                          
                         </td>
                         <td>
-                          <a *ngIf="!row.MemberSignaturePath.includes('.pdf')" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom">
+                          <a *ngIf="!row.MemberSignaturePath.includes('.pdf') && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom">
                             <img src="{{row.MemberSignaturePath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                           </a>
-                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberSignaturePath.includes('.pdf')" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberSignaturePath.includes('.pdf')  && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
 
                         </td>
                       </tr>

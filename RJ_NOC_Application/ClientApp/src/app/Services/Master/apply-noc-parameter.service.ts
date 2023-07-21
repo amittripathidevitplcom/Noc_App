@@ -55,7 +55,7 @@ export class ApplyNocParameterService {
       })
     };
     let response: any;
-    if (ApplyNocFor == 'TNOC Extension') {
+    if (ApplyNocFor == 'NOC For New Course') {
       response = await this.http.get(this.APIUrl + "/GetApplyNocFor_TNOCExtension/" + CollegeID + "/" + ApplyNocFor)
         .pipe(
           catchError(this.handleErrorObservable)

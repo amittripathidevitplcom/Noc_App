@@ -444,7 +444,7 @@ export class AddCollegeComponent implements OnInit {
         return element.Name == "NOC";
       });
       //this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
-      //this.CollegeLevelList_FilterData = this.CollegeLevelList;
+      this.CollegeLevelList_FilterData = this.CollegeLevelList;
     }
   }
 

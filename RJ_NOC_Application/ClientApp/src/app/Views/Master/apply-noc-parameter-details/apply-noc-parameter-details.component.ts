@@ -275,27 +275,29 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
 
   async DeleteApplyNocApplication_click(item: any) {
     try {
-      this.loaderService.requestStarted();
-      let modifyBy = 1;
-      // post
-      await this.applyNocParameterService.DeleteApplyNocApplicationByApplicationID(item.ApplyNocApplicationID, modifyBy)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          // data
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            const index: number = this.ApplyNocApplicationList.indexOf(item);
-            if (index != -1) {
-              this.ApplyNocApplicationList.splice(index, 1)
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        let modifyBy = 1;
+        // post
+        await this.applyNocParameterService.DeleteApplyNocApplicationByApplicationID(item.ApplyNocApplicationID, modifyBy)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            // data
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              const index: number = this.ApplyNocApplicationList.indexOf(item);
+              if (index != -1) {
+                this.ApplyNocApplicationList.splice(index, 1)
+              }
             }
-          }
-          else {
-            this.toastr.error(this.ErrorMessage);
-          }
-        }, error => console.error(error));
+            else {
+              this.toastr.error(this.ErrorMessage);
+            }
+          }, error => console.error(error));
+      }
     }
     catch (Ex) {
       console.log(Ex);

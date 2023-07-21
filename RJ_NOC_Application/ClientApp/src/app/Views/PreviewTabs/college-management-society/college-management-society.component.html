@@ -61,15 +61,14 @@
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{row.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </td>
                 <td>
-                  <a *ngIf="!row.AuthorizedDocument.includes('.pdf') && row.IsAuthorized==true" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                  <a *ngIf="!row.AuthorizedDocument.includes('.pdf') && row.IsAuthorized==true && row.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{row.AuthorizedDocumentPath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
-                
                   <label>{{row.AuthorizedDocumentPath}}</label>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AuthorizedDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AuthorizedDocument.includes('.pdf') && row.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
-                <td>{{row.IsPrimary==false?'No': 'Yes'}}</td>
-                <td>{{row.IsAuthorized==false?'No': 'Yes'}}</td>
+                <td>{{row.IsPrimary == false ? 'No' : 'Yes'}}</td>
+                <td>{{row.IsAuthorized == false ? 'No' : 'Yes'}}</td>
               </tr>
             </tbody>
           </table>
