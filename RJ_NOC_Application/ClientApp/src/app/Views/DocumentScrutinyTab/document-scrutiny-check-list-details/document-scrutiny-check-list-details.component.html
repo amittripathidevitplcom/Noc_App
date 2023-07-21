@@ -1736,11 +1736,11 @@
   </div>
   <!--End Hostel Detail-->
 
-  <div class="row">
+  <div class="row m-2">
 
     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
       <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
-      <select class="form-select" [(ngModel)]="ActionID">
+      <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID"  >
         <option value="0" disabled selected>--Select Action--</option>
         <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
       </select>
@@ -1763,14 +1763,14 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
       <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
       <select class="form-select" [(ngModel)]="NextActionID">
         <option value="0" disabled selected>--Select Action--</option>
         <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
       </select>
-      <div *ngIf="isActionTypeValid" class="text-danger">
-        <p *ngIf="isActionTypeValid"> This field is required .!</p>
+      <div *ngIf="isNextActionValid" class="text-danger">
+        <p *ngIf="isNextActionValid"> This field is required .!</p>
       </div>
     </div>
 
@@ -1785,7 +1785,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row  m-2">
     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
       <label>Remarks  <span style="color:red;">*</span></label>
       <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
@@ -1795,9 +1795,9 @@
     </div>
 
   </div>
-  <div class="row">
+  <div class="row  m-2">
     <div class="col-md-12">
-      <button type="button" class="btn btn-sm btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
+      <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
     </div>
   </div>
 </div>

@@ -1,12 +1,12 @@
 <div class="card tabCard1 mb-0">
   <div class="card-header">
-    <b><i class="bi bi-table"></i>Commitee Inspection Application List</b>
+    <b><i class="bi bi-table"></i>Committee Inspection Application List</b>
   </div>
   <div class="card-body">
     <div class="clearfix"></div>
     <div class="card">
       <div class="card-header">
-        <b>Commitee Inspection Application List</b>
+        <b>Committee Inspection Application List</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -17,7 +17,8 @@
                   <tr>
                     <th>S.No.</th>
                     <th>Department Name</th>
-                    <th>College Name</th>
+                    <th>College Name</th>.
+                    <th>Application No.</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -26,13 +27,14 @@
                     <td>{{idx+1}}</td>
                     <td>{{item.DepartmentName}}</td>
                     <td>{{item.CollegeName}}</td>
+                    <td>{{item.ApplicationNo}}</td>
                     <td>
                       <a href="javascript:void(0)" target="_blank" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                      <button type="button" class="btn btn-sm btn-success" title="Action" (click)="OpenActionPopUP(mymodal,item.ApplyNOCID,item.DepartmentID,item.CollegeID)"><i class="fa fa-tasks"></i></button>
+                      <button type="button" class="btn btn-sm btn-success" title="Action" (click)="OpenActionPopUP(mymodal,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-tasks"></i></button>
                     </td>
                   </tr>
                   <tr>
-                    <td colspan="4" *ngIf="ApplyNocDetails.length<=0" style="color:red"> No Data Found.!</td>
+                    <td colspan="10" *ngIf="ApplyNocDetails.length<=0" style="color:red"> No Data Found.!</td>
                   </tr>
                 </tbody>
               </table>
@@ -41,13 +43,13 @@
         </div>
         <ng-template #mymodal let-modal>
           <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Action</h4>
+            <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Action (ApplicationNo : {{ApplicationNo}})</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
               <i class="fa fa-close"></i>
             </button>
           </div>
           <div class="modal-body">
-            <div class="row" >
+            <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive">
                   <table class="table table-hover table-striped">
@@ -66,11 +68,11 @@
                     <tbody>
                       <tr *ngFor="let item of CheckListData let idx =index">
                         <td>{{idx+1}}</td>
-                        <td><input type="checkbox" class="checkboxSelect"  [checked]="item.IsChecked" [(ngModel)]="item.IsChecked" id="IsChecked{{idx+1}}" name="IsChecked{{idx+1}}"></td>
+                        <td><input type="checkbox" class="checkboxSelect" [checked]="item.IsChecked" [(ngModel)]="item.IsChecked" id="IsChecked{{idx+1}}" name="IsChecked{{idx+1}}"></td>
                         <td>{{item.RNCCheckListName}}</td>
                         <td>
                           <div class="d-flex" *ngIf="item.FileUpload">
-                            <input type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)"/>
+                            <input type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)" />
                             <label class="btn upload" for="fileUpload{{idx+1}}">
                               <span class="filename">Choose file</span>
                               {{item.FileUploadName === '' || item.FileUploadName == undefined ? 'No File Choosen' : item.FileUploadName_Dis_FileName}}
@@ -82,27 +84,18 @@
                           </div>
 
                         </td>
-                       
+
                       </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
-                <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
-                <select class="form-select" (change)="GetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
-                  <option value="0" selected>--Select Role--</option>
-                  <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
-                </select>
-                <div *ngIf="isNextRoleIDValid" class="text-danger">
-                  <p *ngIf="isNextRoleIDValid"> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="ddlAction" class="form-label">Action <span style="color:red;">*</span></label>
-                <select class="form-select" [(ngModel)]="ActionID">
+            <div class="row m-2">
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
+                <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
                   <option value="0" disabled selected>--Select Action--</option>
                   <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
                 </select>
@@ -110,7 +103,33 @@
                   <p *ngIf="isActionTypeValid"> This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+                <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
+
+                <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
+                  <option value="0" selected>--Select Role--</option>
+                  <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+                </select>
+
+
+                <div *ngIf="isNextRoleIDValid" class="text-danger">
+                  <p *ngIf="isNextRoleIDValid"> This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+                <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
+                <select class="form-select" [(ngModel)]="NextActionID">
+                  <option value="0" disabled selected>--Select Action--</option>
+                  <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+                </select>
+                <div *ngIf="isNextActionValid" class="text-danger">
+                  <p *ngIf="isNextActionValid"> This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
                 <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
                 <select class="form-select" [(ngModel)]="NextUserID">
                   <option value="0" selected>--Select User--</option>
@@ -121,8 +140,8 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <div class="row  m-2">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
                 <label>Remarks  <span style="color:red;">*</span></label>
                 <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
                 <div *ngIf="isRemarkValid" class="text-danger">
@@ -131,9 +150,9 @@
               </div>
 
             </div>
-            <div class="row">
+            <div class="row  m-2">
               <div class="col-md-12">
-                <button type="button" class="btn btn-sm btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
+                <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
               </div>
             </div>
           </div>
