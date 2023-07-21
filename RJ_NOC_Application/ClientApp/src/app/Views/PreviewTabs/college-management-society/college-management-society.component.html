@@ -6,12 +6,16 @@
     <div class="row">
       <div class="col-md-12">
         <div class="table-responsive">
-          <table class="table table-hover table-striped-columns" id="tabellist" #content>
+          <table class="table table-hover table-striped-columns table-sm" id="tabellist" #content>
             <thead>
               <tr>
                 <th>SNo</th>
+                <th>College</th>
                 <th>Name</th>
                 <th>Father Name</th>
+                <th>Designation </th>
+                <th>Occupation </th>
+                <th>Management Committee Should have at least two educationists</th>
                 <th>Mobile No</th>
                 <th>Gender</th>
                 <th>Email</th>
@@ -29,8 +33,12 @@
             <tbody>
               <tr *ngFor="let row of SocietyAllList let idx=index;">
                 <td>{{idx+1}}</td>
+                <td>{{row.CollegeNameEn}}</td>
                 <td>{{row.PersonName}}</td>
                 <td>{{row.FatherName}}</td>
+                <td>{{row.DesignationName}}</td>
+                <td>{{row.OccupationName}}</td>
+                <td>{{row.Educationists}}</td>
                 <td>{{row.MobileNo}}</td>
                 <td>{{row.Gender}}</td>
                 <td>{{row.Email}}</td>
@@ -41,25 +49,25 @@
                     <img src="{{row.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{row.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                  </td>
+                </td>
                 <td>
                   <a *ngIf="!row.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{row.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{row.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{row.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                  </td>
+                </td>
                 <td>
                   <a *ngIf="!row.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{row.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{row.SignatureDocPath}}" alt="Signature Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{row.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                  </td>
+                </td>
                 <td>
                   <a *ngIf="!row.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{row.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{row.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{row.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                  </td>
+                </td>
                 <td>
                   <a *ngIf="!row.AuthorizedDocument.includes('.pdf') && row.IsAuthorized==true && row.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{row.AuthorizedDocumentPath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />

@@ -114,7 +114,7 @@
                       <a *ngIf="!legalEntityListData1.TrustLogoDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom">
                         <img src="{{legalEntityListData1.TrustLogoDocPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                       </a>
-                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrustLogoDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>                     
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrustLogoDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                     </td>
                     <td>
                       <a *ngIf="!legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
@@ -175,7 +175,7 @@
                           </a>
                           <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
                           <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                         
+
                         </td>
                         <td>
                           <a *ngIf="!row.MemberSignaturePath.includes('.pdf') && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom">
@@ -230,6 +230,84 @@
             </div>
           </div>
         </div>
+
+        <div class="row" *ngIf="legalEntityInstituteDetailData.length>0">
+          <div class="col-md-12">
+              <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <b><i class="bi bi-table"></i>&nbsp;Trustee General Info</b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="table-responsive">
+                        <table class="table table-bordered">
+                          <thead>
+                            <tr>
+                              <th>
+                                Sr.No.
+                              </th>
+                              <th>
+                                Election Present Management Committee Date
+                              </th>
+                              <th>
+                                Women Members Of Management Committee
+                              </th>
+                              <th>
+                                Election Of Management Committee
+                              </th>
+                              <th>
+                                Other Institution run by the Society
+                              </th>
+                              <th>
+                                Society Registration Document
+                              </th>
+                              <th>
+                                Society Logo
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let row of TrusteeGeneralInfoList;let idx=index;">
+                              <td>
+                                {{idx+1}}
+                              </td>
+                              <td>
+                                {{row.DateOfElectionOfPresentManagementCommittee}}
+                              </td>
+                              <td>
+                                {{row.WomenMembersOfManagementCommitteeID==1?'Yes':'No'}}
+                              </td>
+                              <td>
+                                {{row.DateOfElectionOfManagementCommitteeID==1?'Yes':'No'}}
+                              </td>
+                              <td>
+                                {{row.OtherInstitutionRunByTheSocietyID==1?'Yes':'No'}}
+                              </td>
+                              <td>
+                                <a *ngIf="!row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                                  <img src="{{row.SocietyRegistrationDocumentPath}}" alt="Society Registration Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                </a>
+                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              </td>
+                              <td>
+                                <a *ngIf="!row.SocietyLogo.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyLogoPath}}" data-caption="Image 10" title="click here to zoom">
+                                  <img src="{{row.SocietyLogoPath}}" alt="Society Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                </a>
+                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyLogo.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyLogoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
     </div>
   </div>
