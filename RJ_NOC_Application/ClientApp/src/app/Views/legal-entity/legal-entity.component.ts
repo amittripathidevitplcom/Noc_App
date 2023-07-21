@@ -135,7 +135,7 @@ export class LegalEntityComponent implements OnInit {
         {
           txtNewRegistrationRegistration: ['', Validators.required],
           txtMobileNumberRegistration: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
-          txtEmailIDRegistration: ['', [Validators.required, Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+          txtEmailIDRegistration: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         });
 
 
@@ -143,7 +143,7 @@ export class LegalEntityComponent implements OnInit {
         {
           txtNewRegistration: ['', Validators.required],
           txtPreMobileNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
-          txtPreEmailID: ['', [Validators.required, Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+          txtPreEmailID: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
 
           txtSocietyName: ['', Validators.required],
           ddlSocietyPresentStatus: ['', [DropdownValidators]],
