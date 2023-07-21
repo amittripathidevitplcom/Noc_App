@@ -65,7 +65,7 @@ export class CreateUserComponent implements OnInit {
       {
         txtSSOID: ['', Validators.required],
         txtMobileNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
-        txtEmailAddress: ['', [Validators.required, Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+        txtEmailAddress: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         txtName: ['', Validators.required],
         ddlDepartmentID: ['', [DropdownValidators]],
         ddlRoleID: ['', [DropdownValidators]],

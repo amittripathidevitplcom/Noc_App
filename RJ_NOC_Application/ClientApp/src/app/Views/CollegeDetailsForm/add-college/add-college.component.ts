@@ -101,7 +101,7 @@ export class AddCollegeComponent implements OnInit {
         txtMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
         txtCollegeLandlineNumber: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
 
-        txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+        txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         txtAddressLine1: ['', Validators.required],
         txtAddressLine2: ['', Validators.required],
         rbRuralUrban: ['', Validators.required],
@@ -120,7 +120,7 @@ export class AddCollegeComponent implements OnInit {
         txtCDNameOfPerson: [''],// handle in sub form
         txtCDDesignation: [''],// handle in sub form
         txtCDMobileNumber: [''],// handle in sub form
-        txtCDEmailAddress: ['', Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")],// handle in sub form
+        txtCDEmailAddress: ['', Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")],// handle in sub form
         ddlGCD_DesignationID: [''],
         txtGCD_MobileNumber: ['', [Validators.pattern(this.MobileNoRegex)]],
         txtGCD_LandlineNumber: ['', [Validators.pattern(this.MobileNoRegex)]],
@@ -134,7 +134,7 @@ export class AddCollegeComponent implements OnInit {
         txtCDNameOfPerson: ['', Validators.required],
         ddlCDDesignationID: ['', [DropdownValidators]],
         txtCDMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
-        txtCDEmailAddress: ['', [Validators.required, Validators.email]],
+        txtCDEmailAddress: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
       })
 
     this.CollegeDetailsForm_NearestGovernmentHospitals = this.formBuilder.group(

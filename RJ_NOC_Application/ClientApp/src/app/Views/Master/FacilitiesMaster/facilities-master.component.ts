@@ -47,7 +47,7 @@ export class FacilitiesComponent implements OnInit {
         ddlDepartmentID: ['', [DropdownValidators]],
         txtFacilitiesName: ['', Validators.required],
         chkActiveStatus: [''],
-        MinSize: ['', Validators.required],
+        MinSize: ['', [Validators.required, Validators.min(1)]],
         txtUnit: ['', Validators.required],
       }
     )
@@ -323,6 +323,30 @@ export class FacilitiesComponent implements OnInit {
       }, 200);
     }
 
+  }
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
+  }
+  numbersOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode == 47 || charCode < 46 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z. ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
   }
 }
 
