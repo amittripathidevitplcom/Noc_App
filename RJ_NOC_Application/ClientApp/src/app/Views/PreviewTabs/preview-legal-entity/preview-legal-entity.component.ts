@@ -9,6 +9,8 @@ import { LegalEntityService } from '../../../Services/LegalEntity/legal-entity.s
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { AbstractControl, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
+import { TrusteeGeneralInfoDataModel, LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 
 @Component({
   selector: 'app-preview-legal-entity',
@@ -17,8 +19,10 @@ import { AbstractControl, FormControl, FormGroup, Validators, FormArray } from '
 })
 export class PreviewLegalEntityComponent implements OnInit {
 
+  LegalEntityDataModel = new LegalEntityDataModel();
+  TrusteeGeneralInfoList: TrusteeGeneralInfoDataModel[] = [];
   legalEntityForm!: FormGroup;
-  constructor(private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
+  constructor(private legalEntityListService: LegalEntityService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
 
   }
   public State: number = -1;
@@ -54,8 +58,69 @@ export class PreviewLegalEntityComponent implements OnInit {
     //
     this.ModifyBy = 1;
     // get college list
-    this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    await this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    await this.GetDataOfLegalEntity();
+    await this.GetDataList();
   }
+  async GetDataOfLegalEntity() {
+    //Show Loading
+    this.loaderService.requestStarted();
+    try {
+      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          //
+          if (!this.State) {
+            //this.toastr.success(this.SuccessMessage)
+            // data
+            this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
+            // load trustee list
+            //await this.GetDataList();
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+
+          //console.log(this.request.RuralUrban);
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetDataList() {
+    debugger;
+    //Show Loading
+    this.loaderService.requestStarted();
+    try {
+      await this.TrusteeGeneralInfoService.GetDataList(this.LegalEntityDataModel.LegalEntityID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          //
+          if (!this.State) {
+            this.TrusteeGeneralInfoList = JSON.parse(JSON.stringify(data['Data']));
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
   async ViewlegalEntityDataByID(SSOID: any) {
     try {
       this.loaderService.requestStarted();
@@ -80,5 +145,5 @@ export class PreviewLegalEntityComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  }  
+  }
 }

@@ -81,7 +81,7 @@ export class StaffDetailsComponent implements OnInit {
         ddlRoleId: [''],
         txtNameOfPerson: ['', Validators.required],
         txtMobileNo: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
-        txtEmail: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+        txtEmail: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         ddlHighestQualificationId: ['', [DropdownValidators]],
         txtNoOfYearExperience: ['', Validators.required],
         ProfilePhoto: [''],

@@ -6,6 +6,7 @@ import { CommonMasterService } from '../../../Services/CommonMaster/common-maste
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { debug } from 'console';
 
 @Component({
   selector: 'app-preview-hostel-details',
@@ -82,7 +83,6 @@ export class PreviewHostelDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.hostelDetailService.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, HostelDetailID)
         .then((data: any) => {
-
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
