@@ -1,27 +1,27 @@
 import { Component, OnInit, Input, Injectable, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-import { LoaderService } from '../../../Services/Loader/loader.service';
+import { LoaderService } from '../../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonMasterDataModel } from '../../../Models/CommonMasterDataModel';
+import { CommonMasterDataModel } from '../../../../Models/CommonMasterDataModel';
 import { ToastrService } from 'ngx-toastr';
-import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
-import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
+import { SSOLoginDataModel } from '../../../../Models/SSOLoginDataModel';
+import { CommonMasterService } from '../../../../Services/CommonMaster/common-master.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { ApplyNOCApplicationService } from '../../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 
 @Component({
-  selector: 'app-document-scrutiny-completed-report',
-  templateUrl: './document-scrutiny-completed-report.component.html',
-  styleUrls: ['./document-scrutiny-completed-report.component.css']
+  selector: 'app-joint-secretary-rejected-report',
+  templateUrl: './joint-secretary-rejected-report.component.html',
+  styleUrls: ['./joint-secretary-rejected-report.component.css']
 })
-export class DocumentScrutinyCompletedReportComponent implements OnInit {
+export class JointSecretaryRejectedReportComponent implements OnInit {
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  public DocumentScrutinyCompleteList: any = [];
+  public ApplicationRejectedList: any = [];
   public ApplicationTrailList: any = [];
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
@@ -29,19 +29,19 @@ export class DocumentScrutinyCompletedReportComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetDocumentScrutinyCompletedReportUserWise(this.sSOLoginDataModel.UserID);
+    await this.GetApplicationRejectedReportUserWise(this.sSOLoginDataModel.UserID);
   }
-  async GetDocumentScrutinyCompletedReportUserWise(UserID: number) {
+  async GetApplicationRejectedReportUserWise(UserID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID,'Approve')
+      await this.applyNOCApplicationService.GetApplyNOCRejectedReport(UserID, 'Reject By Joint Secretary')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'][0]['data'].length > 0) {
-            this.DocumentScrutinyCompleteList = data['Data'][0]['data'];
+            this.ApplicationRejectedList = data['Data'][0]['data'];
           }
         }, error => console.error(error));
     }
@@ -93,3 +93,4 @@ export class DocumentScrutinyCompletedReportComponent implements OnInit {
     }
   }
 }
+

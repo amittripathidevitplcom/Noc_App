@@ -1,20 +1,21 @@
 import { Component, OnInit, Input, Injectable, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-import { ApplyNOCApplicationService } from '../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
-import { LoaderService } from '../../Services/Loader/loader.service';
+import { ApplyNOCApplicationService } from '../../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { LoaderService } from '../../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplyNOCApplicationDataModel } from '../../Models/ApplyNOCApplicationDataModel';
+import { ApplyNOCApplicationDataModel } from '../../../../Models/ApplyNOCApplicationDataModel';
 import { ToastrService } from 'ngx-toastr';
-import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
-import { CommonMasterService } from '../../Services/CommonMaster/common-master.service';
+import { SSOLoginDataModel } from '../../../../Models/SSOLoginDataModel';
+import { CommonMasterService } from '../../../../Services/CommonMaster/common-master.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { MedicalDocumentScrutinyService } from '../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { MedicalDocumentScrutinyService } from '../../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+
 @Component({
-  selector: 'app-apply-nocjoint-secretary-list',
-  templateUrl: './apply-nocjoint-secretary-list.component.html',
-  styleUrls: ['./apply-nocjoint-secretary-list.component.css']
+  selector: 'app-joint-secretary-pending-nocreport',
+  templateUrl: './joint-secretary-pending-nocreport.component.html',
+  styleUrls: ['./joint-secretary-pending-nocreport.component.css']
 })
-export class ApplyNOCJointSecretaryListComponent implements OnInit {
+export class JointSecretaryPendingNOCReportComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -38,13 +39,14 @@ export class ApplyNOCJointSecretaryListComponent implements OnInit {
 
   public NextRoleID: number = 0;
   public NextUserID: number = 0;
-  public NextActionID: number = 0;
-  public ActionID: number=0;
+  public ActionID: number = 0;
   public CheckFinalRemark: string = '';
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   public SelectedApplyNOCID: number = 0;
   public WorkFlowActionList: any[] = [];
+  public NextActionID: number = 0;
+
 
   public isNextRoleIDValid: boolean = false;
   public isNextUserIdValid: boolean = false;
@@ -52,10 +54,13 @@ export class ApplyNOCJointSecretaryListComponent implements OnInit {
   public isNextActionValid: boolean = false;
   public CollegeType_IsExisting: boolean = true;
 
-  public NextWorkFlowActionList: any[] = [];
+
   public ApplicationNo: string = '';
 
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
+
+
+  public NextWorkFlowActionList: any[] = [];
+  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService) { }
 
   async ngOnInit() {
@@ -68,7 +73,7 @@ export class ApplyNOCJointSecretaryListComponent implements OnInit {
   async GetApplyNOCApplicationListByRole(RoleId: number, UserID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetPendingMedicalApplications(RoleId, UserID,'Approve||Forward To Joint Secretary')
+      await this.applyNOCApplicationService.GetPendingMedicalApplications(RoleId, UserID, 'Forward To Joint Secretary By Registrar Committee')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -164,7 +169,7 @@ export class ApplyNOCJointSecretaryListComponent implements OnInit {
         this.NextUserID = 0;
         this.NextActionID = 0;
       }
-      
+
       if (!this.isFormvalid) {
         return;
       }
@@ -340,4 +345,6 @@ export class ApplyNOCJointSecretaryListComponent implements OnInit {
       }, 200);
     }
   }
+
 }
+

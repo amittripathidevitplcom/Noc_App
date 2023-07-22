@@ -73,13 +73,13 @@ export class ApplyNOCSecretaryListComponent implements OnInit {
   async GetApplyNOCApplicationListByRole(RoleId: number, UserID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId, UserID)
+      await this.applyNOCApplicationService.GetPendingMedicalApplications(RoleId, UserID,'Forward To Secretary')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.ApplyNocDetails = data['Data'];
+          this.ApplyNocDetails = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {

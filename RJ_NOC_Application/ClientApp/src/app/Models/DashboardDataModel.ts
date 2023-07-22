@@ -30,22 +30,26 @@ export class DashboardDataModel {
   //AssistantSecretary Count
   public AssistantSecretary_Pending: number = 0;
   public AssistantSecretary_Revert: number = 0;
+  public AssistantSecretary_Rejected: number = 0;
   public AssistantSecretary_Completed: number = 0;
 
   //JointSecretary Pending
   public JointSecretary_Pending: number = 0;
   public JointSecretary_Revert: number = 0;
+  public JointSecretary_Rejected: number = 0;
   public JointSecretary_Completed: number = 0;
   public JointSecretary_ReleaseNOCPending: number = 0;
 
   //JointSecretary Pending
   public ScrutinyCommittee_Pending: number = 0;
   public ScrutinyCommittee_Revert: number = 0;
+  public ScrutinyCommittee_Rejected: number = 0;
   public ScrutinyCommittee_Completed: number = 0;
 
   // Registrat Committe
   public RegistratCommittee_Pending: number = 0;
   public RegistratCommittee_Revert: number = 0;
+  public RegistratCommittee_Rejected: number = 0;
   public RegistratCommittee_Completed: number = 0;
 
    

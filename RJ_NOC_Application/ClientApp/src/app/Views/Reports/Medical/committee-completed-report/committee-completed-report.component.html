@@ -1,0 +1,111 @@
+
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Committee Inspection Completed Report</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Report</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Committee Inspection Completed</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mainContents">
+  <div class="card tabCard1 mb-0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i>&nbsp; Committee Inspection Completed Report</b>
+    </div>
+    <div class="card-body">
+      <div class="clearfix"></div>
+      <div class="card">
+        <div class="card-header">
+          <b>Committee Inspection Completed</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Department Name</th>
+                      <th>College Name</th>
+                      <th>Remarks</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of ApplicationCompleteList let idx =index">
+                      <td>{{idx+1}}</td>
+                      <td>{{item.DepartmentName}}</td>
+                      <td>{{item.CollegeName}}</td>
+                      <td>{{item.Remark}}</td>
+                      <td>{{item.Status}}</td>
+                      <td>
+                        <button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-eye"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="7" *ngIf="ApplicationCompleteList.length<=0" style="color:red"> No Data Found.!</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <ng-template #mymodal let-modal>
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                  <i class="fa fa-close"></i>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="card">
+                  <div class="card-header">
+                    <b>Application Trail</b>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-striped-columns">
+                          <thead>
+                            <tr>
+                              <th>Sr.No.</th>
+                              <th>User Name</th>
+                              <th>Action</th>
+                              <th>Action Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of ApplicationTrailList let idx =index">
+                              <td>{{idx+1}}</td>
+                              <td>{{item.ActionUser}}</td>
+                              <td>{{item.ActionName}}</td>
+                              <td>{{item.ActionDate}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

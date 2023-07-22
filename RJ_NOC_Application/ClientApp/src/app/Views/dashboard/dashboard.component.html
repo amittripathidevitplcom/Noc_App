@@ -161,10 +161,10 @@
               </h2>
             </div>
 
-            <!--<div class="dashCardContent  text-start">
+            <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.Clerk_Reverted}}</h2></a>
-            </div>-->
+              <a href="/documentscrutinyrejectedreport" style="background: none;"><h2>{{dashboardDataModel.Clerk_Rejected}}</h2></a>
+            </div>
 
             <div class="dashCardContent">
               <h4>Completed</h4>
@@ -198,7 +198,7 @@
 
             <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.SectionOffs_Revert}}</h2></a>
+              <a href="/documentscrutinyrejectedreport" style="background: none;"><h2>{{dashboardDataModel.SectionOffs_Rejected}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
@@ -228,7 +228,7 @@
 
             <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.AssistantSecretary_Revert}}</h2></a>
+              <a href="documentscrutinyrejectedreport" style="background: none;"><h2>{{dashboardDataModel.AssistantSecretary_Rejected}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
@@ -252,20 +252,20 @@
             <div class="dashCardContent text-start">
               <h4>Pending</h4>
               <h2>
-                <a href="/jointsecretaryapplicationlist" style="background: none;">{{dashboardDataModel.JointSecretary_Pending}}</a>
+                <a href="/jointsecretarypendingnocreport" style="background: none;">{{dashboardDataModel.JointSecretary_Pending}}</a>
               </h2>
             </div>
             <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Revert}}</h2></a>
+              <a href="/jointsecretaryrejectedreport" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Rejected}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Completed}}</h2></a>
+              <a href="/jointsecretarycompletedreport" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Completed}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Pending NOC</h4>
-              <a href="/jointsecretaryapplicationlist" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_ReleaseNOCPending}}</h2></a>
+              <a href="/jointsecretarypendingnocreport" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_ReleaseNOCPending}}</h2></a>
             </div>
           </div>
         </div>
@@ -290,19 +290,19 @@
             </div>
             <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.secretary_Revert}}</h2></a>
+              <a href="/secretaryrejectedreport" style="background: none;"><h2>{{dashboardDataModel.secretary_Rejected}}</h2></a>
             </div>
             <div class="dashCardContent  text-start">
               <h4>ScrutinyCommittee Forward</h4>
-              <a href="/secretaryapplicationlist" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Forward}}</h2></a>
+              <a href="/committeeforwardreport/Scrutiny" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Forward}}</h2></a>
             </div>
-            <div class="dashCardContent  text-start">
+            <!--<div class="dashCardContent  text-start">
               <h4>RegistratCommittee Forward</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.RegistratCommittee_Forward}}</h2></a>
-            </div>
+              <a href="/committeeforwardreport/Registrat" style="background: none;"><h2>{{dashboardDataModel.RegistratCommittee_Forward}}</h2></a>
+            </div>-->
             <div class="dashCardContent">
               <h4>Completed</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.secretary_Completed}}</h2></a>
+              <a href="/secretarycompletedreport" style="background: none;"><h2>{{dashboardDataModel.secretary_Completed}}</h2></a>
             </div>
           </div>
         </div>
@@ -327,11 +327,11 @@
             </div>
             <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Revert}}</h2></a>
+              <a href="/committeerejectedreport" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Rejected}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Completed}}</h2></a>
+              <a href="/committeecompletedreport" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Completed}}</h2></a>
             </div>
           </div>
         </div>
@@ -356,11 +356,11 @@
             </div>
             <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.RegistratCommittee_Revert}}</h2></a>
+              <a href="/committeerejectedreport" style="background: none;"><h2>{{dashboardDataModel.RegistratCommittee_Rejected}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.RegistratCommittee_Completed}}</h2></a>
+              <a href="/committeecompletedreport" style="background: none;"><h2>{{dashboardDataModel.RegistratCommittee_Completed}}</h2></a>
             </div>
           </div>
         </div>

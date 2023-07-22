@@ -10,18 +10,18 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 
 @Component({
-  selector: 'app-document-scrutiny-completed-report',
-  templateUrl: './document-scrutiny-completed-report.component.html',
-  styleUrls: ['./document-scrutiny-completed-report.component.css']
+  selector: 'app-document-scrutiny-rejected-report',
+  templateUrl: './document-scrutiny-rejected-report.component.html',
+  styleUrls: ['./document-scrutiny-rejected-report.component.css']
 })
-export class DocumentScrutinyCompletedReportComponent implements OnInit {
+export class DocumentScrutinyRejectedReportComponent implements OnInit {
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  public DocumentScrutinyCompleteList: any = [];
+  public DocumentScrutinyRejectedList: any = [];
   public ApplicationTrailList: any = [];
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
@@ -29,19 +29,19 @@ export class DocumentScrutinyCompletedReportComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetDocumentScrutinyCompletedReportUserWise(this.sSOLoginDataModel.UserID);
+    await this.GetDocumentScrutinyRejectedReportUserWise(this.sSOLoginDataModel.UserID);
   }
-  async GetDocumentScrutinyCompletedReportUserWise(UserID: number) {
+  async GetDocumentScrutinyRejectedReportUserWise(UserID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID,'Approve')
+      await this.applyNOCApplicationService.GetApplyNOCRejectedReport(UserID,'Reject')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'][0]['data'].length > 0) {
-            this.DocumentScrutinyCompleteList = data['Data'][0]['data'];
+            this.DocumentScrutinyRejectedList = data['Data'][0]['data'];
           }
         }, error => console.error(error));
     }
