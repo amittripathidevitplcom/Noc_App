@@ -368,7 +368,7 @@ export class HostelDetailsComponent implements OnInit {
     //  this.isFormValid = false;
     //}
 
-    if (Number(this.hosteldetail.Width * this.hosteldetail.Length)  <= this.WidthMin) {
+    if (Number(this.hosteldetail.Width * this.hosteldetail.Length)  < this.WidthMin) {
       this.CssClass_TextDangerWidth = 'text-danger';
       this.isFormValid = false;
     }

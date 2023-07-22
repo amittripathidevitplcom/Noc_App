@@ -95,6 +95,8 @@ import { ApplyNOCSecretaryListComponent } from './Views/apply-nocsecretary-list/
 import { CommiteeInspectionComponent } from './Views/commitee-inspection/commitee-inspection.component';
 import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payment-response/emitra-payment-response.component'
 
+import { StreamSubjectMappingComponent } from './Views/Master/stream-subject-mapping/stream-subject-mapping.component'
+
 
 const routes: Routes = [
   {
@@ -407,9 +409,9 @@ const routes: Routes = [
         path: 'commiteeinspection', component: CommiteeInspectionComponent
       },
 
-     
-
-
+      {
+        path: 'streamsubjectmapping', component: StreamSubjectMappingComponent
+      },
 
 
 

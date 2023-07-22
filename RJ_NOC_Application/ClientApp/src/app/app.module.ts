@@ -151,6 +151,7 @@ import { CommiteeInspectionComponent } from './Views/commitee-inspection/commite
 import { ApplyNOCJointSecretaryListComponent } from './Views/apply-nocjoint-secretary-list/apply-nocjoint-secretary-list.component';
 import { ApplyNOCSecretaryListComponent } from './Views/apply-nocsecretary-list/apply-nocsecretary-list.component';
 import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payment-response/emitra-payment-response.component';
+import { StreamSubjectMappingComponent } from './Views/Master/stream-subject-mapping/stream-subject-mapping.component';
 
 
 
@@ -299,7 +300,8 @@ import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payme
     ApplyNOCJointSecretaryListComponent,
     ApplyNOCSecretaryListComponent,
     CommiteeInspectionComponent,
-    EmitraPaymentResponseComponent
+    EmitraPaymentResponseComponent,
+    StreamSubjectMappingComponent,
 
   ],
   imports: [

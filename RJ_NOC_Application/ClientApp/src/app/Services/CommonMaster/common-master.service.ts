@@ -857,4 +857,20 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+
+
+  public async GetStreamList_CourseIDWise(DepartmentID: number, CourseLevelID: number, CourseID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetStreamList_CourseIDWise/" + DepartmentID + "/" + CourseLevelID + "/" + CourseID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
 }
