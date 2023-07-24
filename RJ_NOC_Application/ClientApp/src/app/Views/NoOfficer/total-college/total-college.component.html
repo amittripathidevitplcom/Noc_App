@@ -26,18 +26,40 @@
               <thead>
                 <tr>
                   <th>Sr. No.</th>
-                  <th>Creation Date</th>
                   <th>Society Name</th>
+                  <th>College Registration No.</th>
                   <th>College Name</th>
+                  <th>Department Name</th>
+                  <th>College Status</th>
+                  <th>College Type</th>
+                  <th>College Medium</th>
+                  <th>University Name</th>
+                  <th>College Mobile No.</th>
+                  <th>College Landline No.</th>
+                  <th>College Email</th>
+                  <th>Full Address</th>
+                  <th>Creation Date</th>
+                  <th>Geo Tagging</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let row of draftApplicatoinListData ;let idx=index;">
                   <td>{{idx+1}}</td>
-                  <td>{{row.CreateDate}}</td>
                   <td>{{row.SocietyName}}</td>
+                  <td>{{row.CollegeRegistrationNo}}</td>
                   <td>{{row.CollegeName}}</td>
+                  <td>{{row.DepartmentName}}</td>
+                  <td>{{row.CollegeStatus}}</td>
+                  <td>{{row.CollegeType}}</td>
+                  <td>{{row.CollegeMedium}}</td>
+                  <td>{{row.UniversityName}}</td>
+                  <td>{{row.CollegeMobileNumber}}</td>
+                  <td>{{row.CollegeLandlineNumber}}</td>
+                  <td>{{row.CollegeEmail}}</td>
+                  <td>{{row.FullAddress}}</td>
+                  <td>{{row.CreateDate}}</td>
+                  <td>{{row.GeoTagging}}</td>
                   <td style="width:300px">
                     <div class="d-flex">
                       <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="DraftEdit_OnClick(row.CollegeID)"><i class="fa fa-edit"></i></a>

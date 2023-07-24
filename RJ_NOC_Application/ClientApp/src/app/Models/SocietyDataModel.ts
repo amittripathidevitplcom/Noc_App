@@ -2,8 +2,11 @@ export class SocietyDataModel {
   public UserID: number = 0;
   public SocietyID: number = 0;
   public CollegeID: number = 0;
+  public CollegeNameEn: string = '';
   public DesignationID: number = 0;
+  public DesignationName: number = 0;
   public OccupationID: number = 0;
+  public OccupationName: number = 0;
   public Educationists: string = '';
   public PersonName: string = '';
   public FatherName: string = '';

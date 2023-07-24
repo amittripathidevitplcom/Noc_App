@@ -175,7 +175,7 @@
 
                         <div *ngIf="isSubmitted_Registration&&FormRegistration.txtEmailIDRegistration.errors" class="text-danger">
                           <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.required"> This field is required .!</p>
-                          <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.email">Invalid Email</p>
+                          <!--<p *ngIf="FormRegistration.txtEmailIDRegistration.errors.email">Invalid Email</p>-->
                           <p *ngIf="FormRegistration.txtEmailIDRegistration.errors.pattern">Invalid Email</p>
                         </div>
 
@@ -526,6 +526,9 @@
                             <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('MemberPhoto', memberdetails.MemberPhoto)"><i class="fa fa-trash-o"></i></button>
                           </div>
                         </div>
+                        <div *ngIf="isMemberPhoto" class="text-danger">
+                          <p *ngIf="isMemberPhoto"> This field is required .!</p>
+                        </div>
                         <div *ngIf="isValidMemberPhoto" class="text-danger">
                           <p *ngIf="isValidMemberPhoto"> {{ImageValidationMessage_MemberPhoto}}</p>
                         </div>
@@ -542,6 +545,9 @@
                             <a class="btn btn-outline-primary" target="_blank" href="{{memberdetails.MemberSignaturePath}}"><i class="fa fa-eye"></i></a>
                             <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('MemberSign', memberdetails.MemberSignature)"><i class="fa fa-trash-o"></i></button>
                           </div>
+                        </div>
+                        <div *ngIf="isMemberSignature" class="text-danger">
+                          <p *ngIf="isMemberSignature"> This field is required .!</p>
                         </div>
                         <div *ngIf="isValidMemberSignature" class="text-danger">
                           <p *ngIf="isValidMemberSignature"> {{ImageValidationMessage_MemberSignature}}</p>
@@ -577,8 +583,11 @@
                                 <td>{{row.MemberDOB}}</td>
                                 <td>{{row.MemberMobileNo}}</td>
                                 <td>{{row.MembersPostName}}</td>
-                                <td><a *ngIf="row.MemberPhoto!=''" target="_blank" href="{{row.MemberPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a></td>
-                                <td><a *ngIf="row.MemberSignature!=''" target="_blank" href="{{row.MemberSignaturePath}}" title="View Member Sign"><i class="fa fa-eye"></i></a>  </td>
+                                <td><a *ngIf="row.MemberPhoto!='' && row.MemberPhotoPath!='N/A'" target="_blank" href="{{row.MemberPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
+                                    <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
+                                </td>
+                                <td><a *ngIf="row.MemberSignature!='' && row.MemberSignaturePath!='N/A'" target="_blank" href="{{row.MemberSignaturePath}}" title="View Member Sign"><i class="fa fa-eye"></i></a>
+                                    <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label></td>
                                 <td>
                                   <button class="btn btn-danger" type="button" (click)="DeleteMember(indexOfelement)"><i class="fa fa-trash-o"></i></button>
                                 </td>

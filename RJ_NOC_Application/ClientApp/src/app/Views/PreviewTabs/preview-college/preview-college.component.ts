@@ -29,6 +29,7 @@ export class PreviewCollegeComponent implements OnInit {
   public collegeListData: any = [];
   public collegeContactDetailsList: any = [];
   public collegeNearestGovernmentHospitalsList: any = [];
+  public CollegeGeoTaggingList: any = [];
   public searchText: string = '';
   public SsoValidationMessage: string = '';
   public SsoSuccessMessage: string = '';
@@ -66,6 +67,10 @@ export class PreviewCollegeComponent implements OnInit {
           this.collegeListData = data['Data'][0]['data']['Table'][0];
           this.collegeContactDetailsList = data['Data'][0]['data']['Table1'];
           this.collegeNearestGovernmentHospitalsList = data['Data'][0]['data']['Table2'];
+          this.CollegeGeoTaggingList = data['Data'][0]['data']['Table3'];
+          if (this.CollegeGeoTaggingList.Image1 == '') {
+
+          }
           //console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));
     }

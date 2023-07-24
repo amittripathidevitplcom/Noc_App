@@ -57,7 +57,7 @@ export class ApplyNOCApplicationListComponent implements OnInit {
   }
   
 
-  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number) {
-    this.routers.navigate(['/appnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString()))]);
+  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
+    this.routers.navigate(['/appnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" +  encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
   }
 }

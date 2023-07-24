@@ -35,34 +35,34 @@ export class PreviewTrusteeGeneralInfoComponent implements OnInit {
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     // load legal entity
     await this.GetDataOfLegalEntity();
-    await this.GetDataList();
+   // await this.GetDataList();
 
   }
-  async GetDataList() {
-    //Show Loading
-    this.loaderService.requestStarted();
-    try {
-      await this.TrusteeGeneralInfoService.GetDataList(this.LegalEntityDataModel.LegalEntityID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          //
-          if (!this.State) {
-            this.TrusteeGeneralInfoList = JSON.parse(JSON.stringify(data['Data']));
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  //async GetDataList() {
+  //  //Show Loading
+  //  this.loaderService.requestStarted();
+  //  try {
+  //    await this.TrusteeGeneralInfoService.GetDataList(this.LegalEntityDataModel.LegalEntityID)
+  //      .then(async (data: any) => {
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        //
+  //        if (!this.State) {
+  //          this.TrusteeGeneralInfoList = JSON.parse(JSON.stringify(data['Data']));
+  //        }
+  //        else {
+  //          this.toastr.error(this.ErrorMessage)
+  //        }
+  //      })
+  //  }
+  //  catch (ex) { console.log(ex) }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
 
   async GetDataOfLegalEntity() {
     //Show Loading
@@ -79,7 +79,7 @@ export class PreviewTrusteeGeneralInfoComponent implements OnInit {
             // data
             this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
             // load trustee list
-            await this.GetDataList();
+            //await this.GetDataList();
           }
           else {
             this.toastr.error(this.ErrorMessage)

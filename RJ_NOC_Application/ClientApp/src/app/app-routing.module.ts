@@ -83,7 +83,7 @@ import { CollegeManagementSocietyComponent } from './Views/PreviewTabs/college-m
 import { ApplyNOCFDRDetailsComponent } from './Views/Master/apply-nocfdrdetails/apply-nocfdrdetails.component';
 import { NocPaymentComponent } from './Views/noc-payment/payment-request/noc-payment.component';
 import { PaymentSuccessComponent } from './Views/noc-payment/payment-success/payment-success.component'
-import { DocumentScrutinyReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-completed-report/document-scrutiny-completed-report.component';
+import { DocumentScrutinyCompletedReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-completed-report/document-scrutiny-completed-report.component';
 import { RNCCheckListMasterComponent } from './Views/Master/rnccheck-list-master/rnccheck-list-master.component';
 import { UserRoleRightsComponent } from './Views/Master/RoleMaster/user-role-rights/user-role-rights.component';
 import { PreviewPaymentDetailComponent } from './Views/PreviewTabs/preview-payment-detail/preview-payment-detail.component';
@@ -94,6 +94,19 @@ import { ApplyNOCJointSecretaryListComponent } from './Views/apply-nocjoint-secr
 import { ApplyNOCSecretaryListComponent } from './Views/apply-nocsecretary-list/apply-nocsecretary-list.component';
 import { CommiteeInspectionComponent } from './Views/commitee-inspection/commitee-inspection.component';
 import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payment-response/emitra-payment-response.component'
+
+import { AnimalMasterComponent } from './Views/Master/AnimalMaster/animal-master.component';
+import { VeterinaryHospitalComponent } from './Views/VeterinaryHospital/veterinary-hospital/veterinary-hospital.component';
+import { StreamMasterComponent } from './Views/Master/StreamMaster/stream-master.component';
+import { DocumentScrutinyRejectedReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-rejected-report/document-scrutiny-rejected-report.component';
+import { JointSecretaryCompletedReportComponent } from './Views/Reports/Medical/joint-secretary-completed-report/joint-secretary-completed-report.component';
+import { JointSecretaryRejectedReportComponent } from './Views/Reports/Medical/joint-secretary-rejected-report/joint-secretary-rejected-report.component';
+import { SecretaryRejectedReportComponent } from './Views/Reports/Medical/secretary-rejected-report/secretary-rejected-report.component';
+import { SecretaryCompletedReportComponent } from './Views/Reports/Medical/secretary-completed-report/secretary-completed-report.component';
+import { CommitteeCompletedReportComponent } from './Views/Reports/Medical/committee-completed-report/committee-completed-report.component';
+import { CommitteeRejectedReportComponent } from './Views/Reports/Medical/committee-rejected-report/committee-rejected-report.component';
+import { JointSecretaryPendingNOCReportComponent } from './Views/Reports/Medical/joint-secretary-pending-nocreport/joint-secretary-pending-nocreport.component';
+import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committee-forward-report/committee-forward-report.component';
 
 import { StreamSubjectMappingComponent } from './Views/Master/stream-subject-mapping/stream-subject-mapping.component'
 
@@ -333,14 +346,17 @@ const routes: Routes = [
         path: 'applynocforparameter', component: ApplyNocParameterComponent
       },
       {
-        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCPreviewComponent
+        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNo', component: ApplyNOCPreviewComponent
+      },
+      {
+        path: 'appnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNOCPreviewComponent
       },
       {
         path: 'applynocjointsec/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCJointSecPreviewComponent
       },
       {
         path: 'applynocsecretary/:DepartmentID/:CollegeID/:ApplyNOCID', component: ApplyNOCSecretaryPreviewComponent
-      },      
+      },
       {
         path: 'rncRegistratPreview/:DepartmentID/:CollegeID', component: PreviewRNCRegistratComponent
       },
@@ -375,10 +391,13 @@ const routes: Routes = [
         path: 'NocPayment', component: NocPaymentComponent
       },
       {
-        path: 'applynocfdrdetails', component:  ApplyNOCFDRDetailsComponent 
+        path: 'applynocfdrdetails', component: ApplyNOCFDRDetailsComponent
       },
       {
-        path: 'documentscrutinycompletedreport', component: DocumentScrutinyReportComponent
+        path: 'documentscrutinycompletedreport', component: DocumentScrutinyCompletedReportComponent
+      },
+      {
+        path: 'documentscrutinyrejectedreport', component: DocumentScrutinyRejectedReportComponent
       },
       {
         path: 'rncchekclistmaster', component: RNCCheckListMasterComponent
@@ -404,14 +423,20 @@ const routes: Routes = [
         path: 'secretaryapplicationlist', component: ApplyNOCSecretaryListComponent
       },
 
-      
+
       {
         path: 'commiteeinspection', component: CommiteeInspectionComponent
       },
-
       {
-        path: 'streamsubjectmapping', component: StreamSubjectMappingComponent
+        path: 'animalmaster', component: AnimalMasterComponent
       },
+      {
+        path: 'veterinaryhospital', component: VeterinaryHospitalComponent
+      },
+
+     
+
+
 
 
 

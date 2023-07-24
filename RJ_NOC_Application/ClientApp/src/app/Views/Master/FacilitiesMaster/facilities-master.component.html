@@ -1,13 +1,13 @@
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
-      <h3>Facilities Master</h3>
+      <h3>Facility Master</h3>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Master</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Facilities</li>
+          <li class="breadcrumb-item active" aria-current="page">Facility</li>
         </ol>
       </nav>
     </div>
@@ -20,7 +20,7 @@
       <form [formGroup]="FacilitiesMasterForm" class="form-horizontal">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp; Add Facilities</b>
+            <b><i class="fa fa-plus"></i>&nbsp; Add Facility</b>
             <span class="text-danger">(*) Fields is compulsory</span>
           </div>
           <div class="card-body">
@@ -36,24 +36,25 @@
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtFacilitiesName" class="form-label">Facilities Name<span style="color:red;">*</span></label>
-                <input type="text" id="txtFacilitiesName" maxlength="100" class="form-control" [(ngModel)]="request.FacilitiesName" formControlName="txtFacilitiesName">
+                <label for="txtFacilitiesName" class="form-label">Facility Name<span style="color:red;">*</span></label>
+                <input type="text" id="txtFacilitiesName" maxlength="100" class="form-control" [(ngModel)]="request.FacilitiesName" formControlName="txtFacilitiesName" (keypress)="alphaOnly($event)"/>
                 <div *ngIf="isSubmitted&&form.txtFacilitiesName.errors" class="text-danger">
                   <p *ngIf="form.txtFacilitiesName.errors.required">This field is required .!</p>
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="MinSize" class="form-label">Minimum Size<span style="color:red;">*</span></label>
-                <input type="text" id="MinSize" maxlength="100" class="form-control" [(ngModel)]="request.MinSize" formControlName="MinSize">                
+                <input type="text" id="MinSize" maxlength="100" class="form-control" [(ngModel)]="request.MinSize" formControlName="MinSize" (keypress)="numbersOnly($event)">                
                 <div *ngIf="isSubmitted&&request.MinSize <= 0" class="text-danger">
-                  <p *ngIf="request.MinSize <= 0">This field is required .!</p>
+                  <p *ngIf="form.MinSize.errors.required">This field is required .!</p>
+                  <p *ngIf="form.MinSize.errors.min">Minimum Size will be greater than zero .!</p>
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="txtUnit" class="form-label">Unit<span style="color:red;">*</span></label>
-                <input type="text" id="txtUnit" maxlength="50" class="form-control" [(ngModel)]="request.Unit" formControlName="txtUnit">
+                <input type="text" id="txtUnit" maxlength="50" class="form-control" [(ngModel)]="request.Unit" formControlName="txtUnit" (keypress)="alphaOnly($event)">
                 <div *ngIf="isSubmitted&&form.txtUnit.errors" class="text-danger">
-                  <p *ngIf="form.txtUnit.errors.required">This field is required .!</p>
+                  <p *ngIf="form.txtUnit.errors.required">This field is required .!</p>                  
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -72,7 +73,7 @@
       </form>
       <div class="card mb-0">
         <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-          <b><i class="bi bi-table"></i> Facilities List </b>
+          <b><i class="bi bi-table"></i> Facility List </b>
           <div class="d-flex align-items-center">
             <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
               <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
@@ -92,7 +93,7 @@
                 <tr>
                   <th>Sr. No</th>
                   <th>Department Name</th>
-                  <th>Facilities Name</th>
+                  <th>Facility Name</th>
                   <th>Minimum Size</th>
                   <th>Unit</th>
                   <th>Status</th>

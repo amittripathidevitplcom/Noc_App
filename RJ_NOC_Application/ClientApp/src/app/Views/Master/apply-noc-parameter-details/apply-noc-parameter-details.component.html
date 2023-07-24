@@ -31,6 +31,7 @@
                       <tr>
                         <th>Sr. No.</th>
                         <th>College</th>
+                        <th>Application No.</th>
                         <th>Application Type</th>
                         <th>Total Fee Amount</th>
                         <th>Action</th>
@@ -41,6 +42,9 @@
                         <td>{{idx+1}}</td>
                         <td>
                           {{item.CollegeName}}
+                        </td>
+                        <td>
+                          {{item.ApplicationNo}}
                         </td>
                         <td>
                           {{item.ApplicationTypeName}}
@@ -54,6 +58,9 @@
                             <button type="button" class="btn btn-primary" title="View Application" (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)"><i class="fa fa-eye"></i></button>&nbsp;
 
                             <button type="button" *ngIf="item.IsMakePayment==false" class="btn btn-sm btn-danger" title="Delete Application" (click)="DeleteApplyNocApplication_click(item)"><i class="fa fa-trash-o"></i></button>
+                            &nbsp;
+
+                            <a class="btn btn-info" href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" aria-label="Preview Application">Preview Application</a>
                             &nbsp;
                             <button type="button" class="btn btn-sm btn-primary" title="Add FDR" (click)="AddFDR_click(item)">
                               {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}

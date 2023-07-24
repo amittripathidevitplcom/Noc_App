@@ -1,12 +1,12 @@
 <div class="card tabCard1 mb-0" id="LandDetails1">
   <div class="card-header">
-    <b><i class="bi bi-table"></i>&nbsp; Facilitie Details</b>
+    <b><i class="bi bi-table"></i>&nbsp; Facility Details</b>
   </div>
   <div class="card-body">
     <form [formGroup]="FacilitiesForm" class="form-horizontal">
       <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-          <label>Select Facilities <span style="color:red;">*</span></label>
+          <label>Select Facility <span style="color:red;">*</span></label>
           <select class="form-select" id="ddlFacilitiesId" name="ddlFacilitiesId" formControlName="ddlFacilitiesId" [(ngModel)]="request.FacilitiesID" #SeletedFacilitiesID (change)="ddlFacilities_change($event, SeletedFacilitiesID.value)">
             <option value="0" disabled>--Select--</option>
             <option *ngFor="let item of FacilitiesData"

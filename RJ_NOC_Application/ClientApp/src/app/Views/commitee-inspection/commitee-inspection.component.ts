@@ -9,6 +9,7 @@ import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../Services/CommonMaster/common-master.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploadService } from '../../Services/FileUpload/file-upload.service';
+import { MedicalDocumentScrutinyService } from '../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-commitee-inspection',
@@ -47,9 +48,23 @@ export class CommiteeInspectionComponent implements OnInit {
   public SelectedApplyNOCID: number = 0;
   public WorkFlowActionList: any[] = [];
   public CheckListData: any[] = [];
+  public NextActionID: number = 0;
+
+  public isNextRoleIDValid: boolean = false;
+  public isNextUserIdValid: boolean = false;
+  public TotalDocumentScrutinyTab: number = 0;
+  public isNextActionValid: boolean = false;
+  public CollegeType_IsExisting: boolean = true;
+
+
+  public ApplicationNo: string = '';
+
+
+
+  public NextWorkFlowActionList: any[] = [];
 
   public All_U_Select: boolean = false;
-  constructor(private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService
   ) { }
@@ -114,7 +129,8 @@ export class CommiteeInspectionComponent implements OnInit {
   }
 
 
-  async OpenActionPopUP(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number) {
+  async OpenActionPopUP(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
+    this.ApplicationNo = ApplicationNo;
     this.SelectedCollageID = CollegeID;
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
@@ -138,14 +154,13 @@ export class CommiteeInspectionComponent implements OnInit {
     }
   }
 
-
-  public isNextRoleIDValid: boolean = false;
-  public isNextUserIdValid: boolean = false;
+ 
   async DocumentScrutiny() {
     this.request = [];
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
     this.isNextRoleIDValid = false;
+    this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
       for (var i = 0; i < this.CheckListData.length; i++) {
@@ -171,14 +186,24 @@ export class CommiteeInspectionComponent implements OnInit {
         this.isFormvalid = false;
       }
 
-      if (this.NextRoleID <= 0) {
-        this.isNextRoleIDValid = true;
-        this.isFormvalid = false;
+      if (this.ShowHideNextRoleNextUser) {
+        if (this.NextRoleID <= 0) {
+          this.isNextRoleIDValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.NextActionID <= 0) {
+          this.isNextActionValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.NextUserID <= 0) {
+          this.isNextUserIdValid = true;
+          this.isFormvalid = false;
+        }
       }
-
-      if (this.NextUserID <= 0) {
-        this.isNextUserIdValid = true;
-        this.isFormvalid = false;
+      else {
+        this.NextRoleID = 4;
+        this.NextUserID = 0;
+        this.NextActionID = 0;
       }
 
 
@@ -191,7 +216,7 @@ export class CommiteeInspectionComponent implements OnInit {
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
-          this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID)
+          this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
             .then((data: any) => {
               data = JSON.parse(JSON.stringify(data));
               this.State = data['State'];
@@ -222,87 +247,6 @@ export class CommiteeInspectionComponent implements OnInit {
     catch (Ex) {
       console.log(Ex);
     }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-
-
-
-  async GetRoleListForApporval() {
-    this.UserRoleList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.UserRoleList = data['Data'];
-            if (this.UserRoleList.length > 0) {
-              this.NextRoleID = this.UserRoleList[0]['RoleID'];
-              await this.GetUserDetailsByRoleID();
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-
-  async GetUserDetailsByRoleID() {
-    this.UserListRoleWise = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.UserListRoleWise = data['Data'];
-            if (this.UserListRoleWise.length > 0) {
-              this.NextUserID = this.UserListRoleWise[0]['UId'];
-
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-  async GetWorkFlowActionListByRole() {
-    this.WorkFlowActionList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.WorkFlowActionList = data['Data'];
-            if (this.WorkFlowActionList.length > 0) {
-              this.ActionID = this.WorkFlowActionList[0]['ActionID'];
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
@@ -407,5 +351,147 @@ export class CommiteeInspectionComponent implements OnInit {
       }, 200);
     }
 
+  }
+
+
+
+  async GetRoleListForApporval() {
+    this.UserRoleList = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.UserRoleList = data['Data'];
+            if (this.UserRoleList.length > 0) {
+              this.NextRoleID = this.UserRoleList[0]['RoleID'];
+              await this.NextGetUserDetailsByRoleID();
+            }
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async NextGetUserDetailsByRoleID() {
+    this.UserListRoleWise = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.UserListRoleWise = data['Data'];
+            if (this.UserListRoleWise.length > 0) {
+              this.NextUserID = this.UserListRoleWise[0]['UId'];
+              await this.NextGetWorkFlowActionListByRole();
+            }
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async NextGetWorkFlowActionListByRole() {
+    this.NextWorkFlowActionList = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next")
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.NextWorkFlowActionList = data['Data'];
+            if (this.NextWorkFlowActionList.length > 0) {
+              this.NextActionID = this.NextWorkFlowActionList[0]['ActionID'];
+            }
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+  async GetWorkFlowActionListByRole() {
+    this.WorkFlowActionList = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID, "Current")
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.WorkFlowActionList = data['Data'];
+            if (this.WorkFlowActionList.length > 0) {
+              this.ActionID = this.WorkFlowActionList[0]['ActionID'];
+              var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
+              if (IsNextAction == true) {
+                this.ShowHideNextRoleNextUser = true;
+              }
+              else {
+                this.ShowHideNextRoleNextUser = false;
+              }
+            }
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  OnChangeCurrentAction() {
+    var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
+    if (IsNextAction == true) {
+      this.ShowHideNextRoleNextUser = true;
+    }
+    else {
+      this.ShowHideNextRoleNextUser = false;
+    }
+  }
+
+  async CheckDocumentScrutinyTabsData() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.TotalDocumentScrutinyTab = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

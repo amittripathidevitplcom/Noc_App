@@ -7,7 +7,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Master</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Subject</li>
+          <li class="breadcrumb-item active" aria-current="page">Subject Master</li>
         </ol>
       </nav>
     </div>
@@ -20,15 +20,15 @@
       <form [formGroup]="SubjectMasterForm" class="form-horizontal">
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp; Add Subject</b>
+            <b><i class="fa fa-plus"></i>&nbsp; Add Subject Master</b>
             <span class="text-danger">(*) Fields is compulsory</span>
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="ddlDepartmentID" class="form-label">Select Department Name <span style="color:red;">*</span></label>
-                <select class="form-control" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedValueDepartment (change)="DepartmentChangecourse(SeletedValueDepartment.value)">
-                  <option value="0" selected>--Select Department--</option>
+                <label for="ddlDepartmentID" class="form-label">Select Department Name  <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (change)="DepartmentChangecourse($event,SeletedDepartmentID.value)">
+                  <option value="0" disabled>--Select Department--</option>
                   <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
@@ -36,10 +36,10 @@
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="ddlCourseID" class="form-label">Select Course Name <span style="color:red;">*</span></label>
-                <select class="form-control" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID">
-                  <option value="0" selected>--Select Course--</option>
-                  <option *ngFor="let item of CourseList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+                <label for="ddlCourseID" class="form-label">Select Course <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID">
+                  <option value="0" disabled>--Select Course--</option>
+                  <option *ngFor="let item of CourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
                   <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
@@ -117,4 +117,5 @@
     </div>
   </div>
 </div>
+
 

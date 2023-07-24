@@ -106,6 +106,7 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
+  public CollegeDepartmentID: number =0;
   async College_ddlChange(event: any) {
     try {
       //reset
@@ -123,7 +124,18 @@ export class ApplyNocParameterComponent implements OnInit {
           //
           this.ApplyNocParameterMasterList_ddl = data['Data'];
         }, error => console.error(error));
+
+      await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          console.log(data);
+          this.CollegeDepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+        }, error => console.error(error));
+      
     }
+
+
+
     catch (ex) {
       console.log(ex);
     }
@@ -141,7 +153,7 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.ApplyNocID = Number(SelectedApplyNocForID);
       this.request.ApplyNocFor = item.ApplyNocFor;
       // TNOC Extension
-      if (this.request.ApplyNocFor == 'TNOC Extension') {
+      if (this.request.ApplyNocFor == 'NOC For New Course') {
         this.ApplyNocParameterMasterList_TNOCExtension = null;
       }
       // Addition of New Seats(60)
@@ -166,7 +178,7 @@ export class ApplyNocParameterComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // TNOC Extension
-          if (this.request.ApplyNocFor == 'TNOC Extension') {
+          if (this.request.ApplyNocFor == 'NOC For New Course') {
             
             this.ApplyNocParameterMasterList_TNOCExtension = data['Data'];
           }
@@ -193,8 +205,11 @@ export class ApplyNocParameterComponent implements OnInit {
     }
     return HasData;
   }
-
+  public isSave: boolean = true;
   async SaveApplyNoc_click() {
+    this.isSave = false;
+
+
     try {
       let isValid = true;
       if (this.ApplyNocParameterForm.invalid) {
@@ -231,7 +246,7 @@ export class ApplyNocParameterComponent implements OnInit {
       if (this.ApplyNocParameterMasterList_TNOCExtension?.ApplyNocParameterCourseList != null) {
         let SelectedCourselist = this.ApplyNocParameterMasterList_TNOCExtension?.ApplyNocParameterCourseList?.filter((element: any) => { return element.IsChecked == true; });
         if (SelectedCourselist.length == 0) {
-          this.toastr.error("Choose any subject from 'TNOC Extension'");
+          this.toastr.error("Choose any subject from 'NOC For New Course'");
           return;
         }
       }
@@ -259,21 +274,24 @@ export class ApplyNocParameterComponent implements OnInit {
             setTimeout(() => {
               //move to list page
               this.routers.navigate(['/applynocapplicationdetail']);
-            }, 2000);
+            }, 1000);
           }
           else {
             this.toastr.error(this.ErrorMessage);
+            this.isSave = true;
           }
 
         }, error => console.error(error));
     }
     catch (ex) {
       console.log(ex);
+      this.isSave = true;
     }
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
         this.isSubmitted = false;
+        
       }, 200);
     }
   }

@@ -6,12 +6,17 @@
     <div class="row">
       <div class="col-md-12">
         <div class="table-responsive">
-          <table class="table table-hover table-striped-columns" id="tabellist" #content>
+          <table class="table table-hover table-striped-columns table-sm" id="tabellist" #content>
             <thead>
               <tr>
                 <th>SNo</th>
+                <th>College</th>
                 <th>Name</th>
                 <th>Father Name</th>
+                <th>Designation </th>
+                <th>Occupation </th>
+                <th>Action</th>
+                <!--<th>Management Committee Should have at least two educationists</th>
                 <th>Mobile No</th>
                 <th>Gender</th>
                 <th>Email</th>
@@ -23,14 +28,28 @@
                 <th>Profile Photo</th>
                 <th>Authorized Document</th>
                 <th>Is Primary</th>
-                <th>Is Authorize</th>
+                <th>Is Authorize</th>-->
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let row of SocietyAllList let idx=index;">
                 <td>{{idx+1}}</td>
+                <td>{{row.CollegeNameEn}}</td>
                 <td>{{row.PersonName}}</td>
                 <td>{{row.FatherName}}</td>
+                <td>{{row.DesignationName}}</td>
+                <td>{{row.OccupationName}}</td>
+
+                <td>
+                  <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewCollegeManagmentDetail(mymodal,row.SocietyID)"><i class="fa fa-eye"></i></button>
+                </td>
+              </tr>
+              <tr *ngIf="SocietyAllList.length<=0">
+                <td colspan="8" style="color:red">No Data Found.!</td>
+              </tr>
+
+
+              <!--<td>{{row.Educationists}}</td>
                 <td>{{row.MobileNo}}</td>
                 <td>{{row.Gender}}</td>
                 <td>{{row.Email}}</td>
@@ -41,38 +60,144 @@
                     <img src="{{row.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{row.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                  </td>
+                </td>
                 <td>
                   <a *ngIf="!row.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{row.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{row.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{row.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                  </td>
+                </td>
                 <td>
                   <a *ngIf="!row.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{row.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{row.SignatureDocPath}}" alt="Signature Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{row.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                  </td>
+                </td>
                 <td>
                   <a *ngIf="!row.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{row.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{row.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{row.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                  </td>
+                </td>
                 <td>
-                  <a *ngIf="!row.AuthorizedDocument.includes('.pdf') && row.IsAuthorized==true" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                  <a *ngIf="!row.AuthorizedDocument.includes('.pdf') && row.IsAuthorized==true && row.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{row.AuthorizedDocumentPath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AuthorizedDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                 </td>
-                <td>{{row.IsPrimary}}</td>
-                <td>{{row.IsAuthorized}}</td>
-              </tr>
+                  <label>{{row.AuthorizedDocumentPath}}</label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AuthorizedDocument.includes('.pdf') && row.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </td>
+                <td>{{row.IsPrimary == false ? 'No' : 'Yes'}}</td>
+                <td>{{row.IsAuthorized == false ? 'No' : 'Yes'}}</td>
+              </tr>-->
             </tbody>
           </table>
         </div>
       </div>
     </div>
+
+
+    <ng-template #mymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">College Management Society Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b> College:</b></label>
+            <input class="form-control disabled" disabled value="{{request.CollegeNameEn}}" />
+          </div>
+
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>Person Name</b></label>
+            <input class="form-control disabled" disabled value="{{request.PersonName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>Profile Photo</b></label>
+            <a *ngIf="!request.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{request.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            </a>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{request.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b> Designation: </b></label>
+            <input class="form-control disabled" disabled value="{{request.DesignationName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>Occupation:</b></label>
+            <input class="form-control disabled" disabled value="{{request.OccupationName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>Management Committee Should have at least two educationists : </b> </label>
+            <input class="form-control disabled" disabled value="{{request.Educationists}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b> Mobile No: </b></label>
+            <input class="form-control disabled" disabled value="{{request.MobileNo}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>  <b>Email: </b></label>
+            <input class="form-control disabled" disabled value="{{request.Email}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>Gender:</b> </label>
+            <input class="form-control disabled" disabled value="{{request.Gender}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>Father Name: </b> </label>
+            <input class="form-control disabled" disabled value="{{request.FatherName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b> Aadhaar Number : </b></label>
+            <input class="form-control disabled" disabled value="{{request.AadhaarNo}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>Aadhaar Card </b></label>
+            <a *ngIf="!request.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{request.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            </a>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{request.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>Signature Document</b></label>
+            <a *ngIf="!request.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{request.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.SignatureDocPath}}" alt="Signature Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            </a>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{request.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>PAN Number:</b></label>
+            <input class="form-control disabled" disabled value="{{request.PANNo}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>PAN Card </b></label>
+            <a *ngIf="!request.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{request.PANCardPath}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            </a>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{request.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>Authorized Document </b></label>
+            <a *ngIf="!request.AuthorizedDocument.includes('.pdf') && request.IsAuthorized==true && request.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{request.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.AuthorizedDocumentPath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            </a>
+            <label>{{request.AuthorizedDocumentPath}}</label>
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.AuthorizedDocument.includes('.pdf') && request.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{request.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>IsPrimary </b></label>
+            <input class="form-control disabled" disabled value="{{request.IsPrimary == false ? 'No' : 'Yes'}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label> <b>IsAuthorized </b></label>
+            <input class="form-control disabled" disabled value="{{request.IsAuthorized == false ? 'No' : 'Yes'}}" />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+
   </div>
 </div>
