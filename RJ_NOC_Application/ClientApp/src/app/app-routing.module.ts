@@ -131,11 +131,9 @@ const routes: Routes = [
     path: 'paymentfailed/:TransID', component: PaymentSuccessComponent
   },
   {
-    path: 'emitrapaymentsuccess', component: EmitraPaymentResponseComponent
+    path: 'paymentstatus/:TransID', component: EmitraPaymentResponseComponent
   },
-  {
-    path: 'emitrapaymentfail', component: EmitraPaymentResponseComponent
-  },
+
 
 
   {
@@ -434,8 +432,11 @@ const routes: Routes = [
         path: 'veterinaryhospital', component: VeterinaryHospitalComponent
       },
 
+      {
+        path: 'streamsubjectmapping', component: StreamSubjectMappingComponent
+      },
      
-
+      
 
 
 

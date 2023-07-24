@@ -6,7 +6,9 @@
       <i *ngIf="PaymentStatus != 'SUCCESS'" class="checkmarkFail" style="color:red">X</i>
     </div>
     <h1 [ngClass]="PaymentStatus == 'SUCCESS' ? 'divSuccess' : 'divFail'">{{PaymentStatus}}</h1>
-    <p>We received your purchase request;<br /> we'll be in touch shortly!</p>
+
+    <p *ngIf="PaymentStatus == 'SUCCESS'">Application Payment Has Been Successfully </p>
+    <p *ngIf="PaymentStatus != 'SUCCESS'">Application Payment {{PaymentStatus}}.!</p>
     <br />
     <table class="table table-bordered">
       <tbody>

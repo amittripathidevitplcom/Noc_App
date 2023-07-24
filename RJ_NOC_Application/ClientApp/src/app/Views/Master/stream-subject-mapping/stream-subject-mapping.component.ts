@@ -54,19 +54,17 @@ export class StreamSubjectMappingComponent implements OnInit {
 
   async ngOnInit()
   {
-    await this.GetDepartmentList();
-    await this.GetSubjectMappingList()
-
-    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-
     this.SubjectMasterForm = this.formBuilder.group(
       {
         ddlDepartmentID: ['', [DropdownValidators]],
         ddlCollegeLevelID: ['', [DropdownValidators]],
         ddlCourseID: ['', [DropdownValidators]],
         ddlStreamID: ['', [DropdownValidators]],
-
-      })
+      });
+    await this.GetDepartmentList();
+    await this.GetSubjectMappingList()
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+   
   }
   get form() { return this.SubjectMasterForm.controls; }
 
@@ -104,7 +102,6 @@ export class StreamSubjectMappingComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.CourseList = data['Data'];
-
 
         }, error => console.error(error));
 
@@ -290,14 +287,16 @@ export class StreamSubjectMappingComponent implements OnInit {
         {
 
           this.request.StreamMappingID = data['Data'][0]["StreamMappingID"];
+
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-           await  this.DepartmentChangecourse(this.request.DepartmentID);
+          await this.DepartmentChangecourse(this.request.DepartmentID);
+
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
           this.request.CourseID = data['Data'][0]["CourseID"];
+
           await this.ddlCourse_change(null, this.request.CourseID);
           this.request.StreamID = data['Data'][0]["StreamID"];
           this.request.SelectedSubjectDetails = data['Data'][0]["SelectedSubjectDetails"];
-
           this.isShowGrid = true;
 
 

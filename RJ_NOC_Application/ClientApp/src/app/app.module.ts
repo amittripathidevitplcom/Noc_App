@@ -321,7 +321,7 @@ import { StreamSubjectMappingComponent } from './Views/Master/stream-subject-map
     CommitteeCompletedReportComponent,
     CommitteeRejectedReportComponent,
     JointSecretaryPendingNOCReportComponent,
-    CommitteeForwardReportComponent
+    CommitteeForwardReportComponent,
     EmitraPaymentResponseComponent,
     StreamSubjectMappingComponent,
 
