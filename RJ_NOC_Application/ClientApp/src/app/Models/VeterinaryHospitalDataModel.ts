@@ -5,6 +5,10 @@ export class VeterinaryHospitalDataModel {
   public TehsilID: number = 0;
   public PanchayatSamitiID: number = 0;
   public CityTownVillage: string = '';
+  public DivisionName: string = '';
+  public DistrictName: string = '';
+  public TehsilName: string = '';
+  public PanchyatSamitiName: string = '';
   public HospitalName: string = '';
   public DistanceFromInstitute: number = null;
   public AuthorizedPerson: string = '';
@@ -19,8 +23,22 @@ export class VeterinaryHospitalDataModel {
   public Remark: string = '';
   public FileUpload: string = '';
   public Dis_FileUpload: string = '';
-  public FileUploadPath: string = '';
-  
+  public FileUploadPath: string = '';  
+  public ActiveStatus: boolean = true;
+  public DeleteStatus: boolean = false;
+  public UserID: number = 0;
+  public CollegeID: number = 0;
+  public DepartmentID: number = 0;
+  public SSOID: string = '';
+  public AnimalDetails: AnimalDataModel[] = [];
 }
 
+export class AnimalDataModel {
+  public AnimalDetailsID: number = 0;
+  public AnimalMasterID: number = 0;
+  public AnimalName: string = '';
+  public AnimalCount: number = null;  
+  public ActiveStatus: boolean = true;
+  public DeleteStatus: boolean = false;
+}
 
