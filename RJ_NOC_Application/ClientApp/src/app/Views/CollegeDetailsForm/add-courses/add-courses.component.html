@@ -27,21 +27,21 @@
           <div class="card-body">
             <div class="row">
               <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-          <label for="ddlDepartment" class="form-label">Department <span style="color:red">*</span></label>
-          <select formControlName="ddlDepartment" id="ddlDepartment" [(ngModel)]="request.DepartmentID" class="form-control"
-                  #SeletedDepartmentID (change)="ddlDepartment_change($event, SeletedDepartmentID.value)">
-            <option value="0">--Select--</option>
-            <option [value]="item.DepartmentID" *ngFor="let item of departmentMasterData">
-              {{item.DepartmentName}}
-            </option>
-          </select>
-          <div *ngIf="isSubmitted&&form.ddlDepartment.errors" class="text-danger">
-            <p *ngIf="!form.ddlDepartment.errors.DropdownValidators">This field is required .!</p>
-          </div>
-        </div>-->
+    <label for="ddlDepartment" class="form-label">Department <span style="color:red">*</span></label>
+    <select formControlName="ddlDepartment" id="ddlDepartment" [(ngModel)]="request.DepartmentID" class="form-control"
+            #SeletedDepartmentID (change)="ddlDepartment_change($event, SeletedDepartmentID.value)">
+      <option value="0">--Select--</option>
+      <option [value]="item.DepartmentID" *ngFor="let item of departmentMasterData">
+        {{item.DepartmentName}}
+      </option>
+    </select>
+    <div *ngIf="isSubmitted&&form.ddlDepartment.errors" class="text-danger">
+      <p *ngIf="!form.ddlDepartment.errors.DropdownValidators">This field is required .!</p>
+    </div>
+  </div>-->
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="txtCollege" class="form-label">College <span style="color:red">*</span></label>
-                <select formControlName="ddlCollege" id="ddlCollege" [(ngModel)]="request.CollegeID" class="form-control"
+                <select formControlName="ddlCollege" id="ddlCollege" [(ngModel)]="request.CollegeID" class="form-select"
                         #SeletedCollegeID (change)="ddlCollege_change(SeletedCollegeID.value)">
                   <option value="0">--Select--</option>
                   <option [value]="item.CollegeID" *ngFor="let item of collegeDataList">
@@ -52,9 +52,21 @@
                   <p *ngIf="!form.ddlCollege.errors.DropdownValidators">This field is required .!</p>
                 </div>
               </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCourseLevelID" name="ddlCourseLevelID" [(ngModel)]="request.CourseLevelID"  formControlName="ddlCourseLevelID" #SeletedCourseLevelID (change)="ddlCourseLevel_change(SeletedCourseLevelID.value)">
+                  <option value="0" disabled>--Select Course Level--</option>
+                  <option *ngFor="let item of CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCourseLevelID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCourseLevelID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
-                <select formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-control"
+                <select formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-select"
                         #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
                   <option value="0">--Select--</option>
                   <option [value]="item.CourseID" *ngFor="let item of courseDataList">
@@ -65,6 +77,19 @@
                   <p *ngIf="!form.ddlCourse.errors.DropdownValidators">This field is required .!</p>
                 </div>
               </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="isShowStreambox">
+               
+                <label for="ddlStreamID" class="form-label">Select Stream <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID" #SeletedStreamID (change)="ddlStream_change(SeletedStreamID.value)">
+                  <option value="0" selected>--Select Stream--</option>
+                  <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="ddlSubject" class="form-label">Subject <span style="color:red">*</span></label>
                 <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
@@ -143,6 +168,7 @@
                     <th>Department</th>
                     <th>College Name</th>
                     <th>Course</th>
+                    <th>Stream</th>
                     <th>Subject</th>
                     <th>Course Type</th>
                     <th>Seat</th>
@@ -155,6 +181,7 @@
                     <td>{{row.DepartmentName}}</td>
                     <td>{{row.CollageName}}</td>
                     <td>{{row.CourseName}}</td>
+                    <td>{{row.StreamName}}</td>
                     <td>{{row.SubjectDetails}}</td>
 
                     <td>{{row.Dis_CourseType}}</td>

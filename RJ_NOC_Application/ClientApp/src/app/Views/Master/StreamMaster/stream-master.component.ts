@@ -132,7 +132,7 @@ export class StreamMasterComponent implements OnInit {
         return;
       }
       // Deparment level
-      await this.commonMasterService.GetCourseList_ByCourseLevelIDWise(courseLevelId)
+      await this.commonMasterService.GetCourseList_ByCourseLevelIDWise(courseLevelId, this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -179,6 +179,8 @@ export class StreamMasterComponent implements OnInit {
     if (this.StreamMasterForm.invalid) {
       return
     }
+
+
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {

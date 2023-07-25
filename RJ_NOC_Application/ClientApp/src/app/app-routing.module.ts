@@ -435,6 +435,9 @@ const routes: Routes = [
       {
         path: 'streamsubjectmapping', component: StreamSubjectMappingComponent
       },
+      {
+        path: 'streammaster', component: StreamMasterComponent
+      },
      
       
 

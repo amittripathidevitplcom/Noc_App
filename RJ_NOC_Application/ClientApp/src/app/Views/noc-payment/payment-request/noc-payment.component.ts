@@ -126,23 +126,12 @@ export class NocPaymentComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(data);
-          //console.log(data.Data.MERCHANTCODE);
-          //console.log(this.State);
-
-          //Model.ENCDATA = response.Body.EmitraEncryptStringResult;
-          //Model.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
-          //Model.PaymentRequestURL = EmitraServiceDetail.ServiceURL;
-          //Model.ServiceID = EmitraServiceDetail.SERVICEID;
-
-     
-
           if (!this.State)
           {
-            this.RedirectEmitraPaymentRequest(data.MERCHANTCODE, data.ENCDATA, data.PaymentRequestURL)
-
+            this.RedirectEmitraPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
           }
-          else {
+          else
+          {
             this.toastr.error(this.ErrorMessage)
           }
         })

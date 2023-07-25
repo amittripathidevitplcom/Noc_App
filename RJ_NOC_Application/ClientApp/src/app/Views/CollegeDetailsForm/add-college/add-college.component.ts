@@ -426,6 +426,7 @@ export class AddCollegeComponent implements OnInit {
 
   async ddlCollegeStatus_TextChange(event: any, SelectedCollegeStatusID: string) {
     debugger;
+
     const selectedCollegeStatusID = Number(SelectedCollegeStatusID);
     let SelectdCollegeStatusName = this.CollegeStatusList.find((x: { ID: number; }) => x.ID == selectedCollegeStatusID).Name;
 
@@ -446,6 +447,7 @@ export class AddCollegeComponent implements OnInit {
       //this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
       this.CollegeLevelList_FilterData = this.CollegeLevelList;
     }
+
   }
 
   async FillDepartmentRelatedDDL(event: any, SeletedDepartmentID: string) {
