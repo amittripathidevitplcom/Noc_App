@@ -9,7 +9,7 @@ import { GlobalConstants } from '../../Common/GlobalConstants';
 })
 export class LoginService {
 
-  readonly APIUrl = GlobalConstants.apiURL + "UserMaster";
+  readonly APIUrl = GlobalConstants.apiURL + "LoginMaster";
   constructor(private http: HttpClient) { }
 
   extractData(res: Response) {

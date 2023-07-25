@@ -25,6 +25,7 @@
             <table class="table table-hover table-striped-columns">
               <thead>
                 <tr>
+                  <th>Action</th>
                   <th>Sr. No.</th>
                   <th>Society Name</th>
                   <th>College Registration No.</th>
@@ -40,11 +41,19 @@
                   <th>Full Address</th>
                   <th>Creation Date</th>
                   <th>Geo Tagging</th>
-                  <th>Action</th>
+
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let row of draftApplicatoinListData ;let idx=index;">
+                  <td style="width:300px">
+                    <div class="d-flex">
+                      <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="DraftEdit_OnClick(row.CollegeID)"><i class="fa fa-edit"></i></a>
+                      <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
+                      <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
+                      <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)"><i class="fa fa-eye"></i></a>
+                    </div>
+                  </td>
                   <td>{{idx+1}}</td>
                   <td>{{row.SocietyName}}</td>
                   <td>{{row.CollegeRegistrationNo}}</td>
@@ -60,14 +69,6 @@
                   <td>{{row.FullAddress}}</td>
                   <td>{{row.CreateDate}}</td>
                   <td>{{row.GeoTagging}}</td>
-                  <td style="width:300px">
-                    <div class="d-flex">
-                      <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="DraftEdit_OnClick(row.CollegeID)"><i class="fa fa-edit"></i></a>
-                      <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
-                      <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
-                      <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)"><i class="fa fa-eye"></i></a>
-                    </div>
-                  </td>
                 </tr>
               </tbody>
             </table>

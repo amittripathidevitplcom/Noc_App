@@ -71,4 +71,10 @@ export class EmitraRequestDetails {
   public MERCHANTCODE: string = ''
   public IsKiosk: boolean = false;
 
+
+
+
+
+
+
 }

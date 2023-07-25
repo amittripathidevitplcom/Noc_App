@@ -115,13 +115,7 @@ export class NocPaymentComponent implements OnInit {
     //this.request.USERMOBILE = "7737348604";
     //this.request.PURPOSE = "Test";
     //this.request.ApplyNocApplicationID = 1;
-    this.emitraRequest.Amount = 10;
-    this.emitraRequest.AppRequestID = "1";
-    this.emitraRequest.ServiceID = "8184"
-    this.emitraRequest.UserName = "Rav Raj";
-    this.emitraRequest.MobileNo = "7737348604";
-    this.emitraRequest.SsoID = "geeta.saini87";
-    this.emitraRequest.ApplicationIdEnc = "1";
+   
 
     //debugger
     this.loaderService.requestStarted();
@@ -132,23 +126,12 @@ export class NocPaymentComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(data);
-          //console.log(data.Data.MERCHANTCODE);
-          //console.log(this.State);
-
-          //Model.ENCDATA = response.Body.EmitraEncryptStringResult;
-          //Model.MERCHANTCODE = EmitraServiceDetail.MERCHANTCODE;
-          //Model.PaymentRequestURL = EmitraServiceDetail.ServiceURL;
-          //Model.ServiceID = EmitraServiceDetail.SERVICEID;
-
-     
-
           if (!this.State)
           {
-            this.RedirectEmitraPaymentRequest(data.MERCHANTCODE, data.ENCDATA, data.PaymentRequestURL)
-
+            this.RedirectEmitraPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
           }
-          else {
+          else
+          {
             this.toastr.error(this.ErrorMessage)
           }
         })
@@ -167,7 +150,7 @@ export class NocPaymentComponent implements OnInit {
   {
 
     var form = document.createElement("form");
-    form.setAttribute("method", "POST");
+    form.setAttribute("method", "post");
     form.setAttribute("action",pServiceURL);
 
     var hiddenField = document.createElement("input");
@@ -187,6 +170,8 @@ export class NocPaymentComponent implements OnInit {
     MERCHANTCODE.setAttribute("name", "MERCHANTCODE");
     MERCHANTCODE.setAttribute("value", pMERCHANTCODE);
     form.appendChild(MERCHANTCODE);
+
+
     document.body.appendChild(form);
     form.submit();
 

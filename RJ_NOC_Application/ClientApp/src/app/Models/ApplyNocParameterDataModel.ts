@@ -81,6 +81,18 @@ export class ApplyNocApplicationDataModel {
   public CollegeName: string = '';
   public CollegeMobileNo: string = '';
   public CollegeEmail: string = '';
+  public SocietyName: string = '';
+  public DepartmentName: string = '';
+  public CollegeStatus: string = '';
+  public CollegeType: string = '';
+  public CollegeMedium: string = '';
+  public UniversityName: string = '';
+  public CollegeMobileNumber: string = '';
+  public CollegeLandlineNumber: string = '';
+  public FullAddress: string = '';
+  public CreateDate: string = '';
+  public GeoTagging: string = '';
+  public CollegeRegistrationNo: string = '';
   public ApplicationTypeID: number = null;
   public ApplicationTypeName: string = '';
   public TotalFeeAmount: number = 0;
@@ -88,6 +100,8 @@ export class ApplyNocApplicationDataModel {
   public IsFinalSubmit: boolean = false;
   public IsSaveFDR: boolean = false;
   public IsMakePayment: boolean = false;
+  public ApplicationFeeAmount: number = 0;
+  public ServiceId: number = 0;
   public ApplyNocApplicationParameterList: ApplyNocApplicationParameterDataModel[] = [];
 }
 export class ApplyNocApplicationParameterDataModel {

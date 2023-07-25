@@ -48,7 +48,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlCourseID" class="form-label">Select Course <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID">
+                <select class="form-select" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID" #SeletedCourseID (change)="ddlSubject_change($event,SeletedCourseID.value)">
                   <option value="0" disabled>--Select Course--</option>
                   <option *ngFor="let item of CourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
                 </select>
@@ -72,6 +72,26 @@
                 </div>
               </div>
             </div>
+            <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Select</th>
+                  <th>Subject Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of request.SubjectDetails let idx=index">
+                  <td>{{idx+1}}</td>
+                  <td>
+                    <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
+                           id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
+                           [(ngModel)]="row.IsChecked">
+                  </td>
+                  <td>{{row.SubjectName}}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div class="card-footer text-end">
             <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
@@ -104,6 +124,7 @@
                   <th>Course Level Name</th>
                   <th>Course Name</th>
                   <th>Stream Name</th>
+                  <th>Subject Name</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
@@ -115,6 +136,7 @@
                   <td>{{row.CourseLevelName}}</td>
                   <td>{{row.CourseName}}</td>
                   <td>{{row.StreamName}}</td>
+                  <td>{{row.SubjectDetails}}</td>
                   <td>{{row.ActiveDeactive}}</td>
                   <td>
                     <div class="d-flex">

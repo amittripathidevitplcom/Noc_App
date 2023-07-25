@@ -108,6 +108,8 @@ import { CommitteeRejectedReportComponent } from './Views/Reports/Medical/commit
 import { JointSecretaryPendingNOCReportComponent } from './Views/Reports/Medical/joint-secretary-pending-nocreport/joint-secretary-pending-nocreport.component';
 import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committee-forward-report/committee-forward-report.component';
 
+import { StreamSubjectMappingComponent } from './Views/Master/stream-subject-mapping/stream-subject-mapping.component'
+
 
 const routes: Routes = [
   {
@@ -129,11 +131,9 @@ const routes: Routes = [
     path: 'paymentfailed/:TransID', component: PaymentSuccessComponent
   },
   {
-    path: 'emitrapaymentsuccess', component: EmitraPaymentResponseComponent
+    path: 'paymentstatus/:TransID', component: EmitraPaymentResponseComponent
   },
-  {
-    path: 'emitrapaymentfail', component: EmitraPaymentResponseComponent
-  },
+
 
 
   {
@@ -429,37 +429,19 @@ const routes: Routes = [
         path: 'animalmaster', component: AnimalMasterComponent
       },
       {
-        path: 'veterinaryhospital', component: VeterinaryHospitalComponent
+        path: 'veterinaryhospital/:DepartmentID/:CollegeID', component: VeterinaryHospitalComponent
       },
-
       {
         path: 'streammaster', component: StreamMasterComponent
       },
       {
-        path: 'jointsecretarycompletedreport', component: JointSecretaryCompletedReportComponent
+        path: 'streamsubjectmapping', component: StreamSubjectMappingComponent
       },
       {
-        path: 'jointsecretaryrejectedreport', component: JointSecretaryRejectedReportComponent
+        path: 'streammaster', component: StreamMasterComponent
       },
-      {
-        path: 'secretarycompletedreport', component: SecretaryCompletedReportComponent
-      },
-      {
-        path: 'secretaryrejectedreport', component: SecretaryRejectedReportComponent
-      },
-      {
-        path: 'committeecompletedreport', component: CommitteeCompletedReportComponent
-      },
-      {
-        path: 'committeerejectedreport', component: CommitteeRejectedReportComponent
-      },
-      {
-        path: 'jointsecretarypendingnocreport', component: JointSecretaryPendingNOCReportComponent
-      },
-      {
-        path: 'committeeforwardreport/:Committee', component: CommitteeForwardReportComponent
-      },
-
+     
+      
 
 
 

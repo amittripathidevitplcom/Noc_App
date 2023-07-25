@@ -9,6 +9,8 @@ export class CourseMasterDataModel {
   public UserID: number = 0;
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
+  public CourseLevelID: number = 0;
+  public StreamID: number = 0;
 }
 
 export class CourseMasterDataModel_SubjectDetails {

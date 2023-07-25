@@ -71,4 +71,17 @@ export class NocpaymentService
       ).toPromise();
   }
 
+
+  public async GetEmitraTransactionDetails(PRnNO: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetEmitraTransactionDetails/" + PRnNO)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }
