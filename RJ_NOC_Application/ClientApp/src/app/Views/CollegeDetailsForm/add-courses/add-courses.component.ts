@@ -269,7 +269,8 @@ export class AddCoursesComponent implements OnInit {
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation)
     {
       var CourseName = this.CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.CourseLevelID).Name;
-      if (CourseName == 'UG')
+      var CourseType = this.courseTypeDataList.find((x: { ID: number; }) => x.ID == this.request.CourseTypeID).Name;
+      if (CourseName == 'UG' && CourseType=='New')
       {
         if (this.request.SelectedSubjectDetails.length < 3)
         {
