@@ -102,6 +102,7 @@ export class StreamMasterComponent implements OnInit {
   async FillCourselevel(event: any, SeletedDepartmentID: string) {
     this.request.CourseLevelID = 0;
     this.request.CourseID = 0;
+    this.request.SubjectDetails = [];
     try {
       this.loaderService.requestStarted();
       const departmentId = Number(SeletedDepartmentID);
@@ -137,7 +138,7 @@ export class StreamMasterComponent implements OnInit {
         return;
       }
       // Deparment level
-      await this.commonMasterService.GetCourseList_ByCourseLevelIDWise(courseLevelId)
+      await this.commonMasterService.GetCourseList_ByCourseLevelIDWise(courseLevelId, this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -156,20 +157,21 @@ export class StreamMasterComponent implements OnInit {
     }
   }
 
-  async ddlStream_change($event: any, SeletedStreamID: any) {
+  async ddlSubject_change($event: any, SeletedCourseID: any) {
     try {
-      //this.request.StreamID = SeletedStreamID;
       this.loaderService.requestStarted();
-
-      await this.commonMasterService.GetSubjectList_CourseIDWise(this.request.CourseID)
+      const courseId = Number(SeletedCourseID);
+      if (courseId <= 0) {
+        return;
+      }
+     
+      await this.commonMasterService.GetSubjectList_CourseIDWise(courseId)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.request.SelectedSubjectDetails = data['Data'];
+          this.request.SubjectDetails = data['Data'];
 
           this.isShowGrid = true;
 
-          //  this.request.SelectedSubjectDetails = data['Data'];
-          //console.log(this.request.SelectedSubjectDetails);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -210,6 +212,17 @@ export class StreamMasterComponent implements OnInit {
     if (this.StreamMasterForm.invalid) {
       return
     }
+    console.log(this.request.SubjectDetails);
+    let isSelected: any = this.request.SubjectDetails.filter((item) => item.IsChecked === true);
+    if (isSelected != null && isSelected.length > 0) {
+      //At least one is selected
+    } else {
+      this.toastr.error("select at least one subject")
+      return;
+    }
+
+    this.request.UserID = this.sSOLoginDataModel.UserID;
+    this.request.UserID = this.sSOLoginDataModel.UserID;
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
@@ -250,6 +263,7 @@ export class StreamMasterComponent implements OnInit {
     this.request.UserID = 0;
     this.request.ActiveStatus = true;
     this.isDisabledGrid = false;
+    this.request.SubjectDetails = [];
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";
     const btnReset = document.getElementById('')
@@ -271,6 +285,8 @@ export class StreamMasterComponent implements OnInit {
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.StreamName = data['Data'][0]["StreamName"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
+          this.request.SubjectDetails = data['Data'][0]["SubjectDetails"];
+          this.isShowGrid = true;
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";

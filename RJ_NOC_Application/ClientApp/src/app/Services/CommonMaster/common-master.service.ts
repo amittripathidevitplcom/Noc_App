@@ -886,14 +886,14 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetCourseList_ByCourseLevelIDWise(CourseLevelID: number) {
+  public async GetCourseList_ByCourseLevelIDWise(CourseLevelID: number, DepartmentID:number) {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseList_ByCourseLevelIDWise/" + CourseLevelID )
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseList_ByCourseLevelIDWise/" + CourseLevelID + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

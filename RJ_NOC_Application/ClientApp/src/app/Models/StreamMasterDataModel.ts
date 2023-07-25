@@ -12,10 +12,10 @@ export class StreamMasterDataModel {
   public ActiveDeactive: string = '';
   public DeleteStatus: boolean = false;
 
-  public SelectedSubjectDetails: CourseMasterDataModel_SubjectDetails[] = [];
+  public SubjectDetails: CourseSubjectMappingListData_SubjectDetails[] = [];
 
 }
-export class CourseMasterDataModel_SubjectDetails {
+export class CourseSubjectMappingListData_SubjectDetails {
   public SubjectID: number = 0;
   public SubjectName: string = '';
   public IsChecked: boolean = false;
