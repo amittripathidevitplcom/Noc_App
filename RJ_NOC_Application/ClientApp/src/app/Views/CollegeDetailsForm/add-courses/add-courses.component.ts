@@ -134,9 +134,8 @@ export class AddCoursesComponent implements OnInit {
       }, 200);
     }
   }
-  async ddlCollege_change(SeletedCollegeID: any) {
-
-    this.ResetControl();
+  async ddlCollege_change(SeletedCollegeID: any)
+  {
     this.request.CollegeID = SeletedCollegeID;
       await this.commonMasterService.GetCollegeBasicDetails(SeletedCollegeID)
         .then(async (data: any) => {
@@ -352,11 +351,10 @@ export class AddCoursesComponent implements OnInit {
 
           data = JSON.parse(JSON.stringify(data));
           console.log(data);
-
-          this.request.CollegeWiseCourseID = data['Data'][0]["CollegeWiseCourseID"];
+          
+          this.request.CollegeWiseCourseID = CollegeWiseCourseID; //data['Data'][0]["CollegeWiseCourseID"];
+     
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-
-       
     
           this.request.CollegeID = data['Data'][0]["CollegeID"];
           await this.ddlCollege_change(this.request.CollegeID);
@@ -371,27 +369,19 @@ export class AddCoursesComponent implements OnInit {
             console.log(this.request.CourseID);
             await this.ddlCourse_change(null, this.request.CourseID);
 
-
-            if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
+            if (this.request.DepartmentID == EnumDepartment.CollegeEducation)
+            {
               this.request.StreamID = data['Data'][0]["StreamID"];
-             await this.ddlStream_change(this.request.StreamID);
+              await this.ddlStream_change(this.request.StreamID);
             }
-
             console.log(data['Data'][0]["SelectedSubjectDetails"]);
             this.request.SelectedSubjectDetails = data['Data'][0]["SelectedSubjectDetails"];
-          }, 150); 
+          }, 300); 
 
           this.request.CourseTypeID = data['Data'][0]["CourseTypeID"];
           setTimeout(() => {
             this.request.Seats = data['Data'][0]["Seats"];
           }, 500);
-
-          setTimeout(() =>
-          {
-            //this.request.StreamID = data['Data'][0]["StreamID"];
-
-          }, 500);
-
 
 
           this.request.UserID = data['Data'][0]["UserID"];
@@ -627,7 +617,8 @@ export class AddCoursesComponent implements OnInit {
   async ddlCourseLevel_change(CourseLevelID: any)
   {
     this.request.CourseLevelID = CourseLevelID;
-  
+    this.request.SelectedSubjectDetails = [];
+    this.request.StreamID = 0;
 
     await this.commonMasterService.GetCourseList_DepartmentIDWise(this.request.DepartmentID)
       .then((data: any) => {
