@@ -39,5 +39,6 @@ export class SSOLoginDataModel {
 export class SSOLandingDataDataModel {
   public Username: string = '';
   public LoginType: string = '';
+  public Password: string = '';
 }
 
