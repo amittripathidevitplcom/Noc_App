@@ -27,7 +27,7 @@
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlDepartmentID" class="form-label">Select Department Name <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedValueDepartment (change)="DepartmentChangecourse(SeletedValueDepartment.value)">
+                <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedValueDepartment (change)="CourseLevel(SeletedValueDepartment.value)">
                   <option value="0" selected>--Select Department--</option>
                   <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
                 </select>
@@ -38,7 +38,7 @@
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlCollegeLevelID" class="form-label">College Level <span style="color:red;">*</span></label>
 
-                <select class="form-select" id="ddlCollegeLevelID" name="ddlCollegeLevelID" #SelectedCourseLevelID [(ngModel)]="request.CourseLevelID" formControlName="ddlCollegeLevelID" (change)="ddlCollege_change($event, SelectedCourseLevelID.value)">
+                <select class="form-select" id="ddlCollegeLevelID" name="ddlCollegeLevelID" #SelectedCourseLevelID [(ngModel)]="request.CourseLevelID" formControlName="ddlCollegeLevelID" (change)="FillCourses(SelectedCourseLevelID.value)">
                   <option value="0">--Select--</option>
                   <option *ngFor="let item of CollegeLevelList" value="{{item.ID}}">{{item.Name}}</option>
                 </select>
@@ -48,7 +48,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlCourseID" class="form-label">Select Course Name <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID" #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
+                <select class="form-select" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID" #SeletedCourseID (change)="ddlCourse_change(SeletedCourseID.value)">
                   <option value="0" selected>--Select Course--</option>
                   <option *ngFor="let item of CourseList" value="{{item.CourseID}}">{{item.CourseName}}</option>
                 </select>
@@ -57,9 +57,11 @@
                 </div>
               </div>
 
+              
+
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlStreamID" class="form-label">Select Stream <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID" #SeletedStreamID (change)="ddlStream_change($event, SeletedStreamID.value)">
+                <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID" #SeletedStreamID (change)="ddlStream_change(SeletedStreamID.value)">
                   <option value="0" selected>--Select Stream--</option>
                   <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
                 </select>
@@ -67,7 +69,6 @@
                   <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-
             </div>
 
             <table  *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
@@ -105,9 +106,9 @@
           <b><i class="bi bi-table"></i>&nbsp;Subject Stream Mapping List </b>
           <div class="d-flex align-items-center">
             <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-              <!--<button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
               <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
-              <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>-->
+              <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
             </div>
             <div class="d-flex align-items-center table-filter mr-15">
               <i class="fa fa-search"></i>

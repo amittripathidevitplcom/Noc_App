@@ -123,3 +123,50 @@ export class ApplyNocApplicationDetailDataModel {
 }
 
 
+//DCE
+
+export class ApplyNocParameterMasterList_ChangeInNameOfCollege {
+  public ApplyNocID: number = 0;
+  public FeeAmount: number = 0;
+  public NewNameEnglish: string = '';
+  public NewNameHindi: string = '';
+  public Dis_DocumentName: string = '';
+  public DocumentName: string = '';
+  public DocumentPath: string = '';
+}
+
+export class ApplyNocParameterMasterList_ChangeInPlaceOfCollege {
+  public ApplyNocID: number = 0;
+  public FeeAmount: number = 0;
+  public PlaceName: string = '';
+  public Dis_DocumentName: string = '';
+  public DocumentName: string = '';
+  public DocumentPath: string = '';
+  public Dis_PlaceDocumentName: string = '';
+  public PlaceDocumentName: string = '';
+  public PlaceDocumentPath: string = '';
+}
+
+export class ApplyNocParameterMasterList_ChangeInGirlstoCoed {
+  public ApplyNocID: number = 0;
+  public FeeAmount: number = 0;
+  public Dis_ConsentManagementDocument: string = '';
+  public ConsentManagementDocument: string = '';
+  public ConsentManagementDocumentPath: string = '';
+  public Dis_ConsentStudentDocument: string = '';
+  public ConsentStudentDocument: string = '';
+  public ConsentStudentDocumentPath: string = '';
+}
+export class ApplyNocParameterMasterList_ChangeInCollegeManagement {
+  public ApplyNocID: number = 0;
+  public NewSocietyName: string = '';
+  public FeeAmount: number = 0;
+  public Dis_DocumentName: string = '';
+  public DocumentName: string = '';
+  public DocumentPath: string = '';
+  public Dis_AnnexureDocument: string = '';
+  public AnnexureDocument: string = '';
+  public AnnexureDocumentPath: string = '';
+}
+
+

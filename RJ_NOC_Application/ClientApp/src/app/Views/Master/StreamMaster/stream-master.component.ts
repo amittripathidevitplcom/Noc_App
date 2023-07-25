@@ -223,6 +223,8 @@ export class StreamMasterComponent implements OnInit {
       return;
     }
     this.request.UserID = this.sSOLoginDataModel.UserID;
+
+
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {

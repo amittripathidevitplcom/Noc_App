@@ -899,4 +899,17 @@ export class CommonMasterService {
       ).toPromise();
   }
 
+  public async GetSubjectList_StreamIDWise(StreamID: number)
+  {
+    const httpOptions =
+    {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetSubjectList_StreamIDWise/" + StreamID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
