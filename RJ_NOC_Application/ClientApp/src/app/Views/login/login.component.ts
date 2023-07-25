@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { LoginService } from '../../Services/Login/login.service';
 import { CommonMasterService } from '../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../Services/Loader/loader.service';
+import { SSOLandingDataDataModel, SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
+import { SSOLoginService } from '../../Services/SSOLogin/ssologin.service';
 
 
 @Injectable()
@@ -35,9 +37,11 @@ export class LoginComponent implements OnInit {
 
   UserName: string = '';
   Password: string = '';
+  sSOLandingDataDataModel = new SSOLandingDataDataModel();
+  sSOLoginDataModel = new SSOLoginDataModel();
 
 
-  constructor(private loginService: LoginService, private toastr: ToastrService, private loaderService: LoaderService,
+  constructor(private loginService: LoginService, private toastr: ToastrService, private loaderService: LoaderService, private sSOLoginService: SSOLoginService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
 
   }
@@ -55,44 +59,78 @@ export class LoginComponent implements OnInit {
   get form() { return this.LoginForm.controls; }
 
   async Login() {
-
+    let count = 0;
     this.isSubmitted = true;
     if (this.LoginForm.invalid) {
       return
     }
     try {
       this.loaderService.requestStarted();
-      await this.loginService.Login(this.UserName, this.Password)
+      this.sSOLandingDataDataModel.Username = this.UserName;
+      this.sSOLandingDataDataModel.Password = this.Password;
+      this.sSOLandingDataDataModel.LoginType = "0";
+      
+      await this.sSOLoginService.GetSSOUserLogionDetails(this.sSOLandingDataDataModel)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
+          debugger;
           if (this.State == 0) {
-            console.log(data['Data']);
-            sessionStorage.setItem('UserName', data['Data'][0]["UserName"]);
-            sessionStorage.setItem('LoginID', data['Data'][0]["LoginID"]);
-            //sessionStorage.setItem('UserName', data['Data'][0]["UserName"]);
-            this.routers.navigate(['/ssologin/' + this.UserName]);
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-            setTimeout(() => {
-              this.isLoading = false;
-            }, 200);
+            this.sSOLoginDataModel = data['Data'];
           }
           else {
-            this.toastr.error(this.ErrorMessage)
-            setTimeout(() => {
-              this.isLoading = false;
-            }, 200);
+            this.toastr.error(this.SuccessMessage)
+            count = count + 1;
+            return;
           }
-        }, error => {
-          this.toastr.warning("Unable to connect to server .!");
-          setTimeout(() => {
-            this.isLoading = false;
-          }, 200);
-        })
+        }, error => console.error(error));
+      if (count != 0) {
+        return;
+      }
+      await this.commonMasterService.Check_SSOIDWise_LegalEntity(this.sSOLoginDataModel.SSOID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          console.log(data);
+          if (data['Data'][0]['data'].length > 0) {
+            debugger;
+            this.sSOLoginDataModel.SSOID = data['Data'][0]['data'][0]['SSOID'];
+            this.sSOLoginDataModel.RoleID = data['Data'][0]['data'][0]['RoleID'];
+            this.sSOLoginDataModel.RoleName = data['Data'][0]['data'][0]['RoleName'];
+            this.sSOLoginDataModel.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+            this.sSOLoginDataModel.UserID = data['Data'][0]['data'][0]['UserID'];
+          }
+        }, error => console.error(error));
+      console.log(this.sSOLoginDataModel.RoleID);
+      if (this.sSOLoginDataModel.RoleID == 0) {
+        this.sSOLoginDataModel.RoleID = 0;
+      }
+
+      localStorage.setItem('SSOLoginUser', JSON.stringify(this.sSOLoginDataModel))
+
+      try {
+        this.loaderService.requestStarted();
+        this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+
+        if (this.sSOLoginDataModel.RoleName.length > 0) {
+          this.routers.navigate(['/dashboard']);
+        }
+        else {
+          this.routers.navigate(['/legalentity']);
+        }
+      }
+      catch (Ex) {
+        console.log(Ex);
+        this.routers.navigate(['/legalentity']);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+
+
     }
     catch (Ex) {
       console.log(Ex);

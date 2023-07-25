@@ -85,7 +85,7 @@ export class StreamMasterComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.DepartmentList = data['Data'];
-          this.request.CourseLevelID = 0;
+          //this.request.CourseLevelID = 0;
 
         }, error => console.error(error));
     }
@@ -129,6 +129,7 @@ export class StreamMasterComponent implements OnInit {
     }
   }
 
+
   async FillCourses(event: any, SeletedCourseLevelID: string) {
     this.request.CourseID = 0;
     try {
@@ -155,6 +156,7 @@ export class StreamMasterComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+    SeletedCourseLevelID = '';
   }
 
   async ddlSubject_change($event: any, SeletedCourseID: any) {
@@ -182,7 +184,7 @@ export class StreamMasterComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-
+    SeletedCourseID = '';
   }
 
 
@@ -220,8 +222,6 @@ export class StreamMasterComponent implements OnInit {
       this.toastr.error("select at least one subject")
       return;
     }
-
-    this.request.UserID = this.sSOLoginDataModel.UserID;
     this.request.UserID = this.sSOLoginDataModel.UserID;
 
 
@@ -233,6 +233,7 @@ export class StreamMasterComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
+          this.ResetControl();
           console.log(this.State);
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
@@ -254,14 +255,20 @@ export class StreamMasterComponent implements OnInit {
     }
   }
   async ResetControl() {
+    debugger;
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
     this.request.StreamMasterID = 0;
+    this.GetDepartmentList();
+    this.CourseDataList = [];
+    this.CourseLevelList = [];
     this.request.DepartmentID = 0;
     this.request.CourseLevelID = 0;
     this.request.CourseID = 0;
     this.request.StreamName = '';
+    this.DepartmentList = [];
+    this.CourseDataList = [];
     this.request.UserID = 0;
     this.request.ActiveStatus = true;
     this.isDisabledGrid = false;
@@ -281,9 +288,9 @@ export class StreamMasterComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.request.StreamMasterID = data['Data'][0]["StreamMasterID"];
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-          this.FillCourselevel('', (this.request.DepartmentID).toString())
+          this.FillCourselevel('', (this.request.DepartmentID).toString());
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
-          this.FillCourses('', (this.request.CourseLevelID).toString())
+          this.FillCourses('', (this.request.CourseLevelID).toString());
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.StreamName = data['Data'][0]["StreamName"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
@@ -348,7 +355,7 @@ export class StreamMasterComponent implements OnInit {
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
         ws['!cols'] = [];
-        ws['!cols'][6] = { hidden: true };
+        ws['!cols'][7] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "StreamMaster.xlsx");
@@ -388,12 +395,13 @@ export class StreamMasterComponent implements OnInit {
             "CourseLevelName": this.StreamDataList[i]['CourseLevelName'],
             "CourseName": this.StreamDataList[i]['CourseName'],
             "StreamName": this.StreamDataList[i]['StreamName'],
+            "SubjectDetails": this.StreamDataList[i]['SubjectDetails'],
             "Status": this.StreamDataList[i]['ActiveDeactive']
           })
         }
 
         let values: any;
-        let privados = ['S.No.', "DepartmentName", "CourseLevelName", "CourseName", "StreamName", "Status"];
+        let privados = ['S.No.', "DepartmentName", "CourseLevelName", "CourseName", "StreamName","SubjectDetails", "Status"];
         let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
         values = pDFData.map((elemento: any) => Object.values(elemento));
 

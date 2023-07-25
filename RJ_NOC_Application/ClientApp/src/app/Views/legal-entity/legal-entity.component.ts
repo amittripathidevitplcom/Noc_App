@@ -569,6 +569,10 @@ export class LegalEntityComponent implements OnInit {
     if (this.lstRegisteredAct.find((x: { ID: number; }) => x.ID == Id).Name == 'Other') {
       this.IsActOther = true;
     }
+    else {
+      this.IsActOther = false;
+      this.request.RegisteredActName = '';
+    }
 
   }
 
