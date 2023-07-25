@@ -181,7 +181,7 @@ export class AcademicInformationComponent implements OnInit {
   }
   OnChangeDropdownDisable(SeletedResultId: any) {
     console.log(SeletedResultId.value);
-    if (SeletedResultId.value == 36) {
+    if (SeletedResultId.value == 36 || SeletedResultId.value == 74) {
       this.isselectresult = false;
     }
     else {
@@ -333,7 +333,7 @@ export class AcademicInformationComponent implements OnInit {
           this.request.AdmittedStudent = data['Data'][0]["AdmittedStudent"];
           this.request.AppearedStudent = data['Data'][0]["AppearedStudent"];
           this.request.ResultID = data['Data'][0]["ResultID"];
-          if (this.request.ResultID == 37) {
+          if (this.request.ResultID == 37 || this.request.ResultID == 75) {
             this.isselectresult = true;
           }
           this.request.PassedStudent = data['Data'][0]["PassedStudent"];
