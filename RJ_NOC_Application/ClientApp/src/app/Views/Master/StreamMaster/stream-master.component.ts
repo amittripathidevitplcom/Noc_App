@@ -7,6 +7,7 @@ import { DropdownValidators } from '../../../Services/CustomValidators/custom-va
 import { ToastrService } from 'ngx-toastr';
 import { SteramMasterService } from '../../../Services/Master/StreamMaster/steram-master.service'
 import { StreamMasterDataModel } from '../../../Models/StreamMasterDataModel'
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
@@ -38,8 +39,11 @@ export class StreamMasterComponent implements OnInit {
   public CourseDataList: any;
   public isDisabledClient: boolean = true;
   public checked: boolean = true;
+  sSOLoginDataModel = new SSOLoginDataModel();
   searchText: string = '';
   public ActiveStatus: boolean = true;
+
+  public isShowGrid: boolean = false;
   constructor(private steramMasterService: SteramMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
   async ngOnInit() {
@@ -56,6 +60,7 @@ export class StreamMasterComponent implements OnInit {
     if (ddlDepartmentID) ddlDepartmentID.focus();
     await this.GetDepartmentList();
     await this.GetAllStreamList();
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.ActiveStatus = true;
   }
   get form() { return this.StreamMasterForm.controls; }
@@ -97,6 +102,7 @@ export class StreamMasterComponent implements OnInit {
   async FillCourselevel(event: any, SeletedDepartmentID: string) {
     this.request.CourseLevelID = 0;
     this.request.CourseID = 0;
+    this.request.SubjectDetails = [];
     try {
       this.loaderService.requestStarted();
       const departmentId = Number(SeletedDepartmentID);
@@ -151,6 +157,33 @@ export class StreamMasterComponent implements OnInit {
     }
   }
 
+  async ddlSubject_change($event: any, SeletedCourseID: any) {
+    try {
+      this.loaderService.requestStarted();
+      const courseId = Number(SeletedCourseID);
+      if (courseId <= 0) {
+        return;
+      }
+     
+      await this.commonMasterService.GetSubjectList_CourseIDWise(courseId)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.SubjectDetails = data['Data'];
+
+          this.isShowGrid = true;
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
 
 
   async GetAllStreamList() {
@@ -179,6 +212,17 @@ export class StreamMasterComponent implements OnInit {
     if (this.StreamMasterForm.invalid) {
       return
     }
+    console.log(this.request.SubjectDetails);
+    let isSelected: any = this.request.SubjectDetails.filter((item) => item.IsChecked === true);
+    if (isSelected != null && isSelected.length > 0) {
+      //At least one is selected
+    } else {
+      this.toastr.error("select at least one subject")
+      return;
+    }
+
+    this.request.UserID = this.sSOLoginDataModel.UserID;
+    this.request.UserID = this.sSOLoginDataModel.UserID;
 
 
     this.loaderService.requestStarted();
@@ -221,6 +265,7 @@ export class StreamMasterComponent implements OnInit {
     this.request.UserID = 0;
     this.request.ActiveStatus = true;
     this.isDisabledGrid = false;
+    this.request.SubjectDetails = [];
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";
     const btnReset = document.getElementById('')
@@ -242,6 +287,8 @@ export class StreamMasterComponent implements OnInit {
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.StreamName = data['Data'][0]["StreamName"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
+          this.request.SubjectDetails = data['Data'][0]["SubjectDetails"];
+          this.isShowGrid = true;
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";

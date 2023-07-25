@@ -886,7 +886,7 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetCourseList_ByCourseLevelIDWise(CourseLevelID: number, DepartmentID: number) {
+  public async GetCourseList_ByCourseLevelIDWise(CourseLevelID: number, DepartmentID:number) {
 
     const httpOptions = {
       headers: new HttpHeaders({

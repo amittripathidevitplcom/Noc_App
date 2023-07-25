@@ -150,6 +150,7 @@ export class SSOLoginComponent implements OnInit {
     try {
       this.sSOLandingDataDataModel.Username = LoginSSOID;
       this.sSOLandingDataDataModel.LoginType = this.LoginType;
+      this.sSOLandingDataDataModel.Password = LoginSSOID;
 
       debugger;
 
@@ -158,7 +159,7 @@ export class SSOLoginComponent implements OnInit {
         //LoginSSOID = "RISHIKAPOORDELHI";
         window.open(GlobalConstants.SSOURL, "_self");
       }
-
+      
       await this.sSOLoginService.GetSSOUserLogionDetails(this.sSOLandingDataDataModel)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));

@@ -429,9 +429,11 @@ const routes: Routes = [
         path: 'animalmaster', component: AnimalMasterComponent
       },
       {
-        path: 'veterinaryhospital', component: VeterinaryHospitalComponent
+        path: 'veterinaryhospital/:DepartmentID/:CollegeID', component: VeterinaryHospitalComponent
       },
-
+      {
+        path: 'streammaster', component: StreamMasterComponent
+      },
       {
         path: 'streamsubjectmapping', component: StreamSubjectMappingComponent
       },

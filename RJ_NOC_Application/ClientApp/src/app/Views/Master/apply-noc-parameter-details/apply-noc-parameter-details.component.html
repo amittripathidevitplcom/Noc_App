@@ -29,31 +29,32 @@
                   <table class="table table-hover table-striped-columns">
                     <thead>
                       <tr>
+                        <th>Action</th>
+
                         <th>Sr. No.</th>
-                        <th>College</th>
+                        <th>Society Name</th>
+                        <th>College Registration No.</th>
+                        <th>College Name</th>
+                        <th>Department Name</th>
+                        <th>College Status</th>
+                        <th>College Type</th>
+                        <th>College Medium</th>
+                        <th>University Name</th>
+                        <th>College Mobile No.</th>
+                        <th>College Landline No.</th>
+                        <th>College Email</th>
+                        <th>Full Address</th>
+                        <th>Creation Date</th>
+                        <th>Geo Tagging</th>
                         <th>Application No.</th>
                         <th>Application Type</th>
                         <th>Total Fee Amount</th>
-                        <th>Action</th>
+
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let item of ApplyNocApplicationList;let idx=index;">
-                        <td>{{idx+1}}</td>
                         <td>
-                          {{item.CollegeName}}
-                        </td>
-                        <td>
-                          {{item.ApplicationNo}}
-                        </td>
-                        <td>
-                          {{item.ApplicationTypeName}}
-                        </td>
-                        <td>
-                          {{item.TotalFeeAmount}}
-                        </td>
-                        <td>
-
                           <div class="d-flex">
                             <button type="button" class="btn btn-primary" title="View Application" (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)"><i class="fa fa-eye"></i></button>&nbsp;
 
@@ -85,24 +86,49 @@
                           </div>
 
                           <!--<div class="d-flex">
-                      <button type="button" class="btn btn-primary" title="View Application" (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)"><i class="fa fa-eye"></i></button>&nbsp;
-                      <button type="button" class="btn btn-sm btn-danger" title="Delete Application" (click)="DeleteApplyNocApplication_click(item)"><i class="fa fa-trash-o"></i></button>
-                      &nbsp;
-                      <button type="button" class="btn btn-sm btn-primary" title="Add FDR" (click)="AddFDR_click(item)">
-                        {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
-                      </button>&nbsp;
-                      <button type="button" class="btn btn-sm btn-primary" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
-                        Payment
-                      </button>&nbsp;
-                      <button type="button" class="btn btn-sm btn-primary" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
-                        Payment History
-                      </button>&nbsp;
-                      <button type="button" class="btn btn-sm btn-primary" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
-                        Final Submit
-                      </button>
-                    </div>-->
+                            <button type="button" class="btn btn-primary" title="View Application" (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)"><i class="fa fa-eye"></i></button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-danger" title="Delete Application" (click)="DeleteApplyNocApplication_click(item)"><i class="fa fa-trash-o"></i></button>
+                            &nbsp;
+                            <button type="button" class="btn btn-sm btn-primary" title="Add FDR" (click)="AddFDR_click(item)">
+                              {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
+                            </button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-primary" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
+                              Payment
+                            </button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-primary" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
+                              Payment History
+                            </button>&nbsp;
+                            <button type="button" class="btn btn-sm btn-primary" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
+                              Final Submit
+                            </button>
+                          </div>-->
 
                         </td>
+                        <td>{{idx+1}}</td>
+                        <td>{{item.SocietyName}}</td>
+                        <td>{{item.CollegeRegistrationNo}}</td>
+                        <td>{{item.CollegeName}}</td>
+                        <td>{{item.DepartmentName}}</td>
+                        <td>{{item.CollegeStatus}}</td>
+                        <td>{{item.CollegeType}}</td>
+                        <td>{{item.CollegeMedium}}</td>
+                        <td>{{item.UniversityName}}</td>
+                        <td>{{item.CollegeMobileNumber}}</td>
+                        <td>{{item.CollegeLandlineNumber}}</td>
+                        <td>{{item.CollegeEmail}}</td>
+                        <td>{{item.FullAddress}}</td>
+                        <td>{{item.CreateDate}}</td>
+                        <td>{{item.GeoTagging}}</td>
+                        <td>
+                          {{item.ApplicationNo}}
+                        </td>
+                        <td>
+                          {{item.ApplicationTypeName}}
+                        </td>
+                        <td>
+                          {{item.TotalFeeAmount}}
+                        </td>
+
                       </tr>
                     </tbody>
                   </table>
