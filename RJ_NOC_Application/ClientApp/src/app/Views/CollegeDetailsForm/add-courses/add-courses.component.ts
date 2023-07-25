@@ -617,8 +617,8 @@ export class AddCoursesComponent implements OnInit {
   async ddlCourseLevel_change(CourseLevelID: any)
   {
     this.request.CourseLevelID = CourseLevelID;
-    //this.request.SelectedSubjectDetails = [];
-    //this.request.StreamID = 0;
+    this.request.SelectedSubjectDetails = [];
+    this.request.StreamID = 0;
 
     await this.commonMasterService.GetCourseList_DepartmentIDWise(this.request.DepartmentID)
       .then((data: any) => {
