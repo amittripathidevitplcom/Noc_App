@@ -150,6 +150,7 @@ export class SSOLoginComponent implements OnInit {
     try {
       this.sSOLandingDataDataModel.Username = LoginSSOID;
       this.sSOLandingDataDataModel.LoginType = this.LoginType;
+      this.sSOLandingDataDataModel.Password = this.LoginType;
 
       debugger;
 
