@@ -149,7 +149,7 @@ export class SSOLoginComponent implements OnInit {
   async Citizenlogin(LoginSSOID: string, LoginType: string) {
     try {
       this.sSOLandingDataDataModel.Username = LoginSSOID;
-      this.sSOLandingDataDataModel.LoginType = this.LoginType;
+      this.sSOLandingDataDataModel.LoginType = "-999";
       this.sSOLandingDataDataModel.Password = LoginSSOID;
 
       debugger;
