@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
   public ErrorMessage: any = [];
   /*Save Data Model*/
 
-  public isDisabledGrid: boolean = false;
   public isLoading: boolean = false;
   isSubmitted: boolean = false;
   isSubmittedItemDetails: boolean = false;
@@ -33,12 +32,9 @@ export class LoginComponent implements OnInit {
   isEdit: boolean = false;
 
   public UserID: number = 0;
-  public projectMasterData: any = [];
-  searchText: string = '';
 
-  LoginID: string = '';
+  UserName: string = '';
   Password: string = '';
-
 
 
   constructor(private loginService: LoginService, private toastr: ToastrService, private loaderService: LoaderService,
@@ -49,10 +45,10 @@ export class LoginComponent implements OnInit {
 
     this.LoginForm = this.formBuilder.group(
       {
-        txtLoginID: ['', Validators.required],
+        txtUserID: ['', Validators.required],
         txtPassword: ['', Validators.required],
       })
-    const element = document.getElementById('txtLoginID')
+    const element = document.getElementById('txtUserID')
     if (element) element.focus();
   }
 
@@ -60,15 +56,13 @@ export class LoginComponent implements OnInit {
 
   async Login() {
 
-
-
     this.isSubmitted = true;
     if (this.LoginForm.invalid) {
       return
     }
     try {
       this.loaderService.requestStarted();
-      await this.loginService.Login(this.LoginID, this.Password)
+      await this.loginService.Login(this.UserName, this.Password)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -76,10 +70,10 @@ export class LoginComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             console.log(data['Data']);
-            sessionStorage.setItem('UserID', data['Data'][0]["UserID"]);
-            sessionStorage.setItem('LoginID', data['Data'][0]["LoginID"]);
             sessionStorage.setItem('UserName', data['Data'][0]["UserName"]);
-            this.routers.navigate(['/dashboard']);
+            sessionStorage.setItem('LoginID', data['Data'][0]["LoginID"]);
+            //sessionStorage.setItem('UserName', data['Data'][0]["UserName"]);
+            this.routers.navigate(['/ssologin/' + this.UserName]);
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -104,11 +98,13 @@ export class LoginComponent implements OnInit {
       console.log(Ex);
     }
     finally {
-
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
   GotoPassword() {
-    if (this.LoginID != '') {
+    if (this.UserName != '') {
       const txtPassword = document.getElementById('txtPassword')
       if (txtPassword) txtPassword.focus();
     }

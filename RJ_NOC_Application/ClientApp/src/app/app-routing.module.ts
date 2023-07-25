@@ -431,7 +431,9 @@ const routes: Routes = [
       {
         path: 'veterinaryhospital', component: VeterinaryHospitalComponent
       },
-
+      {
+        path: 'streammaster', component: StreamMasterComponent
+      },
       {
         path: 'streamsubjectmapping', component: StreamSubjectMappingComponent
       },

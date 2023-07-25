@@ -7,6 +7,7 @@ import { DropdownValidators } from '../../../Services/CustomValidators/custom-va
 import { ToastrService } from 'ngx-toastr';
 import { SteramMasterService } from '../../../Services/Master/StreamMaster/steram-master.service'
 import { StreamMasterDataModel } from '../../../Models/StreamMasterDataModel'
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
@@ -38,8 +39,11 @@ export class StreamMasterComponent implements OnInit {
   public CourseDataList: any;
   public isDisabledClient: boolean = true;
   public checked: boolean = true;
+  sSOLoginDataModel = new SSOLoginDataModel();
   searchText: string = '';
   public ActiveStatus: boolean = true;
+
+  public isShowGrid: boolean = false;
   constructor(private steramMasterService: SteramMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
   async ngOnInit() {
@@ -56,6 +60,7 @@ export class StreamMasterComponent implements OnInit {
     if (ddlDepartmentID) ddlDepartmentID.focus();
     await this.GetDepartmentList();
     await this.GetAllStreamList();
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.ActiveStatus = true;
   }
   get form() { return this.StreamMasterForm.controls; }
@@ -151,6 +156,32 @@ export class StreamMasterComponent implements OnInit {
     }
   }
 
+  async ddlStream_change($event: any, SeletedStreamID: any) {
+    try {
+      //this.request.StreamID = SeletedStreamID;
+      this.loaderService.requestStarted();
+
+      await this.commonMasterService.GetSubjectList_CourseIDWise(this.request.CourseID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.SelectedSubjectDetails = data['Data'];
+
+          this.isShowGrid = true;
+
+          //  this.request.SelectedSubjectDetails = data['Data'];
+          //console.log(this.request.SelectedSubjectDetails);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
 
 
   async GetAllStreamList() {
