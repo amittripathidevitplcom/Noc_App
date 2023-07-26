@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { StreamMasterDataModel } from '../../../Models/StreamMasterDataModel';
+import { StreamSubjectMappingDataModel } from '../../../Models/StreamSubjectMappingDataModel';
 
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 @Injectable({
   providedIn: 'root'
 })
-export class SteramMasterService {
+export class SteramSubjectMappingService {
   readonly APIUrl = GlobalConstants.apiURL + "StreamMaster";
   constructor(private http: HttpClient) { }
   extractData(res: Response) {
@@ -31,7 +31,7 @@ export class SteramMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async SaveData(request: StreamMasterDataModel) {
+  public async SaveData(request: StreamSubjectMappingDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
@@ -39,20 +39,20 @@ export class SteramMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetByID(StreamMasterID: number, UserID: number) {
+  public async GetByID(StreamMappingID: number, UserID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + StreamMasterID + "/" + UserID)
+    return await this.http.get(this.APIUrl + "/" + StreamMappingID + "/" + UserID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async DeleteData(StreamMasterID: number, UserID: number) {
+  public async DeleteData(StreamMappingID: number, UserID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return await this.http.post(this.APIUrl + '/Delete/' + StreamMasterID + "/" + UserID, httpOptions)
+    return await this.http.post(this.APIUrl + '/Delete/' + StreamMappingID + "/" + UserID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

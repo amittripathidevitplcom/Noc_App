@@ -14,6 +14,8 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { EnumDepartment } from '../../../Common/enum-noc';
+import { Console } from 'console';
+import { async } from '@angular/core/testing';
 
 
 @Injectable()
@@ -90,6 +92,8 @@ export class AddCoursesComponent implements OnInit {
       ///Edit Process
       await this.LoadMaster();
 
+
+
       //this.ddlDepartment_change(0);
 
       await this.GetAllList();
@@ -123,6 +127,23 @@ export class AddCoursesComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
         }, error => console.error(error));
+
+
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.request.DepartmentID, "Stream")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          console.log(data['Data']);
+          this.streamDataList = data['Data'];
+
+          console.log(data['Data']);
+
+        }, error => console.error(error));
+
+
 
     }
     catch (Ex) {
@@ -194,7 +215,9 @@ export class AddCoursesComponent implements OnInit {
       this.loaderService.requestStarted();
       if (this.request.DepartmentID == EnumDepartment.CollegeEducation)//College Education
       {
-        this.GetStreamList_CourseIDWise();
+          //this.GetStreamList_CourseIDWise();
+         this.ddlStream_change(this.request.StreamID);
+
       }
       else
       {
@@ -270,7 +293,17 @@ export class AddCoursesComponent implements OnInit {
     {
       var CourseName = this.CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.CourseLevelID).Name;
       var CourseType = this.courseTypeDataList.find((x: { ID: number; }) => x.ID == this.request.CourseTypeID).Name;
-      if (CourseName == 'UG' && CourseType=='New')
+
+      if (CourseName == 'PG1')
+      {
+        if (this.request.SelectedSubjectDetails.length > 1)
+        {
+          this.toastr.error("you can select only 1 subject for PG");
+          return;
+        }
+      }
+
+      if (CourseName == 'UG1' && CourseType=='New')
       {
         if (this.request.SelectedSubjectDetails.length < 3)
         {
@@ -279,7 +312,6 @@ export class AddCoursesComponent implements OnInit {
         }
       }
     }
-
 
     //Show Loading
     this.loaderService.requestStarted();
@@ -618,8 +650,7 @@ export class AddCoursesComponent implements OnInit {
   async ddlCourseLevel_change(CourseLevelID: any)
   {
     this.request.CourseLevelID = CourseLevelID;
-    this.request.SelectedSubjectDetails = [];
-    this.request.StreamID = 0;
+
 
     await this.commonMasterService.GetCourseList_DepartmentIDWise(this.request.DepartmentID)
       .then((data: any) => {
@@ -645,18 +676,25 @@ export class AddCoursesComponent implements OnInit {
 
   async ddlStream_change(StreamID: any)
   {
-
     this.request.StreamID = StreamID;
-    await this.commonMasterService.GetSubjectList_StreamIDWise(this.request.StreamID)
+    await this.commonMasterService.GetSubjectList_StreamIDWise(this.request.StreamID, this.request.DepartmentID, this.request.CourseLevelID, this.request.CourseID)
       .then((data: any) => {
         data = JSON.parse(JSON.stringify(data));
         this.subjectDataList = data['Data'];
        // this.request.SelectedSubjectDetails = data['Data'];
         console.log(this.request.SelectedSubjectDetails);
       }, error => console.error(error));
-
   }
 
+  async ddlSreamChangeReset(StreamID: any)
+  {
+    this.request.StreamID = StreamID;
+    this.request.CourseLevelID = 0;
+    this.request.CourseID = 0;
+    this.subjectDataList = [];
+    this.request.SelectedSubjectDetails = [];
+
+  }
 }
 
 
