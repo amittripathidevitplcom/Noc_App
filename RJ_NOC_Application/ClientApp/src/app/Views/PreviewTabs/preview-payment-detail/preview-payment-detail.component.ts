@@ -34,11 +34,11 @@ export class PreviewPaymentDetailComponent implements OnInit
     this.GetPreviewPaymentDetails(this.SelectedCollageID);
   }
 
-  async GetPreviewPaymentDetails(ApplyNocApplicationID: number) {
+  async GetPreviewPaymentDetails(SelectedCollageID: number) {
     try {
      
       this.loaderService.requestStarted();
-      await this.nocpaymentService.GetPreviewPaymentDetails(ApplyNocApplicationID)
+      await this.nocpaymentService.GetPreviewPaymentDetails(SelectedCollageID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

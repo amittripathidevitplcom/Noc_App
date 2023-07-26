@@ -407,6 +407,7 @@ export class StreamMasterComponent implements OnInit {
 
         doc.setFontSize(16);
         doc.text("Stream Master", 100, 10, { align: 'center', maxWidth: 100 });
+
        
         autoTable(doc,
           {
