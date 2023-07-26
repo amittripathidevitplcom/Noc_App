@@ -83,7 +83,7 @@
                 <label for="ddlStreamID" class="form-label">Select Stream <span style="color:red;">*</span></label>
                 <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID" #SeletedStreamID (change)="ddlStream_change(SeletedStreamID.value)">
                   <option value="0" selected>--Select Stream--</option>
-                  <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+                  <option *ngFor="let item of streamDataList" value="{{item.ID}}">{{item.Name}}</option>
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
                   <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>

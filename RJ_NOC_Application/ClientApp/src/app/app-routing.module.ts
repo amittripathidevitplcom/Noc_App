@@ -97,7 +97,7 @@ import { EmitraPaymentResponseComponent } from './Views/noc-payment/emitra-payme
 
 import { AnimalMasterComponent } from './Views/Master/AnimalMaster/animal-master.component';
 import { VeterinaryHospitalComponent } from './Views/VeterinaryHospital/veterinary-hospital/veterinary-hospital.component';
-import { StreamMasterComponent } from './Views/Master/StreamMaster/stream-master.component';
+import { StreamSubjectMappingComponent } from './Views/Master/StreamSubjectMapping/stream-subject-mapping.component';
 import { DocumentScrutinyRejectedReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-rejected-report/document-scrutiny-rejected-report.component';
 import { JointSecretaryCompletedReportComponent } from './Views/Reports/Medical/joint-secretary-completed-report/joint-secretary-completed-report.component';
 import { JointSecretaryRejectedReportComponent } from './Views/Reports/Medical/joint-secretary-rejected-report/joint-secretary-rejected-report.component';
@@ -107,8 +107,6 @@ import { CommitteeCompletedReportComponent } from './Views/Reports/Medical/commi
 import { CommitteeRejectedReportComponent } from './Views/Reports/Medical/committee-rejected-report/committee-rejected-report.component';
 import { JointSecretaryPendingNOCReportComponent } from './Views/Reports/Medical/joint-secretary-pending-nocreport/joint-secretary-pending-nocreport.component';
 import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committee-forward-report/committee-forward-report.component';
-
-import { StreamSubjectMappingComponent } from './Views/Master/stream-subject-mapping/stream-subject-mapping.component'
 
 
 const routes: Routes = [
@@ -432,18 +430,8 @@ const routes: Routes = [
         path: 'veterinaryhospital/:DepartmentID/:CollegeID', component: VeterinaryHospitalComponent
       },
       {
-        path: 'streammaster', component: StreamMasterComponent
-      },
-      {
         path: 'streamsubjectmapping', component: StreamSubjectMappingComponent
       },
-      {
-        path: 'streammaster', component: StreamMasterComponent
-      },
-     
-      
-
-
 
 
     ]

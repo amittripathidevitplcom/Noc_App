@@ -5,73 +5,79 @@ import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ToastrService } from 'ngx-toastr';
-
-import { SubjectMasterDataModel } from '../../../Models/SubjectMasterDataModel'
+import { SteramSubjectMappingService } from '../../../Services/Master/StreamSubjectMapping/stream-subject-mapping.service'
+import { StreamSubjectMappingDataModel } from '../../../Models/StreamSubjectMappingDataModel'
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import * as XLSX from 'xlsx';
-import { StreamSubjectMappingDetailDataModel } from '../../../Models/StreamSubjectMappingDetailDataModel';
-import { SubjectMasterService } from '../../../Services/Master/SubjectMaster/subject-master.service'
-import {StreamSubjectMappingServiceService } from '../../../Services/Master/StreamSubjectMappingMaster/stream-subject-mapping-service.service'
-import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 
-
-
+@Injectable()
 @Component({
   selector: 'app-stream-subject-mapping',
   templateUrl: './stream-subject-mapping.component.html',
   styleUrls: ['./stream-subject-mapping.component.css']
 })
 export class StreamSubjectMappingComponent implements OnInit {
-
-  SubjectMasterForm!: FormGroup;
+  StreamMasterForm!: FormGroup;
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  isSubmitted: boolean = false;
   /*Save Data Model*/
-  request = new StreamSubjectMappingDetailDataModel();
-
-  public DepartmentList: any;
-  public CourseList: any;
-  public CollegeLevelList_FilterData: any = [];
-  public CollegeLevelList: any = [];
-
-  public subjectDataList: any = [];
-  public streamDataList: any = [];
-  public isLoading: boolean = false;
-  sSOLoginDataModel = new SSOLoginDataModel();
-  public StreamSubjectMappingList: any = [];
+  request = new StreamSubjectMappingDataModel();
   public isDisabledGrid: boolean = false;
+  public isLoading: boolean = false;
+  isSubmitted: boolean = false;
+  public isLoadingExport: boolean = false;
+  public EditID: any;
   public isDeleteButton: boolean = true;
+  public UserID: number = 0;
+  public DepartmentList: any;
+  public StreamDataList: any;
+  public CourseLevelList: any;
+  public CourseDataList: any;
+  public StreamDDLList: any;
+  public isDisabledClient: boolean = true;
+  public checked: boolean = true;
+  sSOLoginDataModel = new SSOLoginDataModel();
   searchText: string = '';
+  public ActiveStatus: boolean = true;
 
   public isShowGrid: boolean = false;
-
-  public isLoadingExport: boolean = false;
-
-  constructor(private toastr: ToastrService, private loaderService: LoaderService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private subjectMasterService: SubjectMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard, private streamsubjectmappingserviceservice: StreamSubjectMappingServiceService) { }
-
-  async ngOnInit()
-  {
-    this.SubjectMasterForm = this.formBuilder.group(
+  constructor(private steramSubjectMappingService: SteramSubjectMappingService, private toastr: ToastrService, private loaderService: LoaderService,
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
+  async ngOnInit() {
+    this.StreamMasterForm = this.formBuilder.group(
       {
         ddlDepartmentID: ['', [DropdownValidators]],
-        ddlCollegeLevelID: ['', [DropdownValidators]],
+        ddlCourseLevelID: ['', [DropdownValidators]],
         ddlCourseID: ['', [DropdownValidators]],
         ddlStreamID: ['', [DropdownValidators]],
-      });
+        chkActiveStatus: [''],
+      }
+    )
+    const ddlDepartmentID = document.getElementById('ddlDepartmentID')
+    if (ddlDepartmentID) ddlDepartmentID.focus();
     await this.GetDepartmentList();
-    await this.GetSubjectMappingList()
+    await this.FillStream();
+    await this.GetAllStreamList();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-   
+    this.ActiveStatus = true;
   }
-  get form() { return this.SubjectMasterForm.controls; }
+  get form() { return this.StreamMasterForm.controls; }
 
-  async GetDepartmentList()
-  {
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
+  async GetDepartmentList() {
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetDepartmentList()
@@ -81,57 +87,8 @@ export class StreamSubjectMappingComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.DepartmentList = data['Data'];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+          //this.request.CourseLevelID = 0;
 
-  async DepartmentChangecourse(select: any) {
-    this.request.DepartmentID = select;
-    try {
-      this.loaderService.requestStarted();
-      //  await this.subjectMasterService.GetDepartmentByCourse(this.request.DepartmentID)
-      await this.commonMasterService.GetCourseList_ByCourseLevelIDWise(this.request.CourseLevelID, this.request.DepartmentID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.CollegeLevelList = data['Data'];
-
-        }, error => console.error(error));
-    
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  };
-
-  async CourseLevel(select: any)
-  {
-    this.request.DepartmentID= select;
-    try
-    {
-      this.loaderService.requestStarted();
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.request.DepartmentID, "CourseLevel")
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.CollegeLevelList = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -144,33 +101,17 @@ export class StreamSubjectMappingComponent implements OnInit {
     }
   };
 
-
-  async ddlCourse_change(SeletedCourseID: any)
-  {
-    this.request.CourseID = SeletedCourseID;
-    this.GetStreamList_CourseIDWise();
-  }
-  async ddlCollege_change($event: any, SelectedCourseLevelID: any)
-  {
-    this.request.CourseLevelID = SelectedCourseLevelID;
-   
-  }
-
-  async GetStreamList_CourseIDWise()
-  {
-    try
-    {
-      this.loaderService.requestStarted();
-      await this.commonMasterService.GetStreamList_CourseIDWise(this.request.DepartmentID, this.request.CourseLevelID, this.request.CourseID)
+  async FillStream() {
+    try {
+      // Deparment level
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, "Stream")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.streamDataList = data['Data'];
-
-          console.log(this.streamDataList);
-          //  this.request.SelectedSubjectDetails = data['Data'];
-          //console.log(this.request.SelectedSubjectDetails);
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.StreamDDLList = data['Data'];
         }, error => console.error(error));
-
     }
     catch (Ex) {
       console.log(Ex);
@@ -182,20 +123,81 @@ export class StreamSubjectMappingComponent implements OnInit {
     }
   }
 
-  async ddlStream_change(SeletedStreamID: any)
-  {
+  async FillCourselevel(event: any, SeletedDepartmentID: string) {
+    this.request.CourseLevelID = 0;
+    this.request.CourseID = 0;
+    this.request.SubjectDetails = [];
     try {
-      this.request.StreamID = SeletedStreamID;
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetSubjectList_CourseIDWise(this.request.CourseID)
+      const departmentId = Number(SeletedDepartmentID);
+      if (departmentId <= 0) {
+        return;
+      }
+      // Deparment level
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "CourseLevel")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.request.SelectedSubjectDetails = data['Data'];
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CourseLevelList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async FillCourses(event: any, SeletedCourseLevelID: string) {
+    this.request.CourseID = 0;
+    try {
+      this.loaderService.requestStarted();
+      const courseLevelId = Number(SeletedCourseLevelID);
+      if (courseLevelId <= 0) {
+        return;
+      }
+      // Deparment level
+      await this.commonMasterService.GetCourseList_ByCourseLevelIDWise(courseLevelId, this.request.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CourseDataList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+    SeletedCourseLevelID = '';
+  }
+
+  async ddlSubject_change($event: any, SeletedCourseID: any) {
+    try {
+      this.loaderService.requestStarted();
+      const courseId = Number(SeletedCourseID);
+      if (courseId <= 0) {
+        return;
+      }
+     
+      await this.commonMasterService.GetSubjectList_CourseIDWise(courseId)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.SubjectDetails = data['Data'];
 
           this.isShowGrid = true;
 
-          //  this.request.SelectedSubjectDetails = data['Data'];
-          //console.log(this.request.SelectedSubjectDetails);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -206,44 +208,61 @@ export class StreamSubjectMappingComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-
+    SeletedCourseID = '';
   }
 
 
-
+  async GetAllStreamList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.steramSubjectMappingService.GetAllStreamList(this.UserID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.StreamDataList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async SaveData() {
-
     this.isSubmitted = true;
-    if (this.SubjectMasterForm.invalid) {
+    if (this.StreamMasterForm.invalid) {
       return
     }
-
-    let isSelected: any = this.request.SelectedSubjectDetails.filter((item) => item.IsChecked === true);
-    if (isSelected != null && isSelected.length > 0)
-    {
-      
+    console.log(this.request.SubjectDetails);
+    let isSelected: any = this.request.SubjectDetails.filter((item) => item.IsChecked === true);
+    if (isSelected != null && isSelected.length > 0) {
       //At least one is selected
     } else {
       this.toastr.error("select at least one subject")
       return;
     }
-
     this.request.UserID = this.sSOLoginDataModel.UserID;
-   // this.request.SelectedSubjectDetails = this.subjectDataList
-  
+
+
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
-      await this.streamsubjectmappingserviceservice.SaveData(this.request)
+      await this.steramSubjectMappingService.SaveData(this.request)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
+          this.ResetControl();
           console.log(this.State);
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.ResetControl();
-            this.GetSubjectMappingList();
+            this.GetAllStreamList();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -259,82 +278,48 @@ export class StreamSubjectMappingComponent implements OnInit {
       }, 200);
     }
   }
-
-
-  async GetSubjectMappingList() {
-    try {
-      this.loaderService.requestStarted();
-      await this.streamsubjectmappingserviceservice.GetSubjectMappingList(this.request)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.StreamSubjectMappingList = data['Data'][0]['data'];
-
-          console.log(this.StreamSubjectMappingList);
-
-          
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-
-  async FillCourses(SeletedCourseLevelID: string) {
+  async ResetControl() {
+    debugger;
+    const ddlDepartmentID = document.getElementById('ddlDepartmentID')
+    if (ddlDepartmentID) ddlDepartmentID.focus();
+    this.isSubmitted = false;
+    this.request.StreamMappingID = 0;
+    this.GetDepartmentList();
+    this.CourseDataList = [];
+    this.CourseLevelList = [];
+    this.request.DepartmentID = 0;
+    this.request.CourseLevelID = 0;
     this.request.CourseID = 0;
-    try {
-      this.loaderService.requestStarted();
-      const courseLevelId = Number(SeletedCourseLevelID);
-      if (courseLevelId <= 0) {
-        return;
-      }
-      // Deparment level
-      await this.commonMasterService.GetCourseList_ByCourseLevelIDWise(courseLevelId, this.request.DepartmentID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.CourseList = data['Data'];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
+    this.request.StreamID = 0;
+    this.request.StreamName = '';
+    this.DepartmentList = [];
+    this.CourseDataList = [];
+    this.request.UserID = 0;
+    this.request.ActiveStatus = true;
+    this.isDisabledGrid = false;
+    this.request.SubjectDetails = [];
+    const btnSave = document.getElementById('btnSave')
+    if (btnSave) btnSave.innerHTML = "Save";
+    const btnReset = document.getElementById('')
+    if (btnReset) btnReset.innerHTML = "Reset";
   }
-
-  async Edit_OnClick(CollegeWiseCourseID: number)
-  {
-    this.ResetControl();
+  async Edit_OnClick(StreamMappingID: number) {
+    debugger;
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
-      await this.streamsubjectmappingserviceservice.GetByID(CollegeWiseCourseID, this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.UserID)
-        .then(async (data: any) =>
-        {
+      await this.steramSubjectMappingService.GetByID(StreamMappingID, this.UserID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
           this.request.StreamMappingID = data['Data'][0]["StreamMappingID"];
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-          await this.CourseLevel(this.request.DepartmentID);
+          this.FillCourselevel('', (this.request.DepartmentID).toString());
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
-          await this.FillCourses(this.request.CourseLevelID.toString());
+          this.FillCourses('', (this.request.CourseLevelID).toString());
           this.request.CourseID = data['Data'][0]["CourseID"];
-          await this.ddlCourse_change(this.request.CourseID);
           this.request.StreamID = data['Data'][0]["StreamID"];
-
-          this.request.SelectedSubjectDetails = data['Data'][0]["SelectedSubjectDetails"];
+          this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
+          this.request.SubjectDetails = data['Data'][0]["SubjectDetails"];
           this.isShowGrid = true;
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
@@ -342,7 +327,6 @@ export class StreamSubjectMappingComponent implements OnInit {
           const btnReset = document.getElementById('btnReset')
           if (btnReset) btnReset.innerHTML = "Cancel";
         }, error => console.error(error));
-
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -350,22 +334,20 @@ export class StreamSubjectMappingComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-
   }
-  async Delete_OnClick(CollegeWiseCourseID: number)
-  {
+  async Delete_OnClick(StreamMappingID: number) {
     this.isSubmitted = false;
     try {
       if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
-        await this.streamsubjectmappingserviceservice.DeleteData(CollegeWiseCourseID, this.sSOLoginDataModel.UserID)
+        await this.steramSubjectMappingService.DeleteData(StreamMappingID, this.UserID)
           .then((data: any) => {
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage)
-              this.GetSubjectMappingList();
+              this.GetAllStreamList();
             }
             else {
               this.toastr.error(this.ErrorMessage)
@@ -380,31 +362,6 @@ export class StreamSubjectMappingComponent implements OnInit {
       }, 200);
     }
   }
-
-  
-
-
-  async ResetControl()
-  {
-    const ddlDepartmentID = document.getElementById('ddlDepartmentID')
-    if (ddlDepartmentID) ddlDepartmentID.focus();
-    this.isSubmitted = false;
-    this.request.StreamMappingID = 0;
-    this.request.DepartmentID = 0;
-    this.request.CourseID = 0;
-    this.request.UserID = 0;
-    this.request.StreamID = 0;
-    this.request.CourseLevelID = 0;
-    this.request.ActiveStatus = true;
-    this.isDisabledGrid = false;
-    this.isShowGrid = false;
-
-    const btnSave = document.getElementById('btnSave')
-    if (btnSave) btnSave.innerHTML = "Save";
-    const btnReset = document.getElementById('')
-    if (btnReset) btnReset.innerHTML = "Reset";
-  }
-
   btnCopyTable_Click() {
     const tabellist = document.getElementById('tabellist')
     if (tabellist) {
@@ -413,7 +370,7 @@ export class StreamSubjectMappingComponent implements OnInit {
   }
   btnExportTable_Click(): void {
     this.loaderService.requestStarted();
-    if (this.StreamSubjectMappingList.length > 0) {
+    if (this.StreamDataList.length > 0) {
       try {
         this.isLoadingExport = true;
         /* table id is passed over here */
@@ -423,7 +380,7 @@ export class StreamSubjectMappingComponent implements OnInit {
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
         ws['!cols'] = [];
-        ws['!cols'][6] = { hidden: true };
+        ws['!cols'][7] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "StreamMaster.xlsx");
@@ -450,21 +407,21 @@ export class StreamSubjectMappingComponent implements OnInit {
   btnSavePDF_Click(): void {
 
     this.loaderService.requestStarted();
-    if (this.StreamSubjectMappingList.length > 0) {
+    if (this.StreamDataList.length > 0) {
       try {
 
 
         let doc = new jsPDF('p', 'mm', [432, 279])
         let pDFData: any = [];
-        for (var i = 0; i < this.StreamSubjectMappingList.length; i++) {
+        for (var i = 0; i < this.StreamDataList.length; i++) {
           pDFData.push({
             "S.No.": i + 1,
-            "DepartmentName": this.StreamSubjectMappingList[i]['DepartmentName'],
-            "CourseLevelName": this.StreamSubjectMappingList[i]['CourseLevelName'],
-            "CourseName": this.StreamSubjectMappingList[i]['CourseName'],
-            "StreamName": this.StreamSubjectMappingList[i]['StreamName'],
-            "SubjectDetails": this.StreamSubjectMappingList[i]['SubjectDetails'],
-            "Status": this.StreamSubjectMappingList[i]['ActiveDeactive']
+            "DepartmentName": this.StreamDataList[i]['DepartmentName'],
+            "CourseLevelName": this.StreamDataList[i]['CourseLevelName'],
+            "CourseName": this.StreamDataList[i]['CourseName'],
+            "StreamName": this.StreamDataList[i]['StreamName'],
+            "SubjectDetails": this.StreamDataList[i]['SubjectDetails'],
+            "Status": this.StreamDataList[i]['ActiveDeactive']
           })
         }
 
@@ -474,7 +431,7 @@ export class StreamSubjectMappingComponent implements OnInit {
         values = pDFData.map((elemento: any) => Object.values(elemento));
 
         doc.setFontSize(16);
-        doc.text("SubjectStreamMapping", 100, 10, { align: 'center', maxWidth: 100 });
+        doc.text("Stream Master", 100, 10, { align: 'center', maxWidth: 100 });
 
         autoTable(doc,
           {
@@ -499,7 +456,7 @@ export class StreamSubjectMappingComponent implements OnInit {
           }
         )
 
-        doc.save("SubjectStreamMapping" + '.pdf');
+        doc.save("StreamMaster" + '.pdf');
 
       }
       catch (Ex) {
@@ -521,6 +478,6 @@ export class StreamSubjectMappingComponent implements OnInit {
     }
 
   }
-
-
 }
+
+
