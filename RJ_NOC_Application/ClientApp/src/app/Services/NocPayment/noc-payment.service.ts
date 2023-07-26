@@ -46,14 +46,14 @@ export class NocpaymentService
   }
 
 
-  public async GetPreviewPaymentDetails(ApplyNocApplicationID: Number)
+  public async GetPreviewPaymentDetails(CollegeID: Number)
   {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetPreviewPaymentDetails/" + ApplyNocApplicationID, httpOptions)
+    return await this.http.get(this.APIUrl + "/GetPreviewPaymentDetails/" + CollegeID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

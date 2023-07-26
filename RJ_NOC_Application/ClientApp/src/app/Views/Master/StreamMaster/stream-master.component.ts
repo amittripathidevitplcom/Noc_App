@@ -407,7 +407,7 @@ export class StreamMasterComponent implements OnInit {
 
         doc.setFontSize(16);
         doc.text("Stream Master", 100, 10, { align: 'center', maxWidth: 100 });
-
+       
         autoTable(doc,
           {
             head: [header],
@@ -427,12 +427,9 @@ export class StreamMasterComponent implements OnInit {
               top: 15
             },
             tableLineWidth: 0,
-
           }
         )
-
         doc.save("StreamMaster" + '.pdf');
-
       }
       catch (Ex) {
         console.log(Ex);
