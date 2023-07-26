@@ -13,6 +13,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { style } from '@angular/animations';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 
 @Component({
   selector: 'app-common-master',
@@ -37,6 +38,9 @@ export class CommonMasterComponent implements OnInit {
   public isDisabledDOJ: boolean = false;
   isSubmittedItemDetails: boolean = false;
   public isLoadingExport: boolean = false;
+  public is_disableDepartment: boolean = false;
+
+  sSOLoginDataModel = new SSOLoginDataModel();
 
 
   request = new CommonMasterDataModel();
@@ -45,6 +49,8 @@ export class CommonMasterComponent implements OnInit {
   }
 
   async ngOnInit() {
+
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.Type = "0"
 
     this.CommonMasterFormGroup = this.formBuilder.group(
@@ -55,12 +61,20 @@ export class CommonMasterComponent implements OnInit {
         chkActiveStatus: ['true'],
       })
     await this.GetDepartmentList();
+    //disable dropdown
+    if (this.sSOLoginDataModel.DepartmentID != 0)
+    {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.is_disableDepartment = true;
+    }
     await this.GetCommonMasterDataList();
   }
   get form() { return this.CommonMasterFormGroup.controls; }
 
-  async GetDepartmentList() {
-    try {
+  async GetDepartmentList()
+  {
+    try
+    {
       this.loaderService.requestStarted();
       // college status
       await this.commonMasterService.GetDepartmentMaster()

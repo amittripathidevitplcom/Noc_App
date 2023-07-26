@@ -47,6 +47,7 @@ export class CreateUserComponent implements OnInit {
 
   public isDisabledGrid: boolean = false;
   public isLoadingExport: boolean = false;
+  public is_disableDepartment: boolean = false;
 
 
 
@@ -59,8 +60,8 @@ export class CreateUserComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //this.SelectedDepartmentID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
 
-    this.request.StateID = 6;
 
+    this.request.StateID = 6;
     this.CreatUserMasterForm = this.formBuilder.group(
       {
         txtSSOID: ['', Validators.required],
@@ -76,7 +77,17 @@ export class CreateUserComponent implements OnInit {
         chkActiveStatus: [''],
       })
     // department
+
     await this.GetDepartmentList();
+
+    //disable dropdown
+    if (this.sSOLoginDataModel.DepartmentID != 0)
+    {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.is_disableDepartment = true;
+    }
+
+  
     //Role
     await this.GetRoleList();
     //Committee
