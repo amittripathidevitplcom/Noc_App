@@ -440,6 +440,31 @@ const routes: Routes = [
       {
         path: 'streammaster', component: StreamMasterComponent
       },
+
+      {
+        path: 'jointsecretarycompletedreport', component: JointSecretaryCompletedReportComponent
+      },
+      {
+        path: 'jointsecretaryrejectedreport', component: JointSecretaryRejectedReportComponent
+      },
+      {
+        path: 'secretaryrejectedreport', component: SecretaryRejectedReportComponent
+      },
+      {
+        path: 'secretarycompletedreport', component: SecretaryCompletedReportComponent
+      },
+      {
+        path: 'committeecompletedreport', component: CommitteeCompletedReportComponent
+      },
+      {
+        path: 'committeerejectedreport', component: CommitteeRejectedReportComponent
+      },
+      {
+        path: 'jointsecretarypendingnocreport', component: JointSecretaryPendingNOCReportComponent
+      },
+      {
+        path: 'committeeforwardreport', component: CommitteeForwardReportComponent
+      },
      
       
 

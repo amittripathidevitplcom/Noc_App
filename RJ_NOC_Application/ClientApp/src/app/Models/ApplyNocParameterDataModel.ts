@@ -169,4 +169,57 @@ export class ApplyNocParameterMasterList_ChangeInCollegeManagement {
   public AnnexureDocumentPath: string = '';
 }
 
+export class ApplyNocParameterMasterList_MergerCollege {
+  public ApplyNocID: number = 0;
+  public FeeAmount: number = 0;
+
+  public Dis_SocietyProposal: string = '';
+  public SocietyProposal: string = '';
+  public SocietyProposalPath: string = '';
+
+  public Dis_AllNOC: string = '';
+  public AllNOC: string = '';
+  public AllNOCPath: string = '';
+
+  public Dis_UniversityAffiliation: string = '';
+  public UniversityAffiliation: string = '';
+  public UniversityAffiliationPath: string = '';
+
+  public Dis_NOCAffiliationUniversity: string = '';
+  public NOCAffiliationUniversity: string = '';
+  public NOCAffiliationUniversityPath: string = '';
+
+  public Dis_ConsentAffidavit: string = '';
+  public ConsentAffidavit: string = '';
+  public ConsentAffidavitPath: string = '';
+
+  public Dis_OtherAllNOC: string = '';
+  public OtherAllNOC: string = '';
+  public OtherAllNOCPath: string = '';
+
+  public Dis_OtherUniversityAffiliation: string = '';
+  public OtherUniversityAffiliation: string = '';
+  public OtherUniversityAffiliationPath: string = '';
+
+  public Dis_OtherNOCAffiliationUniversity: string = '';
+  public OtherNOCAffiliationUniversity: string = '';
+  public OtherNOCAffiliationUniversityPath: string = '';
+
+  public Dis_OtherConsentAffidavit: string = '';
+  public OtherConsentAffidavit: string = '';
+  public OtherConsentAffidavitPath: string = '';
+
+  public Dis_LandTitleCertificate: string = '';
+  public LandTitleCertificate: string = '';
+  public LandTitleCertificatePath: string = '';
+
+  public Dis_BuildingBluePrint: string = '';
+  public BuildingBluePrint: string = '';
+  public BuildingBluePrintPath: string = '';
+
+  public Dis_StaffInformation: string = '';
+  public StaffInformation: string = '';
+  public StaffInformationPath: string = '';
+}
+
 

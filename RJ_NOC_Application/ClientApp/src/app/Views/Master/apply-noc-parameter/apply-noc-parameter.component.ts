@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
-import { ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
@@ -23,6 +23,7 @@ export class ApplyNocParameterComponent implements OnInit {
   public ErrorMessage: any = [];
   public isLoading: boolean = false;
   public isSubmitted: boolean = false;
+  public isFormValid: boolean = true;
 
   public ApplicationTypeList: any = [];
   public CollegeList_ddl: any = [];
@@ -42,6 +43,21 @@ export class ApplyNocParameterComponent implements OnInit {
   public ApplyNocParameterMasterList_ChangeInPlaceOfCollege: ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
   public ApplyNocParameterMasterList_ChangeInGirlstoCoed: ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
   public ApplyNocParameterMasterList_ChangeInCollegeManagement: ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
+  public ApplyNocParameterMasterList_MergerCollege: ApplyNocParameterMasterList_MergerCollege = null;
+
+
+
+  //Validation variable
+  //change in name
+  public isValidCollegeNewName_Eng: boolean = false;
+  public isValidCollegeNewName_Hi: boolean = false;
+  public isChangeInNameOfCollege_Document: boolean = false;
+  //end change in name
+  //change in place
+  public isChangeInPlaceNewName: boolean = false;
+  public isChangeInPlaceNameOfCollege_Document: boolean = false;
+  public isChangeInPlaceNameOfCollege_PlaceDocument: boolean = false;
+  //end change in place
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
     private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService) {
@@ -122,6 +138,12 @@ export class ApplyNocParameterComponent implements OnInit {
       this.ApplyNocParameterMasterList_ddl = [];
       this.ApplyNocParameterMasterList_TNOCExtension = null;
       this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
+      this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+      this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+      this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
+      this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
+      this.ApplyNocParameterMasterList_MergerCollege = null;
+
       // get
       await this.GetApplicationTypeList(this.request.CollegeID);
       this.loaderService.requestStarted();
@@ -197,6 +219,11 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement.FeeAmount = item.FeeAmount;
       }
+      if (this.request.ApplyNocFor == 'Merger') {
+        this.ApplyNocParameterMasterList_MergerCollege = new ApplyNocParameterMasterList_MergerCollege();
+        this.ApplyNocParameterMasterList_MergerCollege.ApplyNocID = Number(SelectedApplyNocForID);
+        this.ApplyNocParameterMasterList_MergerCollege.FeeAmount = item.FeeAmount;
+      }
       //unchecked
       if (!event.target.checked) {
         if (this.request.ApplyNocFor == 'Change in Name') {
@@ -210,6 +237,9 @@ export class ApplyNocParameterComponent implements OnInit {
         }
         else if (this.request.ApplyNocFor == 'Change Management') {
           this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
+        }
+        else if (this.request.ApplyNocFor == 'Merger') {
+          this.ApplyNocParameterMasterList_MergerCollege = null;
         }
         return;
       }
@@ -253,7 +283,7 @@ export class ApplyNocParameterComponent implements OnInit {
   }
   public isSave: boolean = true;
   async SaveApplyNoc_click() {
-    this.isSave = false;
+    //this.isSave = false;
 
 
     try {
@@ -267,7 +297,7 @@ export class ApplyNocParameterComponent implements OnInit {
         return;
       }
       // debugger
-      this.loaderService.requestStarted();
+
       this.isSubmitted = true;
       //set
       if (this.request.ApplyNocApplicationID > 0) {
@@ -305,8 +335,13 @@ export class ApplyNocParameterComponent implements OnInit {
           return;
         }
       }
-      //debugger
-      console.log(this.request)
+      //validation
+      debugger;
+      this.isFormValid = this.ValidateApplyNOCForm();
+      if (!this.isFormValid) {
+        return;
+      }
+      this.loaderService.requestStarted();
       //post
       await this.applyNocParameterService.SaveApplyNocApplication(this.request)
         .then((data: any) => {
@@ -490,5 +525,113 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument = Name;
       }
     }
+    else if (Type == 'Merger') {
+      if (SubType == 'SocietyProposal') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_SocietyProposal = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.SocietyProposalPath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.SocietyProposal = Name;
+      }
+      else if (SubType == 'AllNOC') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_AllNOC = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.AllNOCPath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.AllNOC = Name;
+      }
+      else if (SubType == 'UniversityAffiliation') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_UniversityAffiliation = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.UniversityAffiliationPath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.UniversityAffiliation = Name;
+      }
+      else if (SubType == 'NOCAffiliationUniversity') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_NOCAffiliationUniversity = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversityPath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversity = Name;
+      }
+      else if (SubType == 'ConsentAffidavit') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_ConsentAffidavit = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.ConsentAffidavitPath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.ConsentAffidavit = Name;
+      }
+      else if (SubType == 'OtherAllNOC') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_OtherAllNOC = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.OtherAllNOCPath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.OtherAllNOC = Name;
+      }
+      else if (SubType == 'OtherUniversityAffiliation') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_OtherUniversityAffiliation = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliationPath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliation = Name;
+      }
+      else if (SubType == 'OtherNOCAffiliationUniversity') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_OtherNOCAffiliationUniversity = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversityPath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversity = Name;
+      }
+      else if (SubType == 'OtherConsentAffidavit') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_OtherConsentAffidavit = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavitPath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavit = Name;
+      }
+      else if (SubType == 'LandTitleCertificate') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_LandTitleCertificate = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.LandTitleCertificatePath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.LandTitleCertificate = Name;
+      }
+      else if (SubType == 'BuildingBluePrint') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_BuildingBluePrint = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.BuildingBluePrintPath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.BuildingBluePrint = Name;
+      }
+      else if (SubType == 'StaffInformation') {
+        this.ApplyNocParameterMasterList_MergerCollege.Dis_StaffInformation = Dis_Name;
+        this.ApplyNocParameterMasterList_MergerCollege.StaffInformationPath = Path;
+        this.ApplyNocParameterMasterList_MergerCollege.StaffInformation = Name;
+      }
+    }
+  }
+
+
+  ValidateApplyNOCForm(): boolean {
+    this.ResetValidationVariable();
+    //change in name
+    if (this.ApplyNocParameterMasterList_ChangeInNameOfCollege != null) {
+      if (this.ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameEnglish == '') {
+        this.isValidCollegeNewName_Eng = true;
+        this.isFormValid = false;
+      }
+      if (this.ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameHindi == '') {
+        this.isValidCollegeNewName_Hi = true;
+        this.isFormValid = false;
+      }
+      if (this.ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentName == '') {
+        this.isChangeInNameOfCollege_Document = true;
+        this.isFormValid = false;
+      }
+    }
+    //change place
+    if (this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null) {
+      if (this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceName == '') {
+        this.isChangeInPlaceNewName = true;
+        this.isFormValid = false;
+      }
+      if (this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.DocumentName == '') {
+        this.isChangeInPlaceNameOfCollege_Document = true;
+        this.isFormValid = false;
+      }
+      if (this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceDocumentName == '') {
+        this.isChangeInPlaceNameOfCollege_PlaceDocument = true;
+        this.isFormValid = false;
+      }
+    }
+    return this.isFormValid
+  }
+
+  ResetValidationVariable() {
+    this.isFormValid = true;
+    this.isValidCollegeNewName_Eng = false;
+    this.isValidCollegeNewName_Hi = false;
+    this.isChangeInNameOfCollege_Document = false;
+    this.isChangeInPlaceNewName = false;
+    this.isChangeInPlaceNameOfCollege_Document = false;
+    this.isChangeInPlaceNameOfCollege_PlaceDocument = false;
   }
 }
