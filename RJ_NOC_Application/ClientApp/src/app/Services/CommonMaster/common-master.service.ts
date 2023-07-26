@@ -899,7 +899,7 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetSubjectList_StreamIDWise(StreamID: number)
+  public async GetSubjectList_StreamIDWise(StreamID: number, DepartmentID: number, CourseLevelID: number, CourseID: number)
   {
     const httpOptions =
     {
@@ -907,7 +907,7 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetSubjectList_StreamIDWise/" + StreamID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetSubjectList_StreamIDWise/" + StreamID + "/" + DepartmentID + "/" + CourseLevelID + "/" + CourseID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
