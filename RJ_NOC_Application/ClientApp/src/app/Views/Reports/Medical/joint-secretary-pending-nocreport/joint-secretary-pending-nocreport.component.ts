@@ -58,8 +58,8 @@ export class JointSecretaryPendingNOCReportComponent implements OnInit {
   public ApplicationNo: string = '';
   public NOCIssuedRemark: string = '';
 
-
-
+  
+   
   public NextWorkFlowActionList: any[] = [];
   constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService) { }
