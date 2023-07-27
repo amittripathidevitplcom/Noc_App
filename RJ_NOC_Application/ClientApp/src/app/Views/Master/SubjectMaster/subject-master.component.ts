@@ -11,6 +11,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import * as XLSX from 'xlsx';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 
 @Injectable()
 @Component({
@@ -19,6 +20,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./subject-master.component.css']
 })
 export class SubjectMasterComponent implements OnInit {
+  sSOLoginDataModel = new SSOLoginDataModel();
   SubjectMasterForm!: FormGroup;
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -39,6 +41,7 @@ export class SubjectMasterComponent implements OnInit {
   public checked: boolean = true;
   searchText: string = '';
   public ActiveStatus: boolean = true;
+  public is_disableDepartment: boolean = false;
   constructor(private subjectMasterService: SubjectMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
   async ngOnInit() {
@@ -50,9 +53,18 @@ export class SubjectMasterComponent implements OnInit {
         chkActiveStatus: [''],
       }
     )
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
     await this.GetDepartmentList();
+
+    if (this.sSOLoginDataModel.DepartmentID != 0)
+    {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.is_disableDepartment = true;
+      await this.DepartmentChangecourse(null, this.request.DepartmentID.toString());
+    }
+
     await this.GetAllSubjectList();
     this.ActiveStatus = true;
   }
@@ -125,7 +137,7 @@ export class SubjectMasterComponent implements OnInit {
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
     this.request.SubjectID = 0;
-    this.request.DepartmentID = 0;
+    //this.request.DepartmentID = 0;
     this.request.CourseID = 0;
     this.request.SubjectName = '';
     this.request.UserID = 0;
@@ -167,7 +179,7 @@ export class SubjectMasterComponent implements OnInit {
   async GetAllSubjectList() {
     try {
       this.loaderService.requestStarted();
-      await this.subjectMasterService.GetAllSubjectList(this.UserID)
+      await this.subjectMasterService.GetAllSubjectList(this.UserID, this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

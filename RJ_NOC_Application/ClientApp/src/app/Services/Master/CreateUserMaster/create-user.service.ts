@@ -21,13 +21,13 @@ export class CreateUserService {
     return throwError(error);
   }
   //Get 
-  public async GetUserList() {
+  public async GetUserList(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/")
+    return await this.http.get(this.APIUrl +"/GetUserList" + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
