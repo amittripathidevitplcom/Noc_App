@@ -180,8 +180,9 @@ export class AcademicInformationComponent implements OnInit {
     return true;
   }
   OnChangeDropdownDisable(SeletedResultId: any) {
+    debugger;
     console.log(SeletedResultId.value);
-    if (SeletedResultId.value == 36 || SeletedResultId.value == 74) {
+    if (SeletedResultId.value == 36 || SeletedResultId.value == 74 || SeletedResultId.value == 103) {
       this.isselectresult = false;
     }
     else {
