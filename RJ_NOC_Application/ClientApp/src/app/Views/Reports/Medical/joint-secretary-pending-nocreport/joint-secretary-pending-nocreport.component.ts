@@ -56,6 +56,7 @@ export class JointSecretaryPendingNOCReportComponent implements OnInit {
 
 
   public ApplicationNo: string = '';
+  public NOCIssuedRemark: string = '';
 
 
 
@@ -65,6 +66,10 @@ export class JointSecretaryPendingNOCReportComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    console.log('Vasu Joint');
+    console.log(this.sSOLoginDataModel.RoleID);
+    console.log(this.sSOLoginDataModel.UserID);
+    console.log('Vasu Joint');
     await this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
@@ -90,8 +95,7 @@ export class JointSecretaryPendingNOCReportComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  }
-
+  }  
 
   async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number) {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
@@ -108,17 +112,6 @@ export class JointSecretaryPendingNOCReportComponent implements OnInit {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-    //try {
-
-    //}
-    //catch (Ex) {
-    //  console.log(Ex);
-    //}
-    //finally {
-    //  setTimeout(() => {
-    //    this.loaderService.requestEnded();
-    //  }, 200);
-    //}
   }
   private getDismissReason(reason: any): string {
     this.SelectedCollageID = 0;
@@ -335,6 +328,50 @@ export class JointSecretaryPendingNOCReportComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.TotalDocumentScrutinyTab = data['Data'];
         }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async OpenGeneratePDFPopUP(content: any, ApplyNOCID: number, DepartmentID: number) {    
+    this.SelectedDepartmentID = DepartmentID;
+    this.SelectedApplyNOCID = ApplyNOCID;
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    
+  }
+
+  async GeneratePDF_OnClick() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.NOCIssuedRemark == '') {
+        this.isRemarkValid = true;
+        this.isFormvalid = false;
+      }
+      if (!this.isFormvalid) {
+        return;
+      }
+      await this.applyNOCApplicationService.GeneratePDFForJointSecretary(this.SelectedApplyNOCID, this.SelectedDepartmentID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.NOCIssuedRemark)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
     }
     catch (Ex) {
       console.log(Ex);

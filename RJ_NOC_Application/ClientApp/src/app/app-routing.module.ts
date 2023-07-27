@@ -441,7 +441,9 @@ const routes: Routes = [
         path: 'streammaster', component: StreamMasterComponent
       },
      
-      
+      {
+        path: 'jointsecretarypendingnocreport', component: JointSecretaryPendingNOCReportComponent
+      },
 
 
 
