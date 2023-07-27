@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StreamMasterComponent } from './stream-master.component';
+import { StreamSubjectMappingComponent } from './stream-subject-mapping.component';
 
 describe('StreamMasterComponent', () => {
-  let component: StreamMasterComponent;
-  let fixture: ComponentFixture<StreamMasterComponent>;
+  let component: StreamSubjectMappingComponent;
+  let fixture: ComponentFixture<StreamSubjectMappingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StreamMasterComponent ]
+      declarations: [StreamSubjectMappingComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StreamMasterComponent);
+    fixture = TestBed.createComponent(StreamSubjectMappingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

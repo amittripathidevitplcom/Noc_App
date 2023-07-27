@@ -335,8 +335,9 @@ export class ApplyNocParameterComponent implements OnInit {
           return;
         }
       }
+
+      this.request.ApplyNocParameterMasterList_ChangeInNameOfCollege = this.ApplyNocParameterMasterList_ChangeInNameOfCollege;
       //validation
-      debugger;
       this.isFormValid = this.ValidateApplyNOCForm();
       if (!this.isFormValid) {
         return;
