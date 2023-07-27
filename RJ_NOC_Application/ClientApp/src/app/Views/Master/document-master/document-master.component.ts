@@ -24,8 +24,8 @@ import { style } from '@angular/animations';
   styleUrls: ['./document-master.component.css']
 })
 export class DocumentMasterComponent implements OnInit {
+  sSOLoginDataModel = new SSOLoginDataModel();
   DocumentFormGroup!: FormGroup;
-
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -51,10 +51,8 @@ export class DocumentMasterComponent implements OnInit {
   searchText: string = '';
   public dropdownList: any = [];
   public dropdownSettings: IDropdownSettings = {};
-
-
   request = new DocumentDataModel();
-
+  public is_disableDepartment: boolean = false;
   constructor(private documentMasterService: DocumentMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) {
 
@@ -62,7 +60,7 @@ export class DocumentMasterComponent implements OnInit {
 
 
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.request.DocumentTypeID = "0"
     this.DocumentFormGroup = this.formBuilder.group(
       {
@@ -74,11 +72,20 @@ export class DocumentMasterComponent implements OnInit {
         chkIsActiveStatus: ['false'],
         chkIsCompulsory: ['false'],
       })
+
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     const txtDocumentName = document.getElementById('txtDocumentName')
     if (txtDocumentName) txtDocumentName.focus();
     this.UserID = 1;
-    this.GetAllList();
+
     this.GetDepartmentList();
+    //diable dropdown
+    if (this.sSOLoginDataModel.DepartmentID != 0) {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.is_disableDepartment = true;
+    }
+
+    this.GetAllList();
   }
 
   get form() { return this.DocumentFormGroup.controls; }
@@ -108,7 +115,7 @@ export class DocumentMasterComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-      await this.documentMasterService.GetList(this.UserID)
+      await this.documentMasterService.GetList(this.UserID, this.request.DepartmentID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -150,7 +157,7 @@ export class DocumentMasterComponent implements OnInit {
             this.toastr.success(this.SuccessMessage)
             this.ResetControl();
             this.GetAllList();
-            this.GetDepartmentList();
+         
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -175,7 +182,7 @@ export class DocumentMasterComponent implements OnInit {
 
     this.isSubmitted = false;
     this.request.DocumentMasterID = 0;
-    this.request.DepartmentID = 0;
+   // this.request.DepartmentID = 0;
     this.request.DocumentTypeID = '0';
     this.request.DocumentName = '';
     this.request.IsActiveStatus = false;

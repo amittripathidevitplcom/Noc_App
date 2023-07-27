@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import * as XLSX from 'xlsx';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 @Injectable()
 @Component({
   selector: 'app-facilities-master',
@@ -18,6 +19,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./facilities-master.component.css']
 })
 export class FacilitiesComponent implements OnInit {
+  sSOLoginDataModel = new SSOLoginDataModel();
   FacilitiesMasterForm!: FormGroup;
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -37,7 +39,8 @@ export class FacilitiesComponent implements OnInit {
   public FacilitiesMasterData: any; 
   public isDisabledClient: boolean = true; 
   searchText: string = '';
-  public ActiveStatus: boolean = true; 
+  public ActiveStatus: boolean = true;
+  public is_disableDepartment: boolean = false;
   constructor(private facilitiesMaserService: FacilitiesMaserService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
 
@@ -51,9 +54,16 @@ export class FacilitiesComponent implements OnInit {
         txtUnit: ['', Validators.required],
       }
     )
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();    
     this.GetDepartmentList();
+    //disable dropdown
+    if (this.sSOLoginDataModel.DepartmentID != 0) {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.is_disableDepartment = true;
+    }
+    //get univercity
     this.GetAllFacilitiesMasterList();
     this.ActiveStatus = true;
   }
@@ -84,7 +94,7 @@ export class FacilitiesComponent implements OnInit {
   async GetAllFacilitiesMasterList() {
     try {
       this.loaderService.requestStarted();
-      await this.facilitiesMaserService.GetAllFacilitiesMasterList(this.UserID)
+      await this.facilitiesMaserService.GetAllFacilitiesMasterList(this.UserID, this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -143,7 +153,7 @@ export class FacilitiesComponent implements OnInit {
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
     this.request.FID = 0;   
-    this.request.DepartmentID = 0;
+    //this.request.DepartmentID = 0;
     this.request.FacilitiesName = '';
     this.request.MinSize = 0.00;
     this.request.Unit = '';

@@ -459,6 +459,10 @@ const routes: Routes = [
       {
         path: 'committeeforwardreport', component: CommitteeForwardReportComponent
       },
+     
+      {
+        path: 'jointsecretarypendingnocreport', component: JointSecretaryPendingNOCReportComponent
+      },
       {
         path: 'applynoccompletedreport', component: ApplyNOCCompletedReportComponent
       },

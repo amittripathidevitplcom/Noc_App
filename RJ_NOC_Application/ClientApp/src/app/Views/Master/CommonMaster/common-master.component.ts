@@ -99,7 +99,7 @@ export class CommonMasterComponent implements OnInit {
   async GetCommonMasterDataList() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterPageService.GetCommonMasterList()
+      await this.commonMasterPageService.GetCommonMasterList(this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -139,7 +139,7 @@ export class CommonMasterComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.ResetControl();
-            this.GetDepartmentList();
+            //this.GetDepartmentList();
             this.GetCommonMasterDataList();
           }
           else {
@@ -227,7 +227,7 @@ export class CommonMasterComponent implements OnInit {
     this.isSubmitted = false;
     this.isDisabledDOJ = false;
     this.request.ID = 0;
-    this.request.DepartmentID = 0;
+   // this.request.DepartmentID = 0;
     this.request.Type = '0';
     this.request.Name = '';
     this.request.ActiveStatus = true;

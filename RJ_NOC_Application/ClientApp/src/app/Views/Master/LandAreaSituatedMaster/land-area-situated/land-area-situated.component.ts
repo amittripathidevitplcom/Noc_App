@@ -11,12 +11,14 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import * as XLSX from 'xlsx';
+import { SSOLoginDataModel } from '../../../../Models/SSOLoginDataModel';
 @Component({
   selector: 'app-land-area-situated',
   templateUrl: './land-area-situated.component.html',
   styleUrls: ['./land-area-situated.component.css']
 })
 export class LandAreaSituatedComponent implements OnInit {
+  sSOLoginDataModel = new SSOLoginDataModel();
   LandAreaSituatedMasterForm!: FormGroup;
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -41,6 +43,8 @@ export class LandAreaSituatedComponent implements OnInit {
   public checked: boolean = true;
   searchText: string = '';
   public ActiveStatus: boolean = true;
+  public is_disableDepartment: boolean = false;
+
   constructor(private landAreaSituatedMasterService: LandAreaSituatedMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
 
@@ -54,11 +58,20 @@ export class LandAreaSituatedComponent implements OnInit {
         chkActiveStatus: [''],
       }
     )
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     const ddlStateID = document.getElementById('ddlStateID')
     if (ddlStateID) ddlStateID.focus();
     this.GetStateList();
     this.GetDistrictList();
     this.GetDepartmentList();
+    //disable dropdown
+    if (this.sSOLoginDataModel.DepartmentID != 0) {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.is_disableDepartment = true;
+    }
+    //get univercity
+
+
     this.GetAlllandAreaSituatedMasterList();
     this.ActiveStatus = true;
   }
@@ -134,7 +147,7 @@ export class LandAreaSituatedComponent implements OnInit {
   async GetAlllandAreaSituatedMasterList() {
     try {
       this.loaderService.requestStarted();
-      await this.landAreaSituatedMasterService.GetAlllandAreaSituatedMasterList(this.UserID)
+      await this.landAreaSituatedMasterService.GetAlllandAreaSituatedMasterList(this.UserID, this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -201,7 +214,7 @@ export class LandAreaSituatedComponent implements OnInit {
     this.request.LandAreaID = 0;
     this.request.StateID = 0;
     this.request.DistrictID = 0;
-    this.request.DepartmentID = 0;
+   // this.request.DepartmentID = 0;
     this.request.LandAreaName = '';
     this.request.UserID = 0;
     this.request.ActiveStatus = false;

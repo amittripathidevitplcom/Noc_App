@@ -13,6 +13,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { style } from '@angular/animations';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 
 @Component({
   selector: 'app-qualification-master',
@@ -20,7 +21,7 @@ import { style } from '@angular/animations';
   styleUrls: ['./qualification-master.component.css']
 })
 export class QualificationMasterComponent implements OnInit {
-
+  sSOLoginDataModel = new SSOLoginDataModel();
   QualificationMasterFormGroup!: FormGroup;
   public isValid: boolean = true;
   public State: number = -1;
@@ -40,7 +41,7 @@ export class QualificationMasterComponent implements OnInit {
 
   NoIsDocCompulsory: number = 0;
 
-
+  public is_disableDepartment: boolean = false;
   request = new QualificationMasterDataModel();
 
   constructor(private clipboard: Clipboard, private qualificationMasterPageService: QualificationMasterPageService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
@@ -57,7 +58,15 @@ export class QualificationMasterComponent implements OnInit {
         txtOrderBy: ['0'],
         chkActiveStatus: [''],
       })
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+
     await this.GetDepartmentList();
+    //disable dropdown
+    if (this.sSOLoginDataModel.DepartmentID != 0) {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.is_disableDepartment = true;
+    }
+
     await this.GetQualificationMasterDataList();
   }
   get form() { return this.QualificationMasterFormGroup.controls; }
@@ -88,7 +97,7 @@ export class QualificationMasterComponent implements OnInit {
   async GetQualificationMasterDataList() {
     try {
       this.loaderService.requestStarted();
-      await this.qualificationMasterPageService.GetQualificationMasterList()
+      await this.qualificationMasterPageService.GetQualificationMasterList(this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -126,7 +135,7 @@ export class QualificationMasterComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.ResetControl();
-            this.GetDepartmentList();
+            //this.GetDepartmentList();
             this.GetQualificationMasterDataList();
           }
           else {
@@ -212,7 +221,7 @@ export class QualificationMasterComponent implements OnInit {
     this.isSubmitted = false;
     this.isDisabledDOJ = false;
     this.request.QualificationID = 0;
-    this.request.DepartmentID = 0;
+   // this.request.DepartmentID = 0;
     this.request.IsDocCompulsory = 0;
     this.request.Orderby = 0;
     this.request.QualificationName = '';

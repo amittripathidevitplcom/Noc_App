@@ -43,13 +43,13 @@ export class LandAreaSituatedMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetAlllandAreaSituatedMasterList(UserID: number) {
+  public async GetAlllandAreaSituatedMasterList(UserID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + UserID)
+    return await this.http.get(this.APIUrl + "/GetAllLandAreaSituatedList/" + UserID + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

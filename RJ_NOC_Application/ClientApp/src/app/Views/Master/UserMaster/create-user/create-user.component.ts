@@ -49,14 +49,12 @@ export class CreateUserComponent implements OnInit {
   public isLoadingExport: boolean = false;
   public is_disableDepartment: boolean = false;
 
-
-
   request = new UserMasterDataModel();
-
   constructor(private clipboard: Clipboard, private createUserService: CreateUserService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
   }
 
-  async ngOnInit() {
+  async ngOnInit()
+  {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //this.SelectedDepartmentID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
 
@@ -176,7 +174,7 @@ export class CreateUserComponent implements OnInit {
   async GetUsersList() {
     try {
       this.loaderService.requestStarted();
-      await this.createUserService.GetUserList()
+      await this.createUserService.GetUserList(this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -423,7 +421,7 @@ export class CreateUserComponent implements OnInit {
     this.request.MobileNumber = '';
     this.request.EmailAddress = '';
     this.request.Name = '';
-    this.request.DepartmentID = 0;
+   // this.request.DepartmentID = 0;
     this.request.RoleID = 0;
     this.request.CommitteeID = 0;
     this.request.StateID = 0;

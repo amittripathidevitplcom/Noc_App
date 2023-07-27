@@ -30,7 +30,7 @@
 
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label for="ddlDepartmentId">Department <span style="color:red;">*</span></label>
-                  <select id="ddlDepartmentId" name="ddlDepartmentId" [(ngModel)]="request.DepartmentID " class="form-select" formControlName="ddlDepartmentId">
+                  <select id="ddlDepartmentId" name="ddlDepartmentId" [(ngModel)]="request.DepartmentID " class="form-select" formControlName="ddlDepartmentId" [attr.disabled]="is_disableDepartment ? '' : null">
                     <option value="0" disabled>--Select--</option>
                     <option *ngFor="let item of DepartmentData"
                             value="{{item.DepartmentID}}">

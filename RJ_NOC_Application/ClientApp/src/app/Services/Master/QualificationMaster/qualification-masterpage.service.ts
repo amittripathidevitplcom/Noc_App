@@ -21,13 +21,13 @@ export class QualificationMasterPageService {
     return throwError(error);
   }
   //Get 
-  public async GetQualificationMasterList() {
+  public async GetQualificationMasterList(DepartmentID : number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/")
+    return await this.http.get(this.APIUrl +"/GetQualificationMasterList"+  "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

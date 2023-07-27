@@ -11,6 +11,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import * as XLSX from 'xlsx';
+import { SSOLoginDataModel } from '../../../../Models/SSOLoginDataModel';
 @Injectable()
 
 @Component({
@@ -19,6 +20,7 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./university.component.css']
 })
 export class UniversityComponent implements OnInit {
+  sSOLoginDataModel = new SSOLoginDataModel();
   UniversityMasterForm!: FormGroup;
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -39,7 +41,8 @@ export class UniversityComponent implements OnInit {
   public isDisabledClient: boolean = true;
   public checked: boolean = true;
   searchText: string = '';
-  public ActiveStatus : boolean = true;
+  public ActiveStatus: boolean = true;
+  public is_disableDepartment: boolean = false;
       
   
   constructor(private universityMasterService: UniversityMasterService, private toastr: ToastrService, private loaderService: LoaderService,
@@ -53,14 +56,29 @@ export class UniversityComponent implements OnInit {
           chkActiveStatus: [''],
       }
     )
+
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
+
     if (ddlDepartmentID) ddlDepartmentID.focus();
-    this.GetAllUniversityList();
+  
+
     this.GetDepartmentList();
+    //disable dropdown
+    if (this.sSOLoginDataModel.DepartmentID != 0) {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.is_disableDepartment = true;
+    }
+    //get univercity
+    this.GetAllUniversityList();
+
     this.ActiveStatus= true;     
   }
   get form() { return this.UniversityMasterForm.controls; }
-  async GetDepartmentList() {  
+
+  async GetDepartmentList()
+  {  
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetDepartmentList()
@@ -70,7 +88,6 @@ export class UniversityComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.DepartmentList = data['Data'];
-
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -85,7 +102,7 @@ export class UniversityComponent implements OnInit {
   async GetAllUniversityList() {
     try {
       this.loaderService.requestStarted();
-      await this.universityMasterService.GetAllUniversityList(this.UserID)
+      await this.universityMasterService.GetAllUniversityList(this.UserID, this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -141,7 +158,7 @@ export class UniversityComponent implements OnInit {
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
-    this.request.DepartmentID = 0;
+    //this.request.DepartmentID = 0;
     this.request.UniversityID = 0;
     this.request.UniversityName = '';   
     this.request.UserID = 0;
