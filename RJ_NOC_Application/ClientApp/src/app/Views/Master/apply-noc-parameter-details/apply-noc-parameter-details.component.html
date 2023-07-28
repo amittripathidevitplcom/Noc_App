@@ -55,7 +55,7 @@
                     <tbody>
                       <tr *ngFor="let item of ApplyNocApplicationList;let idx=index;">
                         <td>
-                          <div class="d-flex">
+                          <div class="d-flex" style="width:10%">
                             <button type="button" class="btn btn-primary" title="View Application" (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)"><i class="fa fa-eye"></i></button>&nbsp;
 
                             <button type="button" *ngIf="item.IsMakePayment==false" class="btn btn-sm btn-danger" title="Delete Application" (click)="DeleteApplyNocApplication_click(item)"><i class="fa fa-trash-o"></i></button>

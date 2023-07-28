@@ -19,13 +19,13 @@ export class SubjectMasterService {
     return throwError(error);
   }
   //Get 
-  public async GetAllSubjectList(UserID: number) {
+  public async GetAllSubjectList(UserID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + UserID)
+    return await this.http.get(this.APIUrl + "/GetAllSubjectList/" + UserID + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

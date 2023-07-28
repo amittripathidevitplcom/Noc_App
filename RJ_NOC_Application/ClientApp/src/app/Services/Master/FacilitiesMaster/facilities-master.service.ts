@@ -22,13 +22,13 @@ export class FacilitiesMaserService {
   }
   //Get
   
-  public async GetAllFacilitiesMasterList(UserID: number) {
+  public async GetAllFacilitiesMasterList(UserID: number,DepartmentID :number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + UserID)
+    return await this.http.get(this.APIUrl + "/GetAllFacilitiesList/" + UserID + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
