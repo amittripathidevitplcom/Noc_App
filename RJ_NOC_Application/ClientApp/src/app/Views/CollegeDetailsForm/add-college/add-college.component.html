@@ -114,21 +114,61 @@
                       <p *ngIf="form.txtCollegeNameHi.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="display:none">
-                    <label class="form-label" style="margin-right:15px">AISHE Code Status : </label>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label" style="margin-right:15px">IS Your College NAAC Accredited : <span style="color:red;">*</span></label>
                     <div class="clearfix"></div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" value="1" id="rbAISHECodeStatusYes" name="AISHECodeStatus" [(ngModel)]="request.AISHECodeStatus" formControlName="AISHECodeStatus" (change)="IsAISHECodeStatusOrNot(true)">
+                      <input class="form-check-input" type="radio" value="1" [value]="1" id="rbCollegeNAACAccreditedYes" name="CollegeNAACAccredited" [(ngModel)]="request.CollegeNAACAccredited" formControlName="CollegeNAACAccredited" (change)="IsCollegeNAACAccreditedOrNot(true)">
+                      <label class="form-check-label" for="rbCollegeNAACAccreditedYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" value="2" [value]="2" id="rbCollegeNAACAccreditedNo" name="CollegeNAACAccredited" [(ngModel)]="request.CollegeNAACAccredited" formControlName="CollegeNAACAccredited" (change)="IsCollegeNAACAccreditedOrNot(false)">
+                      <label class="form-check-label" for="rbCollegeNAACAccreditedNo">No</label>
+                    </div>
+                    <div *ngIf="isSubmitted&&form.CollegeNAACAccredited.errors" class="text-danger">
+                      <p *ngIf="form.CollegeNAACAccredited.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <!--NAAC Accredited Certificate-->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsCollegeNAACAccredited">
+                    <label class="form-label">NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 500KB) (Max.Size 2MB) <span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" style="display:none;" class="form-control" id="NAACAccreditedCertificate" name="NAACAccreditedCertificate" (change)="onFilechange($event,'NAACAccreditedCertificate')" formControlName="NAACAccreditedCertificate">
+                      <label class="btn upload" for="NAACAccreditedCertificate">
+                        <span class="filename">Choose file</span>
+                        {{request.NAACAccreditedCertificate === '' ? 'No File Choosen' : request.NAACAccreditedCertificate_Dis_FileName}}
+                      </label>
+                      <div class="btn-group" *ngIf="showNAACAccreditedCertificate">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.NAACAccreditedCertificatePath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('NAACAccreditedCertificate',request.NAACAccreditedCertificate)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="NAACAccreditedCertificateValidationMessage!=''" class="text-danger">
+                      <p><i aria-hidden="true"></i>{{NAACAccreditedCertificateValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <!---->
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label" style="margin-right:15px">AISHE Code Status : <span style="color:red;">*</span></label>
+                    <div class="clearfix"></div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" value="1" [value]="1" id="rbAISHECodeStatusYes" name="AISHECodeStatus" [(ngModel)]="request.AISHECodeStatus" formControlName="AISHECodeStatus" (change)="IsAISHECodeStatusOrNot(true)">
                       <label class="form-check-label" for="rbAISHECodeStatusYes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" value="2" id="rbAISHECodeStatusNo" name="AISHECodeStatus" [(ngModel)]="request.AISHECodeStatus" formControlName="AISHECodeStatus" (change)="IsAISHECodeStatusOrNot(false)">
+                      <input class="form-check-input" type="radio" value="2" [value]="2" id="rbAISHECodeStatusNo" name="AISHECodeStatus" [(ngModel)]="request.AISHECodeStatus" formControlName="AISHECodeStatus" (change)="IsAISHECodeStatusOrNot(false)">
                       <label class="form-check-label" for="rbAISHECodeStatusNo">No</label>
                     </div>
+                    <div *ngIf="isSubmitted&&form.AISHECodeStatus.errors" class="text-danger">
+                      <p *ngIf="form.AISHECodeStatus.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsAISHECodeStatus" style="display:none">
-                    <label for="txtAISHECode" class="form-label">AISHE Code</label>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsAISHECodeStatus">
+                    <label for="txtAISHECode" class="form-label">AISHE Code <span style="color:red;">*</span></label>
                     <input type="text" class="form-control" id="txtAISHECode" name="txtAISHECode" [(ngModel)]="request.AISHECode" formControlName="txtAISHECode">
+                    <div *ngIf="AISHECodeValidationMessage!=''" class="text-danger">
+                      <p><i aria-hidden="true"></i>{{AISHECodeValidationMessage}}</p>
+                    </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="ddlCollegeMedium" class="form-label">College Medium <span style="color:red;">*</span></label>
