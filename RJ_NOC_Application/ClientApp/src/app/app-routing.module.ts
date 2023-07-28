@@ -461,8 +461,7 @@ const routes: Routes = [
       },
       {
         path: 'applynoccompletedreport', component: ApplyNOCCompletedReportComponent
-      },
-      
+      },   
 
 
 
