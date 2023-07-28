@@ -292,6 +292,11 @@
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>Name of New Society <span style="color:red;"> *</span> </label>
                     <input name="CollegeNewName_Eng" id="CollegeNewName_Eng" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInCollegeManagement.NewSocietyName" />
+
+                    <div *ngIf="isNewSocietyName" class="text-danger">
+                      <p *ngIf="isNewSocietyName"> This field is required .!</p>
+                    </div>
+
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>
@@ -307,6 +312,9 @@
                         <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentPath}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName,'ChangeInCollegeManagement','Document')"><i class="fa fa-trash-o"></i></button>
                       </div>
+                    </div>
+                    <div *ngIf="isCmDocumentName" class="text-danger">
+                      <p *ngIf="isCmDocumentName"> This field is required .!</p>
                     </div>
 
                   </div>
@@ -325,6 +333,10 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument,'ChangeInCollegeManagement','AnnexureDocument')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+                    <div *ngIf="isAnnexureDocument" class="text-danger">
+                      <p *ngIf="isAnnexureDocument"> This field is required .!</p>
+                    </div>
+
                   </div>
                 </div>
               </div>
