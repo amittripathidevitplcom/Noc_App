@@ -1,0 +1,9 @@
+@font-face {
+  font-family: kruti dev;
+/*  src: url('../fonts/KRDV010.ttf') format("truetype");*/
+}
+
+.hinditext {
+  font-family: kruti dev;
+  font-size: 18px;
+}

@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
+ 
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatIconModule } from '@angular/material/icon';
@@ -345,6 +346,8 @@ import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committ
     MatButtonModule,
     MatIconModule,
     NgMultiSelectDropDownModule.forRoot(),
+     
+
     //NgSelect2Module,
     //ChartsModule,
     //NgbPopoverModule,

@@ -1,6 +1,4 @@
 
-
-
 setTimeout(function () {
   var pageName = window.location.href.split('/')[window.location.href.split('/').length - 1];
   pageName = pageName.replace(/#/g, '')
