@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
+ 
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatIconModule } from '@angular/material/icon';
@@ -163,6 +164,7 @@ import { CommitteeCompletedReportComponent } from './Views/Reports/Medical/commi
 import { CommitteeRejectedReportComponent } from './Views/Reports/Medical/committee-rejected-report/committee-rejected-report.component';
 import { JointSecretaryPendingNOCReportComponent } from './Views/Reports/Medical/joint-secretary-pending-nocreport/joint-secretary-pending-nocreport.component';
 import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committee-forward-report/committee-forward-report.component';
+import { ApplyNOCCompletedReportComponent } from './Views/Reports/Medical/apply-noccompleted-report/apply-noccompleted-report.component';
 
 
 @NgModule({
@@ -322,6 +324,7 @@ import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committ
     CommitteeForwardReportComponent,
     EmitraPaymentResponseComponent,
     StreamSubjectMappingComponent,
+    ApplyNOCCompletedReportComponent,
 
   ],
   imports: [
@@ -345,6 +348,8 @@ import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committ
     MatButtonModule,
     MatIconModule,
     NgMultiSelectDropDownModule.forRoot(),
+     
+
     //NgSelect2Module,
     //ChartsModule,
     //NgbPopoverModule,

@@ -5,6 +5,7 @@ import { GlobalConstants } from '../../../Common/GlobalConstants';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { MenuService } from '../../../Services/Menu/menu.service';
+import { PlatformLocation } from '@angular/common';
 
 @Component({
   selector: 'app-master-page',
@@ -15,9 +16,18 @@ export class MasterPageComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   UserName: any = '';
   public MenuHTML: any = "";
-  constructor(private router: Router, private loaderService: LoaderService, private menuService: MenuService, private sanitizer: DomSanitizer) { }
-
+  constructor(private router: Router, private loaderService: LoaderService, private menuService: MenuService, private sanitizer: DomSanitizer, location: PlatformLocation) {
+    location.onPopState(() => {
+      console.log('pressed back in add!!!!!');
+      //this.router.navigateByUrl(‘/multicomponent’);
+      //history.forward();
+    });
+  }
   async ngOnInit() {
+    
+ 
+     
+
     //if (sessionStorage.getItem('UserID') == null) {
     //  this.router.navigate(['/dashboard']);
     //}
