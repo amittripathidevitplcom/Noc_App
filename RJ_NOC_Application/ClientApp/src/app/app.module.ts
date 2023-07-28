@@ -163,6 +163,7 @@ import { CommitteeCompletedReportComponent } from './Views/Reports/Medical/commi
 import { CommitteeRejectedReportComponent } from './Views/Reports/Medical/committee-rejected-report/committee-rejected-report.component';
 import { JointSecretaryPendingNOCReportComponent } from './Views/Reports/Medical/joint-secretary-pending-nocreport/joint-secretary-pending-nocreport.component';
 import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committee-forward-report/committee-forward-report.component';
+import { ApplyNOCCompletedReportComponent } from './Views/Reports/Medical/apply-noccompleted-report/apply-noccompleted-report.component';
 
 
 @NgModule({
@@ -322,6 +323,7 @@ import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committ
     CommitteeForwardReportComponent,
     EmitraPaymentResponseComponent,
     StreamSubjectMappingComponent,
+    ApplyNOCCompletedReportComponent,
 
   ],
   imports: [
