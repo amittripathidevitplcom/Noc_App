@@ -59,6 +59,34 @@ export class ApplyNocParameterComponent implements OnInit {
   public isChangeInPlaceNameOfCollege_PlaceDocument: boolean = false;
   //end change in place
 
+  //Change IN Grils COD
+  public isConsentManagementDocument: boolean = false;
+  public isConsentStudentDocument: boolean = false;
+
+
+  public isSocietyProposal: boolean = false;
+  public isAllNOC: boolean = false;
+  public isUniversityAffiliation: boolean = false;
+  public isConsentAffidavit: boolean = false;
+  public isNOCAffiliationUniversity: boolean = false;
+
+
+  //merger
+  public isOtherAllNOC: boolean = false;
+  public isOtherUniversityAffiliation: boolean = false;
+  public isOtherNOCAffiliationUniversity: boolean = false;
+  public isOtherConsentAffidavit: boolean = false;
+  public isLandTitleCertificate: boolean = false;
+  public isBuildingBluePrint: boolean = false;
+  public isStaffInformation: boolean = false;
+
+
+
+
+
+  
+
+
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
     private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService) {
 
@@ -214,7 +242,8 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInGirlstoCoed.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInGirlstoCoed.FeeAmount = item.FeeAmount;
       }
-      if (this.request.ApplyNocFor == 'Change Management') {
+      if (this.request.ApplyNocFor == 'Change Management')
+      {
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement = new ApplyNocParameterMasterList_ChangeInCollegeManagement();
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement.FeeAmount = item.FeeAmount;
@@ -276,7 +305,7 @@ export class ApplyNocParameterComponent implements OnInit {
   HasData(): boolean {
     let HasData = false;
     if (this.ApplyNocParameterMasterList_TNOCExtension != null || this.ApplyNocParameterMasterList_AdditionOfNewSeats60 != null || this.ApplyNocParameterMasterList_ChangeInNameOfCollege != null ||
-      this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null || this.ApplyNocParameterMasterList_ChangeInGirlstoCoed != null || this.ApplyNocParameterMasterList_ChangeInCollegeManagement != null) {
+      this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null || this.ApplyNocParameterMasterList_ChangeInGirlstoCoed != null || this.ApplyNocParameterMasterList_ChangeInCollegeManagement != null || this.ApplyNocParameterMasterList_MergerCollege != null) {
       HasData = true;
     }
     return HasData;
@@ -337,6 +366,17 @@ export class ApplyNocParameterComponent implements OnInit {
       }
 
       this.request.ApplyNocParameterMasterList_ChangeInNameOfCollege = this.ApplyNocParameterMasterList_ChangeInNameOfCollege;
+      //Changes In College Place
+      this.request.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege;
+      //Changes In Girlsto Coed
+      this.request.ApplyNocParameterMasterList_ChangeInGirlstoCoed = this.ApplyNocParameterMasterList_ChangeInGirlstoCoed;
+
+      //Changes In Girlsto Coed
+      this.request.ApplyNocParameterMasterList_MergerCollege = this.ApplyNocParameterMasterList_MergerCollege;
+
+      //Changes In Girlsto Coed
+      this.request.ApplyNocParameterMasterList_ChangeInCollegeManagement = this.ApplyNocParameterMasterList_ChangeInCollegeManagement;
+
       //validation
       this.isFormValid = this.ValidateApplyNOCForm();
       if (!this.isFormValid) {
@@ -397,6 +437,15 @@ export class ApplyNocParameterComponent implements OnInit {
     // parameter details
     this.ApplyNocParameterMasterList_TNOCExtension = null;
     this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
+
+    //parameters details
+   this.ApplyNocParameterMasterList_ChangeInNameOfCollege= null;
+   this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+   this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
+   this.ApplyNocParameterMasterList_ChangeInCollegeManagement  = null;
+   this.ApplyNocParameterMasterList_MergerCollege = null;
+
+
   }
 
 
@@ -609,7 +658,8 @@ export class ApplyNocParameterComponent implements OnInit {
       }
     }
     //change place
-    if (this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null) {
+    if (this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null)
+    {
       if (this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceName == '') {
         this.isChangeInPlaceNewName = true;
         this.isFormValid = false;
@@ -623,6 +673,93 @@ export class ApplyNocParameterComponent implements OnInit {
         this.isFormValid = false;
       }
     }
+
+    
+    //Change GirlstoCoed
+    if (this.ApplyNocParameterMasterList_ChangeInGirlstoCoed != null)
+    {
+      if (this.ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentManagementDocument == '') {
+        this.isConsentManagementDocument = true;
+        this.isFormValid = false;
+      }
+      if (this.ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentStudentDocument == '') {
+        this.isConsentStudentDocument = true;
+        this.isFormValid = false;
+      }
+    }
+
+
+    //Change Merger College
+    if (this.ApplyNocParameterMasterList_MergerCollege != null)
+    {
+      //own
+
+      if (this.ApplyNocParameterMasterList_MergerCollege.SocietyProposal == '') {
+        this.isSocietyProposal = true;
+        this.isFormValid = false;
+      }
+      if (this.ApplyNocParameterMasterList_MergerCollege.AllNOC == '') {
+        this.isAllNOC = true;
+        this.isFormValid = false;
+      }
+
+      if (this.ApplyNocParameterMasterList_MergerCollege.UniversityAffiliation == '') {
+        this.isUniversityAffiliation = true;
+        this.isFormValid = false;
+      }
+
+      if (this.ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversity == '') {
+        this.isNOCAffiliationUniversity = true;
+        this.isFormValid = false;
+      }
+
+      if (this.ApplyNocParameterMasterList_MergerCollege.ConsentAffidavit == '') {
+        this.isConsentAffidavit = true;
+        this.isFormValid = false;
+      }
+      //Other
+
+    
+      if (this.ApplyNocParameterMasterList_MergerCollege.OtherAllNOC == '') {
+        this.isOtherAllNOC = true;
+        this.isFormValid = false;
+      }
+
+      if (this.ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliation == '') {
+        this.isOtherUniversityAffiliation = true;
+        this.isFormValid = false;
+      }
+
+      if (this.ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversity == '') {
+        this.isOtherNOCAffiliationUniversity = true;
+        this.isFormValid = false;
+      }
+
+      if (this.ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavit == '') {
+        this.isOtherConsentAffidavit = true;
+        this.isFormValid = false;
+      }
+      if (this.ApplyNocParameterMasterList_MergerCollege.LandTitleCertificate == '') {
+        this.isLandTitleCertificate = true;
+        this.isFormValid = false;
+      }
+      if (this.ApplyNocParameterMasterList_MergerCollege.BuildingBluePrint == '') {
+        this.isBuildingBluePrint = true;
+        this.isFormValid = false;
+      }
+      if (this.ApplyNocParameterMasterList_MergerCollege.StaffInformation == '') {
+        this.isStaffInformation = true;
+        this.isFormValid = false;
+      }
+
+    }
+
+
+
+
+
+
+
     return this.isFormValid
   }
 
@@ -634,5 +771,9 @@ export class ApplyNocParameterComponent implements OnInit {
     this.isChangeInPlaceNewName = false;
     this.isChangeInPlaceNameOfCollege_Document = false;
     this.isChangeInPlaceNameOfCollege_PlaceDocument = false;
+
+    //Consern Mangement Document
+    this.isConsentManagementDocument = false;
+    this.isConsentStudentDocument = false;
   }
 }

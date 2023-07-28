@@ -255,6 +255,9 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentManagementDocument,'ChangeInGirlstoCoed','ConsentManagementDocument')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+                    <div *ngIf="isConsentManagementDocument" class="text-danger">
+                      <p *ngIf="isConsentManagementDocument"> This field is required .!</p>
+                    </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
                     <label>
@@ -270,6 +273,9 @@
                         <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentStudentDocumentPath}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentStudentDocument,'ChangeInGirlstoCoed','ConsentStudentDocument')"><i class="fa fa-trash-o"></i></button>
                       </div>
+                    </div>
+                    <div *ngIf="isConsentStudentDocument" class="text-danger">
+                      <p *ngIf="isConsentStudentDocument"> This field is required .!</p>
                     </div>
                   </div>
                 </div>
@@ -302,6 +308,7 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName,'ChangeInCollegeManagement','Document')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>
@@ -345,6 +352,9 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.SocietyProposal,'Merger','SocietyProposal')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+                    <div *ngIf="isSocietyProposal" class="text-danger">
+                      <p *ngIf="isSocietyProposal"> This field is required .!</p>
+                    </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label>
@@ -360,6 +370,9 @@
                         <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.AllNOCPath}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.AllNOC,'Merger','AllNOC')"><i class="fa fa-trash-o"></i></button>
                       </div>
+                    </div>
+                    <div *ngIf="isAllNOC" class="text-danger">
+                      <p *ngIf="isAllNOC"> This field is required .!</p>
                     </div>
                   </div>
 
@@ -378,6 +391,9 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.UniversityAffiliation,'Merger','UniversityAffiliation')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+                    <div *ngIf="isUniversityAffiliation" class="text-danger">
+                      <p *ngIf="isUniversityAffiliation"> This field is required .!</p>
+                    </div>
                   </div>
 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -394,6 +410,9 @@
                         <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversityPath}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversity,'Merger','NOCAffiliationUniversity')"><i class="fa fa-trash-o"></i></button>
                       </div>
+                    </div>
+                    <div *ngIf="isNOCAffiliationUniversity" class="text-danger">
+                      <p *ngIf="isNOCAffiliationUniversity"> This field is required .!</p>
                     </div>
                   </div>
 
@@ -412,6 +431,10 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.ConsentAffidavit,'Merger','ConsentAffidavit')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+                    <div *ngIf="isConsentAffidavit" class="text-danger">
+                      <p *ngIf="isConsentAffidavit"> This field is required .!</p>
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -436,6 +459,9 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherAllNOC,'Merger','OtherAllNOC')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+                    <div *ngIf="isOtherAllNOC" class="text-danger">
+                      <p *ngIf="isOtherAllNOC"> This field is required .!</p>
+                    </div>
                   </div>
 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -452,6 +478,9 @@
                         <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliationPath}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliation,'Merger','OtherUniversityAffiliation')"><i class="fa fa-trash-o"></i></button>
                       </div>
+                    </div>
+                    <div *ngIf="isOtherUniversityAffiliation" class="text-danger">
+                      <p *ngIf="isOtherUniversityAffiliation"> This field is required .!</p>
                     </div>
                   </div>
 
@@ -470,6 +499,10 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversity,'Merger','OtherNOCAffiliationUniversity')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+                    <div *ngIf="isOtherNOCAffiliationUniversity" class="text-danger">
+                      <p *ngIf="isOtherNOCAffiliationUniversity"> This field is required .!</p>
+                    </div>
+
                   </div>
 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -486,6 +519,9 @@
                         <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavitPath}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavit,'Merger','OtherConsentAffidavit')"><i class="fa fa-trash-o"></i></button>
                       </div>
+                    </div>
+                    <div *ngIf="isOtherConsentAffidavit" class="text-danger">
+                      <p *ngIf="isOtherConsentAffidavit"> This field is required .!</p>
                     </div>
                   </div>
                 </div>
@@ -505,6 +541,9 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.LandTitleCertificate,'Merger','LandTitleCertificate')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+                    <div *ngIf="isLandTitleCertificate" class="text-danger">
+                      <p *ngIf="isLandTitleCertificate"> This field is required .!</p>
+                    </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label>
@@ -521,6 +560,9 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.BuildingBluePrint,'Merger','BuildingBluePrint')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+                    <div *ngIf="isBuildingBluePrint" class="text-danger">
+                      <p *ngIf="isBuildingBluePrint"> This field is required .!</p>
+                    </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label>
@@ -536,6 +578,9 @@
                         <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.StaffInformationPath}}"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.StaffInformation,'Merger','StaffInformation')"><i class="fa fa-trash-o"></i></button>
                       </div>
+                    </div>
+                    <div *ngIf="isStaffInformation" class="text-danger">
+                      <p *ngIf="isStaffInformation"> This field is required .!</p>
                     </div>
                   </div>
                 </div>
