@@ -596,11 +596,50 @@
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+            <!--end-->
+            <!--Dec New Subject-->
+            <div class="card" *ngIf="ApplyNocParameterMasterList_NewCourse != null">
+              <div class="card-header">
+                <b>Application For New Course:₹ {{ApplyNocParameterMasterList_NewCourse.FeeAmount}}</b>
+                <button type="button" class="btn btn-sm btn-primary pull-right" title="Add Course" (click)="AddCourse_click(mymodalAddCourse)">
+                  Add Course
+                </button>&nbsp;
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-striped-columns">
+                      <thead>
+                        <tr>
+                          <th>Sr. No.</th>
+                          <th>Course</th>
+                          <th>Subject</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!--<tr *ngFor="let item of ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocParameterCourseList;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" name="cbCourse_AdditionOfNewSeats60" id="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked">
+                              <label class="form-check-label" for="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}">{{item.CourseName}}</label>
+                            </div>
+                          </td>
+                        </tr>-->
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
+            </div>
             <!--end-->
+
+
           </div>
-          <div class="card-footer" >
+          <div class="card-footer">
             <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()" [attr.disabled]="isSave ? null : true" *ngIf="HasData()">Apply Noc</button>
             <button type="button" class="btn btn-danger" aria-label="Reset" (click)="ResetApplyNoc_click()" *ngIf="HasData()">Reset</button>
             <a class="btn btn-info" href="/applicationsummary/{{CollegeDepartmentID}}/{{request.CollegeID}}" target="_blank" aria-label="Preview Application" *ngIf="request.CollegeID>0">Preview Application</a>
@@ -624,4 +663,55 @@
       </div>
     </div>
   </div>
+
+
+
+  <!--Modal Popup Add Course-->
+  <ng-template #mymodalAddCourse let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+        Add Course 
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="card">
+            <div class="card-header">
+              <b>Payment History</b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Transaction No</th>
+                        <th>Transaction Date</th>
+                        <th>Payment Status</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end-->
+    </div>
+  </ng-template>
+  <!--Modal Popup Add Course-->
+
+
 </div>
+
+

@@ -10,6 +10,7 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
+import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-apply-noc-parameter',
@@ -24,6 +25,10 @@ export class ApplyNocParameterComponent implements OnInit {
   public isLoading: boolean = false;
   public isSubmitted: boolean = false;
   public isFormValid: boolean = true;
+
+  // model popup
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
 
   public ApplicationTypeList: any = [];
   public CollegeList_ddl: any = [];
@@ -45,6 +50,7 @@ export class ApplyNocParameterComponent implements OnInit {
   public ApplyNocParameterMasterList_ChangeInCollegeManagement: ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
   public ApplyNocParameterMasterList_MergerCollege: ApplyNocParameterMasterList_MergerCollege = null;
 
+  public ApplyNocParameterMasterList_NewCourse: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
 
 
   //Validation variable
@@ -86,13 +92,8 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
 
-
-
-
-
-
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
-    private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService) {
+    private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal) {
 
   }
 
@@ -251,11 +252,22 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement.FeeAmount = item.FeeAmount;
       }
-      if (this.request.ApplyNocFor == 'Merger') {
+      if (this.request.ApplyNocFor == 'Merger')
+      {
         this.ApplyNocParameterMasterList_MergerCollege = new ApplyNocParameterMasterList_MergerCollege();
         this.ApplyNocParameterMasterList_MergerCollege.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_MergerCollege.FeeAmount = item.FeeAmount;
       }
+
+      if (this.request.ApplyNocFor == 'New Course')
+      {
+
+        this.ApplyNocParameterMasterList_NewCourse = new ApplyNocParameterMaster_TNOCExtensionDataModel();
+        this.ApplyNocParameterMasterList_NewCourse.ApplyNocID = Number(SelectedApplyNocForID);
+        this.ApplyNocParameterMasterList_NewCourse.FeeAmount = item.FeeAmount;
+      }
+
+
       //unchecked
       if (!event.target.checked) {
         if (this.request.ApplyNocFor == 'Change in Name') {
@@ -771,14 +783,45 @@ export class ApplyNocParameterComponent implements OnInit {
 
     }
 
-
-
-
-
-
-
     return this.isFormValid
   }
+
+
+ 
+  async AddCourse_click(content: any) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+            // model popup
+            this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocpaymentdetails-title', backdrop: 'static' }).result.then((result) => {
+              this.closeResult = `Closed with: ${result}`;
+            }, (reason) => {
+              this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            });
+         
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
 
   ResetValidationVariable() {
     this.isFormValid = true;
