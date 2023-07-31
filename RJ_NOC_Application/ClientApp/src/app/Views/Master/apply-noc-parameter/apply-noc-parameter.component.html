@@ -256,8 +256,8 @@
                       </div>
                     </div>
                     <div *ngIf="isCoedtoGConsentDocument" class="text-danger">
-    <p *ngIf="isCoedtoGConsentDocument"> This field is required .!</p>
-  </div>
+                      <p *ngIf="isCoedtoGConsentDocument"> This field is required .!</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -628,6 +628,50 @@
                 </div>
               </div>
             </div>
+
+
+            <!--TNOC Extension-->
+            <div class="card" *ngIf="ApplyNocParameterMasterList_NewCourse != null">
+              <div class="card-header">
+                <b>Add New Course :₹ {{ApplyNocParameterMasterList_NewCourse.FeeAmount}}</b>
+                <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddCourse_click(mymodalAddCourse)">Add Course</button>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-striped-columns">
+                      <thead>
+                        <tr>
+                          <th>Sr. No.</th>
+                          <th>Course</th>
+                          <th>Subject</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of  ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            <div class="form-check form-check-inline">
+                              <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
+                            </div>
+                          </td>
+                          <td>
+                            <div style="margin-right:0.5rem" class="form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
+                              <label class="badge bg-primary" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                            </div>
+                          </td>
+                          <td>
+                            <button class="btn btn-danger"> <span class="bi bi-trash-fill"></span>  </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--end-->
             <!--end-->
           </div>
           <div class="card-footer">
@@ -661,41 +705,79 @@
   <ng-template #mymodalAddCourse let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
-        Add Course 
+        Add Course
       </h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <i class="fa fa-close"></i>
       </button>
     </div>
     <div class="modal-body">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="clearfix"></div>
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+            
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
+                  <select formControlName="ddlCourse" id="ddlCourse" class="form-select"
+                          #SeletedCourseID (change)="ddlSubject_change($event, SeletedCourseID.value)">
+                    <option value="0">--Select--</option>
+                    <option [value]="item.CourseID" *ngFor="let item of CourseDataList">
+                      {{item.CourseName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
           <div class="card">
             <div class="card-header">
-              <b>Payment History</b>
+              <b>Subject List</b>
             </div>
             <div class="card-body">
               <div class="row">
                 <div class="table-responsive">
-                  <table class="table table-hover table-striped-columns">
+                  <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
                     <thead>
                       <tr>
-                        <th>Sr. No.</th>
-                        <th>Transaction No</th>
-                        <th>Transaction Date</th>
-                        <th>Payment Status</th>
-                        <th>Amount</th>
+                        <th>Sr. No</th>
+                        <th>Select</th>
+                        <th>Subject Name</th>
                       </tr>
                     </thead>
                     <tbody>
-                    
+                      <tr *ngFor="let row of SubjectDetails let idx=index">
+                        <td>{{idx+1}}</td>
+                        <td>
+                          <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
+                                 id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
+                                 [(ngModel)]="row.IsChecked">
+                        </td>
+                        <td>{{row.SubjectName}}</td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
+            <div class="card-footer">
+              <button type="button" class="btn btn-primary pull-right" (click)="btn_AddCourse()"> Add Course</button>
+            </div>
+            </div>
           </div>
-        </div>
       </div>
       <!--end-->
     </div>

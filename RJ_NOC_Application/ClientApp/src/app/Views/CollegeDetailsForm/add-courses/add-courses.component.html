@@ -78,6 +78,7 @@
               </div>
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+
                 <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
                 <select formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-select"
                         #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
@@ -86,6 +87,7 @@
                     {{item.CourseName}}
                   </option>
                 </select>
+
                 <div *ngIf="isSubmitted&&form.ddlCourse.errors" class="text-danger">
                   <p *ngIf="!form.ddlCourse.errors.DropdownValidators">This field is required .!</p>
                 </div>
