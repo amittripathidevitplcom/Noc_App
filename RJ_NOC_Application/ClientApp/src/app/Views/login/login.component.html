@@ -7,7 +7,7 @@
           <div class="col-lg-12 col-md-12 col-sm-12 loginBox adminLoginBox">
             <div class="row">
               <div class="col-lg-12 col-md-12 col-sm-12 py-3 logoBox text-center">
-                <img src="assets/images/DEVIT-logo-1.png" style="max-height:60px;" />
+                <img src="assets/images/logoLarge.png" style="max-height:60px;" />
               </div>
             </div>
             <div class="row">
@@ -16,11 +16,11 @@
                 <h1>Login</h1>
               </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" style="width: 70%;">
               <div class="col-lg-7 col-md-10 col-sm-10 col-12">
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
-                    <label class="f-600 mb-2">User Name</label>
+                    <label class="f-600 mb-2">SSO ID</label>
 
                     <input type="text" class="form-control" id="txtUserID" placeholder="Enter User Name" name="txtUserID" [(ngModel)]="UserName" formControlName="txtUserID"
                            (keyup.enter)="GotoPassword()">
@@ -47,7 +47,7 @@
                   </div>-->
                   <div class="col-lg-12 col-md-12 col-sm-12 text-center">
                     <button type="button" class="btn btn-soft-primary" (click)="Login()">Login</button>
-                    <p class="f-600 mt-3">If you are forget your password. Please <a href="javascript:void(0)" class="Atag">Click Here</a></p>
+                    <p class="f-600 mt-3"> <a href="javascript:void(0)" class="Atag"> </a></p>
                   </div>
                 </div>
               </div>
