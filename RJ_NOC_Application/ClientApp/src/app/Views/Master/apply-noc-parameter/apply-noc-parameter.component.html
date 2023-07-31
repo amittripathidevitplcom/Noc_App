@@ -20,7 +20,9 @@
         <div class="card-body">
           <form [formGroup]="ApplyNocParameterForm" class="form-horizontal">
             <div class="row">
-
+              <div class="row" *ngIf="TotalAppliedNOC>0">
+                <span style="color:red">You have already applied for NOC and NOC not issued yet</span>
+              </div>
               <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label for="ddlCollege" class="form-label">College <span style="color:red">*</span></label>
