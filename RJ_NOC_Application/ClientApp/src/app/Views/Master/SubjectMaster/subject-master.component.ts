@@ -57,6 +57,7 @@ export class SubjectMasterComponent implements OnInit {
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
     await this.GetDepartmentList();
+    await this.GetAllSubjectList();
 
     if (this.sSOLoginDataModel.DepartmentID != 0)
     {
@@ -64,8 +65,6 @@ export class SubjectMasterComponent implements OnInit {
       this.is_disableDepartment = true;
       await this.DepartmentChangecourse(null, this.request.DepartmentID.toString());
     }
-
-    await this.GetAllSubjectList();
     this.ActiveStatus = true;
   }
   get form() { return this.SubjectMasterForm.controls; }
