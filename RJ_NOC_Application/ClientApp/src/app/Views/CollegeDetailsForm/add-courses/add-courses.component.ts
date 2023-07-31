@@ -649,10 +649,11 @@ export class AddCoursesComponent implements OnInit {
 
   async ddlCourseLevel_change(CourseLevelID: any)
   {
+    debugger;
     this.request.CourseLevelID = CourseLevelID;
 
 
-    await this.commonMasterService.GetCourseList_DepartmentIDWise(this.request.DepartmentID)
+    await this.commonMasterService.GetAddCourseList_DepartmentIDWise(this.request.DepartmentID, this.request.CourseLevelID)
       .then((data: any) => {
         data = JSON.parse(JSON.stringify(data));
         this.courseDataList = data['Data'];

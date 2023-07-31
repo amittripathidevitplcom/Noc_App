@@ -41,6 +41,10 @@ export class CollegeDataModel {
   public ModifyBy: number = 0;
   public ParentSSOID: string = '';
   public MappingSSOID: string = '';
+  public CollegeNAACAccredited: number = null;
+  public NAACAccreditedCertificate: string = '';
+  public NAACAccreditedCertificatePath: string = '';
+  public NAACAccreditedCertificate_Dis_FileName: string = '';
 
   public ContactDetailsList: ContactDetailsDataModel[] = [];
   public NearestGovernmentHospitalsList: NearestGovernmentHospitalsDataModel[] = [];
