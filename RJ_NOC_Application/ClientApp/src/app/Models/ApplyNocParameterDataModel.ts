@@ -22,6 +22,7 @@ export class ApplyNocParameterDataModel {
 
   public ApplyNocParameterMasterList_ChangeInNameOfCollege: ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
   public ApplyNocParameterMasterList_ChangeInPlaceOfCollege: ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+  public ApplyNocParameterMasterList_ChangeInCoedtoGirls: ApplyNocParameterMasterList_ChangeInCoedtoGirls = null;
   public ApplyNocParameterMasterList_ChangeInGirlstoCoed: ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
   public ApplyNocParameterMasterList_ChangeInCollegeManagement: ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
   public ApplyNocParameterMasterList_MergerCollege: ApplyNocParameterMasterList_MergerCollege = null;
@@ -151,6 +152,14 @@ export class ApplyNocParameterMasterList_ChangeInPlaceOfCollege {
   public Dis_PlaceDocumentName: string = '';
   public PlaceDocumentName: string = '';
   public PlaceDocumentPath: string = '';
+}
+
+export class ApplyNocParameterMasterList_ChangeInCoedtoGirls {
+  public ApplyNocID: number = 0;
+  public FeeAmount: number = 0;
+  public Dis_ConsentManagementDocument: string = '';
+  public ConsentManagementDocument: string = '';
+  public ConsentManagementDocumentPath: string = '';
 }
 
 export class ApplyNocParameterMasterList_ChangeInGirlstoCoed {

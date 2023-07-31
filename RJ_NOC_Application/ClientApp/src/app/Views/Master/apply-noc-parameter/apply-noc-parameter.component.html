@@ -234,6 +234,36 @@
             </div>
             <!--end-->
             <!--change Girls to Coed-->
+            <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInCoedtoGirls != null">
+              <div class="card-header">
+                <b>Change in Co-Education to Girls:₹ {{ApplyNocParameterMasterList_ChangeInCoedtoGirls.FeeAmount}}</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <label>
+                      Document for Consent of Management(Only pdf/image file)(min size 500KB) (max size 2MB) <span style="color:red;"> *</span>
+                    </label>
+                    <div class="d-flex">
+                      <input type="file" style="display:none" name="ChangeInCoedtoGirls_ConsentManagementDocument" id="ChangeInCoedtoGirls_ConsentManagementDocument" class="form-control" (change)="ValidateDocument($event,'ChangeInCoedtoGirls','')" />
+                      <label class="btn upload" for="ChangeInCoedtoGirls_ConsentManagementDocument">
+                        <span class="filename">Choose file</span>
+                        {{ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInCoedtoGirls.Dis_ConsentManagementDocument}}
+                      </label>
+                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument != ''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocumentPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument,'ChangeInCoedtoGirls','')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="isCoedtoGConsentDocument" class="text-danger">
+    <p *ngIf="isCoedtoGConsentDocument"> This field is required .!</p>
+  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--end-->
+            <!--change Girls to Coed-->
             <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInGirlstoCoed != null">
               <div class="card-header">
                 <b>Change in Girls to Co-Education:₹ {{ApplyNocParameterMasterList_ChangeInGirlstoCoed.FeeAmount}}</b>
@@ -596,11 +626,11 @@
                     </div>
                   </div>
                 </div>
-                </div>
               </div>
+            </div>
             <!--end-->
           </div>
-          <div class="card-footer" >
+          <div class="card-footer">
             <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()" [attr.disabled]="isSave ? null : true" *ngIf="HasData()">Apply Noc</button>
             <button type="button" class="btn btn-danger" aria-label="Reset" (click)="ResetApplyNoc_click()" *ngIf="HasData()">Reset</button>
             <a class="btn btn-info" href="/applicationsummary/{{CollegeDepartmentID}}/{{request.CollegeID}}" target="_blank" aria-label="Preview Application" *ngIf="request.CollegeID>0">Preview Application</a>

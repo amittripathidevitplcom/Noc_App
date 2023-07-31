@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
-import { ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
@@ -41,6 +41,7 @@ export class ApplyNocParameterComponent implements OnInit {
   public ApplyNocParameterMasterList_AdditionOfNewSeats60: ApplyNocParameterMaster_AdditionOfNewSeats60DataModel = null;
   public ApplyNocParameterMasterList_ChangeInNameOfCollege: ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
   public ApplyNocParameterMasterList_ChangeInPlaceOfCollege: ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+  public ApplyNocParameterMasterList_ChangeInCoedtoGirls: ApplyNocParameterMasterList_ChangeInCoedtoGirls = null;
   public ApplyNocParameterMasterList_ChangeInGirlstoCoed: ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
   public ApplyNocParameterMasterList_ChangeInCollegeManagement: ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
   public ApplyNocParameterMasterList_MergerCollege: ApplyNocParameterMasterList_MergerCollege = null;
@@ -59,8 +60,11 @@ export class ApplyNocParameterComponent implements OnInit {
   public isChangeInPlaceNameOfCollege_PlaceDocument: boolean = false;
   //end change in place
 
+
+  public isCoedtoGConsentDocument: boolean = false;
   //Change IN Grils COD
   public isConsentManagementDocument: boolean = false;
+
   public isConsentStudentDocument: boolean = false;
 
 
@@ -241,6 +245,11 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.FeeAmount = item.FeeAmount;
       }
+      if (this.request.ApplyNocFor == 'Coed to girls') {
+        this.ApplyNocParameterMasterList_ChangeInCoedtoGirls = new ApplyNocParameterMasterList_ChangeInCoedtoGirls();
+        this.ApplyNocParameterMasterList_ChangeInCoedtoGirls.ApplyNocID = Number(SelectedApplyNocForID);
+        this.ApplyNocParameterMasterList_ChangeInCoedtoGirls.FeeAmount = item.FeeAmount;
+      }
       if (this.request.ApplyNocFor == 'Girls to Coed') {
         this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = new ApplyNocParameterMasterList_ChangeInGirlstoCoed();
         this.ApplyNocParameterMasterList_ChangeInGirlstoCoed.ApplyNocID = Number(SelectedApplyNocForID);
@@ -263,6 +272,9 @@ export class ApplyNocParameterComponent implements OnInit {
         }
         else if (this.request.ApplyNocFor == 'Change in Place') {
           this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+        }
+        else if (this.request.ApplyNocFor == 'Coed to girls') {
+          this.ApplyNocParameterMasterList_ChangeInCoedtoGirls = null;
         }
         else if (this.request.ApplyNocFor == 'Girls to Coed') {
           this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
@@ -308,7 +320,7 @@ export class ApplyNocParameterComponent implements OnInit {
   HasData(): boolean {
     let HasData = false;
     if (this.ApplyNocParameterMasterList_TNOCExtension != null || this.ApplyNocParameterMasterList_AdditionOfNewSeats60 != null || this.ApplyNocParameterMasterList_ChangeInNameOfCollege != null ||
-      this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null || this.ApplyNocParameterMasterList_ChangeInGirlstoCoed != null || this.ApplyNocParameterMasterList_ChangeInCollegeManagement != null || this.ApplyNocParameterMasterList_MergerCollege != null) {
+      this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null || this.ApplyNocParameterMasterList_ChangeInGirlstoCoed != null || this.ApplyNocParameterMasterList_ChangeInCollegeManagement != null || this.ApplyNocParameterMasterList_MergerCollege != null || this.ApplyNocParameterMasterList_ChangeInCoedtoGirls != null) {
       HasData = true;
     }
     return HasData;
@@ -371,13 +383,18 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.ApplyNocParameterMasterList_ChangeInNameOfCollege = this.ApplyNocParameterMasterList_ChangeInNameOfCollege;
       //Changes In College Place
       this.request.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege;
+
+      debugger;
+      //Changes In Coed to Girls
+      this.request.ApplyNocParameterMasterList_ChangeInCoedtoGirls = this.ApplyNocParameterMasterList_ChangeInCoedtoGirls;
+
       //Changes In Girlsto Coed
       this.request.ApplyNocParameterMasterList_ChangeInGirlstoCoed = this.ApplyNocParameterMasterList_ChangeInGirlstoCoed;
 
-      //Changes In Girlsto Coed
+      //Merge
       this.request.ApplyNocParameterMasterList_MergerCollege = this.ApplyNocParameterMasterList_MergerCollege;
 
-      //Changes In Girlsto Coed
+      //Changes In College Management
       this.request.ApplyNocParameterMasterList_ChangeInCollegeManagement = this.ApplyNocParameterMasterList_ChangeInCollegeManagement;
 
       //validation
@@ -554,6 +571,12 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceDocumentName = Name;
       }
     }
+    else if (Type == 'ChangeInCoedtoGirls')
+    {
+      this.ApplyNocParameterMasterList_ChangeInCoedtoGirls.Dis_ConsentManagementDocument = Dis_Name;
+      this.ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocumentPath = Path;
+      this.ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument = Name;
+    }
     else if (Type == 'ChangeInGirlstoCoed') {
       if (SubType == 'ConsentManagementDocument') {
         this.ApplyNocParameterMasterList_ChangeInGirlstoCoed.Dis_ConsentManagementDocument = Dis_Name;
@@ -675,7 +698,13 @@ export class ApplyNocParameterComponent implements OnInit {
         this.isFormValid = false;
       }
     }
-
+    //Change Coed to girls
+    if (this.ApplyNocParameterMasterList_ChangeInCoedtoGirls != null) {
+      if (this.ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument == '') {
+        this.isCoedtoGConsentDocument = true;
+        this.isFormValid = false;
+      }
+    }
 
     //Change GirlstoCoed
     if (this.ApplyNocParameterMasterList_ChangeInGirlstoCoed != null) {
@@ -790,6 +819,7 @@ export class ApplyNocParameterComponent implements OnInit {
     this.isChangeInPlaceNameOfCollege_PlaceDocument = false;
 
     //Consern Mangement Document
+    this.isCoedtoGConsentDocument = false;
     this.isConsentManagementDocument = false;
     this.isConsentStudentDocument = false;
 
