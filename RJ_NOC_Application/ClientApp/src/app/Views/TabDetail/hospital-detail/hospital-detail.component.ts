@@ -340,105 +340,159 @@ export class HospitalDetailComponent implements OnInit {
   get form_ParentNot() { return this.HospitalParentNotForm.controls; }
 
   ToggleSuperSpecialtyHospitalValidation() {
-
-    if (this.IsShowSuperSpecialtyHospital) {
-      this.HospitalParentForm.get('txtCardioThoracicTotalBeds')?.setValidators([Validators.required, Validators.min(50)]);
-      this.HospitalParentForm.get('txtCriticalCareNursingTotalBeds')?.setValidators([Validators.required, Validators.min(250)]);
-      this.HospitalParentForm.get('txtMidwiferyNursingTotalBeds')?.setValidators([Validators.required, Validators.min(50)]);
-      this.HospitalParentForm.get('txtDeliveriesPerYear')?.setValidators([Validators.required, Validators.min(500)]);
-      this.HospitalParentForm.get('txtLevelIINeonatalBeds')?.setValidators([Validators.required, Validators.min(8)]);
-      this.HospitalParentForm.get('txtNeuroScienceNursingTotalBeds')?.setValidators([Validators.required, Validators.min(50)]);
-      this.HospitalParentForm.get('txtOncologyNursingTotalBeds')?.setValidators([Validators.required, Validators.min(100)]);
-      this.HospitalParentForm.get('txtOrthopaedicRehabilitationNursingTotalBeds')?.setValidators([Validators.required, Validators.min(250)]);
-      this.HospitalParentForm.get('txtPsychiatricNursingTotalBeds')?.setValidators([Validators.required, Validators.min(50)]);
-      this.HospitalParentForm.get('txtNeonatalNursingTotalBeds')?.setValidators([Validators.required, Validators.min(250)]);
-      this.HospitalParentForm.get('txtOperationRoomNursingTotalBeds')?.setValidators([Validators.required, Validators.min(250)]);
-      this.HospitalParentForm.get('txtEmergencyAndDisasterNursingTotalBeds')?.setValidators([Validators.required, Validators.min(250)]);
+    try {
+      this.loaderService.requestStarted();
+      if (this.IsShowSuperSpecialtyHospital) {
+        this.HospitalParentForm.get('txtCardioThoracicTotalBeds')?.setValidators([Validators.required, Validators.min(50)]);
+        this.HospitalParentForm.get('txtCriticalCareNursingTotalBeds')?.setValidators([Validators.required, Validators.min(250)]);
+        this.HospitalParentForm.get('txtMidwiferyNursingTotalBeds')?.setValidators([Validators.required, Validators.min(50)]);
+        this.HospitalParentForm.get('txtDeliveriesPerYear')?.setValidators([Validators.required, Validators.min(500)]);
+        this.HospitalParentForm.get('txtLevelIINeonatalBeds')?.setValidators([Validators.required, Validators.min(8)]);
+        this.HospitalParentForm.get('txtNeuroScienceNursingTotalBeds')?.setValidators([Validators.required, Validators.min(50)]);
+        this.HospitalParentForm.get('txtOncologyNursingTotalBeds')?.setValidators([Validators.required, Validators.min(100)]);
+        this.HospitalParentForm.get('txtOrthopaedicRehabilitationNursingTotalBeds')?.setValidators([Validators.required, Validators.min(250)]);
+        this.HospitalParentForm.get('txtPsychiatricNursingTotalBeds')?.setValidators([Validators.required, Validators.min(50)]);
+        this.HospitalParentForm.get('txtNeonatalNursingTotalBeds')?.setValidators([Validators.required, Validators.min(250)]);
+        this.HospitalParentForm.get('txtOperationRoomNursingTotalBeds')?.setValidators([Validators.required, Validators.min(250)]);
+        this.HospitalParentForm.get('txtEmergencyAndDisasterNursingTotalBeds')?.setValidators([Validators.required, Validators.min(250)]);
+      }
+      else {
+        this.HospitalParentForm.get('txtCardioThoracicTotalBeds')?.clearValidators();
+        this.HospitalParentForm.get('txtCriticalCareNursingTotalBeds')?.clearValidators();
+        this.HospitalParentForm.get('txtMidwiferyNursingTotalBeds')?.clearValidators();
+        this.HospitalParentForm.get('txtDeliveriesPerYear')?.clearValidators();
+        this.HospitalParentForm.get('txtLevelIINeonatalBeds')?.clearValidators();
+        this.HospitalParentForm.get('txtNeuroScienceNursingTotalBeds')?.clearValidators();
+        this.HospitalParentForm.get('txtOncologyNursingTotalBeds')?.clearValidators();
+        this.HospitalParentForm.get('txtOrthopaedicRehabilitationNursingTotalBeds')?.clearValidators();
+        this.HospitalParentForm.get('txtPsychiatricNursingTotalBeds')?.clearValidators();
+        this.HospitalParentForm.get('txtNeonatalNursingTotalBeds')?.clearValidators();
+        this.HospitalParentForm.get('txtOperationRoomNursingTotalBeds')?.clearValidators();
+        this.HospitalParentForm.get('txtEmergencyAndDisasterNursingTotalBeds')?.clearValidators();
+      }
+      this.HospitalParentForm.get('txtCardioThoracicTotalBeds')?.updateValueAndValidity();
+      this.HospitalParentForm.get('txtCriticalCareNursingTotalBeds')?.updateValueAndValidity();
+      this.HospitalParentForm.get('txtMidwiferyNursingTotalBeds')?.updateValueAndValidity();
+      this.HospitalParentForm.get('txtDeliveriesPerYear')?.updateValueAndValidity();
+      this.HospitalParentForm.get('txtLevelIINeonatalBeds')?.updateValueAndValidity();
+      this.HospitalParentForm.get('txtNeuroScienceNursingTotalBeds')?.updateValueAndValidity();
+      this.HospitalParentForm.get('txtOncologyNursingTotalBeds')?.updateValueAndValidity();
+      this.HospitalParentForm.get('txtOrthopaedicRehabilitationNursingTotalBeds')?.updateValueAndValidity();
+      this.HospitalParentForm.get('txtPsychiatricNursingTotalBeds')?.updateValueAndValidity();
+      this.HospitalParentForm.get('txtNeonatalNursingTotalBeds')?.updateValueAndValidity();
+      this.HospitalParentForm.get('txtOperationRoomNursingTotalBeds')?.updateValueAndValidity();
+      this.HospitalParentForm.get('txtEmergencyAndDisasterNursingTotalBeds')?.updateValueAndValidity();
     }
-    else {
-      this.HospitalParentForm.get('txtCardioThoracicTotalBeds')?.clearValidators();
-      this.HospitalParentForm.get('txtCriticalCareNursingTotalBeds')?.clearValidators();
-      this.HospitalParentForm.get('txtMidwiferyNursingTotalBeds')?.clearValidators();
-      this.HospitalParentForm.get('txtDeliveriesPerYear')?.clearValidators();
-      this.HospitalParentForm.get('txtLevelIINeonatalBeds')?.clearValidators();
-      this.HospitalParentForm.get('txtNeuroScienceNursingTotalBeds')?.clearValidators();
-      this.HospitalParentForm.get('txtOncologyNursingTotalBeds')?.clearValidators();
-      this.HospitalParentForm.get('txtOrthopaedicRehabilitationNursingTotalBeds')?.clearValidators();
-      this.HospitalParentForm.get('txtPsychiatricNursingTotalBeds')?.clearValidators();
-      this.HospitalParentForm.get('txtNeonatalNursingTotalBeds')?.clearValidators();
-      this.HospitalParentForm.get('txtOperationRoomNursingTotalBeds')?.clearValidators();
-      this.HospitalParentForm.get('txtEmergencyAndDisasterNursingTotalBeds')?.clearValidators();
+    catch (Ex) {
+      console.log(Ex);
     }
-    this.HospitalParentForm.get('txtCardioThoracicTotalBeds')?.updateValueAndValidity();
-    this.HospitalParentForm.get('txtCriticalCareNursingTotalBeds')?.updateValueAndValidity();
-    this.HospitalParentForm.get('txtMidwiferyNursingTotalBeds')?.updateValueAndValidity();
-    this.HospitalParentForm.get('txtDeliveriesPerYear')?.updateValueAndValidity();
-    this.HospitalParentForm.get('txtLevelIINeonatalBeds')?.updateValueAndValidity();
-    this.HospitalParentForm.get('txtNeuroScienceNursingTotalBeds')?.updateValueAndValidity();
-    this.HospitalParentForm.get('txtOncologyNursingTotalBeds')?.updateValueAndValidity();
-    this.HospitalParentForm.get('txtOrthopaedicRehabilitationNursingTotalBeds')?.updateValueAndValidity();
-    this.HospitalParentForm.get('txtPsychiatricNursingTotalBeds')?.updateValueAndValidity();
-    this.HospitalParentForm.get('txtNeonatalNursingTotalBeds')?.updateValueAndValidity();
-    this.HospitalParentForm.get('txtOperationRoomNursingTotalBeds')?.updateValueAndValidity();
-    this.HospitalParentForm.get('txtEmergencyAndDisasterNursingTotalBeds')?.updateValueAndValidity();
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   async SetHospitalDistance(minDistance: number, maxDistance: number, section: string) {
-    if (section == 'ParentNot') {
-      this.MinDistance_ParentNot = minDistance;
-      this.MaxDistance_ParentNot = maxDistance;
+    try {
+      this.loaderService.requestStarted();
+      if (section == 'ParentNot') {
+        this.MinDistance_ParentNot = minDistance;
+        this.MaxDistance_ParentNot = maxDistance;
+      }
+      else {
+        this.MinDistance = minDistance;
+        this.MaxDistance = maxDistance;
+      }
     }
-    else {
-      this.MinDistance = minDistance;
-      this.MaxDistance = maxDistance;
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   IsParentHospitalOrNot(isParent: boolean) {
-    this.IsParentHospital = isParent;
+    try {
+      this.loaderService.requestStarted();
+      this.IsParentHospital = isParent;
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   // other
   IsParentHospitalRelatedToOtherOrNot(isParentRelatedToOther: boolean) {
-    this.IsParentHospitalRelatedToOther = isParentRelatedToOther;
-    debugger;
-    if (isParentRelatedToOther) {
-      this.request.InstitutionName = null;
-      this.request.OrganizationPhone = '';
-      this.request.AddressLine1_Other = '';
-      this.request.AddressLine2_Other = '';
-      this.request.RuralUrban_Other = null;
-      this.request.DivisionID_Other = 0;
-      this.request.DistrictID_Other = 0;
-      this.request.TehsilID_Other = 0;
-      this.request.PanchayatSamitiID_Other = 0;
-      this.request.CityTownVillage_Other = '';
-      this.request.Pincode_Other = null;
+    try {
+      this.loaderService.requestStarted();
+      this.IsParentHospitalRelatedToOther = isParentRelatedToOther;
+      
+      if (isParentRelatedToOther) {
+        this.request.InstitutionName = null;
+        this.request.OrganizationPhone = '';
+        this.request.AddressLine1_Other = '';
+        this.request.AddressLine2_Other = '';
+        this.request.RuralUrban_Other = null;
+        this.request.DivisionID_Other = 0;
+        this.request.DistrictID_Other = 0;
+        this.request.TehsilID_Other = 0;
+        this.request.PanchayatSamitiID_Other = 0;
+        this.request.CityTownVillage_Other = '';
+        this.request.Pincode_Other = null;
 
+      }
+      else {
+        this.request.InstitutionName = 'NA';
+        this.request.OrganizationPhone = '0000000000';
+        this.request.AddressLine1_Other = 'NA';
+        this.request.AddressLine2_Other = 'NA';
+        this.request.RuralUrban_Other = 0;
+        this.request.DivisionID_Other = 1;
+        this.request.DistrictID_Other = 1;
+        this.request.TehsilID_Other = 1;
+        this.request.PanchayatSamitiID_Other = 1;
+        this.request.CityTownVillage_Other = 'NA';
+        this.request.Pincode_Other = 111111;
+
+      }
     }
-    else {
-      this.request.InstitutionName = 'NA';
-      this.request.OrganizationPhone = '0000000000';
-      this.request.AddressLine1_Other = 'NA';
-      this.request.AddressLine2_Other = 'NA';
-      this.request.RuralUrban_Other = 0;
-      this.request.DivisionID_Other = 1;
-      this.request.DistrictID_Other = 1;
-      this.request.TehsilID_Other = 1;
-      this.request.PanchayatSamitiID_Other = 1;
-      this.request.CityTownVillage_Other = 'NA';
-      this.request.Pincode_Other = 111111;
-
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   IsAffiliatedHospitalAffiliationToOtherOrNot(isAffiliatedHospitalAffiliationToOther: boolean) {
-    this.IsAffiliatedHospitalAffiliationToOther = isAffiliatedHospitalAffiliationToOther;
-    //if (isAffiliatedHospitalAffiliationToOther) {
-    //  this.requestNot.ConsentForm = '';
-    //} else {
-    //  this.requestNot.ConsentForm = 'NA';
-    //}
+    try {
+      this.loaderService.requestStarted();
+      this.IsAffiliatedHospitalAffiliationToOther = isAffiliatedHospitalAffiliationToOther;
+      //if (isAffiliatedHospitalAffiliationToOther) {
+      //  this.requestNot.ConsentForm = '';
+      //} else {
+      //  this.requestNot.ConsentForm = 'NA';
+      //}
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   async IsSuperSpecialtyHospital() {
@@ -509,114 +563,136 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   async IsRuralOrUrban(isRural: boolean, section: string, isResetValue: boolean) {
-    if (isRural) {
-      if (section == 'ManageBy') {
-        this.IsRural_ManageBy = isRural;
-        if (isResetValue) {
-          this.request.TehsilID_ManageBy = 0;
-          this.request.PanchayatSamitiID_ManageBy = 0;
+    try {
+      this.loaderService.requestStarted();
+      if (isRural) {
+        if (section == 'ManageBy') {
+          this.IsRural_ManageBy = isRural;
+          if (isResetValue) {
+            this.request.TehsilID_ManageBy = 0;
+            this.request.PanchayatSamitiID_ManageBy = 0;
+          }
         }
-      }
-      else if (section == 'Owner') {
-        this.IsRural_Owner = isRural;
-        if (isResetValue) {
-          this.request.TehsilID_Owner = 0;
-          this.request.PanchayatSamitiID_Owner = 0;
+        else if (section == 'Owner') {
+          this.IsRural_Owner = isRural;
+          if (isResetValue) {
+            this.request.TehsilID_Owner = 0;
+            this.request.PanchayatSamitiID_Owner = 0;
+          }
         }
-      }
-      else if (section == 'Other') {
-        this.IsRural_Other = isRural;
-        if (isResetValue) {
-          this.request.TehsilID_Other = 0;
-          this.request.PanchayatSamitiID_Other = 0;
+        else if (section == 'Other') {
+          this.IsRural_Other = isRural;
+          if (isResetValue) {
+            this.request.TehsilID_Other = 0;
+            this.request.PanchayatSamitiID_Other = 0;
+          }
+        }
+        else {
+          this.IsRural = isRural;
+          if (isResetValue) {
+            this.request.TehsilID = 0;
+            this.request.PanchayatSamitiID = 0;
+          }
         }
       }
       else {
-        this.IsRural = isRural;
-        if (isResetValue) {
-          this.request.TehsilID = 0;
-          this.request.PanchayatSamitiID = 0;
+        if (section == 'ManageBy') {
+          this.IsRural_ManageBy = isRural;
+          if (isResetValue) {
+            this.request.TehsilID_ManageBy = 1;
+            this.request.PanchayatSamitiID_ManageBy = 1;
+          }
+        }
+        else if (section == 'Owner') {
+          this.IsRural_Owner = isRural;
+          if (isResetValue) {
+            this.request.TehsilID_Owner = 1;
+            this.request.PanchayatSamitiID_Owner = 1;
+          }
+        }
+        else if (section == 'Other') {
+          this.IsRural_Other = isRural;
+          if (isResetValue) {
+            this.request.TehsilID_Other = 1;
+            this.request.PanchayatSamitiID_Other = 1;
+          }
+        }
+        else {
+          this.IsRural = isRural;
+          if (isResetValue) {
+            this.request.TehsilID = 1;
+            this.request.PanchayatSamitiID = 1;
+          }
         }
       }
     }
-    else {
-      if (section == 'ManageBy') {
-        this.IsRural_ManageBy = isRural;
-        if (isResetValue) {
-          this.request.TehsilID_ManageBy = 1;
-          this.request.PanchayatSamitiID_ManageBy = 1;
-        }
-      }
-      else if (section == 'Owner') {
-        this.IsRural_Owner = isRural;
-        if (isResetValue) {
-          this.request.TehsilID_Owner = 1;
-          this.request.PanchayatSamitiID_Owner = 1;
-        }
-      }
-      else if (section == 'Other') {
-        this.IsRural_Other = isRural;
-        if (isResetValue) {
-          this.request.TehsilID_Other = 1;
-          this.request.PanchayatSamitiID_Other = 1;
-        }
-      }
-      else {
-        this.IsRural = isRural;
-        if (isResetValue) {
-          this.request.TehsilID = 1;
-          this.request.PanchayatSamitiID = 1;
-        }
-      }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   async IsRuralOrUrban_ParentNot(isRural: boolean, section: string, isResetValue: boolean) {
-    if (isRural) {
-      if (section == 'ManageBy') {
-        this.IsRural_ParentNot_ManageBy = isRural;
-        if (isResetValue) {
-          this.requestNot.TehsilID_ManageBy = 0;
-          this.requestNot.PanchayatSamitiID_ManageBy = 0;
+    try {
+      this.loaderService.requestStarted();
+      if (isRural) {
+        if (section == 'ManageBy') {
+          this.IsRural_ParentNot_ManageBy = isRural;
+          if (isResetValue) {
+            this.requestNot.TehsilID_ManageBy = 0;
+            this.requestNot.PanchayatSamitiID_ManageBy = 0;
+          }
         }
-      }
-      else if (section == 'Owner') {
-        this.IsRural_ParentNot_Owner = isRural;
-        if (isResetValue) {
-          this.requestNot.TehsilID_Owner = 0;
-          this.requestNot.PanchayatSamitiID_Owner = 0;
+        else if (section == 'Owner') {
+          this.IsRural_ParentNot_Owner = isRural;
+          if (isResetValue) {
+            this.requestNot.TehsilID_Owner = 0;
+            this.requestNot.PanchayatSamitiID_Owner = 0;
+          }
+        }
+        else {
+          this.IsRural_ParentNot = isRural;
+          if (isResetValue) {
+            this.requestNot.TehsilID = 0;
+            this.requestNot.PanchayatSamitiID = 0;
+          }
         }
       }
       else {
-        this.IsRural_ParentNot = isRural;
-        if (isResetValue) {
-          this.requestNot.TehsilID = 0;
-          this.requestNot.PanchayatSamitiID = 0;
+        if (section == 'ManageBy') {
+          this.IsRural_ParentNot_ManageBy = isRural;
+          if (isResetValue) {
+            this.requestNot.TehsilID_ManageBy = 1;
+            this.requestNot.PanchayatSamitiID_ManageBy = 1;
+          }
+        }
+        else if (section == 'Owner') {
+          this.IsRural_ParentNot_Owner = isRural;
+          if (isResetValue) {
+            this.requestNot.TehsilID_Owner = 1;
+            this.requestNot.PanchayatSamitiID_Owner = 1;
+          }
+        }
+        else {
+          this.IsRural_ParentNot = isRural;
+          if (isResetValue) {
+            this.requestNot.TehsilID = 1;
+            this.requestNot.PanchayatSamitiID = 1;
+          }
         }
       }
     }
-    else {
-      if (section == 'ManageBy') {
-        this.IsRural_ParentNot_ManageBy = isRural;
-        if (isResetValue) {
-          this.requestNot.TehsilID_ManageBy = 1;
-          this.requestNot.PanchayatSamitiID_ManageBy = 1;
-        }
-      }
-      else if (section == 'Owner') {
-        this.IsRural_ParentNot_Owner = isRural;
-        if (isResetValue) {
-          this.requestNot.TehsilID_Owner = 1;
-          this.requestNot.PanchayatSamitiID_Owner = 1;
-        }
-      }
-      else {
-        this.IsRural_ParentNot = isRural;
-        if (isResetValue) {
-          this.requestNot.TehsilID = 1;
-          this.requestNot.PanchayatSamitiID = 1;
-        }
-      }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
@@ -810,7 +886,7 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   async SaveDataOfParent() {
-    debugger;
+    
     this.isSubmitted = true;
     if (this.HospitalParentForm.invalid) {
       console.log(this.HospitalParentForm);
@@ -828,6 +904,7 @@ export class HospitalDetailComponent implements OnInit {
     }
     // save data
     try {
+      this.loaderService.requestStarted();
       await this.hospitalDetailService.SaveData(this.request)
         .then(async (data: any) => {
           this.State = data['State'];
@@ -861,111 +938,122 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   ResetHospitalOfParent() {
-    this.request.HospitalID = 0;
-    this.request.HospitalAreaID = 0;
-    this.request.HospitalRegNo = '';
-    this.request.HospitalName = '';
-    this.request.HospitalDistance = 0;
-    this.request.HospitalContactNo = '';
-    this.request.HospitalEmailID = '';
-    this.request.ManageByName = '';
-    this.request.ManageByPhone = '';
-    this.request.OwnerName = '';
-    this.request.OwnerPhone = '';
-    this.request.MedicalBeds = 0;
-    this.request.SurgicalBeds = 0;
-    this.request.ObstAndGynaecologyBeds = 0;
-    this.request.PediatricsBeds = 0;
-    this.request.OrthoBeds = 0;
-    this.request.OccupancyPercentegeBeds = 0;
-    this.request.AffiliationPsychiatricBeds = 0;
-    this.request.ParentHospitalRelatedToOtherID = 0;
-    this.request.InstitutionName = '';
-    this.request.OrganizationPhone = '';
+    try {
+      this.loaderService.requestStarted();
+      this.request.HospitalID = 0;
+      this.request.HospitalAreaID = 0;
+      this.request.HospitalRegNo = '';
+      this.request.HospitalName = '';
+      this.request.HospitalDistance = 0;
+      this.request.HospitalContactNo = '';
+      this.request.HospitalEmailID = '';
+      this.request.ManageByName = '';
+      this.request.ManageByPhone = '';
+      this.request.OwnerName = '';
+      this.request.OwnerPhone = '';
+      this.request.MedicalBeds = 0;
+      this.request.SurgicalBeds = 0;
+      this.request.ObstAndGynaecologyBeds = 0;
+      this.request.PediatricsBeds = 0;
+      this.request.OrthoBeds = 0;
+      this.request.OccupancyPercentegeBeds = 0;
+      this.request.AffiliationPsychiatricBeds = 0;
+      this.request.ParentHospitalRelatedToOtherID = 0;
+      this.request.InstitutionName = '';
+      this.request.OrganizationPhone = '';
 
-    this.request.CardioThoracicTotalBeds = 0;
-    this.request.CardioThoracicCCUBeds = 0;
-    this.request.CardioThoracicICCUBeds = 0;
-    this.request.CardioThoracicICUBeds = 0;
-    this.request.CriticalCareNursingTotalBeds = 0;
-    this.request.CriticalCareNursingCCBeds = 0;
-    this.request.CriticalCareNursingICUBeds = 0;
-    this.request.MidwiferyNursingTotalBeds = 0;
-    this.request.MotherNeonatalUnitsBeds = 0;
-    this.request.DeliveriesPerYear = 0;
-    this.request.LevelIINeonatalBeds = 0;
-    this.request.LevelIIINeonatalBeds = 0;
-    this.request.NeuroScienceNursingTotalBeds = 0;
-    this.request.OncologyNursingTotalBeds = 0;
-    this.request.OncologyNursingMedicalBeds = 0;
-    this.request.OncologyNurSingsurgicalBeds = 0;
-    this.request.OncologyNursingChemotherapyBeds = 0;
-    this.request.OncologyNursingRadiotherapyBeds = 0;
-    this.request.OncologyNursingPalliativeBeds = 0;
-    this.request.OncologyNursingDiagnosticBeds = 0;
-    this.request.OrthopaedicRehabilitationNursingTotalBeds = 0;
-    this.request.OrthopaedicRehabilitationNursingOrthopaedicBeds = 0;
-    this.request.OrthopaedicRehabilitationNursingRehabilitationBeds = 0;
-    this.request.PsychiatricNursingTotalBeds = 0;
-    this.request.PsychiatricNursingAcuteBeds = 0;
-    this.request.PsychiatricNursingChronicBeds = 0;
-    this.request.PsychiatricNursingAdultBeds = 0;
-    this.request.PsychiatricNursingChildBeds = 0;
-    this.request.PsychiatricNursingDeAddictionBeds = 0;
-    this.request.NeonatalNursingTotalBeds = 0;
-    this.request.NeonatalNursingLevelIIOrIIINICUBeds = 0;
-    this.request.NeonatalNursingNICUBeds = 0;
-    this.request.OperationRoomNursingTotalBeds = 0;
-    this.request.OperationRoomNursingGeneralSurgeryBeds = 0;
-    this.request.OperationRoomNursingPediatricBeds = 0;
-    this.request.OperationRoomNursingCardiothoracicBeds = 0;
-    this.request.OperationRoomNursingGynaeAndObstetricalBeds = 0;
-    this.request.OperationRoomNursingOrthopaedicsBeds = 0;
-    this.request.OperationRoomNursingOphthalmicBeds = 0;
-    this.request.OperationRoomNursingENTAndNeuroBeds = 0;
-    this.request.EmergencyAndDisasterNursingTotalBeds = 0;
-    this.request.EmergencyAndDisasterNursingICUBeds = 0;
-    this.request.EmergencyAndDisasterNursingEmergencylBeds = 0;
+      this.request.CardioThoracicTotalBeds = 0;
+      this.request.CardioThoracicCCUBeds = 0;
+      this.request.CardioThoracicICCUBeds = 0;
+      this.request.CardioThoracicICUBeds = 0;
+      this.request.CriticalCareNursingTotalBeds = 0;
+      this.request.CriticalCareNursingCCBeds = 0;
+      this.request.CriticalCareNursingICUBeds = 0;
+      this.request.MidwiferyNursingTotalBeds = 0;
+      this.request.MotherNeonatalUnitsBeds = 0;
+      this.request.DeliveriesPerYear = 0;
+      this.request.LevelIINeonatalBeds = 0;
+      this.request.LevelIIINeonatalBeds = 0;
+      this.request.NeuroScienceNursingTotalBeds = 0;
+      this.request.OncologyNursingTotalBeds = 0;
+      this.request.OncologyNursingMedicalBeds = 0;
+      this.request.OncologyNurSingsurgicalBeds = 0;
+      this.request.OncologyNursingChemotherapyBeds = 0;
+      this.request.OncologyNursingRadiotherapyBeds = 0;
+      this.request.OncologyNursingPalliativeBeds = 0;
+      this.request.OncologyNursingDiagnosticBeds = 0;
+      this.request.OrthopaedicRehabilitationNursingTotalBeds = 0;
+      this.request.OrthopaedicRehabilitationNursingOrthopaedicBeds = 0;
+      this.request.OrthopaedicRehabilitationNursingRehabilitationBeds = 0;
+      this.request.PsychiatricNursingTotalBeds = 0;
+      this.request.PsychiatricNursingAcuteBeds = 0;
+      this.request.PsychiatricNursingChronicBeds = 0;
+      this.request.PsychiatricNursingAdultBeds = 0;
+      this.request.PsychiatricNursingChildBeds = 0;
+      this.request.PsychiatricNursingDeAddictionBeds = 0;
+      this.request.NeonatalNursingTotalBeds = 0;
+      this.request.NeonatalNursingLevelIIOrIIINICUBeds = 0;
+      this.request.NeonatalNursingNICUBeds = 0;
+      this.request.OperationRoomNursingTotalBeds = 0;
+      this.request.OperationRoomNursingGeneralSurgeryBeds = 0;
+      this.request.OperationRoomNursingPediatricBeds = 0;
+      this.request.OperationRoomNursingCardiothoracicBeds = 0;
+      this.request.OperationRoomNursingGynaeAndObstetricalBeds = 0;
+      this.request.OperationRoomNursingOrthopaedicsBeds = 0;
+      this.request.OperationRoomNursingOphthalmicBeds = 0;
+      this.request.OperationRoomNursingENTAndNeuroBeds = 0;
+      this.request.EmergencyAndDisasterNursingTotalBeds = 0;
+      this.request.EmergencyAndDisasterNursingICUBeds = 0;
+      this.request.EmergencyAndDisasterNursingEmergencylBeds = 0;
 
-    this.request.AddressLine1 = '';
-    this.request.AddressLine2 = '';
-    this.request.RuralUrban = null;
-    this.request.DivisionID = 0;
-    this.request.DistrictID = 0;
-    this.request.TehsilID = 0;
-    this.request.PanchayatSamitiID = 0;
-    this.request.CityTownVillage = '';
-    this.request.Pincode = null;
+      this.request.AddressLine1 = '';
+      this.request.AddressLine2 = '';
+      this.request.RuralUrban = null;
+      this.request.DivisionID = 0;
+      this.request.DistrictID = 0;
+      this.request.TehsilID = 0;
+      this.request.PanchayatSamitiID = 0;
+      this.request.CityTownVillage = '';
+      this.request.Pincode = null;
 
-    this.request.AddressLine1_ManageBy = '';
-    this.request.AddressLine2_ManageBy = '';
-    this.request.RuralUrban_ManageBy = null;
-    this.request.DivisionID_ManageBy = 0;
-    this.request.DistrictID_ManageBy = 0;
-    this.request.TehsilID_ManageBy = 0;
-    this.request.PanchayatSamitiID_ManageBy = 0;
-    this.request.CityTownVillage_ManageBy = '';
-    this.request.Pincode_ManageBy = null;
+      this.request.AddressLine1_ManageBy = '';
+      this.request.AddressLine2_ManageBy = '';
+      this.request.RuralUrban_ManageBy = null;
+      this.request.DivisionID_ManageBy = 0;
+      this.request.DistrictID_ManageBy = 0;
+      this.request.TehsilID_ManageBy = 0;
+      this.request.PanchayatSamitiID_ManageBy = 0;
+      this.request.CityTownVillage_ManageBy = '';
+      this.request.Pincode_ManageBy = null;
 
-    this.request.AddressLine1_Owner = '';
-    this.request.AddressLine2_Owner = '';
-    this.request.RuralUrban_Owner = null;
-    this.request.DivisionID_Owner = 0;
-    this.request.DistrictID_Owner = 0;
-    this.request.TehsilID_Owner = 0;
-    this.request.PanchayatSamitiID_Owner = 0;
-    this.request.CityTownVillage_Owner = '';
-    this.request.Pincode_Owner = null;
+      this.request.AddressLine1_Owner = '';
+      this.request.AddressLine2_Owner = '';
+      this.request.RuralUrban_Owner = null;
+      this.request.DivisionID_Owner = 0;
+      this.request.DistrictID_Owner = 0;
+      this.request.TehsilID_Owner = 0;
+      this.request.PanchayatSamitiID_Owner = 0;
+      this.request.CityTownVillage_Owner = '';
+      this.request.Pincode_Owner = null;
 
-    this.request.AddressLine1_Other = '';
-    this.request.AddressLine2_Other = '';
-    this.request.RuralUrban_Other = null;
-    this.request.DivisionID_Other = 0;
-    this.request.DistrictID_Other = 0;
-    this.request.TehsilID_Other = 0;
-    this.request.PanchayatSamitiID_Other = 0;
-    this.request.CityTownVillage_Other = '';
-    this.request.Pincode_Other = null;
+      this.request.AddressLine1_Other = '';
+      this.request.AddressLine2_Other = '';
+      this.request.RuralUrban_Other = null;
+      this.request.DivisionID_Other = 0;
+      this.request.DistrictID_Other = 0;
+      this.request.TehsilID_Other = 0;
+      this.request.PanchayatSamitiID_Other = 0;
+      this.request.CityTownVillage_Other = '';
+      this.request.Pincode_Other = null;
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
   }
 
   async DeleteHospitalOfParent(row: any) {
@@ -1026,6 +1114,7 @@ export class HospitalDetailComponent implements OnInit {
     this.requestNot.ParentHospitalID = this.request.ParentHospitalID;
     // save data
     try {
+      this.loaderService.requestStarted();
       await this.hospitalDetailService.SaveData(this.requestNot)
         .then(async (data: any) => {
           this.State = data['State'];
@@ -1059,66 +1148,77 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   ResetHospitalOfParentNot() {
-    // reset
-    this.requestNot.HospitalID = 0;
-    this.requestNot.HospitalAreaID = 0;
-    this.requestNot.HospitalRegNo = '';
-    this.requestNot.HospitalName = '';
-    this.requestNot.HospitalDistance = 0;
-    this.requestNot.HospitalContactNo = null;
-    this.requestNot.HospitalEmailID = '';
-    this.requestNot.ManageByName = '';
-    this.requestNot.ManageByPhone = null;
-    this.requestNot.OwnerName = '';
-    this.requestNot.OwnerPhone = null;
-    this.requestNot.MedicalBeds = 0;
-    this.requestNot.SurgicalBeds = 0;
-    this.requestNot.ObstAndGynaecologyBeds = 0;
-    this.requestNot.PediatricsBeds = 0;
-    this.requestNot.OrthoBeds = 0;
-    this.requestNot.OccupancyPercentegeBeds = 0;
-    this.requestNot.AffiliationPsychiatricBeds = 0;
-    this.requestNot.AffiliatedHospitalAffiliationToOtherID = null;
-    this.requestNot.ParentNotDocument = '';
-    this.requestNot.Dis_ParentNotDocument = '';
-    this.requestNot.ParentNotDocumentPath = '';
-    this.requestNot.ConsentForm = '';
-    this.requestNot.Dis_ConsentForm = '';
-    this.requestNot.ConsentFormPath = '';
+    try {
+      this.loaderService.requestStarted();
+      // reset
+      this.requestNot.HospitalID = 0;
+      this.requestNot.HospitalAreaID = 0;
+      this.requestNot.HospitalRegNo = '';
+      this.requestNot.HospitalName = '';
+      this.requestNot.HospitalDistance = 0;
+      this.requestNot.HospitalContactNo = null;
+      this.requestNot.HospitalEmailID = '';
+      this.requestNot.ManageByName = '';
+      this.requestNot.ManageByPhone = null;
+      this.requestNot.OwnerName = '';
+      this.requestNot.OwnerPhone = null;
+      this.requestNot.MedicalBeds = 0;
+      this.requestNot.SurgicalBeds = 0;
+      this.requestNot.ObstAndGynaecologyBeds = 0;
+      this.requestNot.PediatricsBeds = 0;
+      this.requestNot.OrthoBeds = 0;
+      this.requestNot.OccupancyPercentegeBeds = 0;
+      this.requestNot.AffiliationPsychiatricBeds = 0;
+      this.requestNot.AffiliatedHospitalAffiliationToOtherID = null;
+      this.requestNot.ParentNotDocument = '';
+      this.requestNot.Dis_ParentNotDocument = '';
+      this.requestNot.ParentNotDocumentPath = '';
+      this.requestNot.ConsentForm = '';
+      this.requestNot.Dis_ConsentForm = '';
+      this.requestNot.ConsentFormPath = '';
 
 
-    this.requestNot.AddressLine1 = '';
-    this.requestNot.AddressLine2 = '';
-    this.requestNot.RuralUrban = null;
-    this.requestNot.DivisionID = 0;
-    this.requestNot.DistrictID = 0;
-    this.requestNot.TehsilID = 0;
-    this.requestNot.PanchayatSamitiID = 0;
-    this.requestNot.CityTownVillage = '';
-    this.requestNot.Pincode = null;
+      this.requestNot.AddressLine1 = '';
+      this.requestNot.AddressLine2 = '';
+      this.requestNot.RuralUrban = null;
+      this.requestNot.DivisionID = 0;
+      this.requestNot.DistrictID = 0;
+      this.requestNot.TehsilID = 0;
+      this.requestNot.PanchayatSamitiID = 0;
+      this.requestNot.CityTownVillage = '';
+      this.requestNot.Pincode = null;
 
-    this.requestNot.AddressLine1_ManageBy = '';
-    this.requestNot.AddressLine2_ManageBy = '';
-    this.requestNot.RuralUrban_ManageBy = null;
-    this.requestNot.DivisionID_ManageBy = 0;
-    this.requestNot.DistrictID_ManageBy = 0;
-    this.requestNot.TehsilID_ManageBy = 0;
-    this.requestNot.PanchayatSamitiID_ManageBy = 0;
-    this.requestNot.CityTownVillage_ManageBy = '';
-    this.requestNot.Pincode_ManageBy = null;
+      this.requestNot.AddressLine1_ManageBy = '';
+      this.requestNot.AddressLine2_ManageBy = '';
+      this.requestNot.RuralUrban_ManageBy = null;
+      this.requestNot.DivisionID_ManageBy = 0;
+      this.requestNot.DistrictID_ManageBy = 0;
+      this.requestNot.TehsilID_ManageBy = 0;
+      this.requestNot.PanchayatSamitiID_ManageBy = 0;
+      this.requestNot.CityTownVillage_ManageBy = '';
+      this.requestNot.Pincode_ManageBy = null;
 
-    this.requestNot.AddressLine1_Owner = '';
-    this.requestNot.AddressLine2_Owner = '';
-    this.requestNot.RuralUrban_Owner = null;
-    this.requestNot.DivisionID_Owner = 0;
-    this.requestNot.DistrictID_Owner = 0;
-    this.requestNot.TehsilID_Owner = 0;
-    this.requestNot.PanchayatSamitiID_Owner = 0;
-    this.requestNot.CityTownVillage_Owner = '';
-    this.requestNot.Pincode_Owner = null;
+      this.requestNot.AddressLine1_Owner = '';
+      this.requestNot.AddressLine2_Owner = '';
+      this.requestNot.RuralUrban_Owner = null;
+      this.requestNot.DivisionID_Owner = 0;
+      this.requestNot.DistrictID_Owner = 0;
+      this.requestNot.TehsilID_Owner = 0;
+      this.requestNot.PanchayatSamitiID_Owner = 0;
+      this.requestNot.CityTownVillage_Owner = '';
+      this.requestNot.Pincode_Owner = null;
 
-    const txtHospitalName = document.getElementById('txtHospitalRegNo')
-    if (txtHospitalName) txtHospitalName.focus();
+      const txtHospitalName = document.getElementById('txtHospitalRegNo')
+      if (txtHospitalName) txtHospitalName.focus();
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
   }
 
   async DeleteHospitalOfParentNot(row: any) {
@@ -1367,6 +1467,56 @@ export class HospitalDetailComponent implements OnInit {
       this.ResetFileAndValidation(Type, '', '', '', '', false);
     }
   }
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        // (Type != 'ConsentForm' && (this.file.type === 'image/jpeg' || this.file.type === 'image/jpg')) ||
+        if (this.file.type === 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+            return
+          }
+          if (this.file.size < 100000) {
+            this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+            return
+          }
+        }
+        else {// type validation
+          //'Select Only ' + (Type == 'ConsentForm' ? 'pdf file' : 'jpg/jpeg')
+          this.ResetFileAndValidation(Type, 'Select Only pdf', '', '', '', false);
+          return
+        }
+        // upload to server folder
+        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], true);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      else {
+        this.ResetFileAndValidation(Type, '', '', '', '', false);
+      }
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
 
   async DeleteImage(Type: string) {
     let path: string = '';
@@ -1382,22 +1532,40 @@ export class HospitalDetailComponent implements OnInit {
     else if (Type == 'NotPollutionCertificate') {
       path = this.requestNot.PollutionCertificate;
     }
+    try {
+      this.loaderService.requestStarted();
+      let path: string = '';
+      if (Type == 'ParentNotDocument') {
+        path = this.requestNot.ParentNotDocument;
+      }
+      else if (Type == 'ConsentForm') {
+        path = this.requestNot.ConsentForm;
+      }
 
-    // delete from server folder
-    this.fileUploadService.DeleteDocument(path).then((data: any) => {
-      this.State = data['State'];
-      this.SuccessMessage = data['SuccessMessage'];
-      this.ErrorMessage = data['ErrorMessage'];
-      if (this.State == 0) {
-        this.ResetFileAndValidation(Type, '', '', '', '', false);
-      }
-      if (this.State == 1) {
-        this.toastr.error(this.ErrorMessage)
-      }
-      else if (this.State == 2) {
-        this.toastr.warning(this.ErrorMessage)
-      }
-    });
+      // delete from server folder
+      this.fileUploadService.DeleteDocument(path).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.ResetFileAndValidation(Type, '', '', '', '', false);
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
   }
 
   ResetFileAndValidation(type: string, msg: string, name: string, dis_name: string, path: string, isShowFile: boolean) {
@@ -1429,6 +1597,32 @@ export class HospitalDetailComponent implements OnInit {
       this.requestNot.PollutionCertificatePath = path;
     }
   }
+    try {
+      this.loaderService.requestStarted();
+      if (type == 'ParentNotDocument') {
+        this.showParentNotDocument = isShowFile;
+        this.ParentNotDocumentValidationMessage = msg;
+        this.requestNot.ParentNotDocument = name;
+        this.requestNot.Dis_ParentNotDocument = dis_name;
+        this.requestNot.ParentNotDocumentPath = path;
+      }
+      else if (type == 'ConsentForm') {
+        this.showParentNotConsentForm = isShowFile;
+        this.ParentNotConsentFormValidationMessage = msg;
+        this.requestNot.ConsentForm = name;
+        this.requestNot.Dis_ConsentForm = dis_name;
+        this.requestNot.ConsentFormPath = path;
+      }
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
 
   CustomValidate() {
     let isValid = true;
@@ -1444,7 +1638,18 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   async EditHospital(hospitalId: number) {
-    await this.GetData(hospitalId);
+    try {
+      this.loaderService.requestStarted();
+      await this.GetData(hospitalId);
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
   }
 
   btnCancel_Click() {

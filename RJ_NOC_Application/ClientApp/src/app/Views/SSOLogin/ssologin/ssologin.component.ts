@@ -125,7 +125,7 @@ export class SSOLoginComponent implements OnInit {
     //this.loaderService.requestStarted();
     // this.Username = this.router.snapshot.queryParams.id1;
     //this.LoginType = this.router.snapshot.queryParams.id2;
-    debugger;
+    
     this.Username = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id1')?.toString());
     console.log(this.Username);
     if (this.Username == undefined) {
@@ -133,7 +133,7 @@ export class SSOLoginComponent implements OnInit {
 
     }
 
-    debugger;
+    
     // this.LoginType = this.router.snapshot.queryParams.id1;
     await this.Citizenlogin(this.Username, this.LoginType);
     //setTimeout(() => {
@@ -152,7 +152,7 @@ export class SSOLoginComponent implements OnInit {
       this.sSOLandingDataDataModel.LoginType = "-999";
       this.sSOLandingDataDataModel.Password = LoginSSOID;
 
-      debugger;
+      
 
       
       if (LoginSSOID == undefined || LoginSSOID == '' || LoginSSOID == 'NaN' || LoginSSOID.toString() == NaN.toString()) {
@@ -171,7 +171,7 @@ export class SSOLoginComponent implements OnInit {
             this.sSOLoginDataModel = data['Data'];
           }
         }, error => console.error(error));
-      debugger;
+      
       if (this.sSOLoginDataModel.SSOID == '') {
         //window.open(GlobalConstants.SSOURL, "_self");
         //this.router.navigate(['/login']);
@@ -183,7 +183,7 @@ export class SSOLoginComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           console.log(data);
           if (data['Data'][0]['data'].length > 0) {
-            debugger;
+            
             this.sSOLoginDataModel.SSOID = data['Data'][0]['data'][0]['SSOID'];
             this.sSOLoginDataModel.RoleID = data['Data'][0]['data'][0]['RoleID'];
             this.sSOLoginDataModel.RoleName = data['Data'][0]['data'][0]['RoleName'];
@@ -196,7 +196,7 @@ export class SSOLoginComponent implements OnInit {
         this.sSOLoginDataModel.RoleID = 0;
       }
       //this.SSOjson = "{\"SSOID\": \"" + LoginSSOID + "\",\"AadhaarId\": \"444088094507722\",\"BhamashahId\": null,\"BhamashahMemberId\": null,\"DisplayName\": \"RISHI KAPOOR\",\"DateOfBirth\": \"17/09/1991\",\"Gender\": \"MALE\",\"MobileNo\": null,\"TelephoneNumber\": \"07742860212\",\"IpPhone\": null,\"MailPersonal\": \"RISHIKAPOORDELHI@GMAIL.COM\",\"PostalAddress\": \"D-119D 119, GALI NO 6 GAUTAM MARG, NIRMAN NAGAR\",\"PostalCode\": \"302019\",\"l\": \"JAIPUR\",\"st\": \"RAJASTHAN\",\"Photo\": null,\"Designation\": \"CITIZEN\",\"Department\": \"GOOGLE\",\"MailOfficial\": null,\"EmployeeNumber\": null,\"DepartmentId\": null,\"FirstName\": \"RISHI\",\"LastName\": \"KAPOOR\",\"SldSSOIDs\": null,\"JanaadhaarId\": null,\"ManaadhaarMemberId\": null,\"UserType\": \"CITIZEN\",\"Mfa\": \"0\",\"RoleID\": \"" + this.RoleID + "\",\"RoleName\": \"" + this.RoleName + "\",\"DepartmentID\": \"" + this.DepartmentID + "\"} ";
-      debugger;
+      
 
       localStorage.setItem('SSOLoginUser', JSON.stringify(this.sSOLoginDataModel))
       /// localStorage.setItem('SSOLoginUser', this.SSOjson)

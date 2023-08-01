@@ -56,7 +56,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
         rbWomenMembersOfManagementCommitteeID: ['', Validators.required],
         rbDateOfElectionOfManagementCommitteeID: ['', Validators.required],
         rbOtherInstitutionRunByTheSocietyID: ['', Validators.required]
-      })    
+      })
 
     // login info
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -95,6 +95,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
     }
     // save data
     try {
+      this.loaderService.requestStarted();
       await this.TrusteeGeneralInfoService.SaveData(this.request)
         .then(async (data: any) => {
           this.State = data['State'];
@@ -118,7 +119,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
           else {
             this.toastr.error(this.ErrorMessage)
           }
-          
+
         })
     }
     catch (ex) { console.log(ex) }
@@ -157,15 +158,26 @@ export class TrusteeGeneralInfoComponent implements OnInit {
   async ResetData() {
     // reset
     //this.request.LegalEntityID = 0;
-    this.request.TrusteeGeneralInfoID = 0;
-    this.ResetFileAndValidation('SocietyRegistrationDocument', '', '','','', false);
-    this.ResetFileAndValidation('SocietyLogo', '', '', '', '', false);
-    this.request.DateOfElectionOfPresentManagementCommittee = '';
-    this.request.WomenMembersOfManagementCommitteeID = null;
-    this.request.DateOfElectionOfManagementCommitteeID = null;
-    this.request.OtherInstitutionRunByTheSocietyID = null;
-    this.IsTrustee = false;
-    this.IsTrusteeReset = false;
+    try {
+      this.loaderService.requestStarted();
+      this.request.TrusteeGeneralInfoID = 0;
+      this.ResetFileAndValidation('SocietyRegistrationDocument', '', '', '', '', false);
+      this.ResetFileAndValidation('SocietyLogo', '', '', '', '', false);
+      this.request.DateOfElectionOfPresentManagementCommittee = '';
+      this.request.WomenMembersOfManagementCommitteeID = null;
+      this.request.DateOfElectionOfManagementCommitteeID = null;
+      this.request.OtherInstitutionRunByTheSocietyID = null;
+      this.IsTrustee = false;
+      this.IsTrusteeReset = false;
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
   }
 
   async DeleteData(row: TrusteeGeneralInfoDataModel) {
@@ -191,7 +203,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
           else {
             this.toastr.error(this.ErrorMessage)
           }
-          
+
           //console.log(this.request.RuralUrban);          
         })
     }
@@ -258,7 +270,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          debugger;
+          
           if (this.State == 0) {
             this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
             if (this.LegalEntityDataModel != null) {
@@ -273,7 +285,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
           else if (this.State == 2) {
             this.toastr.warning(this.SuccessMessage)
           }
-          
+
           //console.log(this.request.RuralUrban);
         })
     }
@@ -302,7 +314,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
           if (!this.State) {
             //this.toastr.success(this.SuccessMessage)
             // data
-            this.TrusteeGeneralInfoList = JSON.parse(JSON.stringify(data['Data']));            
+            this.TrusteeGeneralInfoList = JSON.parse(JSON.stringify(data['Data']));
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -322,33 +334,76 @@ export class TrusteeGeneralInfoComponent implements OnInit {
   }
 
   async onFilechange(event: any, Type: string) {
-    this.file = event.target.files[0];
-    if (this.file) {
-      if (this.file.type === 'image/jpeg' ||
-        this.file.type === 'application/pdf' ||
-        this.file.type === 'image/jpg') {
-        //size validation
-        if (this.file.size > 2000000) {
-          this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type === 'image/jpeg' ||
+          this.file.type === 'application/pdf' ||
+          this.file.type === 'image/jpg') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+            return
+          }
+          if (this.file.size < 100000) {
+            this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+            return
+          }
+        }
+        else {// type validation
+          this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg/pdf file', '', '', '', false);
           return
         }
-        if (this.file.size < 100000) {
-          this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
-          return
-        }
+        // upload to server folder
+        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            
+            this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], true);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
       }
-      else {// type validation
-        this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg/pdf file', '', '', '', false);
-        return
+      else {
+        this.ResetFileAndValidation(Type, '', '', '', '', false);
       }
-      // upload to server folder
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
+
+  async DeleteImage(Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      let path: string = '';
+      if (Type == 'SocietyRegistrationDocument') {
+        path = this.request.SocietyRegistrationDocument;
+      }
+      else if (Type == 'SocietyLogo') {
+        path = this.request.SocietyLogo;
+      }
+
+      // delete from server folder
+      this.fileUploadService.DeleteDocument(path).then((data: any) => {
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
-          debugger;
-          this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], true);
+          this.ResetFileAndValidation(Type, '', '', '', '', false);
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
@@ -358,59 +413,60 @@ export class TrusteeGeneralInfoComponent implements OnInit {
         }
       });
     }
-    else {
-      this.ResetFileAndValidation(Type, '', '', '', '', false);
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
     }
   }
 
-  async DeleteImage(Type: string) {
-    let path: string = '';
-    if (Type == 'SocietyRegistrationDocument') {
-      path = this.request.SocietyRegistrationDocument;
-    }
-    else if (Type == 'SocietyLogo') {
-      path = this.request.SocietyLogo;
-    }
-
-    // delete from server folder
-    this.fileUploadService.DeleteDocument(path).then((data: any) => {
-      this.State = data['State'];
-      this.SuccessMessage = data['SuccessMessage'];
-      this.ErrorMessage = data['ErrorMessage'];
-      if (this.State == 0) {
-        this.ResetFileAndValidation(Type, '', '', '', '', false);
-      }
-      if (this.State == 1) {
-        this.toastr.error(this.ErrorMessage)
-      }
-      else if (this.State == 2) {
-        this.toastr.warning(this.ErrorMessage)
-      }
-    });
-  }
-
-  async ResetFileAndValidation(type: string, msg: string,name:string,dis_name: string, path: string, isShowFile: boolean) {
+  async ResetFileAndValidation(type: string, msg: string, name: string, dis_name: string, path: string, isShowFile: boolean) {
     //event.target.value = '';
-    if (type == 'SocietyRegistrationDocument') {
-      this.showSocietyRegistrationDocument = isShowFile;
-      this.SocietyRegistrationDocumentValidationMessage = msg;
-      this.request.SocietyRegistrationDocument = name;
-      this.request.Dis_SocietyRegistrationDocument = dis_name;
-      this.request.SocietyRegistrationDocumentPath = path;
+    try {
+      this.loaderService.requestStarted();
+      if (type == 'SocietyRegistrationDocument') {
+        this.showSocietyRegistrationDocument = isShowFile;
+        this.SocietyRegistrationDocumentValidationMessage = msg;
+        this.request.SocietyRegistrationDocument = name;
+        this.request.Dis_SocietyRegistrationDocument = dis_name;
+        this.request.SocietyRegistrationDocumentPath = path;
+      }
+      else if (type == 'SocietyLogo') {
+        this.showSocietyLogoDocument = isShowFile;
+        this.SocietyLogoValidationMessage = msg;
+        this.request.SocietyLogo = name;
+        this.request.Dis_SocietyLogo = dis_name;
+        this.request.SocietyLogoPath = path;
+      }
     }
-    else if (type == 'SocietyLogo') {
-      this.showSocietyLogoDocument = isShowFile;
-      this.SocietyLogoValidationMessage = msg;
-      this.request.SocietyLogo = name;
-      this.request.Dis_SocietyLogo = dis_name;
-      this.request.SocietyLogoPath = path;
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
     }
   }
 
   async EditData(trusteeGeneralInfoId: number) {
-    await this.GetData(trusteeGeneralInfoId);
-    this.IsTrustee = false;
-    this.IsTrusteeReset = true;
+    try {
+      this.loaderService.requestStarted();
+      await this.GetData(trusteeGeneralInfoId);
+      this.IsTrustee = false;
+      this.IsTrusteeReset = true;
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
   }
 
 }

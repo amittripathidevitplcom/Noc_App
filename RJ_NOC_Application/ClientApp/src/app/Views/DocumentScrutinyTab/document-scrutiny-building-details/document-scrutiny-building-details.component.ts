@@ -68,7 +68,7 @@ export class DocumentScrutinyBuildingDetailsComponent implements OnInit {
     }
   }
   async ViewBuildingDetails(content: any, BuildingDetailID: number) {
-    debugger;
+    
     this.buildingdetails = {};
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -80,7 +80,7 @@ export class DocumentScrutinyBuildingDetailsComponent implements OnInit {
       await this.buildingDetailsMasterService.GetByID(BuildingDetailID, 0)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));         
-          debugger;
+          
           this.buildingdetails.SchoolBuildingDetailsID = data['Data'][0]['data']['Table'][0]["SchoolBuildingDetailsID"];
           this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
           this.buildingdetails.OwnerName = data['Data'][0]['data']['Table'][0]["OwnerName"];
