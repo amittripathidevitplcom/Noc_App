@@ -213,6 +213,10 @@ export class OtherDocumentComponent implements OnInit {
     }
     if (this.SelectedDepartmentID == 6) {
       this.HospitalRealtedDocuments.forEach(item => {
+        var IsDocExists = this.request.DocumentDetails.findIndex((x: { DID: number; }) => x.DID == item.DID);
+        if (IsDocExists != -1) {
+          this.request.DocumentDetails.splice(IsDocExists, 1);
+        }
         this.request.DocumentDetails.push({
           DID: item.DID,
           DocumentName: item.DocumentName,
@@ -242,7 +246,8 @@ export class OtherDocumentComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
+            this.toastr.success(this.SuccessMessage);
+            this.GetRequiredDocuments('OtherDocument');
           }
           else {
             this.toastr.error(this.ErrorMessage)
