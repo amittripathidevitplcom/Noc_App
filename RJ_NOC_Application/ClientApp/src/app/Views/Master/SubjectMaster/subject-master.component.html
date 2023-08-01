@@ -25,9 +25,9 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlDepartmentID" class="form-label">Select Department Name  <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (change)="DepartmentChangecourse($event,SeletedDepartmentID.value)"  [attr.disabled]="is_disableDepartment ? '' : null">
+                <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (change)="DepartmentChangecourse($event,SeletedDepartmentID.value)" [attr.disabled]="is_disableDepartment ? '' : null">
                   <option value="0" disabled>--Select Department--</option>
                   <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
                 </select>
@@ -35,7 +35,7 @@
                   <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlCourseID" class="form-label">Select Course <span style="color:red;">*</span></label>
                 <select class="form-select" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID">
                   <option value="0" disabled>--Select Course--</option>
@@ -45,14 +45,20 @@
                   <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="txtSubjectName" class="form-label">Subject Name<span style="color:red;">*</span></label>
                 <input type="text" id="txtSubjectName" formControlName="txtSubjectName" maxlength="100" class="form-control" [(ngModel)]="request.SubjectName">
                 <div *ngIf="isSubmitted&&form.txtSubjectName.errors" class="text-danger">
                   <p *ngIf="form.txtSubjectName.errors.required">This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="chkIsPredical" class="form-label">IsPredical</label>
+                <div class="form-check form-switch yes d-flex align-items-center">
+                  <input class="form-check-input" type="checkbox" id="chkIsPredical" [(ngModel)]="request.IsPredical" formControlName="chkIsPredical">
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="chkActiveStatus" class="form-label">Status</label>
                 <div class="form-check form-switch d-flex align-items-center">
                   <input class="form-check-input" type="checkbox" id="Active" [(ngModel)]="request.ActiveStatus" formControlName="chkActiveStatus">
@@ -90,6 +96,7 @@
                   <th>Department Name</th>
                   <th>Course Name</th>
                   <th>Subject Name</th>
+                  <th>Is Predical</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
@@ -100,6 +107,7 @@
                   <td>{{row.DepartmentName}}</td>
                   <td>{{row.CourseName}}</td>
                   <td>{{row.SubjectName}}</td>
+                  <td>{{row.Predical}}</td>
                   <td>{{row.ActiveDeactive}}</td>
                   <td>
                     <div class="d-flex">
@@ -119,3 +127,44 @@
 </div>
 
 
+<style>
+  .form-switch .form-check-input {
+    width: 6em !important;
+    position: relative;
+  }
+
+  .form-check-input {
+    height: 2.5em !important;
+    margin-top: 0px !important;
+  }
+
+  .form-switch .form-check-input::after {
+    position: absolute;
+    right: 8px;
+    top: 7px;
+    content: 'Inactive';
+    font-size: 12px;
+  }
+
+  .form-switch .form-check-input:checked::after {
+    position: absolute;
+    left: 9px;
+    top: 7px;
+    content: 'Active';
+    font-size: 12px;
+    color: #fff;
+  }
+
+  .form-check-label {
+    margin-left: 5px;
+  }
+</style>
+<style>
+  .form-switch.yes .form-check-input::after {
+    content: 'No';
+  }
+
+  .form-switch.yes .form-check-input:checked::after {
+    content: 'Yes';
+  }
+</style>

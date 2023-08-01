@@ -62,6 +62,7 @@ export class RequiredDocumentsDataModel_Documents {
   public C_Remark: string = '';
   public S_Action: string = '';
   public S_Remark: string = '';
+  public DocumentType: string = '';
 }
 
 export class StaffDetailDataModel {

@@ -4,7 +4,9 @@ export class SubjectMasterDataModel {
   public CourseID: number = 0;
   public SubjectName: string = '';
   public UserID: number = 0;
-  public ActiveStatus: boolean = true;
+  public Predical: string = '';
+  public IsPredical: boolean = false;
+  public ActiveStatus: boolean = false;
   public DeleteStatus: boolean = false;
 }
  

@@ -10,6 +10,7 @@ export class FacilityDetailsDataModel {
   public MinSize: number = 0;
   public Unit: string = '';
   public UserID: number = 0;
+  public NoOf: number = null;
   public CreatedBy: number = 0;
   public ModifyBy: number = 0;
   public Action: string = '';

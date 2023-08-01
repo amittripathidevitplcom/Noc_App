@@ -8,20 +8,51 @@
   <form class="form-horizontal" [formGroup]="HospitalParentForm">
     <div class="card-body">
       <div class="row mb-2">
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <label for="employeeName" class="form-label" style="margin-right:15px"> Whether the institution is a parent hospital or not </label>
           <div class="clearfix"></div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="rbParentHospital" id="YesParentHospital" value="1" [value]="1" [(ngModel)]="request.ParentHospitalID" (change)="IsParentHospitalOrNot(true)" formControlName="rbParentHospital">
-            <label class="form-check-label" for="YesParentHospital">Own</label>
+            <label class="form-check-label" for="YesParentHospital">Yes</label>
           </div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="rbParentHospital" id="NoParentHospital" value="2" [value]="2" [(ngModel)]="request.ParentHospitalID" (change)="IsParentHospitalOrNot(false)" formControlName="rbParentHospital">
-            <label class="form-check-label" for="NoParentHospital">Parental</label>
+            <label class="form-check-label" for="NoParentHospital">No</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.ParentHospitalID==1">
+          <label for="employeeName" class="form-label" style="margin-right:15px">Hospital Status </label>
+          <div class="clearfix"></div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbHospitalStatus" id="OwnParentHospital" value="Own" [(ngModel)]="request.HospitalStatus" (change)="IsHospitalOwnedOrParental()" formControlName="rbHospitalStatus">
+            <label class="form-check-label" for="OwnParentHospital">Own</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbHospitalStatus" id="ParentalParentHospital" value="Parental" [(ngModel)]="request.HospitalStatus" (change)="IsHospitalOwnedOrParental()" formControlName="rbHospitalStatus">
+            <label class="form-check-label" for="ParentalParentHospital">Parental</label>
+          </div>
+          <div *ngIf="isSubmitted&&form.rbHospitalStatus.errors" class="text-danger">
+            <p *ngIf="form.rbHospitalStatus.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.ParentHospitalID==2">
+          <label for="employeeName" class="form-label" style="margin-right:15px">Hospital Status </label>
+          <div class="clearfix"></div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbHospitalStatus" id="OwnParentHospital" value="Own" [(ngModel)]="requestNot.HospitalStatus" (change)="IsHospitalOwnedOrParental()" formControlName="rbHospitalStatus">
+            <label class="form-check-label" for="OwnParentHospital">Own</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbHospitalStatus" id="ParentalParentHospital" value="Parental" [(ngModel)]="requestNot.HospitalStatus" (change)="IsHospitalOwnedOrParental()" formControlName="rbHospitalStatus">
+            <label class="form-check-label" for="ParentalParentHospital">Parental</label>
+          </div>
+          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.rbHospitalStatus.errors" class="text-danger">
+            <p *ngIf="form_ParentNot.rbHospitalStatus.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
           </div>
         </div>
       </div>
-      <div class="card" *ngIf="LegalEntityDataModel!=null && IsParentHospital">
+      <div class="card" *ngIf="LegalEntityDataModel!=null && IsHospitalOwned">
         <div class="card-header">
           <b>
             <i class="bi bi-table"></i>&nbsp; {{LegalEntityDataModel.LegalEntity}} Detail
@@ -243,8 +274,8 @@
                     <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PollutionCertificate')"><i class="fa fa-trash-o"></i></button>
                   </div>
                 </div>
-                <div *ngIf="isSubmitted&&form.fPollutionCertificate.errors" class="text-danger">
-                  <p *ngIf="form.fPollutionCertificate.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isSubmitted&&request.PollutionCertificate==''" class="text-danger">
+                  <p *ngIf="request.PollutionCertificate==''"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
                 <div *ngIf="PollutionCertificateValidationMessage!=''" class="text-danger">
                   <p><i aria-hidden="true"></i>{{PollutionCertificateValidationMessage}}</p>
@@ -434,9 +465,9 @@
                   <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingMedicalBeds" name="txtOncologyNursingMedicalBeds" id="txtOncologyNursingMedicalBeds" formControlName="txtOncologyNursingMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label>Surgical Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
-                </div>-->
+              <label>Surgical Beds </label>
+              <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
+            </div>-->
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Chemotherapy Beds </label>
                   <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingChemotherapyBeds" name="txtOncologyNursingChemotherapyBeds" id="txtOncologyNursingChemotherapyBeds" formControlName="txtOncologyNursingChemotherapyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
@@ -1269,8 +1300,8 @@
                           <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('NotPollutionCertificate')"><i class="fa fa-trash-o"></i></button>
                         </div>
                       </div>
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.fPollutionCertificate.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.fPollutionCertificate.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <div *ngIf="isSubmitted_ParentNot&&requestNot.PollutionCertificate==''" class="text-danger">
+                        <p *ngIf="requestNot.PollutionCertificate==''"><i aria-hidden="true"></i> This field is required .!</p>
                       </div>
                       <div *ngIf="NotPollutionCertificateValidationMessage!=''" class="text-danger">
                         <p><i aria-hidden="true"></i>{{NotPollutionCertificateValidationMessage}}</p>
@@ -1672,9 +1703,13 @@
   <div class="modal-body">
     <div class="card-body">
       <div class="row mb-2">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
           <label class="form-label" style="margin-right:15px"> <b>Whether the institution is a parent hospital or not :</b></label>
-          <input class="form-control disabled" disabled value="{{HospitalData.ParentHospitalID==1?'Own':'Parental'}}" />
+          <input class="form-control disabled" disabled value="{{HospitalData.ParentHospitalID==1?'Yes':'No'}}" />
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label class="form-label" style="margin-right:15px"> <b>Hospital Status :</b></label>
+          <input class="form-control disabled" disabled value="{{HospitalData.HospitalStatus}}" />
         </div>
       </div>
       <div>
