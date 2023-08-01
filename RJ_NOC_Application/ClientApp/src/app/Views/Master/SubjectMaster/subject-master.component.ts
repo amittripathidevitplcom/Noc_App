@@ -148,7 +148,7 @@ export class SubjectMasterComponent implements OnInit {
     if (btnReset) btnReset.innerHTML = "Reset";
   }
   async Edit_OnClick(SubjectID: number) {
-    debugger;
+    
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
@@ -246,7 +246,7 @@ export class SubjectMasterComponent implements OnInit {
   //  if (btnReset) btnReset.innerHTML = "Reset";
   //}
   //async Edit_OnClick(SubjectID: number) {
-  //  debugger;
+  //  
   //  this.isSubmitted = false;
   //  try {
   //    this.loaderService.requestStarted();

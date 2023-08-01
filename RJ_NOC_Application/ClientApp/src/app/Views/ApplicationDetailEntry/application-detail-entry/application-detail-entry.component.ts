@@ -127,7 +127,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.commonMasterService.CheckTabsEntry(this.SelectedCollageID.toString())
         .then(async (data: any) => {
-          debugger;
+          
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
           console.log(this.CheckTabsEntryData);
@@ -179,7 +179,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
   }
   async ShowDraftFinalSubmitBtn() {
-    debugger;
+    
     await this.CheckTabsEntry();
     this.IsShowDraftFinalSubmit = true;
     if (this.CollegeType_IsExisting == true) {

@@ -57,7 +57,7 @@ export class CommitteeMasterComponent implements OnInit {
   get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
 
   async SaveData() {
-    debugger;
+    
     this.isSubmitted = true;
 
     let isValid = true;
@@ -146,7 +146,7 @@ export class CommitteeMasterComponent implements OnInit {
 
   }
   async GetCommitteeMasterList(CommitteeMasterID: number) {
-    debugger;
+    
     try {
       this.loaderService.requestStarted();
       await this.committeeMasterService.GetCommitteeMasterList(CommitteeMasterID)

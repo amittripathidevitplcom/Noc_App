@@ -32,7 +32,7 @@ export class MasterPageComponent implements OnInit {
     //  this.router.navigate(['/dashboard']);
     //}
     //this.UserName = sessionStorage.getItem('UserName');
-    debugger;
+    
     sessionStorage.setItem('UserID', "1");
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     console.log(this.sSOLoginDataModel);

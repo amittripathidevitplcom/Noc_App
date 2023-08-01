@@ -118,8 +118,8 @@ export class VeterinaryHospitalComponent implements OnInit {
         txtPincode: ['', [Validators.required]],
         txtMobileNo: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
         txtEmailAddress: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
-        txtRemark: ['', Validators.required],        
-        txtFileUpload: [''],        
+        txtRemark: ['', Validators.required],
+        txtFileUpload: [''],
 
         txtsearchText: [''],
       })
@@ -134,7 +134,7 @@ export class VeterinaryHospitalComponent implements OnInit {
     this.request.CollegeID = this.SelectedCollageID;
     this.request.DepartmentID = this.SelectedDepartmentID;
     this.request.SSOID = this.sSOLoginDataModel.SSOID;
-   
+
     this.GetDivisionList();
     this.GetAnimalMasterList();
     this.GetAllVeterinaryHospitalList();
@@ -260,12 +260,34 @@ export class VeterinaryHospitalComponent implements OnInit {
     }
   }
   ValidateUploadImage(event: any, Type: string) {
-
-    this.isValidFileUpload = false;
-    if (event.target.files && event.target.files[0]) {
-      if (event.target.files[0].type === 'application/pdf') {
-        if (event.target.files[0].size > 2000000) {
-          this.ImageValidationMessage = 'Select less then 2MB File';
+    try {
+      this.loaderService.requestStarted();
+      this.isValidFileUpload = false;
+      if (event.target.files && event.target.files[0]) {
+        if (event.target.files[0].type === 'application/pdf') {
+          if (event.target.files[0].size > 2000000) {
+            this.ImageValidationMessage = 'Select less then 2MB File';
+            if (Type == 'FileUpload') {
+              this.isValidFileUpload = true;
+              this.request.FileUpload = '';
+              this.request.Dis_FileUpload = '';
+              this.request.FileUploadPath = '';
+            }
+            return
+          }
+          if (event.target.files[0].size < 100000) {
+            this.ImageValidationMessage = 'Select more then 100kb File';
+            if (Type == 'FileUpload') {
+              this.isValidFileUpload = true;
+              this.request.FileUpload = '';
+              this.request.Dis_FileUpload = '';
+              this.request.FileUploadPath = '';
+            }
+            return
+          }
+        }
+        else {
+          this.ImageValidationMessage = 'Select Only pdf file';
           if (Type == 'FileUpload') {
             this.isValidFileUpload = true;
             this.request.FileUpload = '';
@@ -274,68 +296,65 @@ export class VeterinaryHospitalComponent implements OnInit {
           }
           return
         }
-        if (event.target.files[0].size < 100000) {
-          this.ImageValidationMessage = 'Select more then 100kb File';
-          if (Type == 'FileUpload') {
-            this.isValidFileUpload = true;
-            this.request.FileUpload = '';
-            this.request.Dis_FileUpload = '';
-            this.request.FileUploadPath = '';
-          }
-          return
-        }
-      }
-      else {
-        this.ImageValidationMessage = 'Select Only pdf file';
-        if (Type == 'FileUpload') {
-          this.isValidFileUpload = true;
-          this.request.FileUpload = '';
-          this.request.Dis_FileUpload = '';
-          this.request.FileUploadPath = '';
-        }
-        return
-      }
 
-      this.file = event.target.files[0];
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+        this.file = event.target.files[0];
+        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
 
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          if (Type == 'FileUpload') {
-            this.request.FileUpload = data['Data'][0]["FileName"];
-            this.request.Dis_FileUpload = data['Data'][0]["Dis_FileName"];
-            this.request.FileUploadPath = data['Data'][0]["FilePath"];
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            if (Type == 'FileUpload') {
+              this.request.FileUpload = data['Data'][0]["FileName"];
+              this.request.Dis_FileUpload = data['Data'][0]["Dis_FileName"];
+              this.request.FileUploadPath = data['Data'][0]["FilePath"];
+            }
           }
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
   DeleteImage(Type: string) {
-    if (Type == 'FileUpload') {
-      //this.showOwnBuildingFileUpload = false;
-      this.request.FileUpload = '';
-      this.request.Dis_FileUpload = '';
-      this.request.FileUploadPath = '';
+    try {
+      this.loaderService.requestStarted();
+      if (Type == 'FileUpload') {
+        //this.showOwnBuildingFileUpload = false;
+        this.request.FileUpload = '';
+        this.request.Dis_FileUpload = '';
+        this.request.FileUploadPath = '';
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
   async AddAnimalDetails() {
     try {
-      debugger;
       this.loaderService.requestStarted();
-     
       this.isAnimalAdded = true;
       if (this.animalForm.invalid) {
         return;
       }
-      
+
       var GetAnimalName = this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.requestAnimal.AnimalMasterID).AnimalName;
       if (this.request.AnimalDetails.length > 0) {
         var result = this.request.AnimalDetails.filter(obj => {
@@ -347,12 +366,12 @@ export class VeterinaryHospitalComponent implements OnInit {
         }
       }
       this.request.AnimalDetails.push({
-        AnimalDetailsID: 0,      
+        AnimalDetailsID: 0,
         AnimalMasterID: this.requestAnimal.AnimalMasterID,
-        AnimalName: this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.requestAnimal.AnimalMasterID).AnimalName,       
+        AnimalName: this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.requestAnimal.AnimalMasterID).AnimalName,
         AnimalCount: this.requestAnimal.AnimalCount,
         ActiveStatus: this.request.ActiveStatus,
-        DeleteStatus: this.request.DeleteStatus,        
+        DeleteStatus: this.request.DeleteStatus,
       });
       this.requestAnimal = new AnimalDataModel();
       this.isAnimalAdded = false;
@@ -458,7 +477,7 @@ export class VeterinaryHospitalComponent implements OnInit {
     }
   }
   async GetAllVeterinaryHospitalList() {
-    debugger;
+
     try {
       this.loaderService.requestStarted();
       await this.veterinaryHospitalService.GetAllVeterinaryHospitalList(this.UserID, this.request.CollegeID)
@@ -481,7 +500,7 @@ export class VeterinaryHospitalComponent implements OnInit {
     }
   }
   async Edit_OnClick(VeterinaryHospitalID: number) {
-    debugger;
+
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
@@ -536,7 +555,7 @@ export class VeterinaryHospitalComponent implements OnInit {
     }
   }
   async Delete_OnClick(VeterinaryHospitalID: number) {
-    debugger;
+
     this.isSubmitted = false;
     try {
       if (confirm("Are you sure you want to delete this ?")) {
@@ -564,44 +583,53 @@ export class VeterinaryHospitalComponent implements OnInit {
     }
   }
   async ResetControl() {
-    const txtHospitalName = document.getElementById('txtHospitalName')
-    if (txtHospitalName) txtHospitalName.focus();
-    this.isSubmitted = false;
-    this.request.VeterinaryHospitalID = 0;
-    this.request.CollegeID = 0;
-    this.request.AddressLine1 = '';
-    this.request.AddressLine2 = '';
-    this.request.TehsilID = 0;
-    this.request.RuralUrban = '';
-    this.request.Pincode = '';
-    this.request.PanchayatSamitiID = 0;
-    this.request.FileUpload = '';
-    this.request.Dis_FileUpload = '';
-    this.request.FileUploadPath = '';
-    this.request.DivisionID = 0;
-    this.request.DistrictID = 0;
-    this.request.PanchayatSamitiID = 0;
-    this.request.CityTownVillage = '';
-    this.request.MobileNo = '';
-    this.request.HospitalName = '';
-    this.request.DistanceFromInstitute = null;
-    this.request.AuthorizedPerson = '';
-    this.request.EmailAddress = '';
-    this.request.PersonField = '';
-    this.request.Relation = '';
-    this.request.Remark = '';
-    this.request.UserID = 0;
-    this.isAnimalAdded = false;
-    this.request.AnimalDetails = [];
-   
-    this.isValidFileUpload = false;
-    this.request.ActiveStatus = true;
-    this.isDisabledGrid = false;
-    this.GetAllVeterinaryHospitalList();
-    const btnSave = document.getElementById('btnSave')
-    if (btnSave) btnSave.innerHTML = "Save";
-    const btnReset = document.getElementById('')
-    if (btnReset) btnReset.innerHTML = "Reset";
+    try {
+      this.loaderService.requestStarted();
+      const txtHospitalName = document.getElementById('txtHospitalName')
+      if (txtHospitalName) txtHospitalName.focus();
+      this.isSubmitted = false;
+      this.request.VeterinaryHospitalID = 0;
+      this.request.CollegeID = 0;
+      this.request.AddressLine1 = '';
+      this.request.AddressLine2 = '';
+      this.request.TehsilID = 0;
+      this.request.RuralUrban = '';
+      this.request.Pincode = '';
+      this.request.PanchayatSamitiID = 0;
+      this.request.FileUpload = '';
+      this.request.Dis_FileUpload = '';
+      this.request.FileUploadPath = '';
+      this.request.DivisionID = 0;
+      this.request.DistrictID = 0;
+      this.request.PanchayatSamitiID = 0;
+      this.request.CityTownVillage = '';
+      this.request.MobileNo = '';
+      this.request.HospitalName = '';
+      this.request.DistanceFromInstitute = null;
+      this.request.AuthorizedPerson = '';
+      this.request.EmailAddress = '';
+      this.request.PersonField = '';
+      this.request.Relation = '';
+      this.request.Remark = '';
+      this.request.UserID = 0;
+      this.isAnimalAdded = false;
+      this.request.AnimalDetails = [];
+
+      this.isValidFileUpload = false;
+      this.request.ActiveStatus = true;
+      this.isDisabledGrid = false;
+      this.GetAllVeterinaryHospitalList();
+      const btnSave = document.getElementById('btnSave')
+      if (btnSave) btnSave.innerHTML = "Save";
+      const btnReset = document.getElementById('')
+      if (btnReset) btnReset.innerHTML = "Reset";
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
   btnCancel_Click() {
     this.routers.navigate(['/dashboard']);
