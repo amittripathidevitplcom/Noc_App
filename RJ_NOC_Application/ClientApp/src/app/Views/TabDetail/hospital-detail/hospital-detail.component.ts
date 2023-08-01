@@ -14,6 +14,8 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
+import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 @Injectable()
 
 @Component({
@@ -36,6 +38,7 @@ export class HospitalDetailComponent implements OnInit {
   public ErrorMessage: any = [];
   public isLoading: boolean = false;
   public isSubmitted: boolean = false;
+  public IsHospitalOwned: boolean = false;
   public isSubmitted_ParentNot: boolean = false;
   public HospitalAreaValidationList: any = [];
   public MinDistance: number = 0;
@@ -94,6 +97,8 @@ export class HospitalDetailComponent implements OnInit {
   public file: File = null;
   public showParentNotDocument: boolean = false;
   public ParentNotDocumentValidationMessage: string = '';
+  public PollutionCertificateValidationMessage: string = '';
+  public NotPollutionCertificateValidationMessage: string = '';
   public showParentNotConsentForm: boolean = false;
   public ParentNotConsentFormValidationMessage: string = '';
 
@@ -108,7 +113,9 @@ export class HospitalDetailComponent implements OnInit {
   modalReference: NgbModalRef | undefined;
   public HospitalData: any = {};
 
-  constructor(private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
+  LegalEntityDataModel = new LegalEntityDataModel();
+
+  constructor(private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
   }
 
   async ngOnInit() {
@@ -116,6 +123,7 @@ export class HospitalDetailComponent implements OnInit {
     this.HospitalParentForm = this.formBuilder.group(
       {
         rbParentHospital: [''],
+        rbHospitalStatus: ['', Validators.required],
         rbHospitalArea: ['', Validators.required],
         txtHospitalName: ['', Validators.required],
         txtHospitalRegNo: ['', Validators.required],
@@ -135,7 +143,7 @@ export class HospitalDetailComponent implements OnInit {
         txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
         rbParentHospitalRelatedToOtherID: [''],
         txtInstitutionName: ['', Validators.required],
-        txtOrganizationPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
+        txtOrganizationPhone: ['', [Validators.required]], //, Validators.pattern(this.LandLineRegex)
 
         txtCardioThoracicTotalBeds: ['', [Validators.required, Validators.min(50)]],
         txtCardioThoracicCCUBeds: [''],
@@ -229,10 +237,14 @@ export class HospitalDetailComponent implements OnInit {
         ddlPanchayatSamitiID_Other: ['', [DropdownValidators]],
         txtCityTownVillage_Other: ['', Validators.required],
         txtPincode_Other: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
+
+        txtPollutionUnitID: ['', Validators.required],
+        fPollutionCertificate: [''],
       })
 
     this.HospitalParentNotForm = this.formBuilder.group(
       {
+        rbHospitalStatus: ['', Validators.required],
         rbHospitalArea: ['', Validators.required],
         txtHospitalName: ['', Validators.required],
         txtHospitalRegNo: ['', Validators.required],
@@ -283,6 +295,8 @@ export class HospitalDetailComponent implements OnInit {
         ddlPanchayatSamitiID_Owner: ['', [DropdownValidators]],
         txtCityTownVillage_Owner: ['', Validators.required],
         txtPincode_Owner: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
+        txtPollutionUnitID: ['', Validators.required],
+        fPollutionCertificate: [''],
       })
 
     // query string
@@ -316,6 +330,7 @@ export class HospitalDetailComponent implements OnInit {
       await this.GetDataList();
       // Super specialty hospital
       await this.IsSuperSpecialtyHospital();
+      await this.GetLegalEntityData();
     }
 
 
@@ -407,6 +422,13 @@ export class HospitalDetailComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.IsParentHospital = isParent;
+      this.IsHospitalOwned = false;
+      if (isParent == true) {
+        this.requestNot.HospitalStatus = '';
+      }
+      else {
+        this.request.HospitalStatus = '';
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -423,7 +445,7 @@ export class HospitalDetailComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.IsParentHospitalRelatedToOther = isParentRelatedToOther;
-      
+
       if (isParentRelatedToOther) {
         this.request.InstitutionName = null;
         this.request.OrganizationPhone = '';
@@ -874,13 +896,16 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   async SaveDataOfParent() {
-    
+
     this.isSubmitted = true;
     if (this.HospitalParentForm.invalid) {
       console.log(this.HospitalParentForm);
       return
     }
     if (!this.IsValid()) {
+      return;
+    }
+    if (this.request.PollutionCertificate == '') {
       return;
     }
     if (this.request.HospitalID > 0) {
@@ -1091,6 +1116,9 @@ export class HospitalDetailComponent implements OnInit {
     if (!this.IsValid_ParentNot()) {
       return;
     }
+    if (this.requestNot.PollutionCertificate == '') {
+      return;
+    }
     if (this.requestNot.HospitalID > 0) {
       this.requestNot.ModifyBy = 1;
     }
@@ -1261,7 +1289,6 @@ export class HospitalDetailComponent implements OnInit {
         this.isValid = false;
       }
     }
-
     return this.isValid;
   }
 
@@ -1344,7 +1371,6 @@ export class HospitalDetailComponent implements OnInit {
           // data
           if (data['Data']['ParentHospitalID'] == 1) {
             this.request = JSON.parse(JSON.stringify(data['Data']));
-
             // hospital area validation
             let selectedHospitalAreaValidation = this.HospitalAreaValidationList.filter((element: any) => element.ID == this.request.HospitalAreaID);
             if (selectedHospitalAreaValidation.length > 0) {
@@ -1352,6 +1378,13 @@ export class HospitalDetailComponent implements OnInit {
             }
             // parent hospital
             this.IsParentHospitalOrNot(true);
+
+            if (this.request.HospitalStatus == 'Own') {
+              this.IsHospitalOwned = true;
+            }
+            else {
+              this.IsHospitalOwned = false;
+            }
             // rural/urban          
             await this.IsRuralOrUrban(this.request.RuralUrban == 1 ? true : false, null, false);
             await this.IsRuralOrUrban(this.request.RuralUrban_ManageBy == 1 ? true : false, 'ManageBy', false);
@@ -1372,7 +1405,6 @@ export class HospitalDetailComponent implements OnInit {
           }
           else if (data['Data']['ParentHospitalID'] == 2) {
             this.requestNot = JSON.parse(JSON.stringify(data['Data']));
-
             // hospital area validation
             let selectedHospitalAreaValidation = this.HospitalAreaValidationList.filter((element: any) => element.ID == this.requestNot.HospitalAreaID);
             if (selectedHospitalAreaValidation.length > 0) {
@@ -1380,6 +1412,14 @@ export class HospitalDetailComponent implements OnInit {
             }
             // parent hospital or not
             this.IsParentHospitalOrNot(false);
+
+
+            if (this.requestNot.HospitalStatus == 'Own') {
+              this.IsHospitalOwned = true;
+            }
+            else {
+              this.IsHospitalOwned = false;
+            }
             // rural/urban
             await this.IsRuralOrUrban_ParentNot(this.requestNot.RuralUrban == 1 ? true : false, null, false);
             await this.IsRuralOrUrban_ParentNot(this.requestNot.RuralUrban_ManageBy == 1 ? true : false, 'ManageBy', false);
@@ -1469,16 +1509,21 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   async DeleteImage(Type: string) {
+    let path: string = '';
     try {
       this.loaderService.requestStarted();
-      let path: string = '';
       if (Type == 'ParentNotDocument') {
         path = this.requestNot.ParentNotDocument;
       }
       else if (Type == 'ConsentForm') {
         path = this.requestNot.ConsentForm;
       }
-
+      else if (Type == 'PollutionCertificate') {
+        path = this.request.PollutionCertificate;
+      }
+      else if (Type == 'NotPollutionCertificate') {
+        path = this.requestNot.PollutionCertificate;
+      }
       // delete from server folder
       this.fileUploadService.DeleteDocument(path).then((data: any) => {
         this.State = data['State'];
@@ -1523,6 +1568,19 @@ export class HospitalDetailComponent implements OnInit {
         this.requestNot.Dis_ConsentForm = dis_name;
         this.requestNot.ConsentFormPath = path;
       }
+      else if (type == 'PollutionCertificate') {
+        this.PollutionCertificateValidationMessage = msg;
+        this.request.PollutionCertificate = name;
+        this.request.Dis_PollutionCertificate = dis_name;
+        this.request.PollutionCertificatePath = path;
+      }
+      else if (type == 'NotPollutionCertificate') {
+        this.NotPollutionCertificateValidationMessage = msg;
+        this.requestNot.PollutionCertificate = name;
+        this.requestNot.Dis_PollutionCertificate = dis_name;
+        this.requestNot.PollutionCertificatePath = path;
+      }
+
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1642,4 +1700,43 @@ export class HospitalDetailComponent implements OnInit {
     }
   }
 
+
+  async GetLegalEntityData() {
+    try {
+      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          debugger;
+          if (this.State == 0) {
+            this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.SuccessMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
+
+  IsHospitalOwnedOrParental() {
+    this.IsHospitalOwned = false;
+    if (this.request.HospitalStatus == 'Own' || this.requestNot.HospitalStatus == 'Own') {
+      this.IsHospitalOwned = true;
+    }
+    else {
+      this.IsHospitalOwned = false;
+    }
+  }
 }

@@ -118,6 +118,13 @@ export class HospitalDataModel {
   public C_Remark: string = '';
   public S_Action: string = '';
   public S_Remark: string = '';
+  public PollutionUnitID: string = '';
+
+  public PollutionCertificate: string = '';
+  public Dis_PollutionCertificate: string = '';
+  public PollutionCertificatePath: string = '';
+
+  public HospitalStatus: string = '';
 }
 export class HospitalParentNotDataModel {// not have parent
   public ParentHospitalID: number = 0;
@@ -180,6 +187,13 @@ export class HospitalParentNotDataModel {// not have parent
 
   public CreatedBy: number = null;
   public ModifyBy: number = null;
+
+  public PollutionUnitID: string = '';
+  public PollutionCertificate: string = '';
+  public Dis_PollutionCertificate: string = '';
+  public PollutionCertificatePath: string = '';
+  public HospitalStatus: string = '';
+
 }
 
 

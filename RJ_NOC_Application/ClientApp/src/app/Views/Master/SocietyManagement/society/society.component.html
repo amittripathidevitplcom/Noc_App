@@ -43,7 +43,7 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="txtPersonName" class="form-label">Name of Person <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtPersonName" name="txtPersonName" [(ngModel)]="request.PersonName" formControlName="txtPersonName">
+                    <input type="text" class="form-control" id="txtPersonName" name="txtPersonName" [(ngModel)]="request.PersonName" formControlName="txtPersonName" (keypress)="alphaOnly($event)" />
                     <div *ngIf="isSubmitted&&form.txtPersonName.errors" class="text-danger">
                       <p *ngIf="form.txtPersonName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
@@ -97,13 +97,16 @@
                       <input class="form-check-input" type="radio" value="No" id="rbEducationistsNo" name="Educationists" [(ngModel)]="request.Educationists" formControlName="Educationists">
                       <label class="form-check-label" for="rbEducationistsNo">No</label>
                     </div>
+                    <div *ngIf="isSubmitted&&form.Educationists.errors" class="text-danger">
+                      <p *ngIf="form.Educationists.errors.required"> This field is required .!</p>
+                    </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="txtMobileNo" class="form-label">Mobile No <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtMobileNo" name="txtMobileNo" [(ngModel)]="request.MobileNo" formControlName="txtMobileNo" (keypress)="numberOnly($event)">
+                    <input type="text" class="form-control" id="txtMobileNo" name="txtMobileNo" [(ngModel)]="request.MobileNo" formControlName="txtMobileNo" maxlength="10" (keypress)="numberOnly($event)">
                     <div *ngIf="isSubmitted&&form.txtMobileNo.errors" class="text-danger">
                       <p *ngIf="form.txtMobileNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form.txtMobileNo.errors.pattern || form.txtMobileNo.errors.maxlength || form.txtMobileNo.errors.minlength">Mobile number must be at least 10 numbers</p>
+                      <p *ngIf="form.txtMobileNo.errors.pattern || form.txtMobileNo.errors.maxlength || form.txtMobileNo.errors.minlength">Invalid Mobile number</p>
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -127,19 +130,18 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="txtFatherName" class="form-label">Father Name <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtFatherName" name="txtFatherName" [(ngModel)]="request.FatherName" formControlName="txtFatherName">
+                    <input type="text" class="form-control" id="txtFatherName" name="txtFatherName" [(ngModel)]="request.FatherName" formControlName="txtFatherName" (keypress)="alphaOnly($event)" />
                     <div *ngIf="isSubmitted&&form.txtFatherName.errors" class="text-danger">
                       <p *ngIf="form.txtFatherName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="txtAadhaarNo" class="form-label">Aadhaar Number <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtAadhaarNo" name="txtAadhaarNo" [(ngModel)]="request.AadhaarNo" formControlName="txtAadhaarNo" (keypress)="numberOnly($event)">
+                    <input type="text" class="form-control" id="txtAadhaarNo" name="txtAadhaarNo" [(ngModel)]="request.AadhaarNo" formControlName="txtAadhaarNo" maxlength="12" (keypress)="numberOnly($event)">
                     <div *ngIf="isSubmitted&&form.txtAadhaarNo.errors" class="text-danger">
                       <p *ngIf="form.txtAadhaarNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form.txtAadhaarNo.errors.maxlength || form.txtAadhaarNo.errors.minlength">Aadhaar number must be 12 digit</p>
+                      <p *ngIf="form.txtAadhaarNo.errors.pattern || form.txtAadhaarNo.errors.maxlength || form.txtAadhaarNo.errors.minlength"> Invalid Aadhaar No.</p>
                     </div>
-
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="fAadhaarCard" class="form-label">Aadhaar Card<span style="color:red;">*</span></label>
@@ -179,11 +181,10 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="txtPANNo" class="form-label">PAN Number <span style="color:red;"> *</span></label>
-                    <input type="text" class="form-control" id="txtPANNo" name="txtPANNo" [(ngModel)]="request.PANNo" formControlName="txtPANNo" (ngModelChange)="request.PANNo = $event.toUpperCase()">
+                    <input type="text" class="form-control" id="txtPANNo" name="txtPANNo" [(ngModel)]="request.PANNo" formControlName="txtPANNo" maxlength="10" (ngModelChange)="request.PANNo = $event.toUpperCase()">
                     <div *ngIf="isSubmitted&&form.txtPANNo.errors" class="text-danger">
                       <p *ngIf="form.txtPANNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form.txtPANNo.errors.maxlength || form.txtPANNo.errors.minlength">PAN number must be 10 digit</p>
-                      <p *ngIf="form.txtPANNo.errors.pattern">Invalid PAN Number Format</p>
+                      <p *ngIf="form.txtPANNo.errors.pattern || form.txtPANNo.errors.maxlength || form.txtPANNo.errors.minlength"> Invalid PAN No.</p>                     
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">

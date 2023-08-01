@@ -8,7 +8,7 @@
   <form class="form-horizontal" [formGroup]="HospitalParentForm">
     <div class="card-body">
       <div class="row mb-2">
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <label for="employeeName" class="form-label" style="margin-right:15px"> Whether the institution is a parent hospital or not </label>
           <div class="clearfix"></div>
           <div class="form-check form-check-inline">
@@ -20,147 +20,271 @@
             <label class="form-check-label" for="NoParentHospital">No</label>
           </div>
         </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.ParentHospitalID==1">
+          <label for="employeeName" class="form-label" style="margin-right:15px">Hospital Status </label>
+          <div class="clearfix"></div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbHospitalStatus" id="OwnParentHospital" value="Own" [(ngModel)]="request.HospitalStatus" (change)="IsHospitalOwnedOrParental()" formControlName="rbHospitalStatus">
+            <label class="form-check-label" for="OwnParentHospital">Own</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbHospitalStatus" id="ParentalParentHospital" value="Parental" [(ngModel)]="request.HospitalStatus" (change)="IsHospitalOwnedOrParental()" formControlName="rbHospitalStatus">
+            <label class="form-check-label" for="ParentalParentHospital">Parental</label>
+          </div>
+          <div *ngIf="isSubmitted&&form.rbHospitalStatus.errors" class="text-danger">
+            <p *ngIf="form.rbHospitalStatus.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.ParentHospitalID==2">
+          <label for="employeeName" class="form-label" style="margin-right:15px">Hospital Status </label>
+          <div class="clearfix"></div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbHospitalStatus" id="OwnParentHospital" value="Own" [(ngModel)]="requestNot.HospitalStatus" (change)="IsHospitalOwnedOrParental()" formControlName="rbHospitalStatus">
+            <label class="form-check-label" for="OwnParentHospital">Own</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbHospitalStatus" id="ParentalParentHospital" value="Parental" [(ngModel)]="requestNot.HospitalStatus" (change)="IsHospitalOwnedOrParental()" formControlName="rbHospitalStatus">
+            <label class="form-check-label" for="ParentalParentHospital">Parental</label>
+          </div>
+          <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.rbHospitalStatus.errors" class="text-danger">
+            <p *ngIf="form_ParentNot.rbHospitalStatus.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+      </div>
+      <div class="card" *ngIf="LegalEntityDataModel!=null && IsHospitalOwned">
+        <div class="card-header">
+          <b>
+            <i class="bi bi-table"></i>&nbsp; {{LegalEntityDataModel.LegalEntity}} Detail
+          </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                      <td>Name of {{LegalEntityDataModel.LegalEntity}}</td>
+                      <td>{{LegalEntityDataModel.SocietyName}}</td>
+                      <td>Entity Type</td>
+                      <td>{{LegalEntityDataModel.LegalEntity}}</td>
+                    </tr>
+                    <tr>
+                      <td>Registration No</td>
+                      <td>{{LegalEntityDataModel.RegistrationNo}}</td>
+                      <td>SSO ID</td>
+                      <td>{{LegalEntityDataModel.SSOID}}</td>
+                    </tr>
+                    <tr>
+                      <td>District</td>
+                      <td>{{LegalEntityDataModel.District_Eng}}</td>
+                      <td>ACT</td>
+                      <td>{{LegalEntityDataModel.RegisteredAct}}</td>
+                    </tr>
+                    <tr>
+                      <td>Status</td>
+                      <td>{{LegalEntityDataModel.SocietyPresentStatus}}</td>
+                      <td>Date Of Registration</td>
+                      <td>{{LegalEntityDataModel.SocietyRegistrationDate}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div *ngIf="IsParentHospital">
-        <div class="row mb-2">
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="employeeName" class="form-label" style="margin-right:15px">Select Hospital Area <span style="color:red;">*</span></label>
-            <div class="clearfix"></div>
-            <div class="form-check form-check-inline" *ngFor="let item of HospitalAreaValidationList">
-              <input class="form-check-input" type="radio" name="rbHospitalArea" id="rb{{item.Name}}" value="{{item.ID}}" [value]="item.ID" [(ngModel)]="request.HospitalAreaID" (change)="SetHospitalDistance(item.MinValue,item.MaxValue,null)" formControlName="rbHospitalArea" />
-              <label class="form-check-label" for="rb{{item.Name}}">{{item.Name}}</label>
+
+        <div class="card">
+          <div class="card-header">
+            <b>
+              <i class="bi bi-table"></i>&nbsp; Hospital Detail
+            </b>
+          </div>
+          <div class="card-body">
+            <div class="row mb-2">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="employeeName" class="form-label" style="margin-right:15px">Select Hospital Area <span style="color:red;">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline" *ngFor="let item of HospitalAreaValidationList">
+                  <input class="form-check-input" type="radio" name="rbHospitalArea" id="rb{{item.Name}}" value="{{item.ID}}" [value]="item.ID" [(ngModel)]="request.HospitalAreaID" (change)="SetHospitalDistance(item.MinValue,item.MaxValue,null)" formControlName="rbHospitalArea" />
+                  <label class="form-check-label" for="rb{{item.Name}}">{{item.Name}}</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rbHospitalArea.errors" class="text-danger">
+                  <p *ngIf="form.rbHospitalArea.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
             </div>
-            <div *ngIf="isSubmitted&&form.rbHospitalArea.errors" class="text-danger">
-              <p *ngIf="form.rbHospitalArea.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            <div class="row mb-2">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label>Hospital Reg. No. <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" name="txtHospitalRegNo" id="txtHospitalRegNo" [(ngModel)]="request.HospitalRegNo" formControlName="txtHospitalRegNo" />
+                <div *ngIf="isSubmitted&&form.txtHospitalRegNo.errors" class="text-danger">
+                  <p *ngIf="form.txtHospitalRegNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label>Hospital Name <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" name="txtHospitalName" id="txtHospitalName" [(ngModel)]="request.HospitalName" formControlName="txtHospitalName" (keypress)="alphaOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtHospitalName.errors" class="text-danger">
+                  <p *ngIf="form.txtHospitalName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label>Hospital Distance from Institutions (KM) <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" name="txtHospitalDistance" id="txtHospitalDistance" [(ngModel)]="request.HospitalDistance" formControlName="txtHospitalDistance" maxlength="3" (keypress)="NumberOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtHospitalDistance.errors" class="text-danger">
+                  <p *ngIf="form.txtHospitalDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+                <p *ngIf="request.HospitalAreaID!=null && request.HospitalAreaID!=undefined && request.HospitalAreaID!=0 && !(request.HospitalDistance >= MinDistance && request.HospitalDistance <= MaxDistance)" class="text-danger">Enter Value between {{MinDistance}} to {{MaxDistance}}</p>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label>Hospital Contact No. <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="request.HospitalContactNo" formControlName="txtHospitalContactNo" (keypress)="NumberOnly($event)" maxlength="10" />
+                <div *ngIf="isSubmitted&&form.txtHospitalContactNo.errors" class="text-danger">
+                  <p *ngIf="form.txtHospitalContactNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtHospitalContactNo.errors.pattern"><i aria-hidden="true"></i> Hospital Contact number is not valid .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label>Hospital Email ID <span style="color:red;">*</span></label>
+                <input type="email" class="form-control" name="txtHospitalEmailID" id="txtHospitalEmailID" [(ngModel)]="request.HospitalEmailID" formControlName="txtHospitalEmailID" />
+                <div *ngIf="isSubmitted&&form.txtHospitalEmailID.errors" class="text-danger">
+                  <p *ngIf="form.txtHospitalEmailID.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtHospitalEmailID.errors.pattern"><i aria-hidden="true"></i> Email address is not valid  .!</p>
+                </div>
+              </div>
+              <!-- address -->
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtAddressLine1" name="txtAddressLine1" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1" (keypress)="alphaandNumberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtAddressLine1.errors" class="text-danger">
+                  <p *ngIf="form.txtAddressLine1.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Address Line 2 <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphaandNumberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
+                  <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Select Area <span style="color:red;">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbRural" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="1" [value]="1" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(true,null,true)">
+                  <label class="form-check-label" for="rbRural">Rural</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbUrban" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="2" [value]="2" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(false,null,true)">
+                  <label class="form-check-label" for="rbUrban">Urban</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rbRuralUrban.errors" class="text-danger">
+                  <p *ngIf="form.rbRuralUrban.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Division <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL($event,SelectedDivisionID.value,null)">
+                  <option value="0">--Select--</option>
+                  <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDivisionID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDivisionID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">District <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL($event,SelectedDistrictID.value,null)">
+                  <option value="0">--Select--</option>
+                  <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
+                  <option value="0">--Select--</option>
+                  <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlTehsilID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlTehsilID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID">
+                  <option value="0">--Select--</option>
+                  <option *ngFor="let item of PanchyatSamitiList" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlPanchayatSamitiID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtCityTownVillage" name="txtCityTownVillage" [(ngModel)]="request.CityTownVillage" formControlName="txtCityTownVillage" (keypress)="alphaandNumberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtCityTownVillage.errors" class="text-danger">
+                  <p *ngIf="form.txtCityTownVillage.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Pincode <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" (keypress)="NumberOnly($event)" maxlength="6">
+                <div *ngIf="isSubmitted&&form.txtPincode.errors" class="text-danger">
+                  <p *ngIf="form.txtPincode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
+                </div>
+              </div>
+              <!-- end -->
             </div>
           </div>
         </div>
-        <div class="row mb-2">
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label>Hospital Reg. No. <span style="color:red;">*</span></label>
-            <input type="text" class="form-control" name="txtHospitalRegNo" id="txtHospitalRegNo" [(ngModel)]="request.HospitalRegNo" formControlName="txtHospitalRegNo" />
-            <div *ngIf="isSubmitted&&form.txtHospitalRegNo.errors" class="text-danger">
-              <p *ngIf="form.txtHospitalRegNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+
+        <div class="card">
+          <div class="card-header">
+            <b>
+              <i class="bi bi-table"></i>&nbsp; Pollution Detail
+            </b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label>Unit ID <span style="color:red;">*</span></label>
+                <input class="form-control" type="text" [(ngModel)]="request.PollutionUnitID" name="txtPollutionUnitID" id="txtPollutionUnitID" formControlName="txtPollutionUnitID" />
+                <div *ngIf="isSubmitted&&form.txtPollutionUnitID.errors" class="text-danger">
+                  <p *ngIf="form.txtPollutionUnitID.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                <label>Pollution Certificate <span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fPollutionCertificate" style="display:none" formControlName="fPollutionCertificate" (change)="onFilechange($event,'PollutionCertificate')" #fPollutionCertificate />
+                  <label class="btn upload" for="fPollutionCertificate">
+                    <span class="filename">Choose file</span>
+                    {{request.PollutionCertificate === '' ? 'No File Choosen' : request.Dis_PollutionCertificate}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.PollutionCertificate!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.PollutionCertificatePath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PollutionCertificate')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="isSubmitted&&request.PollutionCertificate==''" class="text-danger">
+                  <p *ngIf="request.PollutionCertificate==''"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+                <div *ngIf="PollutionCertificateValidationMessage!=''" class="text-danger">
+                  <p><i aria-hidden="true"></i>{{PollutionCertificateValidationMessage}}</p>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label>Hospital Name <span style="color:red;">*</span></label>
-            <input type="text" class="form-control" name="txtHospitalName" id="txtHospitalName" [(ngModel)]="request.HospitalName" formControlName="txtHospitalName" (keypress)="alphaOnly($event)"/>
-            <div *ngIf="isSubmitted&&form.txtHospitalName.errors" class="text-danger">
-              <p *ngIf="form.txtHospitalName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label>Hospital Distance from Institutions (KM) <span style="color:red;">*</span></label>
-            <input type="text" class="form-control" name="txtHospitalDistance" id="txtHospitalDistance" [(ngModel)]="request.HospitalDistance" formControlName="txtHospitalDistance" maxlength="3" (keypress)="NumberOnly($event)"/>
-            <div *ngIf="isSubmitted&&form.txtHospitalDistance.errors" class="text-danger">
-              <p *ngIf="form.txtHospitalDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>
-            <p *ngIf="request.HospitalAreaID!=null && request.HospitalAreaID!=undefined && request.HospitalAreaID!=0 && !(request.HospitalDistance >= MinDistance && request.HospitalDistance <= MaxDistance)" class="text-danger">Enter Value between {{MinDistance}} to {{MaxDistance}}</p>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label>Hospital Contact No. <span style="color:red;">*</span></label>
-            <input type="text" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="request.HospitalContactNo" formControlName="txtHospitalContactNo" (keypress)="NumberOnly($event)" maxlength="10" />
-            <div *ngIf="isSubmitted&&form.txtHospitalContactNo.errors" class="text-danger">
-              <p *ngIf="form.txtHospitalContactNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              <p *ngIf="form.txtHospitalContactNo.errors.pattern"><i aria-hidden="true"></i> Hospital Contact number is not valid .!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label>Hospital Email ID <span style="color:red;">*</span></label>
-            <input type="email" class="form-control" name="txtHospitalEmailID" id="txtHospitalEmailID" [(ngModel)]="request.HospitalEmailID" formControlName="txtHospitalEmailID" />
-            <div *ngIf="isSubmitted&&form.txtHospitalEmailID.errors" class="text-danger">
-              <p *ngIf="form.txtHospitalEmailID.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              <p *ngIf="form.txtHospitalEmailID.errors.pattern"><i aria-hidden="true"></i> Email address is not valid  .!</p>
-            </div>
-          </div>
-          <!-- address -->
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="txtAddressLine1" name="txtAddressLine1" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1" (keypress)="alphaandNumberOnly($event)">
-            <div *ngIf="isSubmitted&&form.txtAddressLine1.errors" class="text-danger">
-              <p *ngIf="form.txtAddressLine1.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label class="form-label">Address Line 2 <span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphaandNumberOnly($event)">
-            <div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
-              <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label class="form-label">Select Area <span style="color:red;">*</span></label>
-            <div class="clearfix"></div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" id="rbRural" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="1" [value]="1" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(true,null,true)">
-              <label class="form-check-label" for="rbRural">Rural</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" id="rbUrban" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="2" [value]="2" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(false,null,true)">
-              <label class="form-check-label" for="rbUrban">Urban</label>
-            </div>
-            <div *ngIf="isSubmitted&&form.rbRuralUrban.errors" class="text-danger">
-              <p *ngIf="form.rbRuralUrban.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label class="form-label">Division <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL($event,SelectedDivisionID.value,null)">
-              <option value="0">--Select--</option>
-              <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
-            </select>
-            <div *ngIf="isSubmitted&&form.ddlDivisionID.errors" class="text-danger">
-              <p *ngIf="!form.ddlDivisionID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label class="form-label">District <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL($event,SelectedDistrictID.value,null)">
-              <option value="0">--Select--</option>
-              <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
-            </select>
-            <div *ngIf="isSubmitted&&form.ddlDistrictID.errors" class="text-danger">
-              <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
-            <label class="form-label">Tehsil <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
-              <option value="0">--Select--</option>
-              <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
-            </select>
-            <div *ngIf="isSubmitted&&form.ddlTehsilID.errors" class="text-danger">
-              <p *ngIf="!form.ddlTehsilID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
-            <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID">
-              <option value="0">--Select--</option>
-              <option *ngFor="let item of PanchyatSamitiList" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
-            </select>
-            <div *ngIf="isSubmitted&&form.ddlPanchayatSamitiID.errors" class="text-danger">
-              <p *ngIf="!form.ddlPanchayatSamitiID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="txtCityTownVillage" name="txtCityTownVillage" [(ngModel)]="request.CityTownVillage" formControlName="txtCityTownVillage" (keypress)="alphaandNumberOnly($event)">
-            <div *ngIf="isSubmitted&&form.txtCityTownVillage.errors" class="text-danger">
-              <p *ngIf="form.txtCityTownVillage.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label class="form-label">Pincode <span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" (keypress)="NumberOnly($event)" maxlength="6">
-            <div *ngIf="isSubmitted&&form.txtPincode.errors" class="text-danger">
-              <p *ngIf="form.txtPincode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              <p *ngIf="form.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
-            </div>
-          </div>
-          <!-- end -->
         </div>
+
         <div class="card">
           <div class="card-header">
             <b>
@@ -171,7 +295,7 @@
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>Medical <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.MedicalBeds" name="txtMedicalBeds" id="txtMedicalBeds" formControlName="txtMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                <input class="form-control" type="text" [(ngModel)]="request.MedicalBeds" name="txtMedicalBeds" id="txtMedicalBeds" formControlName="txtMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 <div *ngIf="isSubmitted&&form.txtMedicalBeds.errors" class="text-danger">
                   <p *ngIf="form.txtMedicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   <p *ngIf="form.txtMedicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
@@ -179,7 +303,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>Surgical <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.SurgicalBeds" name="txtSurgicalBeds" id="txtSurgicalBeds" formControlName="txtSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                <input class="form-control" type="text" [(ngModel)]="request.SurgicalBeds" name="txtSurgicalBeds" id="txtSurgicalBeds" formControlName="txtSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 <div *ngIf="isSubmitted&&form.txtSurgicalBeds.errors" class="text-danger">
                   <p *ngIf="form.txtSurgicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   <p *ngIf="form.txtSurgicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
@@ -187,7 +311,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>Obst. & Gynaecology <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.ObstAndGynaecologyBeds" name="txtObstAndGynaecologyBeds" id="txtObstAndGynaecologyBeds" formControlName="txtObstAndGynaecologyBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                <input class="form-control" type="text" [(ngModel)]="request.ObstAndGynaecologyBeds" name="txtObstAndGynaecologyBeds" id="txtObstAndGynaecologyBeds" formControlName="txtObstAndGynaecologyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 <div *ngIf="isSubmitted&&form.txtObstAndGynaecologyBeds.errors" class="text-danger">
                   <p *ngIf="form.txtObstAndGynaecologyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   <p *ngIf="form.txtObstAndGynaecologyBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
@@ -195,7 +319,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>Pediatrics <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.PediatricsBeds" name="txtPediatricsBeds" id="txtPediatricsBeds" formControlName="txtPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                <input class="form-control" type="text" [(ngModel)]="request.PediatricsBeds" name="txtPediatricsBeds" id="txtPediatricsBeds" formControlName="txtPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 <div *ngIf="isSubmitted&&form.txtPediatricsBeds.errors" class="text-danger">
                   <p *ngIf="form.txtPediatricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   <p *ngIf="form.txtPediatricsBeds.errors.min"><i aria-hidden="true"></i> Enter Value 20 or more</p>
@@ -203,7 +327,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>Ortho <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.OrthoBeds" name="txtOrthoBeds" id="txtOrthoBeds" formControlName="txtOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                <input class="form-control" type="text" [(ngModel)]="request.OrthoBeds" name="txtOrthoBeds" id="txtOrthoBeds" formControlName="txtOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 <div *ngIf="isSubmitted&&form.txtOrthoBeds.errors" class="text-danger">
                   <p *ngIf="form.txtOrthoBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   <p *ngIf="form.txtOrthoBeds.errors.min"><i aria-hidden="true"></i> Enter Value 10 or more</p>
@@ -211,7 +335,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>Bed Occupancy of the Hospital in percentege <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.OccupancyPercentegeBeds" name="txtOccupancyPercentegeBeds" id="txtOccupancyPercentegeBeds" formControlName="txtOccupancyPercentegeBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                <input class="form-control" type="text" [(ngModel)]="request.OccupancyPercentegeBeds" name="txtOccupancyPercentegeBeds" id="txtOccupancyPercentegeBeds" formControlName="txtOccupancyPercentegeBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 <div *ngIf="isSubmitted&&form.txtOccupancyPercentegeBeds.errors" class="text-danger">
                   <p *ngIf="form.txtOccupancyPercentegeBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   <p *ngIf="form.txtOccupancyPercentegeBeds.errors.min"><i aria-hidden="true"></i> Enter Value 75 or more</p>
@@ -219,7 +343,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>Affiliation of psychiatric hospital beds <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.AffiliationPsychiatricBeds" name="txtAffiliationPsychiatricBeds" id="txtAffiliationPsychiatricBeds" formControlName="txtAffiliationPsychiatricBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                <input class="form-control" type="text" [(ngModel)]="request.AffiliationPsychiatricBeds" name="txtAffiliationPsychiatricBeds" id="txtAffiliationPsychiatricBeds" formControlName="txtAffiliationPsychiatricBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 <div *ngIf="isSubmitted&&form.txtAffiliationPsychiatricBeds.errors" class="text-danger">
                   <p *ngIf="form.txtAffiliationPsychiatricBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   <p *ngIf="form.txtAffiliationPsychiatricBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
@@ -241,7 +365,7 @@
                 <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Cardio Thoracic Nursing </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Total Beds <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="request.CardioThoracicTotalBeds" name="txtCardioThoracicTotalBeds" id="txtCardioThoracicTotalBeds" formControlName="txtCardioThoracicTotalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.CardioThoracicTotalBeds" name="txtCardioThoracicTotalBeds" id="txtCardioThoracicTotalBeds" formControlName="txtCardioThoracicTotalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                   <div *ngIf="isSubmitted&&form.txtCardioThoracicTotalBeds.errors" class="text-danger">
                     <p *ngIf="form.txtCardioThoracicTotalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtCardioThoracicTotalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
@@ -249,22 +373,22 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>CCU Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.CardioThoracicCCUBeds" name="txtCardioThoracicCCUBeds" id="txtCardioThoracicCCUBeds" formControlName="txtCardioThoracicCCUBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.CardioThoracicCCUBeds" name="txtCardioThoracicCCUBeds" id="txtCardioThoracicCCUBeds" formControlName="txtCardioThoracicCCUBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>ICCU Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.CardioThoracicICCUBeds" name="txtCardioThoracicICCUBeds" id="txtCardioThoracicICCUBeds" formControlName="txtCardioThoracicICCUBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.CardioThoracicICCUBeds" name="txtCardioThoracicICCUBeds" id="txtCardioThoracicICCUBeds" formControlName="txtCardioThoracicICCUBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>ICU Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.CardioThoracicICUBeds" name="txtCardioThoracicICUBeds" id="txtCardioThoracicICUBeds" formControlName="txtCardioThoracicICUBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.CardioThoracicICUBeds" name="txtCardioThoracicICUBeds" id="txtCardioThoracicICUBeds" formControlName="txtCardioThoracicICUBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
               </div>
               <div class="row mb-2">
                 <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Critical Care Nursing </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Total Beds <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="request.CriticalCareNursingTotalBeds" name="txtCriticalCareNursingTotalBeds" id="txtCriticalCareNursingTotalBeds" formControlName="txtCriticalCareNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.CriticalCareNursingTotalBeds" name="txtCriticalCareNursingTotalBeds" id="txtCriticalCareNursingTotalBeds" formControlName="txtCriticalCareNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                   <div *ngIf="isSubmitted&&form.txtCriticalCareNursingTotalBeds.errors" class="text-danger">
                     <p *ngIf="form.txtCriticalCareNursingTotalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtCriticalCareNursingTotalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 250 or more</p>
@@ -272,11 +396,11 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Critical Care Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.CriticalCareNursingCCBeds" name="txtCriticalCareNursingCCBeds" id="txtCriticalCareNursingCCBeds" formControlName="txtCriticalCareNursingCCBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.CriticalCareNursingCCBeds" name="txtCriticalCareNursingCCBeds" id="txtCriticalCareNursingCCBeds" formControlName="txtCriticalCareNursingCCBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>ICU Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.CriticalCareNursingICUBeds" name="txtCriticalCareNursingICUBeds" id="txtCriticalCareNursingICUBeds" formControlName="txtCriticalCareNursingICUBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.CriticalCareNursingICUBeds" name="txtCriticalCareNursingICUBeds" id="txtCriticalCareNursingICUBeds" formControlName="txtCriticalCareNursingICUBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                   <p *ngIf="isSubmitted&&!IsValidCriticalCareNursing(request.CriticalCareNursingCCBeds,request.CriticalCareNursingICUBeds)" class="text-danger"><i aria-hidden="true"></i> Enter Critical Care and ICU in combination of 8 or more</p>
                 </div>
               </div>
@@ -284,7 +408,7 @@
                 <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Midwifery Nursing </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Total Beds <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="request.MidwiferyNursingTotalBeds" name="txtMidwiferyNursingTotalBeds" id="txtMidwiferyNursingTotalBeds" formControlName="txtMidwiferyNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.MidwiferyNursingTotalBeds" name="txtMidwiferyNursingTotalBeds" id="txtMidwiferyNursingTotalBeds" formControlName="txtMidwiferyNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                   <div *ngIf="isSubmitted&&form.txtMidwiferyNursingTotalBeds.errors" class="text-danger">
                     <p *ngIf="form.txtMidwiferyNursingTotalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtMidwiferyNursingTotalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
@@ -292,11 +416,11 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Mother and Neonatal Units Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.MotherNeonatalUnitsBeds" name="txtMotherNeonatalUnitsBeds" id="txtMotherNeonatalUnitsBeds" formControlName="txtMotherNeonatalUnitsBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.MotherNeonatalUnitsBeds" name="txtMotherNeonatalUnitsBeds" id="txtMotherNeonatalUnitsBeds" formControlName="txtMotherNeonatalUnitsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Deliveries Per Year </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.DeliveriesPerYear" name="txtDeliveriesPerYear" id="txtDeliveriesPerYear" formControlName="txtDeliveriesPerYear" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.DeliveriesPerYear" name="txtDeliveriesPerYear" id="txtDeliveriesPerYear" formControlName="txtDeliveriesPerYear" (keypress)="NumberOnly($event)" maxlength="5" />
                   <div *ngIf="isSubmitted&&form.txtDeliveriesPerYear.errors" class="text-danger">
                     <p *ngIf="form.txtDeliveriesPerYear.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtDeliveriesPerYear.errors.min"><i aria-hidden="true"></i> Enter Value 500 or more</p>
@@ -304,7 +428,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Level II Neonatal Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.LevelIINeonatalBeds" name="txtLevelIINeonatalBeds" id="txtLevelIINeonatalBeds" formControlName="txtLevelIINeonatalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.LevelIINeonatalBeds" name="txtLevelIINeonatalBeds" id="txtLevelIINeonatalBeds" formControlName="txtLevelIINeonatalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                   <div *ngIf="isSubmitted&&form.txtLevelIINeonatalBeds.errors" class="text-danger">
                     <p *ngIf="form.txtLevelIINeonatalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtLevelIINeonatalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 8 or more</p>
@@ -312,14 +436,14 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Level III Neonatal Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.LevelIIINeonatalBeds" name="txtLevelIIINeonatalBeds" id="txtLevelIIINeonatalBeds" formControlName="txtLevelIIINeonatalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.LevelIIINeonatalBeds" name="txtLevelIIINeonatalBeds" id="txtLevelIIINeonatalBeds" formControlName="txtLevelIIINeonatalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
               </div>
               <div class="row mb-2">
                 <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Neuro Science Nursing </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Total Beds <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="request.NeuroScienceNursingTotalBeds" name="txtNeuroScienceNursingTotalBeds" id="txtNeuroScienceNursingTotalBeds" formControlName="txtNeuroScienceNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.NeuroScienceNursingTotalBeds" name="txtNeuroScienceNursingTotalBeds" id="txtNeuroScienceNursingTotalBeds" formControlName="txtNeuroScienceNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                   <div *ngIf="isSubmitted&&form.txtNeuroScienceNursingTotalBeds.errors" class="text-danger">
                     <p *ngIf="form.txtNeuroScienceNursingTotalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtNeuroScienceNursingTotalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
@@ -330,7 +454,7 @@
                 <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Oncology Nursing </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Total Beds <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingTotalBeds" name="txtOncologyNursingTotalBeds" id="txtOncologyNursingTotalBeds" formControlName="txtOncologyNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingTotalBeds" name="txtOncologyNursingTotalBeds" id="txtOncologyNursingTotalBeds" formControlName="txtOncologyNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                   <div *ngIf="isSubmitted&&form.txtOncologyNursingTotalBeds.errors" class="text-danger">
                     <p *ngIf="form.txtOncologyNursingTotalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtOncologyNursingTotalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 100 or more</p>
@@ -338,34 +462,34 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Medical Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingMedicalBeds" name="txtOncologyNursingMedicalBeds" id="txtOncologyNursingMedicalBeds" formControlName="txtOncologyNursingMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingMedicalBeds" name="txtOncologyNursingMedicalBeds" id="txtOncologyNursingMedicalBeds" formControlName="txtOncologyNursingMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label>Surgical Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
-                </div>-->
+              <label>Surgical Beds </label>
+              <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
+            </div>-->
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Chemotherapy Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingChemotherapyBeds" name="txtOncologyNursingChemotherapyBeds" id="txtOncologyNursingChemotherapyBeds" formControlName="txtOncologyNursingChemotherapyBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingChemotherapyBeds" name="txtOncologyNursingChemotherapyBeds" id="txtOncologyNursingChemotherapyBeds" formControlName="txtOncologyNursingChemotherapyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Radiotherapy Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingRadiotherapyBeds" name="txtOncologyNursingRadiotherapyBeds" id="txtOncologyNursingRadiotherapyBeds" formControlName="txtOncologyNursingRadiotherapyBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingRadiotherapyBeds" name="txtOncologyNursingRadiotherapyBeds" id="txtOncologyNursingRadiotherapyBeds" formControlName="txtOncologyNursingRadiotherapyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Palliative Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingPalliativeBeds" name="txtOncologyNursingPalliativeBeds" id="txtOncologyNursingPalliativeBeds" formControlName="txtOncologyNursingPalliativeBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingPalliativeBeds" name="txtOncologyNursingPalliativeBeds" id="txtOncologyNursingPalliativeBeds" formControlName="txtOncologyNursingPalliativeBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Diagnostic Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingDiagnosticBeds" name="txtOncologyNursingDiagnosticBeds" id="txtOncologyNursingDiagnosticBeds" formControlName="txtOncologyNursingDiagnosticBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingDiagnosticBeds" name="txtOncologyNursingDiagnosticBeds" id="txtOncologyNursingDiagnosticBeds" formControlName="txtOncologyNursingDiagnosticBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
               </div>
               <div class="row mb-2">
                 <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Orthopaedic & Rehabilitation Nursing </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Total Beds <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OrthopaedicRehabilitationNursingTotalBeds" name="txtOrthopaedicRehabilitationNursingTotalBeds" id="txtOrthopaedicRehabilitationNursingTotalBeds" formControlName="txtOrthopaedicRehabilitationNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OrthopaedicRehabilitationNursingTotalBeds" name="txtOrthopaedicRehabilitationNursingTotalBeds" id="txtOrthopaedicRehabilitationNursingTotalBeds" formControlName="txtOrthopaedicRehabilitationNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                   <div *ngIf="isSubmitted&&form.txtOrthopaedicRehabilitationNursingTotalBeds.errors" class="text-danger">
                     <p *ngIf="form.txtOrthopaedicRehabilitationNursingTotalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtOrthopaedicRehabilitationNursingTotalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 250 or more</p>
@@ -373,18 +497,18 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Orthopaedic Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OrthopaedicRehabilitationNursingOrthopaedicBeds" name="txtOrthopaedicRehabilitationNursingOrthopaedicBeds" id="txtOrthopaedicRehabilitationNursingOrthopaedicBeds" formControlName="txtOrthopaedicRehabilitationNursingOrthopaedicBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OrthopaedicRehabilitationNursingOrthopaedicBeds" name="txtOrthopaedicRehabilitationNursingOrthopaedicBeds" id="txtOrthopaedicRehabilitationNursingOrthopaedicBeds" formControlName="txtOrthopaedicRehabilitationNursingOrthopaedicBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Rehabilitation Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OrthopaedicRehabilitationNursingRehabilitationBeds" name="txtOrthopaedicRehabilitationNursingRehabilitationBeds" id="txtOrthopaedicRehabilitationNursingRehabilitationBeds" formControlName="txtOrthopaedicRehabilitationNursingRehabilitationBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OrthopaedicRehabilitationNursingRehabilitationBeds" name="txtOrthopaedicRehabilitationNursingRehabilitationBeds" id="txtOrthopaedicRehabilitationNursingRehabilitationBeds" formControlName="txtOrthopaedicRehabilitationNursingRehabilitationBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
               </div>
               <div class="row mb-2">
                 <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Psychiatric Nursing </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Total Beds <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingTotalBeds" name="txtPsychiatricNursingTotalBeds" id="txtPsychiatricNursingTotalBeds" formControlName="txtPsychiatricNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingTotalBeds" name="txtPsychiatricNursingTotalBeds" id="txtPsychiatricNursingTotalBeds" formControlName="txtPsychiatricNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                   <div *ngIf="isSubmitted&&form.txtPsychiatricNursingTotalBeds.errors" class="text-danger">
                     <p *ngIf="form.txtPsychiatricNursingTotalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtPsychiatricNursingTotalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
@@ -392,30 +516,30 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Acute Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingAcuteBeds" name="txtPsychiatricNursingAcuteBeds" id="txtPsychiatricNursingAcuteBeds" formControlName="txtPsychiatricNursingAcuteBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingAcuteBeds" name="txtPsychiatricNursingAcuteBeds" id="txtPsychiatricNursingAcuteBeds" formControlName="txtPsychiatricNursingAcuteBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Chronic Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingChronicBeds" name="txtPsychiatricNursingChronicBeds" id="txtPsychiatricNursingChronicBeds" formControlName="txtPsychiatricNursingChronicBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingChronicBeds" name="txtPsychiatricNursingChronicBeds" id="txtPsychiatricNursingChronicBeds" formControlName="txtPsychiatricNursingChronicBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Adult Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingAdultBeds" name="txtPsychiatricNursingAdultBeds" id="txtPsychiatricNursingAdultBeds" formControlName="txtPsychiatricNursingAdultBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingAdultBeds" name="txtPsychiatricNursingAdultBeds" id="txtPsychiatricNursingAdultBeds" formControlName="txtPsychiatricNursingAdultBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Child Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingChildBeds" name="txtPsychiatricNursingChildBeds" id="txtPsychiatricNursingChildBeds" formControlName="txtPsychiatricNursingChildBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingChildBeds" name="txtPsychiatricNursingChildBeds" id="txtPsychiatricNursingChildBeds" formControlName="txtPsychiatricNursingChildBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>De-Addiction Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingDeAddictionBeds" name="txtPsychiatricNursingDeAddictionBeds" id="txtPsychiatricNursingDeAddictionBeds" formControlName="txtPsychiatricNursingDeAddictionBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.PsychiatricNursingDeAddictionBeds" name="txtPsychiatricNursingDeAddictionBeds" id="txtPsychiatricNursingDeAddictionBeds" formControlName="txtPsychiatricNursingDeAddictionBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
               </div>
               <div class="row mb-2">
                 <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Neonatal Nursing </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Total Beds <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="request.NeonatalNursingTotalBeds" name="txtNeonatalNursingTotalBeds" id="txtNeonatalNursingTotalBeds" formControlName="txtNeonatalNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.NeonatalNursingTotalBeds" name="txtNeonatalNursingTotalBeds" id="txtNeonatalNursingTotalBeds" formControlName="txtNeonatalNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                   <div *ngIf="isSubmitted&&form.txtNeonatalNursingTotalBeds.errors" class="text-danger">
                     <p *ngIf="form.txtNeonatalNursingTotalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtNeonatalNursingTotalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 250 or more</p>
@@ -423,11 +547,11 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Level II/III NICU Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.NeonatalNursingLevelIIOrIIINICUBeds" name="txtNeonatalNursingLevelIIOrIIINICUBeds" id="txtNeonatalNursingLevelIIOrIIINICUBeds" formControlName="txtNeonatalNursingLevelIIOrIIINICUBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.NeonatalNursingLevelIIOrIIINICUBeds" name="txtNeonatalNursingLevelIIOrIIINICUBeds" id="txtNeonatalNursingLevelIIOrIIINICUBeds" formControlName="txtNeonatalNursingLevelIIOrIIINICUBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>NICU Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.NeonatalNursingNICUBeds" name="txtNeonatalNursingNICUBeds" id="txtNeonatalNursingNICUBeds" formControlName="txtNeonatalNursingNICUBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.NeonatalNursingNICUBeds" name="txtNeonatalNursingNICUBeds" id="txtNeonatalNursingNICUBeds" formControlName="txtNeonatalNursingNICUBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
               </div>
               <div class="row mb-2">
@@ -442,38 +566,38 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>General Surgery Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingGeneralSurgeryBeds" name="txtOperationRoomNursingGeneralSurgeryBeds" id="txtOperationRoomNursingGeneralSurgeryBeds" formControlName="txtOperationRoomNursingGeneralSurgeryBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingGeneralSurgeryBeds" name="txtOperationRoomNursingGeneralSurgeryBeds" id="txtOperationRoomNursingGeneralSurgeryBeds" formControlName="txtOperationRoomNursingGeneralSurgeryBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Pediatric Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingPediatricBeds" name="txtOperationRoomNursingPediatricBeds" id="txtOperationRoomNursingPediatricBeds" formControlName="txtOperationRoomNursingPediatricBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingPediatricBeds" name="txtOperationRoomNursingPediatricBeds" id="txtOperationRoomNursingPediatricBeds" formControlName="txtOperationRoomNursingPediatricBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Cardiothoracic Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingCardiothoracicBeds" name="txtOperationRoomNursingCardiothoracicBeds" id="txtOperationRoomNursingCardiothoracicBeds" formControlName="txtOperationRoomNursingCardiothoracicBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingCardiothoracicBeds" name="txtOperationRoomNursingCardiothoracicBeds" id="txtOperationRoomNursingCardiothoracicBeds" formControlName="txtOperationRoomNursingCardiothoracicBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Gynae. and Obstetrical Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingGynaeAndObstetricalBeds" name="txtOperationRoomNursingGynaeAndObstetricalBeds" id="txtOperationRoomNursingGynaeAndObstetricalBeds" formControlName="txtOperationRoomNursingGynaeAndObstetricalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingGynaeAndObstetricalBeds" name="txtOperationRoomNursingGynaeAndObstetricalBeds" id="txtOperationRoomNursingGynaeAndObstetricalBeds" formControlName="txtOperationRoomNursingGynaeAndObstetricalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Orthopaedics Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingOrthopaedicsBeds" name="txtOperationRoomNursingOrthopaedicsBeds" id="txtOperationRoomNursingOrthopaedicsBeds" formControlName="txtOperationRoomNursingOrthopaedicsBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingOrthopaedicsBeds" name="txtOperationRoomNursingOrthopaedicsBeds" id="txtOperationRoomNursingOrthopaedicsBeds" formControlName="txtOperationRoomNursingOrthopaedicsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Ophthalmic Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingOphthalmicBeds" name="txtOperationRoomNursingOphthalmicBeds" id="txtOperationRoomNursingOphthalmicBeds" formControlName="txtOperationRoomNursingOphthalmicBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingOphthalmicBeds" name="txtOperationRoomNursingOphthalmicBeds" id="txtOperationRoomNursingOphthalmicBeds" formControlName="txtOperationRoomNursingOphthalmicBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>ENT and Neuro Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingENTAndNeuroBeds" name="txtOperationRoomNursingENTAndNeuroBeds" id="txtOperationRoomNursingENTAndNeuroBeds" formControlName="txtOperationRoomNursingENTAndNeuroBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.OperationRoomNursingENTAndNeuroBeds" name="txtOperationRoomNursingENTAndNeuroBeds" id="txtOperationRoomNursingENTAndNeuroBeds" formControlName="txtOperationRoomNursingENTAndNeuroBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
               </div>
               <div class="row mb-2">
                 <div style="font-size: 14px; font-weight: bold; margin-bottom: 5px;">Emergency and Disaster Nursing </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Total Beds <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="request.EmergencyAndDisasterNursingTotalBeds" name="txtEmergencyAndDisasterNursingTotalBeds" id="txtEmergencyAndDisasterNursingTotalBeds" formControlName="txtEmergencyAndDisasterNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.EmergencyAndDisasterNursingTotalBeds" name="txtEmergencyAndDisasterNursingTotalBeds" id="txtEmergencyAndDisasterNursingTotalBeds" formControlName="txtEmergencyAndDisasterNursingTotalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                   <div *ngIf="isSubmitted&&form.txtEmergencyAndDisasterNursingTotalBeds.errors" class="text-danger">
                     <p *ngIf="form.txtEmergencyAndDisasterNursingTotalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form.txtEmergencyAndDisasterNursingTotalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 250 or more</p>
@@ -481,11 +605,11 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>ICU Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.EmergencyAndDisasterNursingICUBeds" name="txtEmergencyAndDisasterNursingICUBeds" id="txtEmergencyAndDisasterNursingICUBeds" formControlName="txtEmergencyAndDisasterNursingICUBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.EmergencyAndDisasterNursingICUBeds" name="txtEmergencyAndDisasterNursingICUBeds" id="txtEmergencyAndDisasterNursingICUBeds" formControlName="txtEmergencyAndDisasterNursingICUBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Emergency Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.EmergencyAndDisasterNursingEmergencylBeds" name="txtEmergencyAndDisasterNursingEmergencylBeds" id="txtEmergencyAndDisasterNursingEmergencylBeds" formControlName="txtEmergencyAndDisasterNursingEmergencylBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                  <input class="form-control" type="text" [(ngModel)]="request.EmergencyAndDisasterNursingEmergencylBeds" name="txtEmergencyAndDisasterNursingEmergencylBeds" id="txtEmergencyAndDisasterNursingEmergencylBeds" formControlName="txtEmergencyAndDisasterNursingEmergencylBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
               </div>
             </div>
@@ -503,7 +627,7 @@
               <div class="row mb-2">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Manage by Name <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" id="txtManageByName" name="txtManageByName" formControlName="txtManageByName" [(ngModel)]="request.ManageByName" (keypress)="alphaOnly($event)"/>
+                  <input class="form-control" type="text" id="txtManageByName" name="txtManageByName" formControlName="txtManageByName" [(ngModel)]="request.ManageByName" (keypress)="alphaOnly($event)" />
                   <div *ngIf="isSubmitted&&form.txtManageByName.errors" class="text-danger">
                     <p *ngIf="form.txtManageByName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
@@ -519,7 +643,7 @@
                 <!-- address -->
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtAddressLine1_ManageBy" name="txtAddressLine1_ManageBy" [(ngModel)]="request.AddressLine1_ManageBy" formControlName="txtAddressLine1_ManageBy" (keypress)="alphaandNumberOnly($event)" >
+                  <input type="text" class="form-control" id="txtAddressLine1_ManageBy" name="txtAddressLine1_ManageBy" [(ngModel)]="request.AddressLine1_ManageBy" formControlName="txtAddressLine1_ManageBy" (keypress)="alphaandNumberOnly($event)">
                   <div *ngIf="isSubmitted&&form.txtAddressLine1_ManageBy.errors" class="text-danger">
                     <p *ngIf="form.txtAddressLine1_ManageBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
@@ -617,7 +741,7 @@
               <div class="row mb-2">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Owner Name <span style="color:red;">*</span></label>
-                  <input class="form-control" type="text" id="txtOwnerName" name="txtOwnerName" formControlName="txtOwnerName" [(ngModel)]="request.OwnerName"  (keypress)="alphaOnly($event)"/>
+                  <input class="form-control" type="text" id="txtOwnerName" name="txtOwnerName" formControlName="txtOwnerName" [(ngModel)]="request.OwnerName" (keypress)="alphaOnly($event)" />
                   <div *ngIf="isSubmitted&&form.txtOwnerName.errors" class="text-danger">
                     <p *ngIf="form.txtOwnerName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
@@ -746,14 +870,14 @@
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label>Name of Institution <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" id="txtInstitutionName" name="txtInstitutionName" formControlName="txtInstitutionName" [(ngModel)]="request.InstitutionName" (keypress)="alphaOnly($event)"/>
+                    <input class="form-control" type="text" id="txtInstitutionName" name="txtInstitutionName" formControlName="txtInstitutionName" [(ngModel)]="request.InstitutionName" (keypress)="alphaOnly($event)" />
                     <div *ngIf="isSubmitted&&form.txtInstitutionName.errors" class="text-danger">
                       <p *ngIf="form.txtInstitutionName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label>Institute Contact No. <span style="color:red;">*</span></label>
-                    <input class="form-control" type="text" id="txtOrganizationPhone" name="txtOrganizationPhone" formControlName="txtOrganizationPhone" [(ngModel)]="request.OrganizationPhone" (keypress)="NumberOnly($event)" maxlength="10"/>
+                    <input class="form-control" type="text" id="txtOrganizationPhone" name="txtOrganizationPhone" formControlName="txtOrganizationPhone" [(ngModel)]="request.OrganizationPhone" (keypress)="NumberOnly($event)" maxlength="10" />
                     <div *ngIf="isSubmitted&&form.txtOrganizationPhone.errors" class="text-danger">
                       <p *ngIf="form.txtOrganizationPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form.txtOrganizationPhone.errors.pattern"><i aria-hidden="true"></i> Institute Contact number is not valid .!</p>
@@ -953,7 +1077,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Hospital Name <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" name="txtHospitalName" id="txtHospitalName" [(ngModel)]="requestNot.HospitalName" formControlName="txtHospitalName" (keypress)="alphaOnly($event)"/>
+                  <input type="text" class="form-control" name="txtHospitalName" id="txtHospitalName" [(ngModel)]="requestNot.HospitalName" formControlName="txtHospitalName" (keypress)="alphaOnly($event)" />
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtHospitalName.errors" class="text-danger">
                     <p *ngIf="form_ParentNot.txtHospitalName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
@@ -968,7 +1092,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Hospital Contact No. <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="requestNot.HospitalContactNo" formControlName="txtHospitalContactNo" (keypress)="NumberOnly($event)" maxlength="10"/>
+                  <input type="text" class="form-control" name="txtHospitalContactNo" id="txtHospitalContactNo" [(ngModel)]="requestNot.HospitalContactNo" formControlName="txtHospitalContactNo" (keypress)="NumberOnly($event)" maxlength="10" />
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtHospitalContactNo.errors" class="text-danger">
                     <p *ngIf="form_ParentNot.txtHospitalContactNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     <p *ngIf="form_ParentNot.txtHospitalContactNo.errors.pattern"><i aria-hidden="true"></i> Hospital Contact number is not valid .!</p>
@@ -1069,20 +1193,20 @@
                 </div>
                 <!-- end -->
                 <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
-                  <label class="form-label">Document </label>
-                  <div class="d-flex">
-                    <input type="file" class="form-control" id="fParentNotDocument" name="fParentNotDocument"
-                           [(ngModel)]="requestNot.ParentNotDocument"
-                           formControlName="fParentNotDocument" (change)="onFilechange($event,'ParentNotDocument')" />
-                    <div class="btn-group" *ngIf="showParentNotDocument">
-                      <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ParentNotDocument}}"><i class="fa fa-eye"></i></a>
-                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ParentNotDocument')"><i class="fa fa-trash-o"></i></button>
-                    </div>
-                  </div>
-                  <div *ngIf="ParentNotDocumentValidationMessage!=''" class="text-danger">
-                    <p><i aria-hidden="true"></i>{{ParentNotDocumentValidationMessage}}</p>
-                  </div>
-                </div>-->
+      <label class="form-label">Document </label>
+      <div class="d-flex">
+        <input type="file" class="form-control" id="fParentNotDocument" name="fParentNotDocument"
+               [(ngModel)]="requestNot.ParentNotDocument"
+               formControlName="fParentNotDocument" (change)="onFilechange($event,'ParentNotDocument')" />
+        <div class="btn-group" *ngIf="showParentNotDocument">
+          <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ParentNotDocument}}"><i class="fa fa-eye"></i></a>
+          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ParentNotDocument')"><i class="fa fa-trash-o"></i></button>
+        </div>
+      </div>
+      <div *ngIf="ParentNotDocumentValidationMessage!=''" class="text-danger">
+        <p><i aria-hidden="true"></i>{{ParentNotDocumentValidationMessage}}</p>
+      </div>
+    </div>-->
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                   <label for="fParentNotDocument" class="form-label">Document</label>
                   <div class="d-flex">
@@ -1117,18 +1241,18 @@
                     </div>
                   </div>
                   <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;" [hidden]="!IsAffiliatedHospitalAffiliationToOther">
-                    <label class="form-label">Consent form </label>
-                    <div class="d-flex">
-                      <input type="file" class="form-control" id="fConsentForm" name="fConsentForm" [(ngModel)]="requestNot.ConsentForm" formControlName="fConsentForm" (change)="onFilechange($event,'ConsentForm')" />
-                      <div class="btn-group" *ngIf="showParentNotConsentForm">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ConsentForm}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ConsentForm')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="ParentNotConsentFormValidationMessage!=''" class="text-danger">
-                      <p><i aria-hidden="true"></i>{{ParentNotConsentFormValidationMessage}}</p>
-                    </div>
-                  </div>-->
+        <label class="form-label">Consent form </label>
+        <div class="d-flex">
+          <input type="file" class="form-control" id="fConsentForm" name="fConsentForm" [(ngModel)]="requestNot.ConsentForm" formControlName="fConsentForm" (change)="onFilechange($event,'ConsentForm')" />
+          <div class="btn-group" *ngIf="showParentNotConsentForm">
+            <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ConsentForm}}"><i class="fa fa-eye"></i></a>
+            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ConsentForm')"><i class="fa fa-trash-o"></i></button>
+          </div>
+        </div>
+        <div *ngIf="ParentNotConsentFormValidationMessage!=''" class="text-danger">
+          <p><i aria-hidden="true"></i>{{ParentNotConsentFormValidationMessage}}</p>
+        </div>
+      </div>-->
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                     <label for="fConsentForm" class="form-label">Consent form</label>
                     <div class="d-flex">
@@ -1151,6 +1275,44 @@
               <div class="card">
                 <div class="card-header">
                   <b>
+                    <i class="bi bi-table"></i>&nbsp; Pollution Detail
+                  </b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                      <label>Unit ID <span style="color:red;">*</span></label>
+                      <input class="form-control" type="text" [(ngModel)]="requestNot.PollutionUnitID" name="txtPollutionUnitID" id="txtPollutionUnitID" formControlName="txtPollutionUnitID" />
+                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPollutionUnitID.errors" class="text-danger">
+                        <p *ngIf="form_ParentNot.txtPollutionUnitID.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                      <label>Pollution Certificate <span style="color:red;">*</span></label>
+                      <div class="d-flex">
+                        <input type="file" class="form-control" id="fPollutionCertificate" style="display:none" formControlName="fPollutionCertificate" (change)="onFilechange($event,'NotPollutionCertificate')" #fPollutionCertificate />
+                        <label class="btn upload" for="fPollutionCertificate">
+                          <span class="filename">Choose file</span>
+                          {{requestNot.PollutionCertificate === '' ? 'No File Choosen' : requestNot.Dis_PollutionCertificate}}
+                        </label>
+                        <div class="btn-group" *ngIf="requestNot.PollutionCertificate!=''">
+                          <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.PollutionCertificatePath}}"><i class="fa fa-eye"></i></a>
+                          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('NotPollutionCertificate')"><i class="fa fa-trash-o"></i></button>
+                        </div>
+                      </div>
+                      <div *ngIf="isSubmitted_ParentNot&&requestNot.PollutionCertificate==''" class="text-danger">
+                        <p *ngIf="requestNot.PollutionCertificate==''"><i aria-hidden="true"></i> This field is required .!</p>
+                      </div>
+                      <div *ngIf="NotPollutionCertificateValidationMessage!=''" class="text-danger">
+                        <p><i aria-hidden="true"></i>{{NotPollutionCertificateValidationMessage}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header">
+                  <b>
                     <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
                   </b>
                 </div>
@@ -1158,7 +1320,7 @@
                   <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                       <label>Medical <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.MedicalBeds" name="txtMedicalBeds" id="txtMedicalBeds" formControlName="txtMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                      <input class="form-control" type="text" [(ngModel)]="requestNot.MedicalBeds" name="txtMedicalBeds" id="txtMedicalBeds" formControlName="txtMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                       <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtMedicalBeds.errors" class="text-danger">
                         <p *ngIf="form_ParentNot.txtMedicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                         <p *ngIf="form_ParentNot.txtMedicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
@@ -1166,7 +1328,7 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                       <label>Surgical <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.SurgicalBeds" name="txtSurgicalBeds" id="txtSurgicalBeds" formControlName="txtSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                      <input class="form-control" type="text" [(ngModel)]="requestNot.SurgicalBeds" name="txtSurgicalBeds" id="txtSurgicalBeds" formControlName="txtSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                       <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtSurgicalBeds.errors" class="text-danger">
                         <p *ngIf="form_ParentNot.txtSurgicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                         <p *ngIf="form_ParentNot.txtSurgicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
@@ -1174,7 +1336,7 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                       <label>Obst. & Gynaecology <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.ObstAndGynaecologyBeds" name="txtObstAndGynaecologyBeds" id="txtObstAndGynaecologyBeds" formControlName="txtObstAndGynaecologyBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                      <input class="form-control" type="text" [(ngModel)]="requestNot.ObstAndGynaecologyBeds" name="txtObstAndGynaecologyBeds" id="txtObstAndGynaecologyBeds" formControlName="txtObstAndGynaecologyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                       <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtObstAndGynaecologyBeds.errors" class="text-danger">
                         <p *ngIf="form_ParentNot.txtObstAndGynaecologyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                         <p *ngIf="form_ParentNot.txtObstAndGynaecologyBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
@@ -1182,7 +1344,7 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                       <label>Pediatrics <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.PediatricsBeds" name="txtPediatricsBeds" id="txtPediatricsBeds" formControlName="txtPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                      <input class="form-control" type="text" [(ngModel)]="requestNot.PediatricsBeds" name="txtPediatricsBeds" id="txtPediatricsBeds" formControlName="txtPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                       <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPediatricsBeds.errors" class="text-danger">
                         <p *ngIf="form_ParentNot.txtPediatricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                         <p *ngIf="form_ParentNot.txtPediatricsBeds.errors.min"><i aria-hidden="true"></i> Enter Value 20 or more</p>
@@ -1190,7 +1352,7 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                       <label>Ortho <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.OrthoBeds" name="txtOrthoBeds" id="txtOrthoBeds" formControlName="txtOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                      <input class="form-control" type="text" [(ngModel)]="requestNot.OrthoBeds" name="txtOrthoBeds" id="txtOrthoBeds" formControlName="txtOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                       <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOrthoBeds.errors" class="text-danger">
                         <p *ngIf="form_ParentNot.txtOrthoBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                         <p *ngIf="form_ParentNot.txtOrthoBeds.errors.min"><i aria-hidden="true"></i> Enter Value 10 or more</p>
@@ -1198,7 +1360,7 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                       <label>Bed Occupancy of the Hospital in percentege <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.OccupancyPercentegeBeds" name="txtOccupancyPercentegeBeds" id="txtOccupancyPercentegeBeds" formControlName="txtOccupancyPercentegeBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                      <input class="form-control" type="text" [(ngModel)]="requestNot.OccupancyPercentegeBeds" name="txtOccupancyPercentegeBeds" id="txtOccupancyPercentegeBeds" formControlName="txtOccupancyPercentegeBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                       <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOccupancyPercentegeBeds.errors" class="text-danger">
                         <p *ngIf="form_ParentNot.txtOccupancyPercentegeBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                         <p *ngIf="form_ParentNot.txtOccupancyPercentegeBeds.errors.min"><i aria-hidden="true"></i> Enter Value 75 or more</p>
@@ -1206,7 +1368,7 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                       <label>Affiliation of psychiatric hospital beds <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.AffiliationPsychiatricBeds" name="txtAffiliationPsychiatricBeds" id="txtAffiliationPsychiatricBeds" formControlName="txtAffiliationPsychiatricBeds" (keypress)="NumberOnly($event)" maxlength="5"/>
+                      <input class="form-control" type="text" [(ngModel)]="requestNot.AffiliationPsychiatricBeds" name="txtAffiliationPsychiatricBeds" id="txtAffiliationPsychiatricBeds" formControlName="txtAffiliationPsychiatricBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                       <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtAffiliationPsychiatricBeds.errors" class="text-danger">
                         <p *ngIf="form_ParentNot.txtAffiliationPsychiatricBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                         <p *ngIf="form_ParentNot.txtAffiliationPsychiatricBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
@@ -1226,7 +1388,7 @@
                     <div class="row mb-2">
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label>Manage by Name <span style="color:red;">*</span></label>
-                        <input class="form-control" type="text" id="txtManageByName" name="txtManageByName" formControlName="txtManageByName" [(ngModel)]="requestNot.ManageByName" (keypress)="alphaOnly($event)"/>
+                        <input class="form-control" type="text" id="txtManageByName" name="txtManageByName" formControlName="txtManageByName" [(ngModel)]="requestNot.ManageByName" (keypress)="alphaOnly($event)" />
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtManageByName.errors" class="text-danger">
                           <p *ngIf="form_ParentNot.txtManageByName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                         </div>
@@ -1340,14 +1502,14 @@
                     <div class="row mb-2">
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label>Owner Name <span style="color:red;">*</span></label>
-                        <input class="form-control" type="text" id="txtOwnerName" name="txtOwnerName" formControlName="txtOwnerName" [(ngModel)]="requestNot.OwnerName" (keypress)="alphaOnly($event)"/>
+                        <input class="form-control" type="text" id="txtOwnerName" name="txtOwnerName" formControlName="txtOwnerName" [(ngModel)]="requestNot.OwnerName" (keypress)="alphaOnly($event)" />
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOwnerName.errors" class="text-danger">
                           <p *ngIf="form_ParentNot.txtOwnerName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                         </div>
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label>Owner Contact No. <span style="color:red;">*</span></label>
-                        <input class="form-control" type="text" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="requestNot.OwnerPhone" (keypress)="NumberOnly($event)" maxlength="10"/>
+                        <input class="form-control" type="text" id="txtOwnerPhone" name="txtOwnerPhone" formControlName="txtOwnerPhone" [(ngModel)]="requestNot.OwnerPhone" (keypress)="NumberOnly($event)" maxlength="10" />
                         <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOwnerPhone.errors" class="text-danger">
                           <p *ngIf="form_ParentNot.txtOwnerPhone.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                           <p *ngIf="form_ParentNot.txtOwnerPhone.errors.pattern"><i aria-hidden="true"></i> Owner Contact number is not valid .!</p>
@@ -1541,19 +1703,73 @@
   <div class="modal-body">
     <div class="card-body">
       <div class="row mb-2">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
           <label class="form-label" style="margin-right:15px"> <b>Whether the institution is a parent hospital or not :</b></label>
           <input class="form-control disabled" disabled value="{{HospitalData.ParentHospitalID==1?'Yes':'No'}}" />
         </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+          <label class="form-label" style="margin-right:15px"> <b>Hospital Status :</b></label>
+          <input class="form-control disabled" disabled value="{{HospitalData.HospitalStatus}}" />
+        </div>
       </div>
       <div>
+        <div class="card" *ngIf="LegalEntityDataModel!=null && HospitalData.ParentHospitalID==1">
+          <div class="card-header">
+            <b>
+              <i class="bi bi-table"></i>&nbsp; {{LegalEntityDataModel.LegalEntity}} Detail
+            </b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td>Name of {{LegalEntityDataModel.LegalEntity}}</td>
+                        <td>{{LegalEntityDataModel.SocietyName}}</td>
+                        <td>Entity Type</td>
+                        <td>{{LegalEntityDataModel.LegalEntity}}</td>
+                      </tr>
+                      <tr>
+                        <td>Registration No</td>
+                        <td>{{LegalEntityDataModel.RegistrationNo}}</td>
+                        <td>SSO ID</td>
+                        <td>{{LegalEntityDataModel.SSOID}}</td>
+                      </tr>
+                      <tr>
+                        <td>District</td>
+                        <td>{{LegalEntityDataModel.District_Eng}}</td>
+                        <td>ACT</td>
+                        <td>{{LegalEntityDataModel.RegisteredAct}}</td>
+                      </tr>
+                      <tr>
+                        <td>Status</td>
+                        <td>{{LegalEntityDataModel.SocietyPresentStatus}}</td>
+                        <td>Date Of Registration</td>
+                        <td>{{LegalEntityDataModel.SocietyRegistrationDate}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="card">
           <div class="card-header" *ngIf="HospitalData.ParentHospitalID==2">
             <b>
               <b> Which affiliated hospitals would the organization like to associate with for clinical training </b>
             </b>
           </div>
+          <div class="card-header" *ngIf="HospitalData.ParentHospitalID==1">
+            <b>
+              <b> Hospital Detail </b>
+            </b>
+          </div>
+
           <div class="card-body">
+
             <div class="row mb-2">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label class="form-label" style="margin-right:15px"><b> Hospital Area :</b></label>
@@ -1638,6 +1854,29 @@
                 <a class="bi bi-file-earmark-pdf-fill" *ngIf="HospitalData.ConsentForm.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.ConsentFormPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
               </div>
               <!-- end -->
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <b>
+              <i class="bi bi-table"></i>&nbsp; Pollution Detail
+            </b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b> Unit ID :</b></label>
+                <input class="form-control disabled" disabled value="{{HospitalData.PollutionUnitID}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label"><b>Pollution Certificate :</b></label>
+                <div class="clearfix"></div>
+                <a *ngIf="!HospitalData.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{HospitalData.PollutionCertificatePath}}" alt="Pollution Certificate" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="HospitalData.PollutionCertificate.includes('.pdf')" data-fancybox="gallery" href="{{HospitalData.PollutionCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
             </div>
           </div>
         </div>
