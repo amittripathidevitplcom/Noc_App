@@ -123,6 +123,8 @@ export class HospitalDataModel {
   public PollutionCertificate: string = '';
   public Dis_PollutionCertificate: string = '';
   public PollutionCertificatePath: string = '';
+
+  public HospitalStatus: string = '';
 }
 export class HospitalParentNotDataModel {// not have parent
   public ParentHospitalID: number = 0;
@@ -190,6 +192,8 @@ export class HospitalParentNotDataModel {// not have parent
   public PollutionCertificate: string = '';
   public Dis_PollutionCertificate: string = '';
   public PollutionCertificatePath: string = '';
+  public HospitalStatus: string = '';
+
 }
 
 

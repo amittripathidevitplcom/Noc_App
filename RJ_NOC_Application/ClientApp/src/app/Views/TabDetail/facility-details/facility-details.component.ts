@@ -88,6 +88,7 @@ export class FacilityDetailsComponent implements OnInit {
     this.FacilitiesForm = this.formBuilder.group(
       {
         ddlFacilitiesId: ['', [DropdownValidators]],
+        txtNoOf: ['', Validators.required],
         fileUploadImage: [''],
         //fileUploadImage: ['', Validators.required],
         txtMinSize: ['', [Validators.required, Validators.min(0), Validators.max(100000000)]],
@@ -143,6 +144,7 @@ export class FacilityDetailsComponent implements OnInit {
 
   async ddlFacilities_change($event: any, SeletedFacilitiesID: any) {
     this.request.FacilitiesID = SeletedFacilitiesID;
+    this.request.NoOf = null;
     this.request.MinSize = 0;
     this.request.Unit = '';
 
@@ -282,7 +284,7 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   async SaveData() {
-    
+
     this.request.CollegeID = this.SelectedCollageID;
 
     this.isSubmitted = true;
@@ -355,6 +357,7 @@ export class FacilityDetailsComponent implements OnInit {
       this.isSubmitted = false;
       this.request.FacilityDetailID = 0;
       this.request.FacilitiesID = 0;
+      this.request.NoOf = null;
       this.request.MinSize = 0;
       const fileUploadImage = '';
       this.request.FacilitiesUrl = '';
@@ -409,6 +412,7 @@ export class FacilityDetailsComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.request.FacilityDetailID = data['Data'][0]["FacilityDetailID"];
           this.request.FacilitiesID = data['Data'][0]["FacilitiesID"];
+          this.request.NoOf = data['Data'][0]["NoOf"];
           this.request.FacilitiesUrl = data['Data'][0]["FacilitiesUrl"];
           this.ResetFile((data['Data'][0]["FacilitiesUrl"] != '' ? true : false), data['Data'][0]["FacilitiesUrl"], data['Data'][0]["FacilitiesUrlPath"], data['Data'][0]["FacilitiesUrl_Dis_FileName"]);
           this.request.MinSize = data['Data'][0]["MinSize"];

@@ -12,6 +12,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Console } from 'console';
+import internal from 'stream';
 
 @Component({
   selector: 'app-apply-noc-parameter',
@@ -105,6 +106,9 @@ export class ApplyNocParameterComponent implements OnInit {
 
   public isShowGrid: boolean = true;
   public SubjectDetails: any[] = [];
+
+
+  public SelectedCourseId: number = 0;
   
 
 
@@ -226,6 +230,7 @@ export class ApplyNocParameterComponent implements OnInit {
               .then((data: any) => {
                 data = JSON.parse(JSON.stringify(data));
                 this.CollegeDepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+                this.request.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
 
               }, error => console.error(error));
           }
@@ -873,16 +878,17 @@ export class ApplyNocParameterComponent implements OnInit {
 
   async FillCourses() {
   
-    try {
-     
+    try
+    {
       // Deparment level
-      await this.commonMasterService.GetCourseList_DepartmentIDWise( this.request.DepartmentID)
+      await this.commonMasterService.GetCollegeWiseCourseList(this.request.CollegeID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.CourseDataList = data['Data'];
+          this.CourseDataList = data['Data'][0]['data'];
+        
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -898,23 +904,22 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   async ddlSubject_change($event: any, SeletedCourseID: any) {
-    try {
+    try
+    {
+      this.SelectedCourseId = SeletedCourseID;
+      var CollegeWiseCourseID = this.CourseDataList.find((x: { CourseID: number; }) => x.CourseID == SeletedCourseID).CollegeWiseCourseID;
 
-     
       this.loaderService.requestStarted();
       const courseId = Number(SeletedCourseID);
+
       if (courseId <= 0) {
         return;
       }
-
-      await this.commonMasterService.GetSubjectList_CourseIDWise(courseId)
+      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(CollegeWiseCourseID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.SubjectDetails = data['Data'];
-
+          this.SubjectDetails = data['Data'][0]['data'];
           this.isShowGrid = true;
-      
-
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -959,15 +964,27 @@ export class ApplyNocParameterComponent implements OnInit {
   //Add course
   btn_AddCourse()
   {
+    let CourseName = this.CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.SelectedCourseId).CourseName;
     var data: ApplyNocParameterCourseDataModel = new ApplyNocParameterCourseDataModel();
     data.ApplyNocID = 1;
-    data.CourseID = 5;
-    data.CourseName = "test Course";
+    data.CourseID = this.SelectedCourseId;
+    data.CourseName = CourseName;
     data.ApplyNocParameterSubjectList = this.SubjectDetails.filter(f => f.IsChecked == true);
     this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.push(data);
     //close data
     this.modalService.dismissAll('After Success');
   }
+
+  //delete items
+  btn_DeleteCourse(CourseID: number)
+  {
+    if (confirm("Are you sure you want to delete this ?")) {
+
+      const indexToRemove = this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
+      this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.splice(indexToRemove, 1);
+    }
+  }
+
 
   ddlSreamChangeReset(ID: any) { }
 

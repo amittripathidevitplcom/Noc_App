@@ -50,6 +50,7 @@ export class SubjectMasterComponent implements OnInit {
         ddlDepartmentID: ['', [DropdownValidators]],
         ddlCourseID: ['', [DropdownValidators]],
         txtSubjectName: ['', [Validators.required, Validators.maxLength(100)]],
+        chkIsPredical: [''],
         chkActiveStatus: [''],
       }
     )
@@ -140,7 +141,8 @@ export class SubjectMasterComponent implements OnInit {
     this.request.CourseID = 0;
     this.request.SubjectName = '';
     this.request.UserID = 0;
-    this.request.ActiveStatus = true;
+    this.request.ActiveStatus = false;
+    this.request.IsPredical = false;
     this.isDisabledGrid = false;
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";
@@ -160,6 +162,7 @@ export class SubjectMasterComponent implements OnInit {
           this.DepartmentChangecourse('', (this.request.DepartmentID).toString())
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.SubjectName = data['Data'][0]["SubjectName"];
+          this.request.IsPredical = data['Data'][0]["IsPredical"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
@@ -357,12 +360,13 @@ export class SubjectMasterComponent implements OnInit {
             "DepartmentName": this.SubjectMasterData[i]['DepartmentName'],
             "CourseName": this.SubjectMasterData[i]['CourseName'],
             "SubjectName": this.SubjectMasterData[i]['SubjectName'],
+            "IsPredical": this.SubjectMasterData[i]['Predical'],
             "Status": this.SubjectMasterData[i]['ActiveDeactive']
           })
         }
 
         let values: any;
-        let privados = ['S.No.', "DepartmentName", "CourseName", "SubjectName", "Status"];
+        let privados = ['S.No.', "DepartmentName", "CourseName", "SubjectName","Predical", "Status"];
         let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
         values = pDFData.map((elemento: any) => Object.values(elemento));
 

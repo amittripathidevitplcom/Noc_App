@@ -379,6 +379,7 @@
                   <p *ngIf="form.txtManagementCommitteecertified.errors.required">This field is required .!</p>
                 </div>
               </div>
+              
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="">Aadhaar Number Of President  <span style="color:red">*</span></label>
                 <input class="form-control" id="txtPresidentAadhaarNumber" [(ngModel)]="request.PresidentAadhaarNumber" formControlName="txtPresidentAadhaarNumber" [attr.disabled]="isDisabledNewRegistration ? true : null" maxlength="12" (keypress)="numberOnly($event)" />
@@ -433,24 +434,7 @@
                   <p *ngIf="isValidTrusteeMemberProofDoc"> {{ImageValidationMessage_TrusteeMemberProofDoc}}</p>
                 </div>
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtPresidentAadhaarProofDoc">Aadhaar Proof of President<span style="color:red">*</span></label>
-                <div class="d-flex">
-                  <input class="form-control d-none" type="file" id="txtPresidentAadhaarProofDoc" formControlName="txtPresidentAadhaarProofDoc" (change)="ValidateDocument($event,'PresidentAadhaar')" />
-                  <label class="btn upload" for="txtPresidentAadhaarProofDoc">
-                    <span class="filename">Choose file</span>
-                    {{request.PresidentAadhaarProofDoc === '' ? 'No File Choosen' : request.Dis_PresidentAadhaarProofDocName}}
-                  </label>
-                  <div class="btn-group" *ngIf="showPresidentAadhaarProofDoc">
-                    <a class="btn btn-outline-primary" target="_blank" href="{{request.PresidentAadhaarProofDocPath}}"><i class="fa fa-eye"></i></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PresidentAadhaar', request.PresidentAadhaarProofDoc)"><i class="fa fa-trash-o"></i></button>
-                  </div>
-                </div>
-                <p *ngIf="isSubmitted&&request.PresidentAadhaarProofDoc ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidationMessage_PresidentAadhaarProofDoc}}</p>
-                <div *ngIf="isValidPresidentAadhaarProofDoc" class="text-danger">
-                  <p *ngIf="isValidPresidentAadhaarProofDoc"> {{ImageValidationMessage_PresidentAadhaarProofDoc}}</p>
-                </div>
-              </div>
+              
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="txtSocietyPanProofDoc"> Pan Proof<span style="color:red">*</span></label>
                 <div class="d-flex">
@@ -499,7 +483,7 @@
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
                         <label for="txtDOB" class="form-label">Date of Birth <span style="color:red">*</span></label>
-                        <input type="date" class="form-control" id="txtMemberDOB" [(ngModel)]="memberdetails.MemberDOB" formControlName="txtMemberDOB" min="{{MinDate_DOB | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" >
+                        <input type="date" class="form-control" id="txtMemberDOB" [(ngModel)]="memberdetails.MemberDOB" formControlName="txtMemberDOB" min="{{MinDate_DOB | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;">
                         <div *ngIf="isMemberAdded&&AMform.txtMemberDOB.errors" class="text-danger">
                           <p *ngIf="AMform.txtMemberDOB.errors.required">  This field is required .!</p>
                         </div>
@@ -523,6 +507,14 @@
                         </select>
                         <div *ngIf="isMemberAdded&&AMform.ddlMemberposts.errors" class="text-danger">
                           <p *ngIf="!AMform.ddlMemberposts.errors.DropdownValidators">This field is required .!</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label for="">Aadhaar Number Of President  <span style="color:red">*</span></label>
+                        <input class="form-control" id="txtPresidentAadhaarNumber" [(ngModel)]="memberdetails.PresidentAadhaarNumber" formControlName="txtPresidentAadhaarNumber" maxlength="12" (keypress)="numberOnly($event)" />
+                        <div *ngIf="isMemberAdded&&AMform.txtPresidentAadhaarNumber.errors" class="text-danger">
+                          <p *ngIf="AMform.txtPresidentAadhaarNumber.errors.required"> This field is required .!</p>
+                          <p *ngIf="AMform.txtPresidentAadhaarNumber.errors.pattern || AMform.txtPresidentAadhaarNumber.errors.maxlength || AMform.txtPresidentAadhaarNumber.errors.minlength"> Invalid Aadhaar No.</p>
                         </div>
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
@@ -566,6 +558,27 @@
                         </div>
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                        <label for="txtPresidentAadhaarProofDoc">Aadhaar Proof of President</label>
+                        <div class="d-flex">
+                          <input class="form-control d-none" type="file" id="txtPresidentAadhaarProofDoc" formControlName="txtPresidentAadhaarProofDoc" (change)="ValidateDocument($event,'PresidentAadhaar')" />
+                          <label class="btn upload" for="txtPresidentAadhaarProofDoc">
+                            <span class="filename">Choose file</span>
+                            {{memberdetails.PresidentAadhaarProofDoc === '' ? 'No File Choosen' : memberdetails.Dis_PresidentAadhaarProofDocName}}
+                          </label>
+                          <div class="btn-group" *ngIf="showPresidentAadhaarProofDoc">
+                            <a class="btn btn-outline-primary" target="_blank" href="{{memberdetails.PresidentAadhaarProofDocPath}}"><i class="fa fa-eye"></i></a>
+                            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PresidentAadhaar', memberdetails.PresidentAadhaarProofDoc)"><i class="fa fa-trash-o"></i></button>
+                          </div>
+                        </div>
+                        <!--<p *ngIf="isMemberAdded&&memberdetails.PresidentAadhaarProofDoc ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidationMessage_PresidentAadhaarProofDoc}}</p>-->
+                        <div *ngIf="isPresidentAadhaarProofDoc" class="text-danger">
+                          <p *ngIf="isPresidentAadhaarProofDoc"> This field is required .!</p>
+                        </div>
+                        <div *ngIf="isValidPresidentAadhaarProofDoc" class="text-danger">
+                          <p *ngIf="isValidPresidentAadhaarProofDoc"> {{ImageValidationMessage_PresidentAadhaarProofDoc}}</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                         <button class="btn btn-primary" style="margin-top:27px" (click)="AddMember()"><i class="fa fa-plus"></i> Add</button>
                       </div>
                     </div>
@@ -582,8 +595,10 @@
                                 <th>Date Of Birth</th>
                                 <th>Mobile No.</th>
                                 <th>Post</th>
+                                <th>Aadhaar No</th>
                                 <th>Member Photo</th>
                                 <th>Member Sing</th>
+                                <th>Aadhaar Document</th>
                                 <th>Action</th>
                               </tr>
                             </thead>
@@ -595,11 +610,19 @@
                                 <td>{{row.MemberDOB}}</td>
                                 <td>{{row.MemberMobileNo}}</td>
                                 <td>{{row.MembersPostName}}</td>
-                                <td><a *ngIf="row.MemberPhoto!='' && row.MemberPhotoPath!='N/A'" target="_blank" href="{{row.MemberPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
-                                    <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
+                                <td>{{row.PresidentAadhaarNumber}}</td>
+                                <td>
+                                  <a *ngIf="row.MemberPhoto!='' && row.MemberPhotoPath!='N/A'" target="_blank" href="{{row.MemberPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
+                                  <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
                                 </td>
-                                <td><a *ngIf="row.MemberSignature!='' && row.MemberSignaturePath!='N/A'" target="_blank" href="{{row.MemberSignaturePath}}" title="View Member Sign"><i class="fa fa-eye"></i></a>
-                                    <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label></td>
+                                <td>
+                                  <a *ngIf="row.MemberSignature!='' && row.MemberSignaturePath!='N/A'" target="_blank" href="{{row.MemberSignaturePath}}" title="View Member Sign"><i class="fa fa-eye"></i></a>
+                                  <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label>
+                                </td>
+                                <td>
+                                  <a *ngIf="row.PresidentAadhaarProofDoc!='' && row.PresidentAadhaarProofDocPath!='N/A'" target="_blank" href="{{row.PresidentAadhaarProofDocPath}}" title="View Aadhar Document"><i class="fa fa-eye"></i></a>
+                                  <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
+                                </td>                                
                                 <td>
                                   <button class="btn btn-danger" type="button" (click)="DeleteMember(indexOfelement)"><i class="fa fa-trash-o"></i></button>
                                 </td>
