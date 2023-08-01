@@ -198,11 +198,13 @@ export class OtherDocumentComponent implements OnInit {
   async SaveData() {
     this.isSubmitted = true;
     this.IsValid = true;
-    this.HospitalRealtedDocuments.forEach(item => {
-      if (item.IsMandatory == true && item.FileName == '') {
-        this.IsValid = false;
-      }
-    });
+    if (this.SelectedDepartmentID == 6) {
+      this.HospitalRealtedDocuments.forEach(item => {
+        if (item.IsMandatory == true && item.FileName == '') {
+          this.IsValid = false;
+        }
+      });
+    }
     this.request.DocumentDetails.forEach(item => {
       if (item.IsMandatory == true && item.FileName == '') {
         this.IsValid = false;
