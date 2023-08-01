@@ -166,8 +166,20 @@
                           <p *ngIf="FormRegistration.txtMobileNumberRegistration.errors.required">  This field is required .!</p>
                           <p *ngIf="FormRegistration.txtMobileNumberRegistration.errors.pattern || FormRegistration.txtMobileNumberRegistration.errors.maxlength || FormRegistration.txtMobileNumberRegistration.errors.minlength">Mobile Number must be at least 10 number</p>
                         </div>
+                      </div>
+
+
+                      <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+                        <label class="form-label">President Aadhar Number <span style="color:red">*</span></label>
+                        <input type="text" id="txtAadharNumber" name="txtAadharNumber" class="form-control" [(ngModel)]="request.PresidentAadhaarNumber" formControlName="txtAadharNumber" maxlength="12" (keypress)="numberOnly($event)">
+
+                        <div *ngIf="isSubmitted_Registration&&FormRegistration.txtAadharNumber.errors" class="text-danger">
+                          <p *ngIf="FormRegistration.txtAadharNumber.errors.required"> This field is required .!</p>
+                          <p *ngIf="FormRegistration.txtAadharNumber.errors.pattern || FormRegistration.txtAadharNumber.errors.maxlength || FormRegistration.txtAadharNumber.errors.minlength"> Invalid Aadhaar No.</p>
+                        </div>
 
                       </div>
+
                       <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
                         <label class="form-label">President Email ID <span style="color:red">*</span></label>
                         <input type="text" class="form-control" id="txtEmailIDRegistration" name="txtEmailIDRegistration" [(ngModel)]="request.PresidentEmail" formControlName="txtEmailIDRegistration">
@@ -181,7 +193,7 @@
 
                       </div>
                       <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
-                        <button class="btn btn-success btn-sm" style="margin-top:27px" (click)="OpenOTPModel()" type="button">Get OTP</button>
+                        <button class="btn btn-success btn-sm" style="margin-top:27px" (click)="OpenAadharOTPModel()" type="button">Get OTP</button>
                       </div>
                     </div>
                   </div>
@@ -369,7 +381,7 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="">Aadhaar Number Of President  <span style="color:red">*</span></label>
-                <input class="form-control" id="txtPresidentAadhaarNumber" [(ngModel)]="request.PresidentAadhaarNumber" formControlName="txtPresidentAadhaarNumber" maxlength="12" (keypress)="numberOnly($event)" />
+                <input class="form-control" id="txtPresidentAadhaarNumber" [(ngModel)]="request.PresidentAadhaarNumber" formControlName="txtPresidentAadhaarNumber" [attr.disabled]="isDisabledNewRegistration ? true : null" maxlength="12" (keypress)="numberOnly($event)" />
                 <div *ngIf="isSubmitted&&form.txtPresidentAadhaarNumber.errors" class="text-danger">
                   <p *ngIf="form.txtPresidentAadhaarNumber.errors.required"> This field is required .!</p>
                   <p *ngIf="form.txtPresidentAadhaarNumber.errors.pattern || form.txtPresidentAadhaarNumber.errors.maxlength || form.txtPresidentAadhaarNumber.errors.minlength"> Invalid Aadhaar No.</p>
