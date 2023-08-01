@@ -93,15 +93,15 @@ export class SocietyComponent implements OnInit {
         fProfilePhoto: [''],
         ddlDesignationID: ['', [DropdownValidators]],
         ddlOccupationID: ['', [DropdownValidators]],
-        Educationists: [''],
+        Educationists: ['', Validators.required],
         txtMobileNo: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
-        txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+        txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         ddlGender: ['', Validators.required],
         txtFatherName: ['', Validators.required],
         txtAadhaarNo: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(12), Validators.maxLength(12)]],
         fAadhaarCard: [''],
         fSignatureDoc: [''],
-        txtPANNo: ['', [Validators.required, Validators.pattern("^([A-Z]){5}([0-9]){4}([A-Z]){1}$"), Validators.minLength(10), Validators.maxLength(10)]],
+        txtPANNo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[A-Za-z]{5}[0-9]{4}[A-Za-z]$")]],
         fPANCard: [''],
         ckIsPrimary: [''],
         ckIsAuthorized: [''],
@@ -141,7 +141,15 @@ export class SocietyComponent implements OnInit {
       }, 200);
     }
   }
-
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
   async GetSocietyAllList(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
