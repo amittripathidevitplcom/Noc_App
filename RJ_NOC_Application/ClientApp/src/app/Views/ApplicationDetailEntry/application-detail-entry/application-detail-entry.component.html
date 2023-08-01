@@ -29,7 +29,7 @@
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
             <!--Land Information-->
             <mat-tab>
-             
+
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LandInformation']>0"></i>
@@ -57,13 +57,13 @@
             </mat-tab>
             <!--Room Details-->
 
-            <mat-tab>
+            <!--<mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0 && CheckTabsEntryData['OtherInformation']>0"></i>
                 <span>Room Details</span>
               </ng-template>
-              <mat-tab-group mat-align-tabs="left" class="tabUl1 d-block w-100">
+              <mat-tab-group mat-align-tabs="left" class="tabUl1 d-block w-100">-->
                 <mat-tab>
                   <ng-template mat-tab-label>
                     <i class="fa fa-home icon" aria-hidden="true"></i>
@@ -78,12 +78,13 @@
                   <ng-template mat-tab-label>
                     <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
                     <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherInformation']>0"></i>
-                    <span>Other Information</span>
+                    <span *ngIf="SelectedDepartmentID==6">Cleaner Details</span>
+                    <span *ngIf="SelectedDepartmentID !=6">Other Information</span>
                   </ng-template>
                   <app-other-information></app-other-information>
                 </mat-tab>
-              </mat-tab-group>
-            </mat-tab>
+              <!--</mat-tab-group>
+            </mat-tab>-->
 
 
             <!--Building Documents-->
@@ -137,7 +138,7 @@
             </mat-tab>
 
             <!--Hospital Details-->
-            <mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==6">
               <ng-template mat-tab-label>
                 <i class="fa fa-hospital-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HospitalDetails']>0"></i>
@@ -146,13 +147,22 @@
               <app-hospital-detail></app-hospital-detail>
             </mat-tab>
 
-            <mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==6">
               <ng-template mat-tab-label>
                 <i class="fa fa-bed icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HostelDetails']>0"></i>
                 <span>Hostel Details</span>
               </ng-template>
               <app-hostel-details></app-hostel-details>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==2">
+              <ng-template mat-tab-label>
+                <i class="fa fa-bed icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HostelDetails']>0"></i>
+                <span>Veterinary Hospital</span>
+              </ng-template>
+              <app-veterinary-hospital></app-veterinary-hospital>
             </mat-tab>
 
           </mat-tab-group>
