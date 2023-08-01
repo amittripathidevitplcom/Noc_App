@@ -417,47 +417,58 @@ export class OldNOCDetailsComponent implements OnInit {
 
   public file: any = '';
   ValidateDocumentImage(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      //if (event.target.files[0].type === 'image/jpeg' ||
-      //  event.target.files[0].type === 'application/pdf' ||
-      //  event.target.files[0].type === 'image/jpg') {
-      if (event.target.files[0].type === 'application/pdf') {
-        if (event.target.files[0].size > 2000000) {
+    try {
+      this.loaderService.requestStarted();
+      if (event.target.files && event.target.files[0]) {
+        //if (event.target.files[0].type === 'image/jpeg' ||
+        //  event.target.files[0].type === 'application/pdf' ||
+        //  event.target.files[0].type === 'image/jpg') {
+        if (event.target.files[0].type === 'application/pdf') {
+          if (event.target.files[0].size > 2000000) {
+            event.target.value = '';
+            this.toastr.warning('Select less then 2MB File');
+            return
+          }
+          if (event.target.files[0].size < 100000) {
+            event.target.value = '';
+            this.toastr.warning('Select more then 100kb File');
+            return
+          }
+        }
+        else {
           event.target.value = '';
-          this.toastr.warning('Select less then 2MB File');
+          this.toastr.warning('Select Only pdf file');
           return
         }
-        if (event.target.files[0].size < 100000) {
-          event.target.value = '';
-          this.toastr.warning('Select more then 100kb File');
-          return
-        }
-      }
-      else {
-        event.target.value = '';
-        this.toastr.warning('Select Only pdf file');
-        return
-      }
 
-      this.file = event.target.files[0];
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          this.request.UploadNOCDoc = data['Data'][0]["FileName"];
-          this.request.UploadNOCDocPath = data['Data'][0]["FilePath"];
-          this.request.Dis_FileName = data['Data'][0]["Dis_FileName"];
-          this.IsUploadDocRequried = false;
-          this.showImageFilePath = true;
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
+        this.file = event.target.files[0];
+        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.request.UploadNOCDoc = data['Data'][0]["FileName"];
+            this.request.UploadNOCDocPath = data['Data'][0]["FilePath"];
+            this.request.Dis_FileName = data['Data'][0]["Dis_FileName"];
+            this.IsUploadDocRequried = false;
+            this.showImageFilePath = true;
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
@@ -588,16 +599,27 @@ export class OldNOCDetailsComponent implements OnInit {
   }
 
   ResetControl() {
-    this.request = new OldNocDetailsDataModel();
-    this.request.CollegeID = this.SelectedCollageID;
-    this.ShowOldNOCType = false;
-    this.SubjectDataModel = [];
-    this.SelectedSubjectDetails = [];
-    this.isSubmitted = false;
-    this.isDisabled = false;
-    this.showImageFilePath = false;
-    const btnAdd = document.getElementById('btnAddNOCDetail')
-    if (btnAdd) { btnAdd.innerHTML = "Add"; }
-    this.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
+    try {
+      this.loaderService.requestStarted();
+      this.request = new OldNocDetailsDataModel();
+      this.request.CollegeID = this.SelectedCollageID;
+      this.ShowOldNOCType = false;
+      this.SubjectDataModel = [];
+      this.SelectedSubjectDetails = [];
+      this.isSubmitted = false;
+      this.isDisabled = false;
+      this.showImageFilePath = false;
+      const btnAdd = document.getElementById('btnAddNOCDetail')
+      if (btnAdd) { btnAdd.innerHTML = "Add"; }
+      this.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

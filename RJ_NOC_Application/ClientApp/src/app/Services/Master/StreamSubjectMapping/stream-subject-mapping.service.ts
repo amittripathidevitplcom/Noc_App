@@ -20,7 +20,7 @@ export class SteramSubjectMappingService {
   }
   //Get 
   public async GetAllStreamList(UserID: number) {
-    debugger;
+    
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

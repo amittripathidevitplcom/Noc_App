@@ -381,7 +381,7 @@ export class AddCoursesComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.courseMasterService.GetByID(CollegeWiseCourseID, this.sSOLoginDataModel.SSOID, this.UserID)
         .then(async (data: any) => {
-          debugger;
+          
           data = JSON.parse(JSON.stringify(data));
           console.log(data);
           
@@ -650,7 +650,7 @@ export class AddCoursesComponent implements OnInit {
 
   async ddlCourseLevel_change(CourseLevelID: any)
   {
-    debugger;
+    
     this.request.CourseLevelID = CourseLevelID;
 
 

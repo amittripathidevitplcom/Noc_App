@@ -247,7 +247,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   async MemberTypeSelection(MemberType: string) {
-    debugger;
+    
     this.request.StateID = 6;
     if (MemberType == 'State') {
       this.IsDistrict = false;
@@ -337,7 +337,7 @@ export class CreateUserComponent implements OnInit {
           this.request.MobileNumber = data['Data'][0]['MobileNumber'];
           this.request.EmailAddress = data['Data'][0]['EmailAddress'];
           this.request.DepartmentID = data['Data'][0]['DepartmentID'];
-          debugger;
+          
           this.request.RoleID = data['Data'][0]['RoleID'];
           this.request.CommitteeID = data['Data'][0]['CommitteeID'];
           this.request.MemberType = data['Data'][0]['MemberType'];

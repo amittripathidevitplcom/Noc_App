@@ -64,13 +64,13 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   }
 
   async GetApplyNocApplicationList() {
-    debugger;
+    
     try {
       this.loaderService.requestStarted();
       // get
       await this.applyNocParameterService.GetApplyNocApplicationList(this.sSOLoginDataModel.SSOID)
         .then((data: any) => {
-          debugger;
+          
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

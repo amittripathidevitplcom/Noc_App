@@ -447,7 +447,7 @@ export class LegalEntityComponent implements OnInit {
 
   async AddMember() {
     try {
-      debugger;
+      
       this.loaderService.requestStarted();
       this.isMemberSignature = false;
       this.isMemberPhoto = false;
@@ -939,7 +939,7 @@ export class LegalEntityComponent implements OnInit {
 
   async ValidateDocument(event: any, Type: string) {
     try {
-      debugger;
+      
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;
@@ -1342,7 +1342,7 @@ export class LegalEntityComponent implements OnInit {
   }
   
   ElectionPresentManagementCommitteeDate_Change() {
-    debugger;
+    
     const currndate = new Date();
     const salecteddate = new Date(this.request.ElectionPresentManagementCommitteeDate);
     const threeYrsAddOnDate = new Date(salecteddate.setFullYear((salecteddate.getFullYear() + 3)));

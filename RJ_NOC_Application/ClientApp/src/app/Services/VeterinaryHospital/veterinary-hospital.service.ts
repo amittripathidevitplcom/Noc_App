@@ -26,7 +26,7 @@ export class VeterinaryHospitalService {
       ).toPromise();
   }
   public async SaveData(request: VeterinaryHospitalDataModel) {
-    debugger;
+    
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })

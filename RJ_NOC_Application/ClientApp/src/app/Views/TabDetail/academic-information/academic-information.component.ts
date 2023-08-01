@@ -180,16 +180,27 @@ export class AcademicInformationComponent implements OnInit {
     return true;
   }
   OnChangeDropdownDisable(SeletedResultId: any) {
-    debugger;
-    console.log(SeletedResultId.value);
-    if (SeletedResultId.value == 36 || SeletedResultId.value == 74 || SeletedResultId.value == 103) {
-      this.isselectresult = false;
+    
+    try {
+      this.loaderService.requestStarted();
+      console.log(SeletedResultId.value);
+      if (SeletedResultId.value == 36 || SeletedResultId.value == 74 || SeletedResultId.value == 103) {
+        this.isselectresult = false;
+      }
+      else {
+        this.isselectresult = true;
+        this.request.PassedStudent = null;
+        this.request.FailedStudent = null;
+        this.request.OtherStudent = null;
+      }
     }
-    else {
-      this.isselectresult = true;
-      this.request.PassedStudent = null;
-      this.request.FailedStudent = null;
-      this.request.OtherStudent = null;
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
@@ -271,30 +282,41 @@ export class AcademicInformationComponent implements OnInit {
 
 
   async ResetControl() {
-    const ddlYearId = document.getElementById('ddlYearId')
-    if (ddlYearId) ddlYearId.focus();
+    try {
+      this.loaderService.requestStarted();
+      const ddlYearId = document.getElementById('ddlYearId')
+      if (ddlYearId) ddlYearId.focus();
 
-    this.isSubmitted = false;
-    this.request.YearID = 0;
-    this.request.CourseID = 0;
-    this.request.AcademicInformationID = 0;
-    this.request.AdmittedStudent = null;
-    this.request.AppearedStudent = null;
-    this.request.ResultID = 0;
-    this.request.PassedStudent = null;
-    this.request.FailedStudent = null;
-    this.request.OtherStudent = null;
-    this.request.UserID = 0;
-    this.isDisabledGrid = false;
-    this.isselectresult = false;
-    this.isPassStudent = false;
-    this.isFailStudent = false;
-    this.isOtherStudent = false;
-    this.GetAcademicInformationDetailAllList();
-    const btnSave = document.getElementById('btnSave')
-    if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
-    const btnReset = document.getElementById('')
-    if (btnReset) btnReset.innerHTML = "Reset";
+      this.isSubmitted = false;
+      this.request.YearID = 0;
+      this.request.CourseID = 0;
+      this.request.AcademicInformationID = 0;
+      this.request.AdmittedStudent = null;
+      this.request.AppearedStudent = null;
+      this.request.ResultID = 0;
+      this.request.PassedStudent = null;
+      this.request.FailedStudent = null;
+      this.request.OtherStudent = null;
+      this.request.UserID = 0;
+      this.isDisabledGrid = false;
+      this.isselectresult = false;
+      this.isPassStudent = false;
+      this.isFailStudent = false;
+      this.isOtherStudent = false;
+      this.GetAcademicInformationDetailAllList();
+      const btnSave = document.getElementById('btnSave')
+      if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
+      const btnReset = document.getElementById('')
+      if (btnReset) btnReset.innerHTML = "Reset";
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   async GetAcademicInformationDetailAllList() {

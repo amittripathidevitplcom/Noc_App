@@ -95,7 +95,7 @@ export class PreviewLegalEntityComponent implements OnInit {
   }
 
   async GetDataList() {
-    debugger;
+    
     //Show Loading
     this.loaderService.requestStarted();
     try {

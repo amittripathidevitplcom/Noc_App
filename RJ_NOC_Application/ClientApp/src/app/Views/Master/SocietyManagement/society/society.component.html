@@ -179,7 +179,7 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="txtPANNo" class="form-label">PAN Number <span style="color:red;"> *</span></label>
-                    <input type="text" class="form-control" id="txtPANNo" name="txtPANNo" [(ngModel)]="request.PANNo" formControlName="txtPANNo" (ngModelChange)="request.PANNo = $event.toUpperCase()" >
+                    <input type="text" class="form-control" id="txtPANNo" name="txtPANNo" [(ngModel)]="request.PANNo" formControlName="txtPANNo" (ngModelChange)="request.PANNo = $event.toUpperCase()">
                     <div *ngIf="isSubmitted&&form.txtPANNo.errors" class="text-danger">
                       <p *ngIf="form.txtPANNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <p *ngIf="form.txtPANNo.errors.maxlength || form.txtPANNo.errors.minlength">PAN number must be 10 digit</p>
