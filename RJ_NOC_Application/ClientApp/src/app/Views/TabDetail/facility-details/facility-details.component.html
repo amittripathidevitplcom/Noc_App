@@ -22,6 +22,14 @@
         </div>
 
         <div class="col-md-3 mb-2">
+          <label>No. of <span style="color:red;">*</span></label>
+          <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="request.NoOf" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)">
+          <div *ngIf="isSubmitted&&form.txtNoOf.errors" class="text-danger">
+            <p *ngIf="form.txtNoOf.errors.required">This field is required .!</p>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-2">
           <label>Minimum Size ({{Unit}})<span style="color:red;">*</span></label>
           <input type="text" class="form-control" id="txtMinSize" name="txtMinSize" [(ngModel)]="request.MinSize" formControlName="txtMinSize" (keypress)="numberOnly($event)" placeholder="Enter Minimum Size In ({{Unit}})" autocomplete="off" />
           <p *ngIf="WidthMin>0 && request.FacilitiesID>0" class="{{request.MinSize >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} {{Unit}}</p>
@@ -84,6 +92,7 @@
                       <tr>
                         <th>Sr. No.</th>
                         <th>Facilities</th>
+                        <th>No of </th>
                         <th>Minimum Size</th>
                         <th>Image</th>
                         <th>Action</th>
@@ -93,6 +102,7 @@
                       <tr *ngFor="let row of FacilitiesDataAllList | tableSearchFilter:searchText;let idx=index;">
                         <td>{{idx+1}}</td>
                         <td>{{row.FacilitiesName}}</td>
+                        <td>{{row.NoOf}}</td>
                         <td>{{row.MinSize}}</td>
                         <td><a *ngIf="row.FacilitiesUrl!=''" target="_blank" href="{{row.FacilitiesUrlPath}}"><i class="fa fa-eye"></i></a></td>
                         <td>
