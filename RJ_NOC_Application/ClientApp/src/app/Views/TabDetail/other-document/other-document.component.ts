@@ -27,7 +27,7 @@ export class OtherDocumentComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public file: File = null;
 
-  public HospitalRealtedDocuments:RequiredDocumentsDataModel_Documents[]=[]
+  public HospitalRealtedDocuments: RequiredDocumentsDataModel_Documents[] = []
   constructor(private loaderService: LoaderService, private toastr: ToastrService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder,
     private fileUploadService: FileUploadService) { }
@@ -53,7 +53,6 @@ export class OtherDocumentComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request.DocumentDetails = data['Data'][0]['data'];
-
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -76,7 +75,6 @@ export class OtherDocumentComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.HospitalRealtedDocuments = data['Data'][0]['data'];
-
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -93,7 +91,7 @@ export class OtherDocumentComponent implements OnInit {
     try {
       this.file = event.target.files[0];
       if (this.file) {
-        if (this.file.type === 'application/pdf' ) {
+        if (this.file.type === 'application/pdf') {
           //size validation
           if (this.file.size > 2000000) {
             this.toastr.error('Select less then 2MB File')
@@ -200,6 +198,11 @@ export class OtherDocumentComponent implements OnInit {
   async SaveData() {
     this.isSubmitted = true;
     this.IsValid = true;
+    this.HospitalRealtedDocuments.forEach(item => {
+      if (item.IsMandatory == true && item.FileName == '') {
+        this.IsValid = false;
+      }
+    });
     this.request.DocumentDetails.forEach(item => {
       if (item.IsMandatory == true && item.FileName == '') {
         this.IsValid = false;
@@ -207,6 +210,26 @@ export class OtherDocumentComponent implements OnInit {
     });
     if (!this.IsValid) {
       return;
+    }
+    if (this.SelectedDepartmentID == 6) {
+      this.HospitalRealtedDocuments.forEach(item => {
+        this.request.DocumentDetails.push({
+          DID: item.DID,
+          DocumentName: item.DocumentName,
+          DocumentValue: item.DocumentValue,
+          IsMandatory: item.IsMandatory,
+          Dis_FileName: item.Dis_FileName,
+          FileName: item.FileName,
+          FilePath: item.FilePath,
+          Action: item.Action,
+          Remark: item.Remark,
+          C_Action: item.C_Action,
+          C_Remark: item.C_Remark,
+          S_Action: item.S_Action,
+          S_Remark: item.S_Remark,
+          DocumentType: item.DocumentType
+        });
+      });
     }
     this.request.CollegeID = this.SelectedCollageID;
     this.request.DocumentType = 'OtherDocument';
@@ -218,7 +241,6 @@ export class OtherDocumentComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
           }
