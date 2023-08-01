@@ -167,10 +167,6 @@
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.ManagementCommitteeCertified}}" />
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label>Aadhaar Number Of President :</label>
-                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.PresidentAadhaarNumber}}" />
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>PAN Number :</label>
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyPANNumber}}" />
                     </div>
@@ -190,15 +186,7 @@
                       <a data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
                         <img src="{{legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trustee Member Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                       </a>-->
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label><b>Aadhaar Proof of President :</b></label>&nbsp;
-                      <label><a target="_blank" href="{{legalEntityListData1.PresidentAadhaarProofDocPath}}" title="View President Aadhaar Proof"><i class="fa fa-eye"></i></a></label>
-                      <!--<div class="clearfix"></div>
-                      <a data-fancybox="gallery" href="{{legalEntityListData1.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
-                        <img src="{{legalEntityListData1.PresidentAadhaarProofDocPath}}" alt="President Aadhaar Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                      </a>-->
-                    </div>
+                    </div>                    
                   </div>
                   <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -231,8 +219,10 @@
                           <th>Date Of Birth</th>
                           <th>Mobile No.</th>
                           <th>Post</th>
+                          <th>Aadhaar Number</th>
                           <th>Member Photo</th>
                           <th>Member Sing</th>
+                          <th>Aadhaar Document</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -243,8 +233,7 @@
                           <td>{{row.MemberDOB}}</td>
                           <td>{{row.MemberMobileNo}}</td>
                           <td>{{row.MemberPostName}}</td>
-                          <!--<td><a *ngIf="row.MemberPhoto!=''" target="_blank" href="{{row.MemberPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a></td>
-                          <td><a *ngIf="row.MemberSignature!=''" target="_blank" href="{{row.MemberSignaturePath}}" title="View Member Sign"><i class="fa fa-eye"></i></a>  </td>-->
+                          <td>{{row.PresidentAadhaarNumber}}</td>
                           <td>
                             <a *ngIf="!row.MemberPhotoPath.includes('.pdf') && row.MemberPhoto!='' && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom">
                               <img src="{{row.MemberPhotoPath}}" alt="Member Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
@@ -259,6 +248,14 @@
                             </a>
                             <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label>
                             <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberSignaturePath.includes('.pdf')  && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                          </td>
+                          <td>
+                            <a *ngIf="!row.PresidentAadhaarProofDocPath.includes('.pdf') && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                              <img src="{{row.PresidentAadhaarProofDocPath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                            </a>
+                            <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
 
                           </td>
                         </tr>
