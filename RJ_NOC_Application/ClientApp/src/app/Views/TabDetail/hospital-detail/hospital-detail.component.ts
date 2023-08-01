@@ -14,6 +14,8 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
+import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 @Injectable()
 
 @Component({
@@ -94,6 +96,8 @@ export class HospitalDetailComponent implements OnInit {
   public file: File = null;
   public showParentNotDocument: boolean = false;
   public ParentNotDocumentValidationMessage: string = '';
+  public PollutionCertificateValidationMessage: string = '';
+  public NotPollutionCertificateValidationMessage: string = '';
   public showParentNotConsentForm: boolean = false;
   public ParentNotConsentFormValidationMessage: string = '';
 
@@ -108,7 +112,9 @@ export class HospitalDetailComponent implements OnInit {
   modalReference: NgbModalRef | undefined;
   public HospitalData: any = {};
 
-  constructor(private modalService: NgbModal,private hospitalDetailService: HospitalDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
+  LegalEntityDataModel = new LegalEntityDataModel();
+
+  constructor(private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
   }
 
   async ngOnInit() {
@@ -229,6 +235,9 @@ export class HospitalDetailComponent implements OnInit {
         ddlPanchayatSamitiID_Other: ['', [DropdownValidators]],
         txtCityTownVillage_Other: ['', Validators.required],
         txtPincode_Other: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
+
+        txtPollutionUnitID: ['', Validators.required],
+        fPollutionCertificate: ['', Validators.required],
       })
 
     this.HospitalParentNotForm = this.formBuilder.group(
@@ -283,6 +292,8 @@ export class HospitalDetailComponent implements OnInit {
         ddlPanchayatSamitiID_Owner: ['', [DropdownValidators]],
         txtCityTownVillage_Owner: ['', Validators.required],
         txtPincode_Owner: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
+        txtPollutionUnitID: ['', Validators.required],
+        fPollutionCertificate: ['', Validators.required],
       })
 
     // query string
@@ -316,6 +327,7 @@ export class HospitalDetailComponent implements OnInit {
       await this.GetDataList();
       // Super specialty hospital
       await this.IsSuperSpecialtyHospital();
+      await this.GetLegalEntityData();
     }
 
 
@@ -1244,7 +1256,6 @@ export class HospitalDetailComponent implements OnInit {
           // data
           if (data['Data']['ParentHospitalID'] == 1) {
             this.request = JSON.parse(JSON.stringify(data['Data']));
-
             // hospital area validation
             let selectedHospitalAreaValidation = this.HospitalAreaValidationList.filter((element: any) => element.ID == this.request.HospitalAreaID);
             if (selectedHospitalAreaValidation.length > 0) {
@@ -1320,8 +1331,7 @@ export class HospitalDetailComponent implements OnInit {
     this.file = event.target.files[0];
     if (this.file) {
       // (Type != 'ConsentForm' && (this.file.type === 'image/jpeg' || this.file.type === 'image/jpg')) ||
-      if (this.file.type === 'application/pdf')
-    {
+      if (this.file.type === 'application/pdf') {
         //size validation
         if (this.file.size > 2000000) {
           this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
@@ -1366,6 +1376,12 @@ export class HospitalDetailComponent implements OnInit {
     else if (Type == 'ConsentForm') {
       path = this.requestNot.ConsentForm;
     }
+    else if (Type == 'PollutionCertificate') {
+      path = this.request.PollutionCertificate;
+    }
+    else if (Type == 'NotPollutionCertificate') {
+      path = this.requestNot.PollutionCertificate;
+    }
 
     // delete from server folder
     this.fileUploadService.DeleteDocument(path).then((data: any) => {
@@ -1399,6 +1415,18 @@ export class HospitalDetailComponent implements OnInit {
       this.requestNot.ConsentForm = name;
       this.requestNot.Dis_ConsentForm = dis_name;
       this.requestNot.ConsentFormPath = path;
+    }
+    else if (type == 'PollutionCertificate') {
+      this.PollutionCertificateValidationMessage = msg;
+      this.request.PollutionCertificate = name;
+      this.request.Dis_PollutionCertificate = dis_name;
+      this.request.PollutionCertificatePath = path;
+    }
+    else if (type == 'NotPollutionCertificate') {
+      this.NotPollutionCertificateValidationMessage = msg;
+      this.requestNot.PollutionCertificate = name;
+      this.requestNot.Dis_PollutionCertificate = dis_name;
+      this.requestNot.PollutionCertificatePath = path;
     }
   }
 
@@ -1499,4 +1527,33 @@ export class HospitalDetailComponent implements OnInit {
     }
   }
 
+
+  async GetLegalEntityData() {
+    try {
+      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          debugger;
+          if (this.State == 0) {
+            this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.SuccessMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
 }
