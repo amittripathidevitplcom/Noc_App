@@ -38,6 +38,7 @@ export class HospitalDetailComponent implements OnInit {
   public ErrorMessage: any = [];
   public isLoading: boolean = false;
   public isSubmitted: boolean = false;
+  public IsHospitalOwned: boolean = false;
   public isSubmitted_ParentNot: boolean = false;
   public HospitalAreaValidationList: any = [];
   public MinDistance: number = 0;
@@ -122,6 +123,7 @@ export class HospitalDetailComponent implements OnInit {
     this.HospitalParentForm = this.formBuilder.group(
       {
         rbParentHospital: [''],
+        rbHospitalStatus: ['', Validators.required],
         rbHospitalArea: ['', Validators.required],
         txtHospitalName: ['', Validators.required],
         txtHospitalRegNo: ['', Validators.required],
@@ -141,7 +143,7 @@ export class HospitalDetailComponent implements OnInit {
         txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
         rbParentHospitalRelatedToOtherID: [''],
         txtInstitutionName: ['', Validators.required],
-        txtOrganizationPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
+        txtOrganizationPhone: ['', [Validators.required]], //, Validators.pattern(this.LandLineRegex)
 
         txtCardioThoracicTotalBeds: ['', [Validators.required, Validators.min(50)]],
         txtCardioThoracicCCUBeds: [''],
@@ -237,11 +239,12 @@ export class HospitalDetailComponent implements OnInit {
         txtPincode_Other: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
 
         txtPollutionUnitID: ['', Validators.required],
-        fPollutionCertificate: ['', Validators.required],
+        fPollutionCertificate: [''],
       })
 
     this.HospitalParentNotForm = this.formBuilder.group(
       {
+        rbHospitalStatus: ['', Validators.required],
         rbHospitalArea: ['', Validators.required],
         txtHospitalName: ['', Validators.required],
         txtHospitalRegNo: ['', Validators.required],
@@ -293,7 +296,7 @@ export class HospitalDetailComponent implements OnInit {
         txtCityTownVillage_Owner: ['', Validators.required],
         txtPincode_Owner: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
         txtPollutionUnitID: ['', Validators.required],
-        fPollutionCertificate: ['', Validators.required],
+        fPollutionCertificate: [''],
       })
 
     // query string
@@ -419,6 +422,13 @@ export class HospitalDetailComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.IsParentHospital = isParent;
+      this.IsHospitalOwned = false;
+      if (isParent == true) {
+        this.requestNot.HospitalStatus = '';
+      }
+      else {
+        this.request.HospitalStatus = '';
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -895,6 +905,9 @@ export class HospitalDetailComponent implements OnInit {
     if (!this.IsValid()) {
       return;
     }
+    if (this.request.PollutionCertificate == '') {
+      return;
+    }
     if (this.request.HospitalID > 0) {
       this.request.ModifyBy = 1;
     }
@@ -1103,6 +1116,9 @@ export class HospitalDetailComponent implements OnInit {
     if (!this.IsValid_ParentNot()) {
       return;
     }
+    if (this.requestNot.PollutionCertificate == '') {
+      return;
+    }
     if (this.requestNot.HospitalID > 0) {
       this.requestNot.ModifyBy = 1;
     }
@@ -1273,7 +1289,6 @@ export class HospitalDetailComponent implements OnInit {
         this.isValid = false;
       }
     }
-
     return this.isValid;
   }
 
@@ -1363,6 +1378,13 @@ export class HospitalDetailComponent implements OnInit {
             }
             // parent hospital
             this.IsParentHospitalOrNot(true);
+
+            if (this.request.HospitalStatus == 'Own') {
+              this.IsHospitalOwned = true;
+            }
+            else {
+              this.IsHospitalOwned = false;
+            }
             // rural/urban          
             await this.IsRuralOrUrban(this.request.RuralUrban == 1 ? true : false, null, false);
             await this.IsRuralOrUrban(this.request.RuralUrban_ManageBy == 1 ? true : false, 'ManageBy', false);
@@ -1383,7 +1405,6 @@ export class HospitalDetailComponent implements OnInit {
           }
           else if (data['Data']['ParentHospitalID'] == 2) {
             this.requestNot = JSON.parse(JSON.stringify(data['Data']));
-
             // hospital area validation
             let selectedHospitalAreaValidation = this.HospitalAreaValidationList.filter((element: any) => element.ID == this.requestNot.HospitalAreaID);
             if (selectedHospitalAreaValidation.length > 0) {
@@ -1391,6 +1412,14 @@ export class HospitalDetailComponent implements OnInit {
             }
             // parent hospital or not
             this.IsParentHospitalOrNot(false);
+
+
+            if (this.requestNot.HospitalStatus == 'Own') {
+              this.IsHospitalOwned = true;
+            }
+            else {
+              this.IsHospitalOwned = false;
+            }
             // rural/urban
             await this.IsRuralOrUrban_ParentNot(this.requestNot.RuralUrban == 1 ? true : false, null, false);
             await this.IsRuralOrUrban_ParentNot(this.requestNot.RuralUrban_ManageBy == 1 ? true : false, 'ManageBy', false);
@@ -1698,6 +1727,16 @@ export class HospitalDetailComponent implements OnInit {
         this.isLoading = false;
 
       }, 200);
+    }
+  }
+
+  IsHospitalOwnedOrParental() {
+    this.IsHospitalOwned = false;
+    if (this.request.HospitalStatus == 'Own' || this.requestNot.HospitalStatus == 'Own') {
+      this.IsHospitalOwned = true;
+    }
+    else {
+      this.IsHospitalOwned = false;
     }
   }
 }
