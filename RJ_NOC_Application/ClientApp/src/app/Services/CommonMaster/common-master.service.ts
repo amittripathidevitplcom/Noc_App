@@ -923,4 +923,34 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+
+  public async GetCollegeWiseCourseList(CollegeID: any) {
+    const httpOptions =
+    {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeWiseCourseList/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetCollegeWiseCourseIDSubjectList(CollegeWiseCourseID: any) {
+    const httpOptions =
+    {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeWiseCourseIDSubjectList/" + CollegeWiseCourseID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
+
 }
