@@ -435,7 +435,7 @@ export class HospitalDetailComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.IsParentHospitalRelatedToOther = isParentRelatedToOther;
-      
+
       if (isParentRelatedToOther) {
         this.request.InstitutionName = null;
         this.request.OrganizationPhone = '';
@@ -886,7 +886,7 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   async SaveDataOfParent() {
-    
+
     this.isSubmitted = true;
     if (this.HospitalParentForm.invalid) {
       console.log(this.HospitalParentForm);
@@ -1428,45 +1428,6 @@ export class HospitalDetailComponent implements OnInit {
   }
 
   async onFilechange(event: any, Type: string) {
-    this.file = event.target.files[0];
-    if (this.file) {
-      // (Type != 'ConsentForm' && (this.file.type === 'image/jpeg' || this.file.type === 'image/jpg')) ||
-      if (this.file.type === 'application/pdf') {
-        //size validation
-        if (this.file.size > 2000000) {
-          this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
-          return
-        }
-        if (this.file.size < 100000) {
-          this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
-          return
-        }
-      }
-      else {// type validation
-        //'Select Only ' + (Type == 'ConsentForm' ? 'pdf file' : 'jpg/jpeg')
-        this.ResetFileAndValidation(Type, 'Select Only pdf', '', '', '', false);
-        return
-      }
-      // upload to server folder
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], true);
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
-    }
-    else {
-      this.ResetFileAndValidation(Type, '', '', '', '', false);
-    }
-  }
     try {
       this.loaderService.requestStarted();
       this.file = event.target.files[0];
@@ -1520,28 +1481,20 @@ export class HospitalDetailComponent implements OnInit {
 
   async DeleteImage(Type: string) {
     let path: string = '';
-    if (Type == 'ParentNotDocument') {
-      path = this.requestNot.ParentNotDocument;
-    }
-    else if (Type == 'ConsentForm') {
-      path = this.requestNot.ConsentForm;
-    }
-    else if (Type == 'PollutionCertificate') {
-      path = this.request.PollutionCertificate;
-    }
-    else if (Type == 'NotPollutionCertificate') {
-      path = this.requestNot.PollutionCertificate;
-    }
     try {
       this.loaderService.requestStarted();
-      let path: string = '';
       if (Type == 'ParentNotDocument') {
         path = this.requestNot.ParentNotDocument;
       }
       else if (Type == 'ConsentForm') {
         path = this.requestNot.ConsentForm;
       }
-
+      else if (Type == 'PollutionCertificate') {
+        path = this.request.PollutionCertificate;
+      }
+      else if (Type == 'NotPollutionCertificate') {
+        path = this.requestNot.PollutionCertificate;
+      }
       // delete from server folder
       this.fileUploadService.DeleteDocument(path).then((data: any) => {
         this.State = data['State'];
@@ -1570,33 +1523,6 @@ export class HospitalDetailComponent implements OnInit {
 
   ResetFileAndValidation(type: string, msg: string, name: string, dis_name: string, path: string, isShowFile: boolean) {
     //event.target.value = '';
-    if (type == 'ParentNotDocument') {
-      this.showParentNotDocument = isShowFile;
-      this.ParentNotDocumentValidationMessage = msg;
-      this.requestNot.ParentNotDocument = name;
-      this.requestNot.Dis_ParentNotDocument = dis_name;
-      this.requestNot.ParentNotDocumentPath = path;
-    }
-    else if (type == 'ConsentForm') {
-      this.showParentNotConsentForm = isShowFile;
-      this.ParentNotConsentFormValidationMessage = msg;
-      this.requestNot.ConsentForm = name;
-      this.requestNot.Dis_ConsentForm = dis_name;
-      this.requestNot.ConsentFormPath = path;
-    }
-    else if (type == 'PollutionCertificate') {
-      this.PollutionCertificateValidationMessage = msg;
-      this.request.PollutionCertificate = name;
-      this.request.Dis_PollutionCertificate = dis_name;
-      this.request.PollutionCertificatePath = path;
-    }
-    else if (type == 'NotPollutionCertificate') {
-      this.NotPollutionCertificateValidationMessage = msg;
-      this.requestNot.PollutionCertificate = name;
-      this.requestNot.Dis_PollutionCertificate = dis_name;
-      this.requestNot.PollutionCertificatePath = path;
-    }
-  }
     try {
       this.loaderService.requestStarted();
       if (type == 'ParentNotDocument') {
@@ -1613,6 +1539,19 @@ export class HospitalDetailComponent implements OnInit {
         this.requestNot.Dis_ConsentForm = dis_name;
         this.requestNot.ConsentFormPath = path;
       }
+      else if (type == 'PollutionCertificate') {
+        this.PollutionCertificateValidationMessage = msg;
+        this.request.PollutionCertificate = name;
+        this.request.Dis_PollutionCertificate = dis_name;
+        this.request.PollutionCertificatePath = path;
+      }
+      else if (type == 'NotPollutionCertificate') {
+        this.NotPollutionCertificateValidationMessage = msg;
+        this.requestNot.PollutionCertificate = name;
+        this.requestNot.Dis_PollutionCertificate = dis_name;
+        this.requestNot.PollutionCertificatePath = path;
+      }
+
     }
     catch (ex) { console.log(ex) }
     finally {
