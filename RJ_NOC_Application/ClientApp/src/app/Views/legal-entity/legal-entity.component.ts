@@ -35,8 +35,8 @@ export class LegalEntityComponent implements OnInit {
 
   public MaxDate: Date = new Date();
   public MinDate_DOB: Date = new Date();
-  public MinDate_ElectionPresentManagementCommitteeDate: Date = new Date();
-
+//  public MinDate_ElectionPresentManagementCommitteeDate: Date = new Date();
+  public MinDate_ElectionPresentManagementCommitteeDate: any = '';
   legalentityForm!: FormGroup;
   legalentityForm_Registration!: FormGroup;
 
@@ -72,6 +72,7 @@ export class LegalEntityComponent implements OnInit {
   public issaveCancelBtn: boolean = false;
   public isSocietyNewReg: boolean = false;
   public isDisabledNewRegistration: boolean = false;
+  public isDisabledCommitteeDate: boolean = true;
   public isInstitueAdded: boolean = false;
   public isMemberAdded: boolean = false;
   public isMemberPhoto: boolean = false;
@@ -108,7 +109,7 @@ export class LegalEntityComponent implements OnInit {
   public ImageValidationMessage_MemberPhoto: string = '';
   public ImageValidationMessage_MemberSignature: string = '';
   public ImageValidationMessage_TrustLogoDoc: string = '';
-  constructor(private rightClickDisable: DisableRightClickService,private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService) {
+  constructor(private rightClickDisable: DisableRightClickService, private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService) {
 
   }
 
@@ -198,7 +199,7 @@ export class LegalEntityComponent implements OnInit {
       this.GetMemberPost();
       this.GetRegisteredActList();
       this.SetDOBmindate();
-      this.SetElectionPresentManagementCommitteeDatemindate();
+      //this.SetElectionPresentManagementCommitteeDatemindate();
     }
     catch (Ex) {
       console.log(Ex);
@@ -447,7 +448,7 @@ export class LegalEntityComponent implements OnInit {
 
   async AddMember() {
     try {
-      debugger;
+
       this.loaderService.requestStarted();
       this.isMemberSignature = false;
       this.isMemberPhoto = false;
@@ -939,7 +940,7 @@ export class LegalEntityComponent implements OnInit {
 
   async ValidateDocument(event: any, Type: string) {
     try {
-      debugger;
+
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;
@@ -952,7 +953,7 @@ export class LegalEntityComponent implements OnInit {
         if (event.target.files[0].type === 'application/pdf') {
           if (event.target.files[0].size > 2000000) {
             event.target.value = '';
-            
+
             if (Type == 'TrusteeMember') {
               this.isValidTrusteeMemberProofDoc = true;
               this.request.Dis_TrusteeMemberProofDocName = '';
@@ -1078,7 +1079,7 @@ export class LegalEntityComponent implements OnInit {
   }
   async ValidateImage(event: any, Type: string) {
     try {
-      
+
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;
@@ -1116,7 +1117,7 @@ export class LegalEntityComponent implements OnInit {
           }
           if (event.target.files[0].size < 100000) {
             event.target.value = '';
-            
+
             //this.toastr.warning('Select more then 100kb File');
             if (Type == 'MemberPhoto') {
               this.isValidMemberPhoto = true;
@@ -1144,7 +1145,7 @@ export class LegalEntityComponent implements OnInit {
         }
         else {
           event.target.value = '';
-          
+
           if (Type == 'MemberPhoto') {
             this.isValidMemberPhoto = true;
             this.memberdetails.Dis_MemberPhotoName = '';
@@ -1328,33 +1329,35 @@ export class LegalEntityComponent implements OnInit {
   }
 
   SetDOBmindate() {
-    
+
     const mindate1 = new Date();
     mindate1.setFullYear(mindate1.getFullYear() - 100);
     this.MinDate_DOB = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
   }
 
   SetElectionPresentManagementCommitteeDatemindate() {
-    
-    const mindate1 = new Date(2000,0,1);
-   // mindate1.setFullYear(mindate1.getFullYear() - 23);
-    this.MinDate_ElectionPresentManagementCommitteeDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
-  }
-  
-  ElectionPresentManagementCommitteeDate_Change() {
     debugger;
+    //const mindate1 = new Date(2000, 0, 1);
+    const mindate1 = new Date(this.request.SocietyRegistrationDate);
+    this.MinDate_ElectionPresentManagementCommitteeDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
+    this.request.ElectionPresentManagementCommitteeDate = '';
+    this.isDisabledCommitteeDate = false;
+  }
+
+  ElectionPresentManagementCommitteeDate_Change() {
+
     const currndate = new Date();
     const salecteddate = new Date(this.request.ElectionPresentManagementCommitteeDate);
     const threeYrsAddOnDate = new Date(salecteddate.setFullYear((salecteddate.getFullYear() + 3)));
     console.log(threeYrsAddOnDate < currndate);
-    if (threeYrsAddOnDate < currndate) {      
+    if (threeYrsAddOnDate < currndate) {
       this.request.IsDateOfElection = 'No';
       this.IsNotMoreThen3Year = false;
     }
     else {
       this.request.IsDateOfElection = 'Yes';
-      this.IsNotMoreThen3Year = true; 
-     
+      this.IsNotMoreThen3Year = true;
+
     }
     this.ToggleElectionPresentManagementCommitteeDateValidation();
   }

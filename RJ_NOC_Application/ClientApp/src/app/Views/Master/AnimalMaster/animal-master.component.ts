@@ -158,7 +158,7 @@ export class AnimalMasterComponent implements OnInit {
     if (btnReset) btnReset.innerHTML = "Reset";
   }
   async Edit_OnClick(AnimalMasterID: number) {
-    debugger;
+    
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();

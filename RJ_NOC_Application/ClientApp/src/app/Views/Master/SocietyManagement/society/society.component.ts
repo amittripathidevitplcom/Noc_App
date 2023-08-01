@@ -93,15 +93,15 @@ export class SocietyComponent implements OnInit {
         fProfilePhoto: [''],
         ddlDesignationID: ['', [DropdownValidators]],
         ddlOccupationID: ['', [DropdownValidators]],
-        Educationists: [''],
+        Educationists: ['', Validators.required],
         txtMobileNo: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
-        txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+        txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         ddlGender: ['', Validators.required],
         txtFatherName: ['', Validators.required],
         txtAadhaarNo: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(12), Validators.maxLength(12)]],
         fAadhaarCard: [''],
         fSignatureDoc: [''],
-        txtPANNo: ['', [Validators.required, Validators.pattern("^([A-Z]){5}([0-9]){4}([A-Z]){1}$"), Validators.minLength(10), Validators.maxLength(10)]],
+        txtPANNo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[A-Za-z]{5}[0-9]{4}[A-Za-z]$")]],
         fPANCard: [''],
         ckIsPrimary: [''],
         ckIsAuthorized: [''],
@@ -128,9 +128,28 @@ export class SocietyComponent implements OnInit {
   get form() { return this.SocietyDetailsForm.controls; }
 
   async IsAuthorizedOrNot(event: any) {
-    this.isAuthorizedOrNot = event.target.checked;
+    try {
+      this.loaderService.requestStarted();
+      this.isAuthorizedOrNot = event.target.checked;
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
-
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
   async GetSocietyAllList(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
@@ -289,14 +308,50 @@ export class SocietyComponent implements OnInit {
 
 
   ValidateImage(event: any, Type: string) {
-
-    this.isValidProfilePhoto = false;
-    this.isValidSignatureDoc = false;
-    if (event.target.files && event.target.files[0]) {
-      if (event.target.files[0].type === 'image/jpeg') {
-        if (event.target.files[0].size > 2000000) {
+    try {
+      this.loaderService.requestStarted();
+      this.isValidProfilePhoto = false;
+      this.isValidSignatureDoc = false;
+      if (event.target.files && event.target.files[0]) {
+        if (event.target.files[0].type === 'image/jpeg') {
+          if (event.target.files[0].size > 2000000) {
+            //event.target.value = '';
+            this.ImageValidationMessage = 'Select less then 2MB File';
+            if (Type == 'ProfilePhoto') {
+              this.isValidProfilePhoto = true;
+              this.request.ProfilePhoto = '';
+              this.request.Dis_ProfilePhoto = '';
+              this.request.ProfilePhotoPath = '';
+            }
+            else if (Type == 'SignatureDoc') {
+              this.isValidSignatureDoc = true;
+              this.request.SignatureDoc = '';
+              this.request.Dis_SignatureDoc = '';
+              this.request.SignatureDocPath = '';
+            }
+            return
+          }
+          if (event.target.files[0].size < 100000) {
+            //event.target.value = '';
+            this.ImageValidationMessage = 'Select more then 100kb File';
+            if (Type == 'ProfilePhoto') {
+              this.isValidProfilePhoto = true;
+              this.request.ProfilePhoto = '';
+              this.request.Dis_ProfilePhoto = '';
+              this.request.ProfilePhotoPath = '';
+            }
+            else if (Type == 'SignatureDoc') {
+              this.isValidSignatureDoc = true;
+              this.request.SignatureDoc = '';
+              this.request.Dis_SignatureDoc = '';
+              this.request.SignatureDocPath = '';
+            }
+            return
+          }
+        }
+        else {
+          this.ImageValidationMessage = 'Select Only jpg/jpeg file';
           //event.target.value = '';
-          this.ImageValidationMessage = 'Select less then 2MB File';
           if (Type == 'ProfilePhoto') {
             this.isValidProfilePhoto = true;
             this.request.ProfilePhoto = '';
@@ -311,83 +366,107 @@ export class SocietyComponent implements OnInit {
           }
           return
         }
-        if (event.target.files[0].size < 100000) {
+
+        this.file = event.target.files[0];
+        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           //event.target.value = '';
-          this.ImageValidationMessage = 'Select more then 100kb File';
-          if (Type == 'ProfilePhoto') {
-            this.isValidProfilePhoto = true;
-            this.request.ProfilePhoto = '';
-            this.request.Dis_ProfilePhoto = '';
-            this.request.ProfilePhotoPath = '';
-          }
-          else if (Type == 'SignatureDoc') {
-            this.isValidSignatureDoc = true;
-            this.request.SignatureDoc = '';
-            this.request.Dis_SignatureDoc = '';
-            this.request.SignatureDocPath = '';
-          }
-          return
-        }
-      }
-      else {
-        this.ImageValidationMessage = 'Select Only jpg/jpeg file';
-        //event.target.value = '';
-        if (Type == 'ProfilePhoto') {
-          this.isValidProfilePhoto = true;
-          this.request.ProfilePhoto = '';
-          this.request.Dis_ProfilePhoto = '';
-          this.request.ProfilePhotoPath = '';
-        }
-        else if (Type == 'SignatureDoc') {
-          this.isValidSignatureDoc = true;
-          this.request.SignatureDoc = '';
-          this.request.Dis_SignatureDoc = '';
-          this.request.SignatureDocPath = '';
-        }
-        return
-      }
 
-      this.file = event.target.files[0];
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-        //event.target.value = '';
-
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          if (Type == 'ProfilePhoto') {
-            //this.showProfilePhoto = true;
-            this.request.ProfilePhoto = data['Data'][0]["FileName"];
-            this.request.Dis_ProfilePhoto = data['Data'][0]["Dis_FileName"];
-            this.request.ProfilePhotoPath = data['Data'][0]["FilePath"];
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            if (Type == 'ProfilePhoto') {
+              //this.showProfilePhoto = true;
+              this.request.ProfilePhoto = data['Data'][0]["FileName"];
+              this.request.Dis_ProfilePhoto = data['Data'][0]["Dis_FileName"];
+              this.request.ProfilePhotoPath = data['Data'][0]["FilePath"];
+            }
+            else if (Type == 'SignatureDoc') {
+              //this.showSignatureDoc = true;
+              this.request.SignatureDoc = data['Data'][0]["FileName"];
+              this.request.Dis_SignatureDoc = data['Data'][0]["Dis_FileName"];
+              this.request.SignatureDocPath = data['Data'][0]["FilePath"];
+            }
           }
-          else if (Type == 'SignatureDoc') {
-            //this.showSignatureDoc = true;
-            this.request.SignatureDoc = data['Data'][0]["FileName"];
-            this.request.Dis_SignatureDoc = data['Data'][0]["Dis_FileName"];
-            this.request.SignatureDocPath = data['Data'][0]["FilePath"];
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
           }
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   ValidatePdf(event: any, Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      this.isValidAadhaarCard = false;
+      this.isValidPANCard = false;
+      this.isValidAuthorizedDocument = false;
+      if (event.target.files && event.target.files[0]) {
+        if (event.target.files[0].type === 'application/pdf') {
+          if (event.target.files[0].size > 2000000) {
+            //event.target.value = '';
+            this.ImageValidationMessage = 'Select less then 2MB File';
+            if (Type == 'AadhaarCard') {
+              this.isValidAadhaarCard = true;
+              this.request.AadhaarCard = '';
+              this.request.Dis_AadhaarCard = '';
+              this.request.AadhaarCardPath = '';
+            }
+            else if (Type == 'PANCard') {
+              this.isValidPANCard = true;
+              this.request.PANCard = '';
+              this.request.Dis_PANCard = '';
+              this.request.PANCardPath = '';
+            }
+            else if (Type == 'AuthorizedDocument') {
+              this.isValidAuthorizedDocument = true;
+              this.request.AuthorizedDocument = '';
+              this.request.Dis_AuthorizedDocument = '';
+              this.request.AuthorizedDocumentPath = '';
+            }
+            return
+          }
+          if (event.target.files[0].size < 100000) {
+            //event.target.value = '';
+            this.ImageValidationMessage = 'Select more then 100kb File';
 
-    this.isValidAadhaarCard = false;
-    this.isValidPANCard = false;
-    this.isValidAuthorizedDocument = false;
-    if (event.target.files && event.target.files[0]) {
-      if (event.target.files[0].type === 'application/pdf') {
-        if (event.target.files[0].size > 2000000) {
+            if (Type == 'AadhaarCard') {
+              this.isValidAadhaarCard = true;
+              this.request.AadhaarCard = '';
+              this.request.Dis_AadhaarCard = '';
+              this.request.AadhaarCardPath = '';
+            }
+            else if (Type == 'PANCard') {
+              this.isValidPANCard = true;
+              this.request.PANCard = '';
+              this.request.Dis_PANCard = '';
+              this.request.PANCardPath = '';
+            }
+            else if (Type == 'AuthorizedDocument') {
+              this.isValidAuthorizedDocument = true;
+              this.request.AuthorizedDocument = '';
+              this.request.Dis_AuthorizedDocument = '';
+              this.request.AuthorizedDocumentPath = '';
+            }
+            return
+          }
+        }
+        else {
+          this.ImageValidationMessage = 'Select Only pdf file';
           //event.target.value = '';
-          this.ImageValidationMessage = 'Select less then 2MB File';
+
           if (Type == 'AadhaarCard') {
             this.isValidAadhaarCard = true;
             this.request.AadhaarCard = '';
@@ -408,164 +487,146 @@ export class SocietyComponent implements OnInit {
           }
           return
         }
-        if (event.target.files[0].size < 100000) {
+
+        this.file = event.target.files[0];
+        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           //event.target.value = '';
-          this.ImageValidationMessage = 'Select more then 100kb File';
 
-          if (Type == 'AadhaarCard') {
-            this.isValidAadhaarCard = true;
-            this.request.AadhaarCard = '';
-            this.request.Dis_AadhaarCard = '';
-            this.request.AadhaarCardPath = '';
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            if (Type == 'AadhaarCard') {
+              //this.showAadhaarCard = true;
+              this.request.AadhaarCard = data['Data'][0]["FileName"];
+              this.request.Dis_AadhaarCard = data['Data'][0]["Dis_FileName"];
+              this.request.AadhaarCardPath = data['Data'][0]["FilePath"];
+            }
+            else if (Type == 'PANCard') {
+              //this.showPANCard = true;
+              this.request.PANCard = data['Data'][0]["FileName"];
+              this.request.Dis_PANCard = data['Data'][0]["Dis_FileName"];
+              this.request.PANCardPath = data['Data'][0]["FilePath"];
+            }
+            else if (Type == 'AuthorizedDocument') {
+              //this.showAuthorizedDocument = true;
+              this.request.AuthorizedDocument = data['Data'][0]["FileName"];
+              this.request.Dis_AuthorizedDocument = data['Data'][0]["Dis_FileName"];
+              this.request.AuthorizedDocumentPath = data['Data'][0]["FilePath"];
+            }
           }
-          else if (Type == 'PANCard') {
-            this.isValidPANCard = true;
-            this.request.PANCard = '';
-            this.request.Dis_PANCard = '';
-            this.request.PANCardPath = '';
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
           }
-          else if (Type == 'AuthorizedDocument') {
-            this.isValidAuthorizedDocument = true;
-            this.request.AuthorizedDocument = '';
-            this.request.Dis_AuthorizedDocument = '';
-            this.request.AuthorizedDocumentPath = '';
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
           }
-          return
-        }
+        });
       }
-      else {
-        this.ImageValidationMessage = 'Select Only pdf file';
-        //event.target.value = '';
-
-        if (Type == 'AadhaarCard') {
-          this.isValidAadhaarCard = true;
-          this.request.AadhaarCard = '';
-          this.request.Dis_AadhaarCard = '';
-          this.request.AadhaarCardPath = '';
-        }
-        else if (Type == 'PANCard') {
-          this.isValidPANCard = true;
-          this.request.PANCard = '';
-          this.request.Dis_PANCard = '';
-          this.request.PANCardPath = '';
-        }
-        else if (Type == 'AuthorizedDocument') {
-          this.isValidAuthorizedDocument = true;
-          this.request.AuthorizedDocument = '';
-          this.request.Dis_AuthorizedDocument = '';
-          this.request.AuthorizedDocumentPath = '';
-        }
-        return
-      }
-
-      this.file = event.target.files[0];
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-        //event.target.value = '';
-
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          if (Type == 'AadhaarCard') {
-            //this.showAadhaarCard = true;
-            this.request.AadhaarCard = data['Data'][0]["FileName"];
-            this.request.Dis_AadhaarCard = data['Data'][0]["Dis_FileName"];
-            this.request.AadhaarCardPath = data['Data'][0]["FilePath"];
-          }
-          else if (Type == 'PANCard') {
-            //this.showPANCard = true;
-            this.request.PANCard = data['Data'][0]["FileName"];
-            this.request.Dis_PANCard = data['Data'][0]["Dis_FileName"];
-            this.request.PANCardPath = data['Data'][0]["FilePath"];
-          }
-          else if (Type == 'AuthorizedDocument') {
-            //this.showAuthorizedDocument = true;
-            this.request.AuthorizedDocument = data['Data'][0]["FileName"];
-            this.request.Dis_AuthorizedDocument = data['Data'][0]["Dis_FileName"];
-            this.request.AuthorizedDocumentPath = data['Data'][0]["FilePath"];
-          }
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   DeleteImage(Type: string) {
-    if (Type == 'ProfilePhoto') {
-      //this.showProfilePhoto = false;
-      this.request.ProfilePhoto = '';
-      this.request.Dis_ProfilePhoto = '';
-      this.request.ProfilePhotoPath = '';
+    try {
+      this.loaderService.requestStarted();
+      if (Type == 'ProfilePhoto') {
+        //this.showProfilePhoto = false;
+        this.request.ProfilePhoto = '';
+        this.request.Dis_ProfilePhoto = '';
+        this.request.ProfilePhotoPath = '';
+      }
+      else if (Type == 'AadhaarCard') {
+        //this.showAadhaarCard = false;
+        this.request.AadhaarCard = '';
+        this.request.Dis_AadhaarCard = '';
+        this.request.AadhaarCardPath = '';
+      }
+      else if (Type == 'SignatureDoc') {
+        //this.showSignatureDoc = false;
+        this.request.SignatureDoc = '';
+        this.request.Dis_SignatureDoc = '';
+        this.request.SignatureDocPath = '';
+      }
+      else if (Type == 'PANCard') {
+        //this.showPANCard = false;
+        this.request.PANCard = '';
+        this.request.Dis_PANCard = '';
+        this.request.PANCardPath = '';
+      }
+      else if (Type == 'AuthorizedDocument') {
+        //this.showAuthorizedDocument = false;
+        this.request.AuthorizedDocument = '';
+        this.request.Dis_AuthorizedDocument = '';
+        this.request.AuthorizedDocumentPath = '';
+      }
     }
-    else if (Type == 'AadhaarCard') {
-      //this.showAadhaarCard = false;
-      this.request.AadhaarCard = '';
-      this.request.Dis_AadhaarCard = '';
-      this.request.AadhaarCardPath = '';
+    catch (Ex) {
+      console.log(Ex);
     }
-    else if (Type == 'SignatureDoc') {
-      //this.showSignatureDoc = false;
-      this.request.SignatureDoc = '';
-      this.request.Dis_SignatureDoc = '';
-      this.request.SignatureDocPath = '';
-    }
-    else if (Type == 'PANCard') {
-      //this.showPANCard = false;
-      this.request.PANCard = '';
-      this.request.Dis_PANCard = '';
-      this.request.PANCardPath = '';
-    }
-    else if (Type == 'AuthorizedDocument') {
-      //this.showAuthorizedDocument = false;
-      this.request.AuthorizedDocument = '';
-      this.request.Dis_AuthorizedDocument = '';
-      this.request.AuthorizedDocumentPath = '';
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
 
   async ResetControl() {
-    const ddlCollegeID = document.getElementById('ddlCollegeID')
-    if (ddlCollegeID) ddlCollegeID.focus();
+    try {
+      this.loaderService.requestStarted();
+      const ddlCollegeID = document.getElementById('ddlCollegeID')
+      if (ddlCollegeID) ddlCollegeID.focus();
 
-    this.isSubmitted = false;
-    this.request.SocietyID = 0;
-    this.request.CollegeID = 0;
-    this.request.PersonName = '';
-    this.request.ProfilePhoto = '';
-    this.request.DesignationID = 0;
-    this.request.OccupationID = 0;
-    this.request.Educationists = '';
-    this.request.MobileNo = '';
-    this.request.Email = '';
-    this.request.Gender = '';
-    this.request.FatherName = '';
-    this.request.AadhaarNo = '';
-    this.request.AadhaarCard = '';
-    this.request.SignatureDoc = '';
-    this.request.PANNo = '';
-    this.request.PANCard = '';
-    this.request.IsPrimary = false;
-    this.request.IsAuthorized = false;
-    this.request.AuthorizedDocument = '';
-    this.showAuthorizedDocument = false;
-    this.showPANCard = false;
-    this.showSignatureDoc = false;
-    this.showProfilePhoto = false;
-    this.showAadhaarCard = false;
-    this.isAuthorizedOrNot = false;
-    this.request.UserID = 0;
-    this.isDisabledGrid = false;
+      this.isSubmitted = false;
+      this.request.SocietyID = 0;
+      this.request.CollegeID = 0;
+      this.request.PersonName = '';
+      this.request.ProfilePhoto = '';
+      this.request.DesignationID = 0;
+      this.request.OccupationID = 0;
+      this.request.Educationists = '';
+      this.request.MobileNo = '';
+      this.request.Email = '';
+      this.request.Gender = '';
+      this.request.FatherName = '';
+      this.request.AadhaarNo = '';
+      this.request.AadhaarCard = '';
+      this.request.SignatureDoc = '';
+      this.request.PANNo = '';
+      this.request.PANCard = '';
+      this.request.IsPrimary = false;
+      this.request.IsAuthorized = false;
+      this.request.AuthorizedDocument = '';
+      this.showAuthorizedDocument = false;
+      this.showPANCard = false;
+      this.showSignatureDoc = false;
+      this.showProfilePhoto = false;
+      this.showAadhaarCard = false;
+      this.isAuthorizedOrNot = false;
+      this.request.UserID = 0;
+      this.isDisabledGrid = false;
 
-    const btnSave = document.getElementById('btnSave')
-    if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
-    const btnReset = document.getElementById('')
-    if (btnReset) btnReset.innerHTML = "Reset";
+      const btnSave = document.getElementById('btnSave')
+      if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
+      const btnReset = document.getElementById('')
+      if (btnReset) btnReset.innerHTML = "Reset";
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
   async Edit_OnClick(SocietyID: number) {
     this.isSubmitted = false;
@@ -646,7 +707,7 @@ export class SocietyComponent implements OnInit {
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage)
-              this.GetSocietyAllList(this.CollegeList[0]["CollegeID"]); 
+              this.GetSocietyAllList(this.CollegeList[0]["CollegeID"]);
             }
             else {
               this.toastr.error(this.ErrorMessage)

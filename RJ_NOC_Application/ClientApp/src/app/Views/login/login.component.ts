@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          debugger;
+          
           if (this.State == 0) {
             this.sSOLoginDataModel = data['Data'];
           }
@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           console.log(data);
           if (data['Data'][0]['data'].length > 0) {
-            debugger;
+            
             this.sSOLoginDataModel.SSOID = data['Data'][0]['data'][0]['SSOID'];
             this.sSOLoginDataModel.RoleID = data['Data'][0]['data'][0]['RoleID'];
             this.sSOLoginDataModel.RoleName = data['Data'][0]['data'][0]['RoleName'];

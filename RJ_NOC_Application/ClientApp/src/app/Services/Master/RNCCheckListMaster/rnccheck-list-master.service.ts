@@ -33,7 +33,7 @@ export class RNCCheckListMasterService {
       ).toPromise();
   }  
   public async SaveData(request: RNCCheckListMasterDataModel) {
-    debugger;
+    
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
