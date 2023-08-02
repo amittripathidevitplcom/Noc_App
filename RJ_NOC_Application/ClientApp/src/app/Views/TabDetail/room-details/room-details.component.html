@@ -19,6 +19,24 @@
               <p *ngIf="!form.ddlCourse_Room.errors.DropdownValidators">This field is required .!</p>
             </div>
           </div>
+
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>No. of Rooms<span style="color:red;">*</span></label>
+            <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="request.NoOfRooms" formControlName="txtNoOfRooms_Room" min="1"
+                   (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted&&form.txtNoOfRooms_Room.errors" class="text-danger">
+              <p *ngIf="form.txtNoOfRooms_Room.errors.required">This field is required .!</p>
+              <p *ngIf="form.txtNoOfRooms_Room.errors.min">Room will be greater than zero .!</p>
+            </div>
+
+            <div *ngIf="request.CourseID>0">
+              <p *ngIf="MinNoOfRooms>0" class="{{request.NoOfRooms >= MinNoOfRooms ? '' : CssClass_TextDangerNoOfRooms}}">Please Enter Min No. of Rooms : {{MinNoOfRooms}}</p>
+            </div>
+
+          </div>
+
+
           <div class="col-md-3 mb-2">
             <label>Width (In Feet)<span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="txtWidth_Room" name="txtWidth_Room" placeholder="Enter Width (In Feet)"
@@ -28,16 +46,19 @@
               <p *ngIf="form.txtWidth_Room.errors.min">Width will be greater than zero .!</p>
             </div>
             <div *ngIf="request.CourseID>0">
-              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
+              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin_Dis ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin_Dis}} sq. ft</p>
             </div>
           </div>
           <div class="col-md-3 mb-2">
             <label>Length (In Feet)<span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="txtLength_Room" name="txtLength_Room" placeholder="Enter Length (In Feet)"
-                   [(ngModel)]="request.Length" formControlName="txtLength_Room"  (keypress)="numberOnly($event)">
+                   [(ngModel)]="request.Length" formControlName="txtLength_Room" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtLength_Room.errors" class="text-danger">
               <p *ngIf="form.txtLength_Room.errors.required">This field is required .!</p>
               <p *ngIf="form.txtLength_Room.errors.min">Length will be greater than zero .!</p>
+            </div>
+            <div *ngIf="request.CourseID>0">
+              <p *ngIf="LengthMin>0" class="{{request.Length >= LengthMin_Dis ? '' : CssClass_TextDangerLength}}">Please Enter Min size : {{LengthMin_Dis}} sq. ft</p>
             </div>
           </div>
 
@@ -50,8 +71,7 @@
               <p *ngIf="form.txtStudentCapacity_Room.errors.min">Student capacity will be greater than zero .!</p>
             </div>
           </div>
-        </div>
-        <div class="row">
+        
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="fileUploadImage" class="form-label">Upload Image<span style="color:red;">*</span></label>
             <div class="d-flex">
@@ -70,8 +90,8 @@
               <p *ngIf="isValidImageFilePath"> {{ImageValidationMessage}}</p>
             </div>
           </div>
-          <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
-            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-plus"></i> Add &amp; Save </button>
+          <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end" style="margin-bottom:10px">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()" style="margin-right:10px"><i class="fa fa-plus"></i> Add & Save </button>
             <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
           </div>
         </div>
@@ -101,24 +121,26 @@
                       <tr>
                         <th>Sr. No.</th>
                         <th>Course</th>
+                        <th>No. of Rooms</th>
                         <th>Width (In Feet) Size</th>
                         <th>Length (In Feet)</th>
                         <th>Student Capacity</th>
                         <th>Upload Image</th>
-                        <th>Action</th>
+                        <th  align="center">Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let row of RoomDetails | tableSearchFilter:searchText;let idx=index;">
                         <td>{{idx+1}}</td>
                         <td>{{row.CourseName}}</td>
+                        <td>{{row.NoOfRooms}}</td>
                         <td>{{row.Width}}</td>
                         <td>{{row.Length}}</td>
                         <td>{{row.StudentCapacity}}</td>
                         <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
-                        <td>
+                        <td align="center">
                           <div class="d-flex">
-                            <button type="button" (click)="Edit_OnClick(row.CollegeWiseRoomID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                            <button type="button" style="margin-right:10px" (click)="Edit_OnClick(row.CollegeWiseRoomID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                             <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseRoomID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
                           </div>
                         </td>
@@ -134,4 +156,4 @@
     </form>
   </div>
 </div>
- 
+

@@ -71,15 +71,18 @@ export class RoomDetailsComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   public WidthMin: number = 0;
   public LengthMin: number = 0;
-  public CssClass_TextDangerWidth: string = '';
-  public CssClass_TextDangerLength: string = '';
+  public LengthMin_Dis: number = 0;
+  public MinNoOfRooms: number = 0;
+  public CssClass_TextDangerWidth: string = 'text-danger';
+  public CssClass_TextDangerLength: string = 'text-danger';
+  public CssClass_TextDangerNoOfRooms: string = 'text-danger';
   public ImageValidate: string = '';
 
   isUploadImage: boolean = false;
   public isValidImageFilePath: boolean = false;
   public showImageFilePath: boolean = false;
   public isformvalid: boolean = true;
-  public WidthMin1: number = 0;
+  public WidthMin_Dis: number = 0;
 
   // ssologin model
   ssoLoginModel = new SSOLoginDataModel();
@@ -97,6 +100,7 @@ export class RoomDetailsComponent implements OnInit {
     this.RoomDetailsForm = this.formBuilder.group(
       {
         ddlCourse_Room: ['', [DropdownValidators]],
+        txtNoOfRooms_Room: ['', [Validators.required, Validators.min(1)]],
         txtWidth_Room: ['', [Validators.required, Validators.min(1)]],
         txtLength_Room: ['', [Validators.required, Validators.min(1)]],
         txtStudentCapacity_Room: ['', [Validators.required, Validators.min(1)]],
@@ -148,6 +152,7 @@ export class RoomDetailsComponent implements OnInit {
     this.LengthMin = 0;
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
+    this.CssClass_TextDangerNoOfRooms = '';
 
 
     console.log(SeletedCourseID);
@@ -159,8 +164,10 @@ export class RoomDetailsComponent implements OnInit {
           this.RoomSizeDataList = data['Data'];
 
           this.WidthMin = this.RoomSizeDataList[0]['WidthMin'];
-          this.WidthMin1 = this.RoomSizeDataList[0]['WidthMin'];
+          this.WidthMin_Dis = this.RoomSizeDataList[0]['WidthMin'];
           this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
+          this.LengthMin_Dis = this.RoomSizeDataList[0]['LengthMin'];
+          this.MinNoOfRooms = this.RoomSizeDataList[0]['NoOfRooms'];
           console.log(this.RoomSizeDataList);
         }, error => console.error(error));
     }
@@ -270,30 +277,47 @@ export class RoomDetailsComponent implements OnInit {
     }
   }
   async SaveData() {
-    this.WidthMin = this.WidthMin1;
+    this.WidthMin = this.WidthMin_Dis;
+    this.LengthMin = this.LengthMin_Dis;
+    this.MinNoOfRooms = this.MinNoOfRooms;
     this.isformvalid = true;
     this.isValidImageFilePath = false;
     this.isSubmitted = true;
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
+    this.CssClass_TextDangerNoOfRooms = '';
     if (this.RoomDetailsForm.invalid) {
       this.isformvalid = false;
     }
-    if (this.request.StudentCapacity > 60 && this.request.StudentCapacity <= 120) {
-      this.WidthMin = this.WidthMin + this.WidthMin;
-    }
-    else if (this.request.StudentCapacity > 120) {
-      this.WidthMin = this.WidthMin + this.WidthMin + this.WidthMin;
-    }
-    else {
+    //if (this.request.StudentCapacity > 60 && this.request.StudentCapacity <= 120) {
+    //  this.WidthMin = this.WidthMin + this.WidthMin;
+    //}
+    //else if (this.request.StudentCapacity > 120) {
+    //  this.WidthMin = this.WidthMin + this.WidthMin + this.WidthMin;
+    //}
+    //else {
 
-    }
-    console.log(this.WidthMin);
-    if (Number((this.request.Width) * (this.request.Length)) < this.WidthMin) {
+    //}
+    //console.log(this.WidthMin);
+    if (Number(this.request.Width) < Number(this.WidthMin)) {
       this.CssClass_TextDangerWidth = 'text-danger';
-      this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
+      this.toastr.warning('Please Enter Min Width size : ' + this.WidthMin);
       this.isformvalid = false;
     }
+    if (Number(this.request.Length) < Number(this.LengthMin)) {
+      this.CssClass_TextDangerLength = 'text-danger';
+      this.toastr.warning('Please Enter Min Length size : ' + this.LengthMin);
+      //this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
+      this.isformvalid = false;
+    }
+
+    if (Number(this.request.NoOfRooms) < Number(this.MinNoOfRooms)) {
+      this.CssClass_TextDangerNoOfRooms = 'text-danger';
+      this.toastr.warning('Please Enter Min No. of Rooms : ' + this.MinNoOfRooms);
+      //this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
+      this.isformvalid = false;
+    }
+
     if (this.request.ImageFilePath == '') {
       this.ImageValidate = 'This field is required .!';
       this.isformvalid = false;
@@ -303,6 +327,9 @@ export class RoomDetailsComponent implements OnInit {
     }
     //Show Loading
     this.request.CollegeID = this.SelectedCollageID;
+
+    this.request.CourseName = this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.CourseID).CourseName;
+
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
@@ -344,6 +371,7 @@ export class RoomDetailsComponent implements OnInit {
       this.isSubmitted = false;
       this.request.CollegeWiseRoomID = 0;
       this.request.CourseID = 0;
+      this.request.NoOfRooms = 1;
       this.request.Width = 0;
       this.request.Length = 0;
       this.request.StudentCapacity = 0;
@@ -396,12 +424,14 @@ export class RoomDetailsComponent implements OnInit {
       try {
         this.loaderService.requestStarted();
         await this.roomDetailsService.GetRoomDetailsByID(CollegeWiseRoomID, this.UserID)
-          .then((data: any) => {
+          .then(async (data: any) => {
 
             data = JSON.parse(JSON.stringify(data));
             this.request.CollegeID = data['Data'][0]["CollegeID"];
-            this.request.CollegeWiseRoomID = data['Data'][0]["CollegeWiseRoomID"];
             this.request.CourseID = data['Data'][0]["CourseID"];
+            await this.ddlCourse_change(this, this.request.CourseID);
+            this.request.CollegeWiseRoomID = data['Data'][0]["CollegeWiseRoomID"];
+            this.request.NoOfRooms = data['Data'][0]["NoOfRooms"];
             this.request.Width = data['Data'][0]["Width"];
             this.request.Length = data['Data'][0]["Length"];
             this.request.StudentCapacity = data['Data'][0]["StudentCapacity"];
@@ -414,7 +444,7 @@ export class RoomDetailsComponent implements OnInit {
             const btnSave = document.getElementById('btnSave')
             if (btnSave) btnSave.innerHTML = "Update";
             const btnReset = document.getElementById('btnReset')
-            if (btnReset) btnReset.innerHTML = "Reset";
+            if (btnReset) btnReset.innerHTML = "Cancel";
 
           }, error => console.error(error));
       }
