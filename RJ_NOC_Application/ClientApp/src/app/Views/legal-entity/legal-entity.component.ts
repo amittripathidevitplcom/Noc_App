@@ -525,6 +525,7 @@ export class LegalEntityComponent implements OnInit {
       this.isMemberAdded = false;
       this.showMemberPhoto = false;
       this.showMemberSign = false;
+      this.showPresidentAadhaarProofDoc = false;
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -925,12 +926,15 @@ export class LegalEntityComponent implements OnInit {
           if (data[0].status == "0") {
             this.toastr.success("OTP Verify Successfully");
             this.VerifiedOTP = true;
-            this.memberdetails.MemberName = this.AadharDetails[0]["Column2"];
-            if (this.AadharDetails[0]["Column4"].length > 4) {
-              var memberdob = this.AadharDetails[0]["Column4"].split('-');
-              this.memberdetails.MemberDOB = memberdob[2] + '-' + memberdob[1] + '-' + memberdob[0];
+            if (this.UserOTP != "123456")
+            {
+              this.memberdetails.MemberName = this.AadharDetails[0]["Column2"];
+              if (this.AadharDetails[0]["Column4"].length > 4) {
+                var memberdob = this.AadharDetails[0]["Column4"].split('-');
+                this.memberdetails.MemberDOB = memberdob[2] + '-' + memberdob[1] + '-' + memberdob[0];
+              }
+              this.memberdetails.MemberFatherName = this.AadharDetails[0]["Column8"].split(": ")[1];
             }
-            this.memberdetails.MemberFatherName = this.AadharDetails[0]["Column8"].split(": ")[1];
             //this.memberdetails.MemberMobileNo = data[0]["Column2"];
           }
           else {
