@@ -32,6 +32,8 @@ export class LegalEntityDataModel {
   public SocietyPanProofDoc: string = '';
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
+  public AadharNo: string = '';
+  public PresidentAadhaarNumber: string = '';
   public MemberDetails: LegalEntityMemberDetailsDataModel[] = [];
   public InstituteDetails: LegalEntityInstituteDetailsDataModel[] = [];
 }
