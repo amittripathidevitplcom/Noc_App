@@ -14,10 +14,19 @@ export class StreamSubjectMappingDataModel {
   public DeleteStatus: boolean = false;
 
   public SubjectDetails: CourseSubjectMappingListData_SubjectDetails[] = [];
+  public CourseDetails: CourseSubjectMappingListData_CourseDetails[] = [];
 
 }
 export class CourseSubjectMappingListData_SubjectDetails {
   public SubjectID: number = 0;
   public SubjectName: string = '';
   public IsChecked: boolean = false;
+}
+export class CourseSubjectMappingListData_CourseDetails
+{
+  public CourseID: number = 0;
+  public CourseName: string = '';
+  public IsChecked: boolean = false;
+  public CourseMappingID: number = 0;
+
 }

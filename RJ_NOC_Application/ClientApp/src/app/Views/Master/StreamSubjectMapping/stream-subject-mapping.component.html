@@ -39,7 +39,7 @@
                 <label for="ddlStreamID" class="form-label">Select Stream Name <span style="color:red;">*</span></label>
                 <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID">
                   <option value="0" disabled>--Select Stream Name--</option>
-                  <option *ngFor="let item of StreamDDLList" value="{{item.ID}}">{{item.Name}}</option>
+                  <option *ngFor="let item of StreamDDLList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
                   <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
@@ -56,25 +56,7 @@
                   <p *ngIf="!form.ddlCourseLevelID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label for="ddlCourseID" class="form-label">Select Course <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID" #SeletedCourseID (input)="ddlSubject_change($event,SeletedCourseID.value)">
-                  <option value="0" disabled>--Select Course--</option>
-                  <option *ngFor="let item of CourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
-                </select>
-                <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
-                  <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                </div>
-              </div>
-
-              <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label for="txtStreamName" class="form-label">Stream Name<span style="color:red;">*</span></label>
-                <input type="text" id="txtStreamName" formControlName="txtStreamName" maxlength="100" class="form-control" [(ngModel)]="request.StreamName" autocomplete="off" (keypress)="alphaOnly($event)">
-                <div *ngIf="isSubmitted&&form.txtStreamName.errors" class="text-danger">
-                  <p *ngIf="form.txtStreamName.errors.required">This field is required .!</p>
-                  <p *ngIf="form.txtStreamName.errors.maxlength">Stream Name is too big .!</p>
-                </div>
-              </div>-->
+             
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="chkActiveStatus" class="form-label">Status</label>
                 <div class="form-check form-switch d-flex align-items-center">
@@ -82,23 +64,24 @@
                 </div>
               </div>
             </div>
-            <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
+
+            <table  *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
               <thead>
                 <tr>
                   <th>Sr. No</th>
                   <th>Select</th>
-                  <th>Subject Name</th>
+                  <th>CourseName</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let row of request.SubjectDetails let idx=index">
+                <tr *ngFor="let row of request.CourseDetails let idx=index">
                   <td>{{idx+1}}</td>
                   <td>
-                    <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
-                           id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
+                    <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.CourseID}}"
+                           id="cbSubject_TNOCExtension_{{idx+1}}_{{row.CourseID}}" value="{{row.CourseID}}"
                            [(ngModel)]="row.IsChecked">
                   </td>
-                  <td>{{row.SubjectName}}</td>
+                  <td>{{row.CourseName}}</td>
                 </tr>
               </tbody>
             </table>
@@ -132,9 +115,8 @@
                   <th>Sr. No</th>
                   <th>Department Name</th>
                   <th>Course Level Name</th>
-                  <th>Course Name</th>
                   <th>Stream Name</th>
-                  <th>Subject Name</th>
+                  <th>Course Name</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
@@ -144,9 +126,8 @@
                   <td>{{idx+1}}</td>
                   <td>{{row.DepartmentName}}</td>
                   <td>{{row.CourseLevelName}}</td>
-                  <td>{{row.CourseName}}</td>
                   <td>{{row.StreamName}}</td>
-                  <td>{{row.SubjectDetails}}</td>
+                  <td>{{row.CourseDetails}}</td>
                   <td>{{row.ActiveDeactive}}</td>
                   <td>
                     <div class="d-flex">
