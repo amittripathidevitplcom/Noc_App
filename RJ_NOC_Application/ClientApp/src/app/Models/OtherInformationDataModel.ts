@@ -24,5 +24,6 @@ export class OtherInformationDataModel {
   public C_Remark: string = '';
   public S_Action: string = '';
   public S_Remark: string = '';
+  public NoOfRooms: number = 1;
 }
 
