@@ -35,6 +35,7 @@ export class FacilityDetailsComponent implements OnInit {
   public ErrorMessage: any = [];
   isUploadImage: boolean = false;
   public isSubmitted: boolean = false;
+  public isFormValid: boolean = true;
   public files: File = null;
   public FacilitiesDataAddedList: any = [];
   public FacilitiesDataAllList: any = [];
@@ -88,7 +89,7 @@ export class FacilityDetailsComponent implements OnInit {
     this.FacilitiesForm = this.formBuilder.group(
       {
         ddlFacilitiesId: ['', [DropdownValidators]],
-        txtNoOf: ['', Validators.required],
+        txtNoOf: ['', [Validators.required, Validators.min(1)]],
         fileUploadImage: [''],
         //fileUploadImage: ['', Validators.required],
         txtMinSize: ['', [Validators.required, Validators.min(0), Validators.max(100000000)]],
@@ -284,27 +285,33 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   async SaveData() {
-
+    this.isFormValid = true;
     this.request.CollegeID = this.SelectedCollageID;
 
     this.isSubmitted = true;
-    console.log(this.request);
     if ((this.request.MinSize).toString() == "") {
       this.toastr.warning("Please Select Min Size.!");
       return;
     }
 
     if (this.FacilitiesForm.invalid) {
-      return
-    }
+      this.isFormValid = false;
 
+    }
+    //if (this.request.NoOf <= 0) {
+    //  this.NoOfZero = true;
+    //  this.isFormValid = false;
+    //}
     if (this.WidthMin > this.request.MinSize) {
       this.CssClass_TextDangerWidth = 'text-danger';
-      return
+      this.isFormValid = false;
     }
     if (this.request.FacilitiesUrl == '') {
       this.ImageValidate = 'This field is required .!';
-      return
+      this.isFormValid = false;
+    }
+    if (!this.isFormValid) {
+      return;
     }
     //owner
     if (this.request.FacilitiesID > 0) {

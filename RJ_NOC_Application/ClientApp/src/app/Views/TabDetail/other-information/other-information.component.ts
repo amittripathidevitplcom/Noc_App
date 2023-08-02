@@ -74,8 +74,9 @@ export class OtherInformationComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   public WidthMin: number = 0;
   public LengthMin: number = 0;
-  public CssClass_TextDangerWidth: string = '';
-  public CssClass_TextDangerLength: string = '';
+  public CssClass_TextDangerWidth: string = 'text-danger';
+  public CssClass_TextDangerLength: string = 'text-danger';
+  public CssClass_TextDangerNoOfRooms: string = 'text-danger';
   public ShowHideBook: boolean = false;
   public isBookRequired: boolean = false;
   public isNoofBookRequired: boolean = false;
@@ -95,7 +96,9 @@ export class OtherInformationComponent implements OnInit {
   @ViewChild('fileUploadImage')
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
 
-
+  public MinNoOfRooms: number = 0;
+  public LengthMin_Dis: number = 0;
+  public WidthMin_Dis: number = 0;
 
   constructor(private otherInformationService: OtherInformationService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute,
@@ -106,6 +109,7 @@ export class OtherInformationComponent implements OnInit {
     this.OtherInformationForm = this.formBuilder.group(
       {
         OtherInformation_ddlCourse: ['', [DropdownValidators]],
+        txtNoOfRooms_Room: ['', [Validators.required, Validators.min(1)]],
         OtherInformation_txtWidth: ['', [Validators.required, Validators.min(1), Validators.max(500000)]],
         OtherInformation_txtLength: ['', [Validators.required, Validators.min(1), Validators.max(500000)]],
         fileUploadImage: [''],
@@ -161,6 +165,7 @@ export class OtherInformationComponent implements OnInit {
     this.LengthMin = 0;
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
+    this.CssClass_TextDangerNoOfRooms = '';
     try {
       var OtherName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID)?.Name;
       if (OtherName == 'Library') {
@@ -176,7 +181,10 @@ export class OtherInformationComponent implements OnInit {
           this.RoomSizeDataList = data['Data'];
 
           this.WidthMin = this.RoomSizeDataList[0]['WidthMin'];
+          this.WidthMin_Dis = this.RoomSizeDataList[0]['WidthMin'];
           this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
+          this.LengthMin_Dis = this.RoomSizeDataList[0]['LengthMin'];
+          this.MinNoOfRooms = this.RoomSizeDataList[0]['NoOfRooms'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -354,6 +362,11 @@ export class OtherInformationComponent implements OnInit {
         this.isformvalid = false;
       }
     }
+    if (Number(this.request.NoOfRooms) < Number(this.MinNoOfRooms)) {
+      this.CssClass_TextDangerNoOfRooms = 'text-danger';
+      this.toastr.warning('Please Enter Min No. of Rooms : ' + this.MinNoOfRooms);
+      this.isformvalid = false;
+    }
     if (!this.isformvalid) {
       return;
     }
@@ -402,6 +415,7 @@ export class OtherInformationComponent implements OnInit {
       this.request.CourseID = 0;
       this.request.Width = 0;
       this.request.Length = 0;
+      this.request.NoOfRooms = 1;
       this.request.ImageFileName = '';
       this.request.ImageFilePath = '';
       this.request.Image_Dis_FileName = '';
@@ -465,6 +479,7 @@ export class OtherInformationComponent implements OnInit {
           this.request.CollegeWiseOtherInfoID = data['Data'][0]["CollegeWiseOtherInfoID"];
           this.request.CollegeID = data['Data'][0]["CollegeID"];
           this.request.CourseID = data['Data'][0]["CourseID"];
+          this.request.NoOfRooms = data['Data'][0]["NoOfRooms"];
           this.request.Width = data['Data'][0]["Width"];
           this.request.Length = data['Data'][0]["Length"];
           this.request.ImageFileName = data['Data'][0]["ImageFileName"];

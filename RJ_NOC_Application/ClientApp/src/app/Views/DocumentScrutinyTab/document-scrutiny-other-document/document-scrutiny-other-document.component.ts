@@ -31,6 +31,7 @@ export class DocumentScrutinyOtherDocumentComponent implements OnInit {
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
+  public HospitalRealtedDocuments: RequiredDocumentsDataModel_Documents[] = []
 
   constructor(private loaderService: LoaderService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute,
@@ -43,7 +44,10 @@ export class DocumentScrutinyOtherDocumentComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
     this.request.DocumentDetails = [];
-    this.GetOtherDocuments('Other Document')
+    this.GetOtherDocuments('Other Document');
+    //if (this.SelectedDepartmentID == 6) {
+    //  this.GetHospitalRelatedDocuments('HospitalRelatedDocument');
+    //}
   }
   async GetOtherDocuments(Type: string) {
     try {
@@ -68,7 +72,27 @@ export class DocumentScrutinyOtherDocumentComponent implements OnInit {
       }, 200);
     }
   }
-
+  async GetHospitalRelatedDocuments(Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, Type)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.HospitalRealtedDocuments = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async selectAll(ActionType: string) {
     await this.request.DocumentDetails.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
@@ -94,6 +118,7 @@ export class DocumentScrutinyOtherDocumentComponent implements OnInit {
     this.dsrequest.TabName = 'Other Document';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.request.DocumentDetails.length; i++) {
       if (this.request.DocumentDetails[i].Action == '' || this.request.DocumentDetails[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

@@ -89,6 +89,7 @@ export class DocumentScrutinyFacilityComponent implements OnInit {
     this.dsrequest.TabName = 'Facility';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.FacilitiesDataAllList.length; i++) {
       if (this.FacilitiesDataAllList[i].Action == '' || this.FacilitiesDataAllList[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

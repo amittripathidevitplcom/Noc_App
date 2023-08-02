@@ -26,7 +26,7 @@ export class AddCollegeComponent implements OnInit {
   CollegeDetailsForm_ContactDetails!: FormGroup;
   CollegeDetailsForm_NearestGovernmentHospitals!: FormGroup;
 
-  public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
+  //public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
   public LandLineRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
   public PinNoRegex = new RegExp(/[0-9]{6}/)
 
@@ -104,7 +104,7 @@ export class AddCollegeComponent implements OnInit {
         txtAISHECode: [''],
         ddlCollegeMedium: ['', [DropdownValidators]],
         ddlUniversityID: ['', [DropdownValidators]],
-        txtMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
+        txtMobileNumber: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]],
         txtCollegeLandlineNumber: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
 
         txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
@@ -128,8 +128,8 @@ export class AddCollegeComponent implements OnInit {
         txtCDMobileNumber: [''],// handle in sub form
         txtCDEmailAddress: ['', Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")],// handle in sub form
         ddlGCD_DesignationID: [''],
-        txtGCD_MobileNumber: ['', [Validators.pattern(this.MobileNoRegex)]],
-        txtGCD_LandlineNumber: ['', [Validators.pattern(this.MobileNoRegex)]],
+        txtGCD_MobileNumber: ['', [Validators.pattern("^[6-9][0-9]{9}$")]],
+        txtGCD_LandlineNumber: ['', [Validators.pattern(this.LandLineRegex)]],
         txtTGC_Latitude: [''],
         txtTGC_Longitude: [''],
         fCollegeLogo: [''],
@@ -140,7 +140,7 @@ export class AddCollegeComponent implements OnInit {
       {
         txtCDNameOfPerson: ['', Validators.required],
         ddlCDDesignationID: ['', [DropdownValidators]],
-        txtCDMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
+        txtCDMobileNumber: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]],
         txtCDEmailAddress: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
       })
 
@@ -926,6 +926,7 @@ export class AddCollegeComponent implements OnInit {
 
     // all validate
     if (!isValid) {
+      console.log(this.CollegeDetailsForm);
       return;
     }
 
@@ -978,10 +979,6 @@ export class AddCollegeComponent implements OnInit {
       if (this.request.CollegeLogo == null || this.request.CollegeLogo == undefined || this.request.CollegeLogo == '') {
         isValid = false;
         this.ProfileLogoValidationMessage = 'This field is required .!';
-      }
-      if (this.request.NAACAccreditedCertificate == null || this.request.NAACAccreditedCertificate == undefined || this.request.NAACAccreditedCertificate == '') {
-        isValid = false;
-        this.NAACAccreditedCertificateValidationMessage = 'This field is required .!';
       }
       if (this.ProfileLogoValidationMessage != '') {
         isValid = false;

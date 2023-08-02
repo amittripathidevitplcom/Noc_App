@@ -190,6 +190,7 @@ export class DocumentScrutinyBuildingDetailsComponent implements OnInit {
     this.dsrequest.TabName = 'Building Documents';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.lstBuildingDetails.length; i++) {
       if (this.lstBuildingDetails[i].Action == '' || this.lstBuildingDetails[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

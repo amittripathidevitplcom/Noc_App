@@ -89,6 +89,7 @@ export class DocumentScrutinyRoomDetailsComponent implements OnInit {
     this.dsrequest.TabName = 'Room Details';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.RoomDetails.length; i++) {
       if (this.RoomDetails[i].Action == '' || this.RoomDetails[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

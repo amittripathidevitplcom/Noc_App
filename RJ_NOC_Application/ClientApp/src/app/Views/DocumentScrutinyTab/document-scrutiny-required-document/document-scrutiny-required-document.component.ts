@@ -102,6 +102,7 @@ export class DocumentScrutinyRequiredDocumentComponent implements OnInit {
     this.dsrequest.TabName = 'Required Document';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.request.DocumentDetails.length; i++) {
       if (this.request.DocumentDetails[i].Action == '' || this.request.DocumentDetails[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

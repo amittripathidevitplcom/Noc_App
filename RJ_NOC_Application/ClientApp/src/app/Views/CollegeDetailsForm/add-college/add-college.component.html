@@ -181,7 +181,7 @@
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="ddlUniversityID" class="form-label">University <span style="color:red;">*</span></label>
+                    <label for="ddlUniversityID" class="form-label">University / RMC <span style="color:red;">*</span></label>
                     <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID" formControlName="ddlUniversityID">
                       <option value="0">--Select--</option>
                       <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>

@@ -102,6 +102,7 @@ export class DocumentScrutinyOtherInformationComponent implements OnInit {
     this.dsrequest.TabName = 'Other Information';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.OtherInformation.length; i++) {
       if (this.OtherInformation[i].Action == '' || this.OtherInformation[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');
