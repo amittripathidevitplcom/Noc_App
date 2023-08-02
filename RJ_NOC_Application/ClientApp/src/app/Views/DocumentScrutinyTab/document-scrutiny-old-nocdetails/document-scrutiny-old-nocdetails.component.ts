@@ -148,6 +148,7 @@ export class DocumentScrutinyOldNOCDetailsComponent implements OnInit {
     this.dsrequest.TabName = 'OLD NOC Details';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.OldNocDetails.length; i++) {
       if (this.OldNocDetails[i].Action == '' || this.OldNocDetails[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

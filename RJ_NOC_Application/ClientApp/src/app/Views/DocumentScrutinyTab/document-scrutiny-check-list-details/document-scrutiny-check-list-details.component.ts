@@ -251,7 +251,10 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
               this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
               this.CheckList_legalEntityMemberDetailData = data['Data'][0]['legalEntity']['MemberDetails'];
             }
-            this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+            if (data['Data'][0]['DocumentScrutinyFinalRemarkList'] != null) {
+              this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+            }
           }
         }, (error: any) => console.error(error));
     }

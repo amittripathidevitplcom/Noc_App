@@ -68,7 +68,7 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
-          
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -117,6 +117,7 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
     this.dsrequest.TabName = 'College Detail';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.collegeNearestGovernmentHospitalsList.length; i++) {
       if (this.collegeNearestGovernmentHospitalsList[i].Action == '' || this.collegeNearestGovernmentHospitalsList[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

@@ -11,6 +11,7 @@
               <tr>
                 <th>Sr. No.</th>
                 <th>Facility Name</th>
+                <th>No of </th>
                 <th>Minimum Size</th>
                 <th>Image/File</th>
               </tr>
@@ -18,9 +19,10 @@
             <tbody>
               <tr *ngFor="let item of FacilitiesDataAllList ; let indexOfelement=index;">
                 <td> {{indexOfelement+1}}</td>
-                <td>{{item.FacilitiesName}}
-                </td>
-                <td>{{item.MinSize}}
+                <td>{{item.FacilitiesName}}</td>
+                <td>{{item.NoOf}}</td>
+                <td>
+                  {{item.MinSize}}
                 </td>
                 <td>
                   <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">

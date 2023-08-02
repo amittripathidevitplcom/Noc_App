@@ -141,6 +141,7 @@ export class DocumentScrutinyLegalEntityComponent implements OnInit {
     this.dsrequest.UserID = 0;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Legal Entity';
+    this.dsrequest.DocumentScrutinyDetail=[];
     this.isRemarkValid = false;
     this.isFormvalid = true;
     for (var i = 0; i < this.legalEntityMemberDetailData.length; i++) {

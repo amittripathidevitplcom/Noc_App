@@ -151,6 +151,7 @@ export class DocumentScrutinyStaffDetailsComponent implements OnInit {
     this.dsrequest.TabName = 'Staff Details';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.StaffDetailModel.length; i++) {
       if (this.StaffDetailModel[i].Action == '' || this.StaffDetailModel[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');
