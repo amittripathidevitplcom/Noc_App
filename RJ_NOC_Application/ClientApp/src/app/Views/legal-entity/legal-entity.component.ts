@@ -10,7 +10,9 @@ import { DropdownValidators } from '../../Services/CustomValidators/custom-valid
 import { FileUploadService } from '../../Services/FileUpload/file-upload.service';
 import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
 import { DisableRightClickService } from '../../Services/DisableRightClick/disable-right-click.service';
+import { AadharServiceDetails } from '../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { log } from 'console';
+import { AadharServiceDataModel } from '../../Models/AadharServiceDataModel';
 @Component({
   selector: 'app-legal-entity',
   templateUrl: './legal-entity.component.html',
@@ -35,8 +37,8 @@ export class LegalEntityComponent implements OnInit {
 
   public MaxDate: Date = new Date();
   public MinDate_DOB: Date = new Date();
-  public MinDate_ElectionPresentManagementCommitteeDate: Date = new Date();
-
+  //public MinDate_ElectionPresentManagementCommitteeDate: Date = new Date();
+  public MinDate_ElectionPresentManagementCommitteeDate: any = '';
   legalentityForm!: FormGroup;
   legalentityForm_Registration!: FormGroup;
 
@@ -72,10 +74,12 @@ export class LegalEntityComponent implements OnInit {
   public issaveCancelBtn: boolean = false;
   public isSocietyNewReg: boolean = false;
   public isDisabledNewRegistration: boolean = false;
+  public isDisabledCommitteeDate: boolean = true;
   public isInstitueAdded: boolean = false;
   public isMemberAdded: boolean = false;
   public isMemberPhoto: boolean = false;
   public isMemberSignature: boolean = false;
+  public isPresidentAadhaarProofDoc: boolean = false;
   public OTP: string = '';
   public CustomOTP: string = '';
   public UserOTP: string = '';
@@ -108,7 +112,16 @@ export class LegalEntityComponent implements OnInit {
   public ImageValidationMessage_MemberPhoto: string = '';
   public ImageValidationMessage_MemberSignature: string = '';
   public ImageValidationMessage_TrustLogoDoc: string = '';
-  constructor(private rightClickDisable: DisableRightClickService,private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService) {
+
+  public TransactionNo: string = '';
+  public VerifiedOTP: boolean = false;
+
+
+
+  AadharRequest = new AadharServiceDataModel();
+
+
+  constructor(private rightClickDisable: DisableRightClickService, private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService, private aadharServiceDetails: AadharServiceDetails) {
 
   }
 
@@ -136,6 +149,8 @@ export class LegalEntityComponent implements OnInit {
           txtNewRegistrationRegistration: ['', Validators.required],
           txtMobileNumberRegistration: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
           txtEmailIDRegistration: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
+          txtAadharNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(12), Validators.maxLength(12)]]
+
         });
 
 
@@ -160,11 +175,10 @@ export class LegalEntityComponent implements OnInit {
           WomenMembers: ['', Validators.required],
           DateOfElection: ['', Validators.required],
           txtManagementCommitteecertified: ['', Validators.required, Validators.pattern('^[a-zA-Z \-\']+')],
-          txtPresidentAadhaarNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(12), Validators.maxLength(12)]],
-          txtPresidentAadhaarProofDoc: [''],
           txtSocietyPANNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[A-Za-z]{5}[0-9]{4}[A-Za-z]$")]],
           txtSocietyPanProofDoc: [''],
           txtRegisteredActName: ['']
+
         });
       this.legalentityAddMemberForm = this.formBuilder.group(
         {
@@ -177,6 +191,8 @@ export class LegalEntityComponent implements OnInit {
           ddlMemberposts: ['', [DropdownValidators]],
           txtMemberPhoto: [''],
           txtMemberSign: [''],
+          txtPresidentAadhaarNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(12), Validators.maxLength(12)]],
+          txtPresidentAadhaarProofDoc: [''],
         });
       this.legalentityAddInstituteForm = this.formBuilder.group(
         {
@@ -198,7 +214,7 @@ export class LegalEntityComponent implements OnInit {
       this.GetMemberPost();
       this.GetRegisteredActList();
       this.SetDOBmindate();
-      this.SetElectionPresentManagementCommitteeDatemindate();
+      //this.SetElectionPresentManagementCommitteeDatemindate();
     }
     catch (Ex) {
       console.log(Ex);
@@ -387,10 +403,6 @@ export class LegalEntityComponent implements OnInit {
         this.ImageValidationMessage_TrusteeMemberProofDoc = 'This field is required .!';
         isValid = false;
       }
-      if (this.request.PresidentAadhaarProofDoc == '') {
-        this.ImageValidationMessage_PresidentAadhaarProofDoc = 'This field is required .!';
-        isValid = false;
-      }
       if (this.request.SocietyPanProofDoc == '') {
         this.ImageValidationMessage_SocietyPanProofDoc = 'This field is required .!';
         isValid = false;
@@ -451,6 +463,7 @@ export class LegalEntityComponent implements OnInit {
       this.loaderService.requestStarted();
       this.isMemberSignature = false;
       this.isMemberPhoto = false;
+      this.isPresidentAadhaarProofDoc = false;
 
       this.isMemberAdded = true;
       if (this.legalentityAddMemberForm.invalid) {
@@ -458,9 +471,10 @@ export class LegalEntityComponent implements OnInit {
       }
       var GetPostName = this.lstMemberPost.find((x: { RoleID: number; }) => x.RoleID == this.memberdetails.MemberPostID).RoleName;
       if (GetPostName != 'Member') {
-        if (this.memberdetails.MemberPhoto == '' || this.memberdetails.MemberSignature == '') {
+        if (this.memberdetails.MemberPhoto == '' || this.memberdetails.MemberSignature == '' || this.memberdetails.PresidentAadhaarProofDoc == '') {
           this.isMemberPhoto = this.memberdetails.MemberPhoto == '' ? true : false;
           this.isMemberSignature = this.memberdetails.MemberSignature == '' ? true : false;
+          this.isPresidentAadhaarProofDoc = this.memberdetails.PresidentAadhaarProofDoc == '' ? true : false;
           return;
         }
         if (this.request.MemberDetails.length > 0) {
@@ -480,6 +494,7 @@ export class LegalEntityComponent implements OnInit {
         this.memberdetails.MemberSignaturePath = '';
         this.isMemberPhoto = false;
         this.isMemberSignature = false;
+        this.isPresidentAadhaarProofDoc = false;
       }
       this.request.MemberDetails.push({
         MemberID: 0,
@@ -495,6 +510,10 @@ export class LegalEntityComponent implements OnInit {
         MemberSignature: this.memberdetails.MemberSignature,
         MemberSignaturePath: this.memberdetails.MemberSignaturePath == '' ? 'N/A' : this.memberdetails.MemberSignaturePath,
         Dis_MemberSignatureName: this.memberdetails.Dis_MemberSignatureName,
+        PresidentAadhaarNumber: this.memberdetails.PresidentAadhaarNumber,
+        PresidentAadhaarProofDoc: this.memberdetails.PresidentAadhaarProofDoc,
+        Dis_PresidentAadhaarProofDocName: this.memberdetails.Dis_PresidentAadhaarProofDocName,
+        PresidentAadhaarProofDocPath: this.memberdetails.PresidentAadhaarProofDocPath == '' ? 'N/A' : this.memberdetails.PresidentAadhaarProofDocPath,
       });
       this.memberdetails = new LegalEntityMemberDetailsDataModel();
       this.isMemberAdded = false;
@@ -747,6 +766,7 @@ export class LegalEntityComponent implements OnInit {
       this.isMemberAdded = false;
       this.isMemberPhoto = false;
       this.isMemberSignature = false;
+      this.isPresidentAadhaarProofDoc = false;
       const ModelOTP = document.getElementById('ModalOtpVerify');
       if (ModelOTP) ModelOTP.style.display = 'none';
       const ModelWarning = document.getElementById('NotRegistered');
@@ -779,6 +799,7 @@ export class LegalEntityComponent implements OnInit {
       this.isMemberAdded = false;
       this.isMemberPhoto = false;
       this.isMemberSignature = false;
+      this.isPresidentAadhaarProofDoc = false;
       this.isSocietyNewReg = true;
       const ModelOTP = document.getElementById('ModalOtpVerify');
       if (ModelOTP) ModelOTP.style.display = 'none';
@@ -835,7 +856,142 @@ export class LegalEntityComponent implements OnInit {
       }, 200);
     }
   }
-  VerifyOTP() {
+
+
+  async OpenAadharOTPModel() {
+
+
+    console.log(this.legalentityForm_Registration.controls);
+    this.isSubmitted_Registration = true;
+    if (this.legalentityForm_Registration.invalid) {
+      return
+    }
+    this.UserOTP = '';
+    this.MaskedMobileNo = '';
+    try {
+      this.loaderService.requestStarted();
+      this.AadharRequest.AadharNo = this.request.PresidentAadhaarNumber;
+      await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
+        .then((data: any) => {
+          if (data[0].status == "0") {
+            this.TransactionNo = data[0].data;
+            this.toastr.success("OTP send Successfully");
+          }
+          else {
+            this.toastr.error(data[0].message);
+          }
+          console.log(data[0]);
+          const display = document.getElementById('ModalOtpVerify')
+          if (display) display.style.display = "block";
+          this.timer(1);
+
+        }, error => console.error(error));
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isSubmitted_Registration = false;
+      }, 200);
+    }
+  }
+
+  async VerifyOTP() {
+    try {
+
+      this.loaderService.requestStarted();
+      this.isUserOTP = false;
+      this.isValidUserOTP = false;
+      if (this.UserOTP == '') {
+        this.isUserOTP = true;
+        return;
+      }
+
+
+      this.AadharRequest.AadharNo = this.request.PresidentAadhaarNumber;
+      this.AadharRequest.TransactionNo = this.TransactionNo;
+      this.AadharRequest.OTP = this.UserOTP;
+      await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
+        .then((data: any) => {
+          if (data[0].status == "0") {
+            this.toastr.success("OTP Verify Successfully");
+            this.VerifiedOTP = true;
+          }
+          else {
+            this.toastr.error(data[0].message);
+          }
+        }, error => console.error(error));
+
+
+      if (this.VerifiedOTP || this.CustomOTP == this.UserOTP) {
+        if (this.OldRegistrationNo != '') {
+          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo)
+            .then((data: any) => {
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              if (this.State == 2) {
+                this.toastr.warning(this.ErrorMessage);
+                this.isSocietyList = false;
+                this.isDisabled = false;
+                return;
+              }
+            }, error => console.error(error));
+          this.isSocietyList = true;
+          this.isDisabled = true;
+          const display = document.getElementById('ModalOtpVerify');
+          if (display) display.style.display = 'none';
+        }
+        else {
+          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.request.RegistrationNo)
+            .then((data: any) => {
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              if (this.State == 2) {
+                this.toastr.warning(this.ErrorMessage);
+                this.isSocietyList = false;
+                this.isDisabled = false;
+                this.isFormsFill = false;
+                this.issaveCancelBtn = false;
+                this.isSocietyNewReg = false;
+                this.isDisabledNewRegistration = false;
+                return;
+              }
+            }, error => console.error(error));
+          this.ScoietyData = []
+          this.isSocietyList = false;
+          this.isDisabled = false;
+          const ModelOTP = document.getElementById('ModalOtpVerify');
+          if (ModelOTP) ModelOTP.style.display = 'none';
+          const ModelWarning = document.getElementById('NotRegistered');
+          if (ModelWarning) ModelWarning.style.display = 'none';
+          this.isFormsFill = true;
+          this.issaveCancelBtn = true;
+          this.isSocietyNewReg = false;
+          this.request.StateID = 6;
+          this.GetDistrictListByStateID(this.request.StateID);
+          this.isDisabledNewRegistration = true;
+        }
+      }
+      else {
+        this.isValidUserOTP = true;
+      }
+
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  VerifyOTP12() {
     try {
       this.loaderService.requestStarted();
       this.isUserOTP = false;
@@ -844,6 +1000,11 @@ export class LegalEntityComponent implements OnInit {
         this.isUserOTP = true;
         return;
       }
+
+
+
+
+
 
       if (this.UserOTP == this.OTP || this.CustomOTP == this.UserOTP) {
         if (this.OldRegistrationNo != '') {
@@ -909,7 +1070,7 @@ export class LegalEntityComponent implements OnInit {
       }, 200);
     }
   }
-  async ResendOTP() {
+  async ResendOTP1() {
     try {
       this.loaderService.requestStarted();
       this.timer(1);
@@ -926,6 +1087,8 @@ export class LegalEntityComponent implements OnInit {
           }
           this.toastr.info('Successfully Resend OTP on ' + MaskedMobileNo);
         }, error => console.error(error));
+
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -937,9 +1100,36 @@ export class LegalEntityComponent implements OnInit {
     }
   }
 
+  async ResendOTP() {
+    try {
+      this.loaderService.requestStarted();
+      this.timer(1);
+
+      this.AadharRequest.AadharNo = this.request.PresidentAadhaarNumber;
+      await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
+        .then((data: any) => {
+          if (data[0].status == "0") {
+            this.TransactionNo = data[0].data;
+            this.toastr.success("OTP Resend Successfully");
+          }
+          else {
+            this.toastr.success(data[0].message);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
   async ValidateDocument(event: any, Type: string) {
     try {
-      debugger;
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;
@@ -952,7 +1142,7 @@ export class LegalEntityComponent implements OnInit {
         if (event.target.files[0].type === 'application/pdf') {
           if (event.target.files[0].size > 2000000) {
             event.target.value = '';
-            
+
             if (Type == 'TrusteeMember') {
               this.isValidTrusteeMemberProofDoc = true;
               this.request.Dis_TrusteeMemberProofDocName = '';
@@ -962,9 +1152,9 @@ export class LegalEntityComponent implements OnInit {
             }
             else if (Type == 'PresidentAadhaar') {
               this.isValidPresidentAadhaarProofDoc = true;
-              this.request.Dis_PresidentAadhaarProofDocName = '';
-              this.request.PresidentAadhaarProofDocPath = '';
-              this.request.PresidentAadhaarProofDoc = '';
+              this.memberdetails.Dis_PresidentAadhaarProofDocName = '';
+              this.memberdetails.PresidentAadhaarProofDocPath = '';
+              this.memberdetails.PresidentAadhaarProofDoc = '';
               this.ImageValidationMessage_PresidentAadhaarProofDoc = 'Select less then 2MB File';
             }
             else if (Type == 'SocietyPan') {
@@ -988,9 +1178,9 @@ export class LegalEntityComponent implements OnInit {
             }
             else if (Type == 'PresidentAadhaar') {
               this.isValidPresidentAadhaarProofDoc = true;
-              this.request.Dis_PresidentAadhaarProofDocName = '';
-              this.request.PresidentAadhaarProofDocPath = '';
-              this.request.PresidentAadhaarProofDoc = '';
+              this.memberdetails.Dis_PresidentAadhaarProofDocName = '';
+              this.memberdetails.PresidentAadhaarProofDocPath = '';
+              this.memberdetails.PresidentAadhaarProofDoc = '';
               this.ImageValidationMessage_PresidentAadhaarProofDoc = 'Select more then 100kb File';
             }
             else if (Type == 'SocietyPan') {
@@ -1015,9 +1205,9 @@ export class LegalEntityComponent implements OnInit {
           }
           else if (Type == 'PresidentAadhaar') {
             this.isValidPresidentAadhaarProofDoc = true;
-            this.request.Dis_PresidentAadhaarProofDocName = '';
-            this.request.PresidentAadhaarProofDocPath = '';
-            this.request.PresidentAadhaarProofDoc = '';
+            this.memberdetails.Dis_PresidentAadhaarProofDocName = '';
+            this.memberdetails.PresidentAadhaarProofDocPath = '';
+            this.memberdetails.PresidentAadhaarProofDoc = '';
             this.ImageValidationMessage_PresidentAadhaarProofDoc = 'Select Only pdf file';
           }
           else if (Type == 'SocietyPan') {
@@ -1045,9 +1235,9 @@ export class LegalEntityComponent implements OnInit {
             }
             else if (Type == 'PresidentAadhaar') {
               this.showPresidentAadhaarProofDoc = true;
-              this.request.Dis_PresidentAadhaarProofDocName = data['Data'][0]["Dis_FileName"];
-              this.request.PresidentAadhaarProofDocPath = data['Data'][0]["FilePath"];
-              this.request.PresidentAadhaarProofDoc = data['Data'][0]["FileName"];
+              this.memberdetails.Dis_PresidentAadhaarProofDocName = data['Data'][0]["Dis_FileName"];
+              this.memberdetails.PresidentAadhaarProofDocPath = data['Data'][0]["FilePath"];
+              this.memberdetails.PresidentAadhaarProofDoc = data['Data'][0]["FileName"];
               this.ImageValidationMessage_PresidentAadhaarProofDoc = '';
             }
             else if (Type == 'SocietyPan') {
@@ -1078,7 +1268,7 @@ export class LegalEntityComponent implements OnInit {
   }
   async ValidateImage(event: any, Type: string) {
     try {
-      
+
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;
@@ -1116,7 +1306,7 @@ export class LegalEntityComponent implements OnInit {
           }
           if (event.target.files[0].size < 100000) {
             event.target.value = '';
-            
+
             //this.toastr.warning('Select more then 100kb File');
             if (Type == 'MemberPhoto') {
               this.isValidMemberPhoto = true;
@@ -1144,7 +1334,7 @@ export class LegalEntityComponent implements OnInit {
         }
         else {
           event.target.value = '';
-          
+
           if (Type == 'MemberPhoto') {
             this.isValidMemberPhoto = true;
             this.memberdetails.Dis_MemberPhotoName = '';
@@ -1254,9 +1444,9 @@ export class LegalEntityComponent implements OnInit {
           }
           else if (Type == 'PresidentAadhaar') {
             this.showPresidentAadhaarProofDoc = false;
-            this.request.Dis_PresidentAadhaarProofDocName = '';
-            this.request.PresidentAadhaarProofDocPath = '';
-            this.request.PresidentAadhaarProofDoc = '';
+            this.memberdetails.Dis_PresidentAadhaarProofDocName = '';
+            this.memberdetails.PresidentAadhaarProofDocPath = '';
+            this.memberdetails.PresidentAadhaarProofDoc = '';
             this.ImageValidationMessage_PresidentAadhaarProofDoc = '';
           }
           else if (Type == 'SocietyPan') {
@@ -1328,33 +1518,35 @@ export class LegalEntityComponent implements OnInit {
   }
 
   SetDOBmindate() {
-    
+
     const mindate1 = new Date();
     mindate1.setFullYear(mindate1.getFullYear() - 100);
     this.MinDate_DOB = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
   }
 
   SetElectionPresentManagementCommitteeDatemindate() {
-    
-    const mindate1 = new Date(2000,0,1);
-   // mindate1.setFullYear(mindate1.getFullYear() - 23);
-    this.MinDate_ElectionPresentManagementCommitteeDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
-  }
-  
-  ElectionPresentManagementCommitteeDate_Change() {
     debugger;
+    //const mindate1 = new Date(2000, 0, 1);
+    const mindate1 = new Date(this.request.SocietyRegistrationDate);
+    this.MinDate_ElectionPresentManagementCommitteeDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
+    this.request.ElectionPresentManagementCommitteeDate = '';
+    this.isDisabledCommitteeDate = false;
+  }
+
+  ElectionPresentManagementCommitteeDate_Change() {
+
     const currndate = new Date();
     const salecteddate = new Date(this.request.ElectionPresentManagementCommitteeDate);
     const threeYrsAddOnDate = new Date(salecteddate.setFullYear((salecteddate.getFullYear() + 3)));
     console.log(threeYrsAddOnDate < currndate);
-    if (threeYrsAddOnDate < currndate) {      
+    if (threeYrsAddOnDate < currndate) {
       this.request.IsDateOfElection = 'No';
       this.IsNotMoreThen3Year = false;
     }
     else {
       this.request.IsDateOfElection = 'Yes';
-      this.IsNotMoreThen3Year = true; 
-     
+      this.IsNotMoreThen3Year = true;
+
     }
     this.ToggleElectionPresentManagementCommitteeDateValidation();
   }

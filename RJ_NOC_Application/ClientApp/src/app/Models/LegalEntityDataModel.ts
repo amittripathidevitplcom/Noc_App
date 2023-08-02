@@ -25,17 +25,15 @@ export class LegalEntityDataModel {
   public IsOtherInstitution: string = '';
   public IsWomenMembers: string = '';
   public IsDateOfElection: string = '';
-  public ManagementCommitteeCertified: string = '';
-  public PresidentAadhaarNumber: string = '';
-  public Dis_PresidentAadhaarProofDocName: string = '';
-  public PresidentAadhaarProofDocPath: string = '';
-  public PresidentAadhaarProofDoc: string = '';
+  public ManagementCommitteeCertified: string = '';  
   public SocietyPANNumber: string = '';
   public Dis_SocietyPanProofDocName: string = '';
   public SocietyPanProofDocPath: string = '';
   public SocietyPanProofDoc: string = '';
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
+  public AadharNo: string = '';
+  public PresidentAadhaarNumber: string = '';
   public MemberDetails: LegalEntityMemberDetailsDataModel[] = [];
   public InstituteDetails: LegalEntityInstituteDetailsDataModel[] = [];
 }
@@ -60,6 +58,10 @@ export class LegalEntityMemberDetailsDataModel {
   public MemberSignature: string = '';
   public Dis_MemberSignatureName: string = '';
   public MemberSignaturePath: string = '';
+  public PresidentAadhaarNumber: string = '';
+  public Dis_PresidentAadhaarProofDocName: string = '';
+  public PresidentAadhaarProofDocPath: string = '';
+  public PresidentAadhaarProofDoc: string = '';
 }
 export class LegalEntityInstituteDetailsDataModel {
   public InstituteID: number = 0;

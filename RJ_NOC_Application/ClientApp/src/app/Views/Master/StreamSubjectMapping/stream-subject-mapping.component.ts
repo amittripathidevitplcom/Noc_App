@@ -279,7 +279,7 @@ export class StreamSubjectMappingComponent implements OnInit {
     }
   }
   async ResetControl() {
-    debugger;
+    
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
@@ -304,7 +304,7 @@ export class StreamSubjectMappingComponent implements OnInit {
     if (btnReset) btnReset.innerHTML = "Reset";
   }
   async Edit_OnClick(StreamMappingID: number) {
-    debugger;
+    
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();

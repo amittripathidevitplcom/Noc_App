@@ -374,7 +374,7 @@ export class LandDetailsComponent implements OnInit {
     try {
       this.file = event.target.files[0];
       if (this.file) {
-        if (this.file.type === 'application/pdf' ) {
+        if (this.file.type === 'application/pdf') {
           //size validation
           if (this.file.size > 2000000) {
             this.toastr.error('Select less then 2MB File')
@@ -572,7 +572,7 @@ export class LandDetailsComponent implements OnInit {
           this.LandDetailsList = data['Data'][0]['data']['Table'];
           this.LandDetailsDocumentList = data['Data'][0]['data']['Table1'];
           console.log(this.LandDetailsDocumentList);
-         
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -586,7 +586,7 @@ export class LandDetailsComponent implements OnInit {
   }
   async ViewViewLandDetailDocumentByID(LandDetailID: any) {
     try {
-      debugger;
+      
       this.LandDetailsDocumentListByID = [];
       this.loaderService.requestStarted();
       await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
@@ -595,8 +595,8 @@ export class LandDetailsComponent implements OnInit {
 
           this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
           this.LandDetailsDocumentListByID = this.request.LandDetailDocument;
-          console.log(this.request.LandDetailDocument);          
-        }, error => console.error(error));     
+          console.log(this.request.LandDetailDocument);
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -610,31 +610,42 @@ export class LandDetailsComponent implements OnInit {
 
 
   async ResetControl() {
-    this.request.LandDetailID = 0;
-    this.request.LandAreaID = 0;
-    this.request.LandDocumentTypeID = 0;
-    this.request.LandConvertedID = 0;
-    this.request.LandTypeID = 0;
-    this.request.KhasraNumber = '';
-    this.request.LandOwnerName = '';
-    this.request.BuildingHostelQuartersRoadArea = 0;
-    this.request.LandConversionOrderDate = '';
-    this.request.AffidavitDate = '';
-    this.request.LandConversionOrderNo = '';
-    this.request.ActiveStatus = true;
-    this.request.CollegeName = '';
-    this.request.LandAreaSituatedName = '';
-    this.request.LandDocumentTypeName = '';
-    this.request.IsConvereted = '';
-    this.request.LandTypeName = '';
-    /* this.request = new LandDetailDataModel();*/
-    this.request.LandDetailDocument = [];
-    this.ShowConversionOrderNo = false;
-    this.isDisabledGrid = false;
-    await this.GetLandDocument(this.SelectedDepartmentID, 'LandDetail');
-    const btnSave = document.getElementById('btnAddLandDetail')
-    if (btnSave) btnSave.innerHTML = "Save";
-    //this.LandDocumentFile.nativeElement.value = "";
+    try {
+      this.loaderService.requestStarted();
+      this.request.LandDetailID = 0;
+      this.request.LandAreaID = 0;
+      this.request.LandDocumentTypeID = 0;
+      this.request.LandConvertedID = 0;
+      this.request.LandTypeID = 0;
+      this.request.KhasraNumber = '';
+      this.request.LandOwnerName = '';
+      this.request.BuildingHostelQuartersRoadArea = 0;
+      this.request.LandConversionOrderDate = '';
+      this.request.AffidavitDate = '';
+      this.request.LandConversionOrderNo = '';
+      this.request.ActiveStatus = true;
+      this.request.CollegeName = '';
+      this.request.LandAreaSituatedName = '';
+      this.request.LandDocumentTypeName = '';
+      this.request.IsConvereted = '';
+      this.request.LandTypeName = '';
+      /* this.request = new LandDetailDataModel();*/
+      this.request.LandDetailDocument = [];
+      this.ShowConversionOrderNo = false;
+      this.isDisabledGrid = false;
+      await this.GetLandDocument(this.SelectedDepartmentID, 'LandDetail');
+      const btnSave = document.getElementById('btnAddLandDetail')
+      if (btnSave) btnSave.innerHTML = "Save";
+      //this.LandDocumentFile.nativeElement.value = "";
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
 
@@ -705,7 +716,7 @@ export class LandDetailsComponent implements OnInit {
 
 
   async GetLandDocuments(LandConvertedID: string, IsEdit: string = 'No') {
-    debugger;
+    
     console.log(this.LandConversionData);
     var Code = this.LandConversionData.find((x: { ID: number; }) => x.ID == Number(LandConvertedID)).Code;
 

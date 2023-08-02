@@ -88,9 +88,10 @@ export class FacilityDetailsComponent implements OnInit {
     this.FacilitiesForm = this.formBuilder.group(
       {
         ddlFacilitiesId: ['', [DropdownValidators]],
+        txtNoOf: ['', Validators.required],
         fileUploadImage: [''],
         //fileUploadImage: ['', Validators.required],
-        txtMinSize: ['', [Validators.required, Validators.min(0),Validators.max(100000000)]],
+        txtMinSize: ['', [Validators.required, Validators.min(0), Validators.max(100000000)]],
         Unit: [''],
         txtsearchText: [''],
       });
@@ -117,7 +118,6 @@ export class FacilityDetailsComponent implements OnInit {
   }
   async GetFacilities(DepartmentID: number, Type: string) {
     try {
-
       this.loaderService.requestStarted();
       this.isLoading = true;
       await this.commonMasterService.GetFacilitiesMasterList_DepartmentAndTypeWise(DepartmentID, Type)
@@ -144,6 +144,7 @@ export class FacilityDetailsComponent implements OnInit {
 
   async ddlFacilities_change($event: any, SeletedFacilitiesID: any) {
     this.request.FacilitiesID = SeletedFacilitiesID;
+    this.request.NoOf = null;
     this.request.MinSize = 0;
     this.request.Unit = '';
 
@@ -183,11 +184,11 @@ export class FacilityDetailsComponent implements OnInit {
       if (event.target.files && event.target.files[0]) {
         if (event.target.files[0].type === 'image/jpeg' ||
           //event.target.files[0].type === 'application/pdf' ||
-          event.target.files[0].type === 'image/jpg'){
+          event.target.files[0].type === 'image/jpg') {
           if (event.target.files[0].size > 2000000) {
             this.fileUploadImage.nativeElement.value = "";
             this.ImageValidationMessage = 'Select less then 2MB File';
-            this.ResetFile(false, '', '','');
+            this.ResetFile(false, '', '', '');
             this.isValidFacilitiesUrl = false;
             return
           }
@@ -202,7 +203,7 @@ export class FacilityDetailsComponent implements OnInit {
         else {
           this.ImageValidationMessage = 'Select Only jpeg/jpg file';
           this.fileUploadImage.nativeElement.value = "";
-          this.ResetFile(false, '', '','');
+          this.ResetFile(false, '', '', '');
           this.isValidFacilitiesUrl = false;
           return
         }
@@ -265,14 +266,25 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   ResetFile(isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
-    this.showFacilitiesUrl = isShow;
-    this.request.FacilitiesUrl = fileName;
-    this.request.FacilitiesUrlPath = filePath;
-    this.request.FacilitiesUrl_Dis_FileName = dis_Name;
+    try {
+      this.loaderService.requestStarted();
+      this.showFacilitiesUrl = isShow;
+      this.request.FacilitiesUrl = fileName;
+      this.request.FacilitiesUrlPath = filePath;
+      this.request.FacilitiesUrl_Dis_FileName = dis_Name;
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   async SaveData() {
-    debugger;
+
     this.request.CollegeID = this.SelectedCollageID;
 
     this.isSubmitted = true;
@@ -285,7 +297,7 @@ export class FacilityDetailsComponent implements OnInit {
     if (this.FacilitiesForm.invalid) {
       return
     }
-   
+
     if (this.WidthMin > this.request.MinSize) {
       this.CssClass_TextDangerWidth = 'text-danger';
       return
@@ -293,7 +305,7 @@ export class FacilityDetailsComponent implements OnInit {
     if (this.request.FacilitiesUrl == '') {
       this.ImageValidate = 'This field is required .!';
       return
-    }  
+    }
     //owner
     if (this.request.FacilitiesID > 0) {
       this.request.ModifyBy = 1;
@@ -336,24 +348,36 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   async ResetControl() {
-    const ddlFacilitiesId = document.getElementById('ddlFacilitiesId')
-    if (ddlFacilitiesId) ddlFacilitiesId.focus();
-    this.isValidFacilitiesUrl = true;
-    this.showFacilitiesUrl = false;
-    this.isSubmitted = false;
-    this.request.FacilityDetailID = 0;
-    this.request.FacilitiesID = 0;
-    this.request.MinSize = 0;
-    const fileUploadImage = '';
-    this.request.FacilitiesUrl = '';
-    this.request.UserID = 0;
-    this.isDisabledGrid = false;
-    this.ResetFile(false, '', '','');
-    await this.GetFacilityDetailAllList();
-    const btnSave = document.getElementById('btnSave')
-    if (btnSave) btnSave.innerHTML = " Save";
-    const btnReset = document.getElementById('')
-    if (btnReset) btnReset.innerHTML = "Reset";
+    try {
+      this.loaderService.requestStarted();
+      const ddlFacilitiesId = document.getElementById('ddlFacilitiesId')
+      if (ddlFacilitiesId) ddlFacilitiesId.focus();
+      this.isValidFacilitiesUrl = true;
+      this.showFacilitiesUrl = false;
+      this.isSubmitted = false;
+      this.request.FacilityDetailID = 0;
+      this.request.FacilitiesID = 0;
+      this.request.NoOf = null;
+      this.request.MinSize = 0;
+      const fileUploadImage = '';
+      this.request.FacilitiesUrl = '';
+      this.request.UserID = 0;
+      this.isDisabledGrid = false;
+      this.ResetFile(false, '', '', '');
+      await this.GetFacilityDetailAllList();
+      const btnSave = document.getElementById('btnSave')
+      if (btnSave) btnSave.innerHTML = " Save";
+      const btnReset = document.getElementById('')
+      if (btnReset) btnReset.innerHTML = "Reset";
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   async GetFacilityDetailAllList() {
@@ -388,6 +412,7 @@ export class FacilityDetailsComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.request.FacilityDetailID = data['Data'][0]["FacilityDetailID"];
           this.request.FacilitiesID = data['Data'][0]["FacilitiesID"];
+          this.request.NoOf = data['Data'][0]["NoOf"];
           this.request.FacilitiesUrl = data['Data'][0]["FacilitiesUrl"];
           this.ResetFile((data['Data'][0]["FacilitiesUrl"] != '' ? true : false), data['Data'][0]["FacilitiesUrl"], data['Data'][0]["FacilitiesUrlPath"], data['Data'][0]["FacilitiesUrl_Dis_FileName"]);
           this.request.MinSize = data['Data'][0]["MinSize"];

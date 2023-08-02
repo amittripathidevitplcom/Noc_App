@@ -381,7 +381,7 @@ export class AddCoursesComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.courseMasterService.GetByID(CollegeWiseCourseID, this.sSOLoginDataModel.SSOID, this.UserID)
         .then(async (data: any) => {
-
+          
           data = JSON.parse(JSON.stringify(data));
           console.log(data);
           
@@ -409,12 +409,13 @@ export class AddCoursesComponent implements OnInit {
             }
             console.log(data['Data'][0]["SelectedSubjectDetails"]);
             this.request.SelectedSubjectDetails = data['Data'][0]["SelectedSubjectDetails"];
+            setTimeout(() => {
+              this.request.Seats = data['Data'][0]["Seats"];
+            }, 500);
           }, 300); 
 
           this.request.CourseTypeID = data['Data'][0]["CourseTypeID"];
-          setTimeout(() => {
-            this.request.Seats = data['Data'][0]["Seats"];
-          }, 500);
+          
 
 
           this.request.UserID = data['Data'][0]["UserID"];
@@ -649,7 +650,7 @@ export class AddCoursesComponent implements OnInit {
 
   async ddlCourseLevel_change(CourseLevelID: any)
   {
-    debugger;
+    
     this.request.CourseLevelID = CourseLevelID;
 
 

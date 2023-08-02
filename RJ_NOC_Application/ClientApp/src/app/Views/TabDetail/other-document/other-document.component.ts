@@ -27,6 +27,7 @@ export class OtherDocumentComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public file: File = null;
 
+  public HospitalRealtedDocuments: RequiredDocumentsDataModel_Documents[] = []
   constructor(private loaderService: LoaderService, private toastr: ToastrService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder,
     private fileUploadService: FileUploadService) { }
@@ -37,7 +38,10 @@ export class OtherDocumentComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.request.DocumentDetails = [];
-    this.GetRequiredDocuments('OtherDocument')
+    this.GetRequiredDocuments('OtherDocument');
+    if (this.SelectedDepartmentID == 6) {
+      this.GetHospitalRelatedDocuments('HospitalRelatedDocument');
+    }
   }
   async GetRequiredDocuments(Type: string) {
     try {
@@ -49,10 +53,28 @@ export class OtherDocumentComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request.DocumentDetails = data['Data'][0]['data'];
-          console.log("rishi")
-          console.log(this.request.DocumentDetails)
-          console.log("kapoor")
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
+  async GetHospitalRelatedDocuments(Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, Type)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.HospitalRealtedDocuments = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -69,7 +91,7 @@ export class OtherDocumentComponent implements OnInit {
     try {
       this.file = event.target.files[0];
       if (this.file) {
-        if (this.file.type === 'application/pdf' ) {
+        if (this.file.type === 'application/pdf') {
           //size validation
           if (this.file.size > 2000000) {
             this.toastr.error('Select less then 2MB File')
@@ -176,6 +198,13 @@ export class OtherDocumentComponent implements OnInit {
   async SaveData() {
     this.isSubmitted = true;
     this.IsValid = true;
+    if (this.SelectedDepartmentID == 6) {
+      this.HospitalRealtedDocuments.forEach(item => {
+        if (item.IsMandatory == true && item.FileName == '') {
+          this.IsValid = false;
+        }
+      });
+    }
     this.request.DocumentDetails.forEach(item => {
       if (item.IsMandatory == true && item.FileName == '') {
         this.IsValid = false;
@@ -183,6 +212,30 @@ export class OtherDocumentComponent implements OnInit {
     });
     if (!this.IsValid) {
       return;
+    }
+    if (this.SelectedDepartmentID == 6) {
+      this.HospitalRealtedDocuments.forEach(item => {
+        var IsDocExists = this.request.DocumentDetails.findIndex((x: { DID: number; }) => x.DID == item.DID);
+        if (IsDocExists != -1) {
+          this.request.DocumentDetails.splice(IsDocExists, 1);
+        }
+        this.request.DocumentDetails.push({
+          DID: item.DID,
+          DocumentName: item.DocumentName,
+          DocumentValue: item.DocumentValue,
+          IsMandatory: item.IsMandatory,
+          Dis_FileName: item.Dis_FileName,
+          FileName: item.FileName,
+          FilePath: item.FilePath,
+          Action: item.Action,
+          Remark: item.Remark,
+          C_Action: item.C_Action,
+          C_Remark: item.C_Remark,
+          S_Action: item.S_Action,
+          S_Remark: item.S_Remark,
+          DocumentType: item.DocumentType
+        });
+      });
     }
     this.request.CollegeID = this.SelectedCollageID;
     this.request.DocumentType = 'OtherDocument';
@@ -194,9 +247,9 @@ export class OtherDocumentComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
           if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
+            this.toastr.success(this.SuccessMessage);
+            this.GetRequiredDocuments('OtherDocument');
           }
           else {
             this.toastr.error(this.ErrorMessage)

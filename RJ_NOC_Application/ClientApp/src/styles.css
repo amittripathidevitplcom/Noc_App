@@ -125,7 +125,50 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-mdc-form-field {
   margin-top: 16px;
 }
- 
+
+
+
+.badge {
+  border-radius: 50px;
+  display: block !important;
+}
+
+.badge {
+  width: 5px;
+  height: 5px;
+  display: block;
+  background: red;
+  color: #fff;
+}
+.badge {
+  display: inline-block;
+  padding: 0.45em 0.45em !important;
+  font-size: .75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 100% !important;
+}
+
+.pulse {
+  animation: pulse 1s infinite;
+} 
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(122, 84, 73, 0.8);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(122, 84, 73, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(122, 84, 73, 0);
+  }
+}
 
 
 

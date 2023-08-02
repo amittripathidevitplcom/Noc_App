@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
-import { ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Console } from 'console';
+import internal from 'stream';
 
 @Component({
   selector: 'app-apply-noc-parameter',
@@ -50,9 +52,7 @@ export class ApplyNocParameterComponent implements OnInit {
   public ApplyNocParameterMasterList_ChangeInGirlstoCoed: ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
   public ApplyNocParameterMasterList_ChangeInCollegeManagement: ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
   public ApplyNocParameterMasterList_MergerCollege: ApplyNocParameterMasterList_MergerCollege = null;
-
   public ApplyNocParameterMasterList_NewCourse: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
-
 
   //Validation variable
   //change in name
@@ -93,6 +93,23 @@ export class ApplyNocParameterComponent implements OnInit {
   public isNewSocietyName: boolean = false;
   public isCmDocumentName: boolean = false;
   public isAnnexureDocument: boolean = false;
+  public TotalAppliedNOC: number = -1;
+
+  public streamDataList: any = [];
+  public CourseLevelList: any = [];
+  public CourseDataList: any[] = [];
+
+  public ddlStreamID: number = 0;
+
+  public CourseLevelID: number = 0;
+  
+
+  public isShowGrid: boolean = true;
+  public SubjectDetails: any[] = [];
+
+
+  public SelectedCourseId: number = 0;
+  
 
 
 
@@ -110,11 +127,14 @@ export class ApplyNocParameterComponent implements OnInit {
       cbCourse_TNOCExtension: [''],
       cbSubject_TNOCExtension: [''],
       cbCourse_AdditionOfNewSeats60: [''],
+      ddlStreamID: new FormControl()
+
     });
 
     // load
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
+   
   }
 
   get form() {
@@ -132,6 +152,8 @@ export class ApplyNocParameterComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           //
           this.CollegeList_ddl = data['Data'];
+
+
 
 
         }, error => console.error(error));
@@ -171,6 +193,7 @@ export class ApplyNocParameterComponent implements OnInit {
   public CollegeDepartmentID: number = 0;
   async College_ddlChange(event: any) {
     try {
+      this.TotalAppliedNOC = -1;
       //reset
       this.ApplyNocParameterMasterList_ddl = [];
       this.ApplyNocParameterMasterList_TNOCExtension = null;
@@ -180,26 +203,41 @@ export class ApplyNocParameterComponent implements OnInit {
       this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
       this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
       this.ApplyNocParameterMasterList_MergerCollege = null;
-
-      // get
-      await this.GetApplicationTypeList(this.request.CollegeID);
       this.loaderService.requestStarted();
-      await this.applyNocParameterService.GetApplyNocParameterMaster(this.request.CollegeID)
+      await this.applyNOCApplicationService.CheckAppliedNOCCollegeWise(this.request.CollegeID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          //
-          this.ApplyNocParameterMasterList_ddl = data['Data'];
-        }, error => console.error(error));
+          this.TotalAppliedNOC = data['Data'];
+          if (this.TotalAppliedNOC > 0) {
+            this.toastr.warning('You have already applied for NOC and NOC not issued yet');
+            return;
+          }
+          else {
 
-      await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.CollegeDepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+            this.GetApplicationTypeList(this.request.CollegeID);
 
+            this.applyNocParameterService.GetApplyNocParameterMaster(this.request.CollegeID)
+              .then((data: any) => {
+                data = JSON.parse(JSON.stringify(data));
+                this.State = data['State'];
+                this.SuccessMessage = data['SuccessMessage'];
+                this.ErrorMessage = data['ErrorMessage'];
+                //
+                this.ApplyNocParameterMasterList_ddl = data['Data'];
+              }, error => console.error(error));
+
+            this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
+              .then((data: any) => {
+                data = JSON.parse(JSON.stringify(data));
+                this.CollegeDepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+                this.request.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+
+              }, error => console.error(error));
+          }
         }, error => console.error(error));
+      // get
+
+      this.FillCourses();
 
     }
 
@@ -261,15 +299,13 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement.FeeAmount = item.FeeAmount;
       }
-      if (this.request.ApplyNocFor == 'Merger')
-      {
+      if (this.request.ApplyNocFor == 'Merger') {
         this.ApplyNocParameterMasterList_MergerCollege = new ApplyNocParameterMasterList_MergerCollege();
         this.ApplyNocParameterMasterList_MergerCollege.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_MergerCollege.FeeAmount = item.FeeAmount;
       }
 
-      if (this.request.ApplyNocFor == 'New Course')
-      {
+      if (this.request.ApplyNocFor == 'New Course') {
 
         this.ApplyNocParameterMasterList_NewCourse = new ApplyNocParameterMaster_TNOCExtensionDataModel();
         this.ApplyNocParameterMasterList_NewCourse.ApplyNocID = Number(SelectedApplyNocForID);
@@ -583,8 +619,7 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceDocumentName = Name;
       }
     }
-    else if (Type == 'ChangeInCoedtoGirls')
-    {
+    else if (Type == 'ChangeInCoedtoGirls') {
       this.ApplyNocParameterMasterList_ChangeInCoedtoGirls.Dis_ConsentManagementDocument = Dis_Name;
       this.ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocumentPath = Path;
       this.ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument = Name;
@@ -816,18 +851,18 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
- 
+
   async AddCourse_click(content: any) {
     try {
       this.loaderService.requestStarted();
       // get
-            // model popup
-            this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocpaymentdetails-title', backdrop: 'static' }).result.then((result) => {
-              this.closeResult = `Closed with: ${result}`;
-            }, (reason) => {
-              this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-            });
-         
+      // model popup
+      this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocpaymentdetails-title', backdrop: 'static' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -837,8 +872,83 @@ export class ApplyNocParameterComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-
   }
+
+  
+
+  async FillCourses() {
+  
+    try
+    {
+      // Deparment level
+      await this.commonMasterService.GetCollegeWiseCourseList(this.request.CollegeID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CourseDataList = data['Data'][0]['data'];
+        
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+ 
+  }
+
+
+  async ddlSubject_change($event: any, SeletedCourseID: any) {
+    try
+    {
+      this.SelectedCourseId = SeletedCourseID;
+      var CollegeWiseCourseID = this.CourseDataList.find((x: { CourseID: number; }) => x.CourseID == SeletedCourseID).CollegeWiseCourseID;
+
+      this.loaderService.requestStarted();
+      const courseId = Number(SeletedCourseID);
+
+      if (courseId <= 0) {
+        return;
+      }
+      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(CollegeWiseCourseID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.SubjectDetails = data['Data'][0]['data'];
+          this.isShowGrid = true;
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+    SeletedCourseID = '';
+  }
+
+
+  async ddlCourseLevel_change(CourseLevelID: any)
+  {
+    debugger;
+    //this.request.CourseLevelID = CourseLevelID;
+
+    await this.commonMasterService.GetAddCourseList_DepartmentIDWise(this.request.DepartmentID, CourseLevelID)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        this.CourseDataList = data['Data'];
+        console.log(this.CourseDataList);
+      }, error => console.error(error));
+
+    this.CourseDataList = this.CourseDataList.filter(item => item.CourseLevelID == CourseLevelID);
+  }
+
 
 
   private getDismissReason(reason: any): string {
@@ -851,6 +961,32 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
+  //Add course
+  btn_AddCourse()
+  {
+    let CourseName = this.CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.SelectedCourseId).CourseName;
+    var data: ApplyNocParameterCourseDataModel = new ApplyNocParameterCourseDataModel();
+    data.ApplyNocID = 1;
+    data.CourseID = this.SelectedCourseId;
+    data.CourseName = CourseName;
+    data.ApplyNocParameterSubjectList = this.SubjectDetails.filter(f => f.IsChecked == true);
+    this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.push(data);
+    //close data
+    this.modalService.dismissAll('After Success');
+  }
+
+  //delete items
+  btn_DeleteCourse(CourseID: number)
+  {
+    if (confirm("Are you sure you want to delete this ?")) {
+
+      const indexToRemove = this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
+      this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.splice(indexToRemove, 1);
+    }
+  }
+
+
+  ddlSreamChangeReset(ID: any) { }
 
   ResetValidationVariable() {
     this.isFormValid = true;

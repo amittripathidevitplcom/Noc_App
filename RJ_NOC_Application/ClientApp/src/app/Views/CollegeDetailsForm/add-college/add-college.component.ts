@@ -205,11 +205,29 @@ export class AddCollegeComponent implements OnInit {
   get form_NearestGovernmentHospitals() { return this.CollegeDetailsForm_NearestGovernmentHospitals.controls; }
 
   async onFilechange(event: any, Type: string) {
-    debugger;
-    this.file = event.target.files[0];
-    if (this.file) {
-      if (Type == 'CollegeLogo') {
-        if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg') {
+    
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (Type == 'CollegeLogo') {
+          if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg') {
+            //size validation
+            if (this.file.size > 2000000) {
+              this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+              return
+            }
+            if (this.file.size < 100000) {
+              this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+              return
+            }
+          }
+          else {// type validation
+            this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg', '', '', '', false);
+            return
+          }
+        }
+        else if (this.file.type == 'application/pdf') {
           //size validation
           if (this.file.size > 2000000) {
             this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
@@ -221,133 +239,181 @@ export class AddCollegeComponent implements OnInit {
           }
         }
         else {// type validation
-          this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg', '', '', '', false);
+          this.ResetFileAndValidation(Type, 'Select Only pdf file', '', '', '', false);
           return
         }
+        // upload to server folder
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"], true);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
       }
-      else if (this.file.type == 'application/pdf') {
-        //size validation
-        if (this.file.size > 2000000) {
-          this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
-          return
-        }
-        if (this.file.size < 100000) {
-          this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
-          return
-        }
+      else {
+        this.ResetFileAndValidation(Type, '', '', '', '', false);
       }
-      else {// type validation
-        this.ResetFileAndValidation(Type, 'Select Only pdf file', '', '', '', false);
-        return
-      }
-      // upload to server folder
-      await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"], true);
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
     }
-    else {
-      this.ResetFileAndValidation(Type, '', '', '', '', false);
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   async DeleteImage(Type: string, file: string) {
-    if (confirm("Are you sure you want to delete this ?")) {
-      // delete from server folder
-      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          this.ResetFileAndValidation(Type, '', '', '', '', false);
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
+    try {
+      this.loaderService.requestStarted();
+      if (confirm("Are you sure you want to delete this ?")) {
+        // delete from server folder
+        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation(Type, '', '', '', '', false);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   ResetFileAndValidation(type: string, msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean) {
     //event.target.value = '';
-    if (type == 'CollegeLogo') {
-      this.showCollegeLogo = isShowFile;
-      this.ProfileLogoValidationMessage = msg;
-      this.request.CollegeLogo = name;
-      this.request.CollegeLogoPath = path;
-      this.request.CollegeLogo_Dis_FileName = dis_Name;
+    try {
+      this.loaderService.requestStarted();
+      if (type == 'CollegeLogo') {
+        this.showCollegeLogo = isShowFile;
+        this.ProfileLogoValidationMessage = msg;
+        this.request.CollegeLogo = name;
+        this.request.CollegeLogoPath = path;
+        this.request.CollegeLogo_Dis_FileName = dis_Name;
+      }
+      else if (type == 'HospitalDocument') {
+        this.showHospitalDocument = isShowFile;
+        this.HospitalDocumentValidationMessage = msg;
+        this.request_NearestGovernmentHospitals.HospitalDocument = name;
+        this.request_NearestGovernmentHospitals.HospitalDocumentPath = path;
+        this.request_NearestGovernmentHospitals.HospitalDocument_Dis_FileName = dis_Name;
+      }
+      else if (type == 'NAACAccreditedCertificate') {
+        this.showNAACAccreditedCertificate = isShowFile;
+        this.NAACAccreditedCertificateValidationMessage = msg;
+        this.request.NAACAccreditedCertificate = name;
+        this.request.NAACAccreditedCertificatePath = path;
+        this.request.NAACAccreditedCertificate_Dis_FileName = dis_Name;
+      }
     }
-    else if (type == 'HospitalDocument') {
-      this.showHospitalDocument = isShowFile;
-      this.HospitalDocumentValidationMessage = msg;
-      this.request_NearestGovernmentHospitals.HospitalDocument = name;
-      this.request_NearestGovernmentHospitals.HospitalDocumentPath = path;
-      this.request_NearestGovernmentHospitals.HospitalDocument_Dis_FileName = dis_Name;
+    catch (Ex) {
+      console.log(Ex);
     }
-    else if (type == 'NAACAccreditedCertificate') {
-      this.showNAACAccreditedCertificate = isShowFile; 
-      this.NAACAccreditedCertificateValidationMessage = msg;
-      this.request.NAACAccreditedCertificate = name;
-      this.request.NAACAccreditedCertificatePath = path;
-      this.request.NAACAccreditedCertificate_Dis_FileName = dis_Name;
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   async IsRuralOrUrban(isRural: boolean, section: string, isResetValue: boolean) {
-    if (isRural) {
-      if (section == 'nearest') {
-        this.IsRural_Nearest = isRural;
-        if (isResetValue) {
-          this.request_NearestGovernmentHospitals.TehsilID = 0;
-          this.request_NearestGovernmentHospitals.PanchayatSamitiID = 0;
+    try {
+      this.loaderService.requestStarted();
+      if (isRural) {
+        if (section == 'nearest') {
+          this.IsRural_Nearest = isRural;
+          if (isResetValue) {
+            this.request_NearestGovernmentHospitals.TehsilID = 0;
+            this.request_NearestGovernmentHospitals.PanchayatSamitiID = 0;
+          }
+        }
+        else {
+          this.IsRural = isRural;
+          if (isResetValue) {
+            this.request.DistanceFromCity = null;
+            this.request.TehsilID = 0;
+            this.request.PanchayatSamitiID = 0;
+          }
         }
       }
       else {
-        this.IsRural = isRural;
-        if (isResetValue) {
-          this.request.DistanceFromCity = null;
-          this.request.TehsilID = 0;
-          this.request.PanchayatSamitiID = 0;
+        if (section == 'nearest') {
+          this.IsRural_Nearest = isRural;
+          if (isResetValue) {
+            this.request_NearestGovernmentHospitals.TehsilID = 1;
+            this.request_NearestGovernmentHospitals.PanchayatSamitiID = 1;
+          }
+        }
+        else {
+          this.IsRural = isRural;
+          if (isResetValue) {
+            this.request.DistanceFromCity = 0;
+            this.request.TehsilID = 1;
+            this.request.PanchayatSamitiID = 1;
+          }
         }
       }
     }
-    else {
-      if (section == 'nearest') {
-        this.IsRural_Nearest = isRural;
-        if (isResetValue) {
-          this.request_NearestGovernmentHospitals.TehsilID = 1;
-          this.request_NearestGovernmentHospitals.PanchayatSamitiID = 1;
-        }
-      }
-      else {
-        this.IsRural = isRural;
-        if (isResetValue) {
-          this.request.DistanceFromCity = 0;
-          this.request.TehsilID = 1;
-          this.request.PanchayatSamitiID = 1;
-        }
-      }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   IsAISHECodeStatusOrNot(isAISHECodeStatus: boolean) {
-    this.IsAISHECodeStatus = isAISHECodeStatus;
+    try {
+      this.loaderService.requestStarted();
+      this.IsAISHECodeStatus = isAISHECodeStatus;
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
   IsCollegeNAACAccreditedOrNot(isCollegeNAACAccredited: boolean) {
-    this.IsCollegeNAACAccredited = isCollegeNAACAccredited;
+    try {
+      this.loaderService.requestStarted();
+      this.IsCollegeNAACAccredited = isCollegeNAACAccredited;
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   async GetDepartmentList() {
@@ -442,29 +508,40 @@ export class AddCollegeComponent implements OnInit {
   }
 
   async ddlCollegeStatus_TextChange(event: any, SelectedCollegeStatusID: string) {
-    debugger;
+    
+    try {
+      this.loaderService.requestStarted();
 
-    const selectedCollegeStatusID = Number(SelectedCollegeStatusID);
-    let SelectdCollegeStatusName = this.CollegeStatusList.find((x: { ID: number; }) => x.ID == selectedCollegeStatusID).Name;
+      const selectedCollegeStatusID = Number(SelectedCollegeStatusID);
+      let SelectdCollegeStatusName = this.CollegeStatusList.find((x: { ID: number; }) => x.ID == selectedCollegeStatusID).Name;
 
-    if (SelectdCollegeStatusName == "New") {
-      this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList.filter((element: any) => {
-        return element.Name == "TNOC";
-      });
+      if (SelectdCollegeStatusName == "New") {
+        this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList.filter((element: any) => {
+          return element.Name == "TNOC";
+        });
 
-      this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
-        return element.Name == "UG";
-      });
+        this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
+          return element.Name == "UG";
+        });
 
+      }
+      else {
+        this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList.filter((element: any) => {
+          return element.Name == "NOC";
+        });
+        //this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
+        this.CollegeLevelList_FilterData = this.CollegeLevelList;
+      }
     }
-    else {
-      this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList.filter((element: any) => {
-        return element.Name == "NOC";
-      });
-      //this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
-      this.CollegeLevelList_FilterData = this.CollegeLevelList;
+    catch (ex) {
+      console.log(ex)
     }
-
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+      }, 200);
+    }
   }
 
   async FillDepartmentRelatedDDL(event: any, SeletedDepartmentID: string) {
@@ -658,120 +735,164 @@ export class AddCollegeComponent implements OnInit {
   }
 
   AddContectDetail() {
-    this.isSubmitted_ContactDetails = true;
-    if (this.CollegeDetailsForm_ContactDetails.invalid) {
-      return
-    }
+    try {
+      this.loaderService.requestStarted();
+      this.isSubmitted_ContactDetails = true;
+      if (this.CollegeDetailsForm_ContactDetails.invalid) {
+        return
+      }
 
-    //debugger
-    this.request.ContactDetailsList.push({
-      ContactID: 0,
-      CollegeDetailsID: 0,
-      DesignationID: this.request_ContactDetailsDataModel.DesignationID,
-      DesignationName: this.DesignationList.find((x: { DesignationID: number; }) => x.DesignationID == this.request_ContactDetailsDataModel.DesignationID)?.DesignationName,
-      EmailAddress: this.request_ContactDetailsDataModel.EmailAddress,
-      MobileNumber: this.request_ContactDetailsDataModel.MobileNumber,
-      NameOfPerson: this.request_ContactDetailsDataModel.NameOfPerson
-    });
-    // reset
-    this.request_ContactDetailsDataModel.DesignationID = 0;
-    this.request_ContactDetailsDataModel.DesignationName = '';
-    this.request_ContactDetailsDataModel.EmailAddress = '';
-    this.request_ContactDetailsDataModel.MobileNumber = '';
-    this.request_ContactDetailsDataModel.NameOfPerson = '';
-    this.isSubmitted_ContactDetails = false;
+      //debugger
+      this.request.ContactDetailsList.push({
+        ContactID: 0,
+        CollegeDetailsID: 0,
+        DesignationID: this.request_ContactDetailsDataModel.DesignationID,
+        DesignationName: this.DesignationList.find((x: { DesignationID: number; }) => x.DesignationID == this.request_ContactDetailsDataModel.DesignationID)?.DesignationName,
+        EmailAddress: this.request_ContactDetailsDataModel.EmailAddress,
+        MobileNumber: this.request_ContactDetailsDataModel.MobileNumber,
+        NameOfPerson: this.request_ContactDetailsDataModel.NameOfPerson
+      });
+      // reset
+      this.request_ContactDetailsDataModel.DesignationID = 0;
+      this.request_ContactDetailsDataModel.DesignationName = '';
+      this.request_ContactDetailsDataModel.EmailAddress = '';
+      this.request_ContactDetailsDataModel.MobileNumber = '';
+      this.request_ContactDetailsDataModel.NameOfPerson = '';
+      this.isSubmitted_ContactDetails = false;
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   AddNearestGovernmentHospitalsDetail() {
-    if (this.request.NearestGovernmentHospitalsList.length >= 10) {
-      this.toastr.error("You can't add more then 10.");
-      return
-    }
-    this.isSubmitted_NearestGovernmentHospitals = true;
-    let isValid = true;
-    if (this.CollegeDetailsForm_NearestGovernmentHospitals.invalid) {
-      isValid = false;
-    }
-    if (!this.CustomValidate_NearestGovernmentHospitals()) {
-      isValid = false;
-    }
-    if (this.HospitalDocumentValidationMessage != '') {
-      isValid = false;
-    }
+    try {
+      this.loaderService.requestStarted();
+      if (this.request.NearestGovernmentHospitalsList.length >= 10) {
+        this.toastr.error("You can't add more then 10.");
+        return
+      }
+      this.isSubmitted_NearestGovernmentHospitals = true;
+      let isValid = true;
+      if (this.CollegeDetailsForm_NearestGovernmentHospitals.invalid) {
+        isValid = false;
+      }
+      if (!this.CustomValidate_NearestGovernmentHospitals()) {
+        isValid = false;
+      }
+      if (this.HospitalDocumentValidationMessage != '') {
+        isValid = false;
+      }
 
-    // all validate
-    if (!isValid) {
-      return;
+      // all validate
+      if (!isValid) {
+        return;
+      }
+
+      // some filter names
+      this.request_NearestGovernmentHospitals.DivisionName = this.DivisionList.find((x: { DivisionID: number }) => x.DivisionID == this.request_NearestGovernmentHospitals.DivisionID)?.DivisionName;
+      this.request_NearestGovernmentHospitals.DistrictName = this.DistrictList_Nearest.find((x: { DistrictID: number }) => x.DistrictID == this.request_NearestGovernmentHospitals.DistrictID)?.DistrictName;
+      // rural/urban
+      this.request_NearestGovernmentHospitals.RuralUrbanName = this.request_NearestGovernmentHospitals.RuralUrban == 1 ? 'Rural' : 'Urban';
+      if (this.request_NearestGovernmentHospitals.RuralUrban == 1) {
+        this.request_NearestGovernmentHospitals.TehsilName = this.TehsilList_Nearest.find((x: { TehsilID: number }) => x.TehsilID == this.request_NearestGovernmentHospitals.TehsilID)?.TehsilName;
+        this.request_NearestGovernmentHospitals.PanchayatSamitiName = this.PanchyatSamitiList_Nearest.find((x: { PanchyatSamitiID: number }) => x.PanchyatSamitiID == this.request_NearestGovernmentHospitals.PanchayatSamitiID)?.PanchyatSamitiName;
+      }
+      // add
+      this.request.NearestGovernmentHospitalsList.push(this.request_NearestGovernmentHospitals);
+      // reset
+      this.request_NearestGovernmentHospitals = new NearestGovernmentHospitalsDataModel();
+
+      //this.request.NearestGovernmentHospitalsList.push({
+      //  CollegeDetailsID: 0,
+      //  NearestGovernmentHospitalsID: 0,
+      //  HospitalName: this.request_NearestGovernmentHospitals.HospitalName,
+      //  HospitalRegNo: this.request_NearestGovernmentHospitals.HospitalRegNo,
+      //  HospitalDocument: this.request_NearestGovernmentHospitals.HospitalDocument,
+      //  AddressLine1: this.request_NearestGovernmentHospitals.AddressLine1,
+      //  AddressLine2: this.request_NearestGovernmentHospitals.AddressLine2,
+      //  RuralUrban: this.request_NearestGovernmentHospitals.RuralUrban,
+      //  DivisionID: this.request_NearestGovernmentHospitals.DivisionID,
+      //  DistrictID: this.request_NearestGovernmentHospitals.DistrictID,
+      //  TehsilID: this.request_NearestGovernmentHospitals.TehsilID,
+      //  PanchayatSamitiID: this.request_NearestGovernmentHospitals.PanchayatSamitiID,
+      //  CityTownVillage: this.request_NearestGovernmentHospitals.CityTownVillage,
+      //  Pincode: this.request_NearestGovernmentHospitals.Pincode,
+      //  HospitalDistance: this.request_NearestGovernmentHospitals.HospitalDistance,
+      //});
+      // reset    
+      //this.request_NearestGovernmentHospitals.HospitalName = '';
+      //this.request_NearestGovernmentHospitals.HospitalRegNo = null;
+      //this.request_NearestGovernmentHospitals.HospitalDocument = '';
+      //this.request_NearestGovernmentHospitals.AddressLine1 = '';
+      //this.request_NearestGovernmentHospitals.AddressLine2 = '';
+      //this.request_NearestGovernmentHospitals.RuralUrban = null;
+      //this.request_NearestGovernmentHospitals.DivisionID = 0;
+      //this.request_NearestGovernmentHospitals.DistrictID = 0;
+      //this.request_NearestGovernmentHospitals.TehsilID = 0;
+      //this.request_NearestGovernmentHospitals.PanchayatSamitiID = 0;
+      //this.request_NearestGovernmentHospitals.CityTownVillage = '';
+      //this.request_NearestGovernmentHospitals.Pincode = null;
+      //this.request_NearestGovernmentHospitals.HospitalDistance = 0;
+
+      this.ResetFileAndValidation('HospitalDocument', '', '', '', '', false);
+
+      this.isSubmitted_NearestGovernmentHospitals = false;
     }
-
-    // some filter names
-    this.request_NearestGovernmentHospitals.DivisionName = this.DivisionList.find((x: { DivisionID: number }) => x.DivisionID == this.request_NearestGovernmentHospitals.DivisionID)?.DivisionName;
-    this.request_NearestGovernmentHospitals.DistrictName = this.DistrictList_Nearest.find((x: { DistrictID: number }) => x.DistrictID == this.request_NearestGovernmentHospitals.DistrictID)?.DistrictName;
-    // rural/urban
-    this.request_NearestGovernmentHospitals.RuralUrbanName = this.request_NearestGovernmentHospitals.RuralUrban == 1 ? 'Rural' : 'Urban';
-    if (this.request_NearestGovernmentHospitals.RuralUrban == 1) {
-      this.request_NearestGovernmentHospitals.TehsilName = this.TehsilList_Nearest.find((x: { TehsilID: number }) => x.TehsilID == this.request_NearestGovernmentHospitals.TehsilID)?.TehsilName;
-      this.request_NearestGovernmentHospitals.PanchayatSamitiName = this.PanchyatSamitiList_Nearest.find((x: { PanchyatSamitiID: number }) => x.PanchyatSamitiID == this.request_NearestGovernmentHospitals.PanchayatSamitiID)?.PanchyatSamitiName;
+    catch (Ex) {
+      console.log(Ex);
     }
-    // add
-    this.request.NearestGovernmentHospitalsList.push(this.request_NearestGovernmentHospitals);
-    // reset
-    this.request_NearestGovernmentHospitals = new NearestGovernmentHospitalsDataModel();
-
-    //this.request.NearestGovernmentHospitalsList.push({
-    //  CollegeDetailsID: 0,
-    //  NearestGovernmentHospitalsID: 0,
-    //  HospitalName: this.request_NearestGovernmentHospitals.HospitalName,
-    //  HospitalRegNo: this.request_NearestGovernmentHospitals.HospitalRegNo,
-    //  HospitalDocument: this.request_NearestGovernmentHospitals.HospitalDocument,
-    //  AddressLine1: this.request_NearestGovernmentHospitals.AddressLine1,
-    //  AddressLine2: this.request_NearestGovernmentHospitals.AddressLine2,
-    //  RuralUrban: this.request_NearestGovernmentHospitals.RuralUrban,
-    //  DivisionID: this.request_NearestGovernmentHospitals.DivisionID,
-    //  DistrictID: this.request_NearestGovernmentHospitals.DistrictID,
-    //  TehsilID: this.request_NearestGovernmentHospitals.TehsilID,
-    //  PanchayatSamitiID: this.request_NearestGovernmentHospitals.PanchayatSamitiID,
-    //  CityTownVillage: this.request_NearestGovernmentHospitals.CityTownVillage,
-    //  Pincode: this.request_NearestGovernmentHospitals.Pincode,
-    //  HospitalDistance: this.request_NearestGovernmentHospitals.HospitalDistance,
-    //});
-    // reset    
-    //this.request_NearestGovernmentHospitals.HospitalName = '';
-    //this.request_NearestGovernmentHospitals.HospitalRegNo = null;
-    //this.request_NearestGovernmentHospitals.HospitalDocument = '';
-    //this.request_NearestGovernmentHospitals.AddressLine1 = '';
-    //this.request_NearestGovernmentHospitals.AddressLine2 = '';
-    //this.request_NearestGovernmentHospitals.RuralUrban = null;
-    //this.request_NearestGovernmentHospitals.DivisionID = 0;
-    //this.request_NearestGovernmentHospitals.DistrictID = 0;
-    //this.request_NearestGovernmentHospitals.TehsilID = 0;
-    //this.request_NearestGovernmentHospitals.PanchayatSamitiID = 0;
-    //this.request_NearestGovernmentHospitals.CityTownVillage = '';
-    //this.request_NearestGovernmentHospitals.Pincode = null;
-    //this.request_NearestGovernmentHospitals.HospitalDistance = 0;
-
-    this.ResetFileAndValidation('HospitalDocument', '', '', '', '', false);
-
-    this.isSubmitted_NearestGovernmentHospitals = false;
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   DelContectDetail(item: ContactDetailsDataModel) {
-    //debugger
-    if (confirm("Are you sure you want to delete this ?")) {
-      const index: number = this.request.ContactDetailsList.indexOf(item);
-      if (index != -1) {
-        this.request.ContactDetailsList.splice(index, 1)
+    try {
+      this.loaderService.requestStarted();
+      //debugger
+      if (confirm("Are you sure you want to delete this ?")) {
+        const index: number = this.request.ContactDetailsList.indexOf(item);
+        if (index != -1) {
+          this.request.ContactDetailsList.splice(index, 1)
+        }
       }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   DelNearestGovernmentHospitalsDetail(item: NearestGovernmentHospitalsDataModel) {
     //debugger
-    if (confirm("Are you sure you want to delete this ?")) {
-      const index: number = this.request.NearestGovernmentHospitalsList.indexOf(item);
-      if (index != -1) {
-        this.request.NearestGovernmentHospitalsList.splice(index, 1)
+    try {
+      this.loaderService.requestStarted();
+      if (confirm("Are you sure you want to delete this ?")) {
+        const index: number = this.request.NearestGovernmentHospitalsList.indexOf(item);
+        if (index != -1) {
+          this.request.NearestGovernmentHospitalsList.splice(index, 1)
+        }
       }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
@@ -805,6 +926,7 @@ export class AddCollegeComponent implements OnInit {
 
     // all validate
     if (!isValid) {
+      console.log(this.CollegeDetailsForm);
       return;
     }
 
@@ -852,34 +974,30 @@ export class AddCollegeComponent implements OnInit {
     }
   }
 
-  CustomValidate() {
-    let isValid = true;
-    if (this.request.CollegeLogo == null || this.request.CollegeLogo == undefined || this.request.CollegeLogo == '') {
-      isValid = false;
-      this.ProfileLogoValidationMessage = 'This field is required .!';
-    }
-    if (this.request.NAACAccreditedCertificate == null || this.request.NAACAccreditedCertificate == undefined || this.request.NAACAccreditedCertificate == '') {
-      isValid = false;
-      this.NAACAccreditedCertificateValidationMessage = 'This field is required .!';
-    }
-    if (this.ProfileLogoValidationMessage != '') {
-      isValid = false;
-    }
+  CustomValidate() {    
+      let isValid = true;
+      if (this.request.CollegeLogo == null || this.request.CollegeLogo == undefined || this.request.CollegeLogo == '') {
+        isValid = false;
+        this.ProfileLogoValidationMessage = 'This field is required .!';
+      }
+      if (this.ProfileLogoValidationMessage != '') {
+        isValid = false;
+      }
 
-    return isValid;
+      return isValid;    
   }
 
   CustomValidate_NearestGovernmentHospitals() {
-    let isValid = true;
-    if (this.request_NearestGovernmentHospitals.HospitalDocument == null || this.request_NearestGovernmentHospitals.HospitalDocument == undefined || this.request_NearestGovernmentHospitals.HospitalDocument == '') {
-      isValid = false;
-      this.HospitalDocumentValidationMessage = 'This field is required .!';
-    }
-    if (this.HospitalDocumentValidationMessage != '') {
-      isValid = false;
-    }
+      let isValid = true;
+      if (this.request_NearestGovernmentHospitals.HospitalDocument == null || this.request_NearestGovernmentHospitals.HospitalDocument == undefined || this.request_NearestGovernmentHospitals.HospitalDocument == '') {
+        isValid = false;
+        this.HospitalDocumentValidationMessage = 'This field is required .!';
+      }
+      if (this.HospitalDocumentValidationMessage != '') {
+        isValid = false;
+      }
 
-    return isValid;
+      return isValid;    
   }
 
   async GetData() {
@@ -890,7 +1008,7 @@ export class AddCollegeComponent implements OnInit {
     try {
       await this.collegeService.GetData(this.QueryStringCollageID)
         .then(async (data: any) => {
-          debugger;
+          
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -901,9 +1019,9 @@ export class AddCollegeComponent implements OnInit {
             this.request.GCD_MobileNumber = null;
           }
           //console.log(this.request.RuralUrban);
-          
-          await this.IsAISHECodeStatusOrNot(this.request.AISHECodeStatus == 1 ? true : false) 
-            
+
+          await this.IsAISHECodeStatusOrNot(this.request.AISHECodeStatus == 1 ? true : false)
+
           await this.IsCollegeNAACAccreditedOrNot(this.request.CollegeNAACAccredited == 1 ? true : false)
           // department ddl
           await this.FillDepartmentRelatedDDL(null, this.request.DepartmentID.toString());

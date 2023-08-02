@@ -137,8 +137,7 @@ const routes: Routes = [
 
 
   {
-    path: '',
-    component: MasterPageComponent,
+    path: '',component: MasterPageComponent,
     children: [
       {
         path: 'dashboard', component: DashboardComponent

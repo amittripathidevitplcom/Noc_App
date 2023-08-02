@@ -14,6 +14,8 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
+import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 
 @Component({
   selector: 'app-preview-hospital-detail',
@@ -32,8 +34,9 @@ export class PreviewHospitalDetailComponent implements OnInit {
   public HospitalData: any = {};
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
+  LegalEntityDataModel = new LegalEntityDataModel();
 
-  constructor(private modalService: NgbModal,private hospitalDetailService: HospitalDetailService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
+  constructor(private toastr: ToastrService,private TrusteeGeneralInfoService: TrusteeGeneralInfoService,private modalService: NgbModal,private hospitalDetailService: HospitalDetailService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -41,6 +44,7 @@ export class PreviewHospitalDetailComponent implements OnInit {
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     await this.GetHospitalDataList();
     await this.IsSuperSpecialtyHospital();
+    await this.GetLegalEntityData();
   }
   async IsSuperSpecialtyHospital() {
     try {
@@ -120,6 +124,33 @@ export class PreviewHospitalDetailComponent implements OnInit {
       return 'by clicking on a backdrop';
     } else {
       return `with: ${reason}`;
+    }
+  }
+
+  async GetLegalEntityData() {
+    try {
+      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          debugger;
+          if (this.State == 0) {
+            this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.SuccessMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 }

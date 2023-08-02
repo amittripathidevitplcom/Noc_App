@@ -26,12 +26,44 @@
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
               </tr>
-              <tr  *ngIf="request.DocumentDetails.length<=0">
+              <tr *ngIf="request.DocumentDetails.length<=0">
                 <td colspan="10" style="color:red">No Data Found.!</td>
               </tr>
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="SelectedDepartmentID==6">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>&nbsp;Hospital Related Documents</b>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Document Name</th>
+              <th>File</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of HospitalRealtedDocuments ; let indexOfelement=index;">
+              <td> {{indexOfelement+1}}</td>
+              <td>{{item.DocumentName}}</td>
+              <td>
+                <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{item.FilePath}}" alt="File Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </td>
+            </tr>
+            <tr *ngIf="HospitalRealtedDocuments.length<=0">
+              <td colspan="10" style="color:red">No Data Found.!</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

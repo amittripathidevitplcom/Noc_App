@@ -253,10 +253,21 @@ export class RoomDetailsComponent implements OnInit {
     }
   }
   DeleteImage() {
-    this.showImageFilePath = false;
-    this.request.ImageFileName = '';
-    this.request.ImageFilePath = '';
-    this.request.Image_Dis_FileName = '';
+    try {
+      this.loaderService.requestStarted();
+      this.showImageFilePath = false;
+      this.request.ImageFileName = '';
+      this.request.ImageFilePath = '';
+      this.request.Image_Dis_FileName = '';
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
   async SaveData() {
     this.WidthMin = this.WidthMin1;
@@ -325,125 +336,135 @@ export class RoomDetailsComponent implements OnInit {
 
 
   async ResetControl() {
-    const ddlCourse_Room = document.getElementById('ddlCourse_Room')
-    if (ddlCourse_Room) ddlCourse_Room.focus();
-
-    this.isSubmitted = false;
-    this.request.CollegeWiseRoomID = 0;
-    this.request.CourseID = 0;
-    this.request.Width = 0;
-    this.request.Length = 0;
-    this.request.StudentCapacity = 0;
-    this.request.ImageFileName = '';
-    this.request.ImageFilePath = '';
-    this.request.Image_Dis_FileName = '';
-    this.request.UserID = 0;
-    this.isDisabledGrid = false;
-    this.showImageFilePath = false;
-    this.GetRoomDetailAllList();
-    const btnSave = document.getElementById('btnSave')
-    if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
-    const btnReset = document.getElementById('')
-    if (btnReset) btnReset.innerHTML = "Reset";
-  }
-
-  async GetRoomDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.roomDetailsService.GetRoomDetailAllList(this.UserID, this.SelectedCollageID)
-        .then((data: any) => {
+      const ddlCourse_Room = document.getElementById('ddlCourse_Room')
+      if (ddlCourse_Room) ddlCourse_Room.focus();
 
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.RoomDetails = data['Data'][0]['data'];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-  async Edit_OnClick(CollegeWiseRoomID: number) {
-    this.isSubmitted = false;
-    try {
-      this.loaderService.requestStarted();
-      await this.roomDetailsService.GetRoomDetailsByID(CollegeWiseRoomID, this.UserID)
-        .then((data: any) => {
-
-          data = JSON.parse(JSON.stringify(data));
-          this.request.CollegeID = data['Data'][0]["CollegeID"];
-          this.request.CollegeWiseRoomID = data['Data'][0]["CollegeWiseRoomID"];
-          this.request.CourseID = data['Data'][0]["CourseID"];
-          this.request.Width = data['Data'][0]["Width"];
-          this.request.Length = data['Data'][0]["Length"];
-          this.request.StudentCapacity = data['Data'][0]["StudentCapacity"];
-          this.request.ImageFilePath = data['Data'][0]["ImageFilePath"];
-          this.request.ImageFileName = data['Data'][0]["ImageFileName"];
-          this.request.Image_Dis_FileName = data['Data'][0]["Image_Dis_FileName"];
-          this.showImageFilePath = true;
-          this.isDisabledGrid = true;
-
-          const btnSave = document.getElementById('btnSave')
-          if (btnSave) btnSave.innerHTML = "Update";
-          const btnReset = document.getElementById('btnReset')
-          if (btnReset) btnReset.innerHTML = "Reset";
-
-        }, error => console.error(error));
+      this.isSubmitted = false;
+      this.request.CollegeWiseRoomID = 0;
+      this.request.CourseID = 0;
+      this.request.Width = 0;
+      this.request.Length = 0;
+      this.request.StudentCapacity = 0;
+      this.request.ImageFileName = '';
+      this.request.ImageFilePath = '';
+      this.request.Image_Dis_FileName = '';
+      this.request.UserID = 0;
+      this.isDisabledGrid = false;
+      this.showImageFilePath = false;
+      this.GetRoomDetailAllList();
+      const btnSave = document.getElementById('btnSave')
+      if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
+      const btnReset = document.getElementById('')
+      if (btnReset) btnReset.innerHTML = "Reset";
     }
     catch (ex) { console.log(ex) }
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
+        this.isLoading = false;
       }, 200);
     }
-
   }
 
-  async Delete_OnClick(CollegeWiseRoomID: number) {
-    this.isSubmitted = false;
-    try {
-      if (confirm("Are you sure you want to delete this ?")) {
+  async GetRoomDetailAllList() {
+      try {
         this.loaderService.requestStarted();
-        await this.roomDetailsService.DeleteData(CollegeWiseRoomID, this.UserID)
+        await this.roomDetailsService.GetRoomDetailAllList(this.UserID, this.SelectedCollageID)
           .then((data: any) => {
+
+            data = JSON.parse(JSON.stringify(data));
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
-            if (this.State == 0) {
-              this.toastr.success(this.SuccessMessage)
-              this.GetRoomDetailAllList();
-            }
-            else {
-              this.toastr.error(this.ErrorMessage)
-            }
-          })
+            this.RoomDetails = data['Data'][0]['data'];
+          }, error => console.error(error));
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
       }
     }
-    catch (ex) { }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
 
-  btnCopyTable_Click() {
-    const tabellist = document.getElementById('tabellist')
-    if (tabellist) {
+  async Edit_OnClick(CollegeWiseRoomID: number) {
+      this.isSubmitted = false;
+      try {
+        this.loaderService.requestStarted();
+        await this.roomDetailsService.GetRoomDetailsByID(CollegeWiseRoomID, this.UserID)
+          .then((data: any) => {
 
-      this.clipboard.copy(tabellist.innerText);
+            data = JSON.parse(JSON.stringify(data));
+            this.request.CollegeID = data['Data'][0]["CollegeID"];
+            this.request.CollegeWiseRoomID = data['Data'][0]["CollegeWiseRoomID"];
+            this.request.CourseID = data['Data'][0]["CourseID"];
+            this.request.Width = data['Data'][0]["Width"];
+            this.request.Length = data['Data'][0]["Length"];
+            this.request.StudentCapacity = data['Data'][0]["StudentCapacity"];
+            this.request.ImageFilePath = data['Data'][0]["ImageFilePath"];
+            this.request.ImageFileName = data['Data'][0]["ImageFileName"];
+            this.request.Image_Dis_FileName = data['Data'][0]["Image_Dis_FileName"];
+            this.showImageFilePath = true;
+            this.isDisabledGrid = true;
+
+            const btnSave = document.getElementById('btnSave')
+            if (btnSave) btnSave.innerHTML = "Update";
+            const btnReset = document.getElementById('btnReset')
+            if (btnReset) btnReset.innerHTML = "Reset";
+
+          }, error => console.error(error));
+      }
+      catch (ex) { console.log(ex) }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+
     }
-  }
-  btnExportTable_Click(): void {
-    this.loaderService.requestStarted();
-    if (this.RoomDetails.length > 0) {
+
+  async Delete_OnClick(CollegeWiseRoomID: number) {
+      this.isSubmitted = false;
+      try {
+        if (confirm("Are you sure you want to delete this ?")) {
+          this.loaderService.requestStarted();
+          await this.roomDetailsService.DeleteData(CollegeWiseRoomID, this.UserID)
+            .then((data: any) => {
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              if (this.State == 0) {
+                this.toastr.success(this.SuccessMessage)
+                this.GetRoomDetailAllList();
+              }
+              else {
+                this.toastr.error(this.ErrorMessage)
+              }
+            })
+        }
+      }
+      catch (ex) { }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+    }
+
+    btnCopyTable_Click() {
+      const tabellist = document.getElementById('tabellist')
+      if (tabellist) {
+
+        this.clipboard.copy(tabellist.innerText);
+      }
+    }
+    btnExportTable_Click(): void {
+      this.loaderService.requestStarted();
+      if(this.RoomDetails.length > 0) {
       try {
         this.isLoadingExport = true;
         /* table id is passed over here */
