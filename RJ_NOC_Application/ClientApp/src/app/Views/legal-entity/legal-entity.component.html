@@ -234,7 +234,7 @@
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="">Name <span style="color:red">*</span></label>
-                <input class="form-control" id="txtSocietyName" [(ngModel)]="request.SocietyName" formControlName="txtSocietyName" (keypress)="alphaOnly($event)"/>
+                <input class="form-control" id="txtSocietyName" [(ngModel)]="request.SocietyName" formControlName="txtSocietyName" (keypress)="alphaOnly($event)" />
                 <div *ngIf="isSubmitted&&form.txtSocietyName.errors" class="text-danger">
                   <p *ngIf="form.txtSocietyName.errors.required">  This field is required .!</p>
                 </div>
@@ -307,6 +307,7 @@
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="">Date of Election of Present Management Committee <span *ngIf="IsNotMoreThen3Year" style="color:red">*</span></label>
                 <input class="form-control" type="date" id="txtElectionPresentManagementCommitteeDate" [(ngModel)]="request.ElectionPresentManagementCommitteeDate" formControlName="txtElectionPresentManagementCommitteeDate" min="{{MinDate_ElectionPresentManagementCommitteeDate | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}" [disabled]="IsNotMoreThen3Year" (change)="ElectionPresentManagementCommitteeDate_Change()" [attr.disabled]="isDisabledCommitteeDate ? true : null" onkeypress="return false;" />
+
                 <div *ngIf="isSubmitted&&form.txtElectionPresentManagementCommitteeDate.errors" class="text-danger">
                   <p *ngIf="form.txtElectionPresentManagementCommitteeDate.errors.required"> This field is required .!</p>
                 </div>
@@ -379,15 +380,15 @@
                   <p *ngIf="form.txtManagementCommitteecertified.errors.required">This field is required .!</p>
                 </div>
               </div>
-              
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="">Aadhaar Number Of President  <span style="color:red">*</span></label>
-                <input class="form-control" id="txtPresidentAadhaarNumber" [(ngModel)]="request.PresidentAadhaarNumber" formControlName="txtPresidentAadhaarNumber" [attr.disabled]="isDisabledNewRegistration ? true : null" maxlength="12" (keypress)="numberOnly($event)" />
-                <div *ngIf="isSubmitted&&form.txtPresidentAadhaarNumber.errors" class="text-danger">
-                  <p *ngIf="form.txtPresidentAadhaarNumber.errors.required"> This field is required .!</p>
-                  <p *ngIf="form.txtPresidentAadhaarNumber.errors.pattern || form.txtPresidentAadhaarNumber.errors.maxlength || form.txtPresidentAadhaarNumber.errors.minlength"> Invalid Aadhaar No.</p>
-                </div>
-              </div>
+
+              <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+    <label for="">Aadhaar Number Of President  <span style="color:red">*</span></label>
+    <input class="form-control" id="txtPresidentAadhaarNumber" [(ngModel)]="request.PresidentAadhaarNumber" formControlName="txtPresidentAadhaarNumber" [attr.disabled]="isDisabledNewRegistration ? true : null" maxlength="12" (keypress)="numberOnly($event)" />
+    <div *ngIf="isSubmitted&&form.txtPresidentAadhaarNumber.errors" class="text-danger">
+      <p *ngIf="form.txtPresidentAadhaarNumber.errors.required"> This field is required .!</p>
+      <p *ngIf="form.txtPresidentAadhaarNumber.errors.pattern || form.txtPresidentAadhaarNumber.errors.maxlength || form.txtPresidentAadhaarNumber.errors.minlength"> Invalid Aadhaar No.</p>
+    </div>
+  </div>-->
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for=""> PAN Number <span style="color:red">*</span></label>
                 <input class="form-control" id="txtSocietyPANNumber" [(ngModel)]="request.SocietyPANNumber" formControlName="txtSocietyPANNumber" maxlength="10" (ngModelChange)="request.SocietyPANNumber = $event.toUpperCase()" />
@@ -434,7 +435,7 @@
                   <p *ngIf="isValidTrusteeMemberProofDoc"> {{ImageValidationMessage_TrusteeMemberProofDoc}}</p>
                 </div>
               </div>
-              
+
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="txtSocietyPanProofDoc"> Pan Proof<span style="color:red">*</span></label>
                 <div class="d-flex">

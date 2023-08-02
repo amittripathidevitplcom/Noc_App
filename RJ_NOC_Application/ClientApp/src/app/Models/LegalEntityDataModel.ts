@@ -13,7 +13,7 @@ export class LegalEntityDataModel {
   public RegisteredActID: number = 0;
   public RegisteredActName: string = '';
   public SocietyRegistrationDate: string = '';
-  public ElectionPresentManagementCommitteeDate: string = '';
+  public ElectionPresentManagementCommitteeDate: any = null;
   public SocietyRegisteredAddress: string = '';
   public Pincode: string = '';
   public Dis_TrustLogoDocName: string = '';
