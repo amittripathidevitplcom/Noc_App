@@ -12,6 +12,8 @@ import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../..
 import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
+import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 
 @Component({
   selector: 'app-document-scrutiny-hospital-details',
@@ -38,8 +40,9 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
+  LegalEntityDataModel = new LegalEntityDataModel();
 
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
+  constructor( private TrusteeGeneralInfoService: TrusteeGeneralInfoService,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -48,6 +51,7 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
     this.SelectedApplyNOCID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     await this.GetHospitalDataList();
     await this.IsSuperSpecialtyHospital();
+    await this.GetLegalEntityData();
   }
   async IsSuperSpecialtyHospital() {
     try {
@@ -215,6 +219,33 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
     } catch (Ex) {
       console.log(Ex);
     }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetLegalEntityData() {
+    try {
+      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          debugger;
+          if (this.State == 0) {
+            this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.SuccessMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();

@@ -26,6 +26,7 @@
                 <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
                 <th>Sr. No.</th>
                 <th>Facility Name</th>
+                <th>No of </th>
                 <th>Minimum Size</th>
                 <th>Image/File</th>
               </tr>
@@ -54,16 +55,17 @@
 
                 <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
                   Compliance: {{item.C_Action}}<br />
-                                               <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+                  <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
                 </td>
                 <td *ngIf="sSOLoginDataModel.RoleID==5">
                   Compliance: {{item.S_Action}}<br />
-                                               <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+                  <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
                 </td>
                 <td> {{indexOfelement+1}}</td>
                 <td>
                   {{item.FacilitiesName}}
                 </td>
+                <td>{{item.NoOf}}</td>
                 <td>
                   {{item.MinSize}}
                 </td>

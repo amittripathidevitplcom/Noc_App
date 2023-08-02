@@ -174,11 +174,11 @@ export class LegalEntityComponent implements OnInit {
           OtherInstitution: ['', Validators.required],
           WomenMembers: ['', Validators.required],
           DateOfElection: ['', Validators.required],
-          txtManagementCommitteecertified: ['', Validators.required, Validators.pattern('^[a-zA-Z \-\']+')],          
+          txtManagementCommitteecertified: ['', Validators.required, Validators.pattern('^[a-zA-Z \-\']+')],
           txtSocietyPANNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[A-Za-z]{5}[0-9]{4}[A-Za-z]$")]],
           txtSocietyPanProofDoc: [''],
           txtRegisteredActName: ['']
-         
+
         });
       this.legalentityAddMemberForm = this.formBuilder.group(
         {
@@ -402,7 +402,7 @@ export class LegalEntityComponent implements OnInit {
       if (this.request.TrusteeMemberProofDoc == '') {
         this.ImageValidationMessage_TrusteeMemberProofDoc = 'This field is required .!';
         isValid = false;
-      }      
+      }
       if (this.request.SocietyPanProofDoc == '') {
         this.ImageValidationMessage_SocietyPanProofDoc = 'This field is required .!';
         isValid = false;
@@ -476,7 +476,7 @@ export class LegalEntityComponent implements OnInit {
           this.isMemberSignature = this.memberdetails.MemberSignature == '' ? true : false;
           this.isPresidentAadhaarProofDoc = this.memberdetails.PresidentAadhaarProofDoc == '' ? true : false;
           return;
-        }        
+        }
         if (this.request.MemberDetails.length > 0) {
           var result = this.request.MemberDetails.filter(obj => {
             return obj.MemberPostID === this.memberdetails.MemberPostID
@@ -858,8 +858,7 @@ export class LegalEntityComponent implements OnInit {
   }
 
 
-  async OpenAadharOTPModel()
-  {
+  async OpenAadharOTPModel() {
 
 
     console.log(this.legalentityForm_Registration.controls);
@@ -869,19 +868,16 @@ export class LegalEntityComponent implements OnInit {
     }
     this.UserOTP = '';
     this.MaskedMobileNo = '';
-    try
-    {
+    try {
+      this.loaderService.requestStarted();
       this.AadharRequest.AadharNo = this.request.PresidentAadhaarNumber;
       await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
-        .then((data: any) =>
-        {
-          if (data[0].status == "0")
-          {
+        .then((data: any) => {
+          if (data[0].status == "0") {
             this.TransactionNo = data[0].data;
             this.toastr.success("OTP send Successfully");
           }
-          else
-          {
+          else {
             this.toastr.error(data[0].message);
           }
           console.log(data[0]);
@@ -900,8 +896,7 @@ export class LegalEntityComponent implements OnInit {
     }
   }
 
-  async VerifyOTP()
-  {
+  async VerifyOTP() {
     try {
 
       this.loaderService.requestStarted();
@@ -918,20 +913,17 @@ export class LegalEntityComponent implements OnInit {
       this.AadharRequest.OTP = this.UserOTP;
       await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
         .then((data: any) => {
-          if (data[0].status == "0")
-          {
+          if (data[0].status == "0") {
             this.toastr.success("OTP Verify Successfully");
             this.VerifiedOTP = true;
           }
-          else
-          {
+          else {
             this.toastr.error(data[0].message);
           }
         }, error => console.error(error));
 
 
-      if (this.VerifiedOTP || this.CustomOTP == this.UserOTP)
-      {
+      if (this.VerifiedOTP || this.CustomOTP == this.UserOTP) {
         if (this.OldRegistrationNo != '') {
           this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo)
             .then((data: any) => {
@@ -1112,23 +1104,20 @@ export class LegalEntityComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.timer(1);
-  
+
       this.AadharRequest.AadharNo = this.request.PresidentAadhaarNumber;
       await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
         .then((data: any) => {
-          if (data[0].status == "0")
-          {
+          if (data[0].status == "0") {
             this.TransactionNo = data[0].data;
             this.toastr.success("OTP Resend Successfully");
           }
-          else
-          {
+          else {
             this.toastr.success(data[0].message);
           }
         }, error => console.error(error));
     }
-    catch (Ex)
-    {
+    catch (Ex) {
       console.log(Ex);
     }
     finally {
@@ -1139,10 +1128,8 @@ export class LegalEntityComponent implements OnInit {
   }
 
 
-  async ValidateDocument(event: any, Type: string)
-  {
-    try
-    {
+  async ValidateDocument(event: any, Type: string) {
+    try {
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;

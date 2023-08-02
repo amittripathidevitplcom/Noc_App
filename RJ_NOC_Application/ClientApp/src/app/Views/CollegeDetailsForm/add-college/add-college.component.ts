@@ -926,6 +926,7 @@ export class AddCollegeComponent implements OnInit {
 
     // all validate
     if (!isValid) {
+      console.log(this.CollegeDetailsForm);
       return;
     }
 
@@ -978,10 +979,6 @@ export class AddCollegeComponent implements OnInit {
       if (this.request.CollegeLogo == null || this.request.CollegeLogo == undefined || this.request.CollegeLogo == '') {
         isValid = false;
         this.ProfileLogoValidationMessage = 'This field is required .!';
-      }
-      if (this.request.NAACAccreditedCertificate == null || this.request.NAACAccreditedCertificate == undefined || this.request.NAACAccreditedCertificate == '') {
-        isValid = false;
-        this.NAACAccreditedCertificateValidationMessage = 'This field is required .!';
       }
       if (this.ProfileLogoValidationMessage != '') {
         isValid = false;

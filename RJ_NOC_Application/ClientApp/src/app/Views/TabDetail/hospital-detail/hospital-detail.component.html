@@ -1713,7 +1713,7 @@
         </div>
       </div>
       <div>
-        <div class="card" *ngIf="LegalEntityDataModel!=null && HospitalData.ParentHospitalID==1">
+        <div class="card" *ngIf="LegalEntityDataModel!=null && HospitalData.HospitalStatus=='Own'">
           <div class="card-header">
             <b>
               <i class="bi bi-table"></i>&nbsp; {{LegalEntityDataModel.LegalEntity}} Detail
@@ -1758,14 +1758,10 @@
         </div>
         <div class="card">
           <div class="card-header" *ngIf="HospitalData.ParentHospitalID==2">
-            <b>
               <b> Which affiliated hospitals would the organization like to associate with for clinical training </b>
-            </b>
           </div>
           <div class="card-header" *ngIf="HospitalData.ParentHospitalID==1">
-            <b>
               <b> Hospital Detail </b>
-            </b>
           </div>
 
           <div class="card-body">
