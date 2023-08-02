@@ -27,6 +27,11 @@ export class FarmLandDetailDataModel {
   public LandType: string = '';
   public SourceIrrigation: string = '';
   public ActiveStatus: boolean = true;
+
+  public DivisionName: string = '';
+  public DistrictName: string = '';
+  public TehsilName: string = '';
+  public PanchayatSamitiName: string = '';
   
   public Action: string = '';
   public Remark: string = '';

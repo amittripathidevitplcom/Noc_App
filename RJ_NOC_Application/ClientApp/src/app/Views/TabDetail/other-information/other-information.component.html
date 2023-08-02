@@ -23,6 +23,22 @@
               <p *ngIf="!form.OtherInformation_ddlCourse.errors.DropdownValidators">This field is required .!</p>
             </div>
           </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>No. of Rooms<span style="color:red;">*</span></label>
+            <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="request.NoOfRooms" formControlName="txtNoOfRooms_Room" min="1"
+                   (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted&&form.txtNoOfRooms_Room.errors" class="text-danger">
+              <p *ngIf="form.txtNoOfRooms_Room.errors.required">This field is required .!</p>
+              <p *ngIf="form.txtNoOfRooms_Room.errors.min">Room will be greater than zero .!</p>
+            </div>
+
+            <div *ngIf="request.CourseID>0">
+              <p *ngIf="MinNoOfRooms>0" class="{{request.NoOfRooms >= MinNoOfRooms ? '' : CssClass_TextDangerNoOfRooms}}">Please Enter Min No. of Rooms : {{MinNoOfRooms}}</p>
+            </div>
+
+          </div>
+
+
           <div class="col-md-3 mb-2">
             <label>Width (In Feet)<span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="OtherInformation_txtWidth" name="OtherInformation_txtWidth"
@@ -40,7 +56,7 @@
           <div class="col-md-3 mb-2">
             <label>Length (In Feet)<span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="OtherInformation_txtLength" name="OtherInformation_txtLength"
-                   placeholder="Enter Length (In Feet)" 
+                   placeholder="Enter Length (In Feet)"
                    [(ngModel)]="request.Length" formControlName="OtherInformation_txtLength" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.OtherInformation_txtLength.errors" class="text-danger">
               <p *ngIf="form.OtherInformation_txtLength.errors.required">This field is required .!</p>
@@ -125,6 +141,7 @@
                       <tr>
                         <th>Sr. No.</th>
                         <th>Course</th>
+                        <th>No. of Rooms</th>
                         <th>Width (In Feet) Size</th>
                         <th>Length (In Feet)</th>
                         <th>Number Of Books</th>
@@ -137,6 +154,7 @@
                       <tr *ngFor="let row of OtherInformation | tableSearchFilter:searchText;let idx=index;">
                         <td>{{idx+1}}</td>
                         <td>{{row.CourseName}}</td>
+                        <td>{{row.NoOfRooms}}</td>
                         <td>{{row.Width}}</td>
                         <td>{{row.Length}}</td>
                         <td>{{row.NoofBooks}}</td>

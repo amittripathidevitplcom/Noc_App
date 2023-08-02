@@ -166,6 +166,7 @@ import { JointSecretaryPendingNOCReportComponent } from './Views/Reports/Medical
 import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committee-forward-report/committee-forward-report.component';
 import { ApplyNOCCompletedReportComponent } from './Views/Reports/Medical/apply-noccompleted-report/apply-noccompleted-report.component';
 import { FarmLandDetailsComponent } from './Views/TabDetail/farm-land-details/farm-land-details.component';
+import { PreviewFarmLandDetailsComponent } from './Views/PreviewTabs/preview-farm-land-details/preview-farm-land-details.component';
 
 
 @NgModule({
@@ -327,6 +328,7 @@ import { FarmLandDetailsComponent } from './Views/TabDetail/farm-land-details/fa
     StreamSubjectMappingComponent,
     ApplyNOCCompletedReportComponent,
     FarmLandDetailsComponent,
+    PreviewFarmLandDetailsComponent,
 
   ],
   imports: [

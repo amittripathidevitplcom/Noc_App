@@ -63,11 +63,11 @@
           <button mat-button matStepperNext>Next</button>
         </mat-step>
         <!--<mat-step state="chat">
-          <ng-template matStepLabel>Trustee General Info</ng-template>
-          <app-preview-trustee-general-info></app-preview-trustee-general-info>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>-->
+    <ng-template matStepLabel>Trustee General Info</ng-template>
+    <app-preview-trustee-general-info></app-preview-trustee-general-info>
+    <button mat-button matStepperPrevious>Back</button>
+    <button mat-button matStepperNext>Next</button>
+  </mat-step>-->
         <mat-step state="chat">
           <ng-template matStepLabel>Land Details</ng-template>
           <app-preview-land-detail></app-preview-land-detail>
@@ -153,6 +153,12 @@
         <mat-step state="chat">
           <ng-template matStepLabel>Payment Details</ng-template>
           <app-preview-payment-detail></app-preview-payment-detail>
+          <button mat-button matStepperPrevious>Back</button>
+        </mat-step>
+
+        <mat-step state="chat">
+          <ng-template matStepLabel>Farm Land Details</ng-template>
+          <app-preview-farm-land-details></app-preview-farm-land-details>
           <button mat-button matStepperPrevious>Back</button>
         </mat-step>
 

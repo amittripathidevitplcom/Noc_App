@@ -951,6 +951,17 @@ export class CommonMasterService {
       ).toPromise();
   }
 
+  public async GetStreamMasterList(DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetStreamMasterList/" + DepartmentID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
 
 }

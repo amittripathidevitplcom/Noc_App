@@ -23,9 +23,10 @@
 
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
           <label>No. of <span style="color:red;">*</span></label>
-          <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="request.NoOf" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)">
+          <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="request.NoOf" formControlName="txtNoOf" min="1" (keypress)="numberOnly($event)">
           <div *ngIf="isSubmitted&&form.txtNoOf.errors" class="text-danger">
             <p *ngIf="form.txtNoOf.errors.required">This field is required .!</p>
+            <p *ngIf="form.txtNoOf.errors.min">No of greater than zero .!</p>
           </div>
         </div>
 
@@ -122,4 +123,4 @@
       </div>
     </form>
   </div>
-
+  </div>

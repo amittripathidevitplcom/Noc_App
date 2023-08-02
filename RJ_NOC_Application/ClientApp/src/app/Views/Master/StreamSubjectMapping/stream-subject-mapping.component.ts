@@ -52,7 +52,6 @@ export class StreamSubjectMappingComponent implements OnInit {
       {
         ddlDepartmentID: ['', [DropdownValidators]],
         ddlCourseLevelID: ['', [DropdownValidators]],
-        ddlCourseID: ['', [DropdownValidators]],
         ddlStreamID: ['', [DropdownValidators]],
         chkActiveStatus: [''],
       }
@@ -60,9 +59,9 @@ export class StreamSubjectMappingComponent implements OnInit {
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
     await this.GetDepartmentList();
-    await this.FillStream();
-    await this.GetAllStreamList();
+
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    await this.GetAllStreamList();
     this.ActiveStatus = true;
   }
   get form() { return this.StreamMasterForm.controls; }
@@ -101,16 +100,22 @@ export class StreamSubjectMappingComponent implements OnInit {
     }
   };
 
-  async FillStream() {
+  async GetStreamMasterList(departmentID:number)
+  {
     try {
-      // Deparment level
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, "Stream")
+      //Deparment level
+      await this.commonMasterService.GetStreamMasterList(departmentID)
         .then((data: any) => {
+
+        
           data = JSON.parse(JSON.stringify(data));
+          console.log(data);
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.StreamDDLList = data['Data'];
+          this.StreamDDLList = data['Data'][0]['data'];
+        
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -124,12 +129,18 @@ export class StreamSubjectMappingComponent implements OnInit {
   }
 
   async FillCourselevel(event: any, SeletedDepartmentID: string) {
+
+
+
+
     this.request.CourseLevelID = 0;
     this.request.CourseID = 0;
     this.request.SubjectDetails = [];
+
     try {
       this.loaderService.requestStarted();
       const departmentId = Number(SeletedDepartmentID);
+      this.GetStreamMasterList(departmentId);
       if (departmentId <= 0) {
         return;
       }
@@ -169,7 +180,8 @@ export class StreamSubjectMappingComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.CourseDataList = data['Data'];
+          this.request.CourseDetails = data['Data'];
+          this.isShowGrid = true;
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -195,9 +207,7 @@ export class StreamSubjectMappingComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.SubjectDetails = data['Data'];
-
           this.isShowGrid = true;
-
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -215,9 +225,11 @@ export class StreamSubjectMappingComponent implements OnInit {
   async GetAllStreamList() {
     try {
       this.loaderService.requestStarted();
+     
       await this.steramSubjectMappingService.GetAllStreamList(this.UserID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
+        
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -238,14 +250,18 @@ export class StreamSubjectMappingComponent implements OnInit {
     if (this.StreamMasterForm.invalid) {
       return
     }
-    console.log(this.request.SubjectDetails);
-    let isSelected: any = this.request.SubjectDetails.filter((item) => item.IsChecked === true);
+
+    console.log(this.request.CourseDetails);
+    let isSelected: any = this.request.CourseDetails.filter((item) => item.IsChecked === true);
     if (isSelected != null && isSelected.length > 0) {
+
       //At least one is selected
     } else {
-      this.toastr.error("select at least one subject")
+      this.toastr.error("select at least one course")
       return;
     }
+
+
     this.request.UserID = this.sSOLoginDataModel.UserID;
 
 
@@ -297,7 +313,9 @@ export class StreamSubjectMappingComponent implements OnInit {
     this.request.UserID = 0;
     this.request.ActiveStatus = true;
     this.isDisabledGrid = false;
+    this.isShowGrid = false;
     this.request.SubjectDetails = [];
+    this.request.CourseDetails = [];
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";
     const btnReset = document.getElementById('')
@@ -315,11 +333,15 @@ export class StreamSubjectMappingComponent implements OnInit {
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
           this.FillCourselevel('', (this.request.DepartmentID).toString());
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
-          this.FillCourses('', (this.request.CourseLevelID).toString());
+        //this.FillCourses('', (this.request.CourseLevelID).toString());
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.StreamID = data['Data'][0]["StreamID"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
-          this.request.SubjectDetails = data['Data'][0]["SubjectDetails"];
+          //this.request.SubjectDetails = data['Data'][0]["SubjectDetails"];
+
+          this.request.CourseDetails = data['Data'][0]["CourseDetails"];
+
+
           this.isShowGrid = true;
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
