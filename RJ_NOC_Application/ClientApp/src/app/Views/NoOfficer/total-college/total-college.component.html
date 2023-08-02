@@ -44,7 +44,8 @@
 
                 </tr>
               </thead>
-              <tbody>
+              <tbody *ngIf="draftApplicatoinListData !=null && draftApplicatoinListData.length>0">
+
                 <tr *ngFor="let row of draftApplicatoinListData ;let idx=index;">
                   <td style="width:12%">
                     <div class="d-flex">
@@ -109,7 +110,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="ViewTotalCollege" tabindex="-1" aria-labelledby="ViewTotalCollege" aria-hidden="true">
+<!--<div class="modal fade" id="ViewTotalCollege" tabindex="-1" aria-labelledby="ViewTotalCollege" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -390,4 +391,4 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
