@@ -108,6 +108,7 @@ import { CommitteeRejectedReportComponent } from './Views/Reports/Medical/commit
 import { JointSecretaryPendingNOCReportComponent } from './Views/Reports/Medical/joint-secretary-pending-nocreport/joint-secretary-pending-nocreport.component';
 import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committee-forward-report/committee-forward-report.component';
 import { ApplyNOCCompletedReportComponent } from './Views/Reports/Medical/apply-noccompleted-report/apply-noccompleted-report.component';
+import { FarmLandDetailsComponent } from './Views/TabDetail/farm-land-details/farm-land-details.component';
 
 
 const routes: Routes = [
@@ -255,6 +256,7 @@ const routes: Routes = [
       {
         path: 'landdetails', component: LandDetailsComponent
       },
+      
       {
         path: 'facilitydetails', component: FacilityDetailsComponent
       },
@@ -461,7 +463,10 @@ const routes: Routes = [
       },
       {
         path: 'applynoccompletedreport', component: ApplyNOCCompletedReportComponent
-      },   
+      },
+      {
+        path: 'farmlanddetails', component: FarmLandDetailsComponent
+      },
 
 
 

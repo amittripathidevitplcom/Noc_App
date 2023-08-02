@@ -29,7 +29,7 @@
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
             <!--Land Information-->
             <mat-tab>
-             
+
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LandInformation']>0"></i>
@@ -153,6 +153,14 @@
                 <span>Hostel Details</span>
               </ng-template>
               <app-hostel-details></app-hostel-details>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-bed icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['FarmLandDetails']>0"></i>
+                <span>Farm Land Details</span>
+              </ng-template>
+              <app-farm-land-details></app-farm-land-details>
             </mat-tab>
 
           </mat-tab-group>
