@@ -115,7 +115,7 @@ export class LegalEntityComponent implements OnInit {
 
   public TransactionNo: string = '';
   public VerifiedOTP: boolean = false;
-
+  public AadharDetails: any = {};
 
 
   AadharRequest = new AadharServiceDataModel();
@@ -236,11 +236,15 @@ export class LegalEntityComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetRoleListByLevel(2)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.lstMemberPost = data['Data'];
+          if (this.request.MemberDetails.length == 0) {
+            this.memberdetails.MemberPostID = this.lstMemberPost[0].RoleID;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -492,6 +496,8 @@ export class LegalEntityComponent implements OnInit {
         this.memberdetails.MemberPhotoPath = '';
         this.memberdetails.MemberSignature = '';
         this.memberdetails.MemberSignaturePath = '';
+        this.memberdetails.PresidentAadhaarProofDoc = '';
+        this.memberdetails.PresidentAadhaarProofDocPath = '';
         this.isMemberPhoto = false;
         this.isMemberSignature = false;
         this.isPresidentAadhaarProofDoc = false;
@@ -519,6 +525,7 @@ export class LegalEntityComponent implements OnInit {
       this.isMemberAdded = false;
       this.showMemberPhoto = false;
       this.showMemberSign = false;
+      this.showPresidentAadhaarProofDoc = false;
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -913,9 +920,22 @@ export class LegalEntityComponent implements OnInit {
       this.AadharRequest.OTP = this.UserOTP;
       await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
         .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.AadharDetails = JSON.parse(data[0].data);
           if (data[0].status == "0") {
             this.toastr.success("OTP Verify Successfully");
             this.VerifiedOTP = true;
+            if (this.UserOTP != "123456")
+            {
+              this.memberdetails.MemberName = this.AadharDetails[0]["Column2"];
+              if (this.AadharDetails[0]["Column4"].length > 4) {
+                var memberdob = this.AadharDetails[0]["Column4"].split('-');
+                this.memberdetails.MemberDOB = memberdob[2] + '-' + memberdob[1] + '-' + memberdob[0];
+              }
+              this.memberdetails.MemberFatherName = this.AadharDetails[0]["Column8"].split(": ")[1];
+            }
+            //this.memberdetails.MemberMobileNo = data[0]["Column2"];
           }
           else {
             this.toastr.error(data[0].message);
@@ -972,6 +992,7 @@ export class LegalEntityComponent implements OnInit {
           this.request.StateID = 6;
           this.GetDistrictListByStateID(this.request.StateID);
           this.isDisabledNewRegistration = true;
+          this.memberdetails.PresidentAadhaarNumber = this.AadharRequest.AadharNo;
         }
       }
       else {
@@ -1534,7 +1555,7 @@ export class LegalEntityComponent implements OnInit {
   }
 
   ElectionPresentManagementCommitteeDate_Change() {
-
+    debugger;
     const currndate = new Date();
     const salecteddate = new Date(this.request.ElectionPresentManagementCommitteeDate);
     const threeYrsAddOnDate = new Date(salecteddate.setFullYear((salecteddate.getFullYear() + 3)));
