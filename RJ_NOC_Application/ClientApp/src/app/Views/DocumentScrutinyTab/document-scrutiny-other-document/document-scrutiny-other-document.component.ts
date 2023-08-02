@@ -45,9 +45,9 @@ export class DocumentScrutinyOtherDocumentComponent implements OnInit {
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
     this.request.DocumentDetails = [];
     this.GetOtherDocuments('Other Document');
-    if (this.SelectedDepartmentID == 6) {
-      this.GetHospitalRelatedDocuments('HospitalRelatedDocument');
-    }
+    //if (this.SelectedDepartmentID == 6) {
+    //  this.GetHospitalRelatedDocuments('HospitalRelatedDocument');
+    //}
   }
   async GetOtherDocuments(Type: string) {
     try {
@@ -118,6 +118,7 @@ export class DocumentScrutinyOtherDocumentComponent implements OnInit {
     this.dsrequest.TabName = 'Other Document';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.request.DocumentDetails.length; i++) {
       if (this.request.DocumentDetails[i].Action == '' || this.request.DocumentDetails[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

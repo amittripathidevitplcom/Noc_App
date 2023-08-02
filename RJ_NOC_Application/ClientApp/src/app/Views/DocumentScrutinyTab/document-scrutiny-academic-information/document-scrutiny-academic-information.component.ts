@@ -90,6 +90,7 @@ export class DocumentScrutinyAcademicInformationComponent implements OnInit {
     this.dsrequest.TabName = 'Academic Information';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.AcademicInformationList.length; i++) {
       if (this.AcademicInformationList[i].Action == '' || this.AcademicInformationList[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

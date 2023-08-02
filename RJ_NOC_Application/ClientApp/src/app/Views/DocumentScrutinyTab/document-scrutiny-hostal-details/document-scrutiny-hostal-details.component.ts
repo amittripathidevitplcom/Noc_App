@@ -148,6 +148,7 @@ export class DocumentScrutinyHostalDetailsComponent implements OnInit {
     this.dsrequest.TabName = 'Hostel Details';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.hostelDataModel.length; i++) {
       if (this.hostelDataModel[i].Action == '' || this.hostelDataModel[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

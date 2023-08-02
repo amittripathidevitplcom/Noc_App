@@ -92,6 +92,7 @@ export class DocumentScrutinyCollegeManagementSocietyComponent implements OnInit
     this.dsrequest.TabName = 'College Management Society';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.SocietyAllList.length; i++) {
       if (this.SocietyAllList[i].Action == '' || this.SocietyAllList[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

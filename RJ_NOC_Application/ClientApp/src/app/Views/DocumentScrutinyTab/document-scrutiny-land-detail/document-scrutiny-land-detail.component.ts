@@ -148,6 +148,7 @@ export class DocumentScrutinyLandDetailComponent implements OnInit {
     this.dsrequest.TabName = 'Land Information';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.LandDetailList.length; i++) {
       if (this.LandDetailList[i].Action == '' || this.LandDetailList[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

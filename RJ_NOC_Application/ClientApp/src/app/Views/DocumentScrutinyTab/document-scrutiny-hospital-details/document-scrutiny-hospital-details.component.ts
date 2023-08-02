@@ -160,6 +160,7 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
     this.dsrequest.TabName = 'Hospital Details';
     this.isRemarkValid = false;
     this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
     for (var i = 0; i < this.HospitalParentNotDataModelList.length; i++) {
       if (this.HospitalParentNotDataModelList[i].Action == '' || this.HospitalParentNotDataModelList[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');

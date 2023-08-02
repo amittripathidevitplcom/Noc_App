@@ -20,7 +20,7 @@
             <label class="form-check-label" for="NoParentHospital">No</label>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.ParentHospitalID==1">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3" *ngIf="request.ParentHospitalID==1 || request.ParentHospitalID==0">
           <label for="employeeName" class="form-label" style="margin-right:15px">Hospital Status </label>
           <div class="clearfix"></div>
           <div class="form-check form-check-inline">
