@@ -164,7 +164,8 @@
 
                         <div *ngIf="isSubmitted_Registration&&FormRegistration.txtMobileNumberRegistration.errors" class="text-danger">
                           <p *ngIf="FormRegistration.txtMobileNumberRegistration.errors.required">  This field is required .!</p>
-                          <p *ngIf="FormRegistration.txtMobileNumberRegistration.errors.pattern || FormRegistration.txtMobileNumberRegistration.errors.maxlength || FormRegistration.txtMobileNumberRegistration.errors.minlength">Mobile Number must be at least 10 number</p>
+                          <p *ngIf="FormRegistration.txtMobileNumberRegistration.errors.pattern">  Invalid Mobile Number .!</p>
+                          <p *ngIf="FormRegistration.txtMobileNumberRegistration.errors.maxlength || FormRegistration.txtMobileNumberRegistration.errors.minlength">Mobile Number must be at least 10 number</p>
                         </div>
                       </div>
 
@@ -219,7 +220,7 @@
                 <input type="text" class="form-control" id="txtPresidentMobileNo" [(ngModel)]="request.PresidentMobileNo" maxlength="10" formControlName="txtPreMobileNumber" [attr.disabled]="isDisabledNewRegistration ? true : null" (keypress)="numberOnly($event)" />
                 <div *ngIf="isSubmitted&&form.txtPreMobileNumber.errors" class="text-danger">
                   <p *ngIf="form.txtPreMobileNumber.errors.required">  This field is required .!</p>
-                  <p *ngIf="form.txtPreMobileNumber.errors.pattern || form.txtPreMobileNumber.errors.maxlength || form.txtPreMobileNumber.errors.minlength">Mobile Number must be at least 10 number</p>
+                  <p *ngIf="form.txtPreMobileNumber.errors.pattern || form.txtPreMobileNumber.errors.maxlength || form.txtPreMobileNumber.errors.minlength">Invalid Mobile !</p>
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">

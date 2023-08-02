@@ -147,9 +147,9 @@ export class LegalEntityComponent implements OnInit {
       this.legalentityForm_Registration = this.formBuilder.group(
         {
           txtNewRegistrationRegistration: ['', Validators.required],
-          txtMobileNumberRegistration: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
+          txtMobileNumberRegistration: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$"), Validators.minLength(10), Validators.maxLength(10)]],
           txtEmailIDRegistration: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
-          txtAadharNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(12), Validators.maxLength(12)]]
+          txtAadharNumber: ['', [Validators.required, Validators.pattern("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$"), Validators.minLength(12), Validators.maxLength(12)]]
 
         });
 
@@ -157,7 +157,7 @@ export class LegalEntityComponent implements OnInit {
       this.legalentityForm = this.formBuilder.group(
         {
           txtNewRegistration: ['', Validators.required],
-          txtPreMobileNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
+          txtPreMobileNumber: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$"), Validators.minLength(10), Validators.maxLength(10)]],
           txtPreEmailID: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
 
           txtSocietyName: ['', Validators.required],
@@ -187,11 +187,11 @@ export class LegalEntityComponent implements OnInit {
           txtMemberName: ['', Validators.required],
           txtMemberFatherName: ['', Validators.required],
           txtMemberDOB: ['', Validators.required],
-          txtMemberMobNo: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
+          txtMemberMobNo: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$"), Validators.minLength(10), Validators.maxLength(10)]],
           ddlMemberposts: ['', [DropdownValidators]],
           txtMemberPhoto: [''],
           txtMemberSign: [''],
-          txtPresidentAadhaarNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(12), Validators.maxLength(12)]],
+          txtPresidentAadhaarNumber: ['', [Validators.required, Validators.pattern("^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$"), Validators.minLength(12), Validators.maxLength(12)]],
           txtPresidentAadhaarProofDoc: [''],
         });
       this.legalentityAddInstituteForm = this.formBuilder.group(

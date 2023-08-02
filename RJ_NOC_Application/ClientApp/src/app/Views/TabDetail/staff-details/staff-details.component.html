@@ -58,8 +58,9 @@
           <label>Mobile No. <span style="color:red;">*</span></label>
           <input type="text" id="txtMobileNo" name="txtMobileNo" class="form-control" formControlName="txtMobileNo" [(ngModel)]="request.MobileNo" maxlength="10" (keypress)="numberOnly($event)" />
           <div *ngIf="isSubmitted&&form.txtMobileNo.errors" class="text-danger">
-            <p *ngIf="form.txtMobileNo.errors.pattern || form.txtMobileNo.errors.maxlength || form.txtMobileNo.errors.minlength">Mobile number must be at least 10 numbers</p>
+            <p *ngIf="form.txtMobileNo.errors.maxlength || form.txtMobileNo.errors.minlength">Mobile number must be at least 10 numbers</p>
             <p *ngIf="form.txtMobileNo.errors.required"> This field is required .!</p>
+            <p *ngIf="form.txtMobileNo.errors.pattern"> Invalid Mobile Number .!</p>
           </div>
         </div>
         <div class="col-md-4 mb-3">
@@ -133,6 +134,7 @@
           <input type="text" id="txtAadhaarNo" name="txtAadhaarNo" class="form-control" formControlName="txtAadhaarNo" [(ngModel)]="request.AadhaarNo" (keypress)="numberOnly($event)" maxlength="12" />
           <div *ngIf="isSubmitted&&form.txtAadhaarNo.errors" class="text-danger">
             <p *ngIf="form.txtAadhaarNo.errors.required"> This field is required .!</p>
+            <p *ngIf="form.txtAadhaarNo.errors.pattern"> Invalid Aadhaar Number .!</p>
             <p *ngIf="form.txtAadhaarNo.errors.maxlength || form.txtAadhaarNo.errors.minlength">Aadhaar number must be at least 12 numbers</p>
           </div>
         </div>

@@ -1,0 +1,296 @@
+<!--<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Farm Land Details</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">-->
+          <!--<li class="breadcrumb-item"><a href="#">Details</a></li>-->
+          <!--<li class="breadcrumb-item active" aria-current="page"><span style="color:red;">Upload File(Only PDF,JPEG,JPG)(Min size 100(KB))(Max size 2(MB))</span></li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>-->
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-filter"></i>&nbsp;Farm Land Details</b>
+          <span style="color:red;">Upload File(Only PDF,JPEG,JPG)(Min size 100(KB))(Max size 2(MB))</span>
+        </div>
+        <form [formGroup]="farmlanddetailform" class="form-horizontal">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="lblCertificatefOfTehsildar" class="form-label">Certificate from the Tehsildar for The Land Distance<span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="txtCertificatefOfTehsildar" style="display:none" formControlName="txtCertificatefOfTehsildar" (change)="ValidateUploadImage($event,'CertificatefOfTehsildar')" #txtCertificatefOfTehsildar />
+                  <label class="btn upload" for="txtCertificatefOfTehsildar">
+                    <span class="filename">Choose file</span>
+                    {{request.CertificatefOfTehsildarPath === '' ? 'No File Choosen' : request.CertificatefOfTehsildar_DisName}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.CertificatefOfTehsildarPath!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.CertificatefOfTehsildarPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('CertificatefOfTehsildar')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&request.CertificatefOfTehsildarPath ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                <div *ngIf="isCertificatefOfTehsildar" class="text-danger">
+                  <p *ngIf="isCertificatefOfTehsildar"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Total Farm Land Area (In Hectare) <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtTotalFarmLandArea" name="txtTotalFarmLandArea" [(ngModel)]="request.TotalFarmLandArea" formControlName="txtTotalFarmLandArea" (keypress)="numbersOnly($event)" />
+                <div *ngIf="isSubmitted&&isFarmTotalLandArea" class="text-danger">
+                  <p *ngIf="isSubmitted&&isFarmTotalLandArea"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label" style="margin-right:15px">Farm Land Is<span style="color:red">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbOwned" name="rbFarmLandIs" [(ngModel)]="request.FarmLandIs" value="Owned" formControlName="rbFarmLandIs">
+                  <label class="form-check-label" for="rbOwned">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbLeased" name="rbFarmLandIs" [(ngModel)]="request.FarmLandIs" value="Leased" formControlName="rbFarmLandIs">
+                  <label class="form-check-label" for="rbLeased">No</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rbFarmLandIs.errors" class="text-danger">
+                  <p *ngIf="form.rbFarmLandIs.errors.required"> This field is required .!</p>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h6 class="fw-bold mt-2 border-bottom mb-4 pb-2">Owner Land Details</h6>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Khasra  Number <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtKhasraNumber" name="txtKhasraNumber" [(ngModel)]="request.KhasraNumber" formControlName="txtKhasraNumber" />
+                <div *ngIf="isSubmitted&&form.txtKhasraNumber.errors" class="text-danger">
+                  <p *ngIf="form.txtKhasraNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Owner Name <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtLandOwnerName" name="txtLandOwnerName" [(ngModel)]="request.LandOwnerName" formControlName="txtLandOwnerName" (keypress)="alphaOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtLandOwnerName.errors" class="text-danger">
+                  <p *ngIf="form.txtLandOwnerName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="lblLandTitleCertificate" class="form-label">Upload Land Title Certificate<span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="txtLandTitleCertificate" style="display:none" formControlName="txtLandTitleCertificate" (change)="ValidateUploadImage($event,'LandTitleCertificate')" #txtLandTitleCertificate />
+                  <label class="btn upload" for="txtLandTitleCertificate">
+                    <span class="filename">Choose file</span>
+                    {{request.LandTitleCertificatePath === '' ? 'No File Choosen' : request.LandTitleCertificate_DisName}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.LandTitleCertificatePath!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.LandTitleCertificatePath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('LandTitleCertificate')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&request.LandTitleCertificatePath ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                <div *ngIf="isLandTitleCertificate" class="text-danger">
+                  <p *ngIf="isLandTitleCertificate"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Total Land Area (In Hectare) <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtTotalLandArea" name="txtTotalLandArea" [(ngModel)]="request.TotalLandArea" formControlName="txtTotalLandArea" (keypress)="numbersOnly($event)" />
+                <div *ngIf="isSubmitted&&isTotalLandArea" class="text-danger">
+                  <p *ngIf="isSubmitted&&isTotalLandArea"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+
+            
+            </div>
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtAddressLine1_Owner" name="txtAddressLine1_Owner" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1_Owner">
+                <div *ngIf="isSubmitted&&form.txtAddressLine1_Owner.errors" class="text-danger">
+                  <p *ngIf="form.txtAddressLine1_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Address Line 2 <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtAddressLine2_Owner" name="txtAddressLine2_Owner" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2_Owner">
+                <div *ngIf="isSubmitted&&form.txtAddressLine2_Owner.errors" class="text-danger">
+                  <p *ngIf="form.txtAddressLine2_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label" style="margin-right:15px"></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbRural_Owner" name="rbRuralUrban_Owner" [(ngModel)]="request.RuralUrban" value="Rural" formControlName="rbRuralUrban_Owner" (change)="IsRuralOrUrban(true)">
+                  <label class="form-check-label" for="rbRural_Owner">Rural</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbUrban_Owner" name="rbRuralUrban_Owner" [(ngModel)]="request.RuralUrban" value="Urban" formControlName="rbRuralUrban_Owner" (change)="IsRuralOrUrban(false)">
+                  <label class="form-check-label" for="rbUrban_Owner">Urban</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rbRuralUrban_Owner.errors" class="text-danger">
+                  <p *ngIf="form.rbRuralUrban_Owner.errors.required"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Division <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlDivisionID_Owner" name="ddlDivisionID_Owner" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID_Owner" #SeletedValueDivision (change)="FillDivisionRelatedDDL($event,SeletedValueDivision.value)">
+                  <option value="0">--Select Division--</option>
+                  <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDivisionID_Owner.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDivisionID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">District <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlDistrictID_Owner" name="ddlDistrictID_Owner" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID_Owner" #SeletedValueDistrict (change)="FillDistrictRelatedDDL($event,SeletedValueDistrict.value)">
+                  <option value="0">--Select District--</option>
+                  <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDistrictID_Owner.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDistrictID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID_Owner">
+                  <option value="0">--Select Tehsil--</option>
+                  <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&IsTehsilrequired" class="text-danger">
+                  <p *ngIf="isSubmitted&&IsTehsilrequired"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlPanchayatSamitiID_Owner" name="ddlPanchayatSamitiID_Owner" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID_Owner">
+                  <option value="0">--Select Panchayat Samiti--</option>
+                  <option *ngFor="let item of PanchyatSamitiList" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&IsPanchayatSamitirequried" class="text-danger">
+                  <p *ngIf="isSubmitted&&IsPanchayatSamitirequried"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtCityTownVillage_Owner" name="txtCityTownVillage_Owner" [(ngModel)]="request.CityTownVillage" formControlName="txtCityTownVillage_Owner">
+                <div *ngIf="isSubmitted&&form.txtCityTownVillage_Owner.errors" class="text-danger">
+                  <p *ngIf="form.txtCityTownVillage_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Pincode <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="request.Pincode" formControlName="txtPincode_Owner" maxlength="6" (keypress)="numberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtPincode_Owner.errors" class="text-danger">
+                  <p *ngIf="form.txtPincode_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+            
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label" style="margin-right:15px">Land Type<span style="color:red">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbIrrigated" name="rbLandType" [(ngModel)]="request.LandType" value="Irrigated" formControlName="rbLandType">
+                  <label class="form-check-label" for="rbIrrigated">Irrigated</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbUnIrrigated" name="rbLandType" [(ngModel)]="request.LandType" value="UnIrrigated" formControlName="rbLandType">
+                  <label class="form-check-label" for="rbUnIrrigated">UnIrrigated</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rbLandType.errors" class="text-danger">
+                  <p *ngIf="form.rbLandType.errors.required"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Source Irrigation <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtSourceIrrigation" name="txtSourceIrrigation" [(ngModel)]="request.SourceIrrigation" formControlName="txtSourceIrrigation" />
+                <div *ngIf="isSubmitted&&form.txtSourceIrrigation.errors" class="text-danger">
+                  <p *ngIf="form.txtSourceIrrigation.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-footer text-end saveCancelBtn">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </form>
+
+        <div class="card mb-0" *ngIf="lstFarmLandDetails.length>0">
+          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+            <b><i class="bi bi-table"></i> Owner Land Details </b>
+            <div class="d-flex align-items-center">
+              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                <!--<button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+                <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+                <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>-->
+              </div>
+              <div class="d-flex align-items-center table-filter mr-15">
+                <i class="fa fa-search"></i>
+                <input type="text" id="searchText" class="form-control" placeholder="Search Here" />
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                <thead>
+                  <tr>
+                    <th>Sr. No</th>
+                    <th>Certificate Of Tehsildar</th>
+                    <th>Farm Land Area</th>
+                    <th>Farm Land Type</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstFarmLandDetails ;let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>
+                      <a *ngIf="item.CertificatefOfTehsildarPath!='N/A'" target="_blank" href="{{item.CertificatefOfTehsildarPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
+                      <label *ngIf="item.CertificatefOfTehsildarPath =='N/A'">{{item.CertificatefOfTehsildarPath}}</label>
+                    </td>
+                    <td>{{item.TotalFarmLandArea}}</td>
+                    <td>{{item.LandType}}</td>
+
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" (click)="Edit_OnClick(item.FarmLandDetailID)"  title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.FarmLandDetailID)"><i class="fa fa-trash"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
