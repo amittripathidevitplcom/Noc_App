@@ -296,7 +296,7 @@ export class CourseMasterComponent implements OnInit {
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage)
-              // this.GetAllCourseList();
+              this.GetAllCourseList();
             }
             else {
               this.toastr.error(this.ErrorMessage)
