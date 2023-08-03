@@ -554,12 +554,13 @@ export class HostelDetailsComponent implements OnInit {
         this.isFormValid = false;
         console.log(this.HostelForm);
       }
+      
+      if (!this.isFormValid) {
+        return;
+      }
       if (this.request.HostelDetails.length <= 0) {
         this.isFormValid = false;
         this.toastr.error('please add atleast one hostel block details');
-      }
-      if (!this.isFormValid) {
-        return;
       }
       //loding
       this.loaderService.requestStarted();

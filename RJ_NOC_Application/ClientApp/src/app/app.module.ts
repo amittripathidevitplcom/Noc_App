@@ -167,6 +167,7 @@ import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committ
 import { ApplyNOCCompletedReportComponent } from './Views/Reports/Medical/apply-noccompleted-report/apply-noccompleted-report.component';
 import { FarmLandDetailsComponent } from './Views/TabDetail/farm-land-details/farm-land-details.component';
 import { PreviewFarmLandDetailsComponent } from './Views/PreviewTabs/preview-farm-land-details/preview-farm-land-details.component';
+import { CourseMasterComponent } from './Views/Master/CourseMaster/course-master.component';
 import { ParamedicalHospitalDetailComponent } from './Views/TabDetail/paramedical-hospital-detail/paramedical-hospital-detail.component';
 
 
@@ -331,6 +332,7 @@ import { ParamedicalHospitalDetailComponent } from './Views/TabDetail/paramedica
     FarmLandDetailsComponent,
     PreviewFarmLandDetailsComponent,
     ParamedicalHospitalDetailComponent,
+    CourseMasterComponent,
 
   ],
   imports: [

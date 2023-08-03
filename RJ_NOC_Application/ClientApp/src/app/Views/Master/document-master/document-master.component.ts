@@ -185,7 +185,7 @@ export class DocumentMasterComponent implements OnInit {
    // this.request.DepartmentID = 0;
     this.request.DocumentTypeID = '0';
     this.request.DocumentName = '';
-    this.request.IsActiveStatus = false;
+    this.request.IsActiveStatus = true;
     this.request.IsCompulsory = false;
     this.request.MinSize = 0;
     this.request.MaxSize = 0;
