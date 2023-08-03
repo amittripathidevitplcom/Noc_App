@@ -39,9 +39,9 @@ export class LegalEntityService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetLegalEntityList(UserID: number) {
+  public async GetLegalEntityList(UserID: number, SSOID: string) {
 
-    return await this.http.get(this.APIUrl + "/GetLegalEntityList/" + UserID)
+    return await this.http.get(this.APIUrl + "/GetLegalEntityList/" + UserID + "/" + SSOID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

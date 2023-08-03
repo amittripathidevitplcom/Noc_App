@@ -81,7 +81,7 @@ export class LegalEntityComponent implements OnInit {
   public isMemberSignature: boolean = false;
   public isPresidentAadhaarProofDoc: boolean = false;
   public OTP: string = '';
-  public CustomOTP: string = '';
+  public CustomOTP: string = '123456';
   public UserOTP: string = '';
 
   public isNewRegistrationNo: boolean = false;
@@ -922,11 +922,12 @@ export class LegalEntityComponent implements OnInit {
         .then((data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));
-          this.AadharDetails = JSON.parse(data[0].data);
+         
           if (data[0].status == "0") {
+            this.AadharDetails = JSON.parse(data[0].data);
             this.toastr.success("OTP Verify Successfully");
             this.VerifiedOTP = true;
-            if (this.UserOTP != "123456")
+            if (this.UserOTP != this.CustomOTP)
             {
               this.memberdetails.MemberName = this.AadharDetails[0]["Column2"];
               if (this.AadharDetails[0]["Column4"].length > 4) {
@@ -938,7 +939,9 @@ export class LegalEntityComponent implements OnInit {
             //this.memberdetails.MemberMobileNo = data[0]["Column2"];
           }
           else {
-            this.toastr.error(data[0].message);
+            if (this.UserOTP != this.CustomOTP) {
+              this.toastr.error(data[0].message);
+            }
           }
         }, error => console.error(error));
 
