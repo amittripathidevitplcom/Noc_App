@@ -362,7 +362,7 @@
                   <label>IS Your College NAAC Accredited :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeNAACAccredited}}" />
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeNAACAccredited =='Yes'">
                   <label><b>NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 500KB) (Max.Size 2MB) :</b></label>
                   <div class="clearfix"></div>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_collegeListData.NAACAccreditedCertificatePath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_collegeListData.NAACAccreditedCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
@@ -371,7 +371,7 @@
                   <label>AISHE Code Status :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AISHECodeStatus}}" />
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.AISHECodeStatus =='Yes'">
                   <label>AISHE Code :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AISHECode}}" />
                 </div>
