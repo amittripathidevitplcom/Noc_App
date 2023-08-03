@@ -141,12 +141,12 @@ export class StaffDetailsComponent implements OnInit {
     this.isUploadDocRequried = false;
     try {
       this.isAddMore = true;
-      if (this.StaffEducationDetailForm.invalid) {
-        this.FormValid = false;
-      }
 
       this.FormValid = this.ProfessionalQualification_Change();
 
+      if (this.StaffEducationDetailForm.invalid) {
+        this.FormValid = false;
+      }
       if (!this.FormValid) {
         return;
       }

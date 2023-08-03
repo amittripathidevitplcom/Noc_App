@@ -25,7 +25,7 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>No. of Rooms<span style="color:red;">*</span></label>
-            <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="request.NoOfRooms" formControlName="txtNoOfRooms_Room" min="1"
+            <input type="text" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="request.NoOfRooms" formControlName="txtNoOfRooms_Room" min="1" maxlength="7"
                    (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtNoOfRooms_Room.errors" class="text-danger">
               <p *ngIf="form.txtNoOfRooms_Room.errors.required">This field is required .!</p>
