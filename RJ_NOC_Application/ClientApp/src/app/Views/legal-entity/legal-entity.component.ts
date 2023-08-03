@@ -38,7 +38,7 @@ export class LegalEntityComponent implements OnInit {
   public MaxDate: Date = new Date();
   public MinDate_DOB: Date = new Date();
   //public MinDate_ElectionPresentManagementCommitteeDate: Date = new Date();
-  public MinDate_ElectionPresentManagementCommitteeDate: any = '';
+  public MinDate: any = '';
   legalentityForm!: FormGroup;
   legalentityForm_Registration!: FormGroup;
 
@@ -112,6 +112,8 @@ export class LegalEntityComponent implements OnInit {
   public ImageValidationMessage_MemberPhoto: string = '';
   public ImageValidationMessage_MemberSignature: string = '';
   public ImageValidationMessage_TrustLogoDoc: string = '';
+
+  public ValidationMinDate: string = '';
 
   public TransactionNo: string = '';
   public VerifiedOTP: boolean = false;
@@ -1552,17 +1554,23 @@ export class LegalEntityComponent implements OnInit {
     debugger;
     //const mindate1 = new Date(2000, 0, 1);
     const mindate1 = new Date(this.request.SocietyRegistrationDate);
-    this.MinDate_ElectionPresentManagementCommitteeDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
+    this.MinDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
+   
     this.request.ElectionPresentManagementCommitteeDate = '';
     this.isDisabledCommitteeDate = false;
   }
 
   ElectionPresentManagementCommitteeDate_Change() {
     debugger;
+    if (new Date(this.request.SocietyRegistrationDate) > new Date(this.request.ElectionPresentManagementCommitteeDate) ) {
+      this.ValidationMinDate = 'Invalid .!';
+      this.request.ElectionPresentManagementCommitteeDate = '';
+      return;
+    }
     const currndate = new Date();
     const salecteddate = new Date(this.request.ElectionPresentManagementCommitteeDate);
     const threeYrsAddOnDate = new Date(salecteddate.setFullYear((salecteddate.getFullYear() + 3)));
-    console.log(threeYrsAddOnDate < currndate);
+    console.log(threeYrsAddOnDate < currndate);    
     if (threeYrsAddOnDate < currndate) {
       this.request.IsDateOfElection = 'No';
       this.IsNotMoreThen3Year = false;
@@ -1571,7 +1579,7 @@ export class LegalEntityComponent implements OnInit {
       this.request.IsDateOfElection = 'Yes';
       this.IsNotMoreThen3Year = true;
 
-    }
+    }    
     this.ToggleElectionPresentManagementCommitteeDateValidation();
   }
 
