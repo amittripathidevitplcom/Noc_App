@@ -79,7 +79,7 @@ export class TotalLegalEntityPreviewComponent implements OnInit {
   async ViewlegalEntityDataByID(LegalEntityID:any) {
     try {
       this.loaderService.requestStarted();
-      await this.legalEntityListService.ViewlegalEntityDataByID(LegalEntityID, this.UserID)
+      await this.legalEntityListService.ViewlegalEntityDataByID(LegalEntityID, this.UserID, this.sSOLoginDataModel.SSOID)
         .then((data: any) => {
           
           data = JSON.parse(JSON.stringify(data));
