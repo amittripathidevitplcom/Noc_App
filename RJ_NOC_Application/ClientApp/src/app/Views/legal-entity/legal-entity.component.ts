@@ -107,11 +107,14 @@ export class LegalEntityComponent implements OnInit {
   public IsNotMoreThen3Year: boolean = true;
 
   public ImageValidationMessage_TrusteeMemberProofDoc: string = '';
+  public IsTrusteeMemberProofDoc: string = '';
   public ImageValidationMessage_PresidentAadhaarProofDoc: string = '';
   public ImageValidationMessage_SocietyPanProofDoc: string = '';
+  public IsSocietyPanProofDoc: string = '';
   public ImageValidationMessage_MemberPhoto: string = '';
   public ImageValidationMessage_MemberSignature: string = '';
   public ImageValidationMessage_TrustLogoDoc: string = '';
+  public IsTrustLogoDoc: string = '';
 
   public ValidationMinDate: string = '';
 
@@ -406,11 +409,11 @@ export class LegalEntityComponent implements OnInit {
         isValid = false;
       }
       if (this.request.TrusteeMemberProofDoc == '') {
-        this.ImageValidationMessage_TrusteeMemberProofDoc = 'This field is required .!';
+        this.IsTrusteeMemberProofDoc = 'This field is required .!';
         isValid = false;
       }
       if (this.request.SocietyPanProofDoc == '') {
-        this.ImageValidationMessage_SocietyPanProofDoc = 'This field is required .!';
+        this.IsSocietyPanProofDoc = 'This field is required .!';
         isValid = false;
       }
       if (this.request.MemberDetails.length < 3) {

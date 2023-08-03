@@ -47,8 +47,8 @@ export class LegalEntityService {
       ).toPromise();
   }
   
-  public async ViewlegalEntityDataByID(LegalEntityID: number, UserID: number) {
-    return await this.http.get(this.APIUrl + "/ViewlegalEntityDataByID/" + LegalEntityID + "/" + UserID)
+  public async ViewlegalEntityDataByID(LegalEntityID: number, UserID: number, SSOID: string) {
+    return await this.http.get(this.APIUrl + "/ViewlegalEntityDataByID/" + LegalEntityID + "/" + UserID + "/" + SSOID )
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

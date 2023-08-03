@@ -386,15 +386,6 @@
                   <p *ngIf="form.txtManagementCommitteecertified.errors.required">This field is required .!</p>
                 </div>
               </div>
-
-              <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="">Aadhaar Number Of President  <span style="color:red">*</span></label>
-                <input class="form-control" id="txtPresidentAadhaarNumber" [(ngModel)]="request.PresidentAadhaarNumber" formControlName="txtPresidentAadhaarNumber" [attr.disabled]="isDisabledNewRegistration ? true : null" maxlength="12" (keypress)="numberOnly($event)" />
-                <div *ngIf="isSubmitted&&form.txtPresidentAadhaarNumber.errors" class="text-danger">
-                  <p *ngIf="form.txtPresidentAadhaarNumber.errors.required"> This field is required .!</p>
-                  <p *ngIf="form.txtPresidentAadhaarNumber.errors.pattern || form.txtPresidentAadhaarNumber.errors.maxlength || form.txtPresidentAadhaarNumber.errors.minlength"> Invalid Aadhaar No.</p>
-                </div>
-              </div>-->
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for=""> PAN Number <span style="color:red">*</span></label>
                 <input class="form-control" id="txtSocietyPANNumber" [(ngModel)]="request.SocietyPANNumber" formControlName="txtSocietyPANNumber" maxlength="10" (ngModelChange)="request.SocietyPANNumber = $event.toUpperCase()" />
@@ -416,6 +407,7 @@
                     <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('TrustLogo', request.TrustLogoDoc)"><i class="fa fa-trash-o"></i></button>
                   </div>
                 </div>
+                <!--<p *ngIf="isSubmitted&&request.TrustLogoDoc ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>-->
                 <div *ngIf="isValidTrustLogoDoc" class="text-danger">
                   <p *ngIf="isValidTrustLogoDoc"> {{ImageValidationMessage_TrustLogoDoc}}</p>
                 </div>
@@ -435,7 +427,7 @@
                 </div>
                 <p *ngIf="isSubmitted&&request.TrusteeMemberProofDoc ==''" class="text-danger">
                   <i aria-hidden="true">
-                  </i> {{ImageValidationMessage_TrusteeMemberProofDoc}}
+                  </i> {{IsTrusteeMemberProofDoc}}
                 </p>
                 <div *ngIf="isValidTrusteeMemberProofDoc" class="text-danger">
                   <p *ngIf="isValidTrusteeMemberProofDoc"> {{ImageValidationMessage_TrusteeMemberProofDoc}}</p>
@@ -455,7 +447,7 @@
                     <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SocietyPan', request.SocietyPanProofDoc)"><i class="fa fa-trash-o"></i></button>
                   </div>
                 </div>
-                <p *ngIf="isSubmitted&&request.SocietyPanProofDoc ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidationMessage_SocietyPanProofDoc}}</p>
+                <p *ngIf="isSubmitted&&request.SocietyPanProofDoc ==''" class="text-danger"><i aria-hidden="true"></i>{{IsSocietyPanProofDoc}}</p>
                 <div *ngIf="isValidSocietyPanProofDoc" class="text-danger">
                   <p *ngIf="isValidSocietyPanProofDoc"> {{ImageValidationMessage_SocietyPanProofDoc}}</p>
                 </div>
