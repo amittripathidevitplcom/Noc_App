@@ -64,7 +64,7 @@ export class SubjectMasterComponent implements OnInit {
     {
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
       this.is_disableDepartment = true;
-      await this.DepartmentChangecourse(null, this.request.DepartmentID.toString());
+      await this.DepartmentChangecourse(null, this.sSOLoginDataModel.DepartmentID.toString());
     }
     this.ActiveStatus = true;
   }
@@ -141,7 +141,7 @@ export class SubjectMasterComponent implements OnInit {
     this.request.CourseID = 0;
     this.request.SubjectName = '';
     this.request.UserID = 0;
-    this.request.ActiveStatus = false;
+    this.request.ActiveStatus = true;
     this.request.IsPredical = false;
     this.isDisabledGrid = false;
     const btnSave = document.getElementById('btnSave')
@@ -181,7 +181,7 @@ export class SubjectMasterComponent implements OnInit {
   async GetAllSubjectList() {
     try {
       this.loaderService.requestStarted();
-      await this.subjectMasterService.GetAllSubjectList(this.UserID, this.request.DepartmentID)
+      await this.subjectMasterService.GetAllSubjectList(this.UserID, this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

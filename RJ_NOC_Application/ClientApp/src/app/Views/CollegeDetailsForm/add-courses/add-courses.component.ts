@@ -62,7 +62,7 @@ export class AddCoursesComponent implements OnInit {
   public isCollegExisting: boolean = false;
   public CourseLevelList: any = [];
   public streamDataList: any = [];
-  public isShowStreambox: boolean= false;
+  public isShowStreambox: boolean = false;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
     private clipboard: Clipboard) {
@@ -127,7 +127,7 @@ export class AddCoursesComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
         }, error => console.error(error));
-    
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -140,8 +140,7 @@ export class AddCoursesComponent implements OnInit {
   }
 
 
-  async GetStreamList()
-  {
+  async GetStreamList() {
 
     try {
       this.loaderService.requestStarted();
@@ -175,22 +174,21 @@ export class AddCoursesComponent implements OnInit {
 
 
 
-  async ddlCollege_change(SeletedCollegeID: any)
-  {
+  async ddlCollege_change(SeletedCollegeID: any) {
     this.request.CollegeID = SeletedCollegeID;
-      await this.commonMasterService.GetCollegeBasicDetails(SeletedCollegeID)
-        .then(async (data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.request.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
-          this.CollegeStatus = data['Data'][0]['data'][0]['CollegeStatus'];
-          this.CollegeStatusID = data['Data'][0]['data'][0]['CollegeStatusID'];
+    await this.commonMasterService.GetCollegeBasicDetails(SeletedCollegeID)
+      .then(async (data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        this.request.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+        this.CollegeStatus = data['Data'][0]['data'][0]['CollegeStatus'];
+        this.CollegeStatusID = data['Data'][0]['data'][0]['CollegeStatusID'];
 
-          await this.ddlDepartment_change(this.request.DepartmentID);
-          await this.CourseLevel();
-          await this.GetStreamList();
+        await this.ddlDepartment_change(this.request.DepartmentID);
+        await this.CourseLevel();
+        await this.GetStreamList();
 
 
-        }, error => console.error(error));
+      }, error => console.error(error));
 
   }
   async ddlDepartment_change(SeletedDepartmentID: any) {
@@ -213,6 +211,8 @@ export class AddCoursesComponent implements OnInit {
 
       this.showhideStream();
 
+      console.log(this.CollegeStatus);
+      console.log(this.CollegeStatusID);
       if (this.CollegeStatus == 'Existing' && this.AllCourseList.length == 0) {
         this.request.CourseTypeID = this.CollegeStatusID;
         this.isCollegExisting = true;
@@ -231,25 +231,22 @@ export class AddCoursesComponent implements OnInit {
       }, 200);
     }
   }
-  async ddlCourse_change($event: any, SeletedCourseID: any)
-  {
+  async ddlCourse_change($event: any, SeletedCourseID: any) {
     this.request.CourseID = SeletedCourseID;
-    try
-    {
+    try {
       this.loaderService.requestStarted();
       if (this.request.DepartmentID == EnumDepartment.CollegeEducation)//College Education
       {
-          //this.GetStreamList_CourseIDWise();
-         this.ddlStream_change(this.request.StreamID);
+        //this.GetStreamList_CourseIDWise();
+        this.ddlStream_change(this.request.StreamID);
 
       }
-      else
-      {
+      else {
         await this.commonMasterService.GetSubjectList_CourseIDWise(this.request.CourseID)
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
             this.subjectDataList = data['Data'];
-           this.request.SelectedSubjectDetails = data['Data'];
+            this.request.SelectedSubjectDetails = data['Data'];
             console.log(this.request.SelectedSubjectDetails);
           }, error => console.error(error));
       }
@@ -272,7 +269,7 @@ export class AddCoursesComponent implements OnInit {
     }
   }
 
- 
+
 
   async GetAllList() {
     try {
@@ -299,38 +296,31 @@ export class AddCoursesComponent implements OnInit {
 
     this.isSubmitted = true;
 
-    if (this.isShowStreambox)
-    {
+    if (this.isShowStreambox) {
       if (this.request.StreamID == 0) {
         this.toastr.error("Please Select Steam");
         return
       }
     }
 
-    if (this.CourseMasterForm.invalid)
-    {
+    if (this.CourseMasterForm.invalid) {
       return
     }
 
 
-    if (this.request.DepartmentID == EnumDepartment.CollegeEducation)
-    {
-      var CourseName = this.CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.CourseLevelID).Name;
+    if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
+      var CourseLevel = this.CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.CourseLevelID).Name;
       var CourseType = this.courseTypeDataList.find((x: { ID: number; }) => x.ID == this.request.CourseTypeID).Name;
 
-      if (CourseName == 'PG1')
-      {
-        if (this.request.SelectedSubjectDetails.length > 1)
-        {
+      if (CourseLevel == 'PG') {
+        if (this.request.SelectedSubjectDetails.length > 1) {
           this.toastr.error("you can select only 1 subject for PG");
           return;
         }
       }
 
-      if (CourseName == 'UG1' && CourseType=='New')
-      {
-        if (this.request.SelectedSubjectDetails.length < 3)
-        {
+      if (CourseLevel == 'UG' && CourseType == 'New') {
+        if (this.request.SelectedSubjectDetails.length < 3) {
           this.toastr.error("Minimum 3 Subject Required for UG.");
           return;
         }
@@ -405,48 +395,39 @@ export class AddCoursesComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.courseMasterService.GetByID(CollegeWiseCourseID, this.sSOLoginDataModel.SSOID, this.UserID)
         .then(async (data: any) => {
-          
           data = JSON.parse(JSON.stringify(data));
-          console.log(data);
-          
+
           this.request.CollegeWiseCourseID = CollegeWiseCourseID; //data['Data'][0]["CollegeWiseCourseID"];
-     
+
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-    
+
           this.request.CollegeID = data['Data'][0]["CollegeID"];
           await this.ddlCollege_change(this.request.CollegeID);
-         
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
           await this.ddlCourseLevel_change(this.request.CourseLevelID);
-         
 
-          setTimeout(async () =>
-          {
-            this.request.CourseID = data['Data'][0]["CourseID"];
-            console.log(this.request.CourseID);
-            await this.ddlCourse_change(null, this.request.CourseID);
+          this.request.CourseID = data['Data'][0]["CourseID"];
+          await this.ddlCourse_change(null, this.request.CourseID);
 
-            if (this.request.DepartmentID == EnumDepartment.CollegeEducation)
-            {
-              this.request.StreamID = data['Data'][0]["StreamID"];
-              await this.ddlStream_change(this.request.StreamID);
-            }
-            console.log(data['Data'][0]["SelectedSubjectDetails"]);
-            this.request.SelectedSubjectDetails = data['Data'][0]["SelectedSubjectDetails"];
-            setTimeout(() => {
-              this.request.Seats = data['Data'][0]["Seats"];
-            }, 500);
-          }, 300); 
+          if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
+            this.request.StreamID = data['Data'][0]["StreamID"];
+            await this.ddlStream_change(this.request.StreamID);
+          }
+          console.log(data['Data'][0]["SelectedSubjectDetails"]);
+          this.request.SelectedSubjectDetails = data['Data'][0]["SelectedSubjectDetails"];
+
+          this.request.Seats = data['Data'][0]["Seats"];
+
 
           this.request.CourseTypeID = data['Data'][0]["CourseTypeID"];
-          
+
 
 
           this.request.UserID = data['Data'][0]["UserID"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
           this.request.DeleteStatus = data['Data'][0]["DeleteStatus"];
           this.isDisabledGrid = true;
-         
+
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
           const btnReset = document.getElementById('btnReset')
@@ -625,10 +606,8 @@ export class AddCoursesComponent implements OnInit {
     }
   }
 
-  async CourseLevel()
-  {
-    try
-    {
+  async CourseLevel() {
+    try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.request.DepartmentID, "CourseLevel")
         .then((data: any) => {
@@ -649,16 +628,15 @@ export class AddCoursesComponent implements OnInit {
     }
   };
 
-  async GetStreamList_CourseIDWise()
-  {
+  async GetStreamList_CourseIDWise() {
     try {
-      
+
       this.loaderService.requestStarted();
       await this.commonMasterService.GetStreamList_CourseIDWise(this.request.DepartmentID, this.request.CourseLevelID, this.request.CourseID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.streamDataList = data['Data'];
-        
+
         }, error => console.error(error));
 
     }
@@ -672,49 +650,44 @@ export class AddCoursesComponent implements OnInit {
     }
   }
 
-  async ddlCourseLevel_change(CourseLevelID: any)
-  {
+  async ddlCourseLevel_change(CourseLevelID: any) {
+
+    if (this.request.DepartmentID == 3) {
+      this.request.CourseLevelID = CourseLevelID;
+      this.request.CourseID = 0;
+      await this.commonMasterService.GetCourseByStreamID(this.request.StreamID, this.request.DepartmentID, this.request.CourseLevelID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.courseDataList = data['Data'][0]['data'];
+          console.log(this.courseDataList);
+        }, error => console.error(error));
 
 
-    this.request.CourseLevelID = CourseLevelID;
-    this.request.CourseID = 0;
-    await this.commonMasterService.GetCourseByStreamID(this.request.StreamID, this.request.DepartmentID, this.request.CourseLevelID)
-      .then((data: any) => {
-        data = JSON.parse(JSON.stringify(data));
-        this.courseDataList = data['Data'][0]['data'];
-        console.log(this.courseDataList);
-      }, error => console.error(error));
-
-
-    this.courseDataList = this.courseDataList.filter(item => item.CourseLevelID == CourseLevelID);
+      this.courseDataList = this.courseDataList.filter(item => item.CourseLevelID == CourseLevelID);
+    }
   }
 
-  showhideStream()
-  {
-    if (this.request.DepartmentID == EnumDepartment.CollegeEducation)
-    {
+  showhideStream() {
+    if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
       this.isShowStreambox = true;
     }
-    else
-    {
+    else {
       this.isShowStreambox = false;
     }
   }
 
-  async ddlStream_change(StreamID: any)
-  {
+  async ddlStream_change(StreamID: any) {
     this.request.StreamID = StreamID;
     await this.commonMasterService.GetSubjectList_StreamIDWise(this.request.StreamID, this.request.DepartmentID, this.request.CourseLevelID, this.request.CourseID)
       .then((data: any) => {
         data = JSON.parse(JSON.stringify(data));
         this.subjectDataList = data['Data'];
-       // this.request.SelectedSubjectDetails = data['Data'];
+        // this.request.SelectedSubjectDetails = data['Data'];
         console.log(this.request.SelectedSubjectDetails);
       }, error => console.error(error));
   }
 
-  async ddlSreamChangeReset(StreamID: any)
-  {
+  async ddlSreamChangeReset(StreamID: any) {
     this.request.StreamID = StreamID;
     this.request.CourseLevelID = 0;
     this.request.CourseID = 0;

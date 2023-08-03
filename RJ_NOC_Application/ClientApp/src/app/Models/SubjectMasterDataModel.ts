@@ -6,7 +6,7 @@ export class SubjectMasterDataModel {
   public UserID: number = 0;
   public Predical: string = '';
   public IsPredical: boolean = false;
-  public ActiveStatus: boolean = false;
+  public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
 }
  
