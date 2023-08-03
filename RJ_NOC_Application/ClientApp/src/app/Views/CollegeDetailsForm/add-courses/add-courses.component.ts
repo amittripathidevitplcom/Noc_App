@@ -675,15 +675,27 @@ export class AddCoursesComponent implements OnInit {
   async ddlCourseLevel_change(CourseLevelID: any)
   {
 
-
     this.request.CourseLevelID = CourseLevelID;
-    this.request.CourseID = 0;
-    await this.commonMasterService.GetCourseByStreamID(this.request.StreamID, this.request.DepartmentID, this.request.CourseLevelID)
-      .then((data: any) => {
-        data = JSON.parse(JSON.stringify(data));
-        this.courseDataList = data['Data'][0]['data'];
-        console.log(this.courseDataList);
-      }, error => console.error(error));
+    if (this.request.DepartmentID == 3)
+    {
+      //this.request.CourseID = 0;
+      await this.commonMasterService.GetCourseByStreamID(this.request.StreamID, this.request.DepartmentID, this.request.CourseLevelID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.courseDataList = data['Data'][0]['data'];
+          console.log(this.courseDataList);
+        }, error => console.error(error));
+    }
+    else
+    {
+      await this.commonMasterService.GetCourseList_DepartmentIDWise(this.request.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.courseDataList = data['Data'];
+          console.log(this.courseDataList);
+        }, error => console.error(error));
+
+    }
 
 
     this.courseDataList = this.courseDataList.filter(item => item.CourseLevelID == CourseLevelID);
