@@ -20,6 +20,7 @@ import { AadharServiceDataModel } from '../../Models/AadharServiceDataModel';
 })
 export class LegalEntityComponent implements OnInit {
   isSubmitted: boolean = false;
+  isValidateMemberDoc: boolean = true;
   IsActOther: boolean = false;
   IsSocietyRegistration: boolean = true;
   IsOtherInstitution: boolean = false;
@@ -497,12 +498,12 @@ export class LegalEntityComponent implements OnInit {
         }
       }
       else {
-        this.memberdetails.MemberPhoto = '';
-        this.memberdetails.MemberPhotoPath = '';
-        this.memberdetails.MemberSignature = '';
-        this.memberdetails.MemberSignaturePath = '';
-        this.memberdetails.PresidentAadhaarProofDoc = '';
-        this.memberdetails.PresidentAadhaarProofDocPath = '';
+        //this.memberdetails.MemberPhoto = '';
+        //this.memberdetails.MemberPhotoPath = '';
+        //this.memberdetails.MemberSignature = '';
+        //this.memberdetails.MemberSignaturePath = '';
+        //this.memberdetails.PresidentAadhaarProofDoc = '';
+        //this.memberdetails.PresidentAadhaarProofDocPath = '';
         this.isMemberPhoto = false;
         this.isMemberSignature = false;
         this.isPresidentAadhaarProofDoc = false;
@@ -927,13 +928,12 @@ export class LegalEntityComponent implements OnInit {
         .then((data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));
-         
+
           if (data[0].status == "0") {
             this.AadharDetails = JSON.parse(data[0].data);
             this.toastr.success("OTP Verify Successfully");
             this.VerifiedOTP = true;
-            if (this.UserOTP != this.CustomOTP)
-            {
+            if (this.UserOTP != this.CustomOTP) {
               this.memberdetails.MemberName = this.AadharDetails[0]["Column2"];
               if (this.AadharDetails[0]["Column4"].length > 4) {
                 var memberdob = this.AadharDetails[0]["Column4"].split('-');
@@ -1558,14 +1558,14 @@ export class LegalEntityComponent implements OnInit {
     //const mindate1 = new Date(2000, 0, 1);
     const mindate1 = new Date(this.request.SocietyRegistrationDate);
     this.MinDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
-   
+
     this.request.ElectionPresentManagementCommitteeDate = '';
     this.isDisabledCommitteeDate = false;
   }
 
   ElectionPresentManagementCommitteeDate_Change() {
     debugger;
-    if (new Date(this.request.SocietyRegistrationDate) > new Date(this.request.ElectionPresentManagementCommitteeDate) ) {
+    if (new Date(this.request.SocietyRegistrationDate) > new Date(this.request.ElectionPresentManagementCommitteeDate)) {
       this.ValidationMinDate = 'Invalid .!';
       this.request.ElectionPresentManagementCommitteeDate = '';
       return;
@@ -1573,7 +1573,7 @@ export class LegalEntityComponent implements OnInit {
     const currndate = new Date();
     const salecteddate = new Date(this.request.ElectionPresentManagementCommitteeDate);
     const threeYrsAddOnDate = new Date(salecteddate.setFullYear((salecteddate.getFullYear() + 3)));
-    console.log(threeYrsAddOnDate < currndate);    
+    console.log(threeYrsAddOnDate < currndate);
     if (threeYrsAddOnDate < currndate) {
       this.request.IsDateOfElection = 'No';
       this.IsNotMoreThen3Year = false;
@@ -1582,7 +1582,7 @@ export class LegalEntityComponent implements OnInit {
       this.request.IsDateOfElection = 'Yes';
       this.IsNotMoreThen3Year = true;
 
-    }    
+    }
     this.ToggleElectionPresentManagementCommitteeDateValidation();
   }
 
@@ -1605,5 +1605,12 @@ export class LegalEntityComponent implements OnInit {
       this.request.ElectionPresentManagementCommitteeDate = '';
     }
     this.ToggleElectionPresentManagementCommitteeDateValidation();
+  }
+
+  IsCheckMemberValidateDoc(val: any) {
+    if (val == 14 || val == '14')
+      this.isValidateMemberDoc = false;
+    else
+      this.isValidateMemberDoc = true;
   }
 }

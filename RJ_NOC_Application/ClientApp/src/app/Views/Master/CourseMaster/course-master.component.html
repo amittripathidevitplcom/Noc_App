@@ -1,0 +1,166 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Course Master </h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Master</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Course Master</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="CourseMasterForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-plus"></i>&nbsp; Add Course</b>
+            <span class="text-danger">(*) Fields is compulsory</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlDepartmentID" class="form-label">Select Department Name  <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (input)="FillCourselevel($event,SeletedDepartmentID.value)">
+                  <option value="0" disabled>--Select Department--</option>
+                  <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+    <label for="ddlStreamID" class="form-label">Select Stream Name <span style="color:red;">*</span></label>
+    <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID">
+      <option value="0" disabled>--Select Stream Name--</option>
+      <option *ngFor="let item of StreamDDLList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+    </select>
+    <div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
+      <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+    </div>
+  </div>-->
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCourseLevelID" name="ddlCourseLevelID" [(ngModel)]="request.CourseLevelID" formControlName="ddlCourseLevelID">
+                  <option value="0" disabled>--Select Course Level--</option>
+                  <option *ngFor="let item of CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCourseLevelID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCourseLevelID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtCourseName" class="form-label">Course Name<span style="color:red;">*</span></label>
+                <input type="text" id="txtCourseName" formControlName="txtCourseName" maxlength="100" class="form-control" [(ngModel)]="request.CourseName" (keypress)="alphaOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtCourseName.errors" class="text-danger">
+                  <p *ngIf="form.txtCourseName.errors.required">This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlCourseDurationType" class="form-label">Select Course Duration Type <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCourseDurationType" name="ddlCourseDurationType" [(ngModel)]="request.CourseDurationType" formControlName="ddlCourseDurationType">
+                  <option value="0" disabled>--Select Course Duration Type--</option>
+                  <option *ngFor="let item of CourseDurationList" value="{{item.ID}}">{{item.Name}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCourseDurationType.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCourseDurationType.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtCourseDuration" class="form-label mb-0">Course Duration <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtCourseDuration" name="txtCourseDuration" formControlName="txtCourseDuration" [(ngModel)]="request.Duration" (keypress)="numberOnly($event)">
+
+                <div *ngIf="isSubmitted&&form.txtCourseDuration.errors" class="text-danger">
+                  <p *ngIf="form.txtCourseDuration.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtNoOfRooms" class="form-label mb-0">No of Rooms <span style="color:red;">*</span> </label>
+                <input type="text" class="form-control" id="txtNoOfRooms" name="txtNoOfRooms" formControlName="txtNoOfRooms" [(ngModel)]="request.NoOfRooms" (keypress)="numberOnly($event)">
+
+                <div *ngIf="isSubmitted&&form.txtNoOfRooms.errors" class="text-danger">
+                  <p *ngIf="form.txtNoOfRooms.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="chkActiveStatus" class="form-label">Status</label>
+                <div class="form-check form-switch d-flex align-items-center">
+                  <input class="form-check-input" type="checkbox" id="Active" [(ngModel)]="request.ActiveStatus" formControlName="chkActiveStatus">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </div>
+      </form>
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Course List </b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <i class="fa fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Department Name</th>
+                  <th>Course Level Name</th>
+                  <th>Course Name</th>
+                  <th>Course Duration Type</th>
+                  <th>Course Duration</th>
+                  <th>No. Of Rooms</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of CourseDataList | tableSearchFilter:searchText;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.DepartmentName}}</td>
+                  <td>{{row.CourseLevel}}</td>
+                  <td>{{row.CourseName}}</td>
+                  <td>{{row.CourseDuratinName}}</td>
+                  <td>{{row.Duration}}</td>
+                  <td>{{row.NoOfRooms}}</td>
+                  <td>{{row.ActiveDeactive}}</td>
+                  <td>
+                    <div class="d-flex">
+                      <button type="button" (click)="Edit_OnClick(row.CourseID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                      <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CourseID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+

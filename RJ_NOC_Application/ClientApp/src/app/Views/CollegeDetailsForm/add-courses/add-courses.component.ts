@@ -117,8 +117,6 @@ export class AddCoursesComponent implements OnInit {
     }
   }
   get form() { return this.CourseMasterForm.controls; }
-
-
   async LoadMaster() {
     try {
       this.loaderService.requestStarted();
@@ -138,8 +136,6 @@ export class AddCoursesComponent implements OnInit {
       }, 200);
     }
   }
-
-
   async GetStreamList() {
 
     try {
@@ -168,12 +164,6 @@ export class AddCoursesComponent implements OnInit {
     }
 
   }
-
-
-
-
-
-
   async ddlCollege_change(SeletedCollegeID: any) {
     this.request.CollegeID = SeletedCollegeID;
     await this.commonMasterService.GetCollegeBasicDetails(SeletedCollegeID)
@@ -269,9 +259,6 @@ export class AddCoursesComponent implements OnInit {
       }, 200);
     }
   }
-
-
-
   async GetAllList() {
     try {
       this.loaderService.requestStarted();
@@ -606,7 +593,6 @@ export class AddCoursesComponent implements OnInit {
       }, 200);
     }
   }
-
   async CourseLevel() {
     try {
       this.loaderService.requestStarted();
@@ -628,7 +614,6 @@ export class AddCoursesComponent implements OnInit {
       }, 200);
     }
   };
-
   async GetStreamList_CourseIDWise() {
     try {
 
@@ -702,7 +687,6 @@ showhideStream()
         console.log(this.request.SelectedSubjectDetails);
       }, error => console.error(error));
   }
-
   async ddlSreamChangeReset(StreamID: any) {
     this.request.StreamID = StreamID;
     this.request.CourseLevelID = 0;
