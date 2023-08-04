@@ -15,7 +15,7 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { EnumDepartment } from '../../../Common/enum-noc';
 import { Console } from 'console';
-import { async } from '@angular/core/testing';
+
 
 
 @Injectable()
@@ -191,7 +191,8 @@ export class AddCoursesComponent implements OnInit {
       }, error => console.error(error));
 
   }
-  async ddlDepartment_change(SeletedDepartmentID: any) {
+  async ddlDepartment_change(SeletedDepartmentID: any)
+  {
     this.request.DepartmentID = SeletedDepartmentID;
     try {
       this.loaderService.requestStarted();
@@ -678,9 +679,10 @@ export class AddCoursesComponent implements OnInit {
 
       this.courseDataList = this.courseDataList.filter(item => item.CourseLevelID == CourseLevelID);
     }
-  }
+  
 
-  showhideStream() {
+showhideStream()
+{
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
       this.isShowStreambox = true;
     }
@@ -689,7 +691,8 @@ export class AddCoursesComponent implements OnInit {
     }
   }
 
-  async ddlStream_change(StreamID: any) {
+  async ddlStream_change(StreamID: any)
+{
     this.request.StreamID = StreamID;
     await this.commonMasterService.GetSubjectList_StreamIDWise(this.request.StreamID, this.request.DepartmentID, this.request.CourseLevelID, this.request.CourseID)
       .then((data: any) => {

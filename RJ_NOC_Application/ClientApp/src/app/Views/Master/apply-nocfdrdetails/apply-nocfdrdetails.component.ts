@@ -38,11 +38,14 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   public showFDRDocument: boolean = false;
   public DocumentValidMessage: string = '';
   public SelectedCollageID: number = 0;
+  public DApplicationNo: string = '';
 
   // model
   @Input() public CollegeID: number = 0;
   @Input() public ApplyNocApplicationID: number = 0;
   @Input() public IsSaveFDR: boolean = false;
+  @Input() public CollegeName: string = '';
+  @Input() public ApplicationNo: string = '';
   @Input() public RefModal: any;
   public MaxDate: Date = new Date();
 
@@ -72,6 +75,8 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedCollageID = this.CollegeID;
     this.request.ApplyNocID = this.ApplyNocApplicationID;
+    this.request.CollegeName = this.CollegeName;
+    this.DApplicationNo = this.ApplicationNo;
     //load
     await this.GetApplyNoc_FDRMasterByCollegeID(this.SelectedCollageID)
     //debugger
@@ -99,6 +104,16 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   }
   alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
     var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
+  alphaNumaricOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z0-9]+$");
     var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
     if (regex.test(str)) {
       return true;

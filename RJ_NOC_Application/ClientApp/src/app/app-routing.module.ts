@@ -109,6 +109,7 @@ import { JointSecretaryPendingNOCReportComponent } from './Views/Reports/Medical
 import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committee-forward-report/committee-forward-report.component';
 import { ApplyNOCCompletedReportComponent } from './Views/Reports/Medical/apply-noccompleted-report/apply-noccompleted-report.component';
 import { FarmLandDetailsComponent } from './Views/TabDetail/farm-land-details/farm-land-details.component';
+import { ClassWiseStudentDetailsComponent } from './Views/ClassWiseStudentDetails/class-wise-student-details/class-wise-student-details.component';
 
 
 const routes: Routes = [
@@ -466,8 +467,11 @@ const routes: Routes = [
       {
         path: 'farmlanddetails', component: FarmLandDetailsComponent
       },
+      {
+        path: 'classwisestudentdetail', component: ClassWiseStudentDetailsComponent
+      },
 
-
+      
 
 
     ]
