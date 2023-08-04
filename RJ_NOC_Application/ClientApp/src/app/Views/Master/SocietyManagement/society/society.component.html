@@ -299,8 +299,8 @@
                             <td><a target="_blank" href="{{row.SignatureDocPath}}"><i class="fa fa-eye"></i></a></td>
                             <td><a target="_blank" href="{{row.ProfilePhotoPath}}"><i class="fa fa-eye"></i></a></td>
                             <td><a target="_blank" href="{{row.AuthorizedDocumentPath}}"><i class="fa fa-eye"></i></a></td>
-                            <td>{{row.IsPrimary}}</td>
-                            <td>{{row.IsAuthorized}}</td>
+                            <td>{{row.S_IsPrimary}}</td>
+                            <td>{{row.S_IsAuthorized}}</td>
                             <td>
                               <div class="d-flex">
                                 <button type="button" (click)="Edit_OnClick(row.SocietyID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>

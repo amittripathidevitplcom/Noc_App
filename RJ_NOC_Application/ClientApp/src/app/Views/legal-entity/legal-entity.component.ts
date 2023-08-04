@@ -397,6 +397,7 @@ export class LegalEntityComponent implements OnInit {
 
   async SaveData() {
     try {
+      debugger;
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;
@@ -432,7 +433,6 @@ export class LegalEntityComponent implements OnInit {
       if (!isValid) {
         return;
       }
-
       //post
       this.request.SSOID = this.sSOLoginDataModel.SSOID;
       await this.legalEntityService.SaveData(this.request)
