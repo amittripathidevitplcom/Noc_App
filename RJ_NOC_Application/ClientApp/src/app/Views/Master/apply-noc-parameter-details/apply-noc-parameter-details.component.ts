@@ -104,6 +104,8 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
+
+          console.log(data['Data']);
           // data
           if (this.State == 0) {
             this.ApplyNocApplicationDetail = data['Data'];
@@ -506,6 +508,8 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       modalRef.componentInstance.ApplyNocApplicationID = item.ApplyNocApplicationID;
       modalRef.componentInstance.IsSaveFDR = item.IsSaveFDR;
       modalRef.componentInstance.RefModal = modalRef;
+      modalRef.componentInstance.CollegeName = item.CollegeName
+      modalRef.componentInstance.ApplicationNo = item.ApplicationNo
     }
     catch (Ex) {
       console.log(Ex);

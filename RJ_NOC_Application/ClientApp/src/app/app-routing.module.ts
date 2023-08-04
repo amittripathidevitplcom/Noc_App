@@ -111,6 +111,7 @@ import { ApplyNOCCompletedReportComponent } from './Views/Reports/Medical/apply-
 import { FarmLandDetailsComponent } from './Views/TabDetail/farm-land-details/farm-land-details.component';
 import { CourseMasterComponent } from './Views/Master/CourseMaster/course-master.component';
 import { ParamedicalHospitalDetailComponent } from './Views/TabDetail/paramedical-hospital-detail/paramedical-hospital-detail.component';
+import { ClassWiseStudentDetailsComponent } from './Views/ClassWiseStudentDetails/class-wise-student-details/class-wise-student-details.component';
 
 
 const routes: Routes = [
@@ -474,8 +475,11 @@ const routes: Routes = [
       {
         path: 'paramedicalhospitaldetail/:DepartmentID/:CollegeID', component: ParamedicalHospitalDetailComponent
       },
+      {
+        path: 'classwisestudentdetail', component: ClassWiseStudentDetailsComponent
+      },
 
-
+      
 
 
     ]

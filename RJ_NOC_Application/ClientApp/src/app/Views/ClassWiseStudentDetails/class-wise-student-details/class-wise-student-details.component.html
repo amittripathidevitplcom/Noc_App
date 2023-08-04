@@ -1,0 +1,159 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Class Wise Statistics </h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Master</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Class Wise Statistics</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Class Wise Statistics </b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <!--<button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>-->
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <!--<i class="fa fa-search"></i>-->
+              <!--<input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />-->
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Faculty</th>
+                  <th>Class</th>
+
+                  <th>Section</th>
+
+                  <th>SC Boys</th>
+                  <th>SC Girls</th>
+                  <th>ST Boys</th>
+                  <th>ST Girls</th>
+                  <th>OBC Boys</th>
+                  <th>OBC Girls</th>
+
+                  <th>MBC Boys</th>
+                  <th>MBC Girls</th>
+                  <th>Gen Boys</th>
+                  <th>Gen Girls</th>
+                  <th>EWS Boys</th>
+                  <th>EWS  Girls</th>
+                  <th>Total Boys</th>
+                  <th>Total Girls</th>
+                  <th>Total Minority Boys</th>
+                  <th>Total Minority Girls</th>
+                  <th>Total PH Boys</th>
+                  <th>Total PH Girls</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of ClassWiseStudentDetailsList let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>
+                    {{item.CourseName}}
+
+                  </td>
+                  <td>
+                    {{item.Class}}
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txSCSection{{idx}}" name="txSection{{idx}}" [(ngModel)]="item.Section" autocomplete="off">
+
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}" [(ngModel)]="item.SCBoysCount" autocomplete="off">
+
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" [(ngModel)]="item.SCGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.STBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.STGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}" [(ngModel)]="item.OBCBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}" [(ngModel)]="item.OBCGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.MBCBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.MBCGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}" [(ngModel)]="item.GenBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}" [(ngModel)]="item.GenGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txEWSBoysTotal{{idx}}" name="txEWSBoysTotal{{idx}}" [(ngModel)]="item.EWSBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txEWSGirlsTotal{{idx}}" name="txEWSGirlsTotal{{idx}}" [(ngModel)]="item.EWSGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    {{item.TotalBoys}}
+                      </td>
+                  <td>
+                    {{item.TotalGirls}}
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalMinorityBoys{{idx}}" name="txOFTotalMinorityBoys{{idx}}" [(ngModel)]="item.OFTotalMinorityBoys" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalMinorityGirls{{idx}}" name="txOFTotalMinorityGirls{{idx}}" [(ngModel)]="item.OFTotalMinorityGirls" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalPHBoys{{idx}}" name="txOFTotalPHBoys{{idx}}" [(ngModel)]="item.OFTotalPHBoys" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalPHGirls{{idx}}" name="txOFTotalPHGirls{{idx}}" [(ngModel)]="item.OFTotalPHGirls" autocomplete="off">
+                  </td>
+
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
