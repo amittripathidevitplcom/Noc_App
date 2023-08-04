@@ -232,6 +232,12 @@ export class AcademicInformationComponent implements OnInit {
       this.isPassStudent = false;
       this.isOtherStudent = false;
     }
+    if (this.request.ResultID == 0) {
+      this.isFailStudent = true;
+      this.isPassStudent = true;
+      this.isOtherStudent = true;
+    }
+
     if (Number(this.request.AppearedStudent) > Number(this.request.AdmittedStudent)) {
       this.toastr.warning('Please Enter No Of Appeared Student less than of Total Admitted Student..!');
       return;
