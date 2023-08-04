@@ -93,7 +93,7 @@
                 <label for="employeeName" class="form-label" style="margin-right:15px">Select Hospital Area <span style="color:red;">*</span></label>
                 <div class="clearfix"></div>
                 <div class="form-check form-check-inline" *ngFor="let item of HospitalAreaValidationList">
-                  <input class="form-check-input" type="radio" name="rbHospitalArea" id="rb{{item.Name}}" value="{{item.ID}}" [value]="item.ID" [(ngModel)]="request.HospitalAreaID" (change)="SetHospitalDistance(item.MinValue,item.MaxValue,null)" formControlName="rbHospitalArea" />
+                  <input class="form-check-input" type="radio" name="rbHospitalArea" id="rb{{item.Name}}" value="{{item.ID}}" [value]="item.ID" [(ngModel)]="request.HospitalAreaID"  formControlName="rbHospitalArea" />
                   <label class="form-check-label" for="rb{{item.Name}}">{{item.Name}}</label>
                 </div>
                 <div *ngIf="isSubmitted&&form.rbHospitalArea.errors" class="text-danger">
@@ -115,14 +115,6 @@
                 <div *ngIf="isSubmitted&&form.txtHospitalName.errors" class="text-danger">
                   <p *ngIf="form.txtHospitalName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Hospital Distance from Institutions (KM) <span style="color:red;">*</span></label>
-                <input type="text" class="form-control" name="txtHospitalDistance" id="txtHospitalDistance" [(ngModel)]="request.HospitalDistance" formControlName="txtHospitalDistance" maxlength="3" (keypress)="NumberOnly($event)" />
-                <div *ngIf="isSubmitted&&form.txtHospitalDistance.errors" class="text-danger">
-                  <p *ngIf="form.txtHospitalDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-                <p *ngIf="request.HospitalAreaID!=null && request.HospitalAreaID!=undefined && request.HospitalAreaID!=0 && !(request.HospitalDistance >= MinDistance && request.HospitalDistance <= MaxDistance)" class="text-danger">Enter Value between {{MinDistance}} to {{MaxDistance}}</p>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>Hospital Contact No. <span style="color:red;">*</span></label>
@@ -218,6 +210,21 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label>City Population <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" name="txtCityPopulation" id="txtCityPopulation" [(ngModel)]="request.CityPopulation" formControlName="txtCityPopulation" maxlength="10" (keypress)="NumberOnly($event)" autocomplete="off" (keyup)="CityPopulation_Change('Parent')"/>
+                <div *ngIf="isSubmitted&&form.txtCityPopulation.errors" class="text-danger">
+                  <p *ngIf="form.txtCityPopulation.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label>Hospital Distance from Institutions (KM) <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" name="txtHospitalDistance" id="txtHospitalDistance" [(ngModel)]="request.HospitalDistance" formControlName="txtHospitalDistance" maxlength="2" (keypress)="NumberOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtHospitalDistance.errors" class="text-danger">
+                  <p *ngIf="form.txtHospitalDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+                <p *ngIf="request.HospitalDistance > MaxDistance || request.HospitalDistance==null || request.HospitalDistance.toString()==''" class="text-danger">Enter Value between {{MinDistance}} to {{MaxDistance}}</p>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label class="form-label">Pincode <span style="color:red;">*</span></label>
                 <input type="text" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" (keypress)="NumberOnly($event)" maxlength="6">
                 <div *ngIf="isSubmitted&&form.txtPincode.errors" class="text-danger">
@@ -268,75 +275,6 @@
             </div>
           </div>
         </div>
-
-        <div class="card">
-          <div class="card-header">
-            <b>
-              <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
-            </b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Medical <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.MedicalBeds" name="txtMedicalBeds" id="txtMedicalBeds" formControlName="txtMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtMedicalBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtMedicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtMedicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Surgical <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.SurgicalBeds" name="txtSurgicalBeds" id="txtSurgicalBeds" formControlName="txtSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtSurgicalBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtSurgicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtSurgicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Obst. & Gynaecology <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.ObstAndGynaecologyBeds" name="txtObstAndGynaecologyBeds" id="txtObstAndGynaecologyBeds" formControlName="txtObstAndGynaecologyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtObstAndGynaecologyBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtObstAndGynaecologyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtObstAndGynaecologyBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Pediatrics <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.PediatricsBeds" name="txtPediatricsBeds" id="txtPediatricsBeds" formControlName="txtPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtPediatricsBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtPediatricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtPediatricsBeds.errors.min"><i aria-hidden="true"></i> Enter Value 20 or more</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Ortho <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.OrthoBeds" name="txtOrthoBeds" id="txtOrthoBeds" formControlName="txtOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtOrthoBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtOrthoBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtOrthoBeds.errors.min"><i aria-hidden="true"></i> Enter Value 10 or more</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Bed Occupancy of the Hospital in percentege <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.OccupancyPercentegeBeds" name="txtOccupancyPercentegeBeds" id="txtOccupancyPercentegeBeds" formControlName="txtOccupancyPercentegeBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtOccupancyPercentegeBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtOccupancyPercentegeBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtOccupancyPercentegeBeds.errors.min"><i aria-hidden="true"></i> Enter Value 75 or more</p>
-                </div>
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label>Affiliation of psychiatric hospital beds <span style="color:red;">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="request.AffiliationPsychiatricBeds" name="txtAffiliationPsychiatricBeds" id="txtAffiliationPsychiatricBeds" formControlName="txtAffiliationPsychiatricBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                <div *ngIf="isSubmitted&&form.txtAffiliationPsychiatricBeds.errors" class="text-danger">
-                  <p *ngIf="form.txtAffiliationPsychiatricBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtAffiliationPsychiatricBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="card" *ngIf="IsShowSuperSpecialtyHospital">
           <div class="card-header">
             <b>
@@ -449,9 +387,9 @@
                   <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingMedicalBeds" name="txtOncologyNursingMedicalBeds" id="txtOncologyNursingMedicalBeds" formControlName="txtOncologyNursingMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label>Surgical Beds </label>
-              <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
-            </div>-->
+                  <label>Surgical Beds </label>
+                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
+                </div>-->
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Chemotherapy Beds </label>
                   <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingChemotherapyBeds" name="txtOncologyNursingChemotherapyBeds" id="txtOncologyNursingChemotherapyBeds" formControlName="txtOncologyNursingChemotherapyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
@@ -1043,7 +981,7 @@
                   <label for="employeeName" class="form-label" style="margin-right:15px">Select Hospital Area <span style="color:red;">*</span></label>
                   <div class="clearfix"></div>
                   <div class="form-check form-check-inline" *ngFor="let item of HospitalAreaValidationList">
-                    <input class="form-check-input" type="radio" name="rbHospitalArea" id="rb{{item.Name}}" value="{{item.ID}}" [value]="item.ID" [(ngModel)]="requestNot.HospitalAreaID" (change)="SetHospitalDistance(item.MinValue,item.MaxValue,'ParentNot')" formControlName="rbHospitalArea" />
+                    <input class="form-check-input" type="radio" name="rbHospitalArea" id="rb{{item.Name}}" value="{{item.ID}}" [value]="item.ID" [(ngModel)]="requestNot.HospitalAreaID" formControlName="rbHospitalArea" />
                     <label class="form-check-label" for="rb{{item.Name}}">{{item.Name}}</label>
                   </div>
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.rbHospitalArea.errors" class="text-danger">
@@ -1065,14 +1003,6 @@
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtHospitalName.errors" class="text-danger">
                     <p *ngIf="form_ParentNot.txtHospitalName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label>Hospital Distance from Institutions (KM) <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" name="txtHospitalDistance" id="txtHospitalDistance" [(ngModel)]="requestNot.HospitalDistance" formControlName="txtHospitalDistance" (keypress)="NumberOnly($event)" maxlength="3" />
-                  <div *ngIf="isSubmitted_ParentNot&&form.txtHospitalDistance.errors" class="text-danger">
-                    <p *ngIf="form.txtHospitalDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                  <p *ngIf="requestNot.HospitalAreaID!=undefined && requestNot.HospitalAreaID!=null && requestNot.HospitalAreaID!=0  && !(requestNot.HospitalDistance >= MinDistance_ParentNot && requestNot.HospitalDistance <= MaxDistance_ParentNot)" class="text-danger">Enter Value between {{MinDistance_ParentNot}} to {{MaxDistance_ParentNot}}</p>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Hospital Contact No. <span style="color:red;">*</span></label>
@@ -1168,6 +1098,21 @@
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>City Population <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" name="txtCityPopulation" id="txtCityPopulation" [(ngModel)]="requestNot.CityPopulation" formControlName="txtCityPopulation" maxlength="10" (keypress)="NumberOnly($event)" autocomplete="off" (keyup)="CityPopulation_Change('ParentNot')" />
+                  <div *ngIf="isSubmitted&&form_ParentNot.txtCityPopulation.errors" class="text-danger">
+                    <p *ngIf="form.txtCityPopulation.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>Hospital Distance from Institutions (KM) <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" name="txtHospitalDistance" id="txtHospitalDistance" [(ngModel)]="requestNot.HospitalDistance" formControlName="txtHospitalDistance" (keypress)="NumberOnly($event)" maxlength="3" />
+                  <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtHospitalDistance.errors" class="text-danger">
+                    <p *ngIf="form.txtHospitalDistance.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                  <p *ngIf="requestNot.HospitalDistance > MaxDistance || requestNot.HospitalDistance==null || requestNot.HospitalDistance.toString()==''" class="text-danger">Enter Value between {{MinDistance}} to {{MaxDistance}}</p>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Pincode <span style="color:red;">*</span></label>
                   <input type="text" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="requestNot.Pincode" formControlName="txtPincode" (keypress)="NumberOnly($event)" maxlength="6">
                   <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPincode.errors" class="text-danger">
@@ -1175,22 +1120,7 @@
                     <p *ngIf="form_ParentNot.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
                   </div>
                 </div>
-                <!-- end -->
-                <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
-      <label class="form-label">Document </label>
-      <div class="d-flex">
-        <input type="file" class="form-control" id="fParentNotDocument" name="fParentNotDocument"
-               [(ngModel)]="requestNot.ParentNotDocument"
-               formControlName="fParentNotDocument" (change)="onFilechange($event,'ParentNotDocument')" />
-        <div class="btn-group" *ngIf="showParentNotDocument">
-          <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ParentNotDocument}}"><i class="fa fa-eye"></i></a>
-          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ParentNotDocument')"><i class="fa fa-trash-o"></i></button>
-        </div>
-      </div>
-      <div *ngIf="ParentNotDocumentValidationMessage!=''" class="text-danger">
-        <p><i aria-hidden="true"></i>{{ParentNotDocumentValidationMessage}}</p>
-      </div>
-    </div>-->
+
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                   <label for="fParentNotDocument" class="form-label">Document</label>
                   <div class="d-flex">
@@ -1224,19 +1154,7 @@
                       <p *ngIf="form_ParentNot.rbAffiliatedHospitalAffiliationToOtherID.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
-                  <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;" [hidden]="!IsAffiliatedHospitalAffiliationToOther">
-        <label class="form-label">Consent form </label>
-        <div class="d-flex">
-          <input type="file" class="form-control" id="fConsentForm" name="fConsentForm" [(ngModel)]="requestNot.ConsentForm" formControlName="fConsentForm" (change)="onFilechange($event,'ConsentForm')" />
-          <div class="btn-group" *ngIf="showParentNotConsentForm">
-            <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ConsentForm}}"><i class="fa fa-eye"></i></a>
-            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ConsentForm')"><i class="fa fa-trash-o"></i></button>
-          </div>
-        </div>
-        <div *ngIf="ParentNotConsentFormValidationMessage!=''" class="text-danger">
-          <p><i aria-hidden="true"></i>{{ParentNotConsentFormValidationMessage}}</p>
-        </div>
-      </div>-->
+
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                     <label for="fConsentForm" class="form-label">Consent form</label>
                     <div class="d-flex">
@@ -1289,73 +1207,6 @@
                       </div>
                       <div *ngIf="NotPollutionCertificateValidationMessage!=''" class="text-danger">
                         <p><i aria-hidden="true"></i>{{NotPollutionCertificateValidationMessage}}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header">
-                  <b>
-                    <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
-                  </b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Medical <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.MedicalBeds" name="txtMedicalBeds" id="txtMedicalBeds" formControlName="txtMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtMedicalBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtMedicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtMedicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Surgical <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.SurgicalBeds" name="txtSurgicalBeds" id="txtSurgicalBeds" formControlName="txtSurgicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtSurgicalBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtSurgicalBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtSurgicalBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Obst. & Gynaecology <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.ObstAndGynaecologyBeds" name="txtObstAndGynaecologyBeds" id="txtObstAndGynaecologyBeds" formControlName="txtObstAndGynaecologyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtObstAndGynaecologyBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtObstAndGynaecologyBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtObstAndGynaecologyBeds.errors.min"><i aria-hidden="true"></i> Enter Value 30 or more</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Pediatrics <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.PediatricsBeds" name="txtPediatricsBeds" id="txtPediatricsBeds" formControlName="txtPediatricsBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtPediatricsBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtPediatricsBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtPediatricsBeds.errors.min"><i aria-hidden="true"></i> Enter Value 20 or more</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Ortho <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.OrthoBeds" name="txtOrthoBeds" id="txtOrthoBeds" formControlName="txtOrthoBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOrthoBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtOrthoBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtOrthoBeds.errors.min"><i aria-hidden="true"></i> Enter Value 10 or more</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Bed Occupancy of the Hospital in percentege <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.OccupancyPercentegeBeds" name="txtOccupancyPercentegeBeds" id="txtOccupancyPercentegeBeds" formControlName="txtOccupancyPercentegeBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtOccupancyPercentegeBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtOccupancyPercentegeBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtOccupancyPercentegeBeds.errors.min"><i aria-hidden="true"></i> Enter Value 75 or more</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label>Affiliation of psychiatric hospital beds <span style="color:red;">*</span></label>
-                      <input class="form-control" type="text" [(ngModel)]="requestNot.AffiliationPsychiatricBeds" name="txtAffiliationPsychiatricBeds" id="txtAffiliationPsychiatricBeds" formControlName="txtAffiliationPsychiatricBeds" (keypress)="NumberOnly($event)" maxlength="5" />
-                      <div *ngIf="isSubmitted_ParentNot&&form_ParentNot.txtAffiliationPsychiatricBeds.errors" class="text-danger">
-                        <p *ngIf="form_ParentNot.txtAffiliationPsychiatricBeds.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                        <p *ngIf="form_ParentNot.txtAffiliationPsychiatricBeds.errors.min"><i aria-hidden="true"></i> Enter Value 50 or more</p>
                       </div>
                     </div>
                   </div>
@@ -1742,10 +1593,10 @@
         </div>
         <div class="card">
           <div class="card-header" *ngIf="HospitalData.ParentHospitalID==2">
-              <b> Which affiliated hospitals would the organization like to associate with for clinical training </b>
+            <b> Which affiliated hospitals would the organization like to associate with for clinical training </b>
           </div>
           <div class="card-header" *ngIf="HospitalData.ParentHospitalID==1">
-              <b> Hospital Detail </b>
+            <b> Hospital Detail </b>
           </div>
 
           <div class="card-body">

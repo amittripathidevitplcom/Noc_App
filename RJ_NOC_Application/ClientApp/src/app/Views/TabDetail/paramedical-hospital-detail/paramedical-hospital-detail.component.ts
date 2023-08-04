@@ -1,29 +1,25 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as XLSX from 'xlsx';
 import { ToastrService } from 'ngx-toastr';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
-
-import { HospitalDataModel, HospitalParentNotDataModel } from '../../../Models/HospitalDataModel';
-import { min } from 'rxjs';
-import { async } from '@angular/core/testing';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
-import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
+import { ParamedicalHospitalDataModel, ParamedicalHospitalParentNotDataModel } from '../../../Models/ParamedicalHospitalDataModel';
+import { ParamedicalHospitalService } from '../../../Services/Tabs/ParamedicalHospital/paramedical-hospital.service';
 @Injectable()
 
 @Component({
-  selector: 'app-hospital-detail',
-  templateUrl: './hospital-detail.component.html',
-  styleUrls: ['./hospital-detail.component.css']
+  selector: 'app-paramedical-hospital-detail',
+  templateUrl: './paramedical-hospital-detail.component.html',
+  styleUrls: ['./paramedical-hospital-detail.component.css']
 })
-export class HospitalDetailComponent implements OnInit {
+export class ParamedicalHospitalDetailComponent implements OnInit {
 
   //Add FormBuilder
   HospitalParentForm!: FormGroup;
@@ -37,12 +33,13 @@ export class HospitalDetailComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public isLoading: boolean = false;
+  public isHospitalrequried: boolean = false;
   public isSubmitted: boolean = false;
   public IsHospitalOwned: boolean = false;
   public isSubmitted_ParentNot: boolean = false;
   public HospitalAreaValidationList: any = [];
   public MinDistance: number = 0;
-  public MaxDistance: number = 0;
+  public MaxDistance: number = 10;
   public MinDistance_ParentNot: number = 0;
   public MaxDistance_ParentNot: number = 0;
   public IsParentHospital: boolean = null;
@@ -101,22 +98,22 @@ export class HospitalDetailComponent implements OnInit {
   public NotPollutionCertificateValidationMessage: string = '';
   public showParentNotConsentForm: boolean = false;
   public ParentNotConsentFormValidationMessage: string = '';
+  public isFormValid: boolean = true;
 
   // login model
   sSOLoginDataModel = new SSOLoginDataModel();
 
   /*Save Data Model*/
-  request = new HospitalDataModel();
-  requestNot = new HospitalParentNotDataModel();
+  request = new ParamedicalHospitalDataModel();
+  requestNot = new ParamedicalHospitalParentNotDataModel();
 
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
   public HospitalData: any = {};
 
   LegalEntityDataModel = new LegalEntityDataModel();
-  public isHospitalrequried: boolean = false;
-  public isFormValid: boolean = true;
-  constructor(private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
+
+  constructor(private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private modalService: NgbModal, private hospitalDetailService: ParamedicalHospitalService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
   }
 
   async ngOnInit() {
@@ -135,13 +132,13 @@ export class HospitalDetailComponent implements OnInit {
         txtManageByPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtOwnerName: ['', Validators.required],
         txtOwnerPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
-        txtMedicalBeds: ['', [Validators.required, Validators.min(30)]],
-        txtSurgicalBeds: ['', [Validators.required, Validators.min(30)]],
-        txtObstAndGynaecologyBeds: ['', [Validators.required, Validators.min(30)]],
-        txtPediatricsBeds: ['', [Validators.required, Validators.min(20)]],
-        txtOrthoBeds: ['', [Validators.required, Validators.min(10)]],
-        txtOccupancyPercentegeBeds: ['', [Validators.required, Validators.min(75)]],
-        txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
+        //txtMedicalBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtSurgicalBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtObstAndGynaecologyBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtPediatricsBeds: ['', [Validators.required, Validators.min(20)]],
+        //txtOrthoBeds: ['', [Validators.required, Validators.min(10)]],
+        //txtOccupancyPercentegeBeds: ['', [Validators.required, Validators.min(75)]],
+        //txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
         rbParentHospitalRelatedToOtherID: [''],
         txtInstitutionName: ['', Validators.required],
         txtOrganizationPhone: ['', [Validators.required]], //, Validators.pattern(this.LandLineRegex)
@@ -241,10 +238,12 @@ export class HospitalDetailComponent implements OnInit {
 
         txtPollutionUnitID: ['', Validators.required],
         fPollutionCertificate: [''],
+        txtCityPopulation: ['', Validators.required],
       })
 
     this.HospitalParentNotForm = this.formBuilder.group(
       {
+        rbHospitalStatus: [''],
         rbHospitalArea: ['', Validators.required],
         txtHospitalName: ['', Validators.required],
         txtHospitalRegNo: ['', Validators.required],
@@ -255,13 +254,13 @@ export class HospitalDetailComponent implements OnInit {
         txtManageByPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
         txtOwnerName: ['', Validators.required],
         txtOwnerPhone: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
-        txtMedicalBeds: ['', [Validators.required, Validators.min(30)]],
-        txtSurgicalBeds: ['', [Validators.required, Validators.min(30)]],
-        txtObstAndGynaecologyBeds: ['', [Validators.required, Validators.min(30)]],
-        txtPediatricsBeds: ['', [Validators.required, Validators.min(20)]],
-        txtOrthoBeds: ['', [Validators.required, Validators.min(10)]],
-        txtOccupancyPercentegeBeds: ['', [Validators.required, Validators.min(75)]],
-        txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
+        //txtMedicalBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtSurgicalBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtObstAndGynaecologyBeds: ['', [Validators.required, Validators.min(30)]],
+        //txtPediatricsBeds: ['', [Validators.required, Validators.min(20)]],
+        //txtOrthoBeds: ['', [Validators.required, Validators.min(10)]],
+        //txtOccupancyPercentegeBeds: ['', [Validators.required, Validators.min(75)]],
+        //txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
         rbAffiliatedHospitalAffiliationToOtherID: ['', Validators.required],
         fParentNotDocument: [''],
         fConsentForm: [''],
@@ -297,6 +296,7 @@ export class HospitalDetailComponent implements OnInit {
         txtPincode_Owner: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
         txtPollutionUnitID: ['', Validators.required],
         fPollutionCertificate: [''],
+        txtCityPopulation: ['', Validators.required],
       })
 
     // query string
@@ -329,7 +329,8 @@ export class HospitalDetailComponent implements OnInit {
     if (this.QueryStringDepartmentID > 0 && this.QueryStringCollegeID > 0) {
       await this.GetDataList();
       // Super specialty hospital
-      await this.IsSuperSpecialtyHospital();
+      //await this.IsSuperSpecialtyHospital();
+      await this.ToggleSuperSpecialtyHospitalValidation();
       await this.GetLegalEntityData();
     }
 
@@ -500,6 +501,7 @@ export class HospitalDetailComponent implements OnInit {
 
   async IsSuperSpecialtyHospital() {
     try {
+      await this.ToggleSuperSpecialtyHospitalValidation();
       this.loaderService.requestStarted();
       await this.hospitalDetailService.IsSuperSpecialtyHospital(this.QueryStringCollegeID)
         .then(async (data: any) => {
@@ -960,13 +962,6 @@ export class HospitalDetailComponent implements OnInit {
       this.request.ManageByPhone = '';
       this.request.OwnerName = '';
       this.request.OwnerPhone = '';
-      this.request.MedicalBeds = 0;
-      this.request.SurgicalBeds = 0;
-      this.request.ObstAndGynaecologyBeds = 0;
-      this.request.PediatricsBeds = 0;
-      this.request.OrthoBeds = 0;
-      this.request.OccupancyPercentegeBeds = 0;
-      this.request.AffiliationPsychiatricBeds = 0;
       this.request.ParentHospitalRelatedToOtherID = 0;
       this.request.InstitutionName = '';
       this.request.OrganizationPhone = '';
@@ -1054,7 +1049,6 @@ export class HospitalDetailComponent implements OnInit {
       this.request.PanchayatSamitiID_Other = 0;
       this.request.CityTownVillage_Other = '';
       this.request.Pincode_Other = null;
-      this.request.HospitalStatus = '';
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1118,7 +1112,9 @@ export class HospitalDetailComponent implements OnInit {
     if (this.requestNot.PollutionCertificate == '') {
       this.isFormValid = false;
     }
-    if (!this.isFormValid) { return }
+    if (!this.isFormValid) {
+      return;
+    }
     if (this.requestNot.HospitalID > 0) {
       this.requestNot.ModifyBy = 1;
     }
@@ -1168,8 +1164,6 @@ export class HospitalDetailComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       // reset
-      this.IsHospitalOwned = false;
-      this.request.HospitalStatus = '';
       this.requestNot.HospitalID = 0;
       this.requestNot.HospitalAreaID = 0;
       this.requestNot.HospitalRegNo = '';
@@ -1181,13 +1175,6 @@ export class HospitalDetailComponent implements OnInit {
       this.requestNot.ManageByPhone = null;
       this.requestNot.OwnerName = '';
       this.requestNot.OwnerPhone = null;
-      this.requestNot.MedicalBeds = 0;
-      this.requestNot.SurgicalBeds = 0;
-      this.requestNot.ObstAndGynaecologyBeds = 0;
-      this.requestNot.PediatricsBeds = 0;
-      this.requestNot.OrthoBeds = 0;
-      this.requestNot.OccupancyPercentegeBeds = 0;
-      this.requestNot.AffiliationPsychiatricBeds = 0;
       this.requestNot.AffiliatedHospitalAffiliationToOtherID = null;
       this.requestNot.ParentNotDocument = '';
       this.requestNot.Dis_ParentNotDocument = '';
@@ -1195,6 +1182,7 @@ export class HospitalDetailComponent implements OnInit {
       this.requestNot.ConsentForm = '';
       this.requestNot.Dis_ConsentForm = '';
       this.requestNot.ConsentFormPath = '';
+      this.IsHospitalOwned = false;
 
 
       this.requestNot.AddressLine1 = '';
@@ -1312,10 +1300,10 @@ export class HospitalDetailComponent implements OnInit {
     if (this.requestNot.HospitalAreaID == undefined || this.requestNot.HospitalAreaID == null || this.requestNot.HospitalAreaID == 0) {
       this.isValid_ParentNot = false;
     }
-    if (!(this.requestNot.HospitalDistance >= this.MinDistance_ParentNot && this.requestNot.HospitalDistance <= this.MaxDistance_ParentNot)) {
+    if (!(this.requestNot.HospitalDistance >= this.MinDistance && this.requestNot.HospitalDistance <= this.MaxDistance)) {
       this.isValid_ParentNot = false;
     }
-    if (this.request.HospitalStatus == null || this.request.HospitalStatus == '') {
+    if (this.request.HospitalStatus == null || this.request.HospitalStatus=='') {
       this.isValid_ParentNot = false;
       this.isHospitalrequried = true;
     }
@@ -1416,6 +1404,7 @@ export class HospitalDetailComponent implements OnInit {
           }
           else if (data['Data']['ParentHospitalID'] == 2) {
             this.requestNot = JSON.parse(JSON.stringify(data['Data']));
+            this.request.HospitalStatus = this.requestNot.HospitalStatus;
             // hospital area validation
             let selectedHospitalAreaValidation = this.HospitalAreaValidationList.filter((element: any) => element.ID == this.requestNot.HospitalAreaID);
             if (selectedHospitalAreaValidation.length > 0) {
@@ -1424,7 +1413,7 @@ export class HospitalDetailComponent implements OnInit {
             // parent hospital or not
             this.IsParentHospitalOrNot(false);
 
-            this.request.HospitalStatus = this.requestNot.HospitalStatus;
+
             if (this.requestNot.HospitalStatus == 'Own') {
               this.IsHospitalOwned = true;
             }
@@ -1671,6 +1660,24 @@ export class HospitalDetailComponent implements OnInit {
     event.preventDefault();
     return false;
   }
+  CityPopulation_Change(Type: string) {  // change distance
+    if (Type == 'ParentNot') {
+      if (this.requestNot.CityPopulation > 1000000) {
+        this.MaxDistance = 25;
+      }
+      else if (this.requestNot.CityPopulation <= 1000000) {
+        this.MaxDistance = 10;
+      }
+    }
+    else {
+      if (this.request.CityPopulation > 1000000) {
+        this.MaxDistance = 25;
+      }
+      else if (this.request.CityPopulation <= 1000000) {
+        this.MaxDistance = 10;
+      }
+    }
+  }
 
   async ViewHospitalDetail(content: any, HospitalID: number) {
     this.HospitalData = {};
@@ -1743,7 +1750,7 @@ export class HospitalDetailComponent implements OnInit {
 
   IsHospitalOwnedOrParental() {
     this.IsHospitalOwned = false;
-    if (this.request.HospitalStatus == 'Own') {
+    if (this.request.HospitalStatus == 'Own' || this.requestNot.HospitalStatus == 'Own') {
       this.IsHospitalOwned = true;
     }
     else {
@@ -1751,3 +1758,4 @@ export class HospitalDetailComponent implements OnInit {
     }
   }
 }
+

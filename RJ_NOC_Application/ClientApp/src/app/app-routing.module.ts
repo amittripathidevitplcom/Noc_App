@@ -110,6 +110,7 @@ import { CommitteeForwardReportComponent } from './Views/Reports/Medical/committ
 import { ApplyNOCCompletedReportComponent } from './Views/Reports/Medical/apply-noccompleted-report/apply-noccompleted-report.component';
 import { FarmLandDetailsComponent } from './Views/TabDetail/farm-land-details/farm-land-details.component';
 import { CourseMasterComponent } from './Views/Master/CourseMaster/course-master.component';
+import { ParamedicalHospitalDetailComponent } from './Views/TabDetail/paramedical-hospital-detail/paramedical-hospital-detail.component';
 
 
 const routes: Routes = [
@@ -469,6 +470,9 @@ const routes: Routes = [
       },
       {
         path: 'coursemaster', component: CourseMasterComponent
+      },
+      {
+        path: 'paramedicalhospitaldetail/:DepartmentID/:CollegeID', component: ParamedicalHospitalDetailComponent
       },
 
 

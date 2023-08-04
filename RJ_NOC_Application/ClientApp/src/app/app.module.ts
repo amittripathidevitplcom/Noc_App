@@ -168,6 +168,7 @@ import { ApplyNOCCompletedReportComponent } from './Views/Reports/Medical/apply-
 import { FarmLandDetailsComponent } from './Views/TabDetail/farm-land-details/farm-land-details.component';
 import { PreviewFarmLandDetailsComponent } from './Views/PreviewTabs/preview-farm-land-details/preview-farm-land-details.component';
 import { CourseMasterComponent } from './Views/Master/CourseMaster/course-master.component';
+import { ParamedicalHospitalDetailComponent } from './Views/TabDetail/paramedical-hospital-detail/paramedical-hospital-detail.component';
 
 
 @NgModule({
@@ -330,6 +331,7 @@ import { CourseMasterComponent } from './Views/Master/CourseMaster/course-master
     ApplyNOCCompletedReportComponent,
     FarmLandDetailsComponent,
     PreviewFarmLandDetailsComponent,
+    ParamedicalHospitalDetailComponent,
     CourseMasterComponent,
 
   ],
