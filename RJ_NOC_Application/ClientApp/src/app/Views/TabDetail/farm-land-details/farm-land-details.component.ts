@@ -201,6 +201,7 @@ export class FarmLandDetailsComponent implements OnInit {
   }
 
   ValidateUploadImage(event: any, Type: string) {
+    debugger;
     if (event.target.files && event.target.files[0]) {
       this.file = event.target.files[0];
       if (this.file.type === 'application/pdf' || this.file.type === 'image/jpeg' || this.file.type === 'image/jpg') {
@@ -259,12 +260,15 @@ export class FarmLandDetailsComponent implements OnInit {
   DeleteImage(Type: string) {
     let path: string = '';
     if (Type == 'CertificatefOfTehsildar') {
+      this.file = document.getElementById('txtCertificatefOfTehsildar');
+      this.file.value = '';
       path = this.request.CertificatefOfTehsildarName;
     }
     else if (Type == 'LandTitleCertificate') {
+      this.file = document.getElementById('txtLandTitleCertificate');
+      this.file.value = '';
       path = this.request.LandTitleCertificateName;
     }
-
     // delete from server folder
     this.fileUploadService.DeleteDocument(path).then((data: any) => {
       this.State = data['State'];
@@ -467,7 +471,7 @@ export class FarmLandDetailsComponent implements OnInit {
           this.request.LandTitleCertificateName = data['Data']["LandTitleCertificateName"];
           this.request.LandTitleCertificate_DisName = data['Data']["LandTitleCertificate_DisName"];
 
-         // this.isDisabledGrid = true;
+          // this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
           const btnReset = document.getElementById('btnReset')
