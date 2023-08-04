@@ -8,11 +8,11 @@
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label class="form-label" style="margin-right:15px">Select Type :</label>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeTeaching" [(ngModel)]="request.TeachingType" value="Teaching" formControlName="rdTeachingType">
+            <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeTeaching" [(ngModel)]="request.TeachingType" value="Teaching" formControlName="rdTeachingType" (change)="IsChnageTechingType('Teaching')">
             <label class="form-check-label" for="rdTeachingTypeTeaching">Teaching</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeNonTeaching" value="NonTeaching" [(ngModel)]="request.TeachingType" formControlName="rdTeachingType">
+            <input class="form-check-input" type="radio" name="rdTeachingType" id="rdTeachingTypeNonTeaching" value="NonTeaching" [(ngModel)]="request.TeachingType" formControlName="rdTeachingType" (change)="IsChnageTechingType('NonTeaching')">
             <label class="form-check-label" for="rdTeachingTypeNonTeaching">Non Teaching</label>
           </div>
           <div *ngIf="isSubmitted&&form.rdTeachingType.errors" class="text-danger">
@@ -178,21 +178,21 @@
         </div>
         <div class="col-md-4 mb-3">
           <label>Date Of Birth <span style="color:red;">*</span></label>
-          <input type="date" id="dtDOB" name="dtDOB" class="form-control" [(ngModel)]="request.DateOfBirth" formControlName="dtDOB" (change)="SetDateofAppointment()" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"/>
+          <input type="date" id="dtDOB" name="dtDOB" class="form-control" [(ngModel)]="request.DateOfBirth" formControlName="dtDOB" (change)="SetDateofAppointment()" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
           <div *ngIf="isSubmitted&&form.dtDOB.errors" class="text-danger">
             <p *ngIf="form.dtDOB.errors.required"> This field is required .!</p>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <label>Date Of Appointment <span style="color:red;">*</span></label>
-          <input type="date" id="dtDateOfAppointment" name="dtDateOfAppointment" class="form-control" [(ngModel)]="request.DateOfAppointment" formControlName="dtDateOfAppointment" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"/>
+          <input type="date" id="dtDateOfAppointment" name="dtDateOfAppointment" class="form-control" [(ngModel)]="request.DateOfAppointment" formControlName="dtDateOfAppointment" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
           <div *ngIf="isSubmitted&&form.dtDateOfAppointment.errors" class="text-danger">
             <p *ngIf="form.dtDateOfAppointment.errors.required"> This field is required .!</p>
           </div>
         </div>
         <div class="col-md-4 mb-3">
           <label>Date Of Joining <span style="color:red;">*</span></label>
-          <input type="date" id="dtDateOfJoining" name="dtDateOfJoining" class="form-control" [(ngModel)]="request.DateOfJoining" formControlName="dtDateOfJoining" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"/>
+          <input type="date" id="dtDateOfJoining" name="dtDateOfJoining" class="form-control" [(ngModel)]="request.DateOfJoining" formControlName="dtDateOfJoining" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
           <div *ngIf="isSubmitted&&form.dtDateOfJoining.errors" class="text-danger">
             <p *ngIf="form.dtDateOfJoining.errors.required"> This field is required .!</p>
             <!--<div *ngIf="form.dtDateOfJoining.errors.pattern">Please enter a valid date</div>-->
