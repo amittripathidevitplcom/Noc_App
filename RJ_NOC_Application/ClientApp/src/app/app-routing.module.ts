@@ -479,9 +479,6 @@ const routes: Routes = [
         path: 'classwisestudentdetail', component: ClassWiseStudentDetailsComponent
       },
 
-      
-
-
     ]
   },
 
