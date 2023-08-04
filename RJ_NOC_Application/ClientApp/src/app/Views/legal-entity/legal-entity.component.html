@@ -381,7 +381,7 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="">Management Committee certified By Registrar <span style="color:red">*</span></label>
-                <input class="form-control" id="txtManagementCommitteecertified" [(ngModel)]="request.ManagementCommitteeCertified" formControlName="txtManagementCommitteecertified" (keypress)="alphaOnly($event)" />
+                <input type="text" class="form-control" id="txtManagementCommitteecertified" [(ngModel)]="request.ManagementCommitteeCertified" formControlName="txtManagementCommitteecertified" (keypress)="alphaOnly($event)" />
                 <div *ngIf="isSubmitted&&form.txtManagementCommitteecertified.errors" class="text-danger">
                   <p *ngIf="form.txtManagementCommitteecertified.errors.required">This field is required .!</p>
                 </div>
