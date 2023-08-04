@@ -7,7 +7,7 @@ export class DocumentDataModel {
   public MinSize: number = 0;
   public MaxSize: number = 0;
   public IsCompulsory: boolean = false;
-  public IsActiveStatus: boolean = false;
+  public IsActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
   public UserID: number = 0;
 }

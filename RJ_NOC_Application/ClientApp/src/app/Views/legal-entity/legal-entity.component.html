@@ -1,3 +1,4 @@
+<app-loader></app-loader>
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
@@ -206,8 +207,9 @@
 
 
           <form [formGroup]="legalentityForm" class="form-horizontal">
+            <!--*ngIf="isFormsFill"-->
             <div class="row" id="FormsFill" *ngIf="isFormsFill">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" id="FormsFill">
                 <label for="txtRegistrationNo" class="form-label">Registration Number <span style="color:red">*</span></label>
                 <input type="text" class="form-control" id="txtRegistrationNo" [(ngModel)]="request.RegistrationNo" formControlName="txtNewRegistration" [attr.disabled]="isDisabledNewRegistration ? true : null" />
                 <div *ngIf="isSubmitted&&form.txtNewRegistration.errors" class="text-danger">
@@ -307,10 +309,13 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="">Date of Election of Present Management Committee <span *ngIf="IsNotMoreThen3Year" style="color:red">*</span></label>
-                <input class="form-control" type="date" id="txtElectionPresentManagementCommitteeDate" [(ngModel)]="request.ElectionPresentManagementCommitteeDate" formControlName="txtElectionPresentManagementCommitteeDate" min="{{MinDate_ElectionPresentManagementCommitteeDate | date:'yyyy-MM-dd'}}" max="{{MaxDate | date:'yyyy-MM-dd'}}" [disabled]="IsNotMoreThen3Year" (change)="ElectionPresentManagementCommitteeDate_Change()" [attr.disabled]="isDisabledCommitteeDate ? true : null" onkeypress="return false;" />
-
+                <input class="form-control" type="date" name="txtElectionPresentManagementCommitteeDate" id="txtElectionPresentManagementCommitteeDate" [(ngModel)]="request.ElectionPresentManagementCommitteeDate" formControlName="txtElectionPresentManagementCommitteeDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" [disabled]="IsNotMoreThen3Year" (change)="ElectionPresentManagementCommitteeDate_Change()" [attr.disabled]="isDisabledCommitteeDate ? true : null" onkeypress="return false;" />
+                <!--min="{{MinDate_ElectionPresentManagementCommitteeDate}}"-->
                 <div *ngIf="isSubmitted&&form.txtElectionPresentManagementCommitteeDate.errors" class="text-danger">
                   <p *ngIf="form.txtElectionPresentManagementCommitteeDate.errors.required"> This field is required .!</p>
+                </div>
+                <div *ngIf="request.ElectionPresentManagementCommitteeDate == ''" class="text-danger">
+                  <p *ngIf="request.ElectionPresentManagementCommitteeDate == ''"> {{ValidationMinDate}}</p>
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -381,15 +386,6 @@
                   <p *ngIf="form.txtManagementCommitteecertified.errors.required">This field is required .!</p>
                 </div>
               </div>
-
-              <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label for="">Aadhaar Number Of President  <span style="color:red">*</span></label>
-    <input class="form-control" id="txtPresidentAadhaarNumber" [(ngModel)]="request.PresidentAadhaarNumber" formControlName="txtPresidentAadhaarNumber" [attr.disabled]="isDisabledNewRegistration ? true : null" maxlength="12" (keypress)="numberOnly($event)" />
-    <div *ngIf="isSubmitted&&form.txtPresidentAadhaarNumber.errors" class="text-danger">
-      <p *ngIf="form.txtPresidentAadhaarNumber.errors.required"> This field is required .!</p>
-      <p *ngIf="form.txtPresidentAadhaarNumber.errors.pattern || form.txtPresidentAadhaarNumber.errors.maxlength || form.txtPresidentAadhaarNumber.errors.minlength"> Invalid Aadhaar No.</p>
-    </div>
-  </div>-->
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for=""> PAN Number <span style="color:red">*</span></label>
                 <input class="form-control" id="txtSocietyPANNumber" [(ngModel)]="request.SocietyPANNumber" formControlName="txtSocietyPANNumber" maxlength="10" (ngModelChange)="request.SocietyPANNumber = $event.toUpperCase()" />
@@ -411,6 +407,7 @@
                     <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('TrustLogo', request.TrustLogoDoc)"><i class="fa fa-trash-o"></i></button>
                   </div>
                 </div>
+                <!--<p *ngIf="isSubmitted&&request.TrustLogoDoc ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>-->
                 <div *ngIf="isValidTrustLogoDoc" class="text-danger">
                   <p *ngIf="isValidTrustLogoDoc"> {{ImageValidationMessage_TrustLogoDoc}}</p>
                 </div>
@@ -430,7 +427,7 @@
                 </div>
                 <p *ngIf="isSubmitted&&request.TrusteeMemberProofDoc ==''" class="text-danger">
                   <i aria-hidden="true">
-                  </i> {{ImageValidationMessage_TrusteeMemberProofDoc}}
+                  </i> {{IsTrusteeMemberProofDoc}}
                 </p>
                 <div *ngIf="isValidTrusteeMemberProofDoc" class="text-danger">
                   <p *ngIf="isValidTrusteeMemberProofDoc"> {{ImageValidationMessage_TrusteeMemberProofDoc}}</p>
@@ -450,7 +447,7 @@
                     <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SocietyPan', request.SocietyPanProofDoc)"><i class="fa fa-trash-o"></i></button>
                   </div>
                 </div>
-                <p *ngIf="isSubmitted&&request.SocietyPanProofDoc ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidationMessage_SocietyPanProofDoc}}</p>
+                <p *ngIf="isSubmitted&&request.SocietyPanProofDoc ==''" class="text-danger"><i aria-hidden="true"></i>{{IsSocietyPanProofDoc}}</p>
                 <div *ngIf="isValidSocietyPanProofDoc" class="text-danger">
                   <p *ngIf="isValidSocietyPanProofDoc"> {{ImageValidationMessage_SocietyPanProofDoc}}</p>
                 </div>
@@ -624,7 +621,7 @@
                                 <td>
                                   <a *ngIf="row.PresidentAadhaarProofDoc!='' && row.PresidentAadhaarProofDocPath!='N/A'" target="_blank" href="{{row.PresidentAadhaarProofDocPath}}" title="View Aadhar Document"><i class="fa fa-eye"></i></a>
                                   <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
-                                </td>                                
+                                </td>
                                 <td>
                                   <button class="btn btn-danger" type="button" (click)="DeleteMember(indexOfelement)"><i class="fa fa-trash-o"></i></button>
                                 </td>
@@ -667,7 +664,7 @@
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
                         <label for="txtInstitutePersonName" class="form-label">Contact Person Name <span style="color:red">*</span></label>
-                        <input type="text" class="form-control" id="txtInstitutePersonName" [(ngModel)]="institutedetails.InstitutePersonName" formControlName="txtInstitutePersonName">
+                        <input type="text" class="form-control" id="txtInstitutePersonName" [(ngModel)]="institutedetails.InstitutePersonName" formControlName="txtInstitutePersonName" (keypress)="alphaOnly($event)">
                         <div *ngIf="isInstitueAdded&&AIform.txtInstitutePersonName.errors" class="text-danger">
                           <p *ngIf="AIform.txtInstitutePersonName.errors.required"> This field is required .!</p>
                         </div>

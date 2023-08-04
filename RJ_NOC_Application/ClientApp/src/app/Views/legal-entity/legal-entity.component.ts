@@ -38,7 +38,7 @@ export class LegalEntityComponent implements OnInit {
   public MaxDate: Date = new Date();
   public MinDate_DOB: Date = new Date();
   //public MinDate_ElectionPresentManagementCommitteeDate: Date = new Date();
-  public MinDate_ElectionPresentManagementCommitteeDate: any = '';
+  public MinDate: any = '';
   legalentityForm!: FormGroup;
   legalentityForm_Registration!: FormGroup;
 
@@ -81,7 +81,7 @@ export class LegalEntityComponent implements OnInit {
   public isMemberSignature: boolean = false;
   public isPresidentAadhaarProofDoc: boolean = false;
   public OTP: string = '';
-  public CustomOTP: string = '';
+  public CustomOTP: string = '123456';
   public UserOTP: string = '';
 
   public isNewRegistrationNo: boolean = false;
@@ -107,11 +107,16 @@ export class LegalEntityComponent implements OnInit {
   public IsNotMoreThen3Year: boolean = true;
 
   public ImageValidationMessage_TrusteeMemberProofDoc: string = '';
+  public IsTrusteeMemberProofDoc: string = '';
   public ImageValidationMessage_PresidentAadhaarProofDoc: string = '';
   public ImageValidationMessage_SocietyPanProofDoc: string = '';
+  public IsSocietyPanProofDoc: string = '';
   public ImageValidationMessage_MemberPhoto: string = '';
   public ImageValidationMessage_MemberSignature: string = '';
   public ImageValidationMessage_TrustLogoDoc: string = '';
+  public IsTrustLogoDoc: string = '';
+
+  public ValidationMinDate: string = '';
 
   public TransactionNo: string = '';
   public VerifiedOTP: boolean = false;
@@ -404,11 +409,11 @@ export class LegalEntityComponent implements OnInit {
         isValid = false;
       }
       if (this.request.TrusteeMemberProofDoc == '') {
-        this.ImageValidationMessage_TrusteeMemberProofDoc = 'This field is required .!';
+        this.IsTrusteeMemberProofDoc = 'This field is required .!';
         isValid = false;
       }
       if (this.request.SocietyPanProofDoc == '') {
-        this.ImageValidationMessage_SocietyPanProofDoc = 'This field is required .!';
+        this.IsSocietyPanProofDoc = 'This field is required .!';
         isValid = false;
       }
       if (this.request.MemberDetails.length < 3) {
@@ -922,11 +927,12 @@ export class LegalEntityComponent implements OnInit {
         .then((data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));
-          this.AadharDetails = JSON.parse(data[0].data);
+         
           if (data[0].status == "0") {
+            this.AadharDetails = JSON.parse(data[0].data);
             this.toastr.success("OTP Verify Successfully");
             this.VerifiedOTP = true;
-            if (this.UserOTP != "123456")
+            if (this.UserOTP != this.CustomOTP)
             {
               this.memberdetails.MemberName = this.AadharDetails[0]["Column2"];
               if (this.AadharDetails[0]["Column4"].length > 4) {
@@ -938,7 +944,9 @@ export class LegalEntityComponent implements OnInit {
             //this.memberdetails.MemberMobileNo = data[0]["Column2"];
           }
           else {
-            this.toastr.error(data[0].message);
+            if (this.UserOTP != this.CustomOTP) {
+              this.toastr.error(data[0].message);
+            }
           }
         }, error => console.error(error));
 
@@ -1549,17 +1557,23 @@ export class LegalEntityComponent implements OnInit {
     debugger;
     //const mindate1 = new Date(2000, 0, 1);
     const mindate1 = new Date(this.request.SocietyRegistrationDate);
-    this.MinDate_ElectionPresentManagementCommitteeDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
+    this.MinDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
+   
     this.request.ElectionPresentManagementCommitteeDate = '';
     this.isDisabledCommitteeDate = false;
   }
 
   ElectionPresentManagementCommitteeDate_Change() {
     debugger;
+    if (new Date(this.request.SocietyRegistrationDate) > new Date(this.request.ElectionPresentManagementCommitteeDate) ) {
+      this.ValidationMinDate = 'Invalid .!';
+      this.request.ElectionPresentManagementCommitteeDate = '';
+      return;
+    }
     const currndate = new Date();
     const salecteddate = new Date(this.request.ElectionPresentManagementCommitteeDate);
     const threeYrsAddOnDate = new Date(salecteddate.setFullYear((salecteddate.getFullYear() + 3)));
-    console.log(threeYrsAddOnDate < currndate);
+    console.log(threeYrsAddOnDate < currndate);    
     if (threeYrsAddOnDate < currndate) {
       this.request.IsDateOfElection = 'No';
       this.IsNotMoreThen3Year = false;
@@ -1568,7 +1582,7 @@ export class LegalEntityComponent implements OnInit {
       this.request.IsDateOfElection = 'Yes';
       this.IsNotMoreThen3Year = true;
 
-    }
+    }    
     this.ToggleElectionPresentManagementCommitteeDateValidation();
   }
 
