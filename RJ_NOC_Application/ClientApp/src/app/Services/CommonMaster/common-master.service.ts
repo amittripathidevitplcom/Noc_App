@@ -340,14 +340,15 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetUniversityByDepartmentId(departmentId: number) {
+  public async GetUniversityByDepartmentId(departmentId: number, IsLaw: number=0) {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetUniversityByDepartmentId/" + departmentId)
+    console.log(this.APIUrl_CommonMaster + "/GetUniversityByDepartmentId/" + departmentId + "/" + IsLaw);
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetUniversityByDepartmentId/" + departmentId + "/" + IsLaw)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -938,14 +939,14 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetCollegeWiseCourseIDSubjectList(CollegeWiseCourseID: any) {
+  public async GetCollegeWiseCourseIDSubjectList(CollegeID: any, CollegeWiseCourseID: any, ViewMode: string) {
     const httpOptions =
     {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeWiseCourseIDSubjectList/" + CollegeWiseCourseID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeWiseCourseIDSubjectList/" + CollegeID + "/" + CollegeWiseCourseID + "/" + ViewMode)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

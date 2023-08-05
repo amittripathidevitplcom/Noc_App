@@ -20,10 +20,10 @@
       <div class="clearfix"></div>
       <form [formGroup]="CollegeDetailsForm" class="form-horizontal">
         <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b>Basic Information</b>           
+          <!--<div class="card-header d-flex justify-content-between align-items-center">
+            <b>Basic Information</b>
             <span class="text-danger">(*) Fields is compulsory</span>
-          </div>
+          </div>-->
           <div class="card-body">
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
@@ -53,7 +53,8 @@
                   </div>
                   <!--profile logo-->
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label class="form-label">College Logo <span style="color:red;">*</span></label>
+                    <label class="form-label">College Logo</label>
+                    <!--<span style="color:red;">*</span></label>-->
                     <div class="d-flex">
                       <input type="file" style="display:none;" class="form-control" id="fCollegeLogo" name="fCollegeLogo" (change)="onFilechange($event,'CollegeLogo')" formControlName="fCollegeLogo">
                       <label class="btn upload" for="fCollegeLogo">
@@ -65,12 +66,12 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('CollegeLogo',request.CollegeLogo)"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
-                    <div *ngIf="ProfileLogoValidationMessage!=''" class="text-danger">
-                      <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
-                    </div>
+                    <!--<div *ngIf="ProfileLogoValidationMessage!=''" class="text-danger">
+      <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
+    </div>-->
                   </div>
                   <!---->
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
                     <label for="ddlPresentCollegeStatus" class="form-label">Present Status of College <span style="color:red;">*</span></label>
                     <select class="form-select" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus" [(ngModel)]="request.PresentCollegeStatusID" formControlName="ddlPresentCollegeStatus">
                       <option value="0">--Select--</option>
@@ -82,7 +83,8 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="ddlCollegeTypeID" class="form-label">Select College Type <span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlCollegeTypeID" name="ddlCollegeTypeID" [(ngModel)]="request.CollegeTypeID" formControlName="ddlCollegeTypeID">
+                    <select class="form-select" id="ddlCollegeTypeID" name="ddlCollegeTypeID" [(ngModel)]="request.CollegeTypeID" formControlName="ddlCollegeTypeID"
+                            #SelectedCollegeTypeID (change)="ddlCollegeType_TextChange(SelectedCollegeTypeID.value)">
                       <option value="0">--Select--</option>
                       <option *ngFor="let item of CollegeTypeList" value="{{item.ID}}">{{item.Name}}</option>
                     </select>
@@ -148,7 +150,9 @@
                     </div>
                   </div>
                   <!---->
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
                     <label class="form-label" style="margin-right:15px">AISHE Code Status : <span style="color:red;">*</span></label>
                     <div class="clearfix"></div>
                     <div class="form-check form-check-inline">
@@ -163,6 +167,8 @@
                       <p *ngIf="form.AISHECodeStatus.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
+
+
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsAISHECodeStatus">
                     <label for="txtAISHECode" class="form-label">AISHE Code <span style="color:red;">*</span></label>
                     <input type="text" class="form-control" id="txtAISHECode" name="txtAISHECode" [(ngModel)]="request.AISHECode" formControlName="txtAISHECode">
@@ -181,7 +187,14 @@
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="ddlUniversityID" class="form-label">University / RMC <span style="color:red;">*</span></label>
+
+                    <label for="ddlUniversityID" class="form-label">
+                      <span *ngIf="request.DepartmentID==6"> University / RMC </span>
+                      <span *ngIf="request.DepartmentID !=6"> University</span>
+                      <span style="color:red;">*</span>
+                    </label>
+
+
                     <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID" formControlName="ddlUniversityID">
                       <option value="0">--Select--</option>
                       <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
@@ -190,35 +203,30 @@
                       <p *ngIf="!form.ddlUniversityID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtMobileNumber" class="form-label">College Mobile Number <span style="color:red;">*</span></label>
-                    <input class="form-control" id="txtMobileNumber" name="txtMobileNumber" [(ngModel)]="request.MobileNumber" formControlName="txtMobileNumber" maxlength="10" (keypress)="numberOnly($event)">
-                    <div *ngIf="isSubmitted&&form.txtMobileNumber.errors" class="text-danger">
-                      <p *ngIf="form.txtMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form.txtMobileNumber.errors.pattern"><i aria-hidden="true"></i> College Mobile number is not valid .!</p>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
+                    <label for="ddlYearofEstablishment" class="form-label">Year of Establishment <span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlYearofEstablishment" name="ddlYearofEstablishment" [(ngModel)]="request.YearofEstablishment" formControlName="ddlYearofEstablishment">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of FinancialYearList" value="{{item.FinancialYearID}}">{{item.FinancialYearName}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&form.ddlYearofEstablishment.errors" class="text-danger">
+                      <p *ngIf="!form.ddlYearofEstablishment.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                     </div>
                   </div>
 
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b>Address & Contact Detail<span style="color:red;">*</span></b>
+              </div>
+              <div class="card-body">
+                <div class="row">
 
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtCollegeLandlineNumber" class="form-label">College Landline Number <span style="color:red;">*</span></label>
-                    <input class="form-control" id="txtCollegeLandlineNumber" name="txtCollegeLandlineNumber" [(ngModel)]="request.CollegeLandlineNumber" formControlName="txtCollegeLandlineNumber" maxlength="10" (keypress)="numberOnly($event)">
-                    <div *ngIf="isSubmitted&&form.txtCollegeLandlineNumber.errors" class="text-danger">
-                      <p *ngIf="form.txtCollegeLandlineNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form.txtCollegeLandlineNumber.errors.pattern"><i aria-hidden="true"></i> College Landline number is not valid .!</p>
-                    </div>
-                  </div>
-
-
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtEmail" class="form-label">Email <span style="color:red;">*</span></label>
-                    <input type="email" class="form-control" id="txtEmail" name="txtEmail" [(ngModel)]="request.Email" formControlName="txtEmail">
-                    <div *ngIf="isSubmitted&&form.txtEmail.errors" class="text-danger">
-                      <p *ngIf="form.txtEmail.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <!--<p *ngIf="form.txtEmail.errors.email"><i aria-hidden="true"></i> Invalid Email .!</p>-->
-                      <p *ngIf="form.txtEmail.errors.pattern">Invalid Email .!</p>
-                    </div>
-                  </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtAddressLine1" class="form-label">Address Line 1 <span style="color:red;">*</span></label>
                     <input type="text" class="form-control" id="txtAddressLine1" name="txtAddressLine1" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1">
@@ -332,16 +340,7 @@
                       <p *ngIf="form.txtCityTownVillage.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="ddlYearofEstablishment" class="form-label">Year of Establishment <span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlYearofEstablishment" name="ddlYearofEstablishment" [(ngModel)]="request.YearofEstablishment" formControlName="ddlYearofEstablishment">
-                      <option value="0">--Select--</option>
-                      <option *ngFor="let item of FinancialYearList" value="{{item.FinancialYearID}}">{{item.FinancialYearName}}</option>
-                    </select>
-                    <div *ngIf="isSubmitted&&form.ddlYearofEstablishment.errors" class="text-danger">
-                      <p *ngIf="!form.ddlYearofEstablishment.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                    </div>
-                  </div>
+                  
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtPincode" class="form-label">Pincode <span style="color:red;">*</span></label>
                     <input class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" maxlength="6" (keypress)="numberOnly($event)">
@@ -354,12 +353,42 @@
                     <label for="txtWebsiteLink" class="form-label">Website Link </label>
                     <input type="text" class="form-control" id="txtWebsiteLink" name="txtWebsiteLink" [(ngModel)]="request.WebsiteLink" formControlName="txtWebsiteLink">
                   </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtMobileNumber" class="form-label">College Mobile Number <span style="color:red;">*</span></label>
+                    <input class="form-control" id="txtMobileNumber" name="txtMobileNumber" [(ngModel)]="request.MobileNumber" formControlName="txtMobileNumber" maxlength="10" (keypress)="numberOnly($event)">
+                    <div *ngIf="isSubmitted&&form.txtMobileNumber.errors" class="text-danger">
+                      <p *ngIf="form.txtMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtMobileNumber.errors.pattern"><i aria-hidden="true"></i> College Mobile number is not valid .!</p>
+                    </div>
+                  </div>
+
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtCollegeLandlineNumber" class="form-label">College Landline Number <span style="color:red;">*</span></label>
+                    <input class="form-control" id="txtCollegeLandlineNumber" name="txtCollegeLandlineNumber" [(ngModel)]="request.CollegeLandlineNumber" formControlName="txtCollegeLandlineNumber" maxlength="10" (keypress)="numberOnly($event)">
+                    <div *ngIf="isSubmitted&&form.txtCollegeLandlineNumber.errors" class="text-danger">
+                      <p *ngIf="form.txtCollegeLandlineNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <p *ngIf="form.txtCollegeLandlineNumber.errors.pattern"><i aria-hidden="true"></i> College Landline number is not valid .!</p>
+                    </div>
+                  </div>
+
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtEmail" class="form-label">Email <span style="color:red;">*</span></label>
+                    <input type="email" class="form-control" id="txtEmail" name="txtEmail" [(ngModel)]="request.Email" formControlName="txtEmail">
+                    <div *ngIf="isSubmitted&&form.txtEmail.errors" class="text-danger">
+                      <p *ngIf="form.txtEmail.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                      <!--<p *ngIf="form.txtEmail.errors.email"><i aria-hidden="true"></i> Invalid Email .!</p>-->
+                      <p *ngIf="form.txtEmail.errors.pattern">Invalid Email .!</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <form [formGroup]="CollegeDetailsForm_ContactDetails" class="form-horizontal">
-            <div class="card">
+             
               <div class="card-header d-flex justify-content-between align-items-center">
                 <b>Contact Details <span style="color:red;">*</span></b>
               </div>
@@ -463,7 +492,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+           
           </form>
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -495,8 +524,8 @@
               </div>
             </div>
           </div>
-          <form [formGroup]="CollegeDetailsForm_NearestGovernmentHospitals" class="form-horizontal">
-            <div class="card">
+          <form [formGroup]="CollegeDetailsForm_NearestGovernmentHospitals" class="form-horizontal"  >
+            <div class="card" *ngIf="request.DepartmentID==6">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <b>10 government hospitals nearest to the institution <span style="color:red;">*</span></b>
               </div>

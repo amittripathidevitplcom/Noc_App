@@ -294,6 +294,8 @@ export class AddCoursesComponent implements OnInit {
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
       var CourseLevel = this.CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.CourseLevelID).Name;
       var CourseType = this.courseTypeDataList.find((x: { ID: number; }) => x.ID == this.request.CourseTypeID).Name;
+
+
       if (this.request.NoOfEnrolledStudents == 0) {
         this.iSNoOfEnrolledStudents = true;
         this.toastr.error("Please enter No Of Enrolled Students greater than 0.");
