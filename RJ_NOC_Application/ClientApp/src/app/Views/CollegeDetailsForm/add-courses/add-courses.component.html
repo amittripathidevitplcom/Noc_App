@@ -59,7 +59,7 @@
                   <option value="0" selected>--Select Stream--</option>
                   <!--<option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>-->
 
-                <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+                  <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
                   <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
@@ -118,16 +118,24 @@
                   <p *ngIf="!form.ddlCourseType.errors.DropdownValidators">This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID !=3">
                 <label for="ddlSeatInformation" class="form-label">Seat Information  <span style="color:red">*</span></label>
                 <select formControlName="ddlSeatInformation" id="ddlSeatInformation" [(ngModel)]="request.Seats" class="form-control">
-                  <option value="0">--Select--</option>
+                  <option value="0">--Select Seat--</option>
                   <option [value]="item.ID" *ngFor="let item of seatInformationDataList">
                     {{item.Value}}
                   </option>
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlSeatInformation.errors" class="text-danger">
-                  <p *ngIf="!form.ddlSeatInformation.errors.DropdownValidators">This field is required .!</p>
+                  <p *ngIf="isSeatInformation">This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID ==3">
+                <label for="txtNoOfEnrolledStudents" class="form-label">No Of Enrolled Students<span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtNoOfEnrolledStudents" name="txtNoOfEnrolledStudents" [(ngModel)]="request.NoOfEnrolledStudents" formControlName="txtNoOfEnrolledStudents" (keypress)="numberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtNoOfEnrolledStudents.errors" class="text-danger">
+                  <p *ngIf="iSNoOfEnrolledStudents">This field is required .!</p>
                 </div>
               </div>
             </div>
@@ -175,7 +183,8 @@
                     <th>Stream</th>
                     <th>Subject</th>
                     <th>Course Type</th>
-                    <th>Seat</th>
+                    <th *ngIf="this.request.DepartmentID !=3">Seat</th>
+                    <th *ngIf="this.request.DepartmentID ==3">No Of Enrolled Students</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -189,8 +198,8 @@
                     <td>{{row.SubjectDetails}}</td>
 
                     <td>{{row.Dis_CourseType}}</td>
-                    <td>{{row.Dis_Sits}}</td>
-
+                    <td *ngIf="this.request.DepartmentID !=3">{{row.Dis_Sits}}</td>
+                    <td *ngIf="this.request.DepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
                     <td>
                       <div class="d-flex">
                         <button type="button" (click)="Edit_OnClick(row.CollegeWiseCourseID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"
