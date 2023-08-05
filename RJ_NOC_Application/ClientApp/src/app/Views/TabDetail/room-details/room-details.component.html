@@ -71,7 +71,14 @@
               <p *ngIf="form.txtStudentCapacity_Room.errors.min">Student capacity will be greater than zero .!</p>
             </div>
           </div>
-        
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>No. of Lab<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtNoOfLab" name="txtNoOfLab" [(ngModel)]="request.NoOfLab" formControlName="txtNoOfLab" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted&&form.txtNoOfLab.errors" class="text-danger">
+              <p *ngIf="form.txtNoOfLab.errors.required">This field is required .!</p>
+            </div>
+          </div>
+
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="fileUploadImage" class="form-label">Upload Image<span style="color:red;">*</span></label>
             <div class="d-flex">
@@ -125,6 +132,7 @@
                         <th>Width (In Feet) Size</th>
                         <th>Length (In Feet)</th>
                         <th>Student Capacity</th>
+                        <th>No of Lab</th>
                         <th>Upload Image</th>
                         <th  align="center">Action</th>
                       </tr>
@@ -137,6 +145,7 @@
                         <td>{{row.Width}}</td>
                         <td>{{row.Length}}</td>
                         <td>{{row.StudentCapacity}}</td>
+                        <td>{{row.NoOfLab}}</td>
                         <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                         <td align="center">
                           <div class="d-flex">

@@ -9,6 +9,7 @@ export class RoomDetailsDataModel {
   public Width: number = 0;
   public Length: number = 0;
   public StudentCapacity: number = 0;
+  public NoOfLab: number = 0;
   public CourseName: string = '';
   public ImageFileName: string = '';
   public ImageFilePath: string = '';
@@ -27,6 +28,7 @@ export class RoomDetailsDataModel_RoomDetails extends DocumentScrutiny_ActionMod
   public Width: number = 0;
   public Length: number = 0;
   public StudentCapacity: number = 0;
+  public NoOfLab: number = null;
   public ImageFileName: string = '';
   public ImageFilePath: string = '';
  
