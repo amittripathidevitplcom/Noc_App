@@ -104,6 +104,7 @@ export class RoomDetailsComponent implements OnInit {
         txtWidth_Room: ['', [Validators.required, Validators.min(1)]],
         txtLength_Room: ['', [Validators.required, Validators.min(1)]],
         txtStudentCapacity_Room: ['', [Validators.required, Validators.min(1)]],
+        txtNoOfLab:['',Validators.required],
         fileUploadImage: [''],
         txtsearchText: [''],
       })
@@ -375,6 +376,7 @@ export class RoomDetailsComponent implements OnInit {
       this.request.Width = 0;
       this.request.Length = 0;
       this.request.StudentCapacity = 0;
+      this.request.NoOfLab = 0;
       this.request.ImageFileName = '';
       this.request.ImageFilePath = '';
       this.request.Image_Dis_FileName = '';
@@ -435,6 +437,7 @@ export class RoomDetailsComponent implements OnInit {
             this.request.Width = data['Data'][0]["Width"];
             this.request.Length = data['Data'][0]["Length"];
             this.request.StudentCapacity = data['Data'][0]["StudentCapacity"];
+            this.request.NoOfLab = data['Data'][0]["NoOfLab"];
             this.request.ImageFilePath = data['Data'][0]["ImageFilePath"];
             this.request.ImageFileName = data['Data'][0]["ImageFileName"];
             this.request.Image_Dis_FileName = data['Data'][0]["Image_Dis_FileName"];

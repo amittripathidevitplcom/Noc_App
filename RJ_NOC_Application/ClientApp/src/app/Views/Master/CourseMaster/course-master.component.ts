@@ -38,13 +38,14 @@ export class CourseMasterComponent implements OnInit {
   public CourseLevelList: any;
   public CourseDataList: any;
   public CourseDurationList: any;
+  public CollegeLevelDDLList: any;
   public isDisabledClient: boolean = true;
   public checked: boolean = true;
   sSOLoginDataModel = new SSOLoginDataModel();
   searchText: string = '';
   public ActiveStatus: boolean = true;
-
   public isShowGrid: boolean = false;
+  public is_disableDepartment: boolean = false;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
   async ngOnInit() {
@@ -53,6 +54,7 @@ export class CourseMasterComponent implements OnInit {
         ddlDepartmentID: ['', [DropdownValidators]],
         ddlCourseLevelID: ['', [DropdownValidators]],
         ddlCourseDurationType: ['', [DropdownValidators]],
+        ddlCollegeLevel: ['', [DropdownValidators]],
         txtCourseDuration: ['', Validators.required],
         txtCourseName: ['', Validators.required],
         txtNoOfRooms: ['', Validators.required],
@@ -65,6 +67,14 @@ export class CourseMasterComponent implements OnInit {
     await this.GetCourseDurationTypeList();
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+
+    //disable dropdown
+    if (this.sSOLoginDataModel.DepartmentID != 0) {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.is_disableDepartment = true;
+      this.FillCourselevel(null, this.request.DepartmentID.toString());
+    }
+
     await this.GetAllCourseList();
     this.ActiveStatus = true;
   }
@@ -112,6 +122,7 @@ export class CourseMasterComponent implements OnInit {
   async GetCourseDurationTypeList() {
     try {
       this.loaderService.requestStarted();
+
       // Course Duration department
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, "CourseDuration")
         .then((data: any) => {
@@ -132,6 +143,7 @@ export class CourseMasterComponent implements OnInit {
     }
   };
   async FillCourselevel(event: any, SeletedDepartmentID: string) {
+    this.request.CollegeLevel = 0;
     this.request.CourseLevelID = 0;
     try {
       this.loaderService.requestStarted();
@@ -139,6 +151,16 @@ export class CourseMasterComponent implements OnInit {
       if (departmentId <= 0) {
         return;
       }
+      // College Level 
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "CollegeLevel")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CollegeLevelDDLList = data['Data'];
+        }, error => console.error(error));
+
       // Deparment level
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "CourseLevel")
         .then((data: any) => {
@@ -163,8 +185,7 @@ export class CourseMasterComponent implements OnInit {
   async GetAllCourseList() {
     try {
       this.loaderService.requestStarted();
-
-      await this.courseMasterService.GetAllCourseList(this.UserID)
+      await this.courseMasterService.GetAllCourseList(this.UserID, this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
 
@@ -188,7 +209,6 @@ export class CourseMasterComponent implements OnInit {
     if (this.CourseMasterForm.invalid) {
       return
     }
-
 
     this.request.UserID = this.sSOLoginDataModel.UserID;
     if (this.request.Duration <= 0) {
@@ -230,14 +250,17 @@ export class CourseMasterComponent implements OnInit {
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
-    this.GetDepartmentList();
-    this.CourseLevelList = [];
+    // this.GetDepartmentList();
+    //this.CourseLevelList = [];
     this.GetCourseDurationTypeList();
-    this.request.DepartmentID = 0;
+    // this.request.DepartmentID = 0;
     this.request.CourseLevelID = 0;
     this.request.CourseID = 0;
+    this.request.CollegeLevel = 0;
     this.request.CourseName = '';
     this.request.CourseDurationType = 0;
+    this.CollegeLevelDDLList = [];
+    this.CourseLevelList = [];
     this.request.Duration = null;
     this.request.NoOfRooms = null;
     this.request.UserID = 0;
@@ -260,10 +283,11 @@ export class CourseMasterComponent implements OnInit {
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
           this.FillCourselevel('', (this.request.DepartmentID).toString());
+          this.request.CollegeLevel = data['Data'][0]["CollegeLevel"];
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
           this.request.CourseName = data['Data'][0]["CourseName"];
           this.request.NoOfRooms = data['Data'][0]["NoOfRooms"];
-          this.GetCourseDurationTypeList();
+          //this.GetCourseDurationTypeList();
           this.request.CourseDurationType = data['Data'][0]["CourseDurationType"];
           this.request.Duration = data['Data'][0]["Duration"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
@@ -366,6 +390,7 @@ export class CourseMasterComponent implements OnInit {
           pDFData.push({
             "S.No.": i + 1,
             "DepartmentName": this.CourseDataList[i]['DepartmentName'],
+            "CollegeLevel": this.CourseDataList[i]['CollegeLevelName'],
             "CourseLevelName": this.CourseDataList[i]['CourseLevel'],
             "CourseName": this.CourseDataList[i]['CourseName'],
             "CourseDuration": this.CourseDataList[i]['Duration'],
@@ -376,7 +401,7 @@ export class CourseMasterComponent implements OnInit {
         }
 
         let values: any;
-        let privados = ['S.No.', "DepartmentName", "CourseLevelName", "CourseName", "CourseDuration", "CourseDurationType","NoOfRooms", "Status"];
+        let privados = ['S.No.', "DepartmentName", "CollegeLevel","CourseLevelName", "CourseName", "CourseDuration", "CourseDurationType", "NoOfRooms", "Status"];
         let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
         values = pDFData.map((elemento: any) => Object.values(elemento));
 

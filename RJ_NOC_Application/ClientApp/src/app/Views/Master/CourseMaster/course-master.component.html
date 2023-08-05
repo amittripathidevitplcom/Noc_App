@@ -27,7 +27,7 @@
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlDepartmentID" class="form-label">Select Department Name  <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (input)="FillCourselevel($event,SeletedDepartmentID.value)">
+                <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (input)="FillCourselevel($event,SeletedDepartmentID.value)" [attr.disabled]="is_disableDepartment ? '' : null">
                   <option value="0" disabled>--Select Department--</option>
                   <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
                 </select>
@@ -35,16 +35,16 @@
                   <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-              <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-    <label for="ddlStreamID" class="form-label">Select Stream Name <span style="color:red;">*</span></label>
-    <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID">
-      <option value="0" disabled>--Select Stream Name--</option>
-      <option *ngFor="let item of StreamDDLList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
-    </select>
-    <div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
-      <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-    </div>
-  </div>-->
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlCollegeLevel" class="form-label">Select College Level <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCollegeLevel" name="ddlCollegeLevel" [(ngModel)]="request.CollegeLevel" formControlName="ddlCollegeLevel">
+                  <option value="0" disabled>--Select College Level--</option>
+                  <option *ngFor="let item of CollegeLevelDDLList" value="{{item.ID}}">{{item.Name}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCollegeLevel.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCollegeLevel.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
 
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
@@ -58,7 +58,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="txtCourseName" class="form-label">Course Name<span style="color:red;">*</span></label>
-                <input type="text" id="txtCourseName" formControlName="txtCourseName" maxlength="100" class="form-control" [(ngModel)]="request.CourseName" (keypress)="alphaOnly($event)">
+                <input type="text" id="txtCourseName" formControlName="txtCourseName" maxlength="100" class="form-control" [(ngModel)]="request.CourseName" (keypress)="alphaOnly($event)" autocomplete="off">
                 <div *ngIf="isSubmitted&&form.txtCourseName.errors" class="text-danger">
                   <p *ngIf="form.txtCourseName.errors.required">This field is required .!</p>
                 </div>
@@ -125,6 +125,7 @@
                 <tr>
                   <th>Sr. No</th>
                   <th>Department Name</th>
+                  <th>College Level</th>
                   <th>Course Level Name</th>
                   <th>Course Name</th>
                   <th>Course Duration Type</th>
@@ -138,6 +139,7 @@
                 <tr *ngFor="let row of CourseDataList | tableSearchFilter:searchText;let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>{{row.DepartmentName}}</td>
+                  <td>{{row.CollegeLevelName}}</td>
                   <td>{{row.CourseLevel}}</td>
                   <td>{{row.CourseName}}</td>
                   <td>{{row.CourseDuratinName}}</td>

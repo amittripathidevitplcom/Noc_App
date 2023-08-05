@@ -96,7 +96,8 @@
         </mat-step>
 
         <mat-step state="chat">
-          <ng-template matStepLabel>Other Information</ng-template>
+          <ng-template matStepLabel *ngIf="SelectedDepartmentID==6">Clinical Details</ng-template>
+          <ng-template matStepLabel *ngIf="SelectedDepartmentID !=6">Other Information</ng-template>
           <app-preview-other-information></app-preview-other-information>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>

@@ -136,6 +136,10 @@ export class StaffDetailsComponent implements OnInit {
     return isValid;
   }
 
+  async IsChnageTechingType(val: any) {
+    this.DeleteResetFiles('All', false, '', '', '');
+  }
+
   async AddMoreEducationalQualification() {
     this.FormValid = true;
     this.isUploadDocRequried = false;
@@ -179,6 +183,8 @@ export class StaffDetailsComponent implements OnInit {
       this.request.UploadDocument = '';
       this.isAddMore = false;
       this.showUploadDocument = false;
+      this.file = document.getElementById('UploadDocument');
+      this.file.value = '';
     }
     catch (Ex) {
       console.log(Ex);
@@ -269,6 +275,14 @@ export class StaffDetailsComponent implements OnInit {
     }
     return true;
 
+  }
+
+  numbersOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode == 47 || charCode < 46 || charCode > 57)) {
+      return false;
+    }
+    return true;
   }
 
   async GetCollegeWiseSubjectList(CollegeID: number) {
@@ -415,6 +429,58 @@ export class StaffDetailsComponent implements OnInit {
     }
   }
 
+  DeleteResetFiles(Type: string, isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
+    try {
+      this.loaderService.requestStarted();
+      if (Type == 'ProfilePhoto' || Type == 'All') {
+        this.showProfilePhoto = isShow;
+        this.request.ProfilePhoto = fileName;
+        this.request.ProfilePhotoPath = filePath;
+        this.request.ProfilePhoto_Dis_FileName = dis_Name;
+        this.file = document.getElementById('ProfilePhoto');
+        this.file.value = '';
+      }
+      if (Type == 'AadhaarCard' || Type == 'All') {
+        this.showAadhaarCard = isShow;
+        this.request.AadhaarCard = fileName;
+        this.request.AadhaarCardPath = filePath;
+        this.request.AadhaarCard_Dis_FileName = dis_Name;
+        this.file = document.getElementById('AadhaarCard');
+        this.file.value = '';
+      }
+      if (Type == 'PANCard' || Type == 'All') {
+        this.showPANCard = isShow;
+        this.request.PANCard = fileName;
+        this.request.PANCardPath = filePath;
+        this.request.PANCard_Dis_FileName = dis_Name;
+        this.file = document.getElementById('PANCard');
+        this.file.value = '';
+      }
+      if (Type == 'ExperienceCertificate' || Type == 'All') {
+        this.showExperienceCertificate = isShow;
+        this.request.ExperienceCertificate = fileName;
+        this.request.ExperienceCertificatePath = filePath;
+        this.request.ExperienceCertificate_Dis_FileName = dis_Name;
+        this.file = document.getElementById('ExperienceCertificate');
+        this.file.value = '';
+      }
+      if (Type == 'UploadDocument' || Type == 'All') {
+        this.showUploadDocument = isShow;
+        this.request.UploadDocument = fileName;
+        this.request.UploadDocumentPath = filePath;
+        this.request.UploadDocument_Dis_FileName = dis_Name;
+        this.file = document.getElementById('UploadDocument');
+        this.file.value = '';
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
   async SaveData() {
     try {
       this.isRoleMapping = false;
@@ -548,7 +614,7 @@ export class StaffDetailsComponent implements OnInit {
       if (btnAdd) { btnAdd.innerHTML = "Save"; }
       this.isDisabledResearchGuide = false;
       this.isDisabled = false;
-      this.ResetFiles('All', false, '', '', '');
+      this.DeleteResetFiles('All', false, '', '', '');
     }
     catch (ex) { }
     finally {
@@ -664,7 +730,7 @@ export class StaffDetailsComponent implements OnInit {
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
-          this.ResetFiles(Type, false, '', '', '');
+          this.DeleteResetFiles(Type, false, '', '', '');
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
