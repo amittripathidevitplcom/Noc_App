@@ -1,0 +1,159 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Class Wise Statistics </h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Master</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Class Wise Statistics</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Class Wise Statistics </b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <!--<button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+        <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+        <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>-->
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <!--<i class="fa fa-search"></i>-->
+              <!--<input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />-->
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Faculty</th>
+                  <th>Class</th>
+
+                  <th>Section</th>
+
+                  <th>SC Boys</th>
+                  <th>SC Girls</th>
+                  <th>ST Boys</th>
+                  <th>ST Girls</th>
+                  <th>OBC Boys</th>
+                  <th>OBC Girls</th>
+
+                  <th>MBC Boys</th>
+                  <th>MBC Girls</th>
+                  <th>Gen Boys</th>
+                  <th>Gen Girls</th>
+                  <th>EWS Boys</th>
+                  <th>EWS  Girls</th>
+                  <th>Total Boys</th>
+                  <th>Total Girls</th>
+                  <th>Total Minority Boys</th>
+                  <th>Total Minority Girls</th>
+                  <th>Total PH Boys</th>
+                  <th>Total PH Girls</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of ClassWiseStudentDetailsList let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>
+                    {{item.CourseName}}
+
+                  </td>
+                  <td>
+                    {{item.Class}}
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txSCSection{{idx}}" name="txSection{{idx}}" [(ngModel)]="item.Section" autocomplete="off">
+
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.SCBoysCount" autocomplete="off">
+
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.SCGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.STBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.STGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.OBCBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.OBCGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.MBCBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.MBCGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.GenBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.GenGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txEWSBoysTotal{{idx}}" name="txEWSBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.EWSBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txEWSGirlsTotal{{idx}}" name="txEWSGirlsTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.EWSGirlsCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" disabled id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.TotalBoys" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" disabled  id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.TotalGirls" autocomplete="off">
+                    
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalMinorityBoys{{idx}}" (keypress)="numberOnly($event)" name="txOFTotalMinorityBoys{{idx}}" [(ngModel)]="item.OFTotalMinorityBoys" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalMinorityGirls{{idx}}" (keypress)="numberOnly($event)" name="txOFTotalMinorityGirls{{idx}}" [(ngModel)]="item.OFTotalMinorityGirls" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalPHBoys{{idx}}" (keypress)="numberOnly($event)" name="txOFTotalPHBoys{{idx}}" [(ngModel)]="item.OFTotalPHBoys" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalPHGirls{{idx}}" (keypress)="numberOnly($event)" name="txOFTotalPHGirls{{idx}}" [(ngModel)]="item.OFTotalPHGirls" autocomplete="off">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button type="button" (click)="SaveData()" class="btn btn-primary">Save Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

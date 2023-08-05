@@ -19,14 +19,14 @@ export class CourseMasterService {
     return throwError(error);
   }
   //Get 
-  public async GetAllCourseList(UserID: number) {
+  public async GetAllCourseList(UserID: number, DepartmentID:number) {
     debugger;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + '/GetAllCourseList/'  + UserID)
+    return await this.http.get(this.APIUrl + '/GetAllCourseList/' + UserID + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

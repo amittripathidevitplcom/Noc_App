@@ -43,8 +43,8 @@ export class CourseMasterComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   searchText: string = '';
   public ActiveStatus: boolean = true;
-
   public isShowGrid: boolean = false;
+  public is_disableDepartment: boolean = false;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
   async ngOnInit() {
@@ -65,6 +65,15 @@ export class CourseMasterComponent implements OnInit {
     await this.GetCourseDurationTypeList();
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+
+    //disable dropdown
+    if (this.sSOLoginDataModel.DepartmentID != 0)
+    {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.is_disableDepartment = true;
+      this.FillCourselevel(null, this.request.DepartmentID.toString());
+    }
+
     await this.GetAllCourseList();
     this.ActiveStatus = true;
   }
@@ -163,8 +172,7 @@ export class CourseMasterComponent implements OnInit {
   async GetAllCourseList() {
     try {
       this.loaderService.requestStarted();
-
-      await this.courseMasterService.GetAllCourseList(this.UserID)
+      await this.courseMasterService.GetAllCourseList(this.UserID, this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
 
@@ -230,10 +238,10 @@ export class CourseMasterComponent implements OnInit {
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
-    this.GetDepartmentList();
-    this.CourseLevelList = [];
+   // this.GetDepartmentList();
+    //this.CourseLevelList = [];
     this.GetCourseDurationTypeList();
-    this.request.DepartmentID = 0;
+   // this.request.DepartmentID = 0;
     this.request.CourseLevelID = 0;
     this.request.CourseID = 0;
     this.request.CourseName = '';
