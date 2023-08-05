@@ -290,6 +290,7 @@ export class AddCoursesComponent implements OnInit {
       var CourseLevel = this.CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.CourseLevelID).Name;
       var CourseType = this.courseTypeDataList.find((x: { ID: number; }) => x.ID == this.request.CourseTypeID).Name;
 
+
       if (CourseLevel == 'PG') {
         if (this.request.SelectedSubjectDetails.length > 1) {
           this.toastr.error("you can select only 1 subject for PG");

@@ -20,7 +20,6 @@ export class CourseMasterService {
   }
   //Get 
   public async GetAllCourseList(UserID: number, DepartmentID:number) {
-    debugger;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -32,7 +31,6 @@ export class CourseMasterService {
       ).toPromise();
   }
   public async SaveData(request: CourseMasterAddDataModel) {
-    debugger;
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })

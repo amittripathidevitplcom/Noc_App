@@ -180,7 +180,8 @@ export class FacilityDetailsComponent implements OnInit {
 
   async ValidateUploadImage(event: any) {
     try {
-      this.loaderService.requestEnded();
+     
+      this.loaderService.requestStarted();
       this.isValidFacilitiesUrl = true;
       if (event.target.files && event.target.files[0]) {
         if (event.target.files[0].type === 'image/jpeg' ||

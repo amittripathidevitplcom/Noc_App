@@ -201,7 +201,7 @@ export class FarmLandDetailsComponent implements OnInit {
   }
 
   ValidateUploadImage(event: any, Type: string) {
-    debugger;
+    this.loaderService.requestStarted();
     if (event.target.files && event.target.files[0]) {
       this.file = event.target.files[0];
       if (this.file.type === 'application/pdf' || this.file.type === 'image/jpeg' || this.file.type === 'image/jpg') {

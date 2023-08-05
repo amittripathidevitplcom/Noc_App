@@ -10,7 +10,7 @@ import { FileUploadService } from '../../../Services/FileUpload/file-upload.serv
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
-import { ParamedicalHospitalDataModel, ParamedicalHospitalParentNotDataModel } from '../../../Models/ParamedicalHospitalDataModel';
+import { ParamedicalHospitalDataModel, ParamedicalHospitalParentNotDataModel, ParamedicalHospitalBedValidation } from '../../../Models/ParamedicalHospitalDataModel';
 import { ParamedicalHospitalService } from '../../../Services/Tabs/ParamedicalHospital/paramedical-hospital.service';
 @Injectable()
 
@@ -112,6 +112,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
   public HospitalData: any = {};
 
   LegalEntityDataModel = new LegalEntityDataModel();
+  public ParamedicalHospitalBedValidationList: ParamedicalHospitalBedValidation[] = [];
 
   constructor(private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private modalService: NgbModal, private hospitalDetailService: ParamedicalHospitalService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
   }
@@ -332,6 +333,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
       //await this.IsSuperSpecialtyHospital();
       await this.ToggleSuperSpecialtyHospitalValidation();
       await this.GetLegalEntityData();
+      this.GetParamedicalHospitalBedValidation(0);
     }
 
 
@@ -423,6 +425,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.IsParentHospital = isParent;
+      this.GetParamedicalHospitalBedValidation(0);
     }
     catch (Ex) {
       console.log(Ex);
@@ -891,6 +894,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
   }
 
   async SaveDataOfParent() {
+    this.request.ParamedicalHospitalBedValidation = [];
     this.isHospitalrequried = false;
     this.isFormValid = true;
     this.isSubmitted = true;
@@ -904,6 +908,25 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
     if (this.request.PollutionCertificate == '') {
       this.isFormValid = false;
     }
+    for (var i = 0; i < this.ParamedicalHospitalBedValidationList.length; i++) {
+      if (this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1) {
+        if ((this.ParamedicalHospitalBedValidationList[i].ColumnValue == null || this.ParamedicalHospitalBedValidationList[i].ColumnValue.toString() == '' || this.ParamedicalHospitalBedValidationList[i].ColumnValue <= 0) && this.ParamedicalHospitalBedValidationList[i].Ismandatory==1) {
+          this.toastr.warning('enter ' + this.ParamedicalHospitalBedValidationList[i].ColumnName + ' value');
+          return;
+        }
+        else if (this.ParamedicalHospitalBedValidationList[i].ColumnValue < this.ParamedicalHospitalBedValidationList[i].MinValue && this.ParamedicalHospitalBedValidationList[i].Ismandatory == 1) {
+          this.toastr.warning('Enter grater or equal ' + this.ParamedicalHospitalBedValidationList[i].MinValue);
+          return;
+        }
+      }
+      else {
+        if (this.ParamedicalHospitalBedValidationList[i].ColumnValue == null || this.ParamedicalHospitalBedValidationList[i].ColumnValue.toString() == '' || this.ParamedicalHospitalBedValidationList[i].ColumnValue <= 0
+        ) {
+          this.toastr.warning('Select ' + this.ParamedicalHospitalBedValidationList[i].ColumnName );
+          return;
+        }
+      }
+    }
     if (!this.isFormValid) { return }
     if (this.request.HospitalID > 0) {
       this.request.ModifyBy = 1;
@@ -912,6 +935,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
       this.request.CreatedBy = 1;
       this.request.ModifyBy = 1;
     }
+    this.request.ParamedicalHospitalBedValidation = this.ParamedicalHospitalBedValidationList;
     // save data
     try {
       this.loaderService.requestStarted();
@@ -950,12 +974,18 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
   ResetHospitalOfParent() {
     try {
       this.loaderService.requestStarted();
+      this.request.HospitalStatus = '';
+      this.request.PollutionCertificate = '';
+      this.request.Dis_PollutionCertificate = '';
+      this.request.PollutionCertificatePath = '';
+      this.request.PollutionUnitID = '';
+      this.request.CityPopulation = null;
       this.IsHospitalOwned = false;
       this.request.HospitalID = 0;
-      this.request.HospitalAreaID = 0;
+      this.request.HospitalAreaID = null;
       this.request.HospitalRegNo = '';
       this.request.HospitalName = '';
-      this.request.HospitalDistance = 0;
+      this.request.HospitalDistance = null;
       this.request.HospitalContactNo = '';
       this.request.HospitalEmailID = '';
       this.request.ManageByName = '';
@@ -1099,6 +1129,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
   }
 
   async SaveDataOfParentNot() {
+    this.request.ParamedicalHospitalBedValidation = [];
     this.isHospitalrequried = false;
     this.isFormValid = true;
     this.isSubmitted_ParentNot = true;
@@ -1111,6 +1142,27 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
     }
     if (this.requestNot.PollutionCertificate == '') {
       this.isFormValid = false;
+    }
+
+    for (var i = 0; i < this.ParamedicalHospitalBedValidationList.length; i++) {
+      if (this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1) {
+        if ((this.ParamedicalHospitalBedValidationList[i].ColumnValue == null || this.ParamedicalHospitalBedValidationList[i].ColumnValue.toString() == '' || this.ParamedicalHospitalBedValidationList[i].ColumnValue <= 0) && this.ParamedicalHospitalBedValidationList[i].Ismandatory == 1
+        ) {
+          this.toastr.warning('enter ' + this.ParamedicalHospitalBedValidationList[i].ColumnName + ' value');
+          return;
+        }
+        else if (this.ParamedicalHospitalBedValidationList[i].ColumnValue < this.ParamedicalHospitalBedValidationList[i].MinValue && this.ParamedicalHospitalBedValidationList[i].Ismandatory == 1) {
+          this.toastr.warning('Enter grater or equal ' + this.ParamedicalHospitalBedValidationList[i].MinValue);
+          return;
+        }
+      }
+      else {
+        if (this.ParamedicalHospitalBedValidationList[i].ColumnValue == null || this.ParamedicalHospitalBedValidationList[i].ColumnValue.toString() == '' || this.ParamedicalHospitalBedValidationList[i].ColumnValue <= 0
+        ) {
+          this.toastr.warning('Select ' + this.ParamedicalHospitalBedValidationList[i].ColumnName);
+          return;
+        }
+      }
     }
     if (!this.isFormValid) {
       return;
@@ -1125,6 +1177,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
     // parenthospitalid
     this.requestNot.ParentHospitalID = this.request.ParentHospitalID;
     this.requestNot.HospitalStatus = this.request.HospitalStatus;
+    this.requestNot.ParamedicalHospitalBedValidation = this.ParamedicalHospitalBedValidationList;
     // save data
     try {
       this.loaderService.requestStarted();
@@ -1164,11 +1217,17 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       // reset
+      this.request.HospitalStatus = '';
+      this.requestNot.PollutionCertificate = '';
+      this.requestNot.Dis_PollutionCertificate = '';
+      this.requestNot.PollutionCertificatePath = '';
+      this.requestNot.PollutionUnitID = '';
+      this.requestNot.CityPopulation = null;
       this.requestNot.HospitalID = 0;
-      this.requestNot.HospitalAreaID = 0;
+      this.requestNot.HospitalAreaID = null;
       this.requestNot.HospitalRegNo = '';
       this.requestNot.HospitalName = '';
-      this.requestNot.HospitalDistance = 0;
+      this.requestNot.HospitalDistance = null;
       this.requestNot.HospitalContactNo = null;
       this.requestNot.HospitalEmailID = '';
       this.requestNot.ManageByName = '';
@@ -1303,7 +1362,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
     if (!(this.requestNot.HospitalDistance >= this.MinDistance && this.requestNot.HospitalDistance <= this.MaxDistance)) {
       this.isValid_ParentNot = false;
     }
-    if (this.request.HospitalStatus == null || this.request.HospitalStatus=='') {
+    if (this.request.HospitalStatus == null || this.request.HospitalStatus == '') {
       this.isValid_ParentNot = false;
       this.isHospitalrequried = true;
     }
@@ -1370,10 +1429,12 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
           // data
           if (data['Data']['ParentHospitalID'] == 1) {
             this.request = JSON.parse(JSON.stringify(data['Data']));
-            // hospital area validation
-            let selectedHospitalAreaValidation = this.HospitalAreaValidationList.filter((element: any) => element.ID == this.request.HospitalAreaID);
-            if (selectedHospitalAreaValidation.length > 0) {
-              await this.SetHospitalDistance(selectedHospitalAreaValidation[0].MinValue, selectedHospitalAreaValidation[0].MaxValue, null);
+            //distance validation
+            if (this.request.CityPopulation > 1000000) {
+              this.MaxDistance = 25;
+            }
+            else if (this.request.CityPopulation <= 1000000) {
+              this.MaxDistance = 10;
             }
             // parent hospital
             this.IsParentHospitalOrNot(true);
@@ -1385,30 +1446,36 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
               this.IsHospitalOwned = false;
             }
             // rural/urban          
-            await this.IsRuralOrUrban(this.request.RuralUrban == 1 ? true : false, null, false);
-            await this.IsRuralOrUrban(this.request.RuralUrban_ManageBy == 1 ? true : false, 'ManageBy', false);
-            await this.IsRuralOrUrban(this.request.RuralUrban_Owner == 1 ? true : false, 'Owner', false);
-            await this.IsRuralOrUrban(this.request.RuralUrban_Other == 1 ? true : false, 'Other', false);
+            this.IsRuralOrUrban(this.request.RuralUrban == 1 ? true : false, null, false);
+            this.IsRuralOrUrban(this.request.RuralUrban_ManageBy == 1 ? true : false, 'ManageBy', false);
+            this.IsRuralOrUrban(this.request.RuralUrban_Owner == 1 ? true : false, 'Owner', false);
+            this.IsRuralOrUrban(this.request.RuralUrban_Other == 1 ? true : false, 'Other', false);
             // division dll
-            await this.FillDivisionRelatedDDL(null, this.request.DivisionID.toString(), null);
-            await this.FillDivisionRelatedDDL(null, this.request.DivisionID_ManageBy.toString(), 'ManageBy');
-            await this.FillDivisionRelatedDDL(null, this.request.DivisionID_Owner.toString(), 'Owner');
-            await this.FillDivisionRelatedDDL(null, this.request.DivisionID_Other.toString(), 'Other');
+            this.FillDivisionRelatedDDL(null, this.request.DivisionID.toString(), null);
+            this.FillDivisionRelatedDDL(null, this.request.DivisionID_ManageBy.toString(), 'ManageBy');
+            this.FillDivisionRelatedDDL(null, this.request.DivisionID_Owner.toString(), 'Owner');
+            this.FillDivisionRelatedDDL(null, this.request.DivisionID_Other.toString(), 'Other');
             // district status
-            await this.FillDistrictRelatedDDL(null, this.request.DistrictID.toString(), null);
-            await this.FillDistrictRelatedDDL(null, this.request.DistrictID_ManageBy.toString(), 'ManageBy');
-            await this.FillDistrictRelatedDDL(null, this.request.DistrictID_Owner.toString(), 'Owner');
-            await this.FillDistrictRelatedDDL(null, this.request.DistrictID_Other.toString(), 'Other');
+            this.FillDistrictRelatedDDL(null, this.request.DistrictID.toString(), null);
+            this.FillDistrictRelatedDDL(null, this.request.DistrictID_ManageBy.toString(), 'ManageBy');
+            this.FillDistrictRelatedDDL(null, this.request.DistrictID_Owner.toString(), 'Owner');
+            this.FillDistrictRelatedDDL(null, this.request.DistrictID_Other.toString(), 'Other');
             // Whether the parent hospital is related to any other institution in the past or not
             this.IsParentHospitalRelatedToOther = this.request.ParentHospitalRelatedToOtherID == 1 ? true : false;
+
+
+            await this.GetParamedicalHospitalBedValidation(hospitalId);
+            //this.request.ParamedicalHospitalBedValidation = this.ParamedicalHospitalBedValidationList;
           }
           else if (data['Data']['ParentHospitalID'] == 2) {
             this.requestNot = JSON.parse(JSON.stringify(data['Data']));
             this.request.HospitalStatus = this.requestNot.HospitalStatus;
-            // hospital area validation
-            let selectedHospitalAreaValidation = this.HospitalAreaValidationList.filter((element: any) => element.ID == this.requestNot.HospitalAreaID);
-            if (selectedHospitalAreaValidation.length > 0) {
-              await this.SetHospitalDistance(selectedHospitalAreaValidation[0].MinValue, selectedHospitalAreaValidation[0].MaxValue, 'ParentNot');
+            //Distance validation
+            if (this.requestNot.CityPopulation > 1000000) {
+              this.MaxDistance = 25;
+            }
+            else if (this.requestNot.CityPopulation <= 1000000) {
+              this.MaxDistance = 10;
             }
             // parent hospital or not
             this.IsParentHospitalOrNot(false);
@@ -1442,6 +1509,8 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
             if (this.requestNot.ConsentForm != '' || this.requestNot.Dis_ConsentForm != '' || this.requestNot.ConsentFormPath != '') {
               await this.ResetFileAndValidation('ConsentForm', '', this.requestNot.ConsentForm, this.requestNot.Dis_ConsentForm, this.requestNot.ConsentFormPath, true);
             }
+            await this.GetParamedicalHospitalBedValidation(hospitalId);
+            //this.requestNot.ParamedicalHospitalBedValidation = this.ParamedicalHospitalBedValidationList;
           }
           //console.log(this.request.RuralUrban);
         })
@@ -1694,9 +1763,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.HospitalData = data['Data'];
-          console.log('Deepak');
-          console.log(this.HospitalData);
-          console.log('Deepak');
+          await this.GetParamedicalHospitalBedValidation(HospitalID);
         });
     }
     catch (Ex) {
@@ -1755,6 +1822,50 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
     }
     else {
       this.IsHospitalOwned = false;
+    }
+  }
+
+  async GetParamedicalHospitalBedValidation(HospitalID: number) {
+    try {
+      this.ParamedicalHospitalBedValidationList = [];
+      await this.hospitalDetailService.GetParamedicalHospitalBedValidation(this.QueryStringCollegeID, HospitalID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          debugger;
+          if (this.State == 0) {
+            this.ParamedicalHospitalBedValidationList = JSON.parse(JSON.stringify(data['Data']));
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.SuccessMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
+
+  OnChange_BedDropDownClick(CourseID: number, ColumnValue: number) {
+    var TextBoxList = this.ParamedicalHospitalBedValidationList.filter((x: { CourseID: number; Istextordropdown: number }) => x.CourseID == CourseID && x.Istextordropdown == 1);
+    if (TextBoxList != undefined && TextBoxList != null && TextBoxList.length > 0) {
+      for (var i = 0; i < this.ParamedicalHospitalBedValidationList.length; i++) {
+        if (this.ParamedicalHospitalBedValidationList[i].CourseID == CourseID && this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1 && ColumnValue==2) {
+          this.ParamedicalHospitalBedValidationList[i].Ismandatory = 0;
+        }
+        else if (this.ParamedicalHospitalBedValidationList[i].CourseID == CourseID && this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1 && ColumnValue == 1){
+          this.ParamedicalHospitalBedValidationList[i].Ismandatory = 1;
+        }
+      }
     }
   }
 }
