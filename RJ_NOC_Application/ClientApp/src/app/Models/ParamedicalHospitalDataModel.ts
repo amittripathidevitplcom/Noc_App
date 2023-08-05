@@ -119,6 +119,8 @@ export class ParamedicalHospitalDataModel {
   public PollutionCertificatePath: string = '';
 
   public HospitalStatus: string = '';
+
+  public ParamedicalHospitalBedValidation: ParamedicalHospitalBedValidation[] = [];
 }
 export class ParamedicalHospitalParentNotDataModel {// not have parent
   public ParentHospitalID: number = 0;
@@ -182,6 +184,18 @@ export class ParamedicalHospitalParentNotDataModel {// not have parent
   public PollutionCertificatePath: string = '';
   public HospitalStatus: string = '';
 
+  public ParamedicalHospitalBedValidation: ParamedicalHospitalBedValidation[] = [];
+
 }
 
 
+export class ParamedicalHospitalBedValidation {
+  public ID: number = 0;
+  public CourseID: number = 0;
+  public Istextordropdown: number = 0;
+  public ColumnName: string = '';
+  public Ismandatory: number = 0;
+  public MinValue: number = 0;
+  public MaxValue: number = 0;
+  public ColumnValue: number = 0;
+    } 

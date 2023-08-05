@@ -93,7 +93,7 @@
                 <label for="employeeName" class="form-label" style="margin-right:15px">Select Hospital Area <span style="color:red;">*</span></label>
                 <div class="clearfix"></div>
                 <div class="form-check form-check-inline" *ngFor="let item of HospitalAreaValidationList">
-                  <input class="form-check-input" type="radio" name="rbHospitalArea" id="rb{{item.Name}}" value="{{item.ID}}" [value]="item.ID" [(ngModel)]="request.HospitalAreaID"  formControlName="rbHospitalArea" />
+                  <input class="form-check-input" type="radio" name="rbHospitalArea" id="rb{{item.Name}}" value="{{item.ID}}" [value]="item.ID" [(ngModel)]="request.HospitalAreaID" formControlName="rbHospitalArea" />
                   <label class="form-check-label" for="rb{{item.Name}}">{{item.Name}}</label>
                 </div>
                 <div *ngIf="isSubmitted&&form.rbHospitalArea.errors" class="text-danger">
@@ -211,7 +211,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>City Population <span style="color:red;">*</span></label>
-                <input type="text" class="form-control" name="txtCityPopulation" id="txtCityPopulation" [(ngModel)]="request.CityPopulation" formControlName="txtCityPopulation" maxlength="10" (keypress)="NumberOnly($event)" autocomplete="off" (keyup)="CityPopulation_Change('Parent')"/>
+                <input type="text" class="form-control" name="txtCityPopulation" id="txtCityPopulation" [(ngModel)]="request.CityPopulation" formControlName="txtCityPopulation" maxlength="10" (keypress)="NumberOnly($event)" autocomplete="off" (keyup)="CityPopulation_Change('Parent')" />
                 <div *ngIf="isSubmitted&&form.txtCityPopulation.errors" class="text-danger">
                   <p *ngIf="form.txtCityPopulation.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
@@ -275,6 +275,33 @@
             </div>
           </div>
         </div>
+        <div class="card">
+          <div class="card-header">
+            <b>
+              <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
+            </b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngFor="let item of ParamedicalHospitalBedValidationList ; let idx =index">
+                <label>
+                  {{item.ColumnName}} <span style="color:red;" *ngIf="item.Ismandatory==1">*</span>
+                </label>
+                <select *ngIf="item.Istextordropdown==2" class="form-select" id="ddlDivisionID_{{idx}}" [(ngModel)]="item.ColumnValue" [ngModelOptions]="{standalone: true}" (change)="OnChange_BedDropDownClick(item.CourseID,item.ColumnValue)">
+                  <option value="0" selected>--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+                </select>
+                <input *ngIf="item.Istextordropdown==1" type="text" class="form-control" id="txtNoofBeds{{idx}}" [(ngModel)]="item.ColumnValue" maxlength="5" (keypress)="NumberOnly($event)" autocomplete="off" [ngModelOptions]="{standalone: true}" />
+                <p *ngIf="item.ColumnValue<item.MinValue &&item.Ismandatory==1" class="text-danger">Enter grater or equal {{item.MinValue}} </p>
+                <div *ngIf="isSubmitted&&(item.ColumnValue == null || item.ColumnValue==0) &&item.Ismandatory==1" class="text-danger">
+                  <p>This field is required .!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="card" *ngIf="IsShowSuperSpecialtyHospital">
           <div class="card-header">
             <b>
@@ -387,9 +414,9 @@
                   <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingMedicalBeds" name="txtOncologyNursingMedicalBeds" id="txtOncologyNursingMedicalBeds" formControlName="txtOncologyNursingMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label>Surgical Beds </label>
-                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
-                </div>-->
+            <label>Surgical Beds </label>
+            <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
+          </div>-->
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Chemotherapy Beds </label>
                   <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingChemotherapyBeds" name="txtOncologyNursingChemotherapyBeds" id="txtOncologyNursingChemotherapyBeds" formControlName="txtOncologyNursingChemotherapyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
@@ -896,6 +923,8 @@
             </div>
           </div>
         </div>
+
+        
         <div class="card-footer text-end">
           <button type="button" class="btn btn-primary" (click)="SaveDataOfParent()"> {{request.HospitalID>0?'Update':'Save'}}</button>
           <button type="button" class="btn btn-danger" (click)="ResetHospitalOfParent()"> Reset</button>
@@ -925,9 +954,6 @@
                         Hospital Distance from Institutions (KM)
                       </th>
                       <th>
-                        Bed Occupancy
-                      </th>
-                      <th>
                         Action
                       </th>
                     </tr>
@@ -945,9 +971,6 @@
                       </td>
                       <td>
                         {{row.HospitalDistance}}
-                      </td>
-                      <td>
-                        {{row.OccupancyPercentegeBeds}}
                       </td>
                       <td>
                         <div class="d-flex">
@@ -1212,6 +1235,33 @@
                   </div>
                 </div>
               </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <b>
+                    <i class="bi bi-table"></i>&nbsp; Distribution of beds in different areas
+                  </b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngFor="let item of ParamedicalHospitalBedValidationList ; let idx =index">
+                      <label>
+                        {{item.ColumnName}} <span style="color:red;" *ngIf="item.Ismandatory==1">*</span>
+                      </label>
+                      <select *ngIf="item.Istextordropdown==2" class="form-select" id="ddlDivisionID_{{idx}}" [(ngModel)]="item.ColumnValue" [ngModelOptions]="{standalone: true}">
+                        <option value="0" selected>--Select--</option>
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+                      </select>
+                      <input *ngIf="item.Istextordropdown==1" type="text" class="form-control" id="txtNoofBeds{{idx}}" [(ngModel)]="item.ColumnValue" maxlength="5" (keypress)="NumberOnly($event)" autocomplete="off" [ngModelOptions]="{standalone: true}" />
+                      <p *ngIf="item.ColumnValue<item.MinValue" class="text-danger">Enter grater or equal {{item.MinValue}} </p>
+                      <div *ngIf="isSubmitted&&(item.ColumnValue == null || item.ColumnValue==0)" class="text-danger">
+                        <p>This field is required .!</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="card">
                 <div class="card-header">
                   <b>
@@ -1469,9 +1519,6 @@
                               Hospital Distance from Institutions (KM)
                             </th>
                             <th>
-                              Bed Occupancy
-                            </th>
-                            <th>
                               Document
                             </th>
                             <th>
@@ -1495,9 +1542,6 @@
                             </td>
                             <td>
                               {{row.HospitalDistance}}
-                            </td>
-                            <td>
-                              {{row.OccupancyPercentegeBeds}}
                             </td>
                             <td>
                               <a *ngIf="row.ParentNotDocument!=''" class="btn-outline-primary" target="_blank" href="{{row.ParentNotDocumentPath}}"><i class="fa fa-eye"></i></a>
@@ -1617,10 +1661,6 @@
                 <input class="form-control disabled" disabled value="{{HospitalData.HospitalName}}" />
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Hospital Distance from Institutions (KM) :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.HospitalDistance}}" />
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label><b>Hospital Contact No. :</b></label>
                 <input class="form-control disabled" disabled value="{{HospitalData.HospitalContactNo}}" />
               </div>
@@ -1660,6 +1700,14 @@
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label class="form-label"><b>City/Town/Village :</b></label>
                 <input class="form-control disabled" disabled value="{{HospitalData.CityTownVillage}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>City Population :</b></label>
+                <input class="form-control disabled" disabled value="{{HospitalData.CityPopulation}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Hospital Distance from Institutions (KM) :</b></label>
+                <input class="form-control disabled" disabled value="{{HospitalData.HospitalDistance}}" />
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label class="form-label"><b>Pincode :</b></label>
@@ -1711,6 +1759,7 @@
             </div>
           </div>
         </div>
+
         <div class="card">
           <div class="card-header">
             <b>
@@ -1719,38 +1768,15 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Medical :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.MedicalBeds}}" />
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Surgical :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.SurgicalBeds}}" />
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Obst. & Gynaecology :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.ObstAndGynaecologyBeds}}" />
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Pediatrics :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.PediatricsBeds}}" />
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Ortho :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.OrthoBeds}}" />
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Bed Occupancy of the Hospital in percentege :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.OccupancyPercentegeBeds}}" />
-              </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label><b>Affiliation of psychiatric hospital beds :</b></label>
-                <input class="form-control disabled" disabled value="{{HospitalData.AffiliationPsychiatricBeds}}" />
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngFor="let item of ParamedicalHospitalBedValidationList ; let idx =index">
+                <label>
+                  {{item.ColumnName}}
+                </label>
+                <input class="form-control disabled" disabled value="{{item.Istextordropdown==2?item.ColumnValue==1?'Yes':'No':item.ColumnValue}}" />
               </div>
             </div>
           </div>
         </div>
-
         <div class="card" *ngIf="IsShowSuperSpecialtyHospital">
           <div class="card-header">
             <b>
@@ -1961,7 +1987,6 @@
             </div>
           </div>
         </div>
-
         <div class="card">
           <div class="card-header">
             <b>
