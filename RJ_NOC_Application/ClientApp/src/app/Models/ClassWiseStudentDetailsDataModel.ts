@@ -19,6 +19,7 @@ export class ClassWiseStudentDetailsDataModel {
   public EWSGirlsCount: number = 0
   public EWSBoysCount: number = 0
   public TotalGirls: number = 0
+  
   public TotalBoys: number = 0
   public Total: number = 0
   public OFTotalMinorityBoys: number = 0
