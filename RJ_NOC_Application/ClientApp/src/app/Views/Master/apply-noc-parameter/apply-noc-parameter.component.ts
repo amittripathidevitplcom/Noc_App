@@ -114,6 +114,8 @@ export class ApplyNocParameterComponent implements OnInit {
   public isAddNOCCourseSubject: boolean = false;
   public isAddNOCCourse: boolean = false;
 
+  searchTextNewCourse: string = '';
+  searchTextNewSubject: string = '';
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
     private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal) {
@@ -268,11 +270,11 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.ApplyNocCode = item.ApplyNocCode;
 
       // TNOC Extension
-      if (this.request.ApplyNocFor == 'NOC For New Course') {
+      if (this.request.ApplyNocCode == 'MG3_NewCourse') {
         this.ApplyNocParameterMasterList_TNOCExtension = null;
       }
       // Addition of New Seats(60)
-      if (this.request.ApplyNocFor == 'Addition of New Seats(60)') {
+      if (this.request.ApplyNocCode == 'MG3_ANewSeats') {
         this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
       }
       if (this.request.ApplicationTypeID <= 0) {
@@ -280,88 +282,82 @@ export class ApplyNocParameterComponent implements OnInit {
         event.target.checked = false;
         return;
       }
-      // Change In Name Of College
-      if (this.request.ApplyNocFor == 'Change in Name') {
+      //DEC Change In Name Of College
+      if (this.request.ApplyNocCode == 'DEC_ChangeName') {
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege = new ApplyNocParameterMasterList_ChangeInNameOfCollege();
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege.FeeAmount = item.FeeAmount;
       }
-      if (this.request.ApplyNocFor == 'Change in Place') {
+      if (this.request.ApplyNocCode == 'DEC_ChangePlace') {
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = new ApplyNocParameterMasterList_ChangeInPlaceOfCollege();
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege.FeeAmount = item.FeeAmount;
       }
-      if (this.request.ApplyNocFor == 'Coed to girls') {
+      if (this.request.ApplyNocCode == 'DEC_CoedToGirls') {
         this.ApplyNocParameterMasterList_ChangeInCoedtoGirls = new ApplyNocParameterMasterList_ChangeInCoedtoGirls();
         this.ApplyNocParameterMasterList_ChangeInCoedtoGirls.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInCoedtoGirls.FeeAmount = item.FeeAmount;
       }
-      if (this.request.ApplyNocFor == 'Girls to Coed') {
+      if (this.request.ApplyNocCode == 'DEC_GilsToCoed') {
         this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = new ApplyNocParameterMasterList_ChangeInGirlstoCoed();
         this.ApplyNocParameterMasterList_ChangeInGirlstoCoed.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInGirlstoCoed.FeeAmount = item.FeeAmount;
       }
-      if (this.request.ApplyNocFor == 'Change Management') {
+      if (this.request.ApplyNocCode == 'DEC_ChangeManagement') {
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement = new ApplyNocParameterMasterList_ChangeInCollegeManagement();
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInCollegeManagement.FeeAmount = item.FeeAmount;
       }
-      if (this.request.ApplyNocFor == 'Merger') {
+      if (this.request.ApplyNocCode == 'DEC_Merger') {
         this.ApplyNocParameterMasterList_MergerCollege = new ApplyNocParameterMasterList_MergerCollege();
         this.ApplyNocParameterMasterList_MergerCollege.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_MergerCollege.FeeAmount = item.FeeAmount;
       }
 
-      if (this.request.ApplyNocFor == 'New Course') {
+      if (this.request.ApplyNocCode == 'DEC_NewCourse') {
 
         this.ApplyNocParameterMasterList_NewCourse = new ApplyNocParameterMaster_TNOCExtensionDataModel();
         this.ApplyNocParameterMasterList_NewCourse.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_NewCourse.FeeAmount = item.FeeAmount;
       }
-      if (this.request.ApplyNocCode == 'DECSUBJECT') {
-
+      if (this.request.ApplyNocCode == 'DEC_NewSubject')
+      {
         this.ApplyNocParameterMasterList_NewCourseSubject = new ApplyNocParameterMaster_TNOCExtensionDataModel();
         this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_NewCourseSubject.FeeAmount = item.FeeAmount;
       }
 
-
-
-      
-
-
       //unchecked
-      if (!event.target.checked) {
-        if (this.request.ApplyNocFor == 'Change in Name') {
+      if (!event.target.checked)
+      {
+        if (this.request.ApplyNocCode == 'DEC_ChangeName') {
           this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
         }
-        else if (this.request.ApplyNocFor == 'Change in Place') {
+        else if (this.request.ApplyNocCode == 'DEC_ChangePlace') {
           this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
         }
-        else if (this.request.ApplyNocFor == 'Coed to girls') {
+        else if (this.request.ApplyNocCode == 'DEC_CoedToGirls') {
           this.ApplyNocParameterMasterList_ChangeInCoedtoGirls = null;
         }
-        else if (this.request.ApplyNocFor == 'Girls to Coed') {
+        else if (this.request.ApplyNocCode == 'DEC_GilsToCoed') {
           this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
         }
-        else if (this.request.ApplyNocFor == 'Change Management') {
+        else if (this.request.ApplyNocCode == 'DEC_ChangeManagement') {
           this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
         }
-        else if (this.request.ApplyNocFor == 'Merger') {
+        else if (this.request.ApplyNocCode == 'DEC_Merger') {
           this.ApplyNocParameterMasterList_MergerCollege = null;
         }
 
-        else if (this.request.ApplyNocFor == 'New Course') {
+        else if (this.request.ApplyNocCode == 'DEC_NewCourse') {
           this.ApplyNocParameterMasterList_NewCourse = null;
         }
-        else if (this.request.ApplyNocCode == 'DECSUBJECT')
+        else if (this.request.ApplyNocCode == 'DEC_NewSubject')
         {
           this.ApplyNocParameterMasterList_NewCourseSubject = null;
         }
         return;
       }
-
-
       // get
       await this.applyNocParameterService.GetApplyNocForByParameter(this.request.CollegeID, this.request.ApplyNocFor)
         .then((data: any) => {
@@ -453,6 +449,26 @@ export class ApplyNocParameterComponent implements OnInit {
           return;
         }
       }
+
+      if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
+        let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList;
+        if (SelectedCourselist.length == 0) {
+          this.toastr.error("Choose any subject from 'NOC For New Course'");
+          return;
+        }
+      }
+
+
+      if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
+        let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList;
+        if (SelectedCourselist.length == 0) {
+          this.toastr.error("Choose any subject from 'NOC For New Subject'");
+          return;
+        }
+      }
+
+
+
 
       this.request.ApplyNocParameterMasterList_ChangeInNameOfCollege = this.ApplyNocParameterMasterList_ChangeInNameOfCollege;
       //Changes In College Place
@@ -893,6 +909,7 @@ export class ApplyNocParameterComponent implements OnInit {
       this.ddlCourse = 0;
       this.SubjectDetails = [];
       this.isAddNOCCourse = false;
+      this.searchTextNewCourse = '';
       // get
       // model popup
       this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocpaymentdetails-title', backdrop: 'static' }).result.then((result) => {
@@ -1085,6 +1102,7 @@ export class ApplyNocParameterComponent implements OnInit {
       this.NewSubjectDetails = [];
       this.ddlCourseSubject = 0;
       this.isAddNOCCourseSubject = false;
+      this.searchTextNewSubject = '';
       // get
       // model popup
       this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocpaymentdetails-title', backdrop: 'static' }).result.then((result) => {
@@ -1124,10 +1142,12 @@ export class ApplyNocParameterComponent implements OnInit {
       this.toastr.warning('Duplicate course not allowed');
       return;
     }
-    let CourseName = this.CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.ddlCourseSubject).CourseName;
+    let CourseName = this.ExistingCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.ddlCourseSubject).CourseName;
+    let CollegeLevel = this.ExistingCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.ddlCourseSubject).strCollegeLevel;
     var data: ApplyNocParameterCourseDataModel = new ApplyNocParameterCourseDataModel();
     data.CourseID = this.ddlCourseSubject;
     data.CourseName = CourseName;
+    data.CollegeLevel = CollegeLevel;
     data.ApplyNocParameterSubjectList = this.NewSubjectDetails.filter(f => f.IsChecked == true);
     this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.push(data);
     //close data
