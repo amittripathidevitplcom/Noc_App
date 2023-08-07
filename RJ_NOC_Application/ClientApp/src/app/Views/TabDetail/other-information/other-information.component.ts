@@ -168,7 +168,7 @@ export class OtherInformationComponent implements OnInit {
     this.CssClass_TextDangerNoOfRooms = '';
     try {
       var OtherName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID)?.Name;
-      if (OtherName == 'Library') {
+      if (OtherName == 'Library' || OtherName == 'Library Room' || OtherName == ' Library Room ') {
         this.ShowHideBook = true;
       }
       else {
