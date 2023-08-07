@@ -16,6 +16,7 @@ export class CommonMasterService {
 
 
   readonly APIUrl_CommonMaster = GlobalConstants.apiURL + "CommonFuncation";
+  readonly APIUrl_SocietyMaster = GlobalConstants.apiURL + "SocietyMaster";
   readonly APIUrl_SSOAPI = GlobalConstants.apiURL + "SSOAPI";
 
   constructor(private http: HttpClient) { }
@@ -795,6 +796,15 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async Check30Female(CollegeID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl_SocietyMaster + '/Check30Female/' + CollegeID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 
   public async GetTabFieldByTabName(TabName: string) {
     const httpOptions = {
