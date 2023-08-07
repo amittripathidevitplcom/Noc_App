@@ -89,6 +89,7 @@ export class BuildingDetailsComponent implements OnInit {
   public isValidOtherFixedAssetsAndSecuritiesFileUpload: boolean = false;
   public isValidGATEYearBalanceSecretFileUpload: boolean = false;
   public isValidOtherFinancialResourcesFileUpload: boolean = false;
+  public SampleDocument: string = "http://localhost:62778/ImageFile/BuildingDetailsAnn13.pdf";
 
   @ViewChild('fileUploadImage')
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
