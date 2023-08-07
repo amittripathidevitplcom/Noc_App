@@ -1079,6 +1079,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
       this.request.PanchayatSamitiID_Other = 0;
       this.request.CityTownVillage_Other = '';
       this.request.Pincode_Other = null;
+      this.request.ParamedicalHospitalBedValidation = [];
       for (let items of this.ParamedicalHospitalBedValidationList) {
         if (items.Istextordropdown == 1) {
           items.ColumnValue = null;
@@ -1284,7 +1285,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
 
       const txtHospitalName = document.getElementById('txtHospitalRegNo')
       if (txtHospitalName) txtHospitalName.focus();
-
+      this.requestNot.ParamedicalHospitalBedValidation = [];
       for (let items of this.ParamedicalHospitalBedValidationList) {
         if (items.Istextordropdown == 1) {
           items.ColumnValue = null;

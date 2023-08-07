@@ -170,6 +170,8 @@ import { PreviewFarmLandDetailsComponent } from './Views/PreviewTabs/preview-far
 import { CourseMasterComponent } from './Views/Master/CourseMaster/course-master.component';
 import { ParamedicalHospitalDetailComponent } from './Views/TabDetail/paramedical-hospital-detail/paramedical-hospital-detail.component';
 import { ClassWiseStudentDetailsComponent } from './Views/ClassWiseStudentDetails/class-wise-student-details/class-wise-student-details.component';
+import { PreviewParamedicalHospitalDetailComponent } from './Views/PreviewTabs/preview-paramedical-hospital-detail/preview-paramedical-hospital-detail.component';
+import { DocumentScrutinyParamedicalHospitalDetailComponent } from './Views/DocumentScrutinyTab/document-scrutiny-paramedical-hospital-detail/document-scrutiny-paramedical-hospital-detail.component';
 
 
 @NgModule({
@@ -335,6 +337,8 @@ import { ClassWiseStudentDetailsComponent } from './Views/ClassWiseStudentDetail
     ParamedicalHospitalDetailComponent,
     CourseMasterComponent,
     ClassWiseStudentDetailsComponent,
+    PreviewParamedicalHospitalDetailComponent,
+    DocumentScrutinyParamedicalHospitalDetailComponent,
 
   ],
   imports: [
