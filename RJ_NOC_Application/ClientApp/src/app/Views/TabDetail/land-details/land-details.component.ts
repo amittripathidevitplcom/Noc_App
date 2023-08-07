@@ -393,7 +393,7 @@ export class LandDetailsComponent implements OnInit {
             this.RequiredLandAreaMsg = '';
             this.LandUnitType = '';
             this.IsRequiredLandArea = false;
-            this.toastr.warning("Land Area  mapping record not found. ")
+            //this.toastr.warning("Land Area  mapping record not found. ")
           }
          
         }, error => console.error(error));

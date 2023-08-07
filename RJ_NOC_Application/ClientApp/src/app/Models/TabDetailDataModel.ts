@@ -265,6 +265,9 @@ export class BuildingDetailsDataModel {
   public OwnBuildingFileUpload: string = '';
   public Dis_OwnBuildingFileUpload: string = '';
   public OwnBuildingFileUploadPath: string = '';
+  public RentAgreementFileUpload: string = '';
+  public Dis_RentAgreementFileUpload: string = '';
+  public RentAgreementFileUploadPath: string = '';
   public UserID: number = 0;
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;

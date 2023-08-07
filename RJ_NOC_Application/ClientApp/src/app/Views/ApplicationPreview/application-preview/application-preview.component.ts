@@ -24,10 +24,11 @@ export class ApplicationPreviewComponent implements OnInit {
   public CollegeID: number = 0;
   public LandClass: string = 'tabs-Link LandInformation';
 
+
   selectedIndex: number = 0;
   maxNumberOfTabs: number = 0;
   public CollegeType_IsExisting: boolean = true;
-  constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
+  constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) { }
 
   async ngOnInit() {
@@ -39,6 +40,7 @@ export class ApplicationPreviewComponent implements OnInit {
     //await this.GetCollageMaster();
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    await this.GetCollageDetails();
   }
   NextStep() {
     if (this.selectedIndex != this.maxNumberOfTabs) {
@@ -54,6 +56,28 @@ export class ApplicationPreviewComponent implements OnInit {
 
   onTabChange(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
+  }
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeDataList = data['Data'];
+          if (this.collegeDataList['CollegeStatusID'] == 3) {
+            this.CollegeType_IsExisting = false;
+            //this.isAcademicInformation = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   
