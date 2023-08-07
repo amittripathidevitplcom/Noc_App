@@ -19,7 +19,7 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
 
   //public ClassWiseStudentDetailsList: any = [];
 
-  public ClassWiseStudentDetailsList: any = [];
+  public ClassWiseStudentDetailsList: any[] = [];
 
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
@@ -28,15 +28,40 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public isLoading: boolean = false;
-  request =new PostClassWiseStudentDetailsDataModel();
+  request = new PostClassWiseStudentDetailsDataModel();
 
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined
 
+
+  SCBoysCountFooter: number = 0
+  STBoysCountFooter: number = 0
+  OBCBoysCountFooter: number = 0
+  MBCBoysCountFooter: number = 0
+  GenBoysCountFooter: number = 0
+  EWSBoysCountFooter: number = 0
+  SCGirlsCountFooter: number = 0
+  STGirlsCountFooter: number = 0
+  OBCGirlsCountFooter: number = 0
+  MBCGirlsCountFooter: number = 0
+  GenGirlsCountFooter: number = 0
+  EWSGirlsCountFooter: number = 0
+
+
+  TotalBoysFooter: number = 0
+  TotalGirlsFooter: number = 0
+  OFTotalMinorityBoysFooter: number = 0
+  OFTotalMinorityGirlsFooter: number = 0
+  OFTotalPHBoysFooter: number = 0
+  OFTotalPHGirlsFooter: number = 0
+
+
+
+
+
   constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService) { }
 
-  async ngOnInit()
-  {
+  async ngOnInit() {
 
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
@@ -56,6 +81,8 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ClassWiseStudentDetailsList = data['Data'];
+          this.TotalFooterSum();
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -68,8 +95,7 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
     }
   }
 
-  async SaveData()
-  {
+  async SaveData() {
     this.loaderService.requestStarted();
     this.isLoading = true;
 
@@ -82,7 +108,7 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-         
+
           console.log(this.State);
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
@@ -102,7 +128,7 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  CalculateAll(item: any,index :any) {
+  CalculateAll(item: any, index: any) {
 
     //boys section
     let vSCB = item.SCBoysCount == undefined ? 0 : item.SCBoysCount;
@@ -124,11 +150,42 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
     item.TotalBoys = Number(vSCB) + Number(vSTB) + Number(vOBC) + Number(vMBCB) + Number(vGENB) + Number(vEWSB);
     item.TotalGirls = Number(vSCG) + Number(vSTG) + Number(vOBG) + Number(vMBCG) + Number(vGENG) + Number(vEWSG);
 
-   
+
+  }
+
+
+  TotalFooterSum() {
+
+    //Boys
+    this.SCBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.SCBoysCount).reduce((acc, value) => acc + value, 0)
+    this.STBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.STBoysCount).reduce((acc, value) => acc + value, 0);
+    this.OBCBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.OBCBoysCount).reduce((acc, value) => acc + value, 0)
+    this.MBCBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.MBCBoysCount).reduce((acc, value) => acc + value, 0);
+    this.GenBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.GenBoysCount).reduce((acc, value) => acc + value, 0);
+    this.EWSBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.EWSBoysCount).reduce((acc, value) => acc + value, 0);
+    //Girls Footer SUM
+    this.SCGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.SCGirlsCount).reduce((acc, value) => acc + value, 0)
+    this.STGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.STGirlsCount).reduce((acc, value) => acc + value, 0);
+    this.OBCGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.OBCGirlsCount).reduce((acc, value) => acc + value, 0)
+    this.MBCGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.MBCGirlsCount).reduce((acc, value) => acc + value, 0);
+    this.GenGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.GenGirlsCount).reduce((acc, value) => acc + value, 0);
+    this.EWSGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.EWSGirlsCount).reduce((acc, value) => acc + value, 0);
+
+    //
+    this.TotalBoysFooter=  this.ClassWiseStudentDetailsList.map(t => t.TotalBoys).reduce((acc, value) => acc + value, 0)
+    this.TotalGirlsFooter = this.ClassWiseStudentDetailsList.map(t => t.TotalGirls).reduce((acc, value) => acc + value, 0);
+
+
+    this.OFTotalMinorityBoysFooter =this.ClassWiseStudentDetailsList.map(t => t.OFTotalMinorityBoys).reduce((acc, value) => acc + value, 0)
+    this.OFTotalMinorityGirlsFooter = this.ClassWiseStudentDetailsList.map(t => t.OFTotalMinorityGirls).reduce((acc, value) => acc + value, 0);
+
+    this.OFTotalPHBoysFooter= this.ClassWiseStudentDetailsList.map(t => t.OFTotalPHBoys).reduce((acc, value) => acc + value, 0)
+    this.OFTotalPHGirlsFooter =this.ClassWiseStudentDetailsList.map(t => t.OFTotalPHGirls).reduce((acc, value) => acc + value, 0);
+
+
   }
   //validattions
-  numberOnly(event: any): boolean
-  {
+  numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;

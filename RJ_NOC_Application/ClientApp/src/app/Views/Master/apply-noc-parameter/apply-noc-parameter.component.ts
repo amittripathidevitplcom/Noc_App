@@ -450,6 +450,26 @@ export class ApplyNocParameterComponent implements OnInit {
         }
       }
 
+      if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
+        let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList;
+        if (SelectedCourselist.length == 0) {
+          this.toastr.error("Choose any subject from 'NOC For New Course'");
+          return;
+        }
+      }
+
+
+      if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
+        let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList;
+        if (SelectedCourselist.length == 0) {
+          this.toastr.error("Choose any subject from 'NOC For New Subject'");
+          return;
+        }
+      }
+
+
+
+
       this.request.ApplyNocParameterMasterList_ChangeInNameOfCollege = this.ApplyNocParameterMasterList_ChangeInNameOfCollege;
       //Changes In College Place
       this.request.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege;
