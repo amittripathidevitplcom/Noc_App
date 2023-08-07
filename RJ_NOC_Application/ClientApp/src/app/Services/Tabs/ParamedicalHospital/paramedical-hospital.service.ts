@@ -69,4 +69,12 @@ export class ParamedicalHospitalService {
       ).toPromise();
   }
 
+  public async GetParamedicalHospitalBedValidation(CollegeID: number, HospitalID: number) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.get(this.APIUrl + "/GetParamedicalHospitalBedValidation/" + CollegeID + "/" + HospitalID, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

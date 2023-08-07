@@ -1,7 +1,7 @@
 export class CourseMasterAddDataModel {
   public CourseID: number = 0;
   public DepartmentID: number = 0;
-// public StreamID: number = 0;
+  public CollegeLevel: number = 0;
   public CourseLevelID: number = 0;
   public CourseLevel: string = '';
   public CourseName: string = '';

@@ -5,6 +5,7 @@ export class CourseMasterDataModel {
   public CourseID: number = 0;
   public CourseTypeID: number = 0;
   public Seats: number = 0;
+  public NoOfEnrolledStudents: number = 0;
   public SelectedSubjectDetails: CourseMasterDataModel_SubjectDetails[] = [];
   public UserID: number = 0;
   public ActiveStatus: boolean = true;

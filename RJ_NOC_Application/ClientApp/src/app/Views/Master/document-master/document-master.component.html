@@ -54,27 +54,31 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label for="txtDocumentName" class="form-label mb-0">Document Name <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtDocumentName" name="txtDocumentName" formControlName="txtDocumentName" [(ngModel)]="request.DocumentName">
+                  <input type="text" class="form-control" id="txtDocumentName" name="txtDocumentName" formControlName="txtDocumentName" [(ngModel)]="request.DocumentName" autocomplete="off">
 
                   <div *ngIf="isSubmitted&&form.txtDocumentName.errors" class="text-danger">
-                    <p *ngIf="form.txtDocumentName.errors.required" ><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form.txtDocumentName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label for="txtMinSize" class="form-label mb-0">Min.Size </label>
+                  <label for="txtMinSize" class="form-label mb-0">Min.Size (in kb)</label>
                   <input type="number" class="form-control" id="txtMinSize" name="txtMinSize" formControlName="txtMinSize" [(ngModel)]="request.MinSize">
-
                   <!--<div *ngIf="isSubmitted&&request.MinSize <= 0" class="text-danger">
                     <p *ngIf="request.MinSize <= 0" ><i aria-hidden="true"></i> This field is required .!</p>
                   </div>-->
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label for="txtMaxSize" class="form-label mb-0">Max.Size </label>
+                  <label for="txtMaxSize" class="form-label mb-0">Max.Size (in kb)</label>
                   <input type="number" class="form-control" id="txtMaxSize" name="txtMaxSize" formControlName="txtMaxSize" [(ngModel)]="request.MaxSize">
-
                   <!--<div *ngIf="isSubmitted&&request.MaxSize <= 0" class="text-danger">
                     <p *ngIf="request.MaxSize <= 0" ><i aria-hidden="true"></i> This field is required .!</p>
                   </div>-->
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+                  <label for="chkIsCompulsory" class="form-label">IsCompulsory</label>
+                  <div class="form-check form-switch yes d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="chkIsCompulsory" [(ngModel)]="request.IsCompulsory" formControlName="chkIsCompulsory">
+                  </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
                   <label for="chkIsActiveStatus" class="form-label">Status</label>
@@ -82,12 +86,7 @@
                     <input class="form-check-input" type="checkbox" id="IsActiveStatus" [(ngModel)]="request.IsActiveStatus" formControlName="chkIsActiveStatus">
                   </div>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
-                  <label for="chkIsCompulsory" class="form-label">IsCompulsory</label>
-                  <div class="form-check form-switch yes d-flex align-items-center">
-                    <input class="form-check-input" type="checkbox" id="chkIsCompulsory" [(ngModel)]="request.IsCompulsory" formControlName="chkIsCompulsory">
-                  </div>
-                </div>                
+
                 <div class="card-footer text-end">
                   <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
                   <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
@@ -107,9 +106,9 @@
               </div>
               <div class="d-flex align-items-center table-filter mr-15">
                 <i class="fa fa-search"></i>
-                <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText"  />
+                <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
               </div>
-            </div>            
+            </div>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -187,6 +186,7 @@
   .form-switch.yes .form-check-input::after {
     content: 'No';
   }
+
   .form-switch.yes .form-check-input:checked::after {
     content: 'Yes';
   }

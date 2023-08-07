@@ -45,6 +45,7 @@ export class AddCollegeComponent implements OnInit {
   public DistrictList: any = [];
   public PresentCollegeStatusList: any = [];
   public CollegeTypeList: any = [];
+  public Dis_CollegeTypeList: any = [];
   public CollegeMediumList: any = [];
   public UniversityList: any = [];
   public FinancialYearList: any = [];
@@ -56,6 +57,7 @@ export class AddCollegeComponent implements OnInit {
   public IsRural: boolean = true;
   public IsAISHECodeStatus: boolean = false;
   public IsCollegeNAACAccredited: boolean = false;
+  public IsExisting: boolean = false;
   public PresentCollegeStatusList_FilterData: any = []
   public CollegeLevelList_FilterData: any = []
   public DesignationList: any = [];
@@ -205,7 +207,7 @@ export class AddCollegeComponent implements OnInit {
   get form_NearestGovernmentHospitals() { return this.CollegeDetailsForm_NearestGovernmentHospitals.controls; }
 
   async onFilechange(event: any, Type: string) {
-    
+
     try {
       this.loaderService.requestStarted();
       this.file = event.target.files[0];
@@ -508,7 +510,7 @@ export class AddCollegeComponent implements OnInit {
   }
 
   async ddlCollegeStatus_TextChange(event: any, SelectedCollegeStatusID: string) {
-    
+
     try {
       this.loaderService.requestStarted();
 
@@ -516,9 +518,18 @@ export class AddCollegeComponent implements OnInit {
       let SelectdCollegeStatusName = this.CollegeStatusList.find((x: { ID: number; }) => x.ID == selectedCollegeStatusID).Name;
 
       if (SelectdCollegeStatusName == "New") {
-        this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList.filter((element: any) => {
-          return element.Name == "TNOC";
-        });
+
+        this.IsExisting = false;
+
+        if (this.request.DepartmentID == 3) {
+          this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList.filter((element: any) => {
+            return element.Name == "TNOC Holder";
+          });
+
+        }
+        else {
+          this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
+        }
 
         this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
           return element.Name == "UG";
@@ -526,12 +537,18 @@ export class AddCollegeComponent implements OnInit {
 
       }
       else {
-        this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList.filter((element: any) => {
-          return element.Name == "NOC";
-        });
-        //this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
+        this.IsExisting = true;
+        /*if (this.request.DepartmentID != 3) {*/
+        //this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList.filter((element: any) => {
+        //  return element.Name == "PNOC Holder";
+        //});
+        /* }*/
+        this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
         this.CollegeLevelList_FilterData = this.CollegeLevelList;
       }
+
+
+
     }
     catch (ex) {
       console.log(ex)
@@ -561,7 +578,7 @@ export class AddCollegeComponent implements OnInit {
           this.CollegeStatusList = data['Data'];
         }, error => console.error(error));
       // college level
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "CourseLevel")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "CollegeLevel")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -772,7 +789,7 @@ export class AddCollegeComponent implements OnInit {
 
   AddNearestGovernmentHospitalsDetail() {
     try {
-      this.loaderService.requestStarted();
+      
       if (this.request.NearestGovernmentHospitalsList.length >= 10) {
         this.toastr.error("You can't add more then 10.");
         return
@@ -793,7 +810,7 @@ export class AddCollegeComponent implements OnInit {
       if (!isValid) {
         return;
       }
-
+      this.loaderService.requestStarted();
       // some filter names
       this.request_NearestGovernmentHospitals.DivisionName = this.DivisionList.find((x: { DivisionID: number }) => x.DivisionID == this.request_NearestGovernmentHospitals.DivisionID)?.DivisionName;
       this.request_NearestGovernmentHospitals.DistrictName = this.DistrictList_Nearest.find((x: { DistrictID: number }) => x.DistrictID == this.request_NearestGovernmentHospitals.DistrictID)?.DistrictName;
@@ -897,9 +914,27 @@ export class AddCollegeComponent implements OnInit {
   }
 
   async SaveData() {
+
+    if (this.IsExisting == true) {
+      this.CollegeDetailsForm.get('ddlYearofEstablishment')?.setValidators([DropdownValidators]);
+      this.CollegeDetailsForm.get('AISHECodeStatus')?.setValidators([DropdownValidators]);
+      this.CollegeDetailsForm.get('ddlPresentCollegeStatus')?.setValidators([DropdownValidators]);
+    }
+    else {
+      this.CollegeDetailsForm.get('ddlYearofEstablishment')?.clearValidators();
+      this.CollegeDetailsForm.get('AISHECodeStatus')?.clearValidators();
+      this.CollegeDetailsForm.get('ddlPresentCollegeStatus')?.clearValidators();
+    }
+    this.CollegeDetailsForm.get('ddlYearofEstablishment')?.updateValueAndValidity();
+    this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
+    this.CollegeDetailsForm.get('ddlPresentCollegeStatus')?.updateValueAndValidity();
+
     this.isValidCollegeLogo = false;
     this.isValidNAACAccreditedCertificate = false;
     this.isSubmitted = true;
+
+    console.log(this.CollegeDetailsForm);
+
 
     let isValid = true;
     if (this.CollegeDetailsForm.invalid) {
@@ -908,13 +943,16 @@ export class AddCollegeComponent implements OnInit {
     if (!this.CustomValidate()) {
       isValid = false;
     }
-    if (this.ProfileLogoValidationMessage != '') {
-      isValid = false;
-    }
-    if (this.request.AISHECodeStatus == 1) {
-      if (this.request.AISHECode == null || this.request.AISHECode == '') {
-        isValid = false;
-        this.AISHECodeValidationMessage = 'This field is required .!';
+    //as par client >> Comment by rishi kapooor 05 08 2023 Ts and HTML Page
+    //if (this.ProfileLogoValidationMessage != '') {
+    //  isValid = false;
+    //}
+    if (this.IsExisting == true) {
+      if (this.request.AISHECodeStatus == 1) {
+        if (this.request.AISHECode == null || this.request.AISHECode == '') {
+          isValid = false;
+          this.AISHECodeValidationMessage = 'This field is required .!';
+        }
       }
     }
     if (this.request.CollegeNAACAccredited == 1) {
@@ -925,14 +963,15 @@ export class AddCollegeComponent implements OnInit {
     }
 
     // all validate
-    if (!isValid) {
-      console.log(this.CollegeDetailsForm);
-      return;
-    }
-
-    if (this.request.NearestGovernmentHospitalsList.length == 0) {
-      this.toastr.error("Please add government hospitals nearest to the institution");
-      isValid = false;
+    //if (!isValid) {
+    //  console.log(this.CollegeDetailsForm);
+    //  return;
+    //}
+    if (this.request.DepartmentID == 6) {
+      if (this.request.NearestGovernmentHospitalsList.length == 0) {
+        this.toastr.error("Please add government hospitals nearest to the institution");
+        isValid = false;
+      }
     }
     if (this.request.ContactDetailsList.length == 0) {
       this.toastr.error("Please add Contact Details");
@@ -974,30 +1013,31 @@ export class AddCollegeComponent implements OnInit {
     }
   }
 
-  CustomValidate() {    
-      let isValid = true;
-      if (this.request.CollegeLogo == null || this.request.CollegeLogo == undefined || this.request.CollegeLogo == '') {
-        isValid = false;
-        this.ProfileLogoValidationMessage = 'This field is required .!';
-      }
-      if (this.ProfileLogoValidationMessage != '') {
-        isValid = false;
-      }
+  CustomValidate() {
+    let isValid = true;
+    //as par deparment updated by rishi kapoor 20123
+    //if (this.request.CollegeLogo == null || this.request.CollegeLogo == undefined || this.request.CollegeLogo == '') {
+    //  isValid = false;
+    //  this.ProfileLogoValidationMessage = 'This field is required .!';
+    //}
+    //if (this.ProfileLogoValidationMessage != '') {
+    //  isValid = false;
+    //}
 
-      return isValid;    
+    return isValid;
   }
 
   CustomValidate_NearestGovernmentHospitals() {
-      let isValid = true;
-      if (this.request_NearestGovernmentHospitals.HospitalDocument == null || this.request_NearestGovernmentHospitals.HospitalDocument == undefined || this.request_NearestGovernmentHospitals.HospitalDocument == '') {
-        isValid = false;
-        this.HospitalDocumentValidationMessage = 'This field is required .!';
-      }
-      if (this.HospitalDocumentValidationMessage != '') {
-        isValid = false;
-      }
+    let isValid = true;
+    if (this.request_NearestGovernmentHospitals.HospitalDocument == null || this.request_NearestGovernmentHospitals.HospitalDocument == undefined || this.request_NearestGovernmentHospitals.HospitalDocument == '') {
+      isValid = false;
+      this.HospitalDocumentValidationMessage = 'This field is required .!';
+    }
+    if (this.HospitalDocumentValidationMessage != '') {
+      isValid = false;
+    }
 
-      return isValid;    
+    return isValid;
   }
 
   async GetData() {
@@ -1008,7 +1048,7 @@ export class AddCollegeComponent implements OnInit {
     try {
       await this.collegeService.GetData(this.QueryStringCollageID)
         .then(async (data: any) => {
-          
+
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -1081,6 +1121,38 @@ export class AddCollegeComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  async ddlCollegeType_TextChange(SelectedCollegeTypeID: string) {
+    if (this.request.DepartmentID == 3) {
+      let Item = this.CollegeTypeList.filter((element: any) => {
+        return element.ID == SelectedCollegeTypeID;
+      });
+
+      if (Item[0]['Name'] == 'Law Co-ed' || Item[0]['Name'] == 'Law Girls') {
+        await this.commonMasterService.GetUniversityByDepartmentId(this.request.DepartmentID, 1)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.UniversityList = data['Data'];
+          }, error => console.error(error));
+      }
+      else {
+        await this.commonMasterService.GetUniversityByDepartmentId(this.request.DepartmentID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.UniversityList = data['Data'];
+          }, error => console.error(error));
+      }
+
+    }
+    //  console.log(Item[0]['Name']);
+
   }
 
 }
