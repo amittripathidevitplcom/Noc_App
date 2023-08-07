@@ -26,11 +26,11 @@
             <!--<mat-tab label="Land Information" class="tabs-Link LandInformation">-->
             <!--Land Information-->
             <!--<mat-tab>
-    <ng-template mat-tab-label>
-      <span [ngClass]="{'color-red'}">Security</span>
-    </ng-template>
-    <app-land-details></app-land-details>
-  </mat-tab>-->
+              <ng-template mat-tab-label>
+                <span [ngClass]="{'color-red'}">Security</span>
+              </ng-template>
+              <app-land-details></app-land-details>
+            </mat-tab>-->
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class=" text-success" aria-hidden="true"></i>
@@ -49,25 +49,6 @@
               <app-preview-required-document></app-preview-required-document>
             </mat-tab>
             <mat-tab label="Class Room Details">
-              <!--Class Room Details-->
-              <mat-tab-group mat-align-tabs="left" class="tabUl1 d-block w-100">
-                <mat-tab label="Class Room Details">
-                  <app-preview-room-detail></app-preview-room-detail>  
-                </mat-tab>
-                <!--<mat-tab label="Other Information">-->
-                  <!--Other Information-->
-                  <!--<app-preview-other-information></app-preview-other-information>
-                </mat-tab>-->
-              </mat-tab-group>
-            </mat-tab>
-            <mat-tab label="Other Information">
-              <!--Other Information-->
-              <mat-tab-group mat-align-tabs="left" class="tabUl1 d-block w-100">
-                <mat-tab label="Other Information">
-                  <!--Other Information-->
-                  <app-preview-other-information></app-preview-other-information>
-            <mat-tab label="Class Room Details">
-              <!--Class Room Details-->
               <app-preview-room-detail></app-preview-room-detail>
             </mat-tab>
             <mat-tab *ngIf="SelectedDepartmentID==6" label="Clinical Details">
@@ -77,21 +58,8 @@
             <mat-tab *ngIf="SelectedDepartmentID !=6" label="Other Information">
               <!--Other Information-->
               <app-preview-other-information></app-preview-other-information>
-            </mat-tab>        
-            <!--<mat-tab label="Room Details">-->
-            <!--Room Details-->
-            <!--<mat-tab-group mat-align-tabs="left" class="tabUl1 d-block w-100">
-            <mat-tab label="Room Details">
-              <app-preview-room-detail></app-preview-room-detail>
-            </mat-tab>
-            <mat-tab label="Other Information">-->
-            <!--Other Information-->
-            <!--<app-preview-other-information></app-preview-other-information>
-                </mat-tab>
-              </mat-tab-group>
             </mat-tab>
 
-            </mat-tab>-->
             <mat-tab label="Building Documents">
               <!--Building Documents-->
               <app-preview-building-detail></app-preview-building-detail>
@@ -131,8 +99,10 @@
         <!--<div class="col-md-2 text-end">
           <a routerLink="../addcourses" class="btn btn-primary btn-sm">Back To Course List</a>
         </div>-->
-      </div>
 
+
+
+      </div>
     </div>
   </div>
 </div>
