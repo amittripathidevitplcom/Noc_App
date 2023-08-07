@@ -288,7 +288,7 @@
                   {{item.ColumnName}} <span style="color:red;" *ngIf="item.Ismandatory==1">*</span>
                 </label>
                 <select *ngIf="item.Istextordropdown==2" class="form-select" id="ddlDivisionID_{{idx}}" [(ngModel)]="item.ColumnValue" [ngModelOptions]="{standalone: true}" (change)="OnChange_BedDropDownClick(item.CourseID,item.ColumnValue)">
-                  <option value="0" selected>--Select--</option>
+                  <option value="0" disabled>--Select--</option>
                   <option value="1">Yes</option>
                   <option value="2">No</option>
                 </select>
@@ -1249,7 +1249,7 @@
                         {{item.ColumnName}} <span style="color:red;" *ngIf="item.Ismandatory==1">*</span>
                       </label>
                       <select *ngIf="item.Istextordropdown==2" class="form-select" id="ddlDivisionID_{{idx}}" [(ngModel)]="item.ColumnValue" [ngModelOptions]="{standalone: true}">
-                        <option value="0" selected>--Select--</option>
+                        <option value="0" disabled>--Select--</option>
                         <option value="1">Yes</option>
                         <option value="2">No</option>
                       </select>

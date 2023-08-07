@@ -22,13 +22,14 @@
           <label>
             Land Area Situated In <span style="color:red;">*</span>
           </label>
-          <select id="ddlLandAreaId" name="ddlLandAreaId" class="form-control" [(ngModel)]="request.LandAreaID" formControlName="ddlLandAreaId">
+          <select id="ddlLandAreaId" name="ddlLandAreaId" class="form-control" [(ngModel)]="request.LandAreaID" formControlName="ddlLandAreaId" (change)="GetLandSqureMeterMappingDetails(request.LandAreaID)">
             <option value="0" disabled>--Select--</option>
             <option *ngFor="let item of LandAreaData"
                     value="{{item.LandAreaID}}">
               {{item.LandAreaName}}
             </option>
           </select>
+          <p style="color: #3458c8;">( Land should be in the name of Society/Trust only.)</p>
           <div *ngIf="isSubmitted&&form.ddlLandAreaId.errors" class="text-danger">
             <p *ngIf="!form.ddlLandAreaId.errors.DropdownValidators"> This field is required .!</p>
           </div>
@@ -75,6 +76,7 @@
               {{item.LandTypeName}}
             </option>
           </select>
+
           <div *ngIf="isSubmitted&&form.ddlLandTypeId.errors" class="text-danger">
             <p *ngIf="!form.ddlLandTypeId.errors.DropdownValidators"> This field is required .!</p>
           </div>
@@ -84,6 +86,7 @@
             Khasra Number <span style="color:red;">*</span>
           </label>
           <input type="text" id="txtKhasraNumber" class="form-control" [(ngModel)]="request.KhasraNumber" formControlName="txtKhasraNumber" />
+          <p style="color: #3458c8;">( If khasra no. is more than one then separate khasra no. by comma.)</p>
           <div *ngIf="isSubmitted&&form.txtKhasraNumber.errors" class="text-danger">
             <p *ngIf="form.txtKhasraNumber.errors.required"> This field is required .!</p>
           </div>
@@ -92,12 +95,26 @@
           <label>
             Name of Owner of Land <span style="color:red;">*</span>
           </label>
-          <input type="text" id="txtLandOwnerName" class="form-control" [(ngModel)]="request.LandOwnerName" formControlName="txtLandOwnerName" (keypress)="alphaOnly($event)"/>
+          <input type="text" id="txtLandOwnerName" class="form-control" [(ngModel)]="request.LandOwnerName" formControlName="txtLandOwnerName" (keypress)="alphaOnly($event)" />
 
           <div *ngIf="isSubmitted&&form.txtLandOwnerName.errors" class="text-danger">
             <p *ngIf="form.txtLandOwnerName.errors.required"> This field is required .!</p>
           </div>
         </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>
+            Land Area (in {{LandUnitType !=''?LandUnitType:UnitOfLand}}) <span style="color:red;">*</span>
+          </label>
+          <input type="text" id="txtLandArea" class="form-control" [(ngModel)]="request.LandArea" formControlName="txtLandArea" (keypress)="numberOnly($event)" />
+          <p *ngIf="IsRequiredLandArea" class="text-danger"><i aria-hidden="true"></i>Land area must be at least : {{RequiredLandAreaMsg}}</p>
+          <div *ngIf="isSubmitted&&form.txtLandArea.errors" class="text-danger">
+            <p *ngIf="form.txtLandArea.errors.required">This field is required .!</p>
+            <p *ngIf="form.txtLandArea.errors.min">This field is required .!</p>
+            
+          </div>
+        </div>
+
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
             Total Building Area (in {{UnitOfLand}}) <span style="color:red;">*</span>
@@ -114,7 +131,7 @@
             Land Conversion Order Date(DD/MM/YYYY) <!--<span style="color:red;">*</span>-->
           </label>
           <input type="date" id="dtLandConversionOrderDate" name="dtLandConversionOrderDate" class="form-control" [(ngModel)]="request.LandConversionOrderDate" formControlName="dtLandConversionOrderDate" onkeypress="return false;" />
-
+          <p *ngIf="isSubmitted&&request.LandConversionOrderDate ==''" class="text-danger"><i aria-hidden="true"></i> {{LandConversionDateValidate}}</p>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowConversionOrderNo">
           <label>
@@ -133,7 +150,7 @@
 
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of request.LandDetailDocument ; let idx =index">
           <label>
-            {{item.DocumentName}} <span style="color:red;" *ngIf="item.IsMandatory">*</span>
+            {{item.DocumentName}}{{item.DisplayName}} <span style="color:red;" *ngIf="item.IsMandatory">*</span>
           </label>
           <div class="d-flex">
             <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (input)="onFilechange($event,item)" />
@@ -146,19 +163,23 @@
               <a class="btn btn-outline-primary" target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a>
               <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(item)"><i class="fa fa-trash-o"></i></button>
             </div>
+
           </div>
+          <p style="color: #3458c8;" *ngIf="item.DocumentName =='Land Document'">( Upload first and last page of land registered document )</p>
+          <a style="color: #3458c8;" *ngIf="item.SampleDocument !=''&&item.DocumentName=='Land Title Certificate'" target="_blank" href="{{item.SampleDocument}}">(Download Annexure-13)</a>
+          <a style="color: #3458c8;" *ngIf="item.SampleDocument !='' &&item.DocumentName=='Affidavit document for conversion'" target="_blank" href="{{item.SampleDocument}}">(Download Annexure-1)</a>
           <div *ngIf="isSubmitted&&item.FileName == ''" class="text-danger">
             <p>This field is required .!</p>
           </div>
         </div>
-
-        <div class="row">
+        <!--committed by naresh any dout call me-->
+        <!--<div class="row">
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of AnnexureData">
             <button class="btn btn-success" type="button">
               {{item.AnnexureName}}
             </button>
           </div>
-        </div>
+        </div>-->
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
           <button type="button" class="btn btn-primary" id="btnAddLandDetail" name="btnSave" (click)="AddLandDetails()"> Save</button>&nbsp;
           <button type="button" class="btn btn-danger" (click)="ResetControl()"> Reset</button>
@@ -184,6 +205,7 @@
                 <th>Land Type</th>
                 <th>Khasra No.</th>
                 <th>Owner Name</th>
+                <th>Land Area</th>
                 <th>Building/Hostel/Quarters/Road Area(A1)</th>
                 <!--<th>Land Title Certificate</th>
                 <th>Land Document</th>
@@ -205,12 +227,14 @@
                 <td>{{item.LandTypeName}}</td>
                 <td>{{item.KhasraNumber}}</td>
                 <td>{{item.LandOwnerName}}</td>
+                <td>{{item.LandArea}}</td>
                 <td>{{item.BuildingHostelQuartersRoadArea}}</td>
+
                 <!--<td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-                <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-                <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-                <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-                <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>-->
+  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
+  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
+  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
+  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>-->
                 <td>
                   <div class="d-flex">
                     <button type="button" (click)="Edit_OnClick(item.LandDetailID)" title="Edit" class="btn btn-sm btn-info" [disabled]="isDisabledGrid"><i class="fa fa-edit"></i></button>
@@ -237,52 +261,52 @@
     </div>
   </div>
 </div>
-  <div class="modal fade" id="ViewLandDetailDocument" tabindex="-1" aria-labelledby="ViewLandDetailDocument" aria-hidden="true" data-bs-backdrop="false">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Land Details Document</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewLandDetailDocument"><i class="fa fa-close"></i></button>
-        </div>
-        <div class="modal-body py-4">
-          <div class="row" *ngIf="LandDetailsDocumentListByID.length>0">
-            <div class="col-md-12">
-              <div class="card mb-0">
-                <div class="card-header">
-                  <b><i class="bi bi-table"></i>Land Details Document </b>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                  <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped">
-                      <thead>
-                        <tr>
-                          <th>Sr.No.</th>
-                          <th>Document Name</th>
-                          <th>Document Type</th>
-                          <th>Show Document</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let row of LandDetailsDocumentListByID; let indexOfelement=index;">
-                          <td> {{indexOfelement+1}}</td>
-                          <td>{{row.DocumentName}}</td>
-                          <td>{{row.DocumentType}}</td>
-                          <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+<div class="modal fade" id="ViewLandDetailDocument" tabindex="-1" aria-labelledby="ViewLandDetailDocument" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Land Details Document</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewLandDetailDocument"><i class="fa fa-close"></i></button>
+      </div>
+      <div class="modal-body py-4">
+        <div class="row" *ngIf="LandDetailsDocumentListByID.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i>Land Details Document </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr.No.</th>
+                        <th>Document Name</th>
+                        <th>Document Type</th>
+                        <th>Show Document</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of LandDetailsDocumentListByID; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td>{{row.DocumentName}}</td>
+                        <td>{{row.DocumentType}}</td>
+                        <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
+</div>
 
 
 

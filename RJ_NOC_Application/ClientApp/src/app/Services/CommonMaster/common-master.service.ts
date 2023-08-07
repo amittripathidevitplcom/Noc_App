@@ -625,6 +625,18 @@ export class CommonMasterService {
       ).toPromise();
   }
 
+  public async GetLandSqureMeterMappingDetails_DepartmentWise(DepartmentID: number, CollageID: number, LandAreaId: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetLandSqureMeterMappingDetails_DepartmentWise/" + DepartmentID + "/" + CollageID + "/" + LandAreaId)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 
 
   public async GetTermAndConditionList_DepartmentWise(DepartmentID: number) {
@@ -949,14 +961,14 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetCollegeWiseCourseIDSubjectList(CollegeWiseCourseID: any) {
+  public async GetCollegeWiseCourseIDSubjectList(CollegeID: any, CollegeWiseCourseID: any, ViewMode: string) {
     const httpOptions =
     {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeWiseCourseIDSubjectList/" + CollegeWiseCourseID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeWiseCourseIDSubjectList/" + CollegeID + "/" + CollegeWiseCourseID + "/" + ViewMode)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

@@ -20,7 +20,7 @@ export class LandDetailDataModel {
   public LandOwnerName: string = '';
   public BuildingHostelQuartersRoadArea: number = 0;
   //public GroundCycleStandArea: number = 0;
-  //public TotalLandArea: number = 0;
+  public LandArea: number = 0;
   public LandConversionOrderDate: string = '';
   public AffidavitDate: string = '';
   public LandConversionOrderNo: string = '';
