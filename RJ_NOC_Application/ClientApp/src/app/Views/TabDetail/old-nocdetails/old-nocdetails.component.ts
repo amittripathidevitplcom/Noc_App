@@ -619,6 +619,7 @@ export class OldNOCDetailsComponent implements OnInit {
       this.isSubmitted = false;
       this.isDisabled = false;
       this.showImageFilePath = false;
+      this.isToDisable = true;
       const btnAdd = document.getElementById('btnAddNOCDetail')
       if (btnAdd) { btnAdd.innerHTML = '<i class="fa fa-plus"></i>&nbsp;Add & Save'; }
       this.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
