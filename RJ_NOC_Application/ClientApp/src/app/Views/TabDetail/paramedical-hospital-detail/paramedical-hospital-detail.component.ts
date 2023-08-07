@@ -910,7 +910,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
     }
     for (var i = 0; i < this.ParamedicalHospitalBedValidationList.length; i++) {
       if (this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1) {
-        if ((this.ParamedicalHospitalBedValidationList[i].ColumnValue == null || this.ParamedicalHospitalBedValidationList[i].ColumnValue.toString() == '' || this.ParamedicalHospitalBedValidationList[i].ColumnValue <= 0) && this.ParamedicalHospitalBedValidationList[i].Ismandatory==1) {
+        if ((this.ParamedicalHospitalBedValidationList[i].ColumnValue == null || this.ParamedicalHospitalBedValidationList[i].ColumnValue.toString() == '' || this.ParamedicalHospitalBedValidationList[i].ColumnValue <= 0) && this.ParamedicalHospitalBedValidationList[i].Ismandatory == 1) {
           this.toastr.warning('enter ' + this.ParamedicalHospitalBedValidationList[i].ColumnName + ' value');
           return;
         }
@@ -922,7 +922,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
       else {
         if (this.ParamedicalHospitalBedValidationList[i].ColumnValue == null || this.ParamedicalHospitalBedValidationList[i].ColumnValue.toString() == '' || this.ParamedicalHospitalBedValidationList[i].ColumnValue <= 0
         ) {
-          this.toastr.warning('Select ' + this.ParamedicalHospitalBedValidationList[i].ColumnName );
+          this.toastr.warning('Select ' + this.ParamedicalHospitalBedValidationList[i].ColumnName);
           return;
         }
       }
@@ -1079,6 +1079,14 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
       this.request.PanchayatSamitiID_Other = 0;
       this.request.CityTownVillage_Other = '';
       this.request.Pincode_Other = null;
+      for (let items of this.ParamedicalHospitalBedValidationList) {
+        if (items.Istextordropdown == 1) {
+          items.ColumnValue = null;
+        }
+        if (items.Istextordropdown == 2) {
+          items.ColumnValue = 0;
+        }
+      }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1276,6 +1284,15 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
 
       const txtHospitalName = document.getElementById('txtHospitalRegNo')
       if (txtHospitalName) txtHospitalName.focus();
+
+      for (let items of this.ParamedicalHospitalBedValidationList) {
+        if (items.Istextordropdown == 1) {
+          items.ColumnValue = null;
+        }
+        if (items.Istextordropdown == 2) {
+          items.ColumnValue = 0;
+        }
+      }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1428,6 +1445,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
 
           // data
           if (data['Data']['ParentHospitalID'] == 1) {
+
             this.request = JSON.parse(JSON.stringify(data['Data']));
             //distance validation
             if (this.request.CityPopulation > 1000000) {
@@ -1836,6 +1854,16 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
           debugger;
           if (this.State == 0) {
             this.ParamedicalHospitalBedValidationList = JSON.parse(JSON.stringify(data['Data']));
+            var DropDownCourseIDs = this.ParamedicalHospitalBedValidationList.filter((x: { Istextordropdown: number; ColumnValue: number }) => x.Istextordropdown == 2 && x.ColumnValue == 2);
+            if (DropDownCourseIDs != null && DropDownCourseIDs.length > 0) {
+              for (let item of DropDownCourseIDs) {
+                for (let items of this.ParamedicalHospitalBedValidationList) {
+                  if (items.CourseID == item.CourseID && items.Istextordropdown == 1) {
+                    items.Ismandatory = 0;
+                  }
+                }
+              }
+            }
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -1859,10 +1887,10 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
     var TextBoxList = this.ParamedicalHospitalBedValidationList.filter((x: { CourseID: number; Istextordropdown: number }) => x.CourseID == CourseID && x.Istextordropdown == 1);
     if (TextBoxList != undefined && TextBoxList != null && TextBoxList.length > 0) {
       for (var i = 0; i < this.ParamedicalHospitalBedValidationList.length; i++) {
-        if (this.ParamedicalHospitalBedValidationList[i].CourseID == CourseID && this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1 && ColumnValue==2) {
+        if (this.ParamedicalHospitalBedValidationList[i].CourseID == CourseID && this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1 && ColumnValue == 2) {
           this.ParamedicalHospitalBedValidationList[i].Ismandatory = 0;
         }
-        else if (this.ParamedicalHospitalBedValidationList[i].CourseID == CourseID && this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1 && ColumnValue == 1){
+        else if (this.ParamedicalHospitalBedValidationList[i].CourseID == CourseID && this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1 && ColumnValue == 1) {
           this.ParamedicalHospitalBedValidationList[i].Ismandatory = 1;
         }
       }
