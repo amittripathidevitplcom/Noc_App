@@ -28,12 +28,12 @@
                 <span>Land Information</span>
               </ng-template>
               <app-preview-land-detail></app-preview-land-detail>
-                          </mat-tab>
+            </mat-tab>
 
 
             <mat-tab label="Facility">
               <!--Facility-->
-              <app-preview-facility-detail></app-preview-facility-detail>              
+              <app-preview-facility-detail></app-preview-facility-detail>
             </mat-tab>
             <mat-tab label="Required Document">
               <!--Required Document-->
@@ -41,12 +41,14 @@
             </mat-tab>
 
             <!--Room Details-->
-            <mat-tab label="Room Details">
+            <mat-tab label="Class Room Details">
               <app-preview-room-detail></app-preview-room-detail>
-                          </mat-tab>
+            </mat-tab>
             <!--Other Information-->
-            <mat-tab label="Other Information">
-
+            <mat-tab *ngIf="SelectedDepartmentID==6" label="Clinical Details">
+              <app-preview-other-information></app-preview-other-information>
+            </mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID !=6" label="Other Information">
               <app-preview-other-information></app-preview-other-information>
             </mat-tab>
 
@@ -72,11 +74,11 @@
               <!--Other Document-->
               <app-preview-other-document></app-preview-other-document>
             </mat-tab>
-            <mat-tab label="Hospital Details">
+            <mat-tab *ngIf="SelectedDepartmentID==6" label="Hospital Details">
               <!--Hospital Details-->
               <app-preview-hospital-detail></app-preview-hospital-detail>
             </mat-tab>
-            <mat-tab label="Hostel Details">
+            <mat-tab *ngIf="SelectedDepartmentID==6" label="Hostel Details">
               <!--Hostel Details-->
               <app-preview-hostel-details></app-preview-hostel-details>
             </mat-tab>
