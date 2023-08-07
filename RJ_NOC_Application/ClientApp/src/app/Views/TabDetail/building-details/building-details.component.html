@@ -19,6 +19,7 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <b><i class="fa fa-filter"></i>&nbsp;Building Documents</b>
+          <span style="color:red;">Upload File(Only PDF,JPEG,JPG)(Min size 100(KB))(Max size 2(MB))</span>
         </div>
         <form [formGroup]="buildingdetailsForm" class="form-horizontal">
           <div class="card-body">
@@ -189,6 +190,7 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('OwnBuildingFileUpload')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+                    <a style="color: #3458c8;" target="_blank" href="{{SampleDocument}}">(Download Annexure-13)</a>
                     <p *ngIf="isSubmitted&&buildingdetails.OwnBuildingFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
                     <div *ngIf="isValidOwnBuildingFileUpload" class="text-danger">
                       <p *ngIf="isValidOwnBuildingFileUpload"> {{ImageValidationMessage}}</p>

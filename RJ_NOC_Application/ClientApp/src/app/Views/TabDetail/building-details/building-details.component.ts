@@ -17,6 +17,7 @@ import jsPDF from 'jspdf'
 import autoTable, { Table } from 'jspdf-autotable'
 import * as XLSX from 'xlsx';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { GlobalConstants } from '../../../Common/GlobalConstants';
 
 
 @Component({
@@ -89,6 +90,7 @@ export class BuildingDetailsComponent implements OnInit {
   public isValidOtherFixedAssetsAndSecuritiesFileUpload: boolean = false;
   public isValidGATEYearBalanceSecretFileUpload: boolean = false;
   public isValidOtherFinancialResourcesFileUpload: boolean = false;
+  public SampleDocument: string = GlobalConstants.ImagePathURL +"BuildingDetailsAnn13.pdf";
 
   @ViewChild('fileUploadImage')
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
