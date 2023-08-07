@@ -179,7 +179,14 @@ export class OldNOCDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.subjectDataList = data['Data'];
-          this.SelectedSubjectDetails = data['Data'];
+          if (this.SelectedDepartmentID != 3) {
+            this.SelectedSubjectDetails = data['Data'];
+            this.isToDisable = true;
+          }
+          else {
+            this.SelectedSubjectDetails = [];
+            this.isToDisable = false;
+          }
           this.dropdownSettings = Object.assign({}, this.dropdownSettings);
 
         }, error => console.error(error));
@@ -204,9 +211,11 @@ export class OldNOCDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.lstNOCType = data['Data'];
-          this.lstNOCType = this.lstNOCType.filter((element: any) => {
-            return element.Name == "NOC";
-          });
+          if (this.SelectedDepartmentID != 3) {
+            this.lstNOCType = this.lstNOCType.filter((element: any) => {
+              return element.Name == "PNOC Holder";
+            });
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -343,7 +352,7 @@ export class OldNOCDetailsComponent implements OnInit {
       this.IsFormValid = false;
     }
     var OldNOCtype = this.lstNOCType.find((x: { ID: any; }) => x.ID == this.request.NOCTypeID).Name;
-    if (OldNOCtype != 'NOC') {
+    if (OldNOCtype != 'PNOC Holder') {
       if (this.request.NOCExpireDate == '') {
         this.NOCExpireDateRequried = true;
         this.IsFormValid = false;
@@ -397,7 +406,7 @@ export class OldNOCDetailsComponent implements OnInit {
   }
   OnChangeOldNOCType() {
     var OldNOCtype = this.lstNOCType.find((x: { ID: any; }) => x.ID == this.request.NOCTypeID).Name;
-    if (OldNOCtype == 'NOC') {
+    if (OldNOCtype == 'PNOC Holder') {
       this.ShowOldNOCType = false;
       this.request.NOCExpireDate = '';
     }
@@ -418,6 +427,7 @@ export class OldNOCDetailsComponent implements OnInit {
   public file: any = '';
   ValidateDocumentImage(event: any) {
     try {
+      debugger;
       this.loaderService.requestStarted();
       if (event.target.files && event.target.files[0]) {
         //if (event.target.files[0].type === 'image/jpeg' ||
@@ -446,7 +456,7 @@ export class OldNOCDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
+          if (this.State == 0) {          
             this.request.UploadNOCDoc = data['Data'][0]["FileName"];
             this.request.UploadNOCDocPath = data['Data'][0]["FilePath"];
             this.request.Dis_FileName = data['Data'][0]["Dis_FileName"];
@@ -609,8 +619,9 @@ export class OldNOCDetailsComponent implements OnInit {
       this.isSubmitted = false;
       this.isDisabled = false;
       this.showImageFilePath = false;
+      this.isToDisable = true;
       const btnAdd = document.getElementById('btnAddNOCDetail')
-      if (btnAdd) { btnAdd.innerHTML = "Add"; }
+      if (btnAdd) { btnAdd.innerHTML = '<i class="fa fa-plus"></i>&nbsp;Add & Save'; }
       this.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
     }
     catch (Ex) {

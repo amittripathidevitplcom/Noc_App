@@ -54,6 +54,8 @@ export class RequiredDocumentsDataModel_Documents {
   public Dis_FileName: string = '';
   public FileName: string = '';
   public FilePath: string = '';
+  public SampleDocument?: string = '';
+  public DisplayName?: string = '';
   public Action: string = '';
   public Remark: string = '';
 

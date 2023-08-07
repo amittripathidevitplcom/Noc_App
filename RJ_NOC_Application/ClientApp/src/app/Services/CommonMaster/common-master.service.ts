@@ -624,6 +624,18 @@ export class CommonMasterService {
       ).toPromise();
   }
 
+  public async GetLandSqureMeterMappingDetails_DepartmentWise(DepartmentID: number, CollageID: number, LandAreaId: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetLandSqureMeterMappingDetails_DepartmentWise/" + DepartmentID + "/" + CollageID + "/" + LandAreaId)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 
 
   public async GetTermAndConditionList_DepartmentWise(DepartmentID: number) {
