@@ -288,7 +288,7 @@
                   {{item.ColumnName}} <span style="color:red;" *ngIf="item.Ismandatory==1">*</span>
                 </label>
                 <select *ngIf="item.Istextordropdown==2" class="form-select" id="ddlDivisionID_{{idx}}" [(ngModel)]="item.ColumnValue" [ngModelOptions]="{standalone: true}" (change)="OnChange_BedDropDownClick(item.CourseID,item.ColumnValue)">
-                  <option value="0" selected>--Select--</option>
+                  <option value="0" disabled>--Select--</option>
                   <option value="1">Yes</option>
                   <option value="2">No</option>
                 </select>
@@ -1235,7 +1235,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="card">
                 <div class="card-header">
                   <b>
@@ -1248,14 +1247,14 @@
                       <label>
                         {{item.ColumnName}} <span style="color:red;" *ngIf="item.Ismandatory==1">*</span>
                       </label>
-                      <select *ngIf="item.Istextordropdown==2" class="form-select" id="ddlDivisionID_{{idx}}" [(ngModel)]="item.ColumnValue" [ngModelOptions]="{standalone: true}">
-                        <option value="0" selected>--Select--</option>
+                      <select *ngIf="item.Istextordropdown==2" class="form-select" id="ddlDivisionID_{{idx}}" [(ngModel)]="item.ColumnValue" [ngModelOptions]="{standalone: true}" (change)="OnChange_BedDropDownClick(item.CourseID,item.ColumnValue)">
+                        <option value="0" disabled>--Select--</option>
                         <option value="1">Yes</option>
                         <option value="2">No</option>
                       </select>
                       <input *ngIf="item.Istextordropdown==1" type="text" class="form-control" id="txtNoofBeds{{idx}}" [(ngModel)]="item.ColumnValue" maxlength="5" (keypress)="NumberOnly($event)" autocomplete="off" [ngModelOptions]="{standalone: true}" />
-                      <p *ngIf="item.ColumnValue<item.MinValue" class="text-danger">Enter grater or equal {{item.MinValue}} </p>
-                      <div *ngIf="isSubmitted&&(item.ColumnValue == null || item.ColumnValue==0)" class="text-danger">
+                      <p *ngIf="item.ColumnValue<item.MinValue &&item.Ismandatory==1" class="text-danger">Enter grater or equal {{item.MinValue}} </p>
+                      <div *ngIf="isSubmitted_ParentNot&&(item.ColumnValue == null || item.ColumnValue==0) &&item.Ismandatory==1" class="text-danger">
                         <p>This field is required .!</p>
                       </div>
                     </div>

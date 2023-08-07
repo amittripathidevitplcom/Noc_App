@@ -910,7 +910,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
     }
     for (var i = 0; i < this.ParamedicalHospitalBedValidationList.length; i++) {
       if (this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1) {
-        if ((this.ParamedicalHospitalBedValidationList[i].ColumnValue == null || this.ParamedicalHospitalBedValidationList[i].ColumnValue.toString() == '' || this.ParamedicalHospitalBedValidationList[i].ColumnValue <= 0) && this.ParamedicalHospitalBedValidationList[i].Ismandatory==1) {
+        if ((this.ParamedicalHospitalBedValidationList[i].ColumnValue == null || this.ParamedicalHospitalBedValidationList[i].ColumnValue.toString() == '' || this.ParamedicalHospitalBedValidationList[i].ColumnValue <= 0) && this.ParamedicalHospitalBedValidationList[i].Ismandatory == 1) {
           this.toastr.warning('enter ' + this.ParamedicalHospitalBedValidationList[i].ColumnName + ' value');
           return;
         }
@@ -922,7 +922,7 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
       else {
         if (this.ParamedicalHospitalBedValidationList[i].ColumnValue == null || this.ParamedicalHospitalBedValidationList[i].ColumnValue.toString() == '' || this.ParamedicalHospitalBedValidationList[i].ColumnValue <= 0
         ) {
-          this.toastr.warning('Select ' + this.ParamedicalHospitalBedValidationList[i].ColumnName );
+          this.toastr.warning('Select ' + this.ParamedicalHospitalBedValidationList[i].ColumnName);
           return;
         }
       }
@@ -1079,6 +1079,15 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
       this.request.PanchayatSamitiID_Other = 0;
       this.request.CityTownVillage_Other = '';
       this.request.Pincode_Other = null;
+      this.request.ParamedicalHospitalBedValidation = [];
+      for (let items of this.ParamedicalHospitalBedValidationList) {
+        if (items.Istextordropdown == 1) {
+          items.ColumnValue = null;
+        }
+        if (items.Istextordropdown == 2) {
+          items.ColumnValue = 0;
+        }
+      }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1276,6 +1285,15 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
 
       const txtHospitalName = document.getElementById('txtHospitalRegNo')
       if (txtHospitalName) txtHospitalName.focus();
+      this.requestNot.ParamedicalHospitalBedValidation = [];
+      for (let items of this.ParamedicalHospitalBedValidationList) {
+        if (items.Istextordropdown == 1) {
+          items.ColumnValue = null;
+        }
+        if (items.Istextordropdown == 2) {
+          items.ColumnValue = 0;
+        }
+      }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1428,6 +1446,51 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
 
           // data
           if (data['Data']['ParentHospitalID'] == 1) {
+            //this.request.ParentHospitalID = data['Data']['ParentHospitalID'];
+            //this.request.HospitalStatus = data['Data']['HospitalStatus'];
+            //if (this.request.HospitalStatus == 'Own') {
+            //  this.IsHospitalOwned = true;
+            //}
+            //else {
+            //  this.IsHospitalOwned = false;
+            //}
+            //this.request.HospitalID = data['Data']['HospitalID'];
+            //this.request.HospitalAreaID = data['Data']['HospitalAreaID'];
+            //this.request.HospitalRegNo = data['Data']['HospitalRegNo'];
+            //this.request.HospitalName = data['Data']['HospitalName'];
+            //this.request.HospitalContactNo = data['Data']['HospitalContactNo'];
+            //this.request.HospitalEmailID = data['Data']['HospitalEmailID'];
+            //this.request.AddressLine1 = data['Data']['AddressLine1'];
+            //this.request.AddressLine2 = data['Data']['AddressLine2'];
+            //this.request.RuralUrban = data['Data']['RuralUrban'];
+            //await this.IsRuralOrUrban(this.request.RuralUrban == 1 ? true : false, null, false);
+            //debugger;
+            //this.request.DivisionID = data['Data']['DivisionID'];
+            //await this.FillDivisionRelatedDDL(null, this.request.DivisionID.toString(), null);
+            //this.request.DistrictID = data['Data']['DistrictID'];
+            //console.log('hospital dis');
+            //console.log(this.request.DistrictID);
+            //console.log('hospital dis');
+            //await this.FillDistrictRelatedDDL(null, this.request.DistrictID.toString(), null);
+
+            //this.request.TehsilID = data['Data']['TehsilID'];
+            //this.request.PanchayatSamitiID = data['Data']['PanchayatSamitiID'];
+            //this.request.CityTownVillage = data['Data']['CityTownVillage'];
+            //this.request.Pincode = data['Data']['Pincode'];
+            //this.request.CityPopulation = data['Data']['CityPopulation'];
+            //if (this.request.CityPopulation > 1000000) {
+            //  this.MaxDistance = 25;
+            //}
+            //else if (this.request.CityPopulation <= 1000000) {
+            //  this.MaxDistance = 10;
+            //}
+            //this.request.HospitalDistance = data['Data']['HospitalDistance'];
+            //this.request.PollutionCertificate = data['Data']['PollutionCertificate'];
+            //this.request.Dis_PollutionCertificate = data['Data']['Dis_PollutionCertificate'];
+            //this.request.PollutionCertificatePath = data['Data']['PollutionCertificatePath'];
+            //this.request.PollutionUnitID = data['Data']['PollutionUnitID'];
+
+
             this.request = JSON.parse(JSON.stringify(data['Data']));
             //distance validation
             if (this.request.CityPopulation > 1000000) {
@@ -1836,6 +1899,16 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
           debugger;
           if (this.State == 0) {
             this.ParamedicalHospitalBedValidationList = JSON.parse(JSON.stringify(data['Data']));
+            var DropDownCourseIDs = this.ParamedicalHospitalBedValidationList.filter((x: { Istextordropdown: number; ColumnValue: number }) => x.Istextordropdown == 2 && x.ColumnValue == 2);
+            if (DropDownCourseIDs != null && DropDownCourseIDs.length > 0) {
+              for (let item of DropDownCourseIDs) {
+                for (let items of this.ParamedicalHospitalBedValidationList) {
+                  if (items.CourseID == item.CourseID && items.Istextordropdown == 1) {
+                    items.Ismandatory = 0;
+                  }
+                }
+              }
+            }
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -1859,10 +1932,10 @@ export class ParamedicalHospitalDetailComponent implements OnInit {
     var TextBoxList = this.ParamedicalHospitalBedValidationList.filter((x: { CourseID: number; Istextordropdown: number }) => x.CourseID == CourseID && x.Istextordropdown == 1);
     if (TextBoxList != undefined && TextBoxList != null && TextBoxList.length > 0) {
       for (var i = 0; i < this.ParamedicalHospitalBedValidationList.length; i++) {
-        if (this.ParamedicalHospitalBedValidationList[i].CourseID == CourseID && this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1 && ColumnValue==2) {
+        if (this.ParamedicalHospitalBedValidationList[i].CourseID == CourseID && this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1 && ColumnValue == 2) {
           this.ParamedicalHospitalBedValidationList[i].Ismandatory = 0;
         }
-        else if (this.ParamedicalHospitalBedValidationList[i].CourseID == CourseID && this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1 && ColumnValue == 1){
+        else if (this.ParamedicalHospitalBedValidationList[i].CourseID == CourseID && this.ParamedicalHospitalBedValidationList[i].Istextordropdown == 1 && ColumnValue == 1) {
           this.ParamedicalHospitalBedValidationList[i].Ismandatory = 1;
         }
       }

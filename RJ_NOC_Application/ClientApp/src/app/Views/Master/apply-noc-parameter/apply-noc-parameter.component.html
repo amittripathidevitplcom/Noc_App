@@ -659,8 +659,8 @@
                             </div>
                           </td>
                           <td>
-                            <div style="margin-right:0.5rem" class="form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
-                              <label for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                            <div style="margin-right:0.5rem" class="form-check-inline " *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
+                              <label  for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
                             </div>
                           </td>
                           <td>
@@ -677,7 +677,7 @@
             <!--New Subject-->
             <div class="card" *ngIf="ApplyNocParameterMasterList_NewCourseSubject != null">
               <div class="card-header">
-                <b>Add New Subject :₹ </b>
+                <b>Add New Subject : </b>
                 <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddCourseSubject_click(mymodalAddCourseSubject)">Add Subject</button>
               </div>
               <div class="card-body">
@@ -702,7 +702,7 @@
                           </td>
                           <td>
                             <div style="margin-right:0.5rem" class="form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
-                              <label for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                              <label  for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
                             </div>
                           </td>
                           <td>
@@ -787,8 +787,16 @@
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
           <div class="card">
-            <div class="card-header">
-              <b>Subject List</b>
+            <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+              <b><i class="bi bi-table"></i> Subject List </b>
+              <div class="d-flex align-items-center">
+                <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                  <div class="d-flex align-items-center table-filter mr-15">
+                    <i class="fa fa-search"></i>
+                    <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewCourse" />
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="row">
@@ -802,10 +810,10 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let row of SubjectDetails let idx=index">
+                      <tr *ngFor="let row of SubjectDetails | tableSearchFilter:searchTextNewCourse;let idx=index;">
                         <td>{{idx+1}}</td>
                         <td>
-                          <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
+                          <input class="form-check-input " type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
                                  id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
                                  [(ngModel)]="row.IsChecked">
                         </td>
@@ -868,8 +876,17 @@
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-12">
           <div class="card">
-            <div class="card-header">
-              <b>Subject List</b>
+            <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+              <b><i class="bi bi-table"></i> Subject List </b>
+              <div class="d-flex align-items-center">
+                <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+
+                  <div class="d-flex align-items-center table-filter mr-15">
+                    <i class="fa fa-search"></i>
+                    <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewSubject" />
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="card-body">
               <div class="row">
@@ -883,7 +900,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let row of NewSubjectDetails let idx=index">
+                      <tr *ngFor="let row of NewSubjectDetails | tableSearchFilter:searchTextNewSubject;let idx=index;">
                         <td>{{idx+1}}</td>
                         <td>
                           <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"

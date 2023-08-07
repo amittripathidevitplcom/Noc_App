@@ -10,6 +10,7 @@ import { CommonMasterService } from '../../Services/CommonMaster/common-master.s
 import { LoaderService } from '../../Services/Loader/loader.service';
 import { CourseMasterService } from '../../Services/Master/AddCourse/course-master.service';
 import { ApplyNOCApplicationService } from '../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { CollegeService } from '../../services/collegedetailsform/College/college.service';
 
 @Component({
   selector: 'app-apply-nocjoint-sec-preview',
@@ -42,7 +43,7 @@ export class ApplyNOCJointSecPreviewComponent implements OnInit {
   public isRemarkValid: boolean = false;
 
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) { }
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,private collegeService: CollegeService) { }
 
   async ngOnInit() {
     this.loaderService.requestStarted();
@@ -53,6 +54,7 @@ export class ApplyNOCJointSecPreviewComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    await this.GetCollageDetails();
   }
 
   NextStep() {
@@ -119,6 +121,28 @@ export class ApplyNOCJointSecPreviewComponent implements OnInit {
       //    }
       //  })
     } catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeDataList = data['Data'];
+          if (this.collegeDataList['CollegeStatusID'] == 3) {
+            this.CollegeType_IsExisting = false;
+            //this.isAcademicInformation = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
       console.log(Ex);
     }
     finally {
