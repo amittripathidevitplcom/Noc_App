@@ -294,6 +294,7 @@ export class AddCoursesComponent implements OnInit {
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
       var CourseLevel = this.CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.CourseLevelID).Name;
       var CourseType = this.courseTypeDataList.find((x: { ID: number; }) => x.ID == this.request.CourseTypeID).Name;
+      var CourseName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID).CourseName;
 
 
       if (this.request.NoOfEnrolledStudents == 0) {
@@ -308,7 +309,7 @@ export class AddCoursesComponent implements OnInit {
         }
       }
 
-      if (CourseLevel == 'UG' && CourseType == 'New') {
+      if ((CourseName == 'Bachelor of Arts' || CourseName == 'Bachelor of Commerce' || CourseName == 'Bachelor of Science') && CourseType == 'New') {
         if (this.request.SelectedSubjectDetails.length < 3) {
           this.toastr.error("Minimum 3 Subject Required for UG.");
           return;
