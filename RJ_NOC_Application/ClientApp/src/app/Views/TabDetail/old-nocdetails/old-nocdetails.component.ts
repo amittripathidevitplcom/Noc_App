@@ -169,7 +169,7 @@ export class OldNOCDetailsComponent implements OnInit {
     }
   }
 
-  async GetSubjectList(CourseID: number) {
+  async GetSubjectList(CourseID: any) {
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetSubjectList_CourseIDWise(CourseID)
@@ -184,7 +184,7 @@ export class OldNOCDetailsComponent implements OnInit {
             this.isToDisable = true;
           }
           else {
-            this.SelectedSubjectDetails = [];
+            //this.SelectedSubjectDetails = [];
             this.isToDisable = false;
           }
           this.dropdownSettings = Object.assign({}, this.dropdownSettings);
@@ -579,15 +579,15 @@ export class OldNOCDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.oldnocdetailService.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, OldNocID)
         .then((data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request = data['Data'][0];
           this.GetSubjectList(this.request.CourseID);
-          this.OnChangeOldNOCType()
           this.SelectedSubjectDetails = this.request.SubjectData;
+          this.OnChangeOldNOCType();
           this.request.UploadNOCDoc = this.request.UploadNOCDoc;
           this.request.UploadNOCDocPath = this.request.UploadNOCDocPath;
           this.request.Dis_FileName = this.request.Dis_FileName;
