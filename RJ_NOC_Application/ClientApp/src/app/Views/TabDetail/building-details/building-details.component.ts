@@ -74,6 +74,8 @@ export class BuildingDetailsComponent implements OnInit {
   public CssClass_TextDangerLength: string = '';
 
   public isValidOwnBuildingFileUpload: boolean = false;
+  public isValidRentAgreementFileUpload: boolean = false;
+  public RentAggrementDocShow: boolean = false;
   public isValidFireNOCFileUpload: boolean = false;
   public isValidPWDNOCFileUpload: boolean = false;
   public showOwnBuildingFileUpload: boolean = false;
@@ -108,6 +110,7 @@ export class BuildingDetailsComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   isUploadImage: boolean = false;
   public MaxDate: Date = new Date();
+  public Owin_RentDocTitle: any = '';
 
 
   constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
@@ -121,12 +124,7 @@ export class BuildingDetailsComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-
-
-    // load
-    // query string
-
-
+    this.Owin_RentDocTitle = 'Certificate of Own Building in own land in same campus Order No. & Order Date :'
     this.buildingdetailsForm = this.formBuilder.group(
       {
         rdBuildingType: ['', Validators.required],
@@ -149,12 +147,7 @@ export class BuildingDetailsComponent implements OnInit {
         txtOrderDate: ['', Validators.required],
         txtExpiringOn: ['', Validators.required],
         txtPWDNOCFileUpload: [''],
-        //txtFrontViewFileUpload: ['', Validators.required],
-        //txtBackViewFileUpload: ['', Validators.required],
-        //txtLSideViewFileUpload: ['', Validators.required],
-        //txtRSideViewFileUpload: ['', Validators.required],
-        //txtOtherFileUpload: ['', Validators.required],
-
+        txtRentAgreementFileUpload: [''],
 
         txtOwnBuildingOrderNo: ['', [Validators.required]],
         txtOwnBuildingOrderDate: ['', [Validators.required]],
@@ -176,10 +169,11 @@ export class BuildingDetailsComponent implements OnInit {
       })
 
     this.buildingdetails.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
 
     this.buildingdetails.lstBuildingDocDetails = [];
     this.GetBuildingTypeCheck();
-    this.GetBuildingUploadDetails();
+    this.GetBuildingUploadDetails(this.SelectedDepartmentID);
     this.GetDivisionList();
     this.GetAllBuildingDetailsList();
     this.ActiveStatus = true;
@@ -200,6 +194,17 @@ export class BuildingDetailsComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  changeBuildingType(BuildingType: any) {
+    if (BuildingType == 'Owned') {
+      this.RentAggrementDocShow = false;
+      this.Owin_RentDocTitle = 'Certificate of Own Building in own land in same campus Order No. & Order Date :'
+    }
+    else {
+      this.RentAggrementDocShow = true;
+      this.Owin_RentDocTitle = 'Certificate of Land & Rented Building in same "Tehsil" Order No. & Order Date : '
+    }
   }
   async GetBuildingTypeCheck() {
     try {
@@ -223,10 +228,11 @@ export class BuildingDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  async GetBuildingUploadDetails() {
+  async GetBuildingUploadDetails(SelectedDepartmentID: number) {
     try {
+
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetBuildingUploadDetails()
+      await this.commonMasterService.GetBuildingUploadDetails(SelectedDepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -234,9 +240,9 @@ export class BuildingDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.buildingdetails.lstBuildingDocDetails = data['Data'];
 
-          console.log("this.lstBuildingDocDetails");
+          //console.log("this.lstBuildingDocDetails");
           console.log(this.buildingdetails.lstBuildingDocDetails);
-          console.log("this.lstBuildingDocDetails");
+          //console.log("this.lstBuildingDocDetails");
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -249,8 +255,9 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async SaveData() {
-    
+
     this.isValidOwnBuildingFileUpload = false;
+    this.isValidRentAgreementFileUpload = false;
     this.isValidFireNOCFileUpload = false;
     this.isValidPWDNOCFileUpload = false;
 
@@ -278,10 +285,13 @@ export class BuildingDetailsComponent implements OnInit {
         this.isFormValid = false;
       }
     }
-    if (this.buildingdetails.OwnBuildingFileUpload == '') {
-      this.ImageValidate = 'This field is required .!';
-      return
+    if (this.RentAggrementDocShow) {
+      if (this.buildingdetails.RentAgreementFileUpload == '') {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
     }
+
     if (this.buildingdetails.FireNOCFileUpload == '') {
       this.ImageValidate = 'This field is required .!';
       return
@@ -328,7 +338,7 @@ export class BuildingDetailsComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.ResetControl();
-            this.GetBuildingUploadDetails();
+            this.GetBuildingUploadDetails(this.SelectedDepartmentID);
             this.GetAllBuildingDetailsList();
             this.lstBuildingDetails = [];
           }
@@ -355,6 +365,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.SchoolBuildingDetailsID = data['Data'][0]['data']['Table'][0]["SchoolBuildingDetailsID"];
           this.GetBuildingTypeCheck();
           this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
+          this.changeBuildingType(data['Data'][0]['data']['Table'][0]["BuildingTypeName"]);
           this.buildingdetails.OwnerName = data['Data'][0]['data']['Table'][0]["OwnerName"];
           this.buildingdetails.AddressLine1 = data['Data'][0]['data']['Table'][0]["AddressLine1"];
           this.buildingdetails.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
@@ -380,6 +391,11 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.OwnBuildingFileUpload = data['Data'][0]['data']['Table'][0]["OwnBuildingFileUpload"];
           this.buildingdetails.Dis_OwnBuildingFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OwnBuildingFileUpload"];
           this.buildingdetails.OwnBuildingFileUploadPath = data['Data'][0]['data']['Table'][0]["OwnBuildingFileUploadPath"];
+
+          this.buildingdetails.RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["RentAgreementFileUpload"];
+          this.buildingdetails.Dis_RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["Dis_RentAgreementFileUpload"];
+          this.buildingdetails.RentAgreementFileUploadPath = data['Data'][0]['data']['Table'][0]["RentAgreementFileUploadPath"];
+
           this.buildingdetails.FromDate = data['Data'][0]['data']['Table'][0]["FromDate"];
           this.buildingdetails.ToDate = data['Data'][0]['data']['Table'][0]["ToDate"];
           this.buildingdetails.FireNOCFileUpload = data['Data'][0]['data']['Table'][0]["FireNOCFileUpload"];
@@ -531,6 +547,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.OwnBuildingOrderNo = '';
     this.buildingdetails.OwnBuildingOrderDate = '';
     this.buildingdetails.OwnBuildingFileUpload = '';
+    this.buildingdetails.RentAgreementFileUpload = '';
     this.buildingdetails.OrderNo = '';
     this.buildingdetails.OrderDate = '';
     this.buildingdetails.FromDate = '';
@@ -551,6 +568,12 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.SourceCostAmountFileUpload = '';
     this.buildingdetails.Dis_SourceCostAmountFileUpload = '';
     this.buildingdetails.SourceCostAmountFileUploadPath = '';
+    this.buildingdetails.TotalProjectCost = '';
+    this.buildingdetails.SourceCostAmount = '';
+    this.buildingdetails.AmountDeposited = '';
+    this.buildingdetails.OtherFixedAssetsAndSecurities = '';
+    this.buildingdetails.GATEYearBalanceSecret = '';
+    this.buildingdetails.OtherFinancialResources = '';
     this.buildingdetails.TotalProjectCostFileUpload = '';
     this.buildingdetails.Dis_TotalProjectCostFileUpload = '';
     this.buildingdetails.TotalProjectCostFileUploadPath = '';
@@ -561,14 +584,15 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.CityTownVillage = '';
     this.buildingdetails.ContactNo = '';
     this.OwnBuildingFileUpload = false;
+    this.RentAggrementDocShow = false;
+    this.isValidRentAgreementFileUpload = false;
     this.FireNOCFileUpload = false;
     this.PWDNOCFileUpload = false;
-    //this.showOwnBuildingFileUpload = false;
-    //this.showFireNOCFileUpload = false;
-    //this.showPWDNOCFileUpload = false;  
     this.buildingdetails.UserID = 0;
     this.buildingdetails.ActiveStatus = false;
     this.isDisabledGrid = false;
+    this.DeleteImage("All");
+    this.DescriptionDeleteImage("All");
     this.GetAllBuildingDetailsList();
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";
@@ -868,69 +892,91 @@ export class BuildingDetailsComponent implements OnInit {
         if (event.target.files[0].type === 'application/pdf') {
           if (event.target.files[0].size > 2000000) {
             this.ImageValidationMessage = 'Select less then 2MB File';
-            if (Type == 'OwnBuildingFileUpload') {
-              this.isValidOwnBuildingFileUpload = true;
-              this.buildingdetails.OwnBuildingFileUpload = '';
-              this.buildingdetails.Dis_OwnBuildingFileUpload = '';
-              this.buildingdetails.OwnBuildingFileUploadPath = '';
-            }
-            else if (Type == 'FireNOCFileUpload') {
-              this.isValidFireNOCFileUpload = true;
-              this.buildingdetails.FireNOCFileUpload = '';
-              this.buildingdetails.Dis_FireNOCFileUpload = '';
-              this.buildingdetails.FireNOCFileUploadPath = '';
-            }
-            else if (Type == 'PWDNOCFileUpload') {
-              this.isValidPWDNOCFileUpload = true;
-              this.buildingdetails.PWDNOCFileUpload = '';
-              this.buildingdetails.Dis_PWDNOCFileUpload = '';
-              this.buildingdetails.PWDNOCFileUploadPath = '';
-            }
+            this.SetResetFile(Type, true, '', '', '')
+            //if (Type == 'OwnBuildingFileUpload') {
+            //  this.isValidOwnBuildingFileUpload = true;
+            //  this.buildingdetails.OwnBuildingFileUpload = '';
+            //  this.buildingdetails.Dis_OwnBuildingFileUpload = '';
+            //  this.buildingdetails.OwnBuildingFileUploadPath = '';
+            //}
+            //else if (Type == 'RentAgreementFileUpload') {
+            //  this.isValidRentAgreementFileUpload = true;
+            //  this.buildingdetails.RentAgreementFileUpload = '';
+            //  this.buildingdetails.Dis_RentAgreementFileUpload = '';
+            //  this.buildingdetails.RentAgreementFileUploadPath = '';
+            //}
+            //else if (Type == 'FireNOCFileUpload') {
+            //  this.isValidFireNOCFileUpload = true;
+            //  this.buildingdetails.FireNOCFileUpload = '';
+            //  this.buildingdetails.Dis_FireNOCFileUpload = '';
+            //  this.buildingdetails.FireNOCFileUploadPath = '';
+            //}
+            //else if (Type == 'PWDNOCFileUpload') {
+            //  this.isValidPWDNOCFileUpload = true;
+            //  this.buildingdetails.PWDNOCFileUpload = '';
+            //  this.buildingdetails.Dis_PWDNOCFileUpload = '';
+            //  this.buildingdetails.PWDNOCFileUploadPath = '';
+            //}
             return
           }
           if (event.target.files[0].size < 100000) {
             this.ImageValidationMessage = 'Select more then 100kb File';
-            if (Type == 'OwnBuildingFileUpload') {
-              this.isValidOwnBuildingFileUpload = true;
-              this.buildingdetails.OwnBuildingFileUpload = '';
-              this.buildingdetails.Dis_OwnBuildingFileUpload = '';
-              this.buildingdetails.OwnBuildingFileUploadPath = '';
-            }
-            else if (Type == 'FireNOCFileUpload') {
-              this.isValidFireNOCFileUpload = true;
-              this.buildingdetails.FireNOCFileUpload = '';
-              this.buildingdetails.Dis_FireNOCFileUpload = '';
-              this.buildingdetails.FireNOCFileUploadPath = '';
-            }
-            else if (Type == 'PWDNOCFileUpload') {
-              this.isValidPWDNOCFileUpload = true;
-              this.buildingdetails.PWDNOCFileUpload = '';
-              this.buildingdetails.Dis_PWDNOCFileUpload = '';
-              this.buildingdetails.PWDNOCFileUploadPath = '';
-            }
+            this.SetResetFile(Type, true, '', '', '')
+            //if (Type == 'OwnBuildingFileUpload') {
+            //  this.isValidOwnBuildingFileUpload = true;
+            //  this.buildingdetails.OwnBuildingFileUpload = '';
+            //  this.buildingdetails.Dis_OwnBuildingFileUpload = '';
+            //  this.buildingdetails.OwnBuildingFileUploadPath = '';
+            //}
+            //else if (Type == 'RentAgreementFileUpload') {
+            //  this.isValidRentAgreementFileUpload = true;
+            //  this.buildingdetails.RentAgreementFileUpload = '';
+            //  this.buildingdetails.Dis_RentAgreementFileUpload = '';
+            //  this.buildingdetails.RentAgreementFileUploadPath = '';
+            //}
+
+            //else if (Type == 'FireNOCFileUpload') {
+            //  this.isValidFireNOCFileUpload = true;
+            //  this.buildingdetails.FireNOCFileUpload = '';
+            //  this.buildingdetails.Dis_FireNOCFileUpload = '';
+            //  this.buildingdetails.FireNOCFileUploadPath = '';
+            //}
+            //else if (Type == 'PWDNOCFileUpload') {
+            //  this.isValidPWDNOCFileUpload = true;
+            //  this.buildingdetails.PWDNOCFileUpload = '';
+            //  this.buildingdetails.Dis_PWDNOCFileUpload = '';
+            //  this.buildingdetails.PWDNOCFileUploadPath = '';
+            //}
             return
           }
         }
         else {
           this.ImageValidationMessage = 'Select Only pdf file';
-          if (Type == 'OwnBuildingFileUpload') {
-            this.isValidOwnBuildingFileUpload = true;
-            this.buildingdetails.OwnBuildingFileUpload = '';
-            this.buildingdetails.Dis_OwnBuildingFileUpload = '';
-            this.buildingdetails.OwnBuildingFileUploadPath = '';
-          }
-          else if (Type == 'FireNOCFileUpload') {
-            this.isValidFireNOCFileUpload = true;
-            this.buildingdetails.FireNOCFileUpload = '';
-            this.buildingdetails.Dis_FireNOCFileUpload = '';
-            this.buildingdetails.FireNOCFileUploadPath = '';
-          }
-          else if (Type == 'PWDNOCFileUpload') {
-            this.isValidPWDNOCFileUpload = true;
-            this.buildingdetails.PWDNOCFileUpload = '';
-            this.buildingdetails.Dis_PWDNOCFileUpload = '';
-            this.buildingdetails.PWDNOCFileUploadPath = '';
-          }
+          this.SetResetFile(Type, true, '', '', '')
+          //if (Type == 'OwnBuildingFileUpload') {
+          //  this.isValidOwnBuildingFileUpload = true;
+          //  this.buildingdetails.OwnBuildingFileUpload = '';
+          //  this.buildingdetails.Dis_OwnBuildingFileUpload = '';
+          //  this.buildingdetails.OwnBuildingFileUploadPath = '';
+          //}
+          //else if (Type == 'RentAgreementFileUpload') {
+          //  this.isValidRentAgreementFileUpload = true;
+          //  this.buildingdetails.RentAgreementFileUpload = '';
+          //  this.buildingdetails.Dis_RentAgreementFileUpload = '';
+          //  this.buildingdetails.RentAgreementFileUploadPath = '';
+          //}
+          //else if (Type == 'FireNOCFileUpload') {
+          //  this.isValidFireNOCFileUpload = true;
+          //  this.buildingdetails.FireNOCFileUpload = '';
+          //  this.buildingdetails.Dis_FireNOCFileUpload = '';
+          //  this.buildingdetails.FireNOCFileUploadPath = '';
+          //}
+          //else if (Type == 'PWDNOCFileUpload') {
+          //  this.isValidPWDNOCFileUpload = true;
+          //  this.buildingdetails.PWDNOCFileUpload = '';
+          //  this.buildingdetails.Dis_PWDNOCFileUpload = '';
+          //  this.buildingdetails.PWDNOCFileUploadPath = '';
+          //}
           return
         }
 
@@ -941,24 +987,32 @@ export class BuildingDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-            if (Type == 'OwnBuildingFileUpload') {
-              //this.showOwnBuildingFileUpload = true;            
-              this.buildingdetails.OwnBuildingFileUpload = data['Data'][0]["FileName"];
-              this.buildingdetails.Dis_OwnBuildingFileUpload = data['Data'][0]["Dis_FileName"];
-              this.buildingdetails.OwnBuildingFileUploadPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'FireNOCFileUpload') {
-              //this.showFireNOCFileUpload = true;            
-              this.buildingdetails.FireNOCFileUpload = data['Data'][0]["FileName"];
-              this.buildingdetails.Dis_FireNOCFileUpload = data['Data'][0]["Dis_FileName"];
-              this.buildingdetails.FireNOCFileUploadPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'PWDNOCFileUpload') {
-              //this.showPWDNOCFileUpload = true;            
-              this.buildingdetails.PWDNOCFileUpload = data['Data'][0]["FileName"];
-              this.buildingdetails.Dis_PWDNOCFileUpload = data['Data'][0]["Dis_FileName"];
-              this.buildingdetails.PWDNOCFileUploadPath = data['Data'][0]["FilePath"];
-            }
+
+            this.SetResetFile(Type, false, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"])
+            //if (Type == 'OwnBuildingFileUpload') {
+            //  //this.showOwnBuildingFileUpload = true;            
+            //  this.buildingdetails.OwnBuildingFileUpload = data['Data'][0]["FileName"];
+            //  this.buildingdetails.Dis_OwnBuildingFileUpload = data['Data'][0]["Dis_FileName"];
+            //  this.buildingdetails.OwnBuildingFileUploadPath = data['Data'][0]["FilePath"];
+            //}
+            //else if (Type == 'RentAgreementFileUpload') {
+            //  //this.isValidRentAgreementFileUpload = true;
+            //  this.buildingdetails.RentAgreementFileUpload = data['Data'][0]["FileName"];
+            //  this.buildingdetails.Dis_RentAgreementFileUpload = data['Data'][0]["Dis_FileName"];
+            //  this.buildingdetails.RentAgreementFileUploadPath = data['Data'][0]["FilePath"];
+            //}
+            //else if (Type == 'FireNOCFileUpload') {
+            //  //this.showFireNOCFileUpload = true;            
+            //  this.buildingdetails.FireNOCFileUpload = data['Data'][0]["FileName"];
+            //  this.buildingdetails.Dis_FireNOCFileUpload = data['Data'][0]["Dis_FileName"];
+            //  this.buildingdetails.FireNOCFileUploadPath = data['Data'][0]["FilePath"];
+            //}
+            //else if (Type == 'PWDNOCFileUpload') {
+            //  //this.showPWDNOCFileUpload = true;            
+            //  this.buildingdetails.PWDNOCFileUpload = data['Data'][0]["FileName"];
+            //  this.buildingdetails.Dis_PWDNOCFileUpload = data['Data'][0]["Dis_FileName"];
+            //  this.buildingdetails.PWDNOCFileUploadPath = data['Data'][0]["FilePath"];
+            //}
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -981,23 +1035,37 @@ export class BuildingDetailsComponent implements OnInit {
   DeleteImage(Type: string) {
     try {
       this.loaderService.requestStarted();
-      if (Type == 'OwnBuildingFileUpload') {
+      if (Type == 'OwnBuildingFileUpload' || Type == 'All') {
         //this.showOwnBuildingFileUpload = false;
         this.buildingdetails.OwnBuildingFileUpload = '';
         this.buildingdetails.Dis_OwnBuildingFileUpload = '';
         this.buildingdetails.OwnBuildingFileUploadPath = '';
+        this.file = document.getElementById('txtOwnBuildingUpload');
+        this.file.value = '';
       }
-      else if (Type == 'FireNOCFileUpload') {
+      else if (Type == 'RentAgreementFileUpload' || Type == 'All') {
+        // this.isValidRentAgreementFileUpload = true;
+        this.buildingdetails.RentAgreementFileUpload = '';
+        this.buildingdetails.Dis_RentAgreementFileUpload = '';
+        this.buildingdetails.RentAgreementFileUploadPath = '';
+        this.file = document.getElementById('txtRentAgreementFileUpload');
+        this.file.value = '';
+      }
+      else if (Type == 'FireNOCFileUpload' || Type == 'All') {
         //this.showFireNOCFileUpload = false;
         this.buildingdetails.FireNOCFileUpload = '';
         this.buildingdetails.Dis_FireNOCFileUpload = '';
         this.buildingdetails.FireNOCFileUploadPath = '';
+        this.file = document.getElementById('txtFireNOCUpload');
+        this.file.value = '';
       }
-      else if (Type == 'PWDNOCFileUpload') {
+      else if (Type == 'PWDNOCFileUpload' || Type == 'All') {
         //this.showPWDNOCFileUpload = false;
         this.buildingdetails.PWDNOCFileUpload = '';
         this.buildingdetails.Dis_PWDNOCFileUpload = '';
         this.buildingdetails.PWDNOCFileUploadPath = '';
+        this.file = document.getElementById('txtPWDNOCFileUpload');
+        this.file.value = '';
       }
     }
     catch (Ex) {
@@ -1007,6 +1075,33 @@ export class BuildingDetailsComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+  SetResetFile(Type: string, isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
+    if (Type == 'OwnBuildingFileUpload') {
+      this.isValidOwnBuildingFileUpload = isShow;
+      this.buildingdetails.OwnBuildingFileUpload = fileName;
+      this.buildingdetails.Dis_OwnBuildingFileUpload = filePath;
+      this.buildingdetails.OwnBuildingFileUploadPath = dis_Name;
+    }
+    else if (Type == 'RentAgreementFileUpload') {
+      this.isValidRentAgreementFileUpload = isShow;
+      this.buildingdetails.RentAgreementFileUpload = fileName;
+      this.buildingdetails.Dis_RentAgreementFileUpload = filePath;
+      this.buildingdetails.RentAgreementFileUploadPath = dis_Name;
+    }
+    else if (Type == 'FireNOCFileUpload') {
+      this.isValidFireNOCFileUpload = isShow;
+      this.buildingdetails.FireNOCFileUpload = fileName;
+      this.buildingdetails.Dis_FireNOCFileUpload = filePath;
+      this.buildingdetails.FireNOCFileUploadPath = dis_Name;
+    }
+    else if (Type == 'PWDNOCFileUpload') {
+      this.isValidPWDNOCFileUpload = isShow;
+      this.buildingdetails.PWDNOCFileUpload = fileName;
+      this.buildingdetails.Dis_PWDNOCFileUpload = filePath;
+      this.buildingdetails.PWDNOCFileUploadPath = dis_Name;
     }
   }
 
@@ -1025,123 +1120,126 @@ export class BuildingDetailsComponent implements OnInit {
           event.target.files[0].type === 'application/xls') {
           if (event.target.files[0].size > 2000000) {
             this.ImageValidationMessage = 'Select less then 2MB File';
-            if (Type == 'TotalProjectCostFileUpload') {
-              this.isValidTotalProjectCostFileUpload = true;
-              this.buildingdetails.TotalProjectCostFileUpload = '';
-              this.buildingdetails.Dis_TotalProjectCostFileUpload = '';
-              this.buildingdetails.TotalProjectCostFileUploadPath = '';
-            }
-            else if (Type == 'SourceCostAmountFileUpload') {
-              this.isValidSourceCostAmountFileUpload = true;
-              this.buildingdetails.SourceCostAmountFileUpload = '';
-              this.buildingdetails.Dis_SourceCostAmountFileUpload = '';
-              this.buildingdetails.SourceCostAmountFileUploadPath = '';
-            }
-            else if (Type == 'AmountDepositedFileUpload') {
-              this.isValidAmountDepositedFileUpload = true;
-              this.buildingdetails.AmountDepositedFileUpload = '';
-              this.buildingdetails.Dis_AmountDepositedFileUpload = '';
-              this.buildingdetails.AmountDepositedFileUploadPath = '';
-            }
-            else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload') {
-              this.isValidOtherFixedAssetsAndSecuritiesFileUpload = true;
-              this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = '';
-              this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = '';
-              this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = '';
-            }
-            else if (Type == 'GATEYearBalanceSecretFileUpload') {
-              this.isValidGATEYearBalanceSecretFileUpload = true;
-              this.buildingdetails.GATEYearBalanceSecretFileUpload = '';
-              this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = '';
-              this.buildingdetails.GATEYearBalanceSecretFileUploadPath = '';
-            }
-            else if (Type == 'OtherFinancialResourcesFileUpload') {
-              this.isValidOtherFinancialResourcesFileUpload = true;
-              this.buildingdetails.OtherFinancialResourcesFileUpload = '';
-              this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = '';
-              this.buildingdetails.OtherFinancialResourcesFileUploadPath = '';
-            }
+            this.DescriptionSetResetFile(Type, true, '', '', '')
+            //if (Type == 'TotalProjectCostFileUpload') {
+            //  this.isValidTotalProjectCostFileUpload = true;
+            //  this.buildingdetails.TotalProjectCostFileUpload = '';
+            //  this.buildingdetails.Dis_TotalProjectCostFileUpload = '';
+            //  this.buildingdetails.TotalProjectCostFileUploadPath = '';
+            //}
+            //else if (Type == 'SourceCostAmountFileUpload') {
+            //  this.isValidSourceCostAmountFileUpload = true;
+            //  this.buildingdetails.SourceCostAmountFileUpload = '';
+            //  this.buildingdetails.Dis_SourceCostAmountFileUpload = '';
+            //  this.buildingdetails.SourceCostAmountFileUploadPath = '';
+            //}
+            //else if (Type == 'AmountDepositedFileUpload') {
+            //  this.isValidAmountDepositedFileUpload = true;
+            //  this.buildingdetails.AmountDepositedFileUpload = '';
+            //  this.buildingdetails.Dis_AmountDepositedFileUpload = '';
+            //  this.buildingdetails.AmountDepositedFileUploadPath = '';
+            //}
+            //else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload') {
+            //  this.isValidOtherFixedAssetsAndSecuritiesFileUpload = true;
+            //  this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = '';
+            //  this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = '';
+            //  this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = '';
+            //}
+            //else if (Type == 'GATEYearBalanceSecretFileUpload') {
+            //  this.isValidGATEYearBalanceSecretFileUpload = true;
+            //  this.buildingdetails.GATEYearBalanceSecretFileUpload = '';
+            //  this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = '';
+            //  this.buildingdetails.GATEYearBalanceSecretFileUploadPath = '';
+            //}
+            //else if (Type == 'OtherFinancialResourcesFileUpload') {
+            //  this.isValidOtherFinancialResourcesFileUpload = true;
+            //  this.buildingdetails.OtherFinancialResourcesFileUpload = '';
+            //  this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = '';
+            //  this.buildingdetails.OtherFinancialResourcesFileUploadPath = '';
+            //}
             return
           }
           if (event.target.files[0].size < 100000) {
             this.ImageValidationMessage = 'Select more then 100kb File';
-            if (Type == 'TotalProjectCostFileUpload') {
-              this.isValidTotalProjectCostFileUpload = true;
-              this.buildingdetails.TotalProjectCostFileUpload = '';
-              this.buildingdetails.Dis_TotalProjectCostFileUpload = '';
-              this.buildingdetails.TotalProjectCostFileUploadPath = '';
-            }
-            else if (Type == 'SourceCostAmountFileUpload') {
-              this.isValidSourceCostAmountFileUpload = true;
-              this.buildingdetails.SourceCostAmountFileUpload = '';
-              this.buildingdetails.Dis_SourceCostAmountFileUpload = '';
-              this.buildingdetails.SourceCostAmountFileUploadPath = '';
-            }
-            else if (Type == 'AmountDepositedFileUpload') {
-              this.isValidAmountDepositedFileUpload = true;
-              this.buildingdetails.AmountDepositedFileUpload = '';
-              this.buildingdetails.Dis_AmountDepositedFileUpload = '';
-              this.buildingdetails.AmountDepositedFileUploadPath = '';
-            }
-            else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload') {
-              this.isValidOtherFixedAssetsAndSecuritiesFileUpload = true;
-              this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = '';
-              this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = '';
-              this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = '';
-            }
-            else if (Type == 'GATEYearBalanceSecretFileUpload') {
-              this.isValidGATEYearBalanceSecretFileUpload = true;
-              this.buildingdetails.GATEYearBalanceSecretFileUpload = '';
-              this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = '';
-              this.buildingdetails.GATEYearBalanceSecretFileUploadPath = '';
-            }
-            else if (Type == 'OtherFinancialResourcesFileUpload') {
-              this.isValidOtherFinancialResourcesFileUpload = true;
-              this.buildingdetails.OtherFinancialResourcesFileUpload = '';
-              this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = '';
-              this.buildingdetails.OtherFinancialResourcesFileUploadPath = '';
-            }
+            this.DescriptionSetResetFile(Type, true, '', '', '')
+            //if (Type == 'TotalProjectCostFileUpload') {
+            //  this.isValidTotalProjectCostFileUpload = true;
+            //  this.buildingdetails.TotalProjectCostFileUpload = '';
+            //  this.buildingdetails.Dis_TotalProjectCostFileUpload = '';
+            //  this.buildingdetails.TotalProjectCostFileUploadPath = '';
+            //}
+            //else if (Type == 'SourceCostAmountFileUpload') {
+            //  this.isValidSourceCostAmountFileUpload = true;
+            //  this.buildingdetails.SourceCostAmountFileUpload = '';
+            //  this.buildingdetails.Dis_SourceCostAmountFileUpload = '';
+            //  this.buildingdetails.SourceCostAmountFileUploadPath = '';
+            //}
+            //else if (Type == 'AmountDepositedFileUpload') {
+            //  this.isValidAmountDepositedFileUpload = true;
+            //  this.buildingdetails.AmountDepositedFileUpload = '';
+            //  this.buildingdetails.Dis_AmountDepositedFileUpload = '';
+            //  this.buildingdetails.AmountDepositedFileUploadPath = '';
+            //}
+            //else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload') {
+            //  this.isValidOtherFixedAssetsAndSecuritiesFileUpload = true;
+            //  this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = '';
+            //  this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = '';
+            //  this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = '';
+            //}
+            //else if (Type == 'GATEYearBalanceSecretFileUpload') {
+            //  this.isValidGATEYearBalanceSecretFileUpload = true;
+            //  this.buildingdetails.GATEYearBalanceSecretFileUpload = '';
+            //  this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = '';
+            //  this.buildingdetails.GATEYearBalanceSecretFileUploadPath = '';
+            //}
+            //else if (Type == 'OtherFinancialResourcesFileUpload') {
+            //  this.isValidOtherFinancialResourcesFileUpload = true;
+            //  this.buildingdetails.OtherFinancialResourcesFileUpload = '';
+            //  this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = '';
+            //  this.buildingdetails.OtherFinancialResourcesFileUploadPath = '';
+            //}
             return
           }
         }
         else {
           this.ImageValidationMessage = 'Select Only xlsx/xls/pdf file';
-          if (Type == 'TotalProjectCostFileUpload') {
-            this.isValidTotalProjectCostFileUpload = true;
-            this.buildingdetails.TotalProjectCostFileUpload = '';
-            this.buildingdetails.Dis_TotalProjectCostFileUpload = '';
-            this.buildingdetails.TotalProjectCostFileUploadPath = '';
-          }
-          else if (Type == 'SourceCostAmountFileUpload') {
-            this.isValidSourceCostAmountFileUpload = true;
-            this.buildingdetails.SourceCostAmountFileUpload = '';
-            this.buildingdetails.Dis_SourceCostAmountFileUpload = '';
-            this.buildingdetails.SourceCostAmountFileUploadPath = '';
-          }
-          else if (Type == 'AmountDepositedFileUpload') {
-            this.isValidAmountDepositedFileUpload = true;
-            this.buildingdetails.AmountDepositedFileUpload = '';
-            this.buildingdetails.Dis_AmountDepositedFileUpload = '';
-            this.buildingdetails.AmountDepositedFileUploadPath = '';
-          }
-          else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload') {
-            this.isValidOtherFixedAssetsAndSecuritiesFileUpload = true;
-            this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = '';
-            this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = '';
-            this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = '';
-          }
-          else if (Type == 'GATEYearBalanceSecretFileUpload') {
-            this.isValidGATEYearBalanceSecretFileUpload = true;
-            this.buildingdetails.GATEYearBalanceSecretFileUpload = '';
-            this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = '';
-            this.buildingdetails.GATEYearBalanceSecretFileUploadPath = '';
-          }
-          else if (Type == 'OtherFinancialResourcesFileUpload') {
-            this.isValidOtherFinancialResourcesFileUpload = true;
-            this.buildingdetails.OtherFinancialResourcesFileUpload = '';
-            this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = '';
-            this.buildingdetails.OtherFinancialResourcesFileUploadPath = '';
-          }
+          this.DescriptionSetResetFile(Type, true, '', '', '')
+          //if (Type == 'TotalProjectCostFileUpload') {
+          //  this.isValidTotalProjectCostFileUpload = true;
+          //  this.buildingdetails.TotalProjectCostFileUpload = '';
+          //  this.buildingdetails.Dis_TotalProjectCostFileUpload = '';
+          //  this.buildingdetails.TotalProjectCostFileUploadPath = '';
+          //}
+          //else if (Type == 'SourceCostAmountFileUpload') {
+          //  this.isValidSourceCostAmountFileUpload = true;
+          //  this.buildingdetails.SourceCostAmountFileUpload = '';
+          //  this.buildingdetails.Dis_SourceCostAmountFileUpload = '';
+          //  this.buildingdetails.SourceCostAmountFileUploadPath = '';
+          //}
+          //else if (Type == 'AmountDepositedFileUpload') {
+          //  this.isValidAmountDepositedFileUpload = true;
+          //  this.buildingdetails.AmountDepositedFileUpload = '';
+          //  this.buildingdetails.Dis_AmountDepositedFileUpload = '';
+          //  this.buildingdetails.AmountDepositedFileUploadPath = '';
+          //}
+          //else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload') {
+          //  this.isValidOtherFixedAssetsAndSecuritiesFileUpload = true;
+          //  this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = '';
+          //  this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = '';
+          //  this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = '';
+          //}
+          //else if (Type == 'GATEYearBalanceSecretFileUpload') {
+          //  this.isValidGATEYearBalanceSecretFileUpload = true;
+          //  this.buildingdetails.GATEYearBalanceSecretFileUpload = '';
+          //  this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = '';
+          //  this.buildingdetails.GATEYearBalanceSecretFileUploadPath = '';
+          //}
+          //else if (Type == 'OtherFinancialResourcesFileUpload') {
+          //  this.isValidOtherFinancialResourcesFileUpload = true;
+          //  this.buildingdetails.OtherFinancialResourcesFileUpload = '';
+          //  this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = '';
+          //  this.buildingdetails.OtherFinancialResourcesFileUploadPath = '';
+          //}
           return
         }
 
@@ -1152,37 +1250,37 @@ export class BuildingDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-
-            if (Type == 'TotalProjectCostFileUpload') {
-              this.buildingdetails.TotalProjectCostFileUpload = data['Data'][0]["FileName"];
-              this.buildingdetails.Dis_TotalProjectCostFileUpload = data['Data'][0]["Dis_FileName"];
-              this.buildingdetails.TotalProjectCostFileUploadPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'SourceCostAmountFileUpload') {
-              this.buildingdetails.SourceCostAmountFileUpload = data['Data'][0]["FileName"];
-              this.buildingdetails.Dis_SourceCostAmountFileUpload = data['Data'][0]["Dis_FileName"];
-              this.buildingdetails.SourceCostAmountFileUploadPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'AmountDepositedFileUpload') {
-              this.buildingdetails.AmountDepositedFileUpload = data['Data'][0]["FileName"];
-              this.buildingdetails.Dis_AmountDepositedFileUpload = data['Data'][0]["Dis_FileName"];
-              this.buildingdetails.AmountDepositedFileUploadPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload') {
-              this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]["FileName"];
-              this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]["Dis_FileName"];
-              this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'GATEYearBalanceSecretFileUpload') {
-              this.buildingdetails.GATEYearBalanceSecretFileUpload = data['Data'][0]["FileName"];
-              this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = data['Data'][0]["Dis_FileName"];
-              this.buildingdetails.GATEYearBalanceSecretFileUploadPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'OtherFinancialResourcesFileUpload') {
-              this.buildingdetails.OtherFinancialResourcesFileUpload = data['Data'][0]["FileName"];
-              this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]["Dis_FileName"];
-              this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]["FilePath"];
-            }
+            this.DescriptionSetResetFile(Type, false, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"])
+            //if (Type == 'TotalProjectCostFileUpload') {
+            //  this.buildingdetails.TotalProjectCostFileUpload = data['Data'][0]["FileName"];
+            //  this.buildingdetails.Dis_TotalProjectCostFileUpload = data['Data'][0]["Dis_FileName"];
+            //  this.buildingdetails.TotalProjectCostFileUploadPath = data['Data'][0]["FilePath"];
+            //}
+            //else if (Type == 'SourceCostAmountFileUpload') {
+            //  this.buildingdetails.SourceCostAmountFileUpload = data['Data'][0]["FileName"];
+            //  this.buildingdetails.Dis_SourceCostAmountFileUpload = data['Data'][0]["Dis_FileName"];
+            //  this.buildingdetails.SourceCostAmountFileUploadPath = data['Data'][0]["FilePath"];
+            //}
+            //else if (Type == 'AmountDepositedFileUpload') {
+            //  this.buildingdetails.AmountDepositedFileUpload = data['Data'][0]["FileName"];
+            //  this.buildingdetails.Dis_AmountDepositedFileUpload = data['Data'][0]["Dis_FileName"];
+            //  this.buildingdetails.AmountDepositedFileUploadPath = data['Data'][0]["FilePath"];
+            //}
+            //else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload') {
+            //  this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]["FileName"];
+            //  this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]["Dis_FileName"];
+            //  this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = data['Data'][0]["FilePath"];
+            //}
+            //else if (Type == 'GATEYearBalanceSecretFileUpload') {
+            //  this.buildingdetails.GATEYearBalanceSecretFileUpload = data['Data'][0]["FileName"];
+            //  this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = data['Data'][0]["Dis_FileName"];
+            //  this.buildingdetails.GATEYearBalanceSecretFileUploadPath = data['Data'][0]["FilePath"];
+            //}
+            //else if (Type == 'OtherFinancialResourcesFileUpload') {
+            //  this.buildingdetails.OtherFinancialResourcesFileUpload = data['Data'][0]["FileName"];
+            //  this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]["Dis_FileName"];
+            //  this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]["FilePath"];
+            //}
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -1202,38 +1300,88 @@ export class BuildingDetailsComponent implements OnInit {
       }, 200);
     }
   }
+  DescriptionSetResetFile(Type: string, isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
+    if (Type == 'TotalProjectCostFileUpload') {
+      this.isValidTotalProjectCostFileUpload = isShow;
+      this.buildingdetails.TotalProjectCostFileUpload = fileName;
+      this.buildingdetails.Dis_TotalProjectCostFileUpload = dis_Name;
+      this.buildingdetails.TotalProjectCostFileUploadPath = filePath;
+    }
+    else if (Type == 'SourceCostAmountFileUpload') {
+      this.isValidSourceCostAmountFileUpload = isShow;
+      this.buildingdetails.SourceCostAmountFileUpload = fileName;
+      this.buildingdetails.Dis_SourceCostAmountFileUpload = dis_Name;
+      this.buildingdetails.SourceCostAmountFileUploadPath = filePath;
+    }
+    else if (Type == 'AmountDepositedFileUpload') {
+      this.isValidAmountDepositedFileUpload = isShow;
+      this.buildingdetails.AmountDepositedFileUpload = fileName;
+      this.buildingdetails.Dis_AmountDepositedFileUpload = dis_Name;
+      this.buildingdetails.AmountDepositedFileUploadPath = filePath;
+    }
+    else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload') {
+      this.isValidOtherFixedAssetsAndSecuritiesFileUpload = isShow;
+      this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = fileName;
+      this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = dis_Name;
+      this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = filePath;
+    }
+    else if (Type == 'GATEYearBalanceSecretFileUpload') {
+      this.isValidGATEYearBalanceSecretFileUpload = isShow;
+      this.buildingdetails.GATEYearBalanceSecretFileUpload = fileName;
+      this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = dis_Name;
+      this.buildingdetails.GATEYearBalanceSecretFileUploadPath = filePath;
+    }
+    else if (Type == 'OtherFinancialResourcesFileUpload') {
+      this.isValidOtherFinancialResourcesFileUpload = isShow;
+      this.buildingdetails.OtherFinancialResourcesFileUpload = fileName;
+      this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = dis_Name;
+      this.buildingdetails.OtherFinancialResourcesFileUploadPath = filePath;
+    }
+  }
   DescriptionDeleteImage(Type: string) {
     try {
       this.loaderService.requestStarted();
-      if (Type == 'TotalProjectCostFileUpload') {
+      if (Type == 'TotalProjectCostFileUpload' || Type == 'All') {
         this.buildingdetails.TotalProjectCostFileUpload = '';
         this.buildingdetails.Dis_TotalProjectCostFileUpload = '';
         this.buildingdetails.TotalProjectCostFileUploadPath = '';
+        this.file = document.getElementById('TotalProjectCostFileUpload');
+        this.file.value = '';
       }
-      else if (Type == 'SourceCostAmountFileUpload') {
+      else if (Type == 'SourceCostAmountFileUpload' || Type == 'All') {
         this.buildingdetails.SourceCostAmountFileUpload = '';
         this.buildingdetails.Dis_SourceCostAmountFileUpload = '';
         this.buildingdetails.SourceCostAmountFileUploadPath = '';
+        this.file = document.getElementById('SourceCostAmountFileUpload');
+        this.file.value = '';
       }
-      else if (Type == 'AmountDepositedFileUpload') {
+      else if (Type == 'AmountDepositedFileUpload' || Type == 'All') {
         this.buildingdetails.AmountDepositedFileUpload = '';
         this.buildingdetails.Dis_AmountDepositedFileUpload = '';
         this.buildingdetails.AmountDepositedFileUploadPath = '';
+        this.file = document.getElementById('AmountDepositedFileUpload');
+        this.file.value = '';
       }
-      else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload') {
+      else if (Type == 'OtherFixedAssetsAndSecuritiesFileUpload' || Type == 'All') {
         this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = '';
         this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = '';
         this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = '';
+        this.file = document.getElementById('OtherFixedAssetsAndSecuritiesFileUpload');
+        this.file.value = '';
       }
-      else if (Type == 'GATEYearBalanceSecretFileUpload') {
+      else if (Type == 'GATEYearBalanceSecretFileUpload' || Type == 'All') {
         this.buildingdetails.GATEYearBalanceSecretFileUpload = '';
         this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = '';
         this.buildingdetails.GATEYearBalanceSecretFileUploadPath = '';
+        this.file = document.getElementById('GATEYearBalanceSecretFileUpload');
+        this.file.value = '';
       }
-      else if (Type == 'OtherFinancialResourcesFileUpload') {
+      else if (Type == 'OtherFinancialResourcesFileUpload' || Type == 'All') {
         this.buildingdetails.OtherFinancialResourcesFileUpload = '';
         this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = '';
         this.buildingdetails.OtherFinancialResourcesFileUploadPath = '';
+        this.file = document.getElementById('OtherFinancialResourcesFileUpload');
+        this.file.value = '';
       }
     }
     catch (Ex) {

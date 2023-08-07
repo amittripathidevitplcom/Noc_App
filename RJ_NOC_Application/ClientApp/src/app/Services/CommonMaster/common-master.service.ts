@@ -241,7 +241,7 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetAddCourseList_DepartmentIDWise/" + DepartmentID + "/" + CourseLevelID )
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetAddCourseList_DepartmentIDWise/" + DepartmentID + "/" + CourseLevelID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -252,7 +252,7 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseList_DepartmentIDWise/" + DepartmentID )
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseList_DepartmentIDWise/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -340,7 +340,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetUniversityByDepartmentId(departmentId: number, IsLaw: number=0) {
+  public async GetUniversityByDepartmentId(departmentId: number, IsLaw: number = 0) {
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -572,13 +572,13 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetBuildingUploadDetails() {
+  public async GetBuildingUploadDetails(DepartmentId: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetBuildingUploadDetails")
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetBuildingUploadDetails/" + DepartmentId)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -691,7 +691,7 @@ export class CommonMasterService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-  }  
+  }
 
   public async GetCollegeWiseSubjectList(CollegeID: number) {
     const httpOptions = {
@@ -799,7 +799,7 @@ export class CommonMasterService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-  } 
+  }
   public async DraftFinalSubmit(CollegeID: string, IsDraftSubmited: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.post(this.APIUrl_CommonMaster + '/DraftFinalSubmit/' + CollegeID + "/" + IsDraftSubmited, httpOptions)
@@ -910,7 +910,7 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetCourseList_ByCourseLevelIDWise(CourseLevelID: number, DepartmentID:number) {
+  public async GetCourseList_ByCourseLevelIDWise(CourseLevelID: number, DepartmentID: number) {
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -923,8 +923,7 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetSubjectList_StreamIDWise(StreamID: number, DepartmentID: number, CourseLevelID: number, CourseID: number)
-  {
+  public async GetSubjectList_StreamIDWise(StreamID: number, DepartmentID: number, CourseLevelID: number, CourseID: number) {
     const httpOptions =
     {
       headers: new HttpHeaders({
@@ -970,7 +969,7 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetStreamMasterList/" + DepartmentID )
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetStreamMasterList/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -999,7 +998,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetCourseByStreamID(StreamID:number,DepartmentID: number, CourseLevelID: number) {
+  public async GetCourseByStreamID(StreamID: number, DepartmentID: number, CourseLevelID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
