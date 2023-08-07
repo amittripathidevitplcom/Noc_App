@@ -47,6 +47,10 @@ export class LandDetailsComponent implements OnInit {
   public LandDetailList: LandDetailDataModel[] = [];
   public LandDetailDocument: LandDetailDocumentDataModel[] = [];
   public TotalArea: number = 0;
+  public RequiredLandArea: number = 0;
+  public IsRequiredLandArea: boolean = false;
+  public RequiredLandAreaMsg: string = '';
+  public LandUnitType: string = '';
   public ShowAffidavitDate: boolean = false;
   public isLandOwnerName: boolean = true;
   //@ViewChild('LandDocumentFile')
@@ -59,6 +63,7 @@ export class LandDetailsComponent implements OnInit {
   fileUploader!: ElementRef;
   public LandConversionOrderNoValidate: string = '';
   public AffidavitDateValidate: string = '';
+  public LandConversionDateValidate: string = '';
 
   public MinimumAreaBuildingHostelQuartersRoad: string = '';
   public MinimumAreaGroundCycleStand: string = '';
@@ -78,7 +83,7 @@ export class LandDetailsComponent implements OnInit {
         ddlLandTypeId: ['', [DropdownValidators]],
         txtKhasraNumber: ['', Validators.required],
         txtLandOwnerName: ['', Validators.required],
-        //txtLandOwnerName: [''],
+        txtLandArea: ['', [Validators.required, Validators.min(1)]],
         txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
         //txtGroundCycleStandArea: ['', Validators.required],
         txtTotalLandArea: [{ value: '', disabled: true }, Validators.required],
@@ -367,9 +372,41 @@ export class LandDetailsComponent implements OnInit {
     return false;
   }
 
-  //GetTotalLandArea() {
-  //  this.request.TotalLandArea = Number(this.request.BuildingHostelQuartersRoadArea) + Number(this.request.GroundCycleStandArea);
-  //}
+  async GetLandSqureMeterMappingDetails(LandAreaId: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetLandSqureMeterMappingDetails_DepartmentWise(this.SelectedDepartmentID, this.SelectedCollageID, LandAreaId)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data.Data.length > 0) {
+            this.RequiredLandArea = data['Data'][0]["RequiredSquareMeter"];
+            this.RequiredLandAreaMsg = data['Data'][0]["RequiredSquareMeter"].toString() + ' ' + data['Data'][0]["AreaType"].toString();
+            this.LandUnitType = data['Data'][0]["AreaType"];
+            this.IsRequiredLandArea = true;
+
+          }
+          else {
+            this.RequiredLandArea = 0;
+            this.RequiredLandAreaMsg = '';
+            this.LandUnitType = '';
+            this.IsRequiredLandArea = false;
+            this.toastr.warning("Land Area  mapping record not found. ")
+          }
+         
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async onFilechange(event: any, item: LandDetailDocumentDataModel) {
     try {
       this.file = event.target.files[0];
@@ -477,18 +514,28 @@ export class LandDetailsComponent implements OnInit {
       }
     }
     if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted') {
+      if (this.request.LandConversionOrderDate == '' || this.request.LandConversionOrderDate == null) {
+        this.LandConversionDateValidate = 'This field is required .!';
+        return
+      }
+    }
+    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted') {
       if (this.request.LandConversionOrderNo == '' || this.request.LandConversionOrderNo == null) {
         this.LandConversionOrderNoValidate = 'This field is required .!';
         return
       }
     }
-    //for (var i = 0; i < this.LandDetailDocument.length-1; i++) {
-    //  if (this.LandDetailDocument[i].SelectedFilePath == '' || this.LandDetailDocument[i].SelectedFilePath == undefined) {
-    //    message = 'Please choose ' + this.LandDetailDocument[i].DocumentName + ' document';
-    //    this.toastr.warning(message);
-    //    return;
-    //  }
-    //}
+    if (this.request.LandArea < this.RequiredLandArea || this.RequiredLandArea == 0) {
+      this.toastr.error("Land area must be at least : " + this.RequiredLandAreaMsg);
+      return
+    }
+    for (var i = 0; i < this.request.LandDetailDocument.length; i++) {
+      if (this.request.LandDetailDocument[i].FilePath == '' || this.request.LandDetailDocument[i].FilePath == undefined) {
+        message = 'Please choose ' + this.request.LandDetailDocument[i].DocumentName + ' document';
+        this.toastr.warning(message);
+        return;
+      }
+    }
     if (message.length > 5) {
       this.toastr.warning(message);
       return
@@ -527,8 +574,6 @@ export class LandDetailsComponent implements OnInit {
     //this.ResetControl();
     //this.GetTotalArea();
   }
-
-
 
   async DeleteLandDetail(LandDetailID: number) {
     this.isSubmitted = false;
@@ -586,7 +631,7 @@ export class LandDetailsComponent implements OnInit {
   }
   async ViewViewLandDetailDocumentByID(LandDetailID: any) {
     try {
-      
+
       this.LandDetailsDocumentListByID = [];
       this.loaderService.requestStarted();
       await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
@@ -608,7 +653,6 @@ export class LandDetailsComponent implements OnInit {
     }
   }
 
-
   async ResetControl() {
     try {
       this.loaderService.requestStarted();
@@ -617,6 +661,7 @@ export class LandDetailsComponent implements OnInit {
       this.request.LandDocumentTypeID = 0;
       this.request.LandConvertedID = 0;
       this.request.LandTypeID = 0;
+      this.request.LandArea = 0;
       this.request.KhasraNumber = '';
       this.request.LandOwnerName = '';
       this.request.BuildingHostelQuartersRoadArea = 0;
@@ -629,7 +674,10 @@ export class LandDetailsComponent implements OnInit {
       this.request.LandDocumentTypeName = '';
       this.request.IsConvereted = '';
       this.request.LandTypeName = '';
-      /* this.request = new LandDetailDataModel();*/
+      this.RequiredLandArea = 0;
+      this.IsRequiredLandArea = false;
+      this.RequiredLandAreaMsg = '';
+      this.LandUnitType = '';
       this.request.LandDetailDocument = [];
       this.ShowConversionOrderNo = false;
       this.isDisabledGrid = false;
@@ -648,7 +696,6 @@ export class LandDetailsComponent implements OnInit {
     }
   }
 
-
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -657,14 +704,6 @@ export class LandDetailsComponent implements OnInit {
     return true;
 
   }
-
-
-
-
-
-
-
-  /////////////
 
   async Edit_OnClick(LandDetailID: number) {
     this.isSubmitted = false;
@@ -683,6 +722,8 @@ export class LandDetailsComponent implements OnInit {
           this.request.LandConvertedID = data['Data'][0]['LandConvertedID'];
           await this.GetLandDocuments(this.request.LandConvertedID.toString(), 'Yes');
           this.request.LandTypeID = data['Data'][0]['LandTypeID'];
+          this.request.LandArea = data['Data'][0]['LandArea'];
+
           this.request.KhasraNumber = data['Data'][0]['KhasraNumber'];
           this.request.LandOwnerName = data['Data'][0]['LandOwnerName'];
           this.request.BuildingHostelQuartersRoadArea = data['Data'][0]['BuildingHostelQuartersRoadArea'];
@@ -698,7 +739,7 @@ export class LandDetailsComponent implements OnInit {
 
           this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
 
-
+          this.GetLandSqureMeterMappingDetails(this.request.LandAreaID);
           console.log(this.request.LandDetailDocument);
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnAddLandDetail')
@@ -714,9 +755,8 @@ export class LandDetailsComponent implements OnInit {
 
   }
 
-
   async GetLandDocuments(LandConvertedID: string, IsEdit: string = 'No') {
-    
+
     console.log(this.LandConversionData);
     var Code = this.LandConversionData.find((x: { ID: number; }) => x.ID == Number(LandConvertedID)).Code;
 
