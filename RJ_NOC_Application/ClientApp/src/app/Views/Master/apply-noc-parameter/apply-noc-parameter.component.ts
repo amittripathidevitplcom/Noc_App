@@ -58,6 +58,10 @@ export class ApplyNocParameterComponent implements OnInit {
   public ApplyNocParameterMasterList_NewCourse: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_NewCourseSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
 
+
+  public ApplyNocParameterMasterList_PermanentNocForSubjects: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
+  public ApplyNocParameterMasterList_TNOCExtensionOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
+
   //Validation variable
   //change in name
   public isValidCollegeNewName_Eng: boolean = false;
@@ -207,7 +211,10 @@ export class ApplyNocParameterComponent implements OnInit {
       this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
       this.ApplyNocParameterMasterList_MergerCollege = null;
       this.ApplyNocParameterMasterList_NewCourse = null;
-      this.ApplyNocParameterMasterList_NewCourseSubject = null;
+
+      this.ApplyNocParameterMasterList_PermanentNocForSubjects = null;
+      this.ApplyNocParameterMasterList_TNOCExtensionOfSubject = null;
+
       this.loaderService.requestStarted();
       await this.applyNOCApplicationService.CheckAppliedNOCCollegeWise(this.request.CollegeID)
         .then((data: any) => {
@@ -802,6 +809,27 @@ export class ApplyNocParameterComponent implements OnInit {
         this.isFormValid = false;
       }
     }
+    //college management
+    if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement != null)
+    {
+      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.NewSocietyName == '')
+      {
+        this.isNewSocietyName = true;
+        this.isFormValid = false;
+      }
+      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName == '')
+      {
+        this.isCmDocumentName = true;
+        this.isFormValid = false;
+      }
+      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument == '')
+      {
+        this.isAnnexureDocument = true;
+        this.isFormValid = false;
+      }
+    }
+
+
 
     //Change GirlstoCoed
     if (this.ApplyNocParameterMasterList_ChangeInGirlstoCoed != null) {
@@ -875,23 +903,6 @@ export class ApplyNocParameterComponent implements OnInit {
       }
       if (this.ApplyNocParameterMasterList_MergerCollege.StaffInformation == '') {
         this.isStaffInformation = true;
-        this.isFormValid = false;
-      }
-
-
-
-      //college management
-      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.NewSocietyName == '') {
-        this.isNewSocietyName = true;
-        this.isFormValid = false;
-      }
-      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName == '') {
-        this.isCmDocumentName = true;
-        this.isFormValid = false;
-      }
-
-      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument == '') {
-        this.isAnnexureDocument = true;
         this.isFormValid = false;
       }
 
