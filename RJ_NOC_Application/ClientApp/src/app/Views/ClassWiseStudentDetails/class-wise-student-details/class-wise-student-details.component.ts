@@ -6,6 +6,8 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ClassWiseStudentDetailsDataModel, PostClassWiseStudentDetailsDataModel } from '../../../Models/ClassWiseStudentDetailsDataModel';
 import { ToastrService } from 'ngx-toastr';
+import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-class-wise-student-details',
@@ -31,18 +33,22 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined
 
-  constructor(private loaderService: LoaderService, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService) { }
+  constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService) { }
 
   async ngOnInit()
   {
-    this.GetCollegeWiseStudenetDetails()
+
+    this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+
+    this.GetCollegeWiseStudenetDetails(this.SelectedCollageID)
   }
 
-  async GetCollegeWiseStudenetDetails() {
+  async GetCollegeWiseStudenetDetails(CollageID: number) {
     try {
 
       this.loaderService.requestStarted();
-      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(1)
+      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(CollageID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -80,7 +86,7 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
           console.log(this.State);
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
-            this.GetCollegeWiseStudenetDetails();
+            this.GetCollegeWiseStudenetDetails(this.SelectedCollageID);
           }
           else {
             this.toastr.error(this.ErrorMessage)
