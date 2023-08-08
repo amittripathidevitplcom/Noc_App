@@ -267,7 +267,7 @@
 
                   <div class="col-md-3 mb-2">
                     <label>No. of <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="hosteldetail.NoOf" (blur)="onKeyChange($event)" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)" maxlength="5">
+                    <input type="text" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="hosteldetail.NoOf" (keyup)="onKeyChange($event)" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)" maxlength="5">
                     <div *ngIf="isHostelSubmitted&&form.txtNoOf.errors" class="text-danger">
                       <p *ngIf="form.txtNoOf.errors.required">This field is required .!</p>
                     </div>
@@ -275,7 +275,7 @@
 
                   <div class="col-md-3 mb-2">
                     <label>
-                      Width (In Feet) <span style="color:red;">*</span>
+                      Area (In Sq Feet) <span style="color:red;">*</span>
                     </label>
 
                     <input type="text" class="form-control" id="txtWidth" name="txtWidth"
@@ -290,24 +290,24 @@
                     <p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size (W * L): {{WidthMin}} sq. ft</p>
                   </div>
 
-                  <div class="col-md-3 mb-2">
+                  <!--<div class="col-md-3 mb-2">
                     <label>Length (In Feet) <span style="color:red;">*</span></label>
                     <input type="text" class="form-control" id="txtLength" name="txtLength"
-                           [(ngModel)]="hosteldetail.Length" formControlName="txtLength" min="0" (keypress)="numberOnly($event)" maxlength="5">
+                           [(ngModel)]="hosteldetail.Length" formControlName="txtLength" min="0" (keypress)="numberOnly($event)" maxlength="5">-->
 
 
                     <!--<p *ngIf="LengthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerLength}}">
                       Please Enter Length More than or Equal to {{LengthMin}} ft
                     </p>-->
-                    <div *ngIf="isHostelSubmitted&&form.txtLength.errors" class="text-danger">
+                    <!--<div *ngIf="isHostelSubmitted&&form.txtLength.errors" class="text-danger">
                       <p *ngIf="form.txtLength.errors.required">This field is required .!</p>
-                    </div>
+                    </div>-->
                     <!--<p *ngIf="WidthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{LengthMin}} sq. ft</p>-->
-                  </div>
+                  <!--</div>-->
 
                   <div class="col-md-3 mb-2">
                     <label>Student Capacity <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity"
+                    <input type="text" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity"
                            [(ngModel)]="hosteldetail.StudentCapacity" formControlName="txtStudentCapacity" min="0" (keypress)="numberOnly($event)">
                     <div *ngIf="isHostelSubmitted&&form.txtStudentCapacity.errors" class="text-danger">
                       <p *ngIf="form.txtStudentCapacity.errors.required">This field is required .!</p>
@@ -345,8 +345,9 @@
                           <tr>
                             <th>Sr. No.</th>
                             <th>Hostel Block</th>
-                            <th>Width (In Feet)</th>
-                            <th>Length (In Feet)</th>
+                            <th>No. of</th>
+                            <th>Area (In Sq Feet)</th>
+                            <!--<th>Length (In Feet)</th>-->
                             <th>Image</th>
                             <th>Action</th>
                           </tr>
@@ -355,8 +356,9 @@
                           <tr *ngFor="let row of request.HostelDetails | tableSearchFilter:searchText;let idx=index;">
                             <td>{{idx+1}}</td>
                             <td>{{row.CourseName}}</td>
+                            <td>{{row.NoOf}}</td>
                             <td>{{row.Width}}</td>
-                            <td>{{row.Length}}</td>
+                            <!--<td>{{row.Length}}</td>-->
                             <td>
                               <a *ngIf="row.ImageFileName!=''" target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-paperclip"></i></a>
                             </td>
@@ -541,8 +543,9 @@
                     <tr>
                       <th>Sr. No.</th>
                       <th>Hostel Block</th>
-                      <th>Width (In Feet)</th>
-                      <th>Length (In Feet)</th>
+                      <th>No. of</th>
+                      <th>Area (In Sq Feet)</th>
+                      <!--<th>Length (In Feet)</th>-->
                       <th>Image</th>
                     </tr>
                   </thead>
@@ -550,8 +553,9 @@
                     <tr *ngFor="let row of request.HostelDetails ;let idx=index;">
                       <td>{{idx+1}}</td>
                       <td>{{row.CourseName}}</td>
+                      <td>{{row.NoOf}}</td>
                       <td>{{row.Width}}</td>
-                      <td>{{row.Length}}</td>
+                      <!--<td>{{row.Length}}</td>-->
                       <td>
                         <a *ngIf="!row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
                           <img src="{{row.ImageFilePath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />

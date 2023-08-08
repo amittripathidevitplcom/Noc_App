@@ -185,7 +185,6 @@ export class AcademicInformationComponent implements OnInit {
       this.loaderService.requestStarted();
       debugger
       var SelectedResult = this.ResultData.find((x: { ID: number; }) => x.ID == SeletedResultId)?.Name;
-      alert(SelectedResult);
       if (SelectedResult == 'Declared') {
         this.isselectresult = false;
       }
