@@ -58,13 +58,13 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
 
 
 
-
   constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService) { }
 
   async ngOnInit() {
 
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
     this.GetCollegeWiseStudenetDetails(this.SelectedCollageID)
   }
@@ -98,9 +98,8 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
   async SaveData() {
     this.loaderService.requestStarted();
     this.isLoading = true;
-
-    this.request.CollegeID = 1;
-    this.request.UserID = 1;
+    this.request.CollegeID = this.SelectedCollageID;
+    this.request.UserID = this.sSOLoginDataModel.UserID;
     this.request.ClassWiseStudentDetails = this.ClassWiseStudentDetailsList;
     try {
       await this.classWiseStudentDetailsServiceService.SaveData(this.request)

@@ -294,7 +294,9 @@ export class AddCoursesComponent implements OnInit {
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
       var CourseLevel = this.CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.CourseLevelID).Name;
       var CourseType = this.courseTypeDataList.find((x: { ID: number; }) => x.ID == this.request.CourseTypeID).Name;
-      var CourseName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID).CourseName;
+
+      //console.log(this.courseDataList);
+      var CourseName = this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.CourseID).CourseName;
 
 
       if (this.request.NoOfEnrolledStudents == 0) {

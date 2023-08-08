@@ -76,7 +76,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
-                <span>Room Details</span>
+                <span>Class Room Details</span>
               </ng-template>
               <app-document-scrutiny-room-details></app-document-scrutiny-room-details>
             </mat-tab>
@@ -84,7 +84,8 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
-                <span>Other Information</span>
+                <span *ngIf="SelectedDepartmentID==6">Clinical Details</span>
+                <span *ngIf="SelectedDepartmentID !=6">Other Information</span>
               </ng-template>
               <app-document-scrutiny-other-information></app-document-scrutiny-other-information>
             </mat-tab>
@@ -130,7 +131,7 @@
               <app-document-scrutiny-other-document></app-document-scrutiny-other-document>
             </mat-tab>
 
-            <mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==6">
               <ng-template mat-tab-label>
                 <i class="fa fa-hospital-o icon" aria-hidden="true"></i>
                 <span>Hospital Details</span>
@@ -139,7 +140,7 @@
             </mat-tab>
 
 
-            <mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==6">
               <ng-template mat-tab-label>
                 <i class="fa fa-bed icon" aria-hidden="true"></i>
                 <span>Hostel Details</span>

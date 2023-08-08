@@ -19,6 +19,7 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <b><i class="fa fa-filter"></i>&nbsp;Building Documents</b>
+          <span style="color:red;">Upload File(Only PDF,JPEG,JPG)(Min size 100(KB))(Max size 2(MB))</span>
         </div>
         <form [formGroup]="buildingdetailsForm" class="form-horizontal">
           <div class="card-body">
@@ -28,7 +29,7 @@
                 <label for="buildingdeatilstype" class="form-label" style="margin-right:15px">Building Category <span style="color:red;">*</span> : </label>
                 <div class="form-check form-check-inline" *ngFor="let item of lstBuildingTypeChk">
 
-                  <input class="form-check-input" type="radio" name="rdBuildingType" formControlName="rdBuildingType" id="rdBuildingType_{{item.BuildingTypeID}}" value="{{item.BuildingTypeID}}" [value]="item.BuildingTypeID" [(ngModel)]="buildingdetails.BuildingTypeID">
+                  <input class="form-check-input" type="radio" name="rdBuildingType" formControlName="rdBuildingType" id="rdBuildingType_{{item.BuildingTypeID}}" value="{{item.BuildingTypeID}}" [value]="item.BuildingTypeID" [(ngModel)]="buildingdetails.BuildingTypeID" (change)="changeBuildingType(item.BuildingTypeName)">
                   <label class="form-check-label" for="txtBuildinDetails">{{item.BuildingTypeName}}</label>
                 </div>
                 <div *ngIf="isSubmitted&&form.rdBuildingType.errors" class="text-danger">
@@ -38,8 +39,8 @@
             </div>
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label class="form-label">Owner Name <span style="color:red;">*</span></label>
-                <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" [(ngModel)]="buildingdetails.OwnerName" formControlName="txtOwnerName" (keypress)="alphaOnly($event)"/>
+                <label class="form-label">Name <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" [(ngModel)]="buildingdetails.OwnerName" formControlName="txtOwnerName" (keypress)="alphaOnly($event)" />
                 <div *ngIf="isSubmitted&&form.txtOwnerName.errors" class="text-danger">
                   <p *ngIf="form.txtOwnerName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
@@ -135,10 +136,28 @@
                   <p *ngIf="form.txtPincode_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="RentAggrementDocShow">
+                <label for="txtRentAgreementFileUpload" class="form-label">Upload Registered Rent Agreement/Lease Deed<span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="txtRentAgreementFileUpload" style="display:none" formControlName="txtRentAgreementFileUpload" (change)="ValidateUploadImage($event,'RentAgreementFileUpload')" RentAgreementFileUpload />
+                  <label class="btn upload" for="txtRentAgreementFileUpload">
+                    <span class="filename">Choose file</span>
+                    {{buildingdetails.RentAgreementFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_RentAgreementFileUpload}}
+                  </label>
+                  <div class="btn-group" *ngIf="buildingdetails.RentAgreementFileUpload !=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.RentAgreementFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('RentAgreementFileUpload')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&buildingdetails.RentAgreementFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                <div *ngIf="isValidRentAgreementFileUpload" class="text-danger">
+                  <p *ngIf="isValidRentAgreementFileUpload"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
             </div>
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
-                <b><i class="fa fa-filter"></i>&nbsp;Certificate of Own Building in own land in same campus Order No. & Order Date : </b>
+                <b><i class="fa fa-filter"></i>{{Owin_RentDocTitle}}</b>
               </div>
               <div class="card-body">
                 <div class="row">
@@ -159,7 +178,7 @@
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtOwnBuildingUpload" class="form-label">Upload Own Building Document<span style="color:red;">*</span></label>
+                    <label for="txtOwnBuildingUpload" class="form-label">Upload Document<span style="color:red;">*</span></label>
                     <div class="d-flex">
                       <input type="file" class="form-control" id="txtOwnBuildingUpload" style="display:none" formControlName="txtOwnBuildingUpload" (change)="ValidateUploadImage($event,'OwnBuildingFileUpload')" #txtOwnBuildingUpload />
                       <label class="btn upload" for="txtOwnBuildingUpload">
@@ -171,6 +190,7 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('OwnBuildingFileUpload')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
+                    <a style="color: #3458c8;" target="_blank" href="{{SampleDocument}}">(Download Annexure-13)</a>
                     <p *ngIf="isSubmitted&&buildingdetails.OwnBuildingFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
                     <div *ngIf="isValidOwnBuildingFileUpload" class="text-danger">
                       <p *ngIf="isValidOwnBuildingFileUpload"> {{ImageValidationMessage}}</p>
@@ -518,15 +538,16 @@
                     <th>Other Fixed Assets/Securities</th>
                     <th>GATE Year Balance Secret</th>
                     <th>Other Financial Resources</th>
-                    <th>Own Building File Upload</th>
-                    <th>Fire NOC File Upload</th>
-                    <th>PWD NOC File Upload</th>
-                    <th>Total Project Cost File Upload</th>
-                    <th>Source Cost Amount File Upload</th>
-                    <th>Amount Deposited File Upload</th>
-                    <th>Other Fixed Assets/Securities File Upload</th>
-                    <th>GATE Year Balance Secret File Upload</th>
-                    <th>Other Financial Resources File Upload</th>
+                    <th>Rent Agreement/Lease File</th>
+                    <th>Own/Land & Rented Building File</th>
+                    <th>Fire NOC File</th>
+                    <th>PWD NOC File</th>
+                    <th>Total Project Cost File</th>
+                    <th>Source Cost Amount File</th>
+                    <th>Amount Deposited File</th>
+                    <th>Other Fixed Assets/Securities File</th>
+                    <th>GATE Year Balance Secret File</th>
+                    <th>Other Financial Resources File</th>
                     <th *ngIf="!downloadingPDF">Action</th>
                   </tr>
                 </thead>
@@ -556,6 +577,12 @@
                     <td>{{item.OtherFixedAssetsAndSecurities}}</td>
                     <td>{{item.GATEYearBalanceSecret}}</td>
                     <td>{{item.OtherFinancialResources}}</td>
+                    <td *ngIf="item.BuildingTypeName == 'Rented'">
+                      <a target="_blank" href="{{item.RentAgreementFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
+                    </td>
+                    <td *ngIf="item.BuildingTypeName == 'Owned'">
+                     N/A
+                    </td>
                     <td><a target="_blank" href="{{item.OwnBuildingFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td><a target="_blank" href="{{item.FireNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td><a target="_blank" href="{{item.PWDNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
