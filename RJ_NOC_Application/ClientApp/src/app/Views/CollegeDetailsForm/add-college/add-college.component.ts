@@ -192,7 +192,7 @@ export class AddCollegeComponent implements OnInit {
     // sso id
     this.request.ParentSSOID = this.sSOLoginDataModel.SSOID;
     this.request.MappingSSOID = this.sSOLoginDataModel.SSOID;
-
+     
   }
 
   //keyPressNumbers(event: any) {
