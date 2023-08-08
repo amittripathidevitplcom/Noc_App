@@ -67,6 +67,8 @@ export class LandDetailsComponent implements OnInit {
 
   public MinimumAreaBuildingHostelQuartersRoad: string = '';
   public MinimumAreaGroundCycleStand: string = '';
+  public LandConversionMinDate: Date = new Date();
+  public LandConversionMaxDate: Date = new Date();
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private landDetailsService: LandDetailsService, private fileUploadService: FileUploadService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder) {
@@ -74,6 +76,10 @@ export class LandDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.LandConversionMinDate.setFullYear(this.LandConversionMinDate.getFullYear() - 76);
+    this.LandConversionMinDate = new Date(this.LandConversionMinDate.getFullYear(), this.LandConversionMinDate.getMonth(), this.LandConversionMinDate.getDate());
+    this.LandConversionMaxDate.setFullYear(this.LandConversionMaxDate.getFullYear());
+    this.LandConversionMaxDate = new Date(this.LandConversionMaxDate.getFullYear(), this.LandConversionMaxDate.getMonth(), this.LandConversionMaxDate.getDate());
     this.LandDetailForm = this.formBuilder.group(
       {
         ddlCollegeId: [''],
@@ -638,8 +644,8 @@ export class LandDetailsComponent implements OnInit {
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
 
-          this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
-          this.LandDetailsDocumentListByID = this.request.LandDetailDocument;
+          //this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
+          this.LandDetailsDocumentListByID = data['Data'][0]["LandDetailDocument"];
           console.log(this.request.LandDetailDocument);
         }, error => console.error(error));
     }

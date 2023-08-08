@@ -1568,6 +1568,7 @@ export class LegalEntityComponent implements OnInit {
     if (new Date(this.request.SocietyRegistrationDate) > new Date(this.request.ElectionPresentManagementCommitteeDate)) {
       this.ValidationMinDate = 'Invalid .!';
       this.request.ElectionPresentManagementCommitteeDate = '';
+      this.request.IsDateOfElection = '';
       return;
     }
     const currndate = new Date();

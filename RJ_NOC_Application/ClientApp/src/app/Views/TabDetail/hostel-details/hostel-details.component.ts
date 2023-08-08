@@ -176,7 +176,7 @@ export class HostelDetailsComponent implements OnInit {
         ddlCourse: ['', [DropdownValidators]],
         txtNoOf: ['', Validators.required],
         txtWidth: ['', Validators.required],
-        txtLength: ['', Validators.required],
+        txtLength: [''],
         txtStudentCapacity: ['', Validators.required],
         // fileImageFileName: ['', Validators.required], 
         hostel_fileImageFileName: [''],
@@ -312,7 +312,7 @@ export class HostelDetailsComponent implements OnInit {
   async ddlCourse_change($event: any, SeletedCourseID: any) {
     this.hosteldetail.CourseID = SeletedCourseID;
     this.hosteldetail.Width = null;
-    this.hosteldetail.Length = null;
+    this.hosteldetail.Length = 0;
 
     this.WidthMin = null;
     this.LengthMin = null;
@@ -351,7 +351,7 @@ export class HostelDetailsComponent implements OnInit {
 
   async btnAdd_Click() {
     try {
-      this.loaderService.requestStarted();
+
       this.isHostelSubmitted = true;
       this.isImageFile = false;
       this.isFormValid = true;
@@ -370,7 +370,7 @@ export class HostelDetailsComponent implements OnInit {
       //  this.isFormValid = false;
       //}
 
-      if (Number(this.hosteldetail.Width * this.hosteldetail.Length) < this.WidthMin) {
+      if (Number(this.hosteldetail.Width) < this.WidthMin) {
         this.CssClass_TextDangerWidth = 'text-danger';
         this.isFormValid = false;
       }
@@ -385,6 +385,7 @@ export class HostelDetailsComponent implements OnInit {
         return;
       }
       //Show Loading
+      this.loaderService.requestStarted();
       if (this.CurrentIndex != -1) {
         this.request.HostelDetails.splice(this.CurrentIndex, 1, this.hosteldetail);
       }
@@ -987,7 +988,7 @@ export class HostelDetailsComponent implements OnInit {
 
   onKeyChange(searchValue: any): void {
     this.WidthMin = searchValue.target.value * this.DefaultWidthMin;
-    this.LengthMin = searchValue.target.value * this.DefaultLengthMin;
+    //this.LengthMin = searchValue.target.value * this.DefaultLengthMin;
     // console.log(searchValue.target.value);
   }
 
