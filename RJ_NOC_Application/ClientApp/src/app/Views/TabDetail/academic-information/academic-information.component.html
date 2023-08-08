@@ -35,14 +35,14 @@
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Total  Admitted Student<span style="color:red;"> *</span></label>
-              <input type="text" id="txtTotalAdmittedStudent" placeholder="Total  Admitted Student" class="form-control" [(ngModel)]="request.AdmittedStudent" formControlName="txtTotalAdmittedStudent" (keypress)="numberOnly($event)" />
+              <input type="text" id="txtTotalAdmittedStudent"  class="form-control" [(ngModel)]="request.AdmittedStudent" formControlName="txtTotalAdmittedStudent" (keypress)="numberOnly($event)" maxlength="10"/>
               <div *ngIf="isSubmitted&&form.txtTotalAdmittedStudent.errors" class="text-danger">
                 <p *ngIf="form.txtTotalAdmittedStudent.errors.required"> Total  Admitted Student is required .!</p>
               </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Number Of Appeared Student<span style="color:red;"> *</span></label>
-              <input type="text" id="txtAppearedStudent" placeholder="Number Of Appeared Student" class="form-control" [(ngModel)]="request.AppearedStudent" formControlName="txtAppearedStudent" (keypress)="numberOnly($event)" />
+              <input type="text" id="txtAppearedStudent" maxlength="10"  class="form-control" [(ngModel)]="request.AppearedStudent" formControlName="txtAppearedStudent" (keypress)="numberOnly($event)" />
               <div *ngIf="isSubmitted&&form.txtAppearedStudent.errors" class="text-danger">
                 <p *ngIf="form.txtAppearedStudent.errors.required">  Number Of Appeared Student is required .!</p>
               </div>
@@ -62,21 +62,21 @@
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Number of Passed Student<span style="color:red;"> *</span></label>
-              <input [attr.disabled]="isselectresult ? true : null" type="text" id="txtPassedStudent" placeholder="Number Of Students Passed" class="form-control" [(ngModel)]="request.PassedStudent" formControlName="txtPassedStudent" (keypress)="numberOnly($event)" />
+              <input [attr.disabled]="isselectresult ? true : null" maxlength="10" type="text" id="txtPassedStudent"  class="form-control" [(ngModel)]="request.PassedStudent" formControlName="txtPassedStudent" (keypress)="numberOnly($event)" />
               <div *ngIf="isPassStudent" class="text-danger">
                 <p *ngIf="isPassStudent">  Number Of Students Passed is required .!</p>
               </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Number of Failed Student<span style="color:red;"> *</span></label>
-              <input [attr.disabled]="isselectresult ? true : null" type="text" id="txtFailedStudent" placeholder="Number of Students Failed" class="form-control" [(ngModel)]="request.FailedStudent" formControlName="txtFailedStudent" (keypress)="numberOnly($event)" />
+              <input [attr.disabled]="isselectresult ? true : null" type="text" id="txtFailedStudent" maxlength="10" class="form-control" [(ngModel)]="request.FailedStudent" formControlName="txtFailedStudent" (keypress)="numberOnly($event)" />
               <div *ngIf="isFailStudent" class="text-danger">
                 <p *ngIf="isFailStudent">Number of Students Failed is required .!</p>
               </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Other(Withheld Result / Supplimentry)<span style="color:red;"> *</span></label>
-              <input [attr.disabled]="isselectresult ? true : null" type="text" id="txtOtherStudent" placeholder=" Other(Withheld Result / Supplimentry)" class="form-control" [(ngModel)]="request.OtherStudent" formControlName="txtOtherStudent" (keypress)="numberOnly($event)" />
+              <input [attr.disabled]="isselectresult ? true : null" type="text" id="txtOtherStudent" maxlength="10" class="form-control" [(ngModel)]="request.OtherStudent" formControlName="txtOtherStudent" (keypress)="numberOnly($event)" />
               <div *ngIf="isOtherStudent" class="text-danger">
                 <p *ngIf="isOtherStudent">  Number Of Other (Withheld Result / Supplimentry) is required .!</p>
               </div>
