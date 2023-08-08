@@ -207,11 +207,6 @@
                 <th>Owner Name</th>
                 <th>Land Area</th>
                 <th>Building/Hostel/Quarters/Road Area(A1)</th>
-                <!--<th>Land Title Certificate</th>
-                <th>Land Document</th>
-                <th>Conversion Order Document</th>
-                <th>Conversion File Process Certificate</th>
-                <th>Affidavit document for conversion</th>-->
                 <th>Action</th>
               </tr>
             </thead>
@@ -229,12 +224,6 @@
                 <td>{{item.LandOwnerName}}</td>
                 <td>{{item.LandArea}}</td>
                 <td>{{item.BuildingHostelQuartersRoadArea}}</td>
-
-                <!--<td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>-->
                 <td>
                   <div class="d-flex">
                     <button type="button" (click)="Edit_OnClick(item.LandDetailID)" title="Edit" class="btn btn-sm btn-info" [disabled]="isDisabledGrid"><i class="fa fa-edit"></i></button>
