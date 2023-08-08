@@ -131,6 +131,11 @@ export class SocietyComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.isAuthorizedOrNot = event.target.checked;
+      if (this.isAuthorizedOrNot == false) {
+        this.request.AuthorizedDocument = '';
+        this.request.Dis_AuthorizedDocument = '';
+        this.request.AuthorizedDocumentPath = '';
+      }
     }
     catch (Ex) {
       console.log(Ex);

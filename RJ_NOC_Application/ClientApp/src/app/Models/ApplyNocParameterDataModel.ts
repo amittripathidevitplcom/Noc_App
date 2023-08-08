@@ -27,10 +27,14 @@ export class ApplyNocParameterDataModel {
   public ApplyNocParameterMasterList_ChangeInGirlstoCoed: ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
   public ApplyNocParameterMasterList_ChangeInCollegeManagement: ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
   public ApplyNocParameterMasterList_MergerCollege: ApplyNocParameterMasterList_MergerCollege = null;
+
   public ApplyNocParameterMasterList_NewCourse: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_NewCourseSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   
 
+
+  public ApplyNocParameterMasterList_TNOCExtOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
+  public ApplyNocParameterMasterList_PNOCOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
 
 }
 
@@ -39,7 +43,7 @@ export class ApplyNocParameterMasterListDataModel {
   public ApplyNocFor: string = '';
   public FeeAmount: number = 0;
   public IsChecked: boolean = false;
-
+  public ParameterCode?: string = '';
 }
 export class ApplyNocParameterMaster_TNOCExtensionDataModel extends ApplyNocParameterMasterListDataModel {
   public ApplyNocParameterCourseList: ApplyNocParameterCourseDataModel[] = [];
@@ -53,6 +57,7 @@ export class ApplyNocParameterCourseDataModel {
   public CourseName: string = '';
   public IsChecked: boolean = false;
   public CollegeLevel: string = '';
+  public CourseFeesAmount?: number = 0;
   public ApplyNocParameterSubjectList: ApplyNocParameterSubjectDataModel[] = [];
 }
 export class ApplyNocParameterSubjectDataModel {

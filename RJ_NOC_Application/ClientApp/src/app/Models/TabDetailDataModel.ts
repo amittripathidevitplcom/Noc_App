@@ -136,7 +136,7 @@ export class EducationalQualificationDetails_StaffDetail {
   public UniversityBoardInstitutionName: string = '';
   public PassingYearID: number = 0;
   public PassingYear: string = '';
-  public Marks: number = 0;
+  public Marks: string = '';
   public UploadDocument: string = '';
   public UploadDocumentPath: string = '';
   public UploadDocument_Dis_FileName: string = '';
