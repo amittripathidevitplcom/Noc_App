@@ -991,7 +991,7 @@ export class ApplyNocParameterComponent implements OnInit {
       if (courseId <= 0) {
         return;
       }
-      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, SeletedCourseID, 'GetCollegeWiseCourseIDSubjectList')
+      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, CollegeWiseCourseID, 'GetCollegeWiseCourseIDSubjectList')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.SubjectDetails = data['Data'][0]['data'];
@@ -1021,7 +1021,7 @@ export class ApplyNocParameterComponent implements OnInit {
       if (courseId <= 0) {
         return;
       }
-      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, SeletedCourseID, 'GetCollegeWiseNewSubjectNOCList')
+      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, CollegeWiseCourseID, 'GetCollegeWiseNewSubjectNOCList')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.NewSubjectDetails = data['Data'][0]['data'];
