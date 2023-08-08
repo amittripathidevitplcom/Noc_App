@@ -130,7 +130,7 @@
           <label>
             Land Conversion Order Date(DD/MM/YYYY) <!--<span style="color:red;">*</span>-->
           </label>
-          <input type="date" id="dtLandConversionOrderDate" name="dtLandConversionOrderDate" class="form-control" [(ngModel)]="request.LandConversionOrderDate" formControlName="dtLandConversionOrderDate" onkeypress="return false;" />
+          <input type="date" id="dtLandConversionOrderDate" name="dtLandConversionOrderDate" class="form-control" [(ngModel)]="request.LandConversionOrderDate" formControlName="dtLandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
           <p *ngIf="isSubmitted&&request.LandConversionOrderDate ==''" class="text-danger"><i aria-hidden="true"></i> {{LandConversionDateValidate}}</p>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowConversionOrderNo">
@@ -207,11 +207,6 @@
                 <th>Owner Name</th>
                 <th>Land Area</th>
                 <th>Building/Hostel/Quarters/Road Area(A1)</th>
-                <!--<th>Land Title Certificate</th>
-                <th>Land Document</th>
-                <th>Conversion Order Document</th>
-                <th>Conversion File Process Certificate</th>
-                <th>Affidavit document for conversion</th>-->
                 <th>Action</th>
               </tr>
             </thead>
@@ -229,12 +224,6 @@
                 <td>{{item.LandOwnerName}}</td>
                 <td>{{item.LandArea}}</td>
                 <td>{{item.BuildingHostelQuartersRoadArea}}</td>
-
-                <!--<td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-  <td><a target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>-->
                 <td>
                   <div class="d-flex">
                     <button type="button" (click)="Edit_OnClick(item.LandDetailID)" title="Edit" class="btn btn-sm btn-info" [disabled]="isDisabledGrid"><i class="fa fa-edit"></i></button>

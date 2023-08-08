@@ -41,7 +41,7 @@
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Hostel Name <span style="color:red;">*</span></label>
               <input type="text" class="form-control" id="txtHostelName" name="txtHostelName" [(ngModel)]="request.HostelName" autocomplete="off"
-                     formControlName="txtHostelName">
+                     formControlName="txtHostelName" (keypress)="alphaOnly($event)">
               <div *ngIf="isSubmitted&&Hform.txtHostelName.errors" class="text-danger">
                 <p *ngIf="Hform.txtHostelName.errors.required"> This field is required .!</p>
               </div>
@@ -50,14 +50,14 @@
             <!-- address -->
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
-              <input type="text" class="form-control" id="txtAddressLine1" name="txtAddressLine1" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1">
+              <input type="text" class="form-control" id="txtAddressLine1" name="txtAddressLine1" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1" (keypress)="alphanumbersOnly($event)">
               <div *ngIf="isSubmitted&&Hform.txtAddressLine1.errors" class="text-danger">
                 <p *ngIf="Hform.txtAddressLine1.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
               </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Address Line 2 <span style="color:red;">*</span></label>
-              <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2">
+              <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphanumbersOnly($event)">
               <div *ngIf="isSubmitted&&Hform.txtAddressLine2.errors" class="text-danger">
                 <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
               </div>
@@ -132,15 +132,6 @@
                 <p *ngIf="Hform.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
               </div>
             </div>
-            <!-- end -->
-            <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label>Hostel Address<span style="color:red;">*</span></label>
-              <input type="text" class="form-control" id="txtHostelAddress" name="txtHostelAddress" [(ngModel)]="request.HostelAddress" autocomplete="off"
-                     formControlName="txtHostelAddress">
-              <div *ngIf="isSubmitted&&Hform.txtHostelAddress.errors" class="text-danger">
-                <p *ngIf="Hform.txtHostelAddress.errors.required"> Hostel Address is required .!</p>
-              </div>
-            </div>-->
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label>Contact Person Name <span style="color:red;">*</span></label>
               <input type="text" class="form-control" id="txtContactPersonName" name="txtContactPersonName" (keypress)="alphaOnly($event)" [(ngModel)]="request.ContactPersonName" autocomplete="off"
@@ -276,7 +267,7 @@
 
                   <div class="col-md-3 mb-2">
                     <label>No. of <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="hosteldetail.NoOf" (blur)="onKeyChange($event)" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)">
+                    <input type="text" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="hosteldetail.NoOf" (keyup)="onKeyChange($event)" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)" maxlength="5">
                     <div *ngIf="isHostelSubmitted&&form.txtNoOf.errors" class="text-danger">
                       <p *ngIf="form.txtNoOf.errors.required">This field is required .!</p>
                     </div>
@@ -284,11 +275,11 @@
 
                   <div class="col-md-3 mb-2">
                     <label>
-                      Width (In Feet) <span style="color:red;">*</span>
+                      Area (In Sq Feet) <span style="color:red;">*</span>
                     </label>
 
-                    <input type="number" class="form-control" id="txtWidth" name="txtWidth"
-                           [(ngModel)]="hosteldetail.Width" formControlName="txtWidth" min="0" (keypress)="numberOnly($event)">
+                    <input type="text" class="form-control" id="txtWidth" name="txtWidth"
+                           [(ngModel)]="hosteldetail.Width" formControlName="txtWidth" min="0" (keypress)="numberOnly($event)" maxlength="5">
 
 
 
@@ -299,24 +290,24 @@
                     <p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size (W * L): {{WidthMin}} sq. ft</p>
                   </div>
 
-                  <div class="col-md-3 mb-2">
+                  <!--<div class="col-md-3 mb-2">
                     <label>Length (In Feet) <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtLength" name="txtLength"
-                           [(ngModel)]="hosteldetail.Length" formControlName="txtLength" min="0" (keypress)="numberOnly($event)">
+                    <input type="text" class="form-control" id="txtLength" name="txtLength"
+                           [(ngModel)]="hosteldetail.Length" formControlName="txtLength" min="0" (keypress)="numberOnly($event)" maxlength="5">-->
 
 
                     <!--<p *ngIf="LengthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerLength}}">
                       Please Enter Length More than or Equal to {{LengthMin}} ft
                     </p>-->
-                    <div *ngIf="isHostelSubmitted&&form.txtLength.errors" class="text-danger">
+                    <!--<div *ngIf="isHostelSubmitted&&form.txtLength.errors" class="text-danger">
                       <p *ngIf="form.txtLength.errors.required">This field is required .!</p>
-                    </div>
+                    </div>-->
                     <!--<p *ngIf="WidthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{LengthMin}} sq. ft</p>-->
-                  </div>
+                  <!--</div>-->
 
                   <div class="col-md-3 mb-2">
                     <label>Student Capacity <span style="color:red;">*</span></label>
-                    <input type="number" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity"
+                    <input type="text" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity"
                            [(ngModel)]="hosteldetail.StudentCapacity" formControlName="txtStudentCapacity" min="0" (keypress)="numberOnly($event)">
                     <div *ngIf="isHostelSubmitted&&form.txtStudentCapacity.errors" class="text-danger">
                       <p *ngIf="form.txtStudentCapacity.errors.required">This field is required .!</p>
@@ -354,8 +345,9 @@
                           <tr>
                             <th>Sr. No.</th>
                             <th>Hostel Block</th>
-                            <th>Width (In Feet)</th>
-                            <th>Length (In Feet)</th>
+                            <th>No. of</th>
+                            <th>Area (In Sq Feet)</th>
+                            <!--<th>Length (In Feet)</th>-->
                             <th>Image</th>
                             <th>Action</th>
                           </tr>
@@ -364,15 +356,15 @@
                           <tr *ngFor="let row of request.HostelDetails | tableSearchFilter:searchText;let idx=index;">
                             <td>{{idx+1}}</td>
                             <td>{{row.CourseName}}</td>
+                            <td>{{row.NoOf}}</td>
                             <td>{{row.Width}}</td>
-                            <td>{{row.Length}}</td>
+                            <!--<td>{{row.Length}}</td>-->
                             <td>
                               <a *ngIf="row.ImageFileName!=''" target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-paperclip"></i></a>
                             </td>
                             <td>
                               <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary" (click)="EditHostelBlockDetail(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"><i class="fa fa-edit"></i></button>
                               <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteHostelBlockDetail(idx)"><i class="fa fa-trash" [attr.disabled]="isDisabledGrid ? true : null"></i></button>
-
                             </td>
                           </tr>
                         </tbody>
@@ -551,8 +543,9 @@
                     <tr>
                       <th>Sr. No.</th>
                       <th>Hostel Block</th>
-                      <th>Width (In Feet)</th>
-                      <th>Length (In Feet)</th>
+                      <th>No. of</th>
+                      <th>Area (In Sq Feet)</th>
+                      <!--<th>Length (In Feet)</th>-->
                       <th>Image</th>
                     </tr>
                   </thead>
@@ -560,8 +553,9 @@
                     <tr *ngFor="let row of request.HostelDetails ;let idx=index;">
                       <td>{{idx+1}}</td>
                       <td>{{row.CourseName}}</td>
+                      <td>{{row.NoOf}}</td>
                       <td>{{row.Width}}</td>
-                      <td>{{row.Length}}</td>
+                      <!--<td>{{row.Length}}</td>-->
                       <td>
                         <a *ngIf="!row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
                           <img src="{{row.ImageFilePath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />

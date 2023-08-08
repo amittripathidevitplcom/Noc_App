@@ -13,6 +13,7 @@ import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataMode
 import { ParamedicalHospitalBedValidation } from '../../../Models/ParamedicalHospitalDataModel';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-paramedical-hospital-detail',
@@ -42,7 +43,7 @@ export class DocumentScrutinyParamedicalHospitalDetailComponent implements OnIni
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
   LegalEntityDataModel = new LegalEntityDataModel();
-  constructor(private applyNOCApplicationService: ApplyNOCApplicationService,private toastr: ToastrService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private modalService: NgbModal, private hospitalDetailService: ParamedicalHospitalService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
+  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private toastr: ToastrService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private modalService: NgbModal, private hospitalDetailService: ParamedicalHospitalService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -54,13 +55,15 @@ export class DocumentScrutinyParamedicalHospitalDetailComponent implements OnIni
   async GetHospitalDataList() {
     this.loaderService.requestStarted();
     try {
-      await this.hospitalDetailService.GetDataList(this.SelectedCollageID)
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_ParamedicalHospitalDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'].length > 0) {
-            this.HospitalParentNotDataModelList = data['Data'];
+            this.HospitalParentNotDataModelList = data['Data'][0]['HospitalDetails'];
+            this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+            this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
           }
         })
     }
@@ -183,7 +186,7 @@ export class DocumentScrutinyParamedicalHospitalDetailComponent implements OnIni
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
     this.dsrequest.UserID = 0;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
-    this.dsrequest.TabName = 'Hospital Details';
+    this.dsrequest.TabName = 'Paramedical Hospital Details';
     this.isRemarkValid = false;
     this.isFormvalid = true;
     this.dsrequest.DocumentScrutinyDetail = [];

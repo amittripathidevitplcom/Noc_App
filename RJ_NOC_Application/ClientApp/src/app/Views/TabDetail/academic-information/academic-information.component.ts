@@ -180,11 +180,12 @@ export class AcademicInformationComponent implements OnInit {
     return true;
   }
   OnChangeDropdownDisable(SeletedResultId: any) {
-    
+
     try {
       this.loaderService.requestStarted();
-      console.log(SeletedResultId.value);
-      if (SeletedResultId.value == 36 || SeletedResultId.value == 74 || SeletedResultId.value == 103) {
+      debugger
+      var SelectedResult = this.ResultData.find((x: { ID: number; }) => x.ID == SeletedResultId)?.Name;
+      if (SelectedResult == 'Declared') {
         this.isselectresult = false;
       }
       else {
@@ -206,31 +207,37 @@ export class AcademicInformationComponent implements OnInit {
 
   async SaveData() {
     this.isSubmitted = true;
-    if (this.request.ResultID == 36) {
-      if (this.request.PassedStudent == null) {
-        this.isPassStudent = true;
-      }
-      if (this.request.FailedStudent == null) {
-        this.isFailStudent = true;
-      }
-      if (this.request.OtherStudent == null) {
-        this.isOtherStudent = true;
-        return;
-      }
-      if (Number(this.request.PassedStudent) > Number(this.request.AppearedStudent)) {
-        this.toastr.warning('Please Enter No Of Passed Student less than  of No Of Appeared Student..!');
-        return;
-      }
-      this.TotalStudent = Number(this.request.PassedStudent) + Number(this.request.FailedStudent) + Number(this.request.OtherStudent);
-      if (Number(this.TotalStudent) != Number(this.request.AppearedStudent)) {
-        this.toastr.warning('Please Enter No Of Passed Student + No Of Failed Student + Other(Withheld Result / Supplimentry) = No Of Appeared Student ...!');
-        return;
+    if (this.request.ResultID > 0) {
+      var SelectedResult = this.ResultData.find((x: { ID: number; }) => x.ID == this.request.ResultID)?.Name;
+      if (SelectedResult == 'Declared') {
+        if (this.request.PassedStudent == null) {
+          this.isPassStudent = true;
+        }
+        if (this.request.FailedStudent == null) {
+          this.isFailStudent = true;
+        }
+        if (this.request.OtherStudent == null) {
+          this.isOtherStudent = true;
+          return;
+        }
+        if (Number(this.request.PassedStudent) > Number(this.request.AppearedStudent)) {
+          this.toastr.warning('Please Enter No Of Passed Student less than  of No Of Appeared Student..!');
+          return;
+        }
+        this.TotalStudent = Number(this.request.PassedStudent) + Number(this.request.FailedStudent) + Number(this.request.OtherStudent);
+        if (Number(this.TotalStudent) != Number(this.request.AppearedStudent)) {
+          this.toastr.warning('Please Enter No Of Passed Student + No Of Failed Student + Other(Withheld Result / Supplimentry) = No Of Appeared Student ...!');
+          return;
+        }
       }
     }
-    if (this.request.ResultID == 37) {
-      this.isFailStudent = false;
-      this.isPassStudent = false;
-      this.isOtherStudent = false;
+    if (this.request.ResultID > 0) {
+      var SelectedResult = this.ResultData.find((x: { ID: number; }) => x.ID == this.request.ResultID)?.Name;
+      if (SelectedResult != 'Declared') {
+        this.isFailStudent = false;
+        this.isPassStudent = false;
+        this.isOtherStudent = false;
+      }
     }
     if (this.request.ResultID == 0) {
       this.isFailStudent = true;
