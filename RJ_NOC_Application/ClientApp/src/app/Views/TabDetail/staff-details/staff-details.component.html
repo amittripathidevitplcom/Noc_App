@@ -103,13 +103,7 @@
             <p *ngIf="!form.ddlHighestQualificationId.errors.DropdownValidators"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
-          <label>Total Number of Experience (Year) <span style="color:red;">*</span></label>
-          <input type="text" id="txtNoOfYearExperience" name="txtNoOfYearExperience" class="form-control" formControlName="txtNoOfYearExperience" [(ngModel)]="request.NumberofExperience" (keypress)="numberOnly($event)" maxlength="2" />
-          <div *ngIf="isSubmitted&&form.txtNoOfYearExperience.errors" class="text-danger">
-            <p *ngIf="form.txtNoOfYearExperience.errors.required"> This field is required .!</p>
-          </div>
-        </div>
+
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
             Aadhaar Card <span style="color:red;">*</span>
@@ -157,6 +151,36 @@
             <p *ngIf="isPANCard"> This field is required .!</p>
           </div>
         </div>
+
+        <div class="col-md-4 mb-3">
+          <label>Date Of Birth <span style="color:red;">*</span></label>
+          <input type="date" id="dtDOB" name="dtDOB" class="form-control" [(ngModel)]="request.DateOfBirth" formControlName="dtDOB" (change)="SetDateofAppointment()" max="{{MaxDate | date:'yyyy-MM-dd'}}" min="{{DOBMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+          <div *ngIf="isSubmitted&&form.dtDOB.errors" class="text-danger">
+            <p *ngIf="form.dtDOB.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Date Of Appointment <span style="color:red;">*</span></label>
+          <input type="date" id="dtDateOfAppointment" name="dtDateOfAppointment" class="form-control" [(ngModel)]="request.DateOfAppointment" (change)="CheckDOBDate()" formControlName="dtDateOfAppointment" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+          <div *ngIf="isSubmitted&&form.dtDateOfAppointment.errors" class="text-danger">
+            <p *ngIf="form.dtDateOfAppointment.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Date Of Joining <span style="color:red;">*</span></label>
+          <input type="date" id="dtDateOfJoining" name="dtDateOfJoining" class="form-control" [(ngModel)]="request.DateOfJoining" (change)="CheckAppointmentDate()" formControlName="dtDateOfJoining" min="{{JoiningMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+          <div *ngIf="isSubmitted&&form.dtDateOfJoining.errors" class="text-danger">
+            <p *ngIf="form.dtDateOfJoining.errors.required"> This field is required .!</p>
+            <!--<div *ngIf="form.dtDateOfJoining.errors.pattern">Please enter a valid date</div>-->
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label>Total Number of Experience (Year) <span style="color:red;">*</span></label>
+          <input type="text" id="txtNoOfYearExperience" name="txtNoOfYearExperience" class="form-control" formControlName="txtNoOfYearExperience" [(ngModel)]="request.NumberofExperience" (keypress)="numberOnly($event)" maxlength="2" />
+          <div *ngIf="isSubmitted&&form.txtNoOfYearExperience.errors" class="text-danger">
+            <p *ngIf="form.txtNoOfYearExperience.errors.required"> This field is required .!</p>
+          </div>
+        </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
             Experience Certificate <span style="color:red;">*</span>
@@ -174,28 +198,6 @@
           </div>
           <div *ngIf="isExperianceCertificate" class="text-danger">
             <p *ngIf="isExperianceCertificate"> This field is required .!</p>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <label>Date Of Birth <span style="color:red;">*</span></label>
-          <input type="date" id="dtDOB" name="dtDOB" class="form-control" [(ngModel)]="request.DateOfBirth" formControlName="dtDOB" (change)="SetDateofAppointment()" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
-          <div *ngIf="isSubmitted&&form.dtDOB.errors" class="text-danger">
-            <p *ngIf="form.dtDOB.errors.required"> This field is required .!</p>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <label>Date Of Appointment <span style="color:red;">*</span></label>
-          <input type="date" id="dtDateOfAppointment" name="dtDateOfAppointment" class="form-control" [(ngModel)]="request.DateOfAppointment" formControlName="dtDateOfAppointment" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
-          <div *ngIf="isSubmitted&&form.dtDateOfAppointment.errors" class="text-danger">
-            <p *ngIf="form.dtDateOfAppointment.errors.required"> This field is required .!</p>
-          </div>
-        </div>
-        <div class="col-md-4 mb-3">
-          <label>Date Of Joining <span style="color:red;">*</span></label>
-          <input type="date" id="dtDateOfJoining" name="dtDateOfJoining" class="form-control" [(ngModel)]="request.DateOfJoining" formControlName="dtDateOfJoining" min="{{AppointmentMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
-          <div *ngIf="isSubmitted&&form.dtDateOfJoining.errors" class="text-danger">
-            <p *ngIf="form.dtDateOfJoining.errors.required"> This field is required .!</p>
-            <!--<div *ngIf="form.dtDateOfJoining.errors.pattern">Please enter a valid date</div>-->
           </div>
         </div>
         <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
@@ -325,7 +327,7 @@
             </div>
             <div class="col-md-2 mb-2">
               <label>Marks In Percentage/Grade <span style="color:red">*</span></label>
-              <input type="text" class="form-control" id="txtMarks" name="txtMarks" [(ngModel)]="request.Marks" formControlName="txtMarks" autocomplete="off" maxlength="3" (keypress)="numberOnly($event)">
+              <input type="text" class="form-control" id="txtMarks" name="txtMarks" [(ngModel)]="request.Marks" formControlName="txtMarks" autocomplete="off" maxlength="4" (keypress)="alphaNumircDecimalOnly($event)">
               <div *ngIf="isAddMore&&SEform.txtMarks.errors" class="text-danger">
                 <p *ngIf="SEform.txtMarks.errors.required"> This field is required .!</p>
               </div>
