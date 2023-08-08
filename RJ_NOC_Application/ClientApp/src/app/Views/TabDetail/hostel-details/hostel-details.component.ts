@@ -466,27 +466,13 @@ export class HostelDetailsComponent implements OnInit {
           (Type == 'RentDocument' && event.target.files[0].type === 'application/pdf')) {
           if (event.target.files[0].size > 2000000) {
             event.target.value = '';
-            if (Type == 'RentDocument') {
-              this.isValidRentDocument = true;
-              this.request.RentDocument = '';
-            }
-            else if (Type == 'ImageFile') {
-              this.hosteldetail.ImageFileName = '';
-              this.isImageFile = true;
-            }
+            this.ResetFiles(Type, false, '', '', '', true);
             this.DocumentValidMessage = 'Select less then 2MB File';
             return
           }
           if (event.target.files[0].size < 100000) {
             event.target.value = '';
-            if (Type == 'RentDocument') {
-              this.isValidRentDocument = true;
-              this.request.RentDocument = '';
-            }
-            else if (Type == 'ImageFile') {
-              this.hosteldetail.ImageFileName = '';
-              this.isImageFile = true;
-            }
+            this.ResetFiles(Type, false, '', '', '', true);
             this.DocumentValidMessage = 'Select more then 100kb File';
             return
           }
@@ -495,15 +481,12 @@ export class HostelDetailsComponent implements OnInit {
           event.target.value = '';
           let msg = 'Select Only ';
           if (Type == 'RentDocument') {
-            this.isValidRentDocument = true;
-            this.request.RentDocument = '';
             msg += 'pdf file';
           }
           else if (Type == 'ImageFile') {
-            this.hosteldetail.ImageFileName = '';
-            this.isImageFile = true;
             msg += 'jpg/jpeg';
           }
+          this.ResetFiles(Type, false, '', '', '', true);
           this.DocumentValidMessage = msg;
 
           return
@@ -514,20 +497,7 @@ export class HostelDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-            if (Type == 'RentDocument') {
-              this.showRentDocument = true;
-              this.request.RentDocument = data['Data'][0]["FileName"];
-              this.request.RentDocumentPath = data['Data'][0]["FilePath"];
-              this.request.RentDocument_Dis_FileName = data['Data'][0]["Dis_FileName"];
-            }
-            else if (Type == 'ImageFile') {
-              this.showImageFile = true;
-              this.hosteldetail.ImageFileName = data['Data'][0]["FileName"];
-              this.hosteldetail.ImageFilePath = data['Data'][0]["FilePath"];
-              this.hosteldetail.Dis_FileName = data['Data'][0]["Dis_FileName"];
-
-            }
-
+            this.ResetFiles(Type, true, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"], false);
             event.target.value = '';
           }
           if (this.State == 1) {
@@ -545,7 +515,35 @@ export class HostelDetailsComponent implements OnInit {
       this.loaderService.requestEnded();
     }
   }
-
+  ResetFiles(Type: string, isShow: boolean, fileName: string, filePath: string, dis_Name: string, isValidate: boolean) {
+    try {
+      this.loaderService.requestStarted();
+      if (Type == 'RentDocument' || Type == 'All') {
+        this.isValidRentDocument = isValidate;
+        this.showRentDocument = isShow;
+        this.request.RentDocument = fileName;
+        this.request.RentDocumentPath = filePath;
+        this.request.RentDocument_Dis_FileName = dis_Name;
+        this.file = document.getElementById('RentDocument');
+        this.file.value = '';
+      }
+      if (Type == 'ImageFile' || Type == 'All') {
+        this.showImageFile = isShow;
+        this.hosteldetail.ImageFileName = fileName;
+        this.hosteldetail.ImageFilePath = filePath;
+        this.hosteldetail.Dis_FileName = dis_Name;
+        this.isImageFile = isValidate;
+        this.file = document.getElementById('fImageUpload');
+        this.file.value = '';
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async SaveData() {
     debugger
     try {
@@ -657,18 +655,7 @@ export class HostelDetailsComponent implements OnInit {
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
-          if (Type == 'RentDocument') {
-            this.showRentDocument = false;
-            this.request.RentDocument = '';
-            this.request.RentDocument_Dis_FileName = '';
-            this.request.RentDocumentPath = '';
-          }
-          else if (Type == 'ImageFile') {
-            this.showImageFile = false;
-            this.hosteldetail.ImageFileName = '';
-            this.hosteldetail.Dis_FileName = '';
-            this.hosteldetail.ImageFilePath = '';
-          }
+          this.ResetFiles(Type, false, '', '', '', false);
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
@@ -978,8 +965,17 @@ export class HostelDetailsComponent implements OnInit {
 
   //validation
 
-  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+  alphaOnly(event: any): boolean {  // Accept only alpha, not special characters 
     var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+  alphanumbersOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z0-9 ]+$");
     var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
     if (regex.test(str)) {
       return true;
