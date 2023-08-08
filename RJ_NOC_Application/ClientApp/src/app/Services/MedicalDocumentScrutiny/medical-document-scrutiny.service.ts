@@ -197,4 +197,17 @@ export class MedicalDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async DocumentScrutiny_ParamedicalHospitalDetail(CollageID: number, RoleID: number, ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/DocumentScrutiny_ParamedicalHospitalDetail/" + CollageID + "/" + RoleID + "/" + ApplyNOCID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }
