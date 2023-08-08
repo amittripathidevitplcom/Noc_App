@@ -112,9 +112,6 @@ export class DocumentScrutinyHospitalDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.HospitalData = data['Data'];
-          console.log('Deepak');
-          console.log(this.HospitalData);
-          console.log('Deepak');
         });
     }
     catch (Ex) {
