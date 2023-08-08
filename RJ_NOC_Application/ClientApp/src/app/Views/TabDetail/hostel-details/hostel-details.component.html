@@ -267,7 +267,7 @@
 
                   <div class="col-md-3 mb-2">
                     <label>No. of <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="hosteldetail.NoOf" (keyup)="onKeyChange($event)" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)" maxlength="5">
+                    <input type="text" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="hosteldetail.NoOf" (keyup)="onKeyChange()" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)" maxlength="5">
                     <div *ngIf="isHostelSubmitted&&form.txtNoOf.errors" class="text-danger">
                       <p *ngIf="form.txtNoOf.errors.required">This field is required .!</p>
                     </div>
@@ -279,7 +279,7 @@
                     </label>
 
                     <input type="text" class="form-control" id="txtWidth" name="txtWidth"
-                           [(ngModel)]="hosteldetail.Width" formControlName="txtWidth" min="0" (keypress)="numberOnly($event)" maxlength="5">
+                           [(ngModel)]="hosteldetail.Width" formControlName="txtWidth" min="0" (keypress)="numberOnly($event)" maxlength="10">
 
 
 
@@ -334,7 +334,7 @@
 
                   <div class="card-footer text-end">
                     <button class="btn btn-primary" id="btnAdd" type="button" (click)="btnAdd_Click()"><i class="fa fa-plus"></i>&nbsp;Add</button>
-                    <button type="button" class="btn btn-danger" (click)="ResetHospitalDetails()"> Reset</button>
+                    <button type="button" class="btn btn-danger" (click)="ResetHostelDetails()"> Reset</button>
                   </div>
                 </div>
                 <div class="row" *ngIf="request.HostelDetails.length>0">

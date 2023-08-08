@@ -94,7 +94,7 @@ export class HospitalDetailComponent implements OnInit {
   public IsRural_ParentNot_Owner: boolean = true;
   public IsShowSuperSpecialtyHospital: boolean = false;
 
-  public file: File = null;
+  public file: any = null;
   public showParentNotDocument: boolean = false;
   public ParentNotDocumentValidationMessage: string = '';
   public PollutionCertificateValidationMessage: string = '';
@@ -1055,6 +1055,7 @@ export class HospitalDetailComponent implements OnInit {
       this.request.CityTownVillage_Other = '';
       this.request.Pincode_Other = null;
       this.request.HospitalStatus = '';
+      this.ResetFileAndValidation('All', '', '', '', '', false);
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1229,6 +1230,7 @@ export class HospitalDetailComponent implements OnInit {
 
       const txtHospitalName = document.getElementById('txtHospitalRegNo')
       if (txtHospitalName) txtHospitalName.focus();
+      this.ResetFileAndValidation('All', '', '', '', '', false);
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1565,31 +1567,39 @@ export class HospitalDetailComponent implements OnInit {
     //event.target.value = '';
     try {
       this.loaderService.requestStarted();
-      if (type == 'ParentNotDocument') {
+      if (type == 'ParentNotDocument' || type == 'All') {
         this.showParentNotDocument = isShowFile;
         this.ParentNotDocumentValidationMessage = msg;
         this.requestNot.ParentNotDocument = name;
         this.requestNot.Dis_ParentNotDocument = dis_name;
         this.requestNot.ParentNotDocumentPath = path;
+        this.file = document.getElementById('fParentNotDocument');
+        this.file.value = '';
       }
-      else if (type == 'ConsentForm') {
+      if (type == 'ConsentForm' || type == 'All') {
         this.showParentNotConsentForm = isShowFile;
         this.ParentNotConsentFormValidationMessage = msg;
         this.requestNot.ConsentForm = name;
         this.requestNot.Dis_ConsentForm = dis_name;
         this.requestNot.ConsentFormPath = path;
+        this.file = document.getElementById('fConsentForm');
+        this.file.value = '';
       }
-      else if (type == 'PollutionCertificate') {
+      if (type == 'PollutionCertificate' || type == 'All') {
         this.PollutionCertificateValidationMessage = msg;
         this.request.PollutionCertificate = name;
         this.request.Dis_PollutionCertificate = dis_name;
         this.request.PollutionCertificatePath = path;
+        this.file = document.getElementById('fPollutionCertificate');
+        this.file.value = '';
       }
-      else if (type == 'NotPollutionCertificate') {
+      if (type == 'NotPollutionCertificate' || type == 'All') {
         this.NotPollutionCertificateValidationMessage = msg;
         this.requestNot.PollutionCertificate = name;
         this.requestNot.Dis_PollutionCertificate = dis_name;
         this.requestNot.PollutionCertificatePath = path;
+        this.file = document.getElementById('fPollutionCertificate');
+        this.file.value = '';
       }
 
     }
