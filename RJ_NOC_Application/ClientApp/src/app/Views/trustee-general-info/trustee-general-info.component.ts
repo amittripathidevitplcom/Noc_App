@@ -32,6 +32,9 @@ export class TrusteeGeneralInfoComponent implements OnInit {
   public SocietyRegistrationDocumentValidationMessage: string = '';
   public showSocietyLogoDocument: boolean = false;
   public SocietyLogoValidationMessage: string = '';
+  public ValidationMinDate: string = '';
+  public MaxDate: Date = new Date();
+  public IsNotMoreThen3Year: boolean = true;
 
   // save model
   request = new TrusteeGeneralInfoDataModel();
@@ -167,6 +170,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
       this.request.WomenMembersOfManagementCommitteeID = null;
       this.request.DateOfElectionOfManagementCommitteeID = null;
       this.request.OtherInstitutionRunByTheSocietyID = null;
+      this.ValidationMinDate = '';
       this.IsTrustee = false;
       this.IsTrusteeReset = false;
     }
@@ -242,6 +246,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
             if (this.request.SocietyLogo != '' || this.request.Dis_SocietyLogo != '' || this.request.SocietyLogoPath != '') {
               await this.ResetFileAndValidation('SocietyLogo', '', this.request.SocietyLogo, this.request.Dis_SocietyLogo, this.request.SocietyLogoPath, true);
             }
+            this.ElectionPresentManagementCommitteeDate_Change();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -272,6 +277,7 @@ export class TrusteeGeneralInfoComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           
           if (this.State == 0) {
+            debugger;
             this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
             if (this.LegalEntityDataModel != null) {
               this.request.LegalEntityID = this.LegalEntityDataModel.LegalEntityID;
@@ -338,23 +344,43 @@ export class TrusteeGeneralInfoComponent implements OnInit {
       this.loaderService.requestStarted();
       this.file = event.target.files[0];
       if (this.file) {
-        if (this.file.type === 'image/jpeg' ||
-          this.file.type === 'application/pdf' ||
-          this.file.type === 'image/jpg') {
-          //size validation
-          if (this.file.size > 2000000) {
-            this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
-            return
+        if (Type == 'SocietyRegistrationDocument') {
+          if (this.file.type === 'application/pdf') {
+            //size validation
+            if (this.file.size > 2000000) {
+              this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+              return
+            }
+            if (this.file.size < 100000) {
+              this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+              return
+            }
           }
-          if (this.file.size < 100000) {
-            this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+          else {// type validation
+            this.ResetFileAndValidation(Type, 'Select Only pdf file', '', '', '', false);
             return
           }
         }
-        else {// type validation
-          this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg/pdf file', '', '', '', false);
-          return
+        else if (Type == 'SocietyLogo') {
+          if (this.file.type === 'image/jpeg' ||
+            this.file.type === 'image/png' ||
+            this.file.type === 'image/jpg') {
+            //size validation
+            if (this.file.size > 2000000) {
+              this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+              return
+            }
+            if (this.file.size < 100000) {
+              this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+              return
+            }
+          }
+          else {// type validation
+            this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg/png file', '', '', '', false);
+            return
+          }
         }
+
         // upload to server folder
         this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           this.State = data['State'];
@@ -468,5 +494,36 @@ export class TrusteeGeneralInfoComponent implements OnInit {
       }, 200);
     }
   }
+  ElectionPresentManagementCommitteeDate_Change() {
+    debugger;
+    if (new Date(this.request.DateOfElectionOfPresentManagementCommittee) < new Date(this.LegalEntityDataModel.SocietyRegistrationDate)) {
+      this.ValidationMinDate = 'Invalid .!';
+      this.request.DateOfElectionOfPresentManagementCommittee = '';
+      this.request.DateOfElectionOfManagementCommitteeID = null;
+      return;
+    }
+    const currndate = new Date();
+    const salecteddate = new Date(this.request.DateOfElectionOfPresentManagementCommittee);
+    const threeYrsAddOnDate = new Date(salecteddate.setFullYear((salecteddate.getFullYear() + 3)));
+    console.log(threeYrsAddOnDate < currndate);
+    if (threeYrsAddOnDate < currndate) {
+      this.request.DateOfElectionOfManagementCommitteeID = 2;
+      this.IsNotMoreThen3Year = false;
+    }
+    else {
+      this.request.DateOfElectionOfManagementCommitteeID = 1;
+      this.IsNotMoreThen3Year = true;
 
+    }
+    this.ToggleElectionPresentManagementCommitteeDateValidation();
+  }
+  ToggleElectionPresentManagementCommitteeDateValidation() {
+    if (this.IsNotMoreThen3Year) {
+      this.TrusteegeneralinfoForm.get('txtDateOfElectionOfPresentManagementCommittee')?.setValidators([Validators.required]);
+    }
+    else {
+      this.TrusteegeneralinfoForm.get('txtDateOfElectionOfPresentManagementCommittee')?.clearValidators();
+    }
+    this.TrusteegeneralinfoForm.get('txtDateOfElectionOfPresentManagementCommittee')?.updateValueAndValidity();
+  }
 }
