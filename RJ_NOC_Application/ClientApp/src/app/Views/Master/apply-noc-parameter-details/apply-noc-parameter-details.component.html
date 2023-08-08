@@ -201,8 +201,9 @@
                           <thead>
                             <tr>
                               <th>Sr. No.</th>
-                              <th>Course</th>
-                              <th *ngIf="parameterDetail.ApplyNocFor=='TNOC Extension'">Subject</th>
+                              <th>Course </th>
+
+                              <th *ngIf="parameterDetail.ApplyNocFor=='TNOC Extension' || parameterDetail.ParameterCode=='DEC_NewCourse'  || parameterDetail.ParameterCode=='DEC_TNOCExtOfSubject'  || parameterDetail.ParameterCode=='DEC_NewSubject'  || parameterDetail.ParameterCode=='DEC_PNOCSubject'">Subject</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -211,7 +212,7 @@
                               <td>
                                 <label>{{applicationdetail.CourseName}}</label>
                               </td>
-                              <td *ngIf="parameterDetail.ApplyNocFor=='TNOC Extension'">
+                              <td *ngIf="parameterDetail.ApplyNocFor=='TNOC Extension' || parameterDetail.ParameterCode=='DEC_NewCourse'  || parameterDetail.ParameterCode=='DEC_TNOCExtOfSubject'  || parameterDetail.ParameterCode=='DEC_NewSubject'  || parameterDetail.ParameterCode=='DEC_PNOCSubject'">
                                 <label>{{applicationdetail.SubjectName}}</label>
                               </td>
                             </tr>
