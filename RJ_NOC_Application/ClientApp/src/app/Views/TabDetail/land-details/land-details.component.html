@@ -130,7 +130,7 @@
           <label>
             Land Conversion Order Date(DD/MM/YYYY) <!--<span style="color:red;">*</span>-->
           </label>
-          <input type="date" id="dtLandConversionOrderDate" name="dtLandConversionOrderDate" class="form-control" [(ngModel)]="request.LandConversionOrderDate" formControlName="dtLandConversionOrderDate" onkeypress="return false;" />
+          <input type="date" id="dtLandConversionOrderDate" name="dtLandConversionOrderDate" class="form-control" [(ngModel)]="request.LandConversionOrderDate" formControlName="dtLandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
           <p *ngIf="isSubmitted&&request.LandConversionOrderDate ==''" class="text-danger"><i aria-hidden="true"></i> {{LandConversionDateValidate}}</p>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowConversionOrderNo">
