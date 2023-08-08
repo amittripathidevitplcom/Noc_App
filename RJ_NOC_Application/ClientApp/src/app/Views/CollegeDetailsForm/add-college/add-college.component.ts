@@ -192,7 +192,7 @@ export class AddCollegeComponent implements OnInit {
     // sso id
     this.request.ParentSSOID = this.sSOLoginDataModel.SSOID;
     this.request.MappingSSOID = this.sSOLoginDataModel.SSOID;
-
+     
   }
 
   //keyPressNumbers(event: any) {
@@ -973,13 +973,18 @@ export class AddCollegeComponent implements OnInit {
         isValid = false;
       }
     }
-    if (this.request.ContactDetailsList.length == 0) {
-      this.toastr.error("Please add Contact Details");
-      isValid = false;
+
+    if (!this.CollegeDetailsForm.invalid) {
+      if (this.request.ContactDetailsList.length == 0) {
+        this.toastr.error("Please add Contact Details");
+        isValid = false;
+      }
     }
     if (!isValid) {
       return;
     }
+     
+
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;

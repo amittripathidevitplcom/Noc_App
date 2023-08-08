@@ -52,6 +52,7 @@ export class StaffDetailsComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   public AppointmentMinDate: Date = new Date;
+  public JoiningMinDate: Date = new Date;
   public isAddMore: boolean = false;
   public isUploadDocRequried: boolean = false;
   public FormValid: boolean = true;
@@ -64,6 +65,7 @@ export class StaffDetailsComponent implements OnInit {
   public file: any = '';
 
   public MaxDate: Date = new Date();
+  public DOBMinDate: Date = new Date();
   public StartYear: number = 0;
 
 
@@ -73,6 +75,11 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.DOBMinDate.setFullYear(this.DOBMinDate.getFullYear() - 76);
+    this.DOBMinDate = new Date(this.DOBMinDate.getFullYear(), this.DOBMinDate.getMonth(), this.DOBMinDate.getDate());
+
+    this.MaxDate.setFullYear(this.MaxDate.getFullYear() - 18);
+    this.MaxDate = new Date(this.MaxDate.getFullYear(), this.MaxDate.getMonth(), this.MaxDate.getDate());
 
     this.StaffDetailForm = this.formBuilder.group(
       {
@@ -145,7 +152,6 @@ export class StaffDetailsComponent implements OnInit {
     this.isUploadDocRequried = false;
     try {
       this.isAddMore = true;
-
       this.FormValid = this.ProfessionalQualification_Change();
 
       if (this.StaffEducationDetailForm.invalid) {
@@ -160,6 +166,12 @@ export class StaffDetailsComponent implements OnInit {
         this.toastr.warning('Invalid Percentage/Grade');
         return;
       }
+     
+      if (this.request.UploadDocument == '' || this.request.UploadDocument == undefined) {
+        this.isUploadDocRequried = true;
+        this.toastr.warning('Upload Educational Qualification Document');
+        return;
+      }
 
       this.loaderService.requestStarted();
       await this.request.EducationalQualificationDetails.push({
@@ -168,7 +180,7 @@ export class StaffDetailsComponent implements OnInit {
         StreamSubject: this.request.StreamSubject,
         UniversityBoardInstitutionName: this.request.UniversityBoardInstitutionName,
         PassingYearID: this.request.PassingYearID,
-        Marks: Number(this.request.Marks),
+        Marks: this.request.Marks,
         ProfessionalQualification: this.ProfessionalQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.ProfessionalQualificationID).QualificationName,
         PassingYear: this.request.PassingYearID.toString(),
         UploadDocument: this.request.UploadDocument,
@@ -283,6 +295,26 @@ export class StaffDetailsComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
+  alphaNumircDecimalOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[A-Za-z0-9.+]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
   }
 
   async GetCollegeWiseSubjectList(CollegeID: number) {
@@ -497,9 +529,19 @@ export class StaffDetailsComponent implements OnInit {
         this.isProfilePhoto = true;
         this.FormValid = false;
       }
-      if (this.request.ExperienceCertificate == '') {
-        this.isExperianceCertificate = true;
-        this.FormValid = false;
+      // check No of exp
+      const Joining = new Date(this.request.DateOfJoining);
+      const SYear = Joining.getFullYear();
+      const cYear = new Date().getFullYear();
+      if (Number(this.request.NumberofExperience) > Number(cYear - SYear)) {
+        this.toastr.warning('Your experience is more from the date of joining till today, so please fill it correctly.');
+        return;
+      }
+      if (Number(this.request.NumberofExperience) > 0) {
+        if (this.request.ExperienceCertificate == '') {
+          this.isExperianceCertificate = true;
+          this.FormValid = false;
+        }
       }
       if (this.request.PFDeduction == 'Yes') {
         if (this.request.UANNumber == '') {
@@ -535,6 +577,8 @@ export class StaffDetailsComponent implements OnInit {
           this.FormValid = false;
         }
       }
+     
+
       //if (this.request.EducationalQualificationDetails.length > 0) {
       //  var DocRequried = this.ProfessionalQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.ProfessionalQualificationID).IsDocCompulsory;
       //  if (DocRequried == 1) {
@@ -662,24 +706,16 @@ export class StaffDetailsComponent implements OnInit {
     }
   }
 
-  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
-    var regex = new RegExp("^[a-zA-Z ]+$");
-    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-    if (regex.test(str)) {
-      return true;
-    }
-    event.preventDefault();
-    return false;
-  }
-
   SetDateofAppointment() {
     try {
       this.loaderService.requestStarted();
       const DOB = new Date(this.request.DateOfBirth);
-      this.StartYear = DOB.getFullYear() + 18;
-      DOB.setFullYear(DOB.getFullYear() + 21);
+      this.StartYear = DOB.getFullYear()
+      DOB.setFullYear(DOB.getFullYear() + 18);
       this.AppointmentMinDate = new Date(DOB.getFullYear(), DOB.getMonth(), DOB.getDate());
-      const Maxyear = this.StartYear == 0 ? 0 : this.MaxDate.getFullYear();
+      this.JoiningMinDate = new Date(DOB.getFullYear(), DOB.getMonth(), DOB.getDate());
+      // Set for Passing Year
+      const Maxyear = this.StartYear == 0 ? 0 : this.AppointmentMinDate.getFullYear();
       this.FillYearData(Maxyear, this.StartYear);
     }
     catch (ex) { }
@@ -823,6 +859,7 @@ export class StaffDetailsComponent implements OnInit {
           this.isProfilePhoto = false;
           this.isExperianceCertificate = false;
           this.showProfilePhoto = this.request.ProfilePhoto != '' ? true : false;
+          
           this.showExperienceCertificate = this.request.ExperienceCertificate != '' ? true : false;
           //profile
           this.ResetFiles('ProfilePhoto', true, this.request.ProfilePhoto, this.request.ProfilePhotoPath, this.request.ProfilePhoto_Dis_FileName);
@@ -831,7 +868,7 @@ export class StaffDetailsComponent implements OnInit {
           //profile
           this.ResetFiles('PANCard', true, this.request.PANCard, this.request.PANCardPath, this.request.PANCard_Dis_FileName);
           //profile
-          this.ResetFiles('ExperienceCertificate', true, this.request.ExperienceCertificate, this.request.ExperienceCertificatePath, this.request.ExperienceCertificate_Dis_FileName);
+          this.ResetFiles('ExperienceCertificate', this.showExperienceCertificate, this.request.ExperienceCertificate, this.request.ExperienceCertificatePath, this.request.ExperienceCertificate_Dis_FileName);
           //profile
           //this.ResetFiles('UploadDocument', true, this.request.UploadDocument, this.request.UploadDocumentPath, this.request.UploadDocument_Dis_FileName);
           this.isDisabled = true;
@@ -843,6 +880,68 @@ export class StaffDetailsComponent implements OnInit {
     catch (Ex) {
       console.log(Ex);
     }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  SetNoOfExprience() {
+    try {
+      this.loaderService.requestStarted();
+      const Joining = new Date(this.request.DateOfJoining);
+      const SYear = Joining.getFullYear();
+      const cYear = new Date().getFullYear();
+      this.request.NumberofExperience = (cYear - SYear).toString();
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  
+
+  CheckDOBDate() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.request.DateOfBirth == '' || this.request.DateOfBirth == null) {
+        this.request.DateOfAppointment = ''
+        this.request.DateOfJoining = '';
+        this.toastr.warning('First select Date Of Birth(DOB)');
+      }
+      else {
+        //Set Joining Date
+        this.request.DateOfJoining = '';
+        const Appointment = new Date(this.request.DateOfAppointment);
+        Appointment.setFullYear(Appointment.getFullYear());
+        this.JoiningMinDate = new Date(Appointment.getFullYear(), Appointment.getMonth(), Appointment.getDate());
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  CheckAppointmentDate() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.request.DateOfAppointment == '' || this.request.DateOfAppointment == null || this.request.DateOfBirth == '' || this.request.DateOfBirth == null) {
+        this.request.DateOfJoining = '';
+        this.toastr.warning('First select Date Of Appointment');
+      }
+      else {
+        this.request.NumberofExperience = "0";
+        this.SetNoOfExprience()
+      }
+    }
+    catch (ex) { }
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();

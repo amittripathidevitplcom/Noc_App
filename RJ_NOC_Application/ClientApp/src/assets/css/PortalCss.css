@@ -936,14 +936,17 @@ td .btn-info, td .btn-success {
 
 
 .loader {
-  z-index: 9999;
-  background: rgba(255, 255, 255, 0.8);
-  left: 0px !important
+  z-index: 99;
+  background: rgb(255 255 255 / 24%);
+  left: 0px !important;
+ backdrop-filter: blur(2px);
 }
 
-  .loader img {
-    width: 50px;
-  }
+.contant { position:relative;}
+
+.loader img {
+  width: 50px;
+}
 
 .table-filter {
   min-width: 250px;

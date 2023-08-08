@@ -48,7 +48,7 @@
                       <td>Status</td>
                       <td>{{LegalEntityDataModel.SocietyPresentStatus}}</td>
                       <td>Date Of Registration</td>
-                      <td>{{LegalEntityDataModel.SocietyRegistrationDate}}</td>
+                      <td>{{LegalEntityDataModel.SocietyRegistrationDate | date:'dd-MM-yyyy'}}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -64,8 +64,8 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
-                <label for="fSocietyRegistrationDocument" class="form-label">Society Registration Document(Only PDF File)(File min. size 100KB and max. size 1MB)<span style="color:red;">*</span></label>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
+                <label for="fSocietyRegistrationDocument" class="form-label">Society Registration Document(Only PDF File)(min.size 100KB and max.size 1MB)<span style="color:red;">*</span></label>
                 <div class="d-flex">
                   <input type="file" class="form-control" id="fSocietyRegistrationDocument" style="display:none" formControlName="fSocietyRegistrationDocument" (change)="onFilechange($event,'SocietyRegistrationDocument')" #fSocietyRegistrationDocument />
                   <label class="btn upload" for="fSocietyRegistrationDocument">
@@ -81,7 +81,7 @@
                   <p><i aria-hidden="true"></i>{{SocietyRegistrationDocumentValidationMessage}}</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                 <label for="fSocietyLogo" class="form-label">Society Logo(Only PNG/JPEG/JPG File)(File min. size 50KB and max. size 1MB)<span style="color:red;">*</span></label>
                 <div class="d-flex">
                   <input type="file" class="form-control" id="fSocietyLogo" style="display:none" formControlName="fSocietyLogo" (change)="onFilechange($event,'SocietyLogo')" #fSocietyLogo />
@@ -98,9 +98,12 @@
                   <p><i aria-hidden="true"></i>{{SocietyLogoValidationMessage}}</p>
                 </div>
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                 <label>Date Of Election Of Present Management Committee(DD/MM/YYYY) <span style="color:red;">*</span></label>
-                <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtDateOfElectionOfPresentManagementCommittee" [(ngModel)]="request.DateOfElectionOfPresentManagementCommittee" formControlName="txtDateOfElectionOfPresentManagementCommittee" onkeypress="return false;" />
+                <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtDateOfElectionOfPresentManagementCommittee" [(ngModel)]="request.DateOfElectionOfPresentManagementCommittee" formControlName="txtDateOfElectionOfPresentManagementCommittee" max="{{MaxDate | date:'yyyy-MM-dd'}}" (change)="ElectionPresentManagementCommitteeDate_Change()" onkeypress="return false;" />
+                <div *ngIf="request.DateOfElectionOfPresentManagementCommittee == ''" class="text-danger">
+                  <p *ngIf="request.DateOfElectionOfPresentManagementCommittee == ''"> {{ValidationMinDate}}</p>
+                </div>
                 <div *ngIf="isSubmitted&&form.txtDateOfElectionOfPresentManagementCommittee.errors" class="text-danger">
                   <p *ngIf="form.txtDateOfElectionOfPresentManagementCommittee.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
                 </div>
@@ -126,11 +129,11 @@
                 <label class="form-label" style="margin-right:15px">Date Of Election Of Management Committee not more then 3 Years : <span style="color:red;">*</span></label>
                 <div class="clearfix"></div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" value="1" [value]="1" id="rbDateOfElectionOfManagementCommitteeIDYes" name="rbDateOfElectionOfManagementCommitteeID" [(ngModel)]="request.DateOfElectionOfManagementCommitteeID" formControlName="rbDateOfElectionOfManagementCommitteeID">
+                  <input class="form-check-input" type="radio" value="1" [value]="1" id="rbDateOfElectionOfManagementCommitteeIDYes" name="rbDateOfElectionOfManagementCommitteeID" [(ngModel)]="request.DateOfElectionOfManagementCommitteeID" formControlName="rbDateOfElectionOfManagementCommitteeID" [attr.disabled]="true">
                   <label class="form-check-label" for="rbDateOfElectionOfManagementCommitteeIDYes">Yes</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" value="2" [value]="2" id="rbDateOfElectionOfManagementCommitteeIDNo" name="rbDateOfElectionOfManagementCommitteeID" [(ngModel)]="request.DateOfElectionOfManagementCommitteeID" formControlName="rbDateOfElectionOfManagementCommitteeID">
+                  <input class="form-check-input" type="radio" value="2" [value]="2" id="rbDateOfElectionOfManagementCommitteeIDNo" name="rbDateOfElectionOfManagementCommitteeID" [(ngModel)]="request.DateOfElectionOfManagementCommitteeID" formControlName="rbDateOfElectionOfManagementCommitteeID" [attr.disabled]="true">
                   <label class="form-check-label" for="rbDateOfElectionOfManagementCommitteeIDNo">No</label>
                 </div>
                 <div *ngIf="isSubmitted&&form.rbDateOfElectionOfManagementCommitteeID.errors" class="text-danger">
@@ -205,7 +208,7 @@
                         {{idx+1}}
                       </td>
                       <td>
-                        {{row.DateOfElectionOfPresentManagementCommittee}}
+                        {{row.DateOfElectionOfPresentManagementCommittee | date:'dd-MM-yyyy'}}
                       </td>
                       <td>
                         {{row.WomenMembersOfManagementCommitteeID==1?'Yes':'No'}}

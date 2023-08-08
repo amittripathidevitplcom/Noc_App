@@ -67,8 +67,8 @@
                       </div>
                     </div>
                     <!--<div *ngIf="ProfileLogoValidationMessage!=''" class="text-danger">
-      <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
-    </div>-->
+                      <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
+                    </div>-->
                   </div>
                   <!---->
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
@@ -340,7 +340,7 @@
                       <p *ngIf="form.txtCityTownVillage.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
                   </div>
-                  
+
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtPincode" class="form-label">Pincode <span style="color:red;">*</span></label>
                     <input class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" maxlength="6" (keypress)="numberOnly($event)">
@@ -388,111 +388,111 @@
             </div>
           </div>
           <form [formGroup]="CollegeDetailsForm_ContactDetails" class="form-horizontal">
-             
-              <div class="card-header d-flex justify-content-between align-items-center">
-                <b>Contact Details <span style="color:red;">*</span></b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtCDNameOfPerson" class="form-label">Name Of Person <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtCDNameOfPerson" name="txtCDNameOfPerson" [(ngModel)]="request_ContactDetailsDataModel.NameOfPerson" formControlName="txtCDNameOfPerson" (keypress)="alphaOnly($event)">
-                    <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDNameOfPerson.errors" class="text-danger">
-                      <p *ngIf="form_ContactDetails.txtCDNameOfPerson.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="ddlCDDesignationID" class="form-label">Designation <span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlCDDesignationID" name="ddlCDDesignationID" [(ngModel)]="request_ContactDetailsDataModel.DesignationID" formControlName="ddlCDDesignationID">
-                      <option value="0">--Select--</option>
-                      <option *ngFor="let item of DesignationList" value="{{item.DesignationID}}">{{item.DesignationName}}</option>
-                    </select>
-                    <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.ddlCDDesignationID.errors" class="text-danger">
-                      <p *ngIf="!form_ContactDetails.ddlCDDesignationID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtCDMobileNumber" class="form-label">Mobile Number <span style="color:red;">*</span></label>
-                    <input class="form-control" id="txtCDMobileNumber" name="txtCDMobileNumber" [(ngModel)]="request_ContactDetailsDataModel.MobileNumber" formControlName="txtCDMobileNumber" maxlength="10" (keypress)="numberOnly($event)">
-                    <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDMobileNumber.errors" class="text-danger">
-                      <p *ngIf="form_ContactDetails.txtCDMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form_ContactDetails.txtCDMobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtCDEmailAddress" class="form-label">Email Address <span style="color:red;">*</span></label>
-                    <input type="email" class="form-control" id="txtCDEmailAddress" name="txtCDEmailAddress" [(ngModel)]="request_ContactDetailsDataModel.EmailAddress" formControlName="txtCDEmailAddress">
-                    <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDEmailAddress.errors" class="text-danger">
-                      <p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <!--<p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.email"><i aria-hidden="true"></i> Email address is not valid .!</p>-->
-                      <p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.pattern"><i aria-hidden="true"></i> Invalid Email.!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3 text-end">
-                    <button type="button" class="btn btn-primary" (click)="AddContectDetail()"><i class="fa fa-plus"></i> Add</button>
+
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <b>Contact Details <span style="color:red;">*</span></b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtCDNameOfPerson" class="form-label">Name Of Person <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtCDNameOfPerson" name="txtCDNameOfPerson" [(ngModel)]="request_ContactDetailsDataModel.NameOfPerson" formControlName="txtCDNameOfPerson" (keypress)="alphaOnly($event)">
+                  <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDNameOfPerson.errors" class="text-danger">
+                    <p *ngIf="form_ContactDetails.txtCDNameOfPerson.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
                 </div>
-                <div class="row" *ngIf="request.ContactDetailsList.length>0">
-                  <div class="col-md-12">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="ddlCDDesignationID" class="form-label">Designation <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlCDDesignationID" name="ddlCDDesignationID" [(ngModel)]="request_ContactDetailsDataModel.DesignationID" formControlName="ddlCDDesignationID">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of DesignationList" value="{{item.DesignationID}}">{{item.DesignationName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.ddlCDDesignationID.errors" class="text-danger">
+                    <p *ngIf="!form_ContactDetails.ddlCDDesignationID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtCDMobileNumber" class="form-label">Mobile Number <span style="color:red;">*</span></label>
+                  <input class="form-control" id="txtCDMobileNumber" name="txtCDMobileNumber" [(ngModel)]="request_ContactDetailsDataModel.MobileNumber" formControlName="txtCDMobileNumber" maxlength="10" (keypress)="numberOnly($event)">
+                  <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDMobileNumber.errors" class="text-danger">
+                    <p *ngIf="form_ContactDetails.txtCDMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form_ContactDetails.txtCDMobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtCDEmailAddress" class="form-label">Email Address <span style="color:red;">*</span></label>
+                  <input type="email" class="form-control" id="txtCDEmailAddress" name="txtCDEmailAddress" [(ngModel)]="request_ContactDetailsDataModel.EmailAddress" formControlName="txtCDEmailAddress">
+                  <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDEmailAddress.errors" class="text-danger">
+                    <p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <!--<p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.email"><i aria-hidden="true"></i> Email address is not valid .!</p>-->
+                    <p *ngIf="form_ContactDetails.txtCDEmailAddress.errors.pattern"><i aria-hidden="true"></i> Invalid Email.!</p>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3 text-end">
+                  <button type="button" class="btn btn-primary" (click)="AddContectDetail()"><i class="fa fa-plus"></i> Add</button>
+                </div>
+              </div>
+              <div class="row" *ngIf="request.ContactDetailsList.length>0">
+                <div class="col-md-12">
 
-                    <div class="table-responsive">
-                      <table class="table table-bordered">
-                        <thead>
-                          <tr>
-                            <th>
-                              Sr.No.
-                            </th>
-                            <th>
-                              Name Of Person
-                            </th>
-                            <th>
-                              Designation
-                            </th>
-                            <th>
-                              Mobile Number
-                            </th>
-                            <th>
-                              Email Address
-                            </th>
-                            <th>
-                              Action
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let row of request.ContactDetailsList;let idx=index;">
-                            <td>
-                              {{idx+1}}
-                            </td>
-                            <td>
-                              {{row.NameOfPerson}}
-                            </td>
-                            <td>
-                              {{row.DesignationName}}
-                            </td>
-                            <td>
-                              {{row.MobileNumber}}
-                            </td>
-                            <td>
-                              {{row.EmailAddress}}
-                            </td>
-                            <td>
-                              <div class="d-flex">
-                                <button type="button" class="btn btn-danger" (click)="DelContectDetail(row)"><i class="fa fa-trash-o"></i></button>
-                              </div>
-                            </td>
-                          </tr>
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>
+                            Sr.No.
+                          </th>
+                          <th>
+                            Name Of Person
+                          </th>
+                          <th>
+                            Designation
+                          </th>
+                          <th>
+                            Mobile Number
+                          </th>
+                          <th>
+                            Email Address
+                          </th>
+                          <th>
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of request.ContactDetailsList;let idx=index;">
+                          <td>
+                            {{idx+1}}
+                          </td>
+                          <td>
+                            {{row.NameOfPerson}}
+                          </td>
+                          <td>
+                            {{row.DesignationName}}
+                          </td>
+                          <td>
+                            {{row.MobileNumber}}
+                          </td>
+                          <td>
+                            {{row.EmailAddress}}
+                          </td>
+                          <td>
+                            <div class="d-flex">
+                              <button type="button" class="btn btn-danger" (click)="DelContectDetail(row)"><i class="fa fa-trash-o"></i></button>
+                            </div>
+                          </td>
+                        </tr>
 
-                          <tr *ngIf="request.ContactDetailsList.length<=0">
-                            <td colspan="12" style="color:red">No Data Found.!</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                        <tr *ngIf="request.ContactDetailsList.length<=0">
+                          <td colspan="12" style="color:red">No Data Found.!</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
-           
+            </div>
+
           </form>
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -524,7 +524,7 @@
               </div>
             </div>
           </div>
-          <form [formGroup]="CollegeDetailsForm_NearestGovernmentHospitals" class="form-horizontal"  >
+          <form [formGroup]="CollegeDetailsForm_NearestGovernmentHospitals" class="form-horizontal">
             <div class="card" *ngIf="request.DepartmentID==6">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <b>10 government hospitals nearest to the institution <span style="color:red;">*</span></b>
