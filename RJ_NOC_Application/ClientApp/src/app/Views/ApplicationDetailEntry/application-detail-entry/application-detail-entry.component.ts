@@ -258,7 +258,6 @@ export class ApplicationDetailEntryComponent implements OnInit {
         }
       }
     }
-    this.IsShowDraftFinalSubmit = true;
   }
 
 }
