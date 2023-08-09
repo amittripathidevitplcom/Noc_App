@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { bottom } from '@popperjs/core';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
@@ -143,17 +144,17 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
   }
 
-
+  isCheck30Female: boolean = false;
   async DraftFinalSubmit(IsDraftSubmited: any) {
 
     let Femalepre = 0;
     this.isSubmitted = true;
     this.loaderService.requestStarted();
     this.isLoading = true;
-
+    this.isCheck30Female = false;
     try {
       //Check 30 Female Member Exit or Not
-
+     
       await this.commonMasterService.Check30Female(this.SelectedCollageID)
         .then((data: any) => {
           this.State = data['State'];
@@ -166,6 +167,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
             Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
             if (Femalepre < 30) {
               this.toastr.error("Society in Female Member is not valid (30%)")
+              this.isCheck30Female = true;
               return;
             }
           }
@@ -173,26 +175,27 @@ export class ApplicationDetailEntryComponent implements OnInit {
             this.toastr.error(this.ErrorMessage)
           }
         })
+      if (this.isCheck30Female == false) {
+        await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+          .then((data: any) => {
 
-      await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
-        .then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            console.log(this.State);
+            if (!this.State) {
+              this.toastr.success(this.SuccessMessage)
 
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
-          if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
+              setTimeout(() => {
+                this.routers.navigate(['/draftapplicationlist']);
+              }, 500);
 
-            setTimeout(() => {
-              this.routers.navigate(['/draftapplicationlist']);
-            }, 500);
-
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        })
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -258,7 +261,6 @@ export class ApplicationDetailEntryComponent implements OnInit {
         }
       }
     }
-    this.IsShowDraftFinalSubmit = true;
   }
 
 }

@@ -201,43 +201,54 @@ export class FarmLandDetailsComponent implements OnInit {
   }
 
   ValidateUploadImage(event: any, Type: string) {
-    this.loaderService.requestStarted();
-    if (event.target.files && event.target.files[0]) {
-      this.file = event.target.files[0];
-      if (this.file.type === 'application/pdf' || this.file.type === 'image/jpeg' || this.file.type === 'image/jpg') {
-        if (event.target.files[0].size > 2000000) {
-          this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', true);
+    try {
+      this.loaderService.requestStarted();
+      if (event.target.files && event.target.files[0]) {
+        this.file = event.target.files[0];
+        if (this.file.type === 'application/pdf' || this.file.type === 'image/jpeg' || this.file.type === 'image/jpg') {
+          if (event.target.files[0].size > 2000000) {
+            this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', true);
+            return
+          }
+          if (event.target.files[0].size < 100000) {
+            this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', true);
+            return
+          }
+        }
+        else {
+          this.ResetFileAndValidation(Type, 'Select Only pdf/jpeg/jpg File', '', '', '', true);
           return
         }
-        if (event.target.files[0].size < 100000) {
-          this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', true);
-          return
-        }
+
+        this.file = event.target.files[0];
+        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], false);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
       }
       else {
-        this.ResetFileAndValidation(Type, 'Select Only pdf/jpeg/jpg File', '', '', '', true);
-        return
+        this.ResetFileAndValidation(Type, 'Select pdf/jpeg/jpg File', '', '', '', true);
       }
 
-      this.file = event.target.files[0];
-      this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], false);
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
     }
-    else {
-      this.ResetFileAndValidation(Type, 'Select pdf/jpeg/jpg File', '', '', '', true);
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
 
   }
