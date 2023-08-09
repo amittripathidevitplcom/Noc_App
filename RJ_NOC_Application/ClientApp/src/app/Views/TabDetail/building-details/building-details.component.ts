@@ -90,7 +90,7 @@ export class BuildingDetailsComponent implements OnInit {
   public isValidOtherFixedAssetsAndSecuritiesFileUpload: boolean = false;
   public isValidGATEYearBalanceSecretFileUpload: boolean = false;
   public isValidOtherFinancialResourcesFileUpload: boolean = false;
-  public SampleDocument: string = GlobalConstants.ImagePathURL +"BuildingDetailsAnn13.pdf";
+  public SampleDocument: string = '';
 
   @ViewChild('fileUploadImage')
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
@@ -172,6 +172,10 @@ export class BuildingDetailsComponent implements OnInit {
 
     this.buildingdetails.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+    if (this.SelectedDepartmentID == 3)
+      this.SampleDocument = GlobalConstants.ImagePathURL + "BuildingDetailsAnn13.pdf";
+    else
+      this.SampleDocument = '';
 
     this.buildingdetails.lstBuildingDocDetails = [];
     this.GetBuildingTypeCheck();
@@ -1084,26 +1088,26 @@ export class BuildingDetailsComponent implements OnInit {
     if (Type == 'OwnBuildingFileUpload') {
       this.isValidOwnBuildingFileUpload = isShow;
       this.buildingdetails.OwnBuildingFileUpload = fileName;
-      this.buildingdetails.Dis_OwnBuildingFileUpload = filePath;
-      this.buildingdetails.OwnBuildingFileUploadPath = dis_Name;
+      this.buildingdetails.Dis_OwnBuildingFileUpload = dis_Name;
+      this.buildingdetails.OwnBuildingFileUploadPath = filePath;
     }
     else if (Type == 'RentAgreementFileUpload') {
       this.isValidRentAgreementFileUpload = isShow;
       this.buildingdetails.RentAgreementFileUpload = fileName;
-      this.buildingdetails.Dis_RentAgreementFileUpload = filePath;
-      this.buildingdetails.RentAgreementFileUploadPath = dis_Name;
+      this.buildingdetails.Dis_RentAgreementFileUpload = dis_Name;
+      this.buildingdetails.RentAgreementFileUploadPath = filePath;
     }
     else if (Type == 'FireNOCFileUpload') {
       this.isValidFireNOCFileUpload = isShow;
       this.buildingdetails.FireNOCFileUpload = fileName;
-      this.buildingdetails.Dis_FireNOCFileUpload = filePath;
-      this.buildingdetails.FireNOCFileUploadPath = dis_Name;
+      this.buildingdetails.Dis_FireNOCFileUpload = dis_Name;
+      this.buildingdetails.FireNOCFileUploadPath = filePath;
     }
     else if (Type == 'PWDNOCFileUpload') {
       this.isValidPWDNOCFileUpload = isShow;
       this.buildingdetails.PWDNOCFileUpload = fileName;
-      this.buildingdetails.Dis_PWDNOCFileUpload = filePath;
-      this.buildingdetails.PWDNOCFileUploadPath = dis_Name;
+      this.buildingdetails.Dis_PWDNOCFileUpload = dis_Name;
+      this.buildingdetails.PWDNOCFileUploadPath = filePath;
     }
   }
 

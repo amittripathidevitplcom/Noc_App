@@ -853,7 +853,7 @@ export class StaffDetailsComponent implements OnInit {
           this.request.Marks = '';
           this.GetCollegeWiseSubjectList(this.SelectedCollageID);
           this.OnChangeHighestQualification();
-          this.SetDateofAppointment();
+          //this.SetDateofAppointment();
           this.showPANCard = true;
           this.showAadhaarCard = true;
           this.isProfilePhoto = false;
@@ -873,6 +873,7 @@ export class StaffDetailsComponent implements OnInit {
           //this.ResetFiles('UploadDocument', true, this.request.UploadDocument, this.request.UploadDocumentPath, this.request.UploadDocument_Dis_FileName);
           this.isDisabled = true;
           this.SetDateofAppointment();
+          this.setPassingYear();
           const btnAdd = document.getElementById('btnAdd')
           if (btnAdd) { btnAdd.innerHTML = "Update"; }
         }, error => console.error(error));
@@ -902,8 +903,6 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
-  
 
   CheckDOBDate() {
     try {
@@ -939,6 +938,7 @@ export class StaffDetailsComponent implements OnInit {
       else {
         this.request.NumberofExperience = "0";
         this.SetNoOfExprience()
+        this.setPassingYear();
       }
     }
     catch (ex) { }
@@ -947,5 +947,14 @@ export class StaffDetailsComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+  setPassingYear() {
+    const DOB = new Date(this.request.DateOfBirth);
+    this.StartYear = DOB.getFullYear()
+    const DDAppointment = new Date(this.request.DateOfAppointment);
+    // Set for Passing Year
+    const Maxyear = this.StartYear == 0 ? 0 : DDAppointment.getFullYear();
+    this.FillYearData(Maxyear, this.StartYear);
   }
 }

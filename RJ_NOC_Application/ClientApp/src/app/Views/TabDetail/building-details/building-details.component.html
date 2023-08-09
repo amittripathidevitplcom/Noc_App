@@ -190,7 +190,7 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('OwnBuildingFileUpload')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
-                    <a style="color: #3458c8;" target="_blank" href="{{SampleDocument}}">(Download Annexure-13)</a>
+                    <a *ngIf="SampleDocument!=''" style="color: #3458c8;" target="_blank" href="{{SampleDocument}}">(Download Annexure-13)</a>
                     <p *ngIf="isSubmitted&&buildingdetails.OwnBuildingFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
                     <div *ngIf="isValidOwnBuildingFileUpload" class="text-danger">
                       <p *ngIf="isValidOwnBuildingFileUpload"> {{ImageValidationMessage}}</p>
@@ -581,7 +581,7 @@
                       <a target="_blank" href="{{item.RentAgreementFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
                     </td>
                     <td *ngIf="item.BuildingTypeName == 'Owned'">
-                     N/A
+                      N/A
                     </td>
                     <td><a target="_blank" href="{{item.OwnBuildingFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td><a target="_blank" href="{{item.FireNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
