@@ -132,6 +132,7 @@ export class ApplyNocApplicationParameterDataModel {
   public ApplyNocParameterID: number = 0;
   public ApplyNocFor: string = '';
   public FeeAmount: number = 0;
+  public ParameterCode: string = '';
   public ApplyNocApplicationDetailList: ApplyNocApplicationDetailDataModel[] = [];
 }
 export class ApplyNocApplicationDetailDataModel {

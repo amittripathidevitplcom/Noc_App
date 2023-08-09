@@ -75,6 +75,9 @@
                 <div *ngIf="isGetRegistration&&ORform.ddlRegistrationDistrict.errors" class="text-danger">
                   <p *ngIf="!ORform.ddlRegistrationDistrict.errors.DropdownValidators"> This field is required .!</p>
                 </div>
+                <div *ngIf="isOtherStateNewRegistration&&RegistrationDistrict<=0" class="text-danger">
+                  <p *ngIf="isOtherStateNewRegistration&&RegistrationDistrict<=0"> This field is required .!</p>
+                </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsSocietyRegistration">
                 <label for="DepartmentName" class="form-label">Registration No. <span style="color:red">*</span></label>
@@ -92,7 +95,7 @@
                 Coop/2020/Jaipur/100235
               </div>
               <div class="col-lg-3 col-md-3  col-sm-6 col-12 mb-3" style="padding-top:28px;" *ngIf="!IsSocietyRegistration">
-                <button type="button" class="btn btn-primary">Click for New Registration</button>
+                <button type="button" class="btn btn-primary" (click)="OtherStateNewRegistration()">Click for New Registration</button>
               </div>
 
             </div>
@@ -320,7 +323,7 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for=""> Registered Address <span style="color:red">*</span></label>
-                <input class="form-control" id="txtSocietyRegisteredAddress" [(ngModel)]="request.SocietyRegisteredAddress" formControlName="txtSocietyRegisteredAddress" />
+                <input class="form-control" id="txtSocietyRegisteredAddress" [(ngModel)]="request.SocietyRegisteredAddress" formControlName="txtSocietyRegisteredAddress" (keypress)="alphanumbersSpaceOnly($event)"/>
                 <div *ngIf="isSubmitted&&form.txtSocietyRegisteredAddress.errors" class="text-danger">
                   <p *ngIf="form.txtSocietyRegisteredAddress.errors.required">  This field is required .!</p>
                 </div>
@@ -388,7 +391,7 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for=""> PAN Number <span style="color:red">*</span></label>
-                <input class="form-control" id="txtSocietyPANNumber" [(ngModel)]="request.SocietyPANNumber" formControlName="txtSocietyPANNumber" maxlength="10" (ngModelChange)="request.SocietyPANNumber = $event.toUpperCase()" />
+                <input class="form-control" id="txtSocietyPANNumber" [(ngModel)]="request.SocietyPANNumber" formControlName="txtSocietyPANNumber" maxlength="10" (ngModelChange)="request.SocietyPANNumber = $event.toUpperCase()" (keypress)="alphanumbersOnly($event)" />
                 <div *ngIf="isSubmitted&&form.txtSocietyPANNumber.errors" class="text-danger">
                   <p *ngIf="form.txtSocietyPANNumber.errors.required">This field is required .!</p>
                   <p *ngIf="form.txtSocietyPANNumber.errors.pattern || form.txtSocietyPANNumber.errors.maxlength || form.txtSocietyPANNumber.errors.minlength"> Invalid PAN No.</p>
