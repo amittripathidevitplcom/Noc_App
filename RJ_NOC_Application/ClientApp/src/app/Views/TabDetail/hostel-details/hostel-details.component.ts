@@ -311,7 +311,7 @@ export class HostelDetailsComponent implements OnInit {
 
   async ddlCourse_change($event: any, SeletedCourseID: any) {
     this.hosteldetail.CourseID = SeletedCourseID;
-    this.hosteldetail.Width = null;
+    //this.hosteldetail.Width = null;
     this.hosteldetail.Length = 0;
 
     this.WidthMin = null;
@@ -370,6 +370,7 @@ export class HostelDetailsComponent implements OnInit {
       //  this.isFormValid = false;
       //}
 
+      await this.onKeyChange();
       if (Number(this.hosteldetail.Width) < this.WidthMin) {
         this.CssClass_TextDangerWidth = 'text-danger';
         this.isFormValid = false;
@@ -407,7 +408,7 @@ export class HostelDetailsComponent implements OnInit {
         });
       }
       //console.log(this.request.HostelDetails);
-      this.ResetHospitalDetails();
+      this.ResetHostelDetails();
     }
     catch (Ex) {
       console.log(Ex);
@@ -419,7 +420,7 @@ export class HostelDetailsComponent implements OnInit {
     }
   }
 
-  ResetHospitalDetails() {
+  ResetHostelDetails() {
     try {
       this.loaderService.requestStarted();
       this.hosteldetail = new HostelDetailsDataModel_Hostel();
@@ -679,8 +680,10 @@ export class HostelDetailsComponent implements OnInit {
 
   async EditHostelBlockDetail(Item: any, idx: number) {
     this.CurrentIndex = idx;
+
     this.isDisabledGrid = true;
     this.hosteldetail = Item;
+    await this.ddlCourse_change(null, this.hosteldetail.CourseID)
     this.hosteldetail.ImageFilePath = this.hosteldetail.ImageFilePath;
     this.hosteldetail.ImageFileName = this.hosteldetail.ImageFileName;
     this.hosteldetail.Dis_FileName = this.hosteldetail.Dis_FileName;
@@ -986,8 +989,8 @@ export class HostelDetailsComponent implements OnInit {
   }
 
 
-  onKeyChange(searchValue: any): void {
-    this.WidthMin = searchValue.target.value * this.DefaultWidthMin;
+  async onKeyChange() {
+    this.WidthMin = this.hosteldetail.NoOf * this.DefaultWidthMin;
     //this.LengthMin = searchValue.target.value * this.DefaultLengthMin;
     // console.log(searchValue.target.value);
   }

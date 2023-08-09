@@ -298,7 +298,9 @@
                             <td><a target="_blank" href="{{row.AadhaarCardPath}}"><i class="fa fa-eye"></i></a></td>
                             <td><a target="_blank" href="{{row.SignatureDocPath}}"><i class="fa fa-eye"></i></a></td>
                             <td><a target="_blank" href="{{row.ProfilePhotoPath}}"><i class="fa fa-eye"></i></a></td>
-                            <td><a target="_blank" href="{{row.AuthorizedDocumentPath}}"><i class="fa fa-eye"></i></a></td>
+                            <td><a *ngIf="row.AuthorizedDocumentPath!='N/A'" target="_blank" href="{{row.AuthorizedDocumentPath}}"><i class="fa fa-eye"></i></a>
+                                <label *ngIf="row.AuthorizedDocumentPath=='N/A'">{{row.AuthorizedDocumentPath}}</label>
+                            </td>
                             <td>{{row.S_IsPrimary}}</td>
                             <td>{{row.S_IsAuthorized}}</td>
                             <td>

@@ -348,7 +348,6 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    console.log(this.APIUrl_CommonMaster + "/GetUniversityByDepartmentId/" + departmentId + "/" + IsLaw);
     return await this.http.get(this.APIUrl_CommonMaster + "/GetUniversityByDepartmentId/" + departmentId + "/" + IsLaw)
       .pipe(
         catchError(this.handleErrorObservable)
