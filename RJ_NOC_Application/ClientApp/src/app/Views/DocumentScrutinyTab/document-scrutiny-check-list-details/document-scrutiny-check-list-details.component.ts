@@ -147,7 +147,6 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   public NextUserID: number = 0;
   public ActionID: number = 0;
   public NextActionID: number = 0;
-  public TotalDocumentScrutinyTab: number = 0;
 
 
 
@@ -182,7 +181,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetWorkFlowActionListByRole();
     this.NextGetWorkFlowActionListByRole();
     this.GetCollageDetails();
-    this.CheckDocumentScrutinyTabsData();
+    this.CheckTabsEntry();
   }
 
 
@@ -606,7 +605,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
-      if (this.ActionID <=0) {
+      if (this.ActionID <= 0) {
         this.isActionTypeValid = true;
         this.isFormvalid = false;
       }
@@ -634,16 +633,44 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
         this.NextUserID = 0;
         this.NextActionID = 0;
       }
-      if (this.CollegeType_IsExisting) {
-        if (this.TotalDocumentScrutinyTab < 15) {
-          this.isFormvalid = false;
-          this.toastr.warning('Please do document scrutiny all tabs');
+      if (this.SelectedDepartmentID == 6) {
+        if (this.CollegeType_IsExisting) {
+          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
+            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HospitalDetails'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {
+            this.isFormvalid = false;
+            this.toastr.warning('Please do document scrutiny all tabs');
+          }
+        }
+        else {
+          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HospitalDetails'] <= 0
+            || this.CheckTabsEntryData['HostelDetails'] <= 0) {
+            this.isFormvalid = false;
+            this.toastr.warning('Please do document scrutiny all tabs');
+          }
         }
       }
-      else {
-        if (this.TotalDocumentScrutinyTab < 13) {
-          this.isFormvalid = false;
-          this.toastr.warning('Please do document scrutiny all tabs');
+      if (this.SelectedDepartmentID == 9) {
+        if (this.CollegeType_IsExisting) {
+          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
+            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ParamedicalHospitalDetails'] <= 0) {
+            this.isFormvalid = false;
+            this.toastr.warning('Please do document scrutiny all tabs');
+          }
+        }
+        else {
+          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ParamedicalHospitalDetails'] <= 0
+          ) {
+            this.isFormvalid = false;
+            this.toastr.warning('Please do document scrutiny all tabs');
+          }
         }
       }
       if (!this.isFormvalid) {
@@ -737,7 +764,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.NextWorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID,"Next")
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next")
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -764,7 +791,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID,"Current")
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID, "Current")
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -826,13 +853,14 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     }
   }
 
-  async CheckDocumentScrutinyTabsData() {
+  public CheckTabsEntryData: any = [];
+  async CheckTabsEntry() {
     try {
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.TotalDocumentScrutinyTab=data['Data'];
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
