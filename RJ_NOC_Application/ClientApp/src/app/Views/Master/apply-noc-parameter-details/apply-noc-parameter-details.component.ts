@@ -109,6 +109,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
           // data
           if (this.State == 0) {
             this.ApplyNocApplicationDetail = data['Data'];
+            console.log(this.ApplyNocApplicationDetail);
             // model popup
             this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocview-title', backdrop: 'static' }).result.then((result) => {
               this.closeResult = `Closed with: ${result}`;
@@ -248,6 +249,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
 
   async MakeEmitraPayment_click(item: any) {
     try {
+
       this.loaderService.requestStarted();
       this.nocPaymentComponent.emitraRequest.Amount = item.ApplicationFeeAmount;
       this.nocPaymentComponent.emitraRequest.AppRequestID = item.ApplyNocApplicationID;
