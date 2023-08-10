@@ -221,6 +221,7 @@ export class AddCoursesComponent implements OnInit {
 
   async ddlCourse_change($event: any, SeletedCourseID: any) {
     this.request.CourseID = SeletedCourseID;
+    this.request.SelectedSubjectDetails = [];
     try {
       this.loaderService.requestStarted();
       if (this.request.DepartmentID == EnumDepartment.CollegeEducation)//College Education
