@@ -17,29 +17,6 @@
 <div class="container-fluid mainContents">
   <div class="row">
     <div class="col-md-12">
-
-      <!--<mat-stepper>
-        <mat-step label="Step 1" state="chat">
-          <p>Put down your phones.</p>
-          <div>
-            <button mat-button matStepperNext>Next</button>
-          </div>
-        </mat-step>
-        <mat-step label="Step 2" state="chat">
-          <p>Socialize with each other.</p>
-          <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-          </div>
-        </mat-step>
-        <mat-step label="Step 3" state="chat">
-          <p>You're welcome.</p>
-        </mat-step>
-
-
-      </mat-stepper>-->
-
-
       <mat-stepper orientation="vertical">
         <mat-step state="chat">
           <ng-template matStepLabel>Legal Entity</ng-template>
@@ -62,12 +39,6 @@
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
-        <!--<mat-step state="chat">
-          <ng-template matStepLabel>Trustee General Info</ng-template>
-          <app-preview-trustee-general-info></app-preview-trustee-general-info>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>-->
         <mat-step state="chat">
           <ng-template matStepLabel>Land Details</ng-template>
           <app-preview-land-detail></app-preview-land-detail>
@@ -144,6 +115,13 @@
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
+        <mat-step state="chat" *ngIf="SelectedDepartmentID==9">
+          <ng-template matStepLabel>Hospital Details</ng-template>
+          <app-preview-paramedical-hospital-detail></app-preview-paramedical-hospital-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
         <mat-step state="chat" *ngIf="SelectedDepartmentID==6">
           <ng-template matStepLabel>Hostel Details</ng-template>
           <app-preview-hostel-details></app-preview-hostel-details>
@@ -151,10 +129,11 @@
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat">
-          <ng-template matStepLabel>Payment Details</ng-template>
-          <app-preview-payment-detail></app-preview-payment-detail>
+        <mat-step state="chat" *ngIf="SelectedDepartmentID==2">
+          <ng-template matStepLabel>Veterinary Hospital</ng-template>
+          <app-preview-veterinary-hospital></app-preview-veterinary-hospital>
           <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
         </mat-step>
 
         <mat-step state="chat" *ngIf="SelectedDepartmentID==1">
@@ -162,6 +141,20 @@
           <app-preview-farm-land-details></app-preview-farm-land-details>
           <button mat-button matStepperPrevious>Back</button>
         </mat-step>
+
+        <!--<mat-step state="chat" *ngIf="SelectedDepartmentID==3">
+          <ng-template matStepLabel>Class Wise Statistics</ng-template>
+          <app-preview-farm-land-details></app-preview-farm-land-details>
+          <button mat-button matStepperPrevious>Back</button>
+        </mat-step>-->
+
+        <mat-step state="chat">
+          <ng-template matStepLabel>Payment Details</ng-template>
+          <app-preview-payment-detail></app-preview-payment-detail>
+          <button mat-button matStepperPrevious>Back</button>
+        </mat-step>
+
+
 
         <!-- Icon overrides. -->
         <ng-template matStepperIcon="chat">

@@ -35,12 +35,15 @@
               Required Document
               <app-preview-required-document></app-preview-required-document>
             </mat-tab>
-            Room Details
-            <mat-tab label="Room Details">
-              Room Details
+            <mat-tab label="Class Room Details">
+              Class Room Details
               <app-preview-room-detail></app-preview-room-detail>
             </mat-tab>
-            <mat-tab label="Other Information">
+            <mat-tab label="Clinical Details" *ngIf="SelectedDepartmentID==6">
+              Clinical Details
+              <app-preview-other-information></app-preview-other-information>
+            </mat-tab>
+            <mat-tab label="Other Information" *ngIf="SelectedDepartmentID !=6">
               Other Information
               <app-preview-other-information></app-preview-other-information>
             </mat-tab>
@@ -67,13 +70,17 @@
               Other Document
               <app-preview-other-document></app-preview-other-document>
             </mat-tab>
-            <mat-tab label="Hospital Details">
+            <mat-tab label="Hospital Details" *ngIf="SelectedDepartmentID==6">
               Hospital Details
               <app-preview-hospital-detail></app-preview-hospital-detail>
             </mat-tab>
-            <mat-tab label="Hostel Details">
+            <mat-tab label="Hostel Details" *ngIf="SelectedDepartmentID==6">
               Hostel Details
               <app-preview-hostel-details></app-preview-hostel-details>
+            </mat-tab>
+            <mat-tab label="Veterinary Hospital" *ngIf="SelectedDepartmentID==2">
+              <!--Veterinary Hospital-->
+              <app-preview-veterinary-hospital></app-preview-veterinary-hospital>
             </mat-tab>
 
             <mat-tab label="Scurteny Comittee">
@@ -106,7 +113,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12 text-end">
-                      <button class="btn btn-primary" type="button" >Submit</button>
+                      <button class="btn btn-primary" type="button">Submit</button>
                     </div>
                   </div>
                 </div>

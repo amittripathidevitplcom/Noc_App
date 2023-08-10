@@ -21,16 +21,6 @@
         <div class="col-md-12">
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
-
-
-            <!--<mat-tab label="Land Information" class="tabs-Link LandInformation">-->
-            <!--Land Information-->
-            <!--<mat-tab>
-              <ng-template mat-tab-label>
-                <span [ngClass]="{'color-red'}">Security</span>
-              </ng-template>
-              <app-land-details></app-land-details>
-            </mat-tab>-->
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class=" text-success" aria-hidden="true"></i>
@@ -38,8 +28,6 @@
               </ng-template>
               <app-preview-land-detail></app-preview-land-detail>
             </mat-tab>
-
-
             <mat-tab label="Facility">
               <!--Facility-->
               <app-preview-facility-detail></app-preview-facility-detail>
@@ -86,22 +74,32 @@
               <!--Hospital Details-->
               <app-preview-hospital-detail></app-preview-hospital-detail>
             </mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==9" label="Hospital Details">
+              <!--Hospital Details-->
+              <app-preview-paramedical-hospital-detail></app-preview-paramedical-hospital-detail>
+            </mat-tab>
             <mat-tab *ngIf="SelectedDepartmentID==6" label="Hostel Details">
               <!--Hostel Details-->
               <app-preview-hostel-details></app-preview-hostel-details>
             </mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==2" label="Veterinary Hospital">
+              <!--Veterinary Hospital-->
+              <app-preview-veterinary-hospital></app-preview-veterinary-hospital>
+            </mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==1" label="Farm Land Details">
+              <!--Farm Land Details-->
+              <app-preview-farm-land-details></app-preview-farm-land-details>
+            </mat-tab>
+            <!--<mat-tab *ngIf="SelectedDepartmentID==3" label="Class Wise Statistics">-->
+              <!--Farm Land Details-->
+              <!--<app-preview-farm-land-details></app-preview-farm-land-details>
+            </mat-tab>-->
           </mat-tab-group>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
           <button *ngIf="this.selectedIndex != 0" class="btn btn-primary" type="button" (click)="PreviousStep()"><< Previous</button>
           <button *ngIf="this.selectedIndex != maxNumberOfTabs" class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left:20px">Next >></button>
         </div>
-        <!--<div class="col-md-2 text-end">
-          <a routerLink="../addcourses" class="btn btn-primary btn-sm">Back To Course List</a>
-        </div>-->
-
-
-
       </div>
     </div>
   </div>

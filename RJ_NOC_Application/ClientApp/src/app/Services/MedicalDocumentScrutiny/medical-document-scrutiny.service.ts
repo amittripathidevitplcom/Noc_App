@@ -100,6 +100,7 @@ export class MedicalDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  
   public async DocumentScrutiny_LegalEntity(CollegeID: number, RoleID: number, ApplyNOCID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -205,6 +206,29 @@ export class MedicalDocumentScrutinyService {
       })
     };
     return await this.http.post(this.APIUrl + "/DocumentScrutiny_ParamedicalHospitalDetail/" + CollageID + "/" + RoleID + "/" + ApplyNOCID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async DocumentScrutiny_VeterinaryHospital(CollageID: number, RoleID: number, ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/DocumentScrutiny_VeterinaryHospital/" + CollageID + "/" + RoleID + "/" + ApplyNOCID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async DocumentScrutiny_FarmLandDetails(CollageID: number, RoleID: number, ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/DocumentScrutiny_FarmLandDetails/" + CollageID + "/" + RoleID + "/" + ApplyNOCID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

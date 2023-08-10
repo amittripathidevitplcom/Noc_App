@@ -10,6 +10,7 @@ import { CommonMasterService } from '../../../Services/CommonMaster/common-maste
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
 import { ScurtenyComitteeService } from '../../../Services/ScurtenyComittee/scurteny-comittee.service';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Component({
   selector: 'app-scurteny-comittee',
@@ -57,7 +58,7 @@ export class ScurtenyComitteeComponent implements OnInit {
   TotalCount: number = 0;  
 
 
-  constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private scurtenyComitteeService: ScurtenyComitteeService,
+  constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private scurtenyComitteeService: ScurtenyComitteeService, private collegeService: CollegeService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) { }
 
   async ngOnInit() {
@@ -69,7 +70,30 @@ export class ScurtenyComitteeComponent implements OnInit {
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.loaderService.requestEnded();
-    this.maxNumberOfTabs = this.tabGroup._tabs.length - 1; 
+    this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    await this.GetCollageDetails();
+  }
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeDataList = data['Data'];
+          if (this.collegeDataList['CollegeStatusID'] == 3) {
+            this.CollegeType_IsExisting = false;
+            //this.isAcademicInformation = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
   NextStep() {
     if (this.selectedIndex != this.maxNumberOfTabs) {

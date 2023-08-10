@@ -5,8 +5,8 @@ export class VeterinaryHospitalDataModel {
   public TehsilID: number = 0;
   public PanchayatSamitiID: number = 0;
   public CityTownVillage: string = '';
-  public DivisionName: string = '';
-  public DistrictName: string = '';
+  public District_Eng: string = '';
+  public Division_English: string = '';
   public TehsilName: string = '';
   public PanchyatSamitiName: string = '';
   public HospitalName: string = '';
@@ -31,6 +31,15 @@ export class VeterinaryHospitalDataModel {
   public DepartmentID: number = 0;
   public SSOID: string = '';
   public AnimalDetails: AnimalDataModel[] = [];
+
+  public Action: string = '';
+  public Remarks: string = '';
+
+
+  public C_Action: string = '';
+  public C_Remark: string = '';
+  public S_Action: string = '';
+  public S_Remark: string = '';
 }
 
 export class AnimalDataModel {
