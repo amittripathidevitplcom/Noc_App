@@ -16,11 +16,17 @@ import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.s
 import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { ToastrService } from 'ngx-toastr';
 import { HostelDataModel } from '../../../Models/HostelDetailsDataModel';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
+import { VeterinaryHospitalDataModel, AnimalDataModel } from '../../../Models/VeterinaryHospitalDataModel';
+import { FarmLandDetailDataModel } from '../../../Models/FarmLandDetailDataModel';
+import { ParamedicalHospitalDataModel, ParamedicalHospitalParentNotDataModel, ParamedicalHospitalBedValidation } from '../../../Models/ParamedicalHospitalDataModel';
+import { ParamedicalHospitalService } from '../../../Services/Tabs/ParamedicalHospital/paramedical-hospital.service';
+import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
+import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 
 
 @Injectable({
@@ -127,8 +133,14 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
 
 
   public CheckList_hostelDataModel: HostelDataModel[] = [];
+  public CheckList_VeterinaryHospitalDataModel: VeterinaryHospitalDataModel[] = [];
+  public CheckList_FarmLandDetailsDataModel: FarmLandDetailDataModel[] = [];
+  public CheckList_ParamedicalHospitalDataModelList: ParamedicalHospitalDataModel[] = [];
 
   public HostelDetailFinalRemarks: any = [];
+  public VeterinaryHospitalFinalRemarks: any = [];
+  public FarmLandDetailsFinalRemarks: any = [];
+  public ParamedicalHospitalDetails_FinalRemarks: any = [];
 
   public TotalStaffDetail: number = 0;
   public TotalNonTeachingStaffDetail: number = 0;
@@ -152,11 +164,16 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   public ActionID: number = 0;
   public NextActionID: number = 0;
 
+  public HospitalData: any = {};
 
+  public ParamedicalHospitalBedValidationList: ParamedicalHospitalBedValidation[] = [];
+
+  public IsShowSuperSpecialtyHospital: boolean = false;
+  LegalEntityDataModel = new LegalEntityDataModel();
 
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
-    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
+    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private hospitalDetailService: ParamedicalHospitalService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, 
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
 
@@ -185,6 +202,11 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetWorkFlowActionListByRole();
     this.NextGetWorkFlowActionListByRole();
     this.GetCollageDetails();
+    this.CheckDocumentScrutinyTabsData();
+    this.GetVeterinaryHospitalList_DepartmentCollegeWise();
+    this.GetFarmLandDetailsList_DepartmentCollegeWise();
+    this.GetLegalEntityData();
+    this.GetHospitalDataList_DepartmentCollegeWise();
     this.CheckTabsEntry();
   }
 
@@ -598,6 +620,176 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     }
   }
   //End Hospital Details
+  //Veterinary Hospital
+
+  async GetVeterinaryHospitalList_DepartmentCollegeWise() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_VeterinaryHospital(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_VeterinaryHospitalDataModel = data['Data'][0]['VeterinaryHospitals'];
+          this.VeterinaryHospitalFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Veterinary Hospital
+
+  //Veterinary Hospital
+
+  async GetFarmLandDetailsList_DepartmentCollegeWise() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_FarmLandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_FarmLandDetailsDataModel = data['Data'][0]['FarmLandDetails'];
+          this.FarmLandDetailsFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Veterinary Hospital
+
+  //
+  async GetLegalEntityData() {
+    try {
+      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          debugger;
+          if (this.State == 0) {
+            this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.SuccessMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetHospitalDataList_DepartmentCollegeWise() {
+    this.loaderService.requestStarted();
+    try {
+      await this.medicalDocumentScrutinyService.DocumentScrutiny_ParamedicalHospitalDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.CheckList_ParamedicalHospitalDataModelList = data['Data'][0]['HospitalDetails'];
+            this.ParamedicalHospitalDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+            
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  async ViewHospitalDetail(content: any, HospitalID: number) {
+    this.HospitalData = {};
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.hospitalDetailService.GetData(HospitalID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.HospitalData = data['Data'];
+        });
+      await this.GetParamedicalHospitalBedValidation(HospitalID);
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetParamedicalHospitalBedValidation(HospitalID: number) {
+    try {
+      this.ParamedicalHospitalBedValidationList = [];
+      await this.hospitalDetailService.GetParamedicalHospitalBedValidation(this.SelectedCollageID, HospitalID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ParamedicalHospitalBedValidationList = JSON.parse(JSON.stringify(data['Data']));
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.SuccessMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //
 
 
   //Document  Post Section
@@ -709,10 +901,6 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
-
-
-
   async GetRoleListForApporval() {
     this.UserRoleList = [];
     this.loaderService.requestStarted();
@@ -738,8 +926,6 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
-
   async NextGetUserDetailsByRoleID() {
     this.UserListRoleWise = [];
     this.NextWorkFlowActionList = [];
@@ -790,9 +976,6 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
-
-
   async GetWorkFlowActionListByRole() {
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
@@ -824,8 +1007,6 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
-
   async GetCollageDetails() {
     try {
       this.loaderService.requestStarted();
@@ -848,7 +1029,6 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
   OnChangeCurrentAction() {
     var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
     if (IsNextAction == true) {
