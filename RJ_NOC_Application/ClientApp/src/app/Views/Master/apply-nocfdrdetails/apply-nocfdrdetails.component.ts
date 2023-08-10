@@ -133,6 +133,8 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.FDRDetailsData = data['Data'];
+          console.log(this.FDRDetailsData);
+
         }, error => console.error(error));
     }
     catch (Ex) {
