@@ -742,6 +742,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
 
   async NextGetUserDetailsByRoleID() {
     this.UserListRoleWise = [];
+    this.NextWorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
       await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID)
