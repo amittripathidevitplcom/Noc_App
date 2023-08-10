@@ -22,6 +22,10 @@ import { ToastrService } from 'ngx-toastr';
 import { HostelDataModel } from '../../../Models/HostelDetailsDataModel';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
+
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-document-scrutiny-check-list-details',
   templateUrl: './document-scrutiny-check-list-details.component.html',
@@ -188,6 +192,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   // Start Land Details
 
   async GetLandDetailsDataList() {
+
     try {
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
