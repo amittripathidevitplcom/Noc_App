@@ -53,6 +53,9 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
 
   public PaymentHistoryDetails: any = [];
 
+  public ApplicationPaymentHistoryDetails: any = [];
+
+
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private nocPaymentComponent: NocPaymentComponent) {
   }
 
@@ -500,6 +503,48 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }
 
   }
+
+
+
+  async PaymentHistoryNocApplication_click(content: any, applyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplicationPaymentHistoryApplicationID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationDetail.ApplyNocApplicationID = applyNocApplicationID;
+            this.ApplicationPaymentHistoryDetails = data['Data'][0]['data'];
+            console.log(this.ApplicationPaymentHistoryDetails);
+            // model popup
+            this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-applynocpaymentdetails-title', backdrop: 'static' }).result.then((result) => {
+              this.closeResult = `Closed with: ${result}`;
+            }, (reason) => {
+              this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            });
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
+
+
 
   async AddFDR_click(item: any) {
     try {
