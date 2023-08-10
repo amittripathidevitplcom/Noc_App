@@ -169,23 +169,27 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetCollageDetails();
+    this.CheckTabsEntry();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
 
   }
 
   NextStep() {
+    this.CheckTabsEntry();
     if (this.selectedIndex != this.maxNumberOfTabs) {
       this.selectedIndex = this.selectedIndex + 1;
     }
   }
 
   PreviousStep() {
+    this.CheckTabsEntry();
     if (this.selectedIndex != 0) {
       this.selectedIndex = this.selectedIndex - 1;
     }
   }
 
   onTabChange(event: MatTabChangeEvent) {
+    this.CheckTabsEntry();
     this.selectedIndex = event.index;    
   }
   async GetCollageDetails() {
@@ -199,6 +203,26 @@ export class ApplyNOCPreviewComponent implements OnInit {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
           }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public CheckTabsEntryData: any = [];
+  async CheckTabsEntry() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
