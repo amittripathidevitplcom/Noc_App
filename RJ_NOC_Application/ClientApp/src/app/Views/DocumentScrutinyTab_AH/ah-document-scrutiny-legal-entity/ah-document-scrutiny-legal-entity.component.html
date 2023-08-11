@@ -1,0 +1,359 @@
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i> Legal Entity </b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12" *ngIf="legalEntityListData1!=null ">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Legal Entity :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsLegalEntity}}" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Registration No :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.RegistrationNo}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>President Mobile Number :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.PresidentMobileNo}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>President Email ID :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.PresidentEmail}}" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Name  :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Present Status :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyPresentStatusName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>State  :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.StateName_English}}" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>District  :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.District_Eng}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Act (Which Act You Registered)  :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.RegisteredAct}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Date Of Registration :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyRegistrationDate}}" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Date of Election of Present Management Committee :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.ElectionPresentManagementCommitteeDate}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Registered Address :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyRegisteredAddress}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Pincode :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.Pincode}}" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Other Institution run by the Society :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsOtherInstitution}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Women Member of Management Committee is more than 30% of Total Members :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsWomenMembers}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Date of Election of Management Committee not more than 3 Year :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsDateOfElection}}" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Management Committee certified By Registrar :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.ManagementCommitteeCertified}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>PAN Number :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyPANNumber}}" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Trust Logo</th>
+                      <th>Trustee Member Proof</th>
+                      <!--<th>Aadhaar Proof of President</th>-->
+                      <th>Pan Proof</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <a *ngIf="!legalEntityListData1.TrustLogoDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{legalEntityListData1.TrustLogoDocPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrustLogoDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </td>
+                      <td>
+                        <a *ngIf="!legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trustee Member Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </td>
+                      <td>
+                        <a *ngIf="!legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{legalEntityListData1.SocietyPanProofDocPath}}" alt="Society Pan Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="legalEntityMemberDetailData.length>0">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i> Member Details </b>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th>
+                            Compliance<br />
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdMemberSelectAllActionType" id="rdMemberSelectAllYes" value="Yes" (change)="selectMemberAll('Yes')">
+                              <label class="form-check-label">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdMemberSelectAllActionType" id="rdMemberSelectAllNo" value="No" (change)="selectMemberAll('No')">
+                              <label class="form-check-label">No</label>
+                            </div>
+                          </th>
+                          <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                          <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+                          <th>Sr. No.</th>
+                          <th>Member Name</th>
+                          <th>Father's Name</th>
+                          <th>Date Of Birth</th>
+                          <th>Mobile No.</th>
+                          <th>Post</th>
+                          <th>Aadhaar Number</th>
+                          <th>Member Photo</th>
+                          <th>Member Sing</th>
+                          <th>Aadhaar Document</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of legalEntityMemberDetailData; let indexOfelement=index;">
+                          <td>
+                            <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="rdMemberActionType{{indexOfelement+1}}" id="rdMemberActionTypeYes{{indexOfelement+1}}" [(ngModel)]="row.Action" value="Yes" (change)="ClickMemberOnAction(indexOfelement)">
+                                <label class="form-check-label">Yes</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="rdMemberActionType{{indexOfelement+1}}" id="rdMemberActionTypeNo{{indexOfelement+1}}" value="No" [(ngModel)]="row.Action" (change)="ClickMemberOnAction(indexOfelement)">
+                                <label class="form-check-label">No</label>
+                              </div>
+                            </div>
+                            <div class="row" [hidden]="row.Action !='No'">
+                              <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                                <label>Remark : </label>
+                                <textarea type="text" class="form-control" name="txtMemberRemark{{indexOfelement+1}}" id="txtMemberRemark{{indexOfelement+1}}" [(ngModel)]="row.Remark"></textarea>
+                              </div>
+                            </div>
+
+                          </td>
+                          <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                            Compliance: {{row.C_Action}}<br />
+                            <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                          </td>
+                          <td *ngIf="sSOLoginDataModel.RoleID==5">
+                            Compliance: {{row.S_Action}}<br />
+                            <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
+                          </td>-->
+                          <td> {{indexOfelement+1}}</td>
+                          <td>{{row.MemberName}}</td>
+                          <td>{{row.MemberFatherName}}</td>
+                          <td>{{row.MemberDOB}}</td>
+                          <td>{{row.MemberMobileNo}}</td>
+                          <td>{{row.MemberPostName}}</td>
+                          <td>{{row.PresidentAadhaarNumber}}</td>
+                          <td>
+                            <a *ngIf="!row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                              <img src="{{row.MemberPhotoPath}}" alt="Member Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                            </a>
+                            <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                          </td>
+                          <td>
+                            <a *ngIf="!row.MemberSignaturePath.includes('.pdf') && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom">
+                              <img src="{{row.MemberSignaturePath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                            </a>
+                            <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label>
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberSignaturePath.includes('.pdf')  && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                          </td>
+                          <td>
+                            <a *ngIf="!row.PresidentAadhaarProofDocPath.includes('.pdf') && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                              <img src="{{row.PresidentAadhaarProofDocPath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                            </a>
+                            <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="legalEntityInstituteDetailData!=null">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i> Institute Details </b>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th>
+                            Compliance<br />
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdInstituteSelectAllActionType" id="rdInstituteSelectAllYes" value="Yes" (change)="selectInstituteAll('Yes')">
+                              <label class="form-check-label">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="rdInstituteSelectAllActionType" id="rdInstituteSelectAllNo" value="No" (change)="selectInstituteAll('No')">
+                              <label class="form-check-label">No</label>
+                            </div>
+                          </th>
+                          <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                          <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+                          <th>Sr. No.</th>
+                          <th>Registration No.</th>
+                          <th>Institute Name</th>
+                          <th>Contact Person Name</th>
+                          <th>Designation</th>
+                          <th>Contact Number</th>
+                          <th>State</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of legalEntityInstituteDetailData; let indexOfelement=index;">
+                          <td>
+                            <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="rdInstituteActionType{{indexOfelement+1}}" id="rdInstituteActionTypeYes{{indexOfelement+1}}" [(ngModel)]="row.Action" value="Yes" (change)="ClickInstituteOnAction(indexOfelement)">
+                                <label class="form-check-label">Yes</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="rdInstituteActionType{{indexOfelement+1}}" id="rdInstituteActionTypeNo{{indexOfelement+1}}" value="No" [(ngModel)]="row.Action" (change)="ClickInstituteOnAction(indexOfelement)">
+                                <label class="form-check-label">No</label>
+                              </div>
+                            </div>
+                            <div class="row" [hidden]="row.Action !='No'">
+                              <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                                <label>Remark : </label>
+                                <textarea type="text" class="form-control" name="txtInstituteRemark{{indexOfelement+1}}" id="txtInstituteRemark{{indexOfelement+1}}" [(ngModel)]="row.Remark"></textarea>
+                              </div>
+                            </div>
+
+                          </td>
+                          <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                            Compliance: {{row.C_Action}}<br />
+                            <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                          </td>
+                          <td *ngIf="sSOLoginDataModel.RoleID==5">
+                            Compliance: {{row.S_Action}}<br />
+                            <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
+                          </td>-->
+                          <td> {{indexOfelement+1}}</td>
+                          <td>{{row.RegistrationNo}}</td>
+                          <td>{{row.InstituteName}}</td>
+                          <td>{{row.InstitutePersonName}}</td>
+                          <td>{{row.InstituteDesignation}}</td>
+                          <td>{{row.InstituteContactNumber}}</td>
+                          <td>{{row.StateName_English}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="legalEntityListData1 ==null">
+          <span style="color:red"> No Data Found.!</span>
+        </div>
+        <div class="row" *ngIf="FinalRemarks.length>0">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr.No.</th>
+                  <th>Role</th>
+                  <th>Remark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item1 of FinalRemarks ; let idx =index">
+                  <td>{{idx+1}}</td>
+                  <td>{{item1.RoleID}}</td>
+                  <td>{{item1.Remark}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Remarks</label>
+            <textarea id="LegalEntityRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+            <div *ngIf="isRemarkValid" class="text-danger">
+              <p *ngIf="isRemarkValid"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-primary" type="button" (click)="SubmitLegalEntity_Onclick()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

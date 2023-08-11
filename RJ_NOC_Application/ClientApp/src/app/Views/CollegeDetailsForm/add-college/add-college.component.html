@@ -133,7 +133,7 @@
                   </div>
                   <!--NAAC Accredited Certificate-->
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsCollegeNAACAccredited">
-                    <label class="form-label">NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 500KB) (Max.Size 2MB) <span style="color:red;">*</span></label>
+                    <label class="form-label">NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 100KB) (Max.Size 2MB) <span style="color:red;">*</span></label>
                     <div class="d-flex">
                       <input type="file" style="display:none;" class="form-control" id="NAACAccreditedCertificate" name="NAACAccreditedCertificate" (change)="onFilechange($event,'NAACAccreditedCertificate')" formControlName="NAACAccreditedCertificate">
                       <label class="btn upload" for="NAACAccreditedCertificate">
