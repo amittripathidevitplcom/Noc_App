@@ -718,9 +718,8 @@ export class LandDetailsComponent implements OnInit {
       await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
-
-          console.log(data['Data'][0]['data']);
-          console.log(data['Data'][0]['CollegeID']);
+          //console.log(data['Data'][0]['data']);
+          //console.log(data['Data'][0]['CollegeID']);
           this.request.CollegeID = data['Data'][0]['CollegeID'];
           this.request.LandDetailID = data['Data'][0]['LandDetailID'];
           this.request.LandAreaID = data['Data'][0]['LandAreaID'];

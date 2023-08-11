@@ -175,6 +175,9 @@ import { DocumentScrutinyParamedicalHospitalDetailComponent } from './Views/Docu
 import { PreviewVeterinaryHospitalComponent } from './Views/PreviewTabs/preview-veterinary-hospital/preview-veterinary-hospital.component';
 import { DocumentScrutinyVeterinaryHospitalComponent } from './Views/DocumentScrutinyTab/document-scrutiny-veterinary-hospital/document-scrutiny-veterinary-hospital.component';
 import { DocumentScrutinyFarmLandDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-farm-land-details/document-scrutiny-farm-land-details.component';
+import { ApplyNocpreviewAnimalhusbandryComponent } from './Views/apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
+import { AhDocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-legal-entity/ah-document-scrutiny-legal-entity.component';
+import { AhDocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-college-detail/ah-document-scrutiny-college-detail.component';
 
 
 @NgModule({
@@ -345,6 +348,9 @@ import { DocumentScrutinyFarmLandDetailsComponent } from './Views/DocumentScruti
     PreviewVeterinaryHospitalComponent,
     DocumentScrutinyVeterinaryHospitalComponent,
     DocumentScrutinyFarmLandDetailsComponent,
+    ApplyNocpreviewAnimalhusbandryComponent,
+    AhDocumentScrutinyLegalEntityComponent,
+    AhDocumentScrutinyCollegeDetailComponent,
 
   ],
   imports: [
