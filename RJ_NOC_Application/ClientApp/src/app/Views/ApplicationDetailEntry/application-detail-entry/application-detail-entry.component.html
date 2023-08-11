@@ -12,12 +12,6 @@
             <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="DraftFinalSubmit(1)">
               Save Draft
             </button>
-
-
-            <!--<button class="btn btn-success" type="button" (click)="DraftFinalSubmit(1)">
-              Save Draft
-            </button>-->
-
           </li>
           <li class="breadcrumb-item"><a href="#">Application</a></li>
           <li class="breadcrumb-item active" aria-current="page">Application Details</li>
@@ -35,7 +29,6 @@
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
             <!--Land Information-->
             <mat-tab>
-
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LandInformation']>0"></i>
@@ -44,6 +37,7 @@
               </ng-template>
               <app-land-details></app-land-details>
             </mat-tab>
+
             <!--Facility-->
             <mat-tab>
               <ng-template mat-tab-label>
@@ -54,6 +48,7 @@
               </ng-template>
               <app-facility-details></app-facility-details>
             </mat-tab>
+
             <!--Required Document-->
             <mat-tab>
               <ng-template mat-tab-label>
@@ -64,14 +59,7 @@
               </ng-template>
               <app-required-document></app-required-document>
             </mat-tab>
-            <!--Room Details-->
-            <!--<mat-tab>
-            <ng-template mat-tab-label>
-              <i class="fa fa-home icon" aria-hidden="true"></i>
-              <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0 && CheckTabsEntryData['OtherInformation']>0"></i>
-              <span>Room Details</span>
-            </ng-template>
-            <mat-tab-group mat-align-tabs="left" class="tabUl1 d-block w-100">-->
+
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
@@ -93,8 +81,7 @@
               </ng-template>
               <app-other-information></app-other-information>
             </mat-tab>
-            <!--</mat-tab-group>
-            </mat-tab>-->
+
             <!--Building Documents-->
             <mat-tab>
               <ng-template mat-tab-label>
@@ -160,11 +147,13 @@
               </ng-template>
               <app-hospital-detail></app-hospital-detail>
             </mat-tab>
+
+            <!--Hospital Details-->
             <mat-tab *ngIf="SelectedDepartmentID==9">
               <ng-template mat-tab-label>
                 <i class="fa fa-hospital-o icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HospitalDetails']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['HospitalDetails']==0"></span>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['ParamedicalHospitalDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['ParamedicalHospitalDetails']==0"></span>
                 <span>Hospital Details</span>
               </ng-template>
               <app-paramedical-hospital-detail></app-paramedical-hospital-detail>
@@ -190,7 +179,6 @@
               <app-veterinary-hospital></app-veterinary-hospital>
             </mat-tab>
 
-
             <mat-tab *ngIf="SelectedDepartmentID==1">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
@@ -205,24 +193,18 @@
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['ClassWiseStatistics']>0"></i>
-  <span class="badge pulse" *ngIf="CheckTabsEntryData['ClassWiseStatistics']==0"></span>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['ClassWiseStatistics']==0"></span>
                 <span>Class Wise Statistics</span>
               </ng-template>
               <app-class-wise-student-details></app-class-wise-student-details>
             </mat-tab>
-
-
           </mat-tab-group>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
           <button *ngIf="this.selectedIndex != 0" class="btn btn-primary" type="button" (click)="PreviousStep()"><< Previous</button>
           <button *ngIf="this.selectedIndex != maxNumberOfTabs" class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left:20px">Next >></button>
         </div>
-        <!--<div class="col-md-2 text-end">
-          <a routerLink="../addcourses" class="btn btn-primary btn-sm">Back To Course List</a>
-        </div>-->
       </div>
-
     </div>
   </div>
 </div>

@@ -220,7 +220,9 @@ export class AddCoursesComponent implements OnInit {
 
 
   async ddlCourse_change($event: any, SeletedCourseID: any) {
+    debugger;
     this.request.CourseID = SeletedCourseID;
+    this.request.SelectedSubjectDetails = [];
     try {
       this.loaderService.requestStarted();
       if (this.request.DepartmentID == EnumDepartment.CollegeEducation)//College Education
@@ -232,7 +234,10 @@ export class AddCoursesComponent implements OnInit {
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
             this.subjectDataList = data['Data'];
-            this.request.SelectedSubjectDetails = data['Data'];
+            if (this.request.DepartmentID != 3 && this.request.DepartmentID != 2) {
+              this.request.SelectedSubjectDetails = data['Data'];
+            }
+            //this.request.SelectedSubjectDetails = data['Data'];
             console.log(this.request.SelectedSubjectDetails);
           }, error => console.error(error));
       }
@@ -698,6 +703,7 @@ export class AddCoursesComponent implements OnInit {
   }
 
   async ddlStream_change(StreamID: any) {
+    debugger;
     this.request.StreamID = StreamID;
     await this.commonMasterService.GetSubjectList_StreamIDWise(this.request.StreamID, this.request.DepartmentID, this.request.CourseLevelID, this.request.CourseID)
       .then((data: any) => {

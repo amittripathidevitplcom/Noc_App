@@ -19,13 +19,13 @@
     <div class="col-md-12">
       <div class="row align-items-center">
         <div class="col-md-12">
-
+          
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
-
-
+             
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
                 <span>Legal Entity</span>
               </ng-template>
               <app-document-scrutiny-legal-entity></app-document-scrutiny-legal-entity>
@@ -34,6 +34,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CollegeDetail']>0"></i>
                 <span>College Detail</span>
               </ng-template>
               <app-document-scrutiny-college-detail></app-document-scrutiny-college-detail>
@@ -42,6 +43,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-building-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CollegeManagementSociety']>0"></i>
                 <span>College Management Society</span>
               </ng-template>
               <app-document-scrutiny-college-management-society></app-document-scrutiny-college-management-society>
@@ -52,6 +54,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-location-arrow icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LandInformation']>0"></i>
                 <span>Land Information</span>
               </ng-template>
               <app-document-scrutiny-land-detail></app-document-scrutiny-land-detail>
@@ -60,6 +63,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-list-alt icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Facility']>0"></i>
                 <span>Facility</span>
               </ng-template>
               <app-document-scrutiny-facility></app-document-scrutiny-facility>
@@ -68,6 +72,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-file-text-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RequiredDocument']>0"></i>
                 <span>Required Document</span>
               </ng-template>
               <app-document-scrutiny-required-document></app-document-scrutiny-required-document>
@@ -76,6 +81,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
                 <span>Class Room Details</span>
               </ng-template>
               <app-document-scrutiny-room-details></app-document-scrutiny-room-details>
@@ -84,6 +90,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherInformation']>0"></i>
                 <span *ngIf="SelectedDepartmentID==6">Clinical Details</span>
                 <span *ngIf="SelectedDepartmentID !=6">Other Information</span>
               </ng-template>
@@ -93,6 +100,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-building-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
                 <span>Building Documents</span>
               </ng-template>
               <app-document-scrutiny-building-details></app-document-scrutiny-building-details>
@@ -101,6 +109,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-users icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
                 <span>Staff Details</span>
               </ng-template>
               <app-document-scrutiny-staff-details></app-document-scrutiny-staff-details>
@@ -109,6 +118,7 @@
             <mat-tab *ngIf="CollegeType_IsExisting">
               <ng-template mat-tab-label>
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
                 <span>OLD NOC Details</span>
               </ng-template>
               <app-document-scrutiny-old-nocdetails></app-document-scrutiny-old-nocdetails>
@@ -118,6 +128,7 @@
             <mat-tab *ngIf="CollegeType_IsExisting">
               <ng-template mat-tab-label>
                 <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AcademicInformation']>0"></i>
                 <span>Academic Information</span>
               </ng-template>
               <app-document-scrutiny-academic-information></app-document-scrutiny-academic-information>
@@ -126,6 +137,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-files-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
                 <span>Other Document</span>
               </ng-template>
               <app-document-scrutiny-other-document></app-document-scrutiny-other-document>
@@ -134,18 +146,43 @@
             <mat-tab *ngIf="SelectedDepartmentID==6">
               <ng-template mat-tab-label>
                 <i class="fa fa-hospital-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HospitalDetails']>0"></i>
                 <span>Hospital Details</span>
               </ng-template>
               <app-document-scrutiny-hospital-details></app-document-scrutiny-hospital-details>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==9">
+              <ng-template mat-tab-label>
+                <i class="fa fa-hospital-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['ParamedicalHospitalDetails']>0"></i>
+                <span>Hospital Details</span>
+              </ng-template>
+              <app-document-scrutiny-paramedical-hospital-detail></app-document-scrutiny-paramedical-hospital-detail>
             </mat-tab>
 
 
             <mat-tab *ngIf="SelectedDepartmentID==6">
               <ng-template mat-tab-label>
                 <i class="fa fa-bed icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HostelDetails']>0"></i>
                 <span>Hostel Details</span>
               </ng-template>
               <app-document-scrutiny-hostal-details></app-document-scrutiny-hostal-details>
+            </mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==2">
+              <ng-template mat-tab-label>
+                <i class="fa fa-bed icon" aria-hidden="true"></i>
+                <span>Veterinary Hospital</span>
+              </ng-template>
+              <app-document-scrutiny-veterinary-hospital></app-document-scrutiny-veterinary-hospital>
+            </mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID==1">
+              <ng-template mat-tab-label>
+                <i class="fa fa-bed icon" aria-hidden="true"></i>
+                <span>Farm Land Details</span>
+              </ng-template>
+              <app-document-scrutiny-farm-land-details></app-document-scrutiny-farm-land-details>
             </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>

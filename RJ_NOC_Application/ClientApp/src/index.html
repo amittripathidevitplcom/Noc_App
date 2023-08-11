@@ -62,9 +62,18 @@
       },
       control = new google.elements.transliteration.TransliterationControl(options);
       const element = document.getElementById("txtCollegeNameHi");
+      const element1 = document.getElementById("CollegeNewName_Hi");
+
+
       if (element != null) {
         control.makeTransliteratable(["txtCollegeNameHi"]);
       }
+      if (element1 != null) {
+        control.makeTransliteratable(["CollegeNewName_Hi"]);
+      }
+
+
+
     }
     google.setOnLoadCallback(onLoad);
   </script>

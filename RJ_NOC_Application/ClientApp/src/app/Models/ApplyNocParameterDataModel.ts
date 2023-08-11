@@ -119,6 +119,7 @@ export class ApplyNocApplicationDataModel {
   public ApplicationTypeName: string = '';
   public TotalFeeAmount: number = 0;
   public ApplicationStatus: boolean = false;
+  public IsMakePayment_ApplicationFee: boolean = false;
   public IsFinalSubmit: boolean = false;
   public IsSaveFDR: boolean = false;
   public IsMakePayment: boolean = false;

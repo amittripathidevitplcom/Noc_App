@@ -38,6 +38,7 @@ import { OtherInformationDataModel } from '../../Models/OtherInformationDataMode
 import { AcademicInformationDetailsDataModel } from '../../Models/AcademicInformationDetailsDataModel';
 import { HospitalDataModel, HospitalParentNotDataModel } from '../../Models/HospitalDataModel';
 import { CollegeService } from '../../services/collegedetailsform/College/college.service';
+import { DocumentScrutinyCheckListDetailsComponent } from '../DocumentScrutinyTab/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
 
 
 @Component({
@@ -151,11 +152,18 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
 
   public CheckFinalRemark: string = '';
+  //@ViewChild(DocumentScrutinyCheckListDetailsComponent) checkListDetailsComponent: any;
 
+  //@ViewChild(DocumentScrutinyCheckListDetailsComponent) checkListDetailsComponent_New: any;
+
+  @ViewChild(DocumentScrutinyCheckListDetailsComponent)
+  private checkListDetailsComponent_New!: DocumentScrutinyCheckListDetailsComponent;
+
+  //private checkListDetailsComponent: DocumentScrutinyCheckListDetailsComponent;
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService ) { }
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
 
 
@@ -168,25 +176,49 @@ export class ApplyNOCPreviewComponent implements OnInit {
 
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.GetCollageDetails();
-    this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    await this.GetCollageDetails();
+    await this.CheckTabsEntry();
+    try {
+      this.maxNumberOfTabs = await this.tabGroup._tabs.length - 1;
+    }
+    catch (Ex) {
+      this.maxNumberOfTabs = -1;
+    }
+
+
+
 
   }
 
   NextStep() {
+
+    this.CheckTabsEntry();
     if (this.selectedIndex != this.maxNumberOfTabs) {
       this.selectedIndex = this.selectedIndex + 1;
     }
+
+    if (this.selectedIndex == this.maxNumberOfTabs) {
+      this.checkListDetailsComponent_New.ngOnInit();
+    }
+
+
   }
 
   PreviousStep() {
+    this.CheckTabsEntry();
     if (this.selectedIndex != 0) {
       this.selectedIndex = this.selectedIndex - 1;
     }
   }
 
   onTabChange(event: MatTabChangeEvent) {
-    this.selectedIndex = event.index;    
+    this.CheckTabsEntry();
+    this.selectedIndex = event.index;
+
+    if (this.selectedIndex == this.maxNumberOfTabs) {
+      this.checkListDetailsComponent_New.ngOnInit();
+    }
+
   }
   async GetCollageDetails() {
     try {
@@ -199,6 +231,26 @@ export class ApplyNOCPreviewComponent implements OnInit {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
           }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public CheckTabsEntryData: any = [];
+  async CheckTabsEntry() {
+    try {
+      this.loaderService.requestStarted();
+      await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
