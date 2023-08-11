@@ -55,7 +55,7 @@
           </div>
           <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
-              <label>NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 500KB) (Max.Size 2MB) :</label>
+              <label>NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 100KB) (Max.Size 2MB) :</label>
               <div class="clearfix"></div>
               <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.NAACAccreditedCertificatePath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.NAACAccreditedCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
