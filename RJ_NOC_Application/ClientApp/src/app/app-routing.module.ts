@@ -207,6 +207,10 @@ const routes: Routes = [
       },
       {
         path: 'legalentity', component: LegalEntityComponent
+      }
+      ,
+      {
+        path: 'legalentity/:LegalEntityID', component: LegalEntityComponent
       },
       {
         path: 'postbasicbscncollegeofnursing', component: PostBasicBScNCollegeOfNursingComponent

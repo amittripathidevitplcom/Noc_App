@@ -124,6 +124,9 @@ export class LegalEntityComponent implements OnInit {
   public VerifiedOTP: boolean = false;
   public AadharDetails: any = {};
 
+  public legalEntityListData: any = [];
+  public QueryStringLegalEntityID: number = 0;
+  public UserID: number = 0;
 
   AadharRequest = new AadharServiceDataModel();
 
@@ -141,6 +144,10 @@ export class LegalEntityComponent implements OnInit {
   async ngOnInit() {
     this.rightClickDisable.disableRightClick();
     this.loaderService.requestStarted();
+
+
+
+
 
     try {
       this.legalentityOlRegistrationForm = this.formBuilder.group(
@@ -212,7 +219,9 @@ export class LegalEntityComponent implements OnInit {
           ddlInstituteStateID: ['', [DropdownValidators]]
         });
 
+      // query string
       this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+      this.QueryStringLegalEntityID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LegalEntityID')?.toString()));
 
       /*this.GetDistrict();*/
       this.GetSocietyPresentStatusList();
@@ -221,6 +230,13 @@ export class LegalEntityComponent implements OnInit {
       this.GetMemberPost();
       this.GetRegisteredActList();
       this.SetDOBmindate();
+
+      // get Legal Entity by id
+      if (this.QueryStringLegalEntityID > 0) {
+        await this.GetApplicationList(this.QueryStringLegalEntityID);
+      }
+
+
       //this.SetElectionPresentManagementCommitteeDatemindate();
     }
     catch (Ex) {
@@ -238,12 +254,78 @@ export class LegalEntityComponent implements OnInit {
   get AIform() { return this.legalentityAddInstituteForm.controls; }
   get FormRegistration() { return this.legalentityForm_Registration.controls; }
 
+  async GetApplicationList(LegalEntityID: any) {
+    try {
+      this.loaderService.requestStarted();
+      await this.legalEntityService.ViewlegalEntityDataByID(LegalEntityID, this.UserID, this.sSOLoginDataModel.SSOID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.request = JSON.parse(JSON.stringify(data['Data'][0]['data']['Table']));
+          console.log(this.request);
+          
+          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Society') {
+            this.request.IsLegalEntity = 1;
+          }
+          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Trust') {
+            this.request.IsLegalEntity = 2;
+          }
+          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Company') {
+            this.request.IsLegalEntity = 3;
+          }
+          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Other Entity') {
+            this.request.IsLegalEntity = 4;
+          }
+          this.OnChangeLegalEntity();
+          this.GetRegisteredActList();
+          this.GetRegistrationDistrictListByRegistrationStateID(data['Data'][0]['data']['Table']['0']['StateID']);
+          this.RegistrationDistrict = data['Data'][0]['data']['Table']['0']['DistrictID'];
+          this.request.RegistrationNo = data['Data'][0]['data']['Table']['0']['RegistrationNo']; 
+          this.request.PresidentMobileNo = data['Data'][0]['data']['Table']['0']['PresidentMobileNo'];
+          this.request.PresidentAadhaarNumber = data['Data'][0]['data']['Table2']['0']['PresidentAadhaarNumber'];
+          this.request.PresidentEmail = data['Data'][0]['data']['Table']['0']['PresidentEmail'];
+
+          
+
+
+          this.memberdetails.MemberName = this.AadharDetails[0]["Column2"];
+          if (this.AadharDetails[0]["Column4"].length > 4) {
+            var memberdob = this.AadharDetails[0]["Column4"].split('-');
+            this.memberdetails.MemberDOB = memberdob[2] + '-' + memberdob[1] + '-' + memberdob[0];
+          }
+          this.memberdetails.MemberFatherName = this.AadharDetails[0]["Column8"].split(": ")[1];
+
+
+          this.institutedetails = data['Data'][0]['data']['Table1'];
+          this.memberdetails = data['Data'][0]['data']['Table2'];
+
+          //this.GetSocietyPresentStatusList();
+          this.GetRegistrationDistrictListByRegistrationStateID(data['Data'][0]['data']['Table']['0']['StateID'])
+          //this.GetStateList();
+          //this.GetMemberPost();
+          //this.GetRegisteredActList();
+
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
   async GetMemberPost() {
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetRoleListByLevel(2)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -401,7 +483,6 @@ export class LegalEntityComponent implements OnInit {
 
   async SaveData() {
     try {
-      debugger;
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;
@@ -432,8 +513,8 @@ export class LegalEntityComponent implements OnInit {
         GetTreasurer == undefined || GetTreasurer == '' || GetTreasurer == null) {
         this.toastr.warning("Add President, Secretary and Treasurer in Society member");
         isValid = false;
-        }
-      if (this.request.MemberDetails.length < 3 ) {
+      }
+      if (this.request.MemberDetails.length < 3) {
         this.toastr.warning("Add Atleast three member details");
         isValid = false;
       }
@@ -941,7 +1022,6 @@ export class LegalEntityComponent implements OnInit {
       this.AadharRequest.OTP = this.UserOTP;
       await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
 
           if (data[0].status == "0") {
@@ -1625,7 +1705,6 @@ export class LegalEntityComponent implements OnInit {
   }
 
   SetElectionPresentManagementCommitteeDatemindate() {
-    debugger;
     //const mindate1 = new Date(2000, 0, 1);
     const mindate1 = new Date(this.request.SocietyRegistrationDate);
     this.MinDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
@@ -1635,7 +1714,6 @@ export class LegalEntityComponent implements OnInit {
   }
 
   ElectionPresentManagementCommitteeDate_Change() {
-    debugger;
     if (new Date(this.request.SocietyRegistrationDate) > new Date(this.request.ElectionPresentManagementCommitteeDate)) {
       this.ValidationMinDate = 'Invalid .!';
       this.request.ElectionPresentManagementCommitteeDate = '';
