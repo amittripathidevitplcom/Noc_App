@@ -202,7 +202,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetWorkFlowActionListByRole();
     this.NextGetWorkFlowActionListByRole();
     this.GetCollageDetails();
-    this.CheckDocumentScrutinyTabsData();
+    //this.CheckDocumentScrutinyTabsData();
     this.GetVeterinaryHospitalList_DepartmentCollegeWise();
     this.GetFarmLandDetailsList_DepartmentCollegeWise();
     this.GetLegalEntityData();
