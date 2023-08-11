@@ -56,9 +56,7 @@
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="isShowStreambox">
                 <label for="ddlStreamID" class="form-label">Select Stream <span style="color:red;">*</span></label>
                 <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID" #SeletedStreamID (change)="ddlSreamChangeReset(SeletedStreamID.value)">
-                  <option value="0" selected>--Select Stream--</option>
-                  <!--<option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>-->
-
+                  <option value="0">--Select Stream--</option>
                   <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
@@ -107,13 +105,17 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="ddlCourseType" class="form-label">Course Type  <span style="color:red">*</span></label>
+
                 <select formControlName="ddlCourseType" id="ddlCourseType" [(ngModel)]="request.CourseTypeID" class="form-control"
+                        #SeletedCourseType (change)="ddlCourseType_change(SeletedCourseType.value)"
                         [attr.disabled]="isCollegExisting ? true : null">
                   <option value="0">--Select--</option>
                   <option [value]="item.ID" *ngFor="let item of courseTypeDataList">
                     {{item.Name}}
                   </option>
                 </select>
+
+
                 <div *ngIf="isSubmitted&&form.ddlCourseType.errors" class="text-danger">
                   <p *ngIf="!form.ddlCourseType.errors.DropdownValidators">This field is required .!</p>
                 </div>
@@ -127,15 +129,16 @@
                   </option>
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlSeatInformation.errors" class="text-danger">
-                  <p *ngIf="isSeatInformation">This field is required .!</p>
+                  <p *ngIf="!form.ddlSeatInformation.errors.DropdownValidators">This field is required .!</p>
                 </div>
               </div>
 
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID ==3">
-                <label for="txtNoOfEnrolledStudents" class="form-label">No Of Enrolled Students<span style="color:red;">*</span></label>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID ==3 && isSelectedCourseType==true">
+                <label for="txtNoOfEnrolledStudents" class="form-label">No Of Enrolled Students  <span style="color:red;">*</span>  </label>
                 <input type="text" class="form-control" id="txtNoOfEnrolledStudents" name="txtNoOfEnrolledStudents" [(ngModel)]="request.NoOfEnrolledStudents" formControlName="txtNoOfEnrolledStudents" (keypress)="numberOnly($event)">
                 <div *ngIf="isSubmitted&&form.txtNoOfEnrolledStudents.errors" class="text-danger">
-                  <p *ngIf="iSNoOfEnrolledStudents">This field is required .!</p>
+                  <p *ngIf="form.txtNoOfEnrolledStudents.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtNoOfEnrolledStudents.errors.min"><i aria-hidden="true"></i> Enter value greater than zero.!</p>
                 </div>
               </div>
             </div>

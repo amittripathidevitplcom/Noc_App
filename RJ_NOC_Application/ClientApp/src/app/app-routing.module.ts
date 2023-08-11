@@ -114,6 +114,7 @@ import { ParamedicalHospitalDetailComponent } from './Views/TabDetail/paramedica
 import { ClassWiseStudentDetailsComponent } from './Views/ClassWiseStudentDetails/class-wise-student-details/class-wise-student-details.component';
 import { PreviewParamedicalHospitalDetailComponent } from './Views/PreviewTabs/preview-paramedical-hospital-detail/preview-paramedical-hospital-detail.component';
 import { DocumentScrutinyParamedicalHospitalDetailComponent } from './Views/DocumentScrutinyTab/document-scrutiny-paramedical-hospital-detail/document-scrutiny-paramedical-hospital-detail.component';
+import { ApplyNocpreviewAnimalhusbandryComponent } from './Views/apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 
 
 const routes: Routes = [
@@ -489,6 +490,9 @@ const routes: Routes = [
       },
       {
         path: 'documentscrutinyparamedicalhospitaldetail/:DepartmentID/:CollegeID', component: DocumentScrutinyParamedicalHospitalDetailComponent
+      },
+      {
+        path: 'animalhusbandryappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAnimalhusbandryComponent
       },
 
     ]

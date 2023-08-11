@@ -84,6 +84,7 @@ export class DocumentScrutinyVeterinaryHospitalComponent implements OnInit {
   }
 
   async SubmitVeterinaryHospitalDetail_Onclick() {
+    debugger;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;

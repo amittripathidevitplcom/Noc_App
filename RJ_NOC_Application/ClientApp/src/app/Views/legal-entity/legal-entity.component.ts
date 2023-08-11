@@ -124,9 +124,6 @@ export class LegalEntityComponent implements OnInit {
   public VerifiedOTP: boolean = false;
   public AadharDetails: any = {};
 
-  public legalEntityListData: any = [];
-  public QueryStringLegalEntityID: number = 0;
-  public UserID: number = 0;
 
   AadharRequest = new AadharServiceDataModel();
 
@@ -142,12 +139,9 @@ export class LegalEntityComponent implements OnInit {
   //}
 
   async ngOnInit() {
+
     this.rightClickDisable.disableRightClick();
     this.loaderService.requestStarted();
-
-
-
-
 
     try {
       this.legalentityOlRegistrationForm = this.formBuilder.group(
@@ -219,10 +213,9 @@ export class LegalEntityComponent implements OnInit {
           ddlInstituteStateID: ['', [DropdownValidators]]
         });
 
-      // query string
-      this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-      this.QueryStringLegalEntityID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LegalEntityID')?.toString()));
 
+      this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+      await this.CheckExistsLegalEntity(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.RoleID);
       /*this.GetDistrict();*/
       this.GetSocietyPresentStatusList();
       this.GetRegistrationDistrictListByRegistrationStateID(this.RegistrationState)
@@ -230,13 +223,6 @@ export class LegalEntityComponent implements OnInit {
       this.GetMemberPost();
       this.GetRegisteredActList();
       this.SetDOBmindate();
-
-      // get Legal Entity by id
-      if (this.QueryStringLegalEntityID > 0) {
-        await this.GetApplicationList(this.QueryStringLegalEntityID);
-      }
-
-
       //this.SetElectionPresentManagementCommitteeDatemindate();
     }
     catch (Ex) {
@@ -254,62 +240,20 @@ export class LegalEntityComponent implements OnInit {
   get AIform() { return this.legalentityAddInstituteForm.controls; }
   get FormRegistration() { return this.legalentityForm_Registration.controls; }
 
-  async GetApplicationList(LegalEntityID: any) {
+  async CheckExistsLegalEntity(SSOID: string, RoleID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.legalEntityService.ViewlegalEntityDataByID(LegalEntityID, this.UserID, this.sSOLoginDataModel.SSOID)
+      await this.legalEntityService.CheckExistsLegalEntity(SSOID, RoleID)
         .then((data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          // data
-          this.request = JSON.parse(JSON.stringify(data['Data'][0]['data']['Table']));
-          console.log(this.request);
-          
-          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Society') {
-            this.request.IsLegalEntity = 1;
+          if (this.State == 2) {
+            this.routers.navigate(['/totallegalentitypreview']);
           }
-          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Trust') {
-            this.request.IsLegalEntity = 2;
-          }
-          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Company') {
-            this.request.IsLegalEntity = 3;
-          }
-          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Other Entity') {
-            this.request.IsLegalEntity = 4;
-          }
-          this.OnChangeLegalEntity();
-          this.GetRegisteredActList();
-          this.GetRegistrationDistrictListByRegistrationStateID(data['Data'][0]['data']['Table']['0']['StateID']);
-          this.RegistrationDistrict = data['Data'][0]['data']['Table']['0']['DistrictID'];
-          this.request.RegistrationNo = data['Data'][0]['data']['Table']['0']['RegistrationNo']; 
-          this.request.PresidentMobileNo = data['Data'][0]['data']['Table']['0']['PresidentMobileNo'];
-          this.request.PresidentAadhaarNumber = data['Data'][0]['data']['Table2']['0']['PresidentAadhaarNumber'];
-          this.request.PresidentEmail = data['Data'][0]['data']['Table']['0']['PresidentEmail'];
-
-          
-
-
-          this.memberdetails.MemberName = this.AadharDetails[0]["Column2"];
-          if (this.AadharDetails[0]["Column4"].length > 4) {
-            var memberdob = this.AadharDetails[0]["Column4"].split('-');
-            this.memberdetails.MemberDOB = memberdob[2] + '-' + memberdob[1] + '-' + memberdob[0];
-          }
-          this.memberdetails.MemberFatherName = this.AadharDetails[0]["Column8"].split(": ")[1];
-
-
-          this.institutedetails = data['Data'][0]['data']['Table1'];
-          this.memberdetails = data['Data'][0]['data']['Table2'];
-
-          //this.GetSocietyPresentStatusList();
-          this.GetRegistrationDistrictListByRegistrationStateID(data['Data'][0]['data']['Table']['0']['StateID'])
-          //this.GetStateList();
-          //this.GetMemberPost();
-          //this.GetRegisteredActList();
-
-        }, (error: any) => console.error(error));
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -326,6 +270,7 @@ export class LegalEntityComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetRoleListByLevel(2)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -347,6 +292,7 @@ export class LegalEntityComponent implements OnInit {
   }
   async GetDistrict() {
     try {
+      this.lstDistrict = [];
       this.loaderService.requestStarted();
       await this.commonMasterService.GetDistrictList()
         .then((data: any) => {
@@ -432,6 +378,8 @@ export class LegalEntityComponent implements OnInit {
   }
   async GetDistrictListByStateID(StateID: number) {
     try {
+      this.lstStateDistrict = [];
+      this.request.DistrictID = 0;
       this.loaderService.requestStarted();
       await this.commonMasterService.GetDistrictListByStateID(StateID)
         .then((data: any) => {
@@ -454,6 +402,8 @@ export class LegalEntityComponent implements OnInit {
 
   async GetRegistrationDistrictListByRegistrationStateID(StateID: number) {
     try {
+      this.lstDistrict = [];
+
       this.loaderService.requestStarted();
       if (StateID != 6) {
         this.IsSocietyRegistration = false;
@@ -483,6 +433,7 @@ export class LegalEntityComponent implements OnInit {
 
   async SaveData() {
     try {
+      debugger;
       this.loaderService.requestStarted();
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;
@@ -504,7 +455,6 @@ export class LegalEntityComponent implements OnInit {
         this.IsSocietyPanProofDoc = 'This field is required .!';
         isValid = false;
       }
-      console.log(this.request.MemberDetails);
       var GetPresident = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName.replace(/^\r\n\s+|\s+$/g, '') == 'President')?.MembersPostName;
       var GetSecretary = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName.replace(/^\r\n\s+|\s+$/g, '') == 'Secretary')?.MembersPostName;
       var GetTreasurer = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName.replace(/^\r\n\s+|\s+$/g, '') == 'Treasurer')?.MembersPostName;
@@ -513,14 +463,19 @@ export class LegalEntityComponent implements OnInit {
         GetTreasurer == undefined || GetTreasurer == '' || GetTreasurer == null) {
         this.toastr.warning("Add President, Secretary and Treasurer in Society member");
         isValid = false;
-      }
-      if (this.request.MemberDetails.length < 3) {
-        this.toastr.warning("Add Atleast three member details");
-        isValid = false;
-      }
+        }
+      //if (this.request.MemberDetails.length < 3 ) {
+      //  this.toastr.warning("Add Atleast three member details");
+      //  isValid = false;
+      //}
       if (this.request.IsOtherInstitution == 'Yes') {
         if (this.request.InstituteDetails.length <= 0) {
           this.toastr.warning("Add atleast one institute details");
+          isValid = false;
+        }
+      }
+      if (this.IsActOther) {
+        if (this.request.RegisteredActName == '') {
           isValid = false;
         }
       }
@@ -572,6 +527,12 @@ export class LegalEntityComponent implements OnInit {
 
       this.isMemberAdded = true;
       if (this.legalentityAddMemberForm.invalid) {
+        return;
+      }
+      var GetAadhaarNo = this.request.MemberDetails.find((x: { PresidentAadhaarNumber: string; }) => x.PresidentAadhaarNumber == this.memberdetails.PresidentAadhaarNumber)?.PresidentAadhaarNumber;
+
+      if (GetAadhaarNo != undefined && GetAadhaarNo != '') {
+        this.toastr.warning(GetAadhaarNo + " aadhaar no. already exist in member list");
         return;
       }
       var GetPostName = this.lstMemberPost.find((x: { RoleID: number; }) => x.RoleID == this.memberdetails.MemberPostID).RoleName;
@@ -766,25 +727,22 @@ export class LegalEntityComponent implements OnInit {
             //
             //console.log(this.ScoietyData['AdministrativeData'].find((x: { PostName: string; }) => x.PostName.toLowerCase().includes('president')));
 
-            this.ScoietyData.PresidentName = this.ScoietyData['AdministrativeData'].find((x: { PostName: string, Name: string }) => x.PostName.toLowerCase().includes('president')).Name;
+            this.ScoietyData.PresidentName = this.ScoietyData['AdministrativeData'].find((x: { PostName: string, Name: string }) => x.PostName.toLowerCase().includes('president') || x.PostName.toLowerCase().includes('President/ अध्यक्ष'))?.Name;
 
-            this.ScoietyData.PresidentMobileNo = this.ScoietyData['AdministrativeData'].find((x: { PostName: string, ContactNo: string }) => x.PostName.toLowerCase().includes('president')).ContactNo;
-
-            console.log(this.ScoietyData.PresidentName);
-            console.log(this.ScoietyData.PresidentMobileNo);
+            this.ScoietyData.PresidentMobileNo = this.ScoietyData['AdministrativeData'].find((x: { PostName: string, ContactNo: string }) => x.PostName.toLowerCase().includes('president') || x.PostName.toLowerCase().includes('President/ अध्यक्ष'))?.ContactNo;
 
             //this.ScoietyData.PresidentName = this.ScoietyData.AdministrativeData.find((x: { PostName: string; }) => x.PostName.includes('PRESIDVYAPARNT') || x.PostName.includes('PRESIDENT') || x.PostName.includes('President') || x.PostName.includes('President/ अध्यक्ष')).Name;
 
             //this.ScoietyData.PresidentMobileNo = this.ScoietyData.AdministrativeData.find((x: { PostName: string; }) => x.PostName.includes('PRESIDVYAPARNT') || x.PostName.includes('PRESIDENT') || x.PostName.includes('President') || x.PostName.includes('President/ अध्यक्ष')).ContactNo;
 
-            if (this.ScoietyData.PresidentName == '' || this.ScoietyData.PresidentMobileNo == '') {
+            if (this.ScoietyData.PresidentName == '' || this.ScoietyData.PresidentName == undefined || this.ScoietyData.PresidentMobileNo == '' || this.ScoietyData.PresidentMobileNo == undefined) {
               const display = document.getElementById('NotRegistered')
               if (display) display.style.display = "block";
               this.isSocietyList = false;
               this.isDisabled = false;
               return;
             }
-
+            this.memberdetails.MemberMobileNo = this.ScoietyData.PresidentMobileNo;
 
             if (this.ScoietyData.PresidentMobileNo.length > 0) {
               const visibleDigits = 4;
@@ -933,7 +891,6 @@ export class LegalEntityComponent implements OnInit {
     if (display) display.style.display = 'none';
   }
   async OpenOTPModel() {
-    console.log(this.legalentityForm_Registration.controls);
     this.isSubmitted_Registration = true;
     if (this.legalentityForm_Registration.invalid) {
       return
@@ -987,9 +944,8 @@ export class LegalEntityComponent implements OnInit {
             this.toastr.success("OTP send Successfully");
           }
           else {
-            this.toastr.error(data[0].message);
+            //this.toastr.error(data[0].message);
           }
-          console.log(data[0]);
           const display = document.getElementById('ModalOtpVerify')
           if (display) display.style.display = "block";
           this.timer(1);
@@ -1022,6 +978,7 @@ export class LegalEntityComponent implements OnInit {
       this.AadharRequest.OTP = this.UserOTP;
       await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
 
           if (data[0].status == "0") {
@@ -1104,6 +1061,9 @@ export class LegalEntityComponent implements OnInit {
 
           this.isDisabledNewRegistration = true;
           this.memberdetails.PresidentAadhaarNumber = this.AadharRequest.AadharNo;
+          if (this.request.IsLegalEntity != 1) {
+            this.memberdetails.MemberMobileNo = this.request.PresidentMobileNo;
+          }
         }
       }
       else {
@@ -1705,6 +1665,7 @@ export class LegalEntityComponent implements OnInit {
   }
 
   SetElectionPresentManagementCommitteeDatemindate() {
+    debugger;
     //const mindate1 = new Date(2000, 0, 1);
     const mindate1 = new Date(this.request.SocietyRegistrationDate);
     this.MinDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
@@ -1714,6 +1675,7 @@ export class LegalEntityComponent implements OnInit {
   }
 
   ElectionPresentManagementCommitteeDate_Change() {
+    debugger;
     if (new Date(this.request.SocietyRegistrationDate) > new Date(this.request.ElectionPresentManagementCommitteeDate)) {
       this.ValidationMinDate = 'Invalid .!';
       this.request.ElectionPresentManagementCommitteeDate = '';
@@ -1757,11 +1719,15 @@ export class LegalEntityComponent implements OnInit {
     this.ToggleElectionPresentManagementCommitteeDateValidation();
   }
 
+  public AadhaarPost: string = 'President';
   IsCheckMemberValidateDoc(val: any) {
-    if (val == 14 || val == '14')
+    if (val == 14 || val == '14') {
       this.isValidateMemberDoc = false;
-    else
+    }
+    else {
       this.isValidateMemberDoc = true;
+    }
+    this.AadhaarPost = this.lstMemberPost.find((x: { RoleID: number; }) => x.RoleID == val).RoleName;
   }
 
 
