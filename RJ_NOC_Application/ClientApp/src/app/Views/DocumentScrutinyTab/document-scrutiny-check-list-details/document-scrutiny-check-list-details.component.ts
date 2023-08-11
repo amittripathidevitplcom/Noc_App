@@ -677,24 +677,31 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   //End Veterinary Hospital
 
   //
+  public UserSSOID: string = '';
   async GetLegalEntityData() {
     try {
-      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          debugger;
-          if (this.State == 0) {
-            this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
-          }
-          if (this.State == 1) {
-            this.toastr.error(this.ErrorMessage)
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.SuccessMessage)
-          }
-        })
+      await this.commonMasterService.GetCollegeBasicDetails(this.SelectedCollageID.toString())
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.UserSSOID = data['Data'][0]['data'][0]['ParentSSOID'];
+          this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.UserSSOID)
+            .then(async (data: any) => {
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              debugger;
+              if (this.State == 0) {
+                this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
+              }
+              if (this.State == 1) {
+                this.toastr.error(this.ErrorMessage)
+              }
+              else if (this.State == 2) {
+                this.toastr.warning(this.SuccessMessage)
+              }
+            })
+        }, error => console.error(error));
+
     }
     catch (ex) { console.log(ex) }
     finally {
