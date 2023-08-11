@@ -301,7 +301,8 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="IsActOther">
                 <label for="">Act (Which Act You Registered)  <span style="color:red">*</span></label>
-                <input class="form-control" id="txtRegisteredAct" [(ngModel)]="request.RegisteredActName" formControlName="txtRegisteredActName" />
+                <input class="form-control" id="txtRegisteredAct" [(ngModel)]="request.RegisteredActName" formControlName="txtRegisteredActName" (keypress)="alphanumbersSpaceOnly($event)" maxlength="200"/>
+                <p *ngIf="isSubmitted&&IsActOther&&request.RegisteredActName==''" class="text-danger">This field is required .!</p>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for=""> Date Of Registration</label>
@@ -323,7 +324,7 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for=""> Registered Address <span style="color:red">*</span></label>
-                <input class="form-control" id="txtSocietyRegisteredAddress" [(ngModel)]="request.SocietyRegisteredAddress" formControlName="txtSocietyRegisteredAddress" (keypress)="alphanumbersSpaceOnly($event)"/>
+                <input class="form-control" id="txtSocietyRegisteredAddress" [(ngModel)]="request.SocietyRegisteredAddress" formControlName="txtSocietyRegisteredAddress" (keypress)="alphanumbersSpaceOnly($event)" />
                 <div *ngIf="isSubmitted&&form.txtSocietyRegisteredAddress.errors" class="text-danger">
                   <p *ngIf="form.txtSocietyRegisteredAddress.errors.required">  This field is required .!</p>
                 </div>
@@ -384,7 +385,16 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="">Management Committee certified By Registrar <span style="color:red">*</span></label>
-                <input type="text" class="form-control" id="txtManagementCommitteecertified" [(ngModel)]="request.ManagementCommitteeCertified" formControlName="txtManagementCommitteecertified" (keypress)="alphaOnly($event)" />
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="txtManagementCommitteecertified" id="ManagementCommitteeCertifiedYes" value="Yes" [(ngModel)]="request.ManagementCommitteeCertified" formControlName="txtManagementCommitteecertified">
+                  <label class="form-check-label" for="ManagementCommitteeCertifiedYes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="txtManagementCommitteecertified" id="ManagementCommitteeCertifiedYesNo" value="No" [(ngModel)]="request.ManagementCommitteeCertified" formControlName="txtManagementCommitteecertified">
+                  <label class="form-check-label" for="ManagementCommitteeCertifiedYesNo">No</label>
+                </div>
+                <!--<input type="text" class="form-control" id="txtManagementCommitteecertified" [(ngModel)]="request.ManagementCommitteeCertified" formControlName="txtManagementCommitteecertified" (keypress)="alphaOnly($event)" />-->
                 <div *ngIf="isSubmitted&&form.txtManagementCommitteecertified.errors" class="text-danger">
                   <p *ngIf="form.txtManagementCommitteecertified.errors.required">This field is required .!</p>
                 </div>
@@ -512,7 +522,7 @@
                         </div>
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                        <label for="">Aadhaar Number Of President  <span style="color:red">*</span></label>
+                        <label for="">Aadhaar Number Of {{AadhaarPost}}  <span style="color:red">*</span></label>
                         <input class="form-control" id="txtPresidentAadhaarNumber" [(ngModel)]="memberdetails.PresidentAadhaarNumber" formControlName="txtPresidentAadhaarNumber" maxlength="12" (keypress)="numberOnly($event)" />
                         <div *ngIf="isMemberAdded&&AMform.txtPresidentAadhaarNumber.errors" class="text-danger">
                           <p *ngIf="AMform.txtPresidentAadhaarNumber.errors.required"> This field is required .!</p>
