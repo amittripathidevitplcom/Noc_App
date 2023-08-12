@@ -103,11 +103,6 @@
             <input class="form-control disabled" disabled value="{{request.HighestQualificationName}}" />
           </div>
           <div class="col-md-4 mb-3">
-            <label><b>Total Number of Experience (Year) :</b></label>
-            <input class="form-control disabled" disabled value="{{request.NumberofExperience}}" />
-          </div>
-
-          <div class="col-md-4 mb-3">
             <label><b>Aadhar Number :</b></label>
             <input class="form-control disabled" disabled value="{{request.AadhaarNo}}" />
           </div>
@@ -122,6 +117,10 @@
           <div class="col-md-4 mb-3">
             <label><b>Date Of Joining :</b></label>
             <input class="form-control disabled" disabled value="{{request.DateOfJoining}}" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label><b>Total Number of Experience (Year) :</b></label>
+            <input class="form-control disabled" disabled value="{{request.NumberofExperience}}" />
           </div>
           <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
             <label><b>Specialization Subject :</b></label>
@@ -142,8 +141,10 @@
           <div class="col-md-4 mb-3">
             <label class="form-label" style="margin-right:15px"><b>PF Deduction :</b></label>
             <input class="form-control disabled" disabled value="{{request.PFDeduction}}" />
-            <label *ngIf="request.PFDeduction=='Yes'"><b> UAN No. :</b></label>
-            <input *ngIf="request.PFDeduction=='Yes'" class="form-control disabled" disabled value=" {{request.UANNumber}}" />
+          </div>
+          <div class="col-md-4 mb-3" *ngIf="request.PFDeduction=='Yes'">
+            <label><b> UAN No. :</b></label>
+            <input class="form-control disabled" disabled value=" {{request.UANNumber}}" />
           </div>
           <div class="col-md-4 mb-3">
             <label class="form-label" style="margin-right:15px"><b>Research Guide :</b></label>

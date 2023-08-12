@@ -250,9 +250,9 @@
           <div *ngIf="isSubmitted&&form.rdPFDeduction.errors" class="text-danger">
             <p *ngIf="form.rdPFDeduction.errors.required">This field is required .!</p>
           </div>
-          <div class="row">
-            <label *ngIf="request.PFDeduction=='Yes'"> UAN No.</label>
-            <input *ngIf="request.PFDeduction=='Yes'" type="text" id="txtUANNo" name="txtUANNo" class="form-control" formControlName="txtUANNo" [(ngModel)]="request.UANNumber" maxlength="12" (keypress)="numberOnly($event)" />
+          <div class="row" *ngIf="request.PFDeduction=='Yes'">
+            <label> UAN No.</label>
+            <input type="text" id="txtUANNo" name="txtUANNo" class="form-control" formControlName="txtUANNo" [(ngModel)]="request.UANNumber" maxlength="12" (keypress)="numberOnly($event)" />
             <div *ngIf="isUANNumber" class="text-danger">
               <p *ngIf="isUANNumber"> This field is required .!</p>
             </div>

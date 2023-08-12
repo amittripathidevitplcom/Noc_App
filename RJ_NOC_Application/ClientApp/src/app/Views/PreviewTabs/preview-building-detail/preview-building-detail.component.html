@@ -117,10 +117,19 @@
                 <label class="form-label"><b>Pincode :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.Pincode}}" />
               </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                <label><b>Upload Registered Rent Agreement/Lease Deed :</b></label>
+                <a *ngIf="!buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.RentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.RentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{buildingdetails.RentAgreementFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <label *ngIf="buildingdetails.RentAgreementFileUploadPath=='N/A'">{{buildingdetails.RentAgreementFileUploadPath}}</label>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.RentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.RentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
             </div>
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
-                <b><i class="fa fa-filter"></i>&nbsp;Certificate of Own Building in own land in same campus Order No. & Order Date : </b>
+                <b *ngIf="buildingdetails.BuildingTypeName=='Owned'"><i class="fa fa-filter"></i>&nbsp;Certificate of Own Building in own land in same campus Order No. & Order Date : </b>
+                <b *ngIf="buildingdetails.BuildingTypeName!='Owned'"><i class="fa fa-filter"></i>&nbsp;Certificate of Land & Rented Building in same "Tehsil" Order No. & Order Date : </b>
               </div>
               <div class="card-body">
                 <div class="row">
