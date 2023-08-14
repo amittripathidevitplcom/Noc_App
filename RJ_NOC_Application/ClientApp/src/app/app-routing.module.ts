@@ -114,6 +114,7 @@ import { ParamedicalHospitalDetailComponent } from './Views/TabDetail/paramedica
 import { ClassWiseStudentDetailsComponent } from './Views/ClassWiseStudentDetails/class-wise-student-details/class-wise-student-details.component';
 import { PreviewParamedicalHospitalDetailComponent } from './Views/PreviewTabs/preview-paramedical-hospital-detail/preview-paramedical-hospital-detail.component';
 import { DocumentScrutinyParamedicalHospitalDetailComponent } from './Views/DocumentScrutinyTab/document-scrutiny-paramedical-hospital-detail/document-scrutiny-paramedical-hospital-detail.component';
+import { DocumentScrutinyComponent } from './Views/DCE/document-scrutiny/document-scrutiny.component';
 
 
 const routes: Routes = [
@@ -486,6 +487,9 @@ const routes: Routes = [
       {
         path: 'documentscrutinyparamedicalhospitaldetail/:DepartmentID/:CollegeID', component: DocumentScrutinyParamedicalHospitalDetailComponent
       },
+      {
+        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID', component: DocumentScrutinyComponent
+      }
 
     ]
   },

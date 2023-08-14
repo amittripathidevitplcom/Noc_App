@@ -465,7 +465,7 @@ export class ApplyNocParameterComponent implements OnInit {
       if (!isValid) {
         return;
       }
-      // debugger
+      debugger
 
       this.isSubmitted = true;
       //set
@@ -542,7 +542,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
       else  if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
-        let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList;
+        let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList;
         if (SelectedCourselist.length == 0) {
           this.toastr.error("Choose any subject from 'NOC For New Subject'");
           return;
@@ -1506,7 +1506,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
       const indexToRemove = this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
       this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.splice(indexToRemove, 1);
-      this.ApplyNocParameterMasterList_NewCourseSubject.FeeAmount = this.calcuateTNOCSubjectFees();
+      this.ApplyNocParameterMasterList_NewCourseSubject.FeeAmount = this.calcuateSumofNewSubject();
     }
   }
 

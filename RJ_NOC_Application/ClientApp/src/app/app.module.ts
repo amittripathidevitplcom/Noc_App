@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
- 
+
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatIconModule } from '@angular/material/icon';
@@ -64,7 +64,7 @@ import { ApplicationDetailEntryComponent } from './Views/ApplicationDetailEntry/
 import { FacilityDetailsComponent } from './Views/TabDetail/facility-details/facility-details.component';
 import { LandDetailsComponent } from './Views/TabDetail/land-details/land-details.component';
 import { RequiredDocumentComponent } from './Views/TabDetail/required-document/required-document.component';
- 
+
 import { BuildingDetailsComponent } from './Views/TabDetail/building-details/building-details.component';
 import { DraftApplicationListComponent } from './Views/DraftApplicationList/draft-application-list/draft-application-list.component';
 import { RoomDetailsComponent } from './Views/TabDetail/room-details/room-details.component';
@@ -106,7 +106,7 @@ import { PreviewHospitalDetailComponent } from './Views/PreviewTabs/preview-hosp
 import { PreviewHostelDetailsComponent } from './Views/PreviewTabs/preview-hostel-detail/preview-hostel-details.component';
 import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
- 
+
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
 import { ApplyNocParameterComponent } from './Views/Master/apply-noc-parameter/apply-noc-parameter.component';
@@ -175,14 +175,36 @@ import { DocumentScrutinyParamedicalHospitalDetailComponent } from './Views/Docu
 import { PreviewVeterinaryHospitalComponent } from './Views/PreviewTabs/preview-veterinary-hospital/preview-veterinary-hospital.component';
 import { DocumentScrutinyVeterinaryHospitalComponent } from './Views/DocumentScrutinyTab/document-scrutiny-veterinary-hospital/document-scrutiny-veterinary-hospital.component';
 import { DocumentScrutinyFarmLandDetailsComponent } from './Views/DocumentScrutinyTab/document-scrutiny-farm-land-details/document-scrutiny-farm-land-details.component';
+import { DocumentScrutinyComponent } from './Views/DCE/document-scrutiny/document-scrutiny.component';
+
+//document scotiny
+import { DocumentScrutinyLegalEntityComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-legal-entity/document-scrutiny-legal-entity-dce.component';
+import { DocumentScrutinyRoomDetailsComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-room-details/document-scrutiny-room-details.component';
+import { DocumentScrutinyBuildingDetailsComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-building-details/document-scrutiny-building-details.component';
+import { DocumentScrutinyStaffDetailsComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-staff-details/document-scrutiny-staff-details.component';
+import { DocumentScrutinyOldNOCDetailsComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-old-nocdetails/document-scrutiny-old-nocdetails.component';
+import { DocumentScrutinyAcademicInformationComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-academic-information/document-scrutiny-academic-information.component';
+import { DocumentScrutinyHospitalDetailsComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-hospital-details/document-scrutiny-hospital-details.component';
+import { DocumentScrutinyHostalDetailsComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-hostal-details/document-scrutiny-hostal-details.component';
+import { DocumentScrutinyFacilityComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-facility/document-scrutiny-facility.component';
+import { DocumentScrutinyRequiredDocumentComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-required-document/document-scrutiny-required-document.component';
+import { DocumentScrutinyOtherInformationComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-other-information/document-scrutiny-other-information.component';
+import { DocumentScrutinyOtherDocumentComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-other-document/document-scrutiny-other-document.component';
+import { DocumentScrutinyCollegeManagementSocietyComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-college-management-society/document-scrutiny-college-management-society.component';
+import { DocumentScrutinyCollegeDetailComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-college-detail/document-scrutiny-college-detail.component';
+import { DocumentScrutinyCheckListDetailsComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
+
+import { DocumentScrutinyLandDetailComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-land-detail/document-scrutiny-land-detail.component';
+
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MasterPageComponent,
-    
-    
+
+
     ApplicationListComponent,
     CollegeDetailsComponent,
     BasicBscNursingComponent,
@@ -345,6 +367,23 @@ import { DocumentScrutinyFarmLandDetailsComponent } from './Views/DocumentScruti
     PreviewVeterinaryHospitalComponent,
     DocumentScrutinyVeterinaryHospitalComponent,
     DocumentScrutinyFarmLandDetailsComponent,
+    DocumentScrutinyComponent,
+    DocumentScrutinyLegalEntityComponentDce,
+    DocumentScrutinyRoomDetailsComponentDce,
+    DocumentScrutinyBuildingDetailsComponentDce,
+    DocumentScrutinyStaffDetailsComponentDce,
+    DocumentScrutinyOldNOCDetailsComponentDce,
+    DocumentScrutinyAcademicInformationComponentDce,
+    DocumentScrutinyHospitalDetailsComponentDce,
+    DocumentScrutinyHostalDetailsComponentDce,
+    DocumentScrutinyFacilityComponentDce,
+    DocumentScrutinyRequiredDocumentComponentDce,
+    DocumentScrutinyOtherInformationComponentDce,
+    DocumentScrutinyOtherDocumentComponentDce,
+    DocumentScrutinyCollegeManagementSocietyComponentDce,
+    DocumentScrutinyCollegeDetailComponentDce,
+    DocumentScrutinyCheckListDetailsComponentDce,
+    DocumentScrutinyLandDetailComponentDce
 
   ],
   imports: [
@@ -368,7 +407,7 @@ import { DocumentScrutinyFarmLandDetailsComponent } from './Views/DocumentScruti
     MatButtonModule,
     MatIconModule,
     NgMultiSelectDropDownModule.forRoot(),
-     
+
 
     //NgSelect2Module,
     //ChartsModule,

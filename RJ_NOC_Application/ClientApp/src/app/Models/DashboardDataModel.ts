@@ -52,5 +52,15 @@ export class DashboardDataModel {
   public RegistratCommittee_Rejected: number = 0;
   public RegistratCommittee_Completed: number = 0;
 
+
+  //Dec Dashboard Count Data Modal
+
+  //Nodal Dashboard Modal
+  public Nodal_Pending: number = 0;
+  public Nodal_Reverted: number = 0;
+  public Nodal_Rejected: number = 0;
+  public Nodal_Completed: number = 0;
+
+
    
 }
