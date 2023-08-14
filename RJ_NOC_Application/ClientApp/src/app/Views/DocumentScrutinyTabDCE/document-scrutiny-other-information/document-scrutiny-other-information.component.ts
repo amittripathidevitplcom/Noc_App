@@ -16,7 +16,7 @@ import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../..
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-other-information-dce',
@@ -43,7 +43,7 @@ export class DocumentScrutinyOtherInformationComponentDce implements OnInit {
   public FinalRemarks: any = [];
   //public RequiredDocumentsAllList: any = [];
 
-  constructor(private otherInformationService: OtherInformationService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private otherInformationService: OtherInformationService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
 
   async ngOnInit() {
@@ -57,7 +57,7 @@ export class DocumentScrutinyOtherInformationComponentDce implements OnInit {
   async GetOtherInformationAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_OtherInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_OtherInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

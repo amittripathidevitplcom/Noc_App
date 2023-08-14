@@ -17,14 +17,10 @@ import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.s
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 import { ToastrService } from 'ngx-toastr';
 import { HostelDataModel } from '../../../Models/HostelDetailsDataModel';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
-import { VeterinaryHospitalDataModel, AnimalDataModel } from '../../../Models/VeterinaryHospitalDataModel';
-import { FarmLandDetailDataModel } from '../../../Models/FarmLandDetailDataModel';
-import { ParamedicalHospitalDataModel, ParamedicalHospitalParentNotDataModel, ParamedicalHospitalBedValidation } from '../../../Models/ParamedicalHospitalDataModel';
-import { ParamedicalHospitalService } from '../../../Services/Tabs/ParamedicalHospital/paramedical-hospital.service';
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 
@@ -133,9 +129,6 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
 
 
   public CheckList_hostelDataModel: HostelDataModel[] = [];
-  public CheckList_VeterinaryHospitalDataModel: VeterinaryHospitalDataModel[] = [];
-  public CheckList_FarmLandDetailsDataModel: FarmLandDetailDataModel[] = [];
-  public CheckList_ParamedicalHospitalDataModelList: ParamedicalHospitalDataModel[] = [];
 
   public HostelDetailFinalRemarks: any = [];
   public VeterinaryHospitalFinalRemarks: any = [];
@@ -166,14 +159,13 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
 
   public HospitalData: any = {};
 
-  public ParamedicalHospitalBedValidationList: ParamedicalHospitalBedValidation[] = [];
 
   public IsShowSuperSpecialtyHospital: boolean = false;
   LegalEntityDataModel = new LegalEntityDataModel();
 
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
-    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private hospitalDetailService: ParamedicalHospitalService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, 
+    private landDetailsService: LandDetailsService,private  dcedocumentScrutinyService:DCEDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
+    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, 
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
 
@@ -196,17 +188,12 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.GetOtherInformationAllList();
     this.GetAcademicInformationDetailAllList();
     this.GetOtherDocuments('Other Document');
-    this.GetHospitalDataList();
     this.GetHostelDetailList_DepartmentCollegeWise();
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
     this.NextGetWorkFlowActionListByRole();
     this.GetCollageDetails();
     //this.CheckDocumentScrutinyTabsData();
-    this.GetVeterinaryHospitalList_DepartmentCollegeWise();
-    this.GetFarmLandDetailsList_DepartmentCollegeWise();
-    this.GetLegalEntityData();
-    this.GetHospitalDataList_DepartmentCollegeWise();
     this.CheckTabsEntry();
   }
 
@@ -217,7 +204,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
 
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckList_LandDetailList = data['Data'][0]['LandDetails'];
@@ -240,7 +227,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async GetFacilityDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_FacilityDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_FacilityDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -264,7 +251,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async ViewlegalEntityDataByID() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -301,7 +288,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async ViewTotalCollegeDataByID() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -334,7 +321,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async GetSocietyAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -363,7 +350,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async GetHostelDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_HostelDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_HostelDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -389,7 +376,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async GetRoomDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -412,7 +399,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async GetAllBuildingDetailsList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckList_lstBuildingDetails = data['Data'][0]['BuildingDetails'];
@@ -435,7 +422,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async GetStaffDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_StaffDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_StaffDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -475,7 +462,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async GetOldNOCDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_OldNOCDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_OldNOCDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -497,7 +484,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async GetRequiredDocuments(Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -525,7 +512,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async GetOtherInformationAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_OtherInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_OtherInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -550,7 +537,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async GetAcademicInformationDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_AcademicInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_AcademicInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -575,7 +562,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async GetOtherDocuments(Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -597,135 +584,9 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   }
   //End Other Document
 
-  //Start Hospital Details
-  async GetHospitalDataList() {
-    this.loaderService.requestStarted();
-    try {
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_HospitalDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.CheckList_HospitalParentNotDataModelList = data['Data'][0]['HospitalDetails'];
-            this.HospitalDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  //End Hospital Details
-  //Veterinary Hospital
 
-  async GetVeterinaryHospitalList_DepartmentCollegeWise() {
-    try {
-      this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_VeterinaryHospital(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
-        .then((data: any) => {
 
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.CheckList_VeterinaryHospitalDataModel = data['Data'][0]['VeterinaryHospitals'];
-          this.VeterinaryHospitalFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  //End Veterinary Hospital
-
-  //Veterinary Hospital
-
-  async GetFarmLandDetailsList_DepartmentCollegeWise() {
-    try {
-      this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_FarmLandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
-        .then((data: any) => {
-
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.CheckList_FarmLandDetailsDataModel = data['Data'][0]['FarmLandDetails'];
-          this.FarmLandDetailsFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  //End Veterinary Hospital
-
-  //
-  async GetLegalEntityData() {
-    try {
-      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          debugger;
-          if (this.State == 0) {
-            this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
-          }
-          if (this.State == 1) {
-            this.toastr.error(this.ErrorMessage)
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.SuccessMessage)
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-  async GetHospitalDataList_DepartmentCollegeWise() {
-    this.loaderService.requestStarted();
-    try {
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_ParamedicalHospitalDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.CheckList_ParamedicalHospitalDataModelList = data['Data'][0]['HospitalDetails'];
-            this.ParamedicalHospitalDetails_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-            
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+ 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -735,60 +596,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       return `with: ${reason}`;
     }
   }
-  async ViewHospitalDetail(content: any, HospitalID: number) {
-    this.HospitalData = {};
-    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-    try {
-      this.loaderService.requestStarted();
-      await this.hospitalDetailService.GetData(HospitalID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.HospitalData = data['Data'];
-        });
-      await this.GetParamedicalHospitalBedValidation(HospitalID);
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
 
-  async GetParamedicalHospitalBedValidation(HospitalID: number) {
-    try {
-      this.ParamedicalHospitalBedValidationList = [];
-      await this.hospitalDetailService.GetParamedicalHospitalBedValidation(this.SelectedCollageID, HospitalID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.ParamedicalHospitalBedValidationList = JSON.parse(JSON.stringify(data['Data']));
-          }
-          if (this.State == 1) {
-            this.toastr.error(this.ErrorMessage)
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.SuccessMessage)
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
   //
 
 
@@ -1043,7 +851,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async CheckTabsEntry() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+      await this.dcedocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];

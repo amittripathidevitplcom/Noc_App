@@ -10,7 +10,7 @@ import { SocietyDataModel } from '../../../Models/SocietyDataModel';
 import { SocityService } from '../../../Services/Master/SocietyManagement/socity.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
   dsrequest = new DocumentScrutinyDataModel();
   constructor(private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private medicalDocumentScrutinyService: MedicalDocumentScrutinyService) { }
+    private dcedocumentScrutinyService: DCEDocumentScrutinyService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -46,7 +46,7 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
   async GetSocietyAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

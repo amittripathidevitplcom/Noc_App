@@ -31,8 +31,8 @@
               </div>
 
             </th>
-            <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-            <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+            <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+            <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
             <th>Sr. No</th>
             <th>Action</th>
             <th>Building Type</th>
@@ -67,7 +67,7 @@
                   <textarea type="text" class="form-control" name="txtBuildingRemark{{idx+1}}" id="txtBuildingRemark{{idx+1}}" [(ngModel)]="item.Remark"></textarea>
                 </div>
               </div>
-            </td>
+            <!--</td>
             <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
               Compliance: {{item.C_Action}}<br />
               <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
@@ -75,7 +75,7 @@
             <td *ngIf="sSOLoginDataModel.RoleID==5">
               Compliance: {{item.S_Action}}<br />
               <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-            </td>
+            </td>-->
             <td>{{idx+1}}</td>
             <td>
               <div class="d-flex">

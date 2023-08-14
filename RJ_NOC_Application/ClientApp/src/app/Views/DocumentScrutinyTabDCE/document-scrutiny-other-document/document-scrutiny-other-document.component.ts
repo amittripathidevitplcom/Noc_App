@@ -8,7 +8,7 @@ import { CollegeDocumentService } from '../../../Services/Tabs/CollegeDocument/c
 import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-other-document-dce',
@@ -35,7 +35,7 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
 
   constructor(private loaderService: LoaderService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute,
-    private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService) { }
+    private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService, private dcedocumentScrutinyService: DCEDocumentScrutinyService) { }
 
   async ngOnInit() {
 
@@ -52,7 +52,7 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
   async GetOtherDocuments(Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

@@ -18,7 +18,8 @@ import { CollegeDocumentService } from '../../../Services/Tabs/CollegeDocument/c
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+
 
 
 @Component({
@@ -51,7 +52,7 @@ export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
 
   public FinalRemarks: any = [];
 
-  constructor(private oldnocdetailService: OldnocdetailService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private oldnocdetailService: OldnocdetailService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
 
 
@@ -66,7 +67,7 @@ export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
   async GetOldNOCDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_OldNOCDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_OldNOCDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           
           data = JSON.parse(JSON.stringify(data));

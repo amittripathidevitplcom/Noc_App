@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-academic-information-dce',
@@ -29,7 +29,7 @@ export class DocumentScrutinyAcademicInformationComponentDce implements OnInit {
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private academicInformationDetailsService: AcademicInformationDetailsService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+  constructor(private dceDocumentScrutinyService: DCEDocumentScrutinyService,private academicInformationDetailsService: AcademicInformationDetailsService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute,
     private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
 
@@ -43,7 +43,7 @@ export class DocumentScrutinyAcademicInformationComponentDce implements OnInit {
   async GetAcademicInformationDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_AcademicInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dceDocumentScrutinyService.DocumentScrutiny_AcademicInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

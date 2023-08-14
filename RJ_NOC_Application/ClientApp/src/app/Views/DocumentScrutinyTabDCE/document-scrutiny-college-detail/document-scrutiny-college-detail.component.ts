@@ -10,7 +10,7 @@ import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-college-detail-dce',
@@ -18,7 +18,7 @@ import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumen
   styleUrls: ['./document-scrutiny-college-detail.component.css']
 })
 export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
+  constructor(private dceDocumentScrutinyService: DCEDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
 
   }
 
@@ -66,7 +66,7 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
   async ViewTotalCollegeDataByID() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dceDocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));

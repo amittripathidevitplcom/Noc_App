@@ -11,7 +11,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { HostelDataModel, HostelDetailsDataModel_Hostel } from '../../../Models/HostelDetailsDataModel';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-hostal-details-dce',
@@ -42,7 +42,7 @@ export class DocumentScrutinyHostalDetailsComponentDce implements OnInit {
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
 
-  constructor(private modalService: NgbModal, private loaderService: LoaderService, private hostelDetailService: HostelDetailService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private modalService: NgbModal, private loaderService: LoaderService, private hostelDetailService: HostelDetailService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
 
   async ngOnInit() {
@@ -58,7 +58,7 @@ export class DocumentScrutinyHostalDetailsComponentDce implements OnInit {
   async GetHostelDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_HostelDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_HostelDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

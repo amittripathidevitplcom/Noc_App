@@ -9,7 +9,7 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { ToastrService } from 'ngx-toastr';
 import { BuildingDetailsDataModel, DocuemntBuildingDetailsDataModel } from '../../../Models/TabDetailDataModel';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-building-details-dce',
@@ -36,7 +36,7 @@ export class DocumentScrutinyBuildingDetailsComponentDce implements OnInit {
   dsrequest = new DocumentScrutinyDataModel();
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
-  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private dceDocumentScrutinyService: DCEDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -49,7 +49,7 @@ export class DocumentScrutinyBuildingDetailsComponentDce implements OnInit {
   async GetAllBuildingDetailsList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dceDocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           
           data = JSON.parse(JSON.stringify(data));

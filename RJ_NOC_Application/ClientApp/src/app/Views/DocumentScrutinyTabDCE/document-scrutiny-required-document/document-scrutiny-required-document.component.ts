@@ -10,7 +10,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { ToastrService } from 'ngx-toastr';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-required-document-dce',
@@ -38,7 +38,7 @@ export class DocumentScrutinyRequiredDocumentComponentDce implements OnInit {
 
   constructor(private collegeDocumentService: CollegeDocumentService, private commonMasterService: CommonMasterService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private medicalDocumentScrutinyService: MedicalDocumentScrutinyService
+    private dcedocumentScrutinyService: DCEDocumentScrutinyService
   ) { }
 
 
@@ -55,7 +55,7 @@ export class DocumentScrutinyRequiredDocumentComponentDce implements OnInit {
   async GetRequiredDocuments(Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
