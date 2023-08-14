@@ -465,7 +465,7 @@ export class ApplyNocParameterComponent implements OnInit {
       if (!isValid) {
         return;
       }
-      // debugger
+      debugger
 
       this.isSubmitted = true;
       //set

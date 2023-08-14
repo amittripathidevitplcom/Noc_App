@@ -1,0 +1,406 @@
+<div class="card mb-0">
+  <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+    <b><i class="bi bi-table"></i> Building Details </b>
+    <div class="d-flex align-items-center">
+      <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+        <!--<button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+        <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+        <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>-->
+      </div>
+      <div class="d-flex align-items-center table-filter mr-15">
+        <i class="fa fa-search"></i>
+        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped-columns" id="tabellist" #content>
+        <thead>
+          <tr>
+
+            <th>
+              Compliance<br />
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rdBuildingSelectAllActionType" id="rdBuildingSelectAllYes" value="Yes" (change)="selectAll('Yes')">
+                <label class="form-check-label">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rdBuildingSelectAllActionType" id="rdBuildingSelectAllNo" value="No" (change)="selectAll('No')">
+                <label class="form-check-label">No</label>
+              </div>
+
+            </th>
+            <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+            <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+            <th>Sr. No</th>
+            <th>Action</th>
+            <th>Building Type</th>
+            <th>Owner Name</th>
+            <th>Rural Urban</th>
+            <th>ContactNo</th>
+            <th>From Date</th>
+            <th>To Date</th>
+            <th>Order No</th>
+            <th>Order Date</th>
+            <th>Expiring On</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of lstBuildingDetails | tableSearchFilter:searchText;let idx=index;">
+
+            <td>
+              <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rdBuildingActionType{{idx+1}}" id="rdBuildingActionTypeYes{{idx+1}}" [(ngModel)]="item.Action" value="Yes" (change)="ClickOnAction(idx)">
+                  <label class="form-check-label">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="rdBuildingActionType{{idx+1}}" id="rdBuildingActionTypeNo{{idx+1}}" value="No" [(ngModel)]="item.Action" (change)="ClickOnAction(idx)">
+                  <label class="form-check-label">No</label>
+                </div>
+              </div>
+              <div class="row" [hidden]="item.Action !='No'">
+                <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                  <label>Remark : </label>
+                  <textarea type="text" class="form-control" name="txtBuildingRemark{{idx+1}}" id="txtBuildingRemark{{idx+1}}" [(ngModel)]="item.Remark"></textarea>
+                </div>
+              </div>
+            </td>
+            <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+              Compliance: {{item.C_Action}}<br />
+              <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+            </td>
+            <td *ngIf="sSOLoginDataModel.RoleID==5">
+              Compliance: {{item.S_Action}}<br />
+              <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+            </td>
+            <td>{{idx+1}}</td>
+            <td>
+              <div class="d-flex">
+                <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewBuildingDetails(mymodal,item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></button>
+                <!--<button type="button" title="View" (click)="ViewBuildingDetails(item.SchoolBuildingDetailsID)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>-->
+              </div>
+            </td>
+            <td>{{item.BuildingTypeName}}</td>
+            <td>{{item.OwnerName}}</td>
+            <td>{{item.RuralUrban}}</td>
+            <td>{{item.ContactNo}}</td>
+            <td>{{item.FromDate}}</td>
+            <td>{{item.ToDate}}</td>
+            <td>{{item.OrderNo}}</td>
+            <td>{{item.OrderDate}}</td>
+            <td>{{item.ExpiringOn}}</td>
+
+          </tr>
+          <tr *ngIf="lstBuildingDetails.length<=0">
+            <td colspan="13" style="color:red">No Data Found.!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row" *ngIf="FinalRemarks.length>0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Role</th>
+              <th>Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item1 of FinalRemarks ; let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item1.RoleID}}</td>
+              <td>{{item1.Remark}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <label>Remarks</label>
+        <textarea id="BuildingDetailRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+        <div *ngIf="isRemarkValid" class="text-danger">
+          <p *ngIf="isRemarkValid"> This field is required .!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-primary" type="button" (click)="SubmitBuildingDetail_Onclick()">Submit</button>
+      </div>
+    </div>
+    <ng-template #mymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Building Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-filter"></i>&nbsp;Building Documents</b>
+          </div>
+
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                <label class="form-label"><b>Building Category  :</b> </label>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label"><b>Owner Name :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.OwnerName}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label"><b>Address Line 1 :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.AddressLine1}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label"><b>Address Line 2 :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.AddressLine2}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label"> <b>Rural / Urban :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.RuralUrban}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label"><b>Division :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.Division_English}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label"><b>District :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.District_Eng}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildingdetails.RuralUrban != 'Rural'">
+                <label class="form-label"><b>Tehsil :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.TehsilName}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildingdetails.RuralUrban != 'Rural'">
+                <label class="form-label"><b>Panchayat Samiti :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.PanchyatSamitiName}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label"><b>City/Town/Village :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.CityTownVillage}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label"><b>Contact No :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.ContactNo}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label"><b>Pincode :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.Pincode}}" />
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Certificate of Own Building in own land in same campus Order No. & Order Date : </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label class="form-label"><b>Order No :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.OwnBuildingOrderNo}}" />
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label class="form-label"><b>Order Date :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.OwnBuildingOrderDate}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label><b>Upload Own Building Document :</b></label>
+                    <a *ngIf="!buildingdetails.OwnBuildingFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.OwnBuildingFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Fire NOC Validity</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>From Date :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.FromDate}}" />
+                  </div>
+
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>To Date :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ToDate}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label><b>Upload Fire NOC Document :</b></label>
+                    <a *ngIf="!buildingdetails.FireNOCFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.FireNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.FireNOCFileUploadPath}}" alt="Fire NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.FireNOCFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.FireNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Current Year Building Safety Certificate Order No. & Order Date: </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOrderNo" class="form-label"><b>Order No :</b> </label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.OrderNo}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOrderDate"><b>Order Date :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.OrderDate}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtExpiringOn"><b>Expiring On :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ExpiringOn}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label><b>Upload PWD NOC Document :</b></label>
+                    <a *ngIf="!buildingdetails.PWDNOCFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.PWDNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{buildingdetails.PWDNOCFileUploadPath}}" alt="PWD NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.PWDNOCFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.PWDNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Description</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Total Project Cost :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.TotalProjectCost}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Source Cost Amount :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.SourceCostAmount}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Amount deposited in the Bank near the institution :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.AmountDeposited}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Other fixed assets/securities of the organization :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.OtherFixedAssetsAndSecurities}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>GATE year balance secret of the organization :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.GATEYearBalanceSecret}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label class="form-label"><b>Other financial resources :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.OtherFinancialResources}}" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                          <tr>
+                            <th>Upload Total Project Cost Document</th>
+                            <th>Upload Source Cost Amount Document</th>
+                            <th>Upload Amount Deposited Document</th>
+                            <th>Upload Other Fixed Assets/Securities Document</th>
+                            <th>Upload GATE Year Balance Secret Document</th>
+                            <th>Upload Other Financial Resources Document</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.TotalProjectCostFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.TotalProjectCostFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.TotalProjectCostFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.TotalProjectCostFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.SourceCostAmountFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.SourceCostAmountFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.SourceCostAmountFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.SourceCostAmountFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.AmountDepositedFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.AmountDepositedFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.AmountDepositedFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.AmountDepositedFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.GATEYearBalanceSecretFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.GATEYearBalanceSecretFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.GATEYearBalanceSecretFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.GATEYearBalanceSecretFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                            <td>
+                              <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.OtherFinancialResourcesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFinancialResourcesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OtherFinancialResourcesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFinancialResourcesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Building Photos</b>
+              </div>
+              <div class="card-body">
+                <div class="row" *ngIf="buildingdetails.lstBuildingDocDetails.length>0">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Document Name</th>
+                            <th>File</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of buildingdetails.lstBuildingDocDetails ; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>
+                              {{item.DocumentName}}
+                            </td>
+                            <td>
+                              <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{item.FilePath}}" alt="Image/File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                            </td>
+                          </tr>
+                          <tr *ngIf="buildingdetails.lstBuildingDocDetails.length<=0">
+                            <td colspan="2" style="color:red">No Data Found.!</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

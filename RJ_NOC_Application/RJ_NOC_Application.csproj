@@ -46,6 +46,7 @@
     <Folder Include="ClientApp\src\app\Views\DocumentScrutinyTab_AH\" />
     <Folder Include="ClientApp\src\app\Views\Master\SocietyManagement\" />
     <Folder Include="ClientApp\src\app\Views\ClassWiseStudentDetails\" />
+    <Folder Include="ClientApp\src\app\Views\DCE\" />
     <Folder Include="ClientApp\src\app\Views\VeterinaryHospital\" />
     <Folder Include="ClientApp\src\app\Views\noc-payment\payment-success\" />
   </ItemGroup>
