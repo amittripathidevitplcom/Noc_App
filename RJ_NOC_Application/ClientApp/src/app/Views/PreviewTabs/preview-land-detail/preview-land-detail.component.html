@@ -55,124 +55,51 @@
                 <label><b> College:</b></label>
                 <input class="form-control disabled" disabled value="{{request.CollegeName}}" />
               </div>
-
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  <b>
-                    Land Area Situated In :
-                  </b>
-                </label>
+                <label><b>Land Area Situated In :</b></label>
                 <input class="form-control disabled" disabled value="{{request.LandAreaSituatedName}}" />
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  <b>
-                    Land Document Type
-                    :
-                  </b>
-                </label>
+                <label><b>Land Document Type :</b></label>
                 <input class="form-control disabled" disabled value="{{request.LandDocumentTypeName}}" />
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  <b>
-                    Is Your Land converted to Institution/Education
-                    :
-                  </b>
-                </label>
+                <label><b>Is Your Land converted to Institution/Education :</b></label>
                 <input class="form-control disabled" disabled value="{{request.IsConvereted}}" />
-
               </div>
-
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  <b>
-                    Land Type
-                    :
-                  </b>
-                </label>
+                <label><b>Land Type :</b></label>
                 <input class="form-control disabled" disabled value="{{request.LandTypeName}}" />
               </div>
-
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  <b>
-                    Khasra Number
-                    :
-                  </b>
-                </label>
+                <label><b>Khasra Number :</b></label>
                 <input class="form-control disabled" disabled value="{{request.KhasraNumber}}" />
               </div>
-
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  <b>
-                    Name of Owner of Land
-                    :
-                  </b>
-                </label>
+                <label><b>Name of Owner of Land :</b></label>
                 <input class="form-control disabled" disabled value="{{request.LandOwnerName}}" />
               </div>
-
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  <b>
-                    Total Building Area (in {{UnitOfLand}})
-                    :
-                  </b>
-                </label>
+                <label><b>Land Area (in {{request.AreaType !=''?request.AreaType:UnitOfLand}}) :</b></label>
+                <input class="form-control disabled" disabled value="{{request.LandArea}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label><b>Total Building Area (in {{UnitOfLand}}) :</b></label>
                 <input class="form-control disabled" disabled value="{{request.BuildingHostelQuartersRoadArea}}" />
               </div>
-
-
-
-
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
-                <label>
-                  <b>
-                    Land Conversion Order Date(DD/MM/YYYY)
-                    :
-                  </b>
-                </label>
+                <label><b> Land Conversion Order Date(DD/MM/YYYY) :</b></label>
                 <input class="form-control disabled" disabled value="{{request.LandConversionOrderDate}}" />
               </div>
-
-
-
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
-                <label>
-                  <b>
-                    Land Conversion Order No
-                    :
-                  </b>
-                </label>
+                <label><b>Land Conversion Order No :</b></label>
                 <input class="form-control disabled" disabled value="{{request.LandConversionOrderNo}}" />
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')">
-                <label>
-                  <b>
-                    Affidavit Date(DD/MM/YYYY)
-                    :
-                  </b>
-                </label>
+                <label><b>Affidavit Date(DD/MM/YYYY) :</b></label>
                 <input class="form-control disabled" disabled value="{{request.AffidavitDate}}" />
               </div>
-
-            </div>
-            <!--<div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngFor="let item of request.LandDetailDocument ; let idx =index">
-                <label>
-                  <b>
-                    {{item.DocumentName}} :
-                  </b>
-                </label>
-                <div class="clearfix"></div>
-                <a data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
-                  <img src="{{item.FilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                </a>
-              </div>
-            </div>-->
-
+            </div>            
             <div class="card-body">
               <div class="row" *ngIf="request.LandDetailDocument.length>0">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">

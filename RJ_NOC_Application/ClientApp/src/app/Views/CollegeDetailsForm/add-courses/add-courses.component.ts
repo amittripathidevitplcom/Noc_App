@@ -71,6 +71,7 @@ export class AddCoursesComponent implements OnInit {
 
   }
   async ngOnInit() {
+    console.log(this.request.NoOfEnrolledStudents);
     this.loaderService.requestStarted();
     try {
       this.CourseMasterForm = this.formBuilder.group(
@@ -79,11 +80,11 @@ export class AddCoursesComponent implements OnInit {
           ddlCourse: ['', [DropdownValidators]],
           ddlSubject: ['', Validators.required],
           ddlCourseType: ['', [DropdownValidators]],
-          ddlSeatInformation: [''],
-          txtNoOfEnrolledStudents: [''],
+          ddlSeatInformation: [''],//, [DropdownValidators]
+          txtNoOfEnrolledStudents: [''],//, Validators.required
           txtsearchText: [''],
           ddlCourseLevelID: ['', [DropdownValidators]],
-          ddlStreamID: ['']
+          ddlStreamID: [''] //, [DropdownValidators]
         })
 
       const ddlDepartment = document.getElementById('ddlDepartment')
@@ -134,16 +135,29 @@ export class AddCoursesComponent implements OnInit {
   }
 
   async ddlCollege_change(SeletedCollegeID: any) {
-    this.request.CollegeID = SeletedCollegeID;
-    await this.commonMasterService.GetCollegeBasicDetails(SeletedCollegeID)
-      .then(async (data: any) => {
-        data = JSON.parse(JSON.stringify(data));
-        this.request.DepartmentID = await data['Data'][0]['data'][0]['DepartmentID'];
-        this.CollegeStatus = await data['Data'][0]['data'][0]['CollegeStatus'];
-        this.CollegeStatusID = await data['Data'][0]['data'][0]['CollegeStatusID'];
-        await this.ddlDepartment_change(this.request.DepartmentID);
-        await this.CourseLevel();
-      }, error => console.error(error));
+    this.isSelectedCourseType = false;
+    this.request.Seats = 0;
+    try {
+      this.request.CollegeID = SeletedCollegeID;
+      await this.commonMasterService.GetCollegeBasicDetails(SeletedCollegeID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.DepartmentID = await data['Data'][0]['data'][0]['DepartmentID'];
+          this.CollegeStatus = await data['Data'][0]['data'][0]['CollegeStatus'];
+          this.CollegeStatusID = await data['Data'][0]['data'][0]['CollegeStatusID'];
+          await this.ddlDepartment_change(this.request.DepartmentID);
+          await this.CourseLevel();
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
 
   }
   async ddlDepartment_change(SeletedDepartmentID: any) {
@@ -220,7 +234,6 @@ export class AddCoursesComponent implements OnInit {
 
 
   async ddlCourse_change($event: any, SeletedCourseID: any) {
-    debugger;
     this.request.CourseID = SeletedCourseID;
     this.request.SelectedSubjectDetails = [];
     try {
@@ -279,36 +292,71 @@ export class AddCoursesComponent implements OnInit {
       }, 200);
     }
   }
+  public isFormValid: boolean = true;
   async SaveData() {
-    debugger;
     this.isSubmitted = true;
+    this.isFormValid = true;
 
-    if (this.isShowStreambox) {
-      if (this.request.StreamID == 0) {
-        this.toastr.error("Please Select Steam");
-        return
-      }
-    }
+    //if (this.request.DepartmentID == EnumDepartment.CollegeEducation && this.isSelectedCourseType == true) {
+    //  this.CourseMasterForm.get('ddlSeatInformation')?.clearValidators();
+    //  this.CourseMasterForm.get('ddlStreamID')?.setValidators([DropdownValidators]);
+    //  this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.setValidators([Validators.required]);
 
+    //  this.CourseMasterForm.get('ddlSeatInformation')?.updateValueAndValidity();
+    //  this.CourseMasterForm.get('ddlStreamID')?.updateValueAndValidity();
+    //  this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
+    //}
+    //else {
+    //  this.CourseMasterForm.get('ddlSeatInformation')?.setValidators([DropdownValidators]);
+    //  this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.clearValidators();
+    //  this.CourseMasterForm.get('ddlStreamID')?.clearValidators();
+
+    //  this.CourseMasterForm.get('ddlSeatInformation')?.updateValueAndValidity();
+    //  this.CourseMasterForm.get('ddlStreamID')?.updateValueAndValidity();
+    //  this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
+    //}
+    debugger;
     if (this.CourseMasterForm.invalid) {
+      this.isFormValid = false;
       return
     }
-
- 
-    debugger;
+    if (this.request.DepartmentID != EnumDepartment.CollegeEducation) {
+      if (this.request.Seats <= 0) {
+        this.isFormValid = false;
+      }
+    }
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
+      if (this.isSelectedCourseType) {
+        if (this.request.NoOfEnrolledStudents == null || this.request.NoOfEnrolledStudents.toString() == '' || this.request.NoOfEnrolledStudents == 0)
+          this.isFormValid = false;
+      }
+    }
+    if (!this.isFormValid) {
+      return;
+    }
+
+
+
+
+    if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
+
+
+
       var CourseLevel = this.CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.CourseLevelID).Name;
       var CourseType = this.courseTypeDataList.find((x: { ID: number; }) => x.ID == this.request.CourseTypeID).Name;
 
       //console.log(this.courseDataList);
       var CourseName = this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.CourseID).CourseName;
+      //Comment By rishi kapoor
+      //if (this.isSelectedCourseType == true) {
+      //  if (this.request.NoOfEnrolledStudents == 0) {
+      //    this.iSNoOfEnrolledStudents = true;
+      //    this.toastr.error("Please enter No Of Enrolled Students greater than 0.");
+      //    return;
+      //  }
+      //}
 
 
-      if (this.request.NoOfEnrolledStudents == 0) {
-        this.iSNoOfEnrolledStudents = true;
-        this.toastr.error("Please enter No Of Enrolled Students greater than 0.");
-        return;
-      }
       if (CourseLevel == 'PG') {
         if (this.request.SelectedSubjectDetails.length > 1) {
           this.toastr.error("you can select only 1 subject for PG");
@@ -323,16 +371,11 @@ export class AddCoursesComponent implements OnInit {
         }
       }
     }
-    else {
-      if (this.request.Seats == 0 || this.request.Seats == null) {
-        this.isSeatInformation = this.request.Seats == 0 ? true : false;
-        if (this.isSeatInformation = true) {
-          this.toastr.error("Please Select Seat Information");
-          return
-        }
-      }
+     
+    //Added by rishi kapooor
+    if (this.request.NoOfEnrolledStudents == undefined || this.request.NoOfEnrolledStudents == null) {
+      this.request.NoOfEnrolledStudents = 0;
     }
-
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
@@ -385,7 +428,7 @@ export class AddCoursesComponent implements OnInit {
     this.ddlCourseLevel_change(this.request.CourseLevelID);
     this.request.CourseTypeID = 0;
     this.request.Seats = 0;
-    this.request.NoOfEnrolledStudents = 0;
+    this.request.NoOfEnrolledStudents = undefined;
     this.request.SelectedSubjectDetails = [];
     this.subjectDataList = [];
     this.request.UserID = 0;
@@ -703,7 +746,7 @@ export class AddCoursesComponent implements OnInit {
   }
 
   async ddlStream_change(StreamID: any) {
-    debugger;
+
     this.request.StreamID = StreamID;
     await this.commonMasterService.GetSubjectList_StreamIDWise(this.request.StreamID, this.request.DepartmentID, this.request.CourseLevelID, this.request.CourseID)
       .then((data: any) => {
@@ -719,6 +762,29 @@ export class AddCoursesComponent implements OnInit {
     this.request.SelectedSubjectDetails = [];
 
   }
+
+  //added by rishi kapoor
+  public isSelectedCourseType: boolean = false;
+  async ddlCourseType_change(CourseTypeID: any) {
+    if (this.request.DepartmentID == 3) {
+      let CourseTypeName = '';
+      CourseTypeName = this.courseTypeDataList.filter((item: any) => item.ID == CourseTypeID)[0]['Name'];
+      if (CourseTypeName == "New") {
+        this.isSelectedCourseType = false;
+        //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.clearValidators();
+      }
+      else {
+        //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.setValidators([Validators.required]);
+        this.isSelectedCourseType = true;
+      }
+      //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
+    }
+    else {
+      //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.clearValidators();
+      //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
+    }
+  }
+
 }
 
 

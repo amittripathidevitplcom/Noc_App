@@ -467,7 +467,7 @@ export class ApplyNocParameterComponent implements OnInit {
       if (!isValid) {
         return;
       }
-      // debugger
+      debugger
 
       this.isSubmitted = true;
       //set
@@ -669,6 +669,11 @@ export class ApplyNocParameterComponent implements OnInit {
     this.ApplyNocParameterMasterList_MergerCollege = null;
     this.ApplyNocParameterMasterList_NewCourse = null;
     this.ApplyNocParameterMasterList_NewCourseSubject = null;
+
+    this.ApplyNocParameterMasterList_TNOCExtOfSubject = null;
+    this.ApplyNocParameterMasterList_PNOCOfSubject = null;
+    
+
 
 
   }

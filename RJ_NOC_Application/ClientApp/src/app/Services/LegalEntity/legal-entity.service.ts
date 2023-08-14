@@ -59,4 +59,12 @@ export class LegalEntityService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async CheckExistsLegalEntity(SSOID: string, RoleID: number) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify({ SSOID: SSOID, RoleID: RoleID });
+    return await this.http.post(this.APIUrl + '/CheckExistsLegalEntity', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

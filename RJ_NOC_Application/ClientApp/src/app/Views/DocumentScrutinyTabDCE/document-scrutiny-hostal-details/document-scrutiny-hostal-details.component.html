@@ -1,0 +1,259 @@
+<div class="card">
+  <div class="card-header">
+    <b>Hostel Details</b>
+  </div>
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>
+                  Compliance<br />
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rdHostelSelectAllActionType" id="rdHostelSelectAllYes" value="Yes" (change)="selectAll('Yes')">
+                    <label class="form-check-label">Yes</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="rdHostelSelectAllActionType" id="rdHostelSelectAllNo" value="No" (change)="selectAll('No')">
+                    <label class="form-check-label">No</label>
+                  </div>
+                </th>
+                <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+                <th>S.No.</th>
+                <th>Action</th>
+                <th>Is Hostel Campus</th>
+                <th>Hostel Name</th>
+                <th>Contact Person Name</th>
+                <th>Contact Person No.</th>
+                <th>Hostel Type</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of hostelDataModel let idx=index;">
+                <td>
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rdHostelActionType{{idx+1}}" id="rdHostelActionTypeYes{{idx+1}}" [(ngModel)]="row.Action" value="Yes" (change)="ClickOnAction(idx)">
+                      <label class="form-check-label">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rdHostelActionType{{idx+1}}" id="rdHostelActionTypeNo{{idx+1}}" value="No" [(ngModel)]="row.Action" (change)="ClickOnAction(idx)">
+                      <label class="form-check-label">No</label>
+                    </div>
+                  </div>
+                  <div class="row" [hidden]="row.Action !='No'">
+                    <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                      <label>Remark : </label>
+                      <textarea type="text" class="form-control" name="txtHostelRemark{{idx+1}}" id="txtHostelRemark{{idx+1}}" [(ngModel)]="row.Remark"></textarea>
+                    </div>
+                  </div>
+
+                </td>
+                <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+                  Compliance: {{row.C_Action}}<br />
+                  <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                </td>
+                <td *ngIf="sSOLoginDataModel.RoleID==5">
+                  Compliance: {{row.S_Action}}<br />
+                  <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
+                </td>-->
+                <td>{{idx+1}}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewItem(mymodal,row.HostelDetailID)"><i class="fa fa-eye"></i></button>
+                </td>
+                <td>{{row.IsHostelCampus}}</td>
+                <td>{{row.HostelName}}</td>
+                <td>{{row.ContactPersonName}}</td>
+                <td>{{row.ContactPersonNo}}</td>
+                <td>{{row.HostelType}}</td>
+
+              </tr>
+              <tr *ngIf="hostelDataModel.length<=0">
+                <td colspan="7" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="FinalRemarks.length>0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Role</th>
+              <th>Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item1 of FinalRemarks ; let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item1.RoleID}}</td>
+              <td>{{item1.Remark}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <label>Remarks</label>
+        <textarea id="HostelRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+        <div *ngIf="isRemarkValid" class="text-danger">
+          <p *ngIf="isRemarkValid"> This field is required .!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-primary" type="button" (click)="SubmitHostelDetail_Onclick()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Hostel Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="row">
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Is Hostel In Campus</b>: &nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.IsHostelCampus}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Hostel Name</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.HostelName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Address Line 1</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.AddressLine1}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Address Line 2</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.AddressLine2}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>IsRuralUrban</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.IsRuralUrban}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Division</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.DivisionName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>District</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.DistrictName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
+        <label><b>Tehsil</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.TehsilName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban!='Rural'">
+        <label><b>Panchayat Samiti</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.PanchyatSamitiName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>City/Town/Village</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.CityTownVillage}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Pincode</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.Pincode}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Contact Person Name</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.ContactPersonName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Contact Person No.</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{request.ContactPersonNo}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Distance of College (KM)</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.DistanceOfCollege}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Type</b>:&nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.HostelType}}" />
+      </div>
+      <div class="row" *ngIf="request.HostelType=='Rent'">
+        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+          <label><b>Owner Name</b>:&nbsp;&nbsp; </label>
+          <input class="form-control disabled" disabled value="{{request.OwnerName}}" />
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+          <label><b>Contact No.</b> :&nbsp;&nbsp;</label>
+          <input class="form-control disabled" disabled value="{{request.OwnerContactNo}}" />
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+          <label><b>From Date</b>:&nbsp;&nbsp; </label>
+          <input class="form-control disabled" disabled value="{{request.FromDate}}" />
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+          <label><b>To Date</b>:&nbsp;&nbsp; </label>
+          <input class="form-control disabled" disabled value="{{request.ToDate}}" />
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+          <label><b>Rent Document</b> :&nbsp;&nbsp;</label>
+          <a *ngIf="!request.RentDocument.includes('.pdf')" data-fancybox="gallery" href="{{request.RentDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+            <img src="{{request.RentDocumentPath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+          </a>
+          <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.RentDocument.includes('.pdf')" data-fancybox="gallery" href="{{request.RentDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card">
+        <div class="card-header">
+          <b>Hostel Block Details</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Hostel Block</th>
+                      <th>Width (In Feet)</th>
+                      <th>Length (In Feet)</th>
+                      <th>Image</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of request.HostelDetails ;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.CourseName}}</td>
+                      <td>{{row.Width}}</td>
+                      <td>{{row.Length}}</td>
+                      <td>
+                        <a *ngIf="!row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{row.ImageFilePath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -159,7 +159,7 @@ export class SSOLoginComponent implements OnInit {
       
       if (LoginSSOID == undefined || LoginSSOID == '' || LoginSSOID == 'NaN' || LoginSSOID.toString() == NaN.toString()) {
         //LoginSSOID = "RISHIKAPOORDELHI";
-        //window.open(GlobalConstants.SSOURL, "_self");
+        window.open(GlobalConstants.SSOURL, "_self");
         //this.router.navigate(['/login']);
       }
       
@@ -175,7 +175,7 @@ export class SSOLoginComponent implements OnInit {
         }, error => console.error(error));
       
       if (this.sSOLoginDataModel.SSOID == '') {
-        //window.open(GlobalConstants.SSOURL, "_self");
+        window.open(GlobalConstants.SSOURL, "_self");
         //this.router.navigate(['/login']);
         return;
       }
