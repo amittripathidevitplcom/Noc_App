@@ -39,6 +39,7 @@ export class LandDetailDataModel {
   public C_Remark: string = '';
   public S_Action: string = '';
   public S_Remark: string = '';
+  public AreaType: string = '';
 }
 
 export class LandDetailDocumentDataModel extends RequiredDocumentsDataModel_Documents {

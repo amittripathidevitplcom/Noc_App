@@ -8,6 +8,12 @@ export class DashboardDataModel {
   public TotalRevertApplication: number = 0;
   public TotalApplyNocApplication: number = 0;
 
+  // Common All Department for Doc verification
+  public Pending: number = 0;
+  public Revert: number = 0;
+  public Rejected: number = 0;
+  public Completed: number = 0;
+
   public Clerk_Pending: number = 0;
   public Clerk_Reverted: number = 0;
   public Clerk_Rejected: number = 0;

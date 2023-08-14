@@ -195,6 +195,9 @@ import { DocumentScrutinyCollegeDetailComponentDce } from './Views/DocumentScrut
 import { DocumentScrutinyCheckListDetailsComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
 
 import { DocumentScrutinyLandDetailComponentDce } from './Views/DocumentScrutinyTabDCE/document-scrutiny-land-detail/document-scrutiny-land-detail.component';
+import { ApplyNocpreviewAnimalhusbandryComponent } from './Views/apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
+import { AhDocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-legal-entity/ah-document-scrutiny-legal-entity.component';
+import { AhDocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-college-detail/ah-document-scrutiny-college-detail.component';
 
 
 
@@ -384,6 +387,9 @@ import { DocumentScrutinyLandDetailComponentDce } from './Views/DocumentScrutiny
     DocumentScrutinyCollegeDetailComponentDce,
     DocumentScrutinyCheckListDetailsComponentDce,
     DocumentScrutinyLandDetailComponentDce
+    ApplyNocpreviewAnimalhusbandryComponent,
+    AhDocumentScrutinyLegalEntityComponent,
+    AhDocumentScrutinyCollegeDetailComponent,
 
   ],
   imports: [

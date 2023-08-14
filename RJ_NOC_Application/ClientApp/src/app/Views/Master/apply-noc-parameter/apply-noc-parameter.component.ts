@@ -668,6 +668,11 @@ export class ApplyNocParameterComponent implements OnInit {
     this.ApplyNocParameterMasterList_NewCourse = null;
     this.ApplyNocParameterMasterList_NewCourseSubject = null;
 
+    this.ApplyNocParameterMasterList_TNOCExtOfSubject = null;
+    this.ApplyNocParameterMasterList_PNOCOfSubject = null;
+    
+
+
 
   }
 
