@@ -178,6 +178,19 @@ import { DocumentScrutinyFarmLandDetailsComponent } from './Views/DocumentScruti
 import { ApplyNocpreviewAnimalhusbandryComponent } from './Views/apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 import { AhDocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-legal-entity/ah-document-scrutiny-legal-entity.component';
 import { AhDocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-college-detail/ah-document-scrutiny-college-detail.component';
+import { AhDocumentScrutinyCollegeManagementSocietyComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-college-management-society/ah-document-scrutiny-college-management-society.component';
+import { AhDocumentScrutinyLandDetailComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-land-detail/ah-document-scrutiny-land-detail.component';
+import { AhDocumentScrutinyFacilityComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-facility/ah-document-scrutiny-facility.component';
+import { AhDocumentScrutinyRequiredDocumentComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-required-document/ah-document-scrutiny-required-document.component';
+import { AhDocumentScrutinyRoomDetailsComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-room-details/ah-document-scrutiny-room-details.component';
+import { AhDocumentScrutinyOtherInformationComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-other-information/ah-document-scrutiny-other-information.component';
+import { AhDocumentScrutinyBuildingDetailsComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-building-details/ah-document-scrutiny-building-details.component';
+import { AhDocumentScrutinyStaffDetailComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-staff-detail/ah-document-scrutiny-staff-detail.component';
+import { AhDocumentScrutinyOldNocdetailsComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-old-nocdetails/ah-document-scrutiny-old-nocdetails.component';
+import { AhDocumentScrutinyAcademicInformationComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-academic-information/ah-document-scrutiny-academic-information.component';
+import { AhDocumentScrutinyOtherDocumentComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-other-document/ah-document-scrutiny-other-document.component';
+import { AhDocumentScrutinyVeterinaryHospitalComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-veterinary-hospital/ah-document-scrutiny-veterinary-hospital.component';
+import { AhDocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-check-list-details/ah-document-scrutiny-check-list-details.component';
 
 
 @NgModule({
@@ -351,6 +364,19 @@ import { AhDocumentScrutinyCollegeDetailComponent } from './Views/DocumentScruti
     ApplyNocpreviewAnimalhusbandryComponent,
     AhDocumentScrutinyLegalEntityComponent,
     AhDocumentScrutinyCollegeDetailComponent,
+    AhDocumentScrutinyCollegeManagementSocietyComponent,
+    AhDocumentScrutinyLandDetailComponent,
+    AhDocumentScrutinyFacilityComponent,
+    AhDocumentScrutinyRequiredDocumentComponent,
+    AhDocumentScrutinyRoomDetailsComponent,
+    AhDocumentScrutinyOtherInformationComponent,
+    AhDocumentScrutinyBuildingDetailsComponent,
+    AhDocumentScrutinyStaffDetailComponent,
+    AhDocumentScrutinyOldNocdetailsComponent,
+    AhDocumentScrutinyAcademicInformationComponent,
+    AhDocumentScrutinyOtherDocumentComponent,
+    AhDocumentScrutinyVeterinaryHospitalComponent,
+    AhDocumentScrutinyCheckListDetailsComponent,
 
   ],
   imports: [

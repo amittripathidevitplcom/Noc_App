@@ -105,6 +105,7 @@ import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 export class SSOLoginComponent implements OnInit {
   LoginType: any = "1";
   Username: any;
+  UserRole: any;
   sSOLoginDataModel = new SSOLoginDataModel();
   sSOLandingDataDataModel = new SSOLandingDataDataModel();
   public State: number = -1;
@@ -127,6 +128,7 @@ export class SSOLoginComponent implements OnInit {
     //this.LoginType = this.router.snapshot.queryParams.id2;
     
     this.Username = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id1')?.toString());
+    //this.UserRole = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id2')?.toString());
     console.log(this.Username);
     if (this.Username == undefined) {
       this.Username = this.router.snapshot.queryParams.id1;

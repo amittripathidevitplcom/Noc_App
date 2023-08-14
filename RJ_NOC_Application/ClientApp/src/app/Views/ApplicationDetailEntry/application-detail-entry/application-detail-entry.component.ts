@@ -31,8 +31,6 @@ export class ApplicationDetailEntryComponent implements OnInit {
   maxNumberOfTabs: number = 0;
   public CollegeType_IsExisting: boolean = true;
 
-  //public isOLDNOCDetails: boolean = true;
-  //public isAcademicInformation: boolean = true;
   isSubmitted: boolean = false;
   public isLoading: boolean = false;
   public State: number = -1;
@@ -55,10 +53,9 @@ export class ApplicationDetailEntryComponent implements OnInit {
     await this.GetCollegeBasicDetails();
     await this.CheckTabsEntry();
     await this.ShowDraftFinalSubmitBtn();
-
+    debugger;
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
-
   }
 
   NextStep() {
