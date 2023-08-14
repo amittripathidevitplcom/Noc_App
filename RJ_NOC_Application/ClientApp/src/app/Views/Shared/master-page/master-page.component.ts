@@ -38,13 +38,13 @@ export class MasterPageComponent implements OnInit {
     console.log(this.sSOLoginDataModel);
     if (this.sSOLoginDataModel) {
       if (this.sSOLoginDataModel.SSOID == null && this.sSOLoginDataModel.SSOID == '' && this.sSOLoginDataModel.SSOID == undefined) {
-        //window.open(GlobalConstants.SSOURL, "_self");
-        this.router.navigate(['/login']);
+        window.open(GlobalConstants.SSOURL, "_self");
+       // this.router.navigate(['/login']);
       }
     }
     else {
-      //window.open(GlobalConstants.SSOURL, "_self");
-      this.router.navigate(['/login']);
+      window.open(GlobalConstants.SSOURL, "_self");
+     // this.router.navigate(['/login']);
     }
 
     await this.LoadMenu();
@@ -173,10 +173,10 @@ export class MasterPageComponent implements OnInit {
     sessionStorage.removeItem('LoginID');
     sessionStorage.clear();
     localStorage.clear();
-    //window.open(GlobalConstants.SSOURL, "_self");
+    window.open(GlobalConstants.SSOURL, "_self");
     //window.open(GlobalConstants.SSOURL, "_self");
     //window.open("https://ssotest.rajasthan.gov.in/signin", "_self");
-    this.router.navigate(['/login']);
+   // this.router.navigate(['/login']);
    // this.router.navigate(['/login']);
   }
 
