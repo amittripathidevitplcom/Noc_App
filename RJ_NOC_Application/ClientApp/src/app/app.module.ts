@@ -386,7 +386,7 @@ import { AhDocumentScrutinyCollegeDetailComponent } from './Views/DocumentScruti
     DocumentScrutinyCollegeManagementSocietyComponentDce,
     DocumentScrutinyCollegeDetailComponentDce,
     DocumentScrutinyCheckListDetailsComponentDce,
-    DocumentScrutinyLandDetailComponentDce
+    DocumentScrutinyLandDetailComponentDce,
     ApplyNocpreviewAnimalhusbandryComponent,
     AhDocumentScrutinyLegalEntityComponent,
     AhDocumentScrutinyCollegeDetailComponent,
