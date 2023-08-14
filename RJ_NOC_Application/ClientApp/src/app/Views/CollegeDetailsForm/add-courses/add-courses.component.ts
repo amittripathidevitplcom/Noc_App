@@ -71,6 +71,7 @@ export class AddCoursesComponent implements OnInit {
 
   }
   async ngOnInit() {
+    console.log(this.request.NoOfEnrolledStudents);
     this.loaderService.requestStarted();
     try {
       this.CourseMasterForm = this.formBuilder.group(
@@ -79,11 +80,11 @@ export class AddCoursesComponent implements OnInit {
           ddlCourse: ['', [DropdownValidators]],
           ddlSubject: ['', Validators.required],
           ddlCourseType: ['', [DropdownValidators]],
-          ddlSeatInformation: ['', [DropdownValidators]],
-          txtNoOfEnrolledStudents: ['', Validators.required],
+          ddlSeatInformation: [''],//, [DropdownValidators]
+          txtNoOfEnrolledStudents: [''],//, Validators.required
           txtsearchText: [''],
           ddlCourseLevelID: ['', [DropdownValidators]],
-          ddlStreamID: ['', [DropdownValidators]]
+          ddlStreamID: [''] //, [DropdownValidators]
         })
 
       const ddlDepartment = document.getElementById('ddlDepartment')
@@ -134,7 +135,8 @@ export class AddCoursesComponent implements OnInit {
   }
 
   async ddlCollege_change(SeletedCollegeID: any) {
-
+    this.isSelectedCourseType = false;
+    this.request.Seats = 0;
     try {
       this.request.CollegeID = SeletedCollegeID;
       await this.commonMasterService.GetCollegeBasicDetails(SeletedCollegeID)
@@ -290,35 +292,48 @@ export class AddCoursesComponent implements OnInit {
       }, 200);
     }
   }
+  public isFormValid: boolean = true;
   async SaveData() {
     this.isSubmitted = true;
-    
+    this.isFormValid = true;
 
-    if (this.request.DepartmentID == EnumDepartment.CollegeEducation && this.isSelectedCourseType == true) {
-      this.CourseMasterForm.get('ddlSeatInformation')?.clearValidators();
-      this.CourseMasterForm.get('ddlStreamID')?.setValidators([DropdownValidators]);
-      this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.setValidators([Validators.required]);
+    //if (this.request.DepartmentID == EnumDepartment.CollegeEducation && this.isSelectedCourseType == true) {
+    //  this.CourseMasterForm.get('ddlSeatInformation')?.clearValidators();
+    //  this.CourseMasterForm.get('ddlStreamID')?.setValidators([DropdownValidators]);
+    //  this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.setValidators([Validators.required]);
 
-      this.CourseMasterForm.get('ddlSeatInformation')?.updateValueAndValidity();
-      this.CourseMasterForm.get('ddlStreamID')?.updateValueAndValidity();
-      this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
-    }
-    else {
-      this.CourseMasterForm.get('ddlSeatInformation')?.setValidators([DropdownValidators]);
-      this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.clearValidators();
-      this.CourseMasterForm.get('ddlStreamID')?.clearValidators();
+    //  this.CourseMasterForm.get('ddlSeatInformation')?.updateValueAndValidity();
+    //  this.CourseMasterForm.get('ddlStreamID')?.updateValueAndValidity();
+    //  this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
+    //}
+    //else {
+    //  this.CourseMasterForm.get('ddlSeatInformation')?.setValidators([DropdownValidators]);
+    //  this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.clearValidators();
+    //  this.CourseMasterForm.get('ddlStreamID')?.clearValidators();
 
-      this.CourseMasterForm.get('ddlSeatInformation')?.updateValueAndValidity();
-      this.CourseMasterForm.get('ddlStreamID')?.updateValueAndValidity();
-      this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
-    }
-   
-
-    console.log(this.CourseMasterForm);
+    //  this.CourseMasterForm.get('ddlSeatInformation')?.updateValueAndValidity();
+    //  this.CourseMasterForm.get('ddlStreamID')?.updateValueAndValidity();
+    //  this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
+    //}
+    debugger;
     if (this.CourseMasterForm.invalid) {
+      this.isFormValid = false;
       return
     }
-
+    if (this.request.DepartmentID != EnumDepartment.CollegeEducation) {
+      if (this.request.Seats <= 0) {
+        this.isFormValid = false;
+      }
+    }
+    if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
+      if (this.isSelectedCourseType) {
+        if (this.request.NoOfEnrolledStudents == null || this.request.NoOfEnrolledStudents.toString() == '' || this.request.NoOfEnrolledStudents == 0)
+          this.isFormValid = false;
+      }
+    }
+    if (!this.isFormValid) {
+      return;
+    }
 
 
 
@@ -756,17 +771,17 @@ export class AddCoursesComponent implements OnInit {
       CourseTypeName = this.courseTypeDataList.filter((item: any) => item.ID == CourseTypeID)[0]['Name'];
       if (CourseTypeName == "New") {
         this.isSelectedCourseType = false;
-        this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.clearValidators();
+        //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.clearValidators();
       }
       else {
-        this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.setValidators([Validators.required]);
+        //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.setValidators([Validators.required]);
         this.isSelectedCourseType = true;
       }
-      this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
+      //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
     }
     else {
-      this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.clearValidators();
-      this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
+      //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.clearValidators();
+      //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
     }
   }
 
