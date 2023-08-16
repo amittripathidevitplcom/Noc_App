@@ -203,11 +203,11 @@
             <mat-tab *ngIf="SelectedDepartmentID==3">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['ClassWiseStatistics']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['ClassWiseStatistics']==0"></span>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
                 <span>Subject Wise Statistics</span>
               </ng-template>
-              <app-class-wise-student-details></app-class-wise-student-details>
+              <app-subject-wise-student-statistics></app-subject-wise-student-statistics>
             </mat-tab>
 
 
