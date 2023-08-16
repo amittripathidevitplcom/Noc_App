@@ -55,11 +55,11 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
 
 
 
-  async ngOnInit() {
+  async ngOnInit()
+  {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.SelectedCollageID = 6;
     this.GetSubjectWiseStudenetDetails(this.SelectedCollageID)
   }
 
