@@ -78,7 +78,7 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="ddlOccupationID" class="form-label">Occupation <span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlOccupationID" name="ddlOccupationID" [(ngModel)]="request.OccupationID" formControlName="ddlOccupationID">
+                    <select class="form-select" id="ddlOccupationID" name="ddlOccupationID" [(ngModel)]="request.OccupationID" formControlName="ddlOccupationID" (change)="SelectOccupation_Educationist_Change()">
                       <option value="0">--Select Occupation--</option>
                       <option *ngFor="let item of OccupationList" value="{{item.OccupationID}}">{{item.OccupationName}}</option>
                     </select>
@@ -90,17 +90,17 @@
                     <label class="form-label" style="margin-right:15px">Management Committee Should have at least two educationists </label>
                     <div class="clearfix"></div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" value="Yes" id="rbEducationistsYes" name="Educationists" [(ngModel)]="request.Educationists" formControlName="Educationists">
+                      <input class="form-check-input" type="radio" value="Yes" id="rbEducationistsYes" name="Educationists" [(ngModel)]="request.Educationists" formControlName="Educationists" [attr.disabled]="IsEducationists ? true : null">
                       <label class="form-check-label" for="rbEducationistsYes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" value="No" id="rbEducationistsNo" name="Educationists" [(ngModel)]="request.Educationists" formControlName="Educationists">
+                      <input class="form-check-input" type="radio" value="No" id="rbEducationistsNo" name="Educationists" [(ngModel)]="request.Educationists" formControlName="Educationists" [attr.disabled]="IsEducationists ? true : null">
                       <label class="form-check-label" for="rbEducationistsNo">No</label>
                     </div>
                     <div *ngIf="isSubmitted&&form.Educationists.errors" class="text-danger">
                       <p *ngIf="form.Educationists.errors.required"> This field is required .!</p>
                     </div>
-                  </div>
+                  </div>                
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="txtMobileNo" class="form-label">Mobile No <span style="color:red;">*</span></label>
                     <input type="text" class="form-control" id="txtMobileNo" name="txtMobileNo" [(ngModel)]="request.MobileNo" formControlName="txtMobileNo" maxlength="10" (keypress)="numberOnly($event)">
@@ -184,7 +184,7 @@
                     <input type="text" class="form-control" id="txtPANNo" name="txtPANNo" [(ngModel)]="request.PANNo" formControlName="txtPANNo" maxlength="10" (ngModelChange)="request.PANNo = $event.toUpperCase()">
                     <div *ngIf="isSubmitted&&form.txtPANNo.errors" class="text-danger">
                       <p *ngIf="form.txtPANNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                      <p *ngIf="form.txtPANNo.errors.pattern || form.txtPANNo.errors.maxlength || form.txtPANNo.errors.minlength"> Invalid PAN No.</p>                     
+                      <p *ngIf="form.txtPANNo.errors.pattern || form.txtPANNo.errors.maxlength || form.txtPANNo.errors.minlength"> Invalid PAN No.</p>
                     </div>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -235,6 +235,46 @@
                       <p *ngIf="isValidAuthorizedDocument"> {{ImageValidationMessage}}</p>
                     </div>
                   </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="IsEducationists">
+                    <label for="fEducationProof" class="form-label">Education Proof <span style="color:red;"> *</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fEducationProof" style="display:none" formControlName="fEducationProof" (change)="ValidatePdf($event,'EducationProof')" #fEducationProof />
+                      <label class="btn upload" for="fEducationProof">
+                        <span class="filename">Choose file</span>
+                        {{request.EducationProof === '' ? 'No File Choosen' : request.Dis_EducationProof}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.EducationProof!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.EducationProofPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('EducationProof')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="IsEducationists">
+                      <p *ngIf="isSubmitted&&request.EducationProof ==''" class="text-danger"><i aria-hidden="true"></i>{{IsValidEducationist}}</p>
+                    </div>
+                    <div *ngIf="isValidEducationProof" class="text-danger">
+                      <p *ngIf="isValidEducationProof"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="IsEducationists">
+                    <label for="fConsentLetter" class="form-label">Consent Letter <span style="color:red;"> *</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fConsentLetter" style="display:none" formControlName="fConsentLetter" (change)="ValidatePdf($event,'ConsentLetter')" #fConsentLetter />
+                      <label class="btn upload" for="fConsentLetter">
+                        <span class="filename">Choose file</span>
+                        {{request.ConsentLetter === '' ? 'No File Choosen' : request.Dis_ConsentLetter}}
+                      </label>
+                      <div class="btn-group" *ngIf="request.ConsentLetter!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{request.ConsentLetterPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ConsentLetter')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="    ">
+                      <p *ngIf="isSubmitted&&request.ConsentLetter ==''" class="text-danger"><i aria-hidden="true"></i>{{IsValidEducationist}}</p>
+                    </div>
+                    <div *ngIf="isValidConsentLetter" class="text-danger">
+                      <p *ngIf="isValidConsentLetter"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
                 </div>
                 <div class="card-footer text-end">
                   <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-save"></i> Save</button>
@@ -244,7 +284,7 @@
             </div>
             <div class="card mb-0" *ngIf="SocietyAllList.length>0">
               <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-                <b><i class="fa fa-plus"></i>&nbsp;Management Committee Members Details</b>
+                <b><i class="fa fa-plus"></i>&nbsp;Management Committee Members Details (Total Female Is {{Femalepre}}%)</b>
                 <div class="d-flex align-items-center">
                   <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
@@ -278,6 +318,8 @@
                             <th>Member Signature</th>
                             <th>Profile Photo</th>
                             <th>Authorized Document</th>
+                            <th>Education Proof</th>
+                            <th>Consent Letter</th>
                             <th>Is Primary</th>
                             <th>Is Authorize</th>
                             <th>Action</th>
@@ -298,8 +340,17 @@
                             <td><a target="_blank" href="{{row.AadhaarCardPath}}"><i class="fa fa-eye"></i></a></td>
                             <td><a target="_blank" href="{{row.SignatureDocPath}}"><i class="fa fa-eye"></i></a></td>
                             <td><a target="_blank" href="{{row.ProfilePhotoPath}}"><i class="fa fa-eye"></i></a></td>
-                            <td><a *ngIf="row.AuthorizedDocumentPath!='N/A'" target="_blank" href="{{row.AuthorizedDocumentPath}}"><i class="fa fa-eye"></i></a>
-                                <label *ngIf="row.AuthorizedDocumentPath=='N/A'">{{row.AuthorizedDocumentPath}}</label>
+                            <td>
+                              <a *ngIf="row.AuthorizedDocumentPath!='N/A'" target="_blank" href="{{row.AuthorizedDocumentPath}}"><i class="fa fa-eye"></i></a>
+                              <label *ngIf="row.AuthorizedDocumentPath=='N/A'">{{row.AuthorizedDocumentPath}}</label>
+                            </td>
+                            <td>
+                              <a *ngIf="row.EducationProofPath!='N/A'" target="_blank" href="{{row.EducationProofPath}}"><i class="fa fa-eye"></i></a>
+                              <label *ngIf="row.EducationProofPath=='N/A'">{{row.EducationProofPath}}</label>
+                            </td>
+                            <td>
+                              <a *ngIf="row.ConsentLetterPath!='N/A'" target="_blank" href="{{row.ConsentLetterPath}}"><i class="fa fa-eye"></i></a>
+                              <label *ngIf="row.ConsentLetterPath=='N/A'">{{row.ConsentLetterPath}}</label>
                             </td>
                             <td>{{row.S_IsPrimary}}</td>
                             <td>{{row.S_IsAuthorized}}</td>
