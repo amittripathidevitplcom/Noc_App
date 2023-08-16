@@ -198,6 +198,7 @@ import { DocumentScrutinyLandDetailComponentDce } from './Views/DocumentScrutiny
 import { ApplyNocpreviewAnimalhusbandryComponent } from './Views/apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 import { AhDocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-legal-entity/ah-document-scrutiny-legal-entity.component';
 import { AhDocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-college-detail/ah-document-scrutiny-college-detail.component';
+import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStudentStatistics/subject-wise-student-statistics/subject-wise-student-statistics.component';
 
 
 
@@ -390,6 +391,7 @@ import { AhDocumentScrutinyCollegeDetailComponent } from './Views/DocumentScruti
     ApplyNocpreviewAnimalhusbandryComponent,
     AhDocumentScrutinyLegalEntityComponent,
     AhDocumentScrutinyCollegeDetailComponent,
+    SubjectWiseStudentStatisticsComponent,
 
   ],
   imports: [

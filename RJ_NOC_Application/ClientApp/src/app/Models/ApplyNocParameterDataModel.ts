@@ -126,6 +126,18 @@ export class ApplyNocApplicationDataModel {
   public ApplicationFeeAmount: number = 0;
   public ServiceId: number = 0;
   public ApplyNocApplicationParameterList: ApplyNocApplicationParameterDataModel[] = [];
+
+  public ChangeInPlaceOfCollegeList?: ApplyNocParameterMasterList_ChangeInPlaceOfCollege[] = [];
+
+  public ChangeInNameOfCollegeList?: ApplyNocParameterMasterList_ChangeInNameOfCollege[] = [];
+  public ChangeInCoedtoGirlsList?: ApplyNocParameterMasterList_ChangeInCoedtoGirls[] = [];
+  public ChangeInGirlstoCoedList?: ApplyNocParameterMasterList_ChangeInGirlstoCoed[] = [];
+  public ChangeInCollegeManagementList?: ApplyNocParameterMasterList_ChangeInCollegeManagement[] = [];
+  public MergerCollegeList?: ApplyNocParameterMasterList_MergerCollege[] = [];
+
+
+
+
 }
 export class ApplyNocApplicationParameterDataModel {
   public ApplyNocParameterDetailID: number = 0;
