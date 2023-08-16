@@ -163,7 +163,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
           if (!this.State) {
             Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
             if (Femalepre < 30) {
-              this.toastr.error("Society in Female Member is not valid (30%)")
+              //this.toastr.error("Society in Female Member is not valid (30%)")
+              this.toastr.error("Member list must have atleast 30% of Woman")
               this.isCheck30Female = true;
               return;
             }
@@ -220,6 +221,19 @@ export class ApplicationDetailEntryComponent implements OnInit {
         }
       }
     }
+    // ParaMedical Medical Group 
+    if (this.SelectedDepartmentID == 9) {
+      if (this.CollegeType_IsExisting == true) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['OtherDocument'] > 0 && this.CheckTabsEntryData['ParamedicalHospitalDetails'] > 0 ) {
+          this.IsShowDraftFinalSubmit = false;
+        }
+      }
+      else {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['OtherDocument'] > 0 && this.CheckTabsEntryData['ParamedicalHospitalDetails'] > 0 ) {
+          this.IsShowDraftFinalSubmit = false;
+        }
+      }
+    }
     //Animal Husbandry
     else if (this.SelectedDepartmentID == 2) {
       if (this.CollegeType_IsExisting == true) {
@@ -248,12 +262,13 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
     if (this.SelectedDepartmentID == 3) {
       if (this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['OtherDocument'] > 0 && this.CheckTabsEntryData['ClassWiseStatistics'] > 0 )   {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['OtherDocument'] > 0 && this.CheckTabsEntryData['ClassWiseStatistics'] > 0 && this.CheckTabsEntryData['SubjectWiseStatistics'] > 0 )   {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['OtherDocument'] > 0 && this.CheckTabsEntryData['ClassWiseStatistics'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['OtherDocument'] > 0) {
+          // && this.CheckTabsEntryData['ClassWiseStatistics'] > 0
           this.IsShowDraftFinalSubmit = false;
         }
       }

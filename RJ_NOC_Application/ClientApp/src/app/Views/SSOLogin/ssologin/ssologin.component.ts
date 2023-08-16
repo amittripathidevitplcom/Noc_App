@@ -146,6 +146,7 @@ export class SSOLoginComponent implements OnInit {
       this.sSOLandingDataDataModel.Username = LoginSSOID;
       this.sSOLandingDataDataModel.LoginType = '-999';
       this.sSOLandingDataDataModel.Password = LoginSSOID;
+       
   
       if (LoginSSOID == undefined || LoginSSOID == '' || LoginSSOID == 'NaN' || LoginSSOID.toString() == NaN.toString()) {
         //LoginSSOID = "RISHIKAPOORDELHI";

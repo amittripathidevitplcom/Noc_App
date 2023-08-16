@@ -144,7 +144,7 @@
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>Challan New Name in English <span style="color:red;"> *</span> </label>
-                    <input name="CollegeNewName_Eng" id="CollegeNewName_Eng" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameEnglish" />
+                    <input name="CollegeNewName_Eng" id="CollegeNewName_Eng" class="form-control disabled mt-1" (keypress)="alphaOnly($event)" maxlength="50" [(ngModel)]="ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameEnglish" />
                     <div *ngIf="isValidCollegeNewName_Eng" class="text-danger">
                       <p *ngIf="isValidCollegeNewName_Eng"> This field is required .!</p>
                     </div>
@@ -188,7 +188,7 @@
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>New Place Name and Address <span style="color:red;"> *</span> </label>
-                    <textarea name="ChangeInPlaceNewName" id="ChangeInPlaceNewName" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceName"></textarea>
+                    <textarea name="ChangeInPlaceNewName" id="ChangeInPlaceNewName"  (keypress)="alphaOnly($event)"  maxlength="500" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceName"></textarea>
                     <div *ngIf="isChangeInPlaceNewName" class="text-danger">
                       <p *ngIf="isChangeInPlaceNewName"> This field is required .!</p>
                     </div>

@@ -1048,7 +1048,7 @@ export class LegalEntityComponent implements OnInit {
           if (ModelWarning) ModelWarning.style.display = 'none';
           this.isFormsFill = true;
           this.issaveCancelBtn = true;
-          this.isSocietyNewReg = false;
+
           if (this.RegistrationState > 0) {
             this.request.StateID = this.RegistrationState;
             this.GetDistrictListByStateID(this.request.StateID);
@@ -1064,6 +1064,12 @@ export class LegalEntityComponent implements OnInit {
           if (this.request.IsLegalEntity != 1) {
             this.memberdetails.MemberMobileNo = this.request.PresidentMobileNo;
           }
+          else {
+            if (this.isSocietyNewReg) {
+              this.memberdetails.MemberMobileNo = this.request.PresidentMobileNo;
+            }
+          }
+          this.isSocietyNewReg = false;
         }
       }
       else {
