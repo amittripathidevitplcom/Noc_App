@@ -60,7 +60,7 @@ export class SocietyComponent implements OnInit {
   public isPrint: boolean = true;
   public CurrentPageName: any = "";
   public UserID: number = 0;
-
+  public Femalepre: number = 0;
   searchText: string = '';
   public dropdownList: any = [];
   public dropdownSettings: IDropdownSettings = {};
@@ -72,11 +72,16 @@ export class SocietyComponent implements OnInit {
 
   public ImageValidationMessage: string = '';
   public CollegeName: string = '';
+  public OccupationsName: string = '';
+  public IsEducationists: boolean = false;
   public isValidProfilePhoto: boolean = false;
   public isValidAadhaarCard: boolean = false;
   public isValidSignatureDoc: boolean = false;
   public isValidPANCard: boolean = false;
   public isValidAuthorizedDocument: boolean = false;
+  public isValidEducationProof: boolean = false;
+  public isValidConsentLetter: boolean = false;
+  public IsValidEducationist: string = '';
 
   public showProfilePhoto: boolean = false;
   public showSignatureDoc: boolean = false;
@@ -107,6 +112,8 @@ export class SocietyComponent implements OnInit {
         ckIsAuthorized: [''],
         //fAuthorizedDocument: ['', Validators.required],
         fAuthorizedDocument: [''],
+        fEducationProof: [''],
+        fConsentLetter: [''],
         txtsearchText: [''],
       });
     const ddlCollegeID = document.getElementById('ddlCollegeID')
@@ -167,9 +174,7 @@ export class SocietyComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.SocietyAllList = data['Data'][0]['data'];
           this.CollegeName = this.CollegeList.find((x: { CollegeID: number; }) => x.CollegeID == this.request.CollegeID).CollegeName;
-          console.log('this.CollegeName');
-          console.log(this.CollegeName);
-          console.log('this.CollegeName');
+          this.Check30Female(CollegeID);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -181,6 +186,37 @@ export class SocietyComponent implements OnInit {
       }, 200);
     }
   }
+  async Check30Female(CollegeID: number) {
+    try {      
+      this.loaderService.requestStarted();
+      await this.commonMasterService.Check30Female(CollegeID)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          data = JSON.parse(JSON.stringify(data));
+
+          if (!this.State) {
+            this.Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];          
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  //
+
   async GetCollegesByDepartmentAndSsoId(departmentId: number, ssoId: string, type: string) {
     //Show Loading
     this.loaderService.requestStarted();
@@ -263,11 +299,21 @@ export class SocietyComponent implements OnInit {
     this.isValidSignatureDoc = false;
     this.isValidPANCard = false;
     this.isValidAuthorizedDocument = false;
+    this.isValidEducationProof = false;
+    this.isValidConsentLetter = false;
     this.isSubmitted = true;
     console.log(this.request);
     if (this.SocietyDetailsForm.invalid) {
       return
     }
+    this.OccupationsName = this.OccupationList.find((x: { OccupationID: number; }) => x.OccupationID == this.request.OccupationID).OccupationName;
+    if (this.OccupationsName == 'Educationist') {
+      if (this.request.EducationProof == '' || this.request.ConsentLetter == '') {
+        this.IsValidEducationist = 'This field is required .!';
+        return
+      }
+    }
+
 
     //Show Loading
     this.loaderService.requestStarted();
@@ -441,6 +487,18 @@ export class SocietyComponent implements OnInit {
               this.request.Dis_AuthorizedDocument = '';
               this.request.AuthorizedDocumentPath = '';
             }
+            else if (Type == 'EducationProof') {
+              this.isValidEducationProof = true;
+              this.request.EducationProof = '';
+              this.request.Dis_EducationProof = '';
+              this.request.EducationProofPath = '';
+            }
+            else if (Type == 'ConsentLetter') {
+              this.isValidConsentLetter = true;
+              this.request.ConsentLetter = '';
+              this.request.Dis_ConsentLetter = '';
+              this.request.ConsentLetterPath = '';
+            }
             return
           }
           if (event.target.files[0].size < 100000) {
@@ -464,6 +522,18 @@ export class SocietyComponent implements OnInit {
               this.request.AuthorizedDocument = '';
               this.request.Dis_AuthorizedDocument = '';
               this.request.AuthorizedDocumentPath = '';
+            }
+            else if (Type == 'EducationProof') {
+              this.isValidEducationProof = true;
+              this.request.EducationProof = '';
+              this.request.Dis_EducationProof = '';
+              this.request.EducationProofPath = '';
+            }
+            else if (Type == 'ConsentLetter') {
+              this.isValidConsentLetter = true;
+              this.request.ConsentLetter = '';
+              this.request.Dis_ConsentLetter = '';
+              this.request.ConsentLetterPath = '';
             }
             return
           }
@@ -489,6 +559,18 @@ export class SocietyComponent implements OnInit {
             this.request.AuthorizedDocument = '';
             this.request.Dis_AuthorizedDocument = '';
             this.request.AuthorizedDocumentPath = '';
+          }
+          else if (Type == 'EducationProof') {
+            this.isValidEducationProof = true;
+            this.request.EducationProof = '';
+            this.request.Dis_EducationProof = '';
+            this.request.EducationProofPath = '';
+          }
+          else if (Type == 'ConsentLetter') {
+            this.isValidConsentLetter = true;
+            this.request.ConsentLetter = '';
+            this.request.Dis_ConsentLetter = '';
+            this.request.ConsentLetterPath = '';
           }
           return
         }
@@ -518,6 +600,16 @@ export class SocietyComponent implements OnInit {
               this.request.AuthorizedDocument = data['Data'][0]["FileName"];
               this.request.Dis_AuthorizedDocument = data['Data'][0]["Dis_FileName"];
               this.request.AuthorizedDocumentPath = data['Data'][0]["FilePath"];
+            }
+            else if (Type == 'EducationProof') {
+              this.request.EducationProof = data['Data'][0]["FileName"];
+              this.request.Dis_EducationProof = data['Data'][0]["Dis_FileName"];
+              this.request.EducationProofPath = data['Data'][0]["FilePath"];
+            }
+            else if (Type == 'ConsentLetter') {
+              this.request.ConsentLetter = data['Data'][0]["FileName"];
+              this.request.Dis_ConsentLetter = data['Data'][0]["Dis_FileName"];
+              this.request.ConsentLetterPath = data['Data'][0]["FilePath"];
             }
           }
           if (this.State == 1) {
@@ -572,6 +664,16 @@ export class SocietyComponent implements OnInit {
         this.request.Dis_AuthorizedDocument = '';
         this.request.AuthorizedDocumentPath = '';
       }
+      else if (Type == 'EducationProof') {
+        this.request.EducationProof = '';
+        this.request.Dis_EducationProof = '';
+        this.request.EducationProofPath = '';
+      }
+      else if (Type == 'ConsentLetter') {
+        this.request.ConsentLetter = '';
+        this.request.Dis_ConsentLetter = '';
+        this.request.ConsentLetterPath = '';
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -610,6 +712,9 @@ export class SocietyComponent implements OnInit {
       this.request.IsPrimary = false;
       this.request.IsAuthorized = false;
       this.request.AuthorizedDocument = '';
+      this.request.EducationProof = '';
+      this.request.ConsentLetter = '';
+      this.IsEducationists = false;
       this.showAuthorizedDocument = false;
       this.showPANCard = false;
       this.showSignatureDoc = false;
@@ -649,7 +754,15 @@ export class SocietyComponent implements OnInit {
           this.request.ProfilePhotoPath = data['Data'][0]["ProfilePhotoPath"];
           this.request.DesignationID = data['Data'][0]["DesignationID"];
           this.request.OccupationID = data['Data'][0]["OccupationID"];
-          this.request.Educationists = data['Data'][0]["Educationists"];
+          this.OccupationsName = this.OccupationList.find((x: { OccupationID: number; }) => x.OccupationID == this.request.OccupationID).OccupationName;
+          if (this.OccupationsName == 'Educationist' && data['Data'][0]["Educationists"] == 'Yes') {
+            this.request.Educationists = data['Data'][0]["Educationists"];
+            this.IsEducationists = true;
+          }
+          else {
+            this.request.Educationists = data['Data'][0]["Educationists"];
+            this.IsEducationists = false;
+          }
           this.request.MobileNo = data['Data'][0]["MobileNo"];
           this.request.Email = data['Data'][0]["Email"];
           this.request.Gender = data['Data'][0]["Gender"];
@@ -671,6 +784,14 @@ export class SocietyComponent implements OnInit {
             this.request.AuthorizedDocument = data['Data'][0]["AuthorizedDocument"];
             this.request.Dis_AuthorizedDocument = data['Data'][0]["Dis_AuthorizedDocument"];
             this.request.AuthorizedDocumentPath = data['Data'][0]["AuthorizedDocumentPath"];
+          }
+          if (this.IsEducationists == true) {
+            this.request.EducationProof = data['Data'][0]["EducationProof"];
+            this.request.Dis_EducationProof = data['Data'][0]["Dis_EducationProof"];
+            this.request.EducationProofPath = data['Data'][0]["EducationProofPath"];
+            this.request.ConsentLetter = data['Data'][0]["ConsentLetter"];
+            this.request.Dis_ConsentLetter = data['Data'][0]["Dis_ConsentLetter"];
+            this.request.ConsentLetterPath = data['Data'][0]["ConsentLetterPath"];
           }
           this.request.IsPrimary = data['Data'][0]["IsPrimary"];
 
@@ -725,6 +846,26 @@ export class SocietyComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+  SelectOccupation_Educationist_Change() {
+    debugger;
+    this.OccupationsName = this.OccupationList.find((x: { OccupationID: number; }) => x.OccupationID == this.request.OccupationID).OccupationName;
+    if (this.OccupationsName == 'Educationist') {
+      this.request.Educationists = 'Yes';
+      this.IsEducationists = true;
+    }
+    else {
+      this.request.Educationists = '';
+      this.request.EducationProof = '';
+      this.request.Dis_EducationProof = '';
+      this.request.EducationProofPath = '';
+      this.request.ConsentLetter = '';
+      this.request.Dis_ConsentLetter = '';
+      this.request.ConsentLetterPath = '';
+      this.IsEducationists = false;
+
     }
   }
 
