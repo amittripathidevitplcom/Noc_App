@@ -224,7 +224,10 @@ export class AddCollegeComponent implements OnInit {
               return
             }
           }
-          else {// type validation
+          else
+          {
+            this.toastr.warning('Select Only jpg/jpeg');
+            // type validation
             this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg', '', '', '', false);
             return
           }

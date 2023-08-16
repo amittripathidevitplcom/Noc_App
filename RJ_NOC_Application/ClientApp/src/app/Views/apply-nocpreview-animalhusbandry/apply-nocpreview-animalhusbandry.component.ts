@@ -40,12 +40,12 @@ import { CollegeService } from '../../services/collegedetailsform/College/colleg
   styleUrls: ['./apply-nocpreview-animalhusbandry.component.css']
 })
 export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
+  @ViewChild('tabs') tabGroup!: MatTabGroup;
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public dropdownSettings: IDropdownSettings = {};
 
-  @ViewChild('tabs') tabGroup!: MatTabGroup;
   public collegeDataList: any = [];
   sSOLoginDataModel = new SSOLoginDataModel();
 
@@ -138,7 +138,7 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
   public OldNOC_FinalRemarks: any = [];
   public CheckFinalRemark: string = '';
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private landDetailsService: LandDetailsService,  private facilityDetailsService: FacilityDetailsService,
+    private landDetailsService: LandDetailsService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
@@ -147,10 +147,14 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
-
-    this.sSOLoginDataModel =  JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    debugger;
+    this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetCollageDetails();
-    this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    if (this.tabGroup != null)
+      this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    else
+      this.maxNumberOfTabs = 14;
+
 
   }
   NextStep() {

@@ -9,7 +9,7 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-land-detail-dce',
@@ -37,7 +37,7 @@ export class DocumentScrutinyLandDetailComponentDce implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
 
-  constructor(private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
+  constructor(private landDetailsService: LandDetailsService, private dcedocumentScrutinyService: DCEDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
     private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -52,7 +52,7 @@ export class DocumentScrutinyLandDetailComponentDce implements OnInit {
   async GetLandDetailsDataList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.LandDetailList = data['Data'][0]['LandDetails'];

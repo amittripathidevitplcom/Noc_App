@@ -10,7 +10,7 @@ import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsM
 import { ToastrService } from 'ngx-toastr';
 import { StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
 import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-staff-details-dce',
@@ -41,7 +41,7 @@ export class DocumentScrutinyStaffDetailsComponentDce implements OnInit {
   public isRemarkValid: boolean = false;
   public isFormvalid: boolean = true;
 
-  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -54,7 +54,7 @@ export class DocumentScrutinyStaffDetailsComponentDce implements OnInit {
   async GetStaffDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_StaffDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_StaffDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           
           data = JSON.parse(JSON.stringify(data));

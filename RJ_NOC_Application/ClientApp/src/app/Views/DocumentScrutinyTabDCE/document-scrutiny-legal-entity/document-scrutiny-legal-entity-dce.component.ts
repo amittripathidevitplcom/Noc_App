@@ -11,7 +11,7 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { AbstractControl, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-legal-entity-dce',
@@ -20,7 +20,7 @@ import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumen
 })
 export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
 
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
+  constructor(private dcedocumentScrutinyService: DCEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
 
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -75,7 +75,7 @@ export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
   async ViewlegalEntityDataByID() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           
           data = JSON.parse(JSON.stringify(data));

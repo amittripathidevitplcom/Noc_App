@@ -304,14 +304,16 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.ApplyNocFor = item.ApplyNocFor;
       this.request.ApplyNocCode = item.ApplyNocCode;
 
+      console.log(item);
       // TNOC Extension
-      if (this.request.ApplyNocCode == 'MG3_NewCourse') {
+      if (this.request.ApplyNocCode == 'MG3_NewCourse' ) {
         this.ApplyNocParameterMasterList_TNOCExtension = null;
       }
       // Addition of New Seats(60)
       if (this.request.ApplyNocCode == 'MG3_ANewSeats') {
         this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
       }
+
       if (this.request.ApplicationTypeID <= 0) {
         this.toastr.error("Choose application type");
         event.target.checked = false;

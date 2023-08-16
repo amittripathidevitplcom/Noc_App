@@ -37,22 +37,22 @@
               <app-ah-document-scrutiny-college-detail></app-ah-document-scrutiny-college-detail>
             </mat-tab>
 
-            <!--<mat-tab>
+            <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-building-o icon" aria-hidden="true"></i>
                 <span>College Management Society</span>
               </ng-template>
-              <app-document-scrutiny-college-management-society></app-document-scrutiny-college-management-society>
-            </mat-tab>-->
+              <app-ah-document-scrutiny-college-management-society></app-ah-document-scrutiny-college-management-society>
+            </mat-tab>
 
 
 
-            <!--<mat-tab>
+            <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-location-arrow icon" aria-hidden="true"></i>
                 <span>Land Information</span>
               </ng-template>
-              <app-document-scrutiny-land-detail></app-document-scrutiny-land-detail>
+              <app-ah-document-scrutiny-land-detail></app-ah-document-scrutiny-land-detail>
             </mat-tab>
 
             <mat-tab>
@@ -60,15 +60,15 @@
                 <i class="fa fa-list-alt icon" aria-hidden="true"></i>
                 <span>Facility</span>
               </ng-template>
-              <app-document-scrutiny-facility></app-document-scrutiny-facility>
-            </mat-tab>-->
+              <app-ah-document-scrutiny-facility></app-ah-document-scrutiny-facility>
+            </mat-tab>
 
-            <!--<mat-tab>
+            <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-file-text-o icon" aria-hidden="true"></i>
                 <span>Required Document</span>
               </ng-template>
-              <app-document-scrutiny-required-document></app-document-scrutiny-required-document>
+              <app-ah-document-scrutiny-required-document></app-ah-document-scrutiny-required-document>
             </mat-tab>
 
             <mat-tab>
@@ -76,16 +76,15 @@
                 <i class="fa fa-home icon" aria-hidden="true"></i>
                 <span>Class Room Details</span>
               </ng-template>
-              <app-document-scrutiny-room-details></app-document-scrutiny-room-details>
-            </mat-tab>-->
+              <app-ah-document-scrutiny-room-details></app-ah-document-scrutiny-room-details>
+            </mat-tab>
 
-            <!--<mat-tab>
+            <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
-                <span *ngIf="SelectedDepartmentID==6">Clinical Details</span>
-                <span *ngIf="SelectedDepartmentID !=6">Other Information</span>
+                <span>Other Information</span>
               </ng-template>
-              <app-document-scrutiny-other-information></app-document-scrutiny-other-information>
+              <app-ah-document-scrutiny-other-information></app-ah-document-scrutiny-other-information>
             </mat-tab>
 
             <mat-tab>
@@ -93,15 +92,15 @@
                 <i class="fa fa-building-o icon" aria-hidden="true"></i>
                 <span>Building Documents</span>
               </ng-template>
-              <app-document-scrutiny-building-details></app-document-scrutiny-building-details>
-            </mat-tab>-->
+              <app-ah-document-scrutiny-building-details></app-ah-document-scrutiny-building-details>
+            </mat-tab>
 
-            <!--<mat-tab>
+            <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-users icon" aria-hidden="true"></i>
                 <span>Staff Details</span>
               </ng-template>
-              <app-document-scrutiny-staff-details></app-document-scrutiny-staff-details>
+              <app-ah-document-scrutiny-staff-detail></app-ah-document-scrutiny-staff-detail>
             </mat-tab>
 
             <mat-tab *ngIf="CollegeType_IsExisting">
@@ -109,7 +108,7 @@
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
                 <span>OLD NOC Details</span>
               </ng-template>
-              <app-document-scrutiny-old-nocdetails></app-document-scrutiny-old-nocdetails>
+              <app-ah-document-scrutiny-old-nocdetails></app-ah-document-scrutiny-old-nocdetails>
             </mat-tab>
 
 
@@ -118,40 +117,32 @@
                 <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
                 <span>Academic Information</span>
               </ng-template>
-              <app-document-scrutiny-academic-information></app-document-scrutiny-academic-information>
-            </mat-tab>-->
+              <app-ah-document-scrutiny-academic-information></app-ah-document-scrutiny-academic-information>
+            </mat-tab>
 
-            <!--<mat-tab>
+            <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-files-o icon" aria-hidden="true"></i>
                 <span>Other Document</span>
               </ng-template>
-              <app-document-scrutiny-other-document></app-document-scrutiny-other-document>
+              <app-ah-document-scrutiny-other-document></app-ah-document-scrutiny-other-document>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==6">
-              <ng-template mat-tab-label>
-                <i class="fa fa-hospital-o icon" aria-hidden="true"></i>
-                <span>Hospital Details</span>
-              </ng-template>
-              <app-document-scrutiny-hospital-details></app-document-scrutiny-hospital-details>
-            </mat-tab>-->
 
-
-            <!--<mat-tab *ngIf="SelectedDepartmentID==6">
+            <mat-tab>
               <ng-template mat-tab-label>
-                <i class="fa fa-bed icon" aria-hidden="true"></i>
-                <span>Hostel Details</span>
+                <i class="fa fa-files-o icon" aria-hidden="true"></i>
+                <span>Veterinary Hospital</span>
               </ng-template>
-              <app-document-scrutiny-hostal-details></app-document-scrutiny-hostal-details>
+              <app-ah-document-scrutiny-veterinary-hospital></app-ah-document-scrutiny-veterinary-hospital>
             </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-check-square-o icon" aria-hidden="true"></i>
                 <span>Check List</span>
               </ng-template>
-              <app-document-scrutiny-check-list-details></app-document-scrutiny-check-list-details>
-            </mat-tab>-->
+              <app-ah-document-scrutiny-check-list-details></app-ah-document-scrutiny-check-list-details>
+            </mat-tab>
           </mat-tab-group>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">

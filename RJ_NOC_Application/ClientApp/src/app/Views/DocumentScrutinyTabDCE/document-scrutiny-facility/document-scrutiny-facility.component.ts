@@ -10,7 +10,7 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { ToastrService } from 'ngx-toastr';
 import { FacilityDetailsService } from '../../../Services/FicilityDetais/facility-details.service';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-document-scrutiny-facility-dce',
@@ -32,7 +32,7 @@ export class DocumentScrutinyFacilityComponentDce implements OnInit {
   public FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
   public FinalRemarks: any = [];
 
-  constructor(private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -46,7 +46,7 @@ export class DocumentScrutinyFacilityComponentDce implements OnInit {
   async GetFacilityDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_FacilityDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_FacilityDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           
           data = JSON.parse(JSON.stringify(data));

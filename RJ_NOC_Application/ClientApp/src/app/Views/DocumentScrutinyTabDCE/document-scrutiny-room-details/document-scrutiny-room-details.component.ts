@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { RoomDetailsDataModel_RoomDetails } from '../../../Models/RoomDetailsDataModel';
 import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.service';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class DocumentScrutinyRoomDetailsComponentDce implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public FinalRemarks: any = [];
-  constructor(private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private roomDetailsService: RoomDetailsService) { }
 
   async ngOnInit() {
@@ -46,7 +46,7 @@ export class DocumentScrutinyRoomDetailsComponentDce implements OnInit {
   async GetRoomDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
           
           data = JSON.parse(JSON.stringify(data));
