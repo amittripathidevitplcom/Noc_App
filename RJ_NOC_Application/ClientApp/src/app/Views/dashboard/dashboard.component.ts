@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
   constructor(private loaderService: LoaderService, private toastr: ToastrService,private commonMasterService: CommonMasterService) { }
 
   ngOnInit(): void {
+    debugger;
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetDashboardDataSSOWise(this.sSOLoginDataModel.SSOID);
   }

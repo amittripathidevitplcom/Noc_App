@@ -105,7 +105,7 @@ import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 export class SSOLoginComponent implements OnInit {
   LoginType: any = "1";
   Username: any;
-  UserRole: any;
+  LoginRoleType: any;
   sSOLoginDataModel = new SSOLoginDataModel();
   sSOLandingDataDataModel = new SSOLandingDataDataModel();
   public State: number = -1;
@@ -124,36 +124,30 @@ export class SSOLoginComponent implements OnInit {
 
   async ngOnInit() {
     //this.loaderService.requestStarted();
-    // this.Username = this.router.snapshot.queryParams.id1;
-    //this.LoginType = this.router.snapshot.queryParams.id2;
-    
-    this.Username = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id1')?.toString());
-    //this.UserRole = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id2')?.toString());
+    //this.Username = this.router.snapshot.queryParams.id1;
+    //this.LoginRoleType = this.router.snapshot.queryParams.id2;
+    //alert(this.LoginType);
+   this.Username = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id1')?.toString());
+   // this.LoginType = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id2')?.toString());
     console.log(this.Username);
     if (this.Username == undefined) {
       this.Username = this.router.snapshot.queryParams.id1;
 
     }
 
-    
-    // this.LoginType = this.router.snapshot.queryParams.id1;
     await this.Citizenlogin(this.Username, this.LoginType);
     //setTimeout(() => {
     //  this.loaderService.requestEnded();
     //}, 200);
   }
 
-
-  //public DepartmentID: number = 0;
-  //public RoleID: number = 0;
-  //public RoleName: string = '';
-
   async Citizenlogin(LoginSSOID: string, LoginType: string) {
     try {
       this.sSOLandingDataDataModel.Username = LoginSSOID;
-      this.sSOLandingDataDataModel.LoginType = "-999";
+      this.sSOLandingDataDataModel.LoginType = '-999';
       this.sSOLandingDataDataModel.Password = LoginSSOID;
        
+  
       if (LoginSSOID == undefined || LoginSSOID == '' || LoginSSOID == 'NaN' || LoginSSOID.toString() == NaN.toString()) {
         //LoginSSOID = "RISHIKAPOORDELHI";
         window.open(GlobalConstants.SSOURL, "_self");
@@ -190,7 +184,7 @@ export class SSOLoginComponent implements OnInit {
             this.sSOLoginDataModel.UserID = data['Data'][0]['data'][0]['UserID'];
           }
         }, error => console.error(error));
-      console.log(this.sSOLoginDataModel.RoleID);
+      //console.log(this.sSOLoginDataModel.RoleID);
       if (this.sSOLoginDataModel.RoleID == 0) {
         this.sSOLoginDataModel.RoleID = 0;
       }
