@@ -34,6 +34,12 @@ export class SocietyDataModel {
   public IsAuthorized: boolean = false;
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
+  public EducationProof: string = '';
+  public Dis_EducationProof: string = '';
+  public EducationProofPath: string = '';
+  public ConsentLetter: string = '';
+  public Dis_ConsentLetter: string = '';
+  public ConsentLetterPath: string = '';
   //public FileName: string = '';
   //public FilePath: string = '';
 
