@@ -27,7 +27,8 @@ export class SSOLoginService {
     return await this.http.post(this.APIUrl + '/GetSSOUserLogionDetails/', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
-      ).toPromise();
+    ).toPromise();
+
   }
 
   public async CheckMappingSSOID(SSOID: string) {
