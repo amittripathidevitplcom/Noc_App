@@ -163,7 +163,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
           if (!this.State) {
             Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
             if (Femalepre < 30) {
-              this.toastr.error("Society in Female Member is not valid (30%)")
+              //this.toastr.error("Society in Female Member is not valid (30%)")
+              this.toastr.error("Member list must have atleast 30% of Woman")
               this.isCheck30Female = true;
               return;
             }
