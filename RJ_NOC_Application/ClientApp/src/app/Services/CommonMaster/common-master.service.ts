@@ -419,7 +419,7 @@ export class CommonMasterService {
   }
 
 
-  public async GetCourseList_CollegeWise(CollegeID: number, CourseType: number = 0) {
+  public async GetCourseList_CollegeWise(CollegeID: number, CourseType: string = 'All') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
