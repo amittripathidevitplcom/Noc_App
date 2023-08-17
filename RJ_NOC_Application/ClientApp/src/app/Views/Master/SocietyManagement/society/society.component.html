@@ -207,7 +207,7 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" value="1" id="ckIsPrimary" name="IsPrimary" [(ngModel)]="request.IsPrimary" formControlName="ckIsPrimary">
+                      <input class="form-check-input" type="checkbox" value="1" id="ckIsPrimary" name="IsPrimary" [(ngModel)]="request.IsPrimary" formControlName="ckIsPrimary" [attr.disabled]="isDisabledPrimary ? true : null">
                       <label class="form-check-label" for="ckIsPrimary">Is Primary</label>
                     </div>
                   </div>
@@ -279,6 +279,7 @@
                 <div class="card-footer text-end">
                   <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-save"></i> Save</button>
                   <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+                  <button type="submit" class="btn btn-primary" id="btnProceedDraft" name="btnSave" (click)="Proceed_Draft()"> Proceed To Draft</button>
                 </div>
               </div>
             </div>

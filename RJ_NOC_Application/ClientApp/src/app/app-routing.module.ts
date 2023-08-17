@@ -116,6 +116,7 @@ import { PreviewParamedicalHospitalDetailComponent } from './Views/PreviewTabs/p
 import { DocumentScrutinyParamedicalHospitalDetailComponent } from './Views/DocumentScrutinyTab/document-scrutiny-paramedical-hospital-detail/document-scrutiny-paramedical-hospital-detail.component';
 import { DocumentScrutinyComponent } from './Views/DCE/document-scrutiny/document-scrutiny.component';
 import { ApplyNocpreviewAnimalhusbandryComponent } from './Views/apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
+import { ApplyNocpreviewAgricultureComponent } from './Views/apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStudentStatistics/subject-wise-student-statistics/subject-wise-student-statistics.component'
 
 
@@ -500,6 +501,9 @@ const routes: Routes = [
       },
       {
         path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID', component: DocumentScrutinyComponent
+      },
+      {
+        path: 'agricultureappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAgricultureComponent
       },
       {
          path: 'subjectwisestudentstatistics', component: SubjectWiseStudentStatisticsComponent
