@@ -366,7 +366,9 @@ export class JointSecretaryPendingNOCReportComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
+            this.toastr.success(this.SuccessMessage);
+            this.modalService.dismissAll('After Success');
+            window.location.reload();
           }
           else {
             this.toastr.error(this.ErrorMessage)
