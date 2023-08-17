@@ -80,7 +80,7 @@
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat">
+        <mat-step state="chat" *ngIf="CollegeType_IsExisting">
           <ng-template matStepLabel>Staff Details</ng-template>
           <app-preview-staff-detail></app-preview-staff-detail>
           <button mat-button matStepperPrevious>Back</button>
@@ -122,7 +122,7 @@
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat" *ngIf="SelectedDepartmentID==6">
+        <mat-step state="chat" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3">
           <ng-template matStepLabel>Hostel Details</ng-template>
           <app-preview-hostel-details></app-preview-hostel-details>
           <button mat-button matStepperPrevious>Back</button>
