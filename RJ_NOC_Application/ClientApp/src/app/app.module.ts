@@ -211,6 +211,22 @@ import { AhDocumentScrutinyAcademicInformationComponent } from './Views/Document
 import { AhDocumentScrutinyOtherDocumentComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-other-document/ah-document-scrutiny-other-document.component';
 import { AhDocumentScrutinyVeterinaryHospitalComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-veterinary-hospital/ah-document-scrutiny-veterinary-hospital.component';
 import { AhDocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-check-list-details/ah-document-scrutiny-check-list-details.component';
+import { AgriDocumentScrutinyLandDetailComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-land-detail/agri-document-scrutiny-land-detail.component';
+import { AgriDocumentScrutinyFacilityComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-facility/agri-document-scrutiny-facility.component';
+import { AgriDocumentScrutinyRequiredDocumentComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-required-document/agri-document-scrutiny-required-document.component';
+import { AgriDocumentScrutinyRoomDetailsComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-room-details/agri-document-scrutiny-room-details.component';
+import { AgriDocumentScrutinyOtherInformationComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-other-information/agri-document-scrutiny-other-information.component';
+import { AgriDocumentScrutinyBuildingDetailsComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-building-details/agri-document-scrutiny-building-details.component';
+import { AgriDocumentScrutinyStaffDetailComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-staff-detail/agri-document-scrutiny-staff-detail.component';
+import { AgriDocumentScrutinyOldNocdetailsComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-old-nocdetails/agri-document-scrutiny-old-nocdetails.component';
+import { AgriDocumentScrutinyAcademicInformationComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-academic-information/agri-document-scrutiny-academic-information.component';
+import { AgriDocumentScrutinyOtherDocumentComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-other-document/agri-document-scrutiny-other-document.component';
+import { AgriDocumentScrutinyFarmLandDetailsComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-farm-land-details/agri-document-scrutiny-farm-land-details.component';
+import { AgriDocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-check-list-details/agri-document-scrutiny-check-list-details.component';
+import { AgriDocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-college-detail/agri-document-scrutiny-college-detail.component';
+import { AgriDocumentScrutinyCollegeManagementSocietyComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-college-management-society/agri-document-scrutiny-college-management-society.component';
+import { AgriDocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab_Agri/agri-document-scrutiny-legal-entity/agri-document-scrutiny-legal-entity.component';
+import { ApplyNocpreviewAgricultureComponent } from './Views/apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 
 
 
@@ -416,6 +432,22 @@ import { AhDocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScr
     AhDocumentScrutinyOtherDocumentComponent,
     AhDocumentScrutinyVeterinaryHospitalComponent,
     AhDocumentScrutinyCheckListDetailsComponent,
+    AgriDocumentScrutinyLandDetailComponent,
+    AgriDocumentScrutinyFacilityComponent,
+    AgriDocumentScrutinyRequiredDocumentComponent,
+    AgriDocumentScrutinyRoomDetailsComponent,
+    AgriDocumentScrutinyOtherInformationComponent,
+    AgriDocumentScrutinyBuildingDetailsComponent,
+    AgriDocumentScrutinyStaffDetailComponent,
+    AgriDocumentScrutinyOldNocdetailsComponent,
+    AgriDocumentScrutinyAcademicInformationComponent,
+    AgriDocumentScrutinyOtherDocumentComponent,
+    AgriDocumentScrutinyFarmLandDetailsComponent,
+    AgriDocumentScrutinyCheckListDetailsComponent,
+    AgriDocumentScrutinyCollegeDetailComponent,
+    AgriDocumentScrutinyCollegeManagementSocietyComponent,
+    AgriDocumentScrutinyLegalEntityComponent,
+    ApplyNocpreviewAgricultureComponent,
 
   ],
   imports: [
