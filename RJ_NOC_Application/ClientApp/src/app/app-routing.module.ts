@@ -117,6 +117,7 @@ import { DocumentScrutinyParamedicalHospitalDetailComponent } from './Views/Docu
 import { DocumentScrutinyComponent } from './Views/DCE/document-scrutiny/document-scrutiny.component';
 import { ApplyNocpreviewAnimalhusbandryComponent } from './Views/apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStudentStatistics/subject-wise-student-statistics/subject-wise-student-statistics.component'
+import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE/inspection-committee-physical-verification-dce/inspection-committee-physical-verification-dce.component';
 
 
 
@@ -475,6 +476,9 @@ const routes: Routes = [
         path: 'committeeforwardreport', component: CommitteeForwardReportComponent
       },
       {
+        path: 'committeeforwardreport/:Committee', component: CommitteeForwardReportComponent
+      },
+      {
         path: 'applynoccompletedreport', component: ApplyNOCCompletedReportComponent
       },
       {
@@ -503,6 +507,10 @@ const routes: Routes = [
       },
       {
          path: 'subjectwisestudentstatistics', component: SubjectWiseStudentStatisticsComponent
+      }
+      ,
+      {
+        path: 'inspectioncommitteephysicalverification', component: InspectionCommitteePhysicalVerificationDCEComponent
       }
 
     ]

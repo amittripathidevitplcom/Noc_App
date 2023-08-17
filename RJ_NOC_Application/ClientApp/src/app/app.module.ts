@@ -212,6 +212,7 @@ import { AhDocumentScrutinyOtherDocumentComponent } from './Views/DocumentScruti
 import { AhDocumentScrutinyVeterinaryHospitalComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-veterinary-hospital/ah-document-scrutiny-veterinary-hospital.component';
 import { AhDocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-check-list-details/ah-document-scrutiny-check-list-details.component';
 import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStudentStatistics/subject-wise-student-statistics/subject-wise-student-statistics.component';
+import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE/inspection-committee-physical-verification-dce/inspection-committee-physical-verification-dce.component';
 
 
 
@@ -418,6 +419,7 @@ import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStuden
     AhDocumentScrutinyVeterinaryHospitalComponent,
     AhDocumentScrutinyCheckListDetailsComponent,
     SubjectWiseStudentStatisticsComponent,
+    InspectionCommitteePhysicalVerificationDCEComponent,
 
   ],
   imports: [

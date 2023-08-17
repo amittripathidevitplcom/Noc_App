@@ -144,6 +144,14 @@
             </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>
+                <i class="fa fa-files-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HostelDetails']>0"></i>
+                <span>Hostel Detail</span>
+              </ng-template>
+              <app-document-scrutiny-hostal-details-dce></app-document-scrutiny-hostal-details-dce>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
                 <i class="fa fa-check-square-o icon" aria-hidden="true"></i>
                 <span>Check List</span>
               </ng-template>
