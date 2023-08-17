@@ -12,6 +12,7 @@ import { FileUploadService } from '../../../Services/FileUpload/file-upload.serv
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { max } from 'rxjs';
 import { InputValidationService } from '../../../Services/CustomValidators/input-validation.service';
+import { LegalEntityService } from '../../../Services/LegalEntity/legal-entity.service';
 
 @Injectable()
 
@@ -87,7 +88,7 @@ export class AddCollegeComponent implements OnInit {
   request_ContactDetailsDataModel = new ContactDetailsDataModel();
   request_NearestGovernmentHospitals = new NearestGovernmentHospitalsDataModel();
 
-  constructor(private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
+  constructor(private legalEntityListService: LegalEntityService, private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
   }
 
   async ngOnInit() {
@@ -193,6 +194,39 @@ export class AddCollegeComponent implements OnInit {
     // sso id
     this.request.ParentSSOID = this.sSOLoginDataModel.SSOID;
     this.request.MappingSSOID = this.sSOLoginDataModel.SSOID;
+
+
+
+    try {
+      this.loaderService.requestStarted();
+      await this.legalEntityListService.GetLegalEntityBySSOID(this.request.ParentSSOID, 0)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          if (data['Data'][0]['data']['Table'].length == 0) {
+            this.toastr.warning("Add Legal Entity After Add College.!");
+            setTimeout(() => {
+              this.routers.navigate(['/legalentity']);
+            }, 500);
+           
+          }
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      this.routers.navigate(['/legalentity']);
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 0);
+    }
+
+
+
 
   }
 
