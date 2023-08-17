@@ -728,6 +728,7 @@ export class StaffDetailsComponent implements OnInit {
 
   async GetQualificationList_DepartmentAndTypeWise() {
     try {
+      debugger;
       this.loaderService.requestStarted();
       var QualificationName = this.HighestQualificationData.find((x: { ID: number; }) => x.ID == this.request.HighestQualification).Name;
       await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID)
@@ -952,7 +953,8 @@ export class StaffDetailsComponent implements OnInit {
   setPassingYear() {
     const DOB = new Date(this.request.DateOfBirth);
     this.StartYear = DOB.getFullYear()
-    const DDAppointment = new Date(this.request.DateOfAppointment);
+    //const DDAppointment = new Date(this.request.DateOfAppointment);
+    const DDAppointment = new Date();
     // Set for Passing Year
     const Maxyear = this.StartYear == 0 ? 0 : DDAppointment.getFullYear();
     this.FillYearData(Maxyear, this.StartYear);

@@ -73,7 +73,7 @@ export class BuildingDetailsComponent implements OnInit {
   public ImageValidate: string = '';
   public CssClass_TextDangerWidth: string = '';
   public CssClass_TextDangerLength: string = '';
-
+  public IstxtBuildingHostel: boolean = false;
   public isValidOwnBuildingFileUpload: boolean = false;
   public isValidRentAgreementFileUpload: boolean = false;
   public RentAggrementDocShow: boolean = false;
@@ -132,7 +132,7 @@ export class BuildingDetailsComponent implements OnInit {
         rdBuildingType: ['', Validators.required],
         txtOwnerName: ['', Validators.required],
         txtAddressLine1_Owner: ['', Validators.required],
-        txtAddressLine2_Owner: ['', Validators.required],
+        txtAddressLine2_Owner: [''],
         rbRuralUrban_Owner: ['', Validators.required],
         ddlDivisionID_Owner: ['', [DropdownValidators]],
         ddlDistrictID_Owner: ['', [DropdownValidators]],
@@ -141,7 +141,7 @@ export class BuildingDetailsComponent implements OnInit {
         txtCityTownVillage_Owner: ['', Validators.required],
         txtPincode_Owner: ['', [Validators.required]],
         txtContactNo_Owner: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
-
+        txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
         txtFromDate: ['', Validators.required],
         txtToDate: ['', Validators.required],
         txtFireNOCUpload: [''],
@@ -153,12 +153,20 @@ export class BuildingDetailsComponent implements OnInit {
 
         txtOwnBuildingOrderNo: ['', [Validators.required]],
         txtOwnBuildingOrderDate: ['', [Validators.required]],
-        txtTotalProjectCost: ['', [Validators.required]],
-        txtSourceCostAmount: ['', [Validators.required]],
-        txtAmountDeposited: ['', [Validators.required]],
-        txtOtherFixedAssetsAndSecurities: ['', [Validators.required]],
-        txtGATEYearBalanceSecret: ['', [Validators.required]],
-        txtOtherFinancialResources: ['', [Validators.required]],
+
+        //txtTotalProjectCost: ['', [Validators.required]],
+        //txtSourceCostAmount: ['', [Validators.required]],
+        //txtAmountDeposited: ['', [Validators.required]],
+        //txtOtherFixedAssetsAndSecurities: ['', [Validators.required]],
+        //txtGATEYearBalanceSecret: ['', [Validators.required]],
+        //txtOtherFinancialResources: ['', [Validators.required]],
+
+        txtTotalProjectCost: [''],
+        txtSourceCostAmount: [''],
+        txtAmountDeposited: [''],
+        txtOtherFixedAssetsAndSecurities: [''],
+        txtGATEYearBalanceSecret: [''],
+        txtOtherFinancialResources: [''],
         TotalProjectCostFileUpload: [''],
         SourceCostAmountFileUpload: [''],
         AmountDepositedFileUpload: [''],
@@ -261,7 +269,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async SaveData() {
-
+    this.IstxtBuildingHostel = false;
     this.isValidOwnBuildingFileUpload = false;
     this.isValidRentAgreementFileUpload = false;
     this.isValidFireNOCFileUpload = false;
@@ -291,6 +299,10 @@ export class BuildingDetailsComponent implements OnInit {
         this.isFormValid = false;
       }
     }
+    if (this.buildingdetails.BuildingHostelQuartersRoadArea <= 0 || (this.buildingdetails.BuildingHostelQuartersRoadArea).toString() == "") {
+      this.IstxtBuildingHostel = true;
+      return;
+    }
     if (this.RentAggrementDocShow) {
       if (this.buildingdetails.RentAgreementFileUpload == '') {
         this.ImageValidate = 'This field is required .!';
@@ -306,29 +318,56 @@ export class BuildingDetailsComponent implements OnInit {
       this.ImageValidate = 'This field is required .!';
       return
     }
-    if (this.buildingdetails.TotalProjectCostFileUpload == '') {
-      this.ImageValidate = 'This field is required .!';
-      return
-    }
-    if (this.buildingdetails.SourceCostAmountFileUpload == '') {
-      this.ImageValidate = 'This field is required .!';
-      return
-    }
-    if (this.buildingdetails.AmountDepositedFileUpload == '') {
-      this.ImageValidate = 'This field is required .!';
-      return
-    }
-    if (this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload == '') {
-      this.ImageValidate = 'This field is required .!';
-      return
-    }
-    if (this.buildingdetails.GATEYearBalanceSecretFileUpload == '') {
-      this.ImageValidate = 'This field is required .!';
-      return
-    }
-    if (this.buildingdetails.OtherFinancialResourcesFileUpload == '') {
-      this.ImageValidate = 'This field is required .!';
-      return
+    
+    if (this.SelectedDepartmentID == 6) {
+      if (this.buildingdetails.TotalProjectCost == '' || this.buildingdetails.TotalProjectCost == '0' || this.buildingdetails.TotalProjectCost == null) {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.SourceCostAmount == '' || this.buildingdetails.SourceCostAmount == '0' || this.buildingdetails.SourceCostAmount == null) {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.AmountDeposited == '' || this.buildingdetails.AmountDeposited == '0' || this.buildingdetails.AmountDeposited == null) {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.OtherFixedAssetsAndSecurities == '' || this.buildingdetails.OtherFixedAssetsAndSecurities == '0' || this.buildingdetails.OtherFixedAssetsAndSecurities == null) {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.GATEYearBalanceSecret == '' || this.buildingdetails.GATEYearBalanceSecret == '0' || this.buildingdetails.GATEYearBalanceSecret == null) {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.OtherFinancialResources == '' || this.buildingdetails.OtherFinancialResources == '0' || this.buildingdetails.OtherFinancialResources == null) {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.TotalProjectCostFileUpload == '' ) {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.SourceCostAmountFileUpload == '') {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.AmountDepositedFileUpload == '') {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload == '') {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.GATEYearBalanceSecretFileUpload == '') {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+      if (this.buildingdetails.OtherFinancialResourcesFileUpload == '') {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
     }
     if (!this.isFormValid) {
       return;
