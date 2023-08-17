@@ -111,7 +111,8 @@ export class AddCollegeComponent implements OnInit {
 
         txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         txtAddressLine1: ['', Validators.required],
-        txtAddressLine2: ['', Validators.required],
+        //txtAddressLine2: ['', Validators.required],
+        txtAddressLine2: [''],
         rbRuralUrban: ['', Validators.required],
         txtDistanceFromCity: ['', Validators.required],
         ddlDivisionID: ['', [DropdownValidators]],
@@ -192,7 +193,7 @@ export class AddCollegeComponent implements OnInit {
     // sso id
     this.request.ParentSSOID = this.sSOLoginDataModel.SSOID;
     this.request.MappingSSOID = this.sSOLoginDataModel.SSOID;
-     
+
   }
 
   //keyPressNumbers(event: any) {
@@ -224,8 +225,7 @@ export class AddCollegeComponent implements OnInit {
               return
             }
           }
-          else
-          {
+          else {
             this.toastr.warning('Select Only jpg/jpeg');
             // type validation
             this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg', '', '', '', false);
@@ -792,7 +792,7 @@ export class AddCollegeComponent implements OnInit {
 
   AddNearestGovernmentHospitalsDetail() {
     try {
-      
+
       if (this.request.NearestGovernmentHospitalsList.length >= 10) {
         this.toastr.error("You can't add more then 10.");
         return
@@ -986,7 +986,7 @@ export class AddCollegeComponent implements OnInit {
     if (!isValid) {
       return;
     }
-     
+
 
     //Show Loading
     this.loaderService.requestStarted();
