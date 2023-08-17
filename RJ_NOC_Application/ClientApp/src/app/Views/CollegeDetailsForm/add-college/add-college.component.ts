@@ -154,7 +154,7 @@ export class AddCollegeComponent implements OnInit {
         fHospitalDocument: ['', Validators.required],
         txtHospitalDistance: ['', Validators.required],
         txtAddressLine1_Nearest: ['', Validators.required],
-        txtAddressLine2_Nearest: ['', Validators.required],
+        txtAddressLine2_Nearest: [''],
         rbRuralUrban_Nearest: ['', Validators.required],
         ddlDivisionID_Nearest: ['', [DropdownValidators]],
         ddlDistrictID_Nearest: ['', [DropdownValidators]],
