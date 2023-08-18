@@ -117,6 +117,7 @@ import { DocumentScrutinyParamedicalHospitalDetailComponent } from './Views/Docu
 import { DocumentScrutinyComponent } from './Views/DCE/document-scrutiny/document-scrutiny.component';
 import { ApplyNocpreviewAnimalhusbandryComponent } from './Views/apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStudentStatistics/subject-wise-student-statistics/subject-wise-student-statistics.component'
+import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-application-list/nodal-officer-application-list.component';
 
 
 
@@ -503,8 +504,11 @@ const routes: Routes = [
       },
       {
          path: 'subjectwisestudentstatistics', component: SubjectWiseStudentStatisticsComponent
-      }
-
+      },
+    
+      {
+        path: 'nodalofficerapplicationlist', component: NodalOfficerApplicationListComponent
+      },
     ]
   },
 

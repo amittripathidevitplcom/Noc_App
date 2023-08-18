@@ -213,6 +213,8 @@ import { AhDocumentScrutinyVeterinaryHospitalComponent } from './Views/DocumentS
 import { AhDocumentScrutinyCheckListDetailsComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-check-list-details/ah-document-scrutiny-check-list-details.component';
 import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStudentStatistics/subject-wise-student-statistics/subject-wise-student-statistics.component';
 
+import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-application-list/nodal-officer-application-list.component';
+
 
 
 
@@ -418,6 +420,8 @@ import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStuden
     AhDocumentScrutinyVeterinaryHospitalComponent,
     AhDocumentScrutinyCheckListDetailsComponent,
     SubjectWiseStudentStatisticsComponent,
+
+    NodalOfficerApplicationListComponent,
 
   ],
   imports: [
