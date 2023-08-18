@@ -54,8 +54,8 @@ export class CommitteeMasterComponent implements OnInit {
   }
 
   get form() { return this.CommitteeMasterForm.controls; }
-  get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
 
+  get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
   async SaveData() {
     
     this.isSubmitted = true;
@@ -103,6 +103,7 @@ export class CommitteeMasterComponent implements OnInit {
       }, 200);
     }
   }
+
   AddMemberDetail() {
     this.isSubmitted_MemberDetails = true;
     if (this.CommitteeMemberDetails.invalid) {

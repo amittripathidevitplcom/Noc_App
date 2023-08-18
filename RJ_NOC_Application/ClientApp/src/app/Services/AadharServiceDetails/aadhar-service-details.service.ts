@@ -38,4 +38,15 @@ export class AadharServiceDetails {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetAadharByVID(request: AadharServiceDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/GetAadharByVID", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
 }

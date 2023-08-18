@@ -119,6 +119,7 @@ import { ApplyNocpreviewAnimalhusbandryComponent } from './Views/apply-nocprevie
 import { ApplyNocpreviewAgricultureComponent } from './Views/apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStudentStatistics/subject-wise-student-statistics/subject-wise-student-statistics.component'
 import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE/inspection-committee-physical-verification-dce/inspection-committee-physical-verification-dce.component';
+import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-application-list/nodal-officer-application-list.component';
 
 
 
@@ -504,7 +505,7 @@ const routes: Routes = [
         path: 'animalhusbandryappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAnimalhusbandryComponent
       },
       {
-        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID', component: DocumentScrutinyComponent
+        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNo', component: DocumentScrutinyComponent
       },
       {
         path: 'agricultureappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAgricultureComponent
@@ -515,8 +516,10 @@ const routes: Routes = [
       ,
       {
         path: 'inspectioncommitteephysicalverification', component: InspectionCommitteePhysicalVerificationDCEComponent
-      }
-
+      },
+      {
+        path: 'nodalofficerapplicationlist', component: NodalOfficerApplicationListComponent
+      },
     ]
   },
 

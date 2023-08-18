@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { CommitteeMasterDataModel } from '../../../Models/CommitteeMasterDataModel';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
+import { PostApplicationCommitteeMemberdataModel } from '../../../Models/ApplicationCommitteeMemberdataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,24 @@ export class CommitteeMasterService {
   public async DeleteCommitteeData(CommitteeMasterID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.post(this.APIUrl + '/DeleteCommitteeData/' + CommitteeMasterID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async SaveApplicationCommitteeData(request: PostApplicationCommitteeMemberdataModel)
+  {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/SaveApplicationCommitteeData', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetApplicationCommitteeList(ApplyNocApplicationID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GetApplicationCommitteeList/' + ApplyNocApplicationID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

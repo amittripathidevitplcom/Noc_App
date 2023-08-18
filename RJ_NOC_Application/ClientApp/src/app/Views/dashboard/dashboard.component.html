@@ -393,6 +393,7 @@
 <!--DEC SECTION DASHBOARD START-->
 
 <div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==3">
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==3">
   <div class="row">
     <div class="col-lg-5 col-md-5 col-sm-5 col-12">
       <div class="card staticsCards">
@@ -401,17 +402,17 @@
           <div class="d-flex justify-content-between">
             <div class="dashCardContent text-start">
               <h4>Pending</h4>
-              <h2>
-                <a href="/applynocapplicationlist" style="background: none;">{{dashboardDataModel.Nodal_Pending}}</a>
+                <a href="/nodalofficerapplicationlist" style="background: none;">{{dashboardDataModel.Nodal_Pending}}</a>
+                <a href="/nodalofficerapplicationlist" style="background: none;">{{dashboardDataModel.Nodal_Pending}}</a>
               </h2>
             </div>
             <div class="dashCardContent  text-start">
-              <h4>Rejected</h4>
-              <a href="/committeerejectedreport" style="background: none;"><h2>{{dashboardDataModel.Nodal_Rejected}}</h2></a>
+              <a href="/nodalofficerapplicationlist" style="background: none;"><h2>{{dashboardDataModel.Nodal_Rejected}}</h2></a>
+              <a href="/nodalofficerapplicationlist" style="background: none;"><h2>{{dashboardDataModel.Nodal_Rejected}}</h2></a>
             </div>
             <div class="dashCardContent">
-              <h4>Completed</h4>
-              <a href="/committeecompletedreport" style="background: none;"><h2>{{dashboardDataModel.Nodal_Completed}}</h2></a>
+              <a href="/nodalofficerapplicationlist" style="background: none;"><h2>{{dashboardDataModel.Nodal_Completed}}</h2></a>
+              <a href="/nodalofficerapplicationlist" style="background: none;"><h2>{{dashboardDataModel.Nodal_Completed}}</h2></a>
             </div>
           </div>
         </div>
@@ -419,6 +420,35 @@
     </div>
   </div>
 </div>
+<!--DEC SECTION DASHBOARD END-->
 
 
+<!--PV COMMITTEE SECTION DASHBOARD START -->
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==3 && this.sSOLoginDataModel.RoleID==16">
+  <div class="row">
+    <div class="col-lg-5 col-md-5 col-sm-5 col-12">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Post Verification</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/inspectioncommitteephysicalverification" style="background: none;">{{dashboardDataModel.PVCommittee_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent  text-start">
+              <h4>Rejected</h4>
+              <a href="/inspectioncommitteephysicalverification" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="/inspectioncommitteephysicalverification" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!--DEC SECTION DASHBOARD END-->
