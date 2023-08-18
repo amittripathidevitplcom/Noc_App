@@ -29,11 +29,9 @@
                     <td>{{item.CollegeName}}</td>
                     <td>{{item.ApplicationNo}}</td>
                     <td>
-                      <a href="javascript:void(0)" target="_blank" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                      <!--<button type="button" class="btn btn-sm btn-success" title="Action" (click)="OpenActionPopUP(mymodal,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-tasks"></i></button>-->
+                      <a href="javascript:void(0)" title="Document Scrutiny" (click)="DocumentScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
 
-                      &nbsp;<button type="button"  class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
-
+                      &nbsp;<button type="button" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
 
                     </td>
                   </tr>
