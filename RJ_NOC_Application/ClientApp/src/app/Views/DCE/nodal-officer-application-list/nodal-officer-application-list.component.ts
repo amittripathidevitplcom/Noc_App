@@ -222,12 +222,12 @@ export class NodalOfficerApplicationListComponent implements OnInit {
             return
           }
         }
-        this.request.push({
-          ApplyNOCID: this.SelectedApplyNOCID,
-          RNCCheckListID: this.CheckListData[i].RNCCheckListID,
-          CreatedBy: this.sSOLoginDataModel.UserID,
-          FileUploadName: this.CheckListData[i].FileUpload == true ? this.CheckListData[i].FileUploadName : ""
-        })
+        //this.request.push({
+        //  ApplyNOCID: this.SelectedApplyNOCID,
+        //  RNCCheckListID: this.CheckListData[i].RNCCheckListID,
+        //  CreatedBy: this.sSOLoginDataModel.UserID,
+        //  FileUploadName: this.CheckListData[i].FileUpload == true ? this.CheckListData[i].FileUploadName : ""
+        //})
       }
       if (this.ActionID <= 0) {
         this.isActionTypeValid = true;
