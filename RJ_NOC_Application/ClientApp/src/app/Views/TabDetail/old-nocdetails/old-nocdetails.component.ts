@@ -205,7 +205,7 @@ export class OldNOCDetailsComponent implements OnInit {
   async getNOCType() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.SelectedDepartmentID, "PresentCollegeStatus")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.SelectedDepartmentID, "OLDNOCStatus")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -214,7 +214,7 @@ export class OldNOCDetailsComponent implements OnInit {
           this.lstNOCType = data['Data'];
           if (this.SelectedDepartmentID != 3) {
             this.lstNOCType = this.lstNOCType.filter((element: any) => {
-              return element.Name == "PNOC Holder";
+              return element.Name == "PNOC";
             });
           }
         }, error => console.error(error));
@@ -353,7 +353,7 @@ export class OldNOCDetailsComponent implements OnInit {
       this.IsFormValid = false;
     }
     var OldNOCtype = this.lstNOCType.find((x: { ID: any; }) => x.ID == this.request.NOCTypeID).Name;
-    if (OldNOCtype != 'PNOC Holder') {
+    if (OldNOCtype != 'PNOC') {
       if (this.request.NOCExpireDate == '') {
         this.NOCExpireDateRequried = true;
         this.IsFormValid = false;
@@ -407,7 +407,7 @@ export class OldNOCDetailsComponent implements OnInit {
   }
   OnChangeOldNOCType() {
     var OldNOCtype = this.lstNOCType.find((x: { ID: any; }) => x.ID == this.request.NOCTypeID).Name;
-    if (OldNOCtype == 'PNOC Holder') {
+    if (OldNOCtype == 'PNOC') {
       this.ShowOldNOCType = false;
       this.request.NOCExpireDate = '';
     }
