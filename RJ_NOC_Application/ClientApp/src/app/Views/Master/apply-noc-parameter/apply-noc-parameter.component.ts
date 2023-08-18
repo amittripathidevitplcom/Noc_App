@@ -1637,4 +1637,35 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   }
+
+
+  numbersOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode == 47 || charCode < 46 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
+  alphaNumaricOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z0-9]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
+
+
 }

@@ -116,6 +116,12 @@ import { PreviewParamedicalHospitalDetailComponent } from './Views/PreviewTabs/p
 import { DocumentScrutinyParamedicalHospitalDetailComponent } from './Views/DocumentScrutinyTab/document-scrutiny-paramedical-hospital-detail/document-scrutiny-paramedical-hospital-detail.component';
 import { DocumentScrutinyComponent } from './Views/DCE/document-scrutiny/document-scrutiny.component';
 import { ApplyNocpreviewAnimalhusbandryComponent } from './Views/apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
+import { ApplyNocpreviewAgricultureComponent } from './Views/apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
+import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStudentStatistics/subject-wise-student-statistics/subject-wise-student-statistics.component'
+import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE/inspection-committee-physical-verification-dce/inspection-committee-physical-verification-dce.component';
+import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-application-list/nodal-officer-application-list.component';
+
+
 
 
 const routes: Routes = [
@@ -472,6 +478,9 @@ const routes: Routes = [
         path: 'committeeforwardreport', component: CommitteeForwardReportComponent
       },
       {
+        path: 'committeeforwardreport/:Committee', component: CommitteeForwardReportComponent
+      },
+      {
         path: 'applynoccompletedreport', component: ApplyNOCCompletedReportComponent
       },
       {
@@ -497,8 +506,20 @@ const routes: Routes = [
       },
       {
         path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID', component: DocumentScrutinyComponent
+      },
+      {
+        path: 'agricultureappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAgricultureComponent
+      },
+      {
+         path: 'subjectwisestudentstatistics', component: SubjectWiseStudentStatisticsComponent
       }
-
+      ,
+      {
+        path: 'inspectioncommitteephysicalverification', component: InspectionCommitteePhysicalVerificationDCEComponent
+      },
+      {
+        path: 'nodalofficerapplicationlist', component: NodalOfficerApplicationListComponent
+      },
     ]
   },
 

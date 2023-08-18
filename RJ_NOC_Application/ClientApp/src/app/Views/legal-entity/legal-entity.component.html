@@ -624,6 +624,14 @@
                                 <td *ngIf="row.DeleteStatus !=true">{{row.MembersPostName}}</td>
                                 <td *ngIf="row.DeleteStatus !=true">{{row.PresidentAadhaarNumber}}</td>
                                 <td *ngIf="row.DeleteStatus !=true">
+                                <td> {{indexOfelement+1}}</td>
+                                <td>{{row.MemberName}}</td>
+                                <td>{{row.MemberFatherName}}</td>
+                                <td>{{row.MemberDOB | date:'dd-MM-yyyy'}}</td>
+                                <td>{{row.MemberMobileNo}}</td>
+                                <td>{{row.MembersPostName}}</td>
+                                <td>{{row.PresidentAadhaarNumber}}</td>
+                                <td>
                                   <a *ngIf="row.MemberPhoto!='' && row.MemberPhotoPath!='N/A'" target="_blank" href="{{row.MemberPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
                                   <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
                                 </td>

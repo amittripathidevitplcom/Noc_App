@@ -109,7 +109,7 @@ export class AcademicInformationComponent implements OnInit {
   async GetCourseList_CollegeWise(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCourseList_CollegeWise(CollegeID)
+      await this.commonMasterService.GetCourseList_CollegeWise(CollegeID,'Existing')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

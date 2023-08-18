@@ -647,8 +647,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
   }
   //End Veterinary Hospital
 
-  //Veterinary Hospital
-
+  //Farm Land Details
   async GetFarmLandDetailsList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
@@ -673,7 +672,7 @@ export class DocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  //End Veterinary Hospital
+  //End Farm Land Details
 
   //
   public UserSSOID: string = '';

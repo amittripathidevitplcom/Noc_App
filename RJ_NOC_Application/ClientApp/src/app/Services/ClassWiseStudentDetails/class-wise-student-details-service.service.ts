@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { AadharServiceDataModel } from '../../Models/AadharServiceDataModel';
 import { PostClassWiseStudentDetailsDataModel } from '../../Models/ClassWiseStudentDetailsDataModel';
+import { PostSubjectWiseStatisticsDetailsDataModel } from '../../Models/SubjectWiseStatisticsDetailsDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -33,11 +34,33 @@ export class ClassWiseStudentDetailsServiceService {
       ).toPromise();
   }
 
+
+  public async GetSubjectWiseStudenetDetails(CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetSubjectWiseStudenetDetails/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
   public async SaveData(request: PostClassWiseStudentDetailsDataModel)
   {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async SaveDataSubjectWise(request: PostSubjectWiseStatisticsDetailsDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/SaveDataSubjectWise", body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
