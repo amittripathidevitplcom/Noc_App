@@ -279,7 +279,7 @@
                     </label>
 
                     <input type="text" class="form-control" id="txtWidth" name="txtWidth"
-                           [(ngModel)]="hosteldetail.Width" formControlName="txtWidth" min="0" (keypress)="numberOnly($event)" maxlength="10">
+                           [(ngModel)]="hosteldetail.Width" formControlName="txtWidth" min="0" (keypress)="numberOnly($event)" maxlength="9">
 
 
 
@@ -308,7 +308,7 @@
                   <div class="col-md-3 mb-2">
                     <label>Student Capacity <span style="color:red;">*</span></label>
                     <input type="text" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity"
-                           [(ngModel)]="hosteldetail.StudentCapacity" formControlName="txtStudentCapacity" min="0" (keypress)="numberOnly($event)">
+                           [(ngModel)]="hosteldetail.StudentCapacity" formControlName="txtStudentCapacity" min="0" (keypress)="numberOnly($event)" maxlength="9">
                     <div *ngIf="isHostelSubmitted&&form.txtStudentCapacity.errors" class="text-danger">
                       <p *ngIf="form.txtStudentCapacity.errors.required">This field is required .!</p>
                     </div>

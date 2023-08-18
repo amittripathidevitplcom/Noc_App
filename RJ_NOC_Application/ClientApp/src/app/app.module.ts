@@ -230,6 +230,8 @@ import { ApplyNocpreviewAgricultureComponent } from './Views/apply-nocpreview-ag
 import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStudentStatistics/subject-wise-student-statistics/subject-wise-student-statistics.component';
 import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE/inspection-committee-physical-verification-dce/inspection-committee-physical-verification-dce.component';
 
+import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-application-list/nodal-officer-application-list.component';
+
 
 
 
@@ -452,6 +454,8 @@ import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE
     ApplyNocpreviewAgricultureComponent,
     SubjectWiseStudentStatisticsComponent,
     InspectionCommitteePhysicalVerificationDCEComponent,
+
+    NodalOfficerApplicationListComponent,
 
   ],
   imports: [
