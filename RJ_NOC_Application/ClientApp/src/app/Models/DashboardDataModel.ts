@@ -67,6 +67,11 @@ export class DashboardDataModel {
   public Nodal_Rejected: number = 0;
   public Nodal_Completed: number = 0;
 
+  //PV COMmmitee
+  public PVCommittee_Pending: number = 0;
+  public PVCommittee_Reverted: number = 0;
+  public PVCommittee_Rejected: number = 0;
+  public PVCommittee_Completed: number = 0;
 
-   
+
 }
