@@ -13,6 +13,7 @@ import { DisableRightClickService } from '../../Services/DisableRightClick/disab
 import { AadharServiceDetails } from '../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { log } from 'console';
 import { AadharServiceDataModel } from '../../Models/AadharServiceDataModel';
+import { isBoolean } from 'util';
 @Component({
   selector: 'app-legal-entity',
   templateUrl: './legal-entity.component.html',
@@ -127,6 +128,8 @@ export class LegalEntityComponent implements OnInit {
 
   AadharRequest = new AadharServiceDataModel();
 
+  public QueryStringLegalEntityID: number = 0;
+  public UserID: number = 0;
 
   constructor(private rightClickDisable: DisableRightClickService, private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService, private aadharServiceDetails: AadharServiceDetails) {
 
@@ -216,6 +219,7 @@ export class LegalEntityComponent implements OnInit {
 
       this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
       await this.CheckExistsLegalEntity(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.RoleID);
+      this.QueryStringLegalEntityID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LegalEntityID')?.toString()));
       /*this.GetDistrict();*/
       this.GetSocietyPresentStatusList();
       this.GetRegistrationDistrictListByRegistrationStateID(this.RegistrationState)
@@ -224,6 +228,13 @@ export class LegalEntityComponent implements OnInit {
       this.GetRegisteredActList();
       this.SetDOBmindate();
       //this.SetElectionPresentManagementCommitteeDatemindate();
+
+      this.QueryStringLegalEntityID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LegalEntityID')?.toString()));
+      // get Legal Entity by id
+      if (this.QueryStringLegalEntityID > 0) {
+        await this.GetApplicationList(this.QueryStringLegalEntityID);
+      }
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -240,12 +251,103 @@ export class LegalEntityComponent implements OnInit {
   get AIform() { return this.legalentityAddInstituteForm.controls; }
   get FormRegistration() { return this.legalentityForm_Registration.controls; }
 
+  async GetApplicationList(LegalEntityID: any) {
+    try {
+      this.loaderService.requestStarted();
+      await this.legalEntityService.ViewlegalEntityDataByID(LegalEntityID, this.UserID, this.sSOLoginDataModel.SSOID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.isRegisterNoBox = false;
+          this.isDisabled = true;
+          this.request.LegalEntityID = data['Data'][0]['data']['Table']['0']['LegalEntityID'];
+          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Society') {
+            this.request.IsLegalEntity = '1';
+          }
+          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Trust') {
+            this.request.IsLegalEntity = '2';
+          }
+          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Company') {
+            this.request.IsLegalEntity = '3';
+          }
+          if (data['Data'][0]['data']['Table']['0']['IsLegalEntity'] == 'Other Entity') {
+            this.request.IsLegalEntity = '4';
+          }
+          this.isFormsFill = true;
+          this.request.RegistrationNo = data['Data'][0]['data']['Table']['0']['RegistrationNo'];
+          this.request.PresidentMobileNo = data['Data'][0]['data']['Table']['0']['PresidentMobileNo'];
+          this.request.PresidentAadhaarNumber = data['Data'][0]['data']['Table2']['0']['PresidentAadhaarNumber'];
+          this.request.PresidentEmail = data['Data'][0]['data']['Table']['0']['PresidentEmail'];
+          this.request.SocietyName = data['Data'][0]['data']['Table']['0']['SocietyName'];
+          this.request.SocietyPresentStatus = data['Data'][0]['data']['Table']['0']['SocietyPresentStatus'];
+
+          this.request.StateID = data['Data'][0]['data']['Table']['0']['StateID'];
+          this.GetDistrictListByStateID(this.request.StateID);
+          this.request.DistrictID = data['Data'][0]['data']['Table']['0']['DistrictID'];
+
+          //this.GetRegisteredActList();
+          this.request.RegisteredActID = data['Data'][0]['data']['Table']['0']['RegisteredActID'];
+          //this.SelectRegistredAct(this.request.RegisteredActID);
+          this.request.RegisteredActName = data['Data'][0]['data']['Table']['0']['RegisteredActName'];
+          this.request.SocietyRegistrationDate = data['Data'][0]['data']['Table']['0']['SocietyRegistrationDate'];
+          this.request.ElectionPresentManagementCommitteeDate = data['Data'][0]['data']['Table']['0']['ElectionPresentManagementCommitteeDate'];
+          this.request.SocietyRegisteredAddress = data['Data'][0]['data']['Table']['0']['SocietyRegisteredAddress'];
+          this.request.Pincode = data['Data'][0]['data']['Table']['0']['Pincode'];
+          this.request.IsOtherInstitution = data['Data'][0]['data']['Table']['0']['IsOtherInstitution'];
+          this.SelectOtherInstitution(this.request.IsOtherInstitution);
+          this.request.IsWomenMembers = data['Data'][0]['data']['Table']['0']['IsWomenMembers'];
+          this.request.IsDateOfElection = data['Data'][0]['data']['Table']['0']['IsDateOfElection'];
+
+          if (data['Data'][0]['data']['Table']['0']['ManagementCommitteeCertified'] != '') {
+            this.request.ManagementCommitteeCertified = 'Yes';
+          }
+          else {
+            this.request.ManagementCommitteeCertified = 'No';
+          }
+          this.request.SocietyPANNumber = data['Data'][0]['data']['Table']['0']['SocietyPANNumber'];
+
+          //Document fill
+          this.request.TrustLogoDoc = data['Data'][0]['data']['Table']['0']['TrustLogoDoc'];
+          if (this.request.TrustLogoDoc != '') {
+            this.showTrustLogoDoc = true;
+          }
+          this.request.TrustLogoDocPath = data['Data'][0]['data']['Table']['0']['TrustLogoDocPath'];
+          this.request.Dis_TrustLogoDocName = data['Data'][0]['data']['Table']['0']['Dis_TrustLogoDocName'];
+          this.request.TrusteeMemberProofDoc = data['Data'][0]['data']['Table']['0']['TrusteeMemberProofDoc'];
+          if (this.request.TrusteeMemberProofDoc != '') {
+            this.showTrusteeMemberProofDoc = true;
+          }
+          this.request.TrusteeMemberProofDocPath = data['Data'][0]['data']['Table']['0']['TrusteeMemberProofDocPath'];
+          this.request.Dis_TrusteeMemberProofDocName = data['Data'][0]['data']['Table']['0']['Dis_TrusteeMemberProofDocName'];
+          this.request.SocietyPanProofDoc = data['Data'][0]['data']['Table']['0']['SocietyPanProofDoc'];
+          if (this.request.SocietyPanProofDoc != '') {
+            this.showSocietyPanProofDoc = true;
+          }
+          this.request.SocietyPanProofDocPath = data['Data'][0]['data']['Table']['0']['SocietyPanProofDocPath'];
+          this.request.Dis_SocietyPanProofDocName = data['Data'][0]['data']['Table']['0']['Dis_SocietyPanProofDocName'];
+
+          //legalentityAddMember
+          this.request.MemberDetails = JSON.parse(JSON.stringify(data['Data'][0]['data']['Table2']));
+          this.request.InstituteDetails = JSON.parse(JSON.stringify(data['Data'][0]['data']['Table1']));
+          this.issaveCancelBtn = true;
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
   async CheckExistsLegalEntity(SSOID: string, RoleID: number) {
     try {
       this.loaderService.requestStarted();
       await this.legalEntityService.CheckExistsLegalEntity(SSOID, RoleID)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -270,7 +372,6 @@ export class LegalEntityComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetRoleListByLevel(2)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -455,15 +556,18 @@ export class LegalEntityComponent implements OnInit {
         this.IsSocietyPanProofDoc = 'This field is required .!';
         isValid = false;
       }
-      var GetPresident = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName.replace(/^\r\n\s+|\s+$/g, '') == 'President')?.MembersPostName;
-      var GetSecretary = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName.replace(/^\r\n\s+|\s+$/g, '') == 'Secretary')?.MembersPostName;
-      var GetTreasurer = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName.replace(/^\r\n\s+|\s+$/g, '') == 'Treasurer')?.MembersPostName;
-      if (GetPresident == undefined || GetPresident == '' || GetPresident == null ||
-        GetSecretary == undefined || GetSecretary == '' || GetSecretary == null ||
-        GetTreasurer == undefined || GetTreasurer == '' || GetTreasurer == null) {
+      var GetPresidentStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'President')?.IsDeleted;
+      var GetPresident = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'President')?.MembersPostName;
+      var GetSecretaryStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary')?.IsDeleted;
+      var GetSecretary = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary')?.MembersPostName;
+      var GetTreasurerStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer')?.IsDeleted;
+      var GetTreasurer = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer')?.MembersPostName;
+      if (GetPresident == undefined || GetPresident == '' || GetPresident == null || GetPresidentStatus ||
+        GetSecretary == undefined || GetSecretary == '' || GetSecretary == null || GetSecretaryStatus ||
+        GetTreasurer == undefined || GetTreasurer == '' || GetTreasurer == null || GetTreasurerStatus) {
         this.toastr.warning("Add President, Secretary and Treasurer in Society member");
         isValid = false;
-        }
+      }
       //if (this.request.MemberDetails.length < 3 ) {
       //  this.toastr.warning("Add Atleast three member details");
       //  isValid = false;
@@ -545,7 +649,7 @@ export class LegalEntityComponent implements OnInit {
         }
         if (this.request.MemberDetails.length > 0) {
           var result = this.request.MemberDetails.filter(obj => {
-            return obj.MemberPostID === this.memberdetails.MemberPostID
+            return obj.MemberPostID === this.memberdetails.MemberPostID && obj.IsDeleted !=true
           });
           if (result.length > 0) {
             this.toastr.warning(GetPostName + " not duplicate");
@@ -582,6 +686,9 @@ export class LegalEntityComponent implements OnInit {
         PresidentAadhaarProofDoc: this.memberdetails.PresidentAadhaarProofDoc,
         Dis_PresidentAadhaarProofDocName: this.memberdetails.Dis_PresidentAadhaarProofDocName,
         PresidentAadhaarProofDocPath: this.memberdetails.PresidentAadhaarProofDocPath == '' ? 'N/A' : this.memberdetails.PresidentAadhaarProofDocPath,
+        ActiveStatus: true,
+        DeleteStatus: false,
+        IsDeleted: false,
       });
       this.memberdetails = new LegalEntityMemberDetailsDataModel();
       this.isMemberAdded = false;
@@ -596,12 +703,21 @@ export class LegalEntityComponent implements OnInit {
       }, 200);
     }
   }
-
-  async DeleteMember(Index: number) {
+  async DeleteMember(item: LegalEntityMemberDetailsDataModel) {
+    const index: number = this.request.MemberDetails.indexOf(item);
+    this.isSubmitted = false;
     try {
       if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
-        this.request.MemberDetails.splice(Index, 1);
+
+        if (this.request.MemberDetails[index].MemberID > 0) {
+          this.request.MemberDetails[index].DeleteStatus = true;
+          this.request.MemberDetails[index].ActiveStatus = false;
+          this.request.MemberDetails[index].IsDeleted = true;
+        }
+        else {
+          this.request.MemberDetails.splice(index, 1)
+        }
       }
     }
     catch (ex) { }
@@ -610,7 +726,23 @@ export class LegalEntityComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+
   }
+
+  //async DeleteMember(Index: number) {
+  //  try {
+  //    if (confirm("Are you sure you want to delete this ?")) {
+  //      this.loaderService.requestStarted();
+  //      this.request.MemberDetails.splice(Index, 1);
+  //    }
+  //  }
+  //  catch (ex) { }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
 
 
   async AddInstitute() {
@@ -628,7 +760,10 @@ export class LegalEntityComponent implements OnInit {
         InstitutePersonName: this.institutedetails.InstitutePersonName,
         RegistrationNo: this.institutedetails.RegistrationNo,
         StateID: this.institutedetails.StateID,
-        StateName: this.lstState.find((x: { StateID: number; }) => x.StateID == this.institutedetails.StateID).StateName
+        StateName: this.lstState.find((x: { StateID: number; }) => x.StateID == this.institutedetails.StateID).StateName,
+        ActiveStatus: true,
+        DeleteStatus: false,
+        IsDeleted: false,
       });
       this.institutedetails = new LegalEntityInstituteDetailsDataModel();
       this.isInstitueAdded = false;
@@ -640,11 +775,32 @@ export class LegalEntityComponent implements OnInit {
       }, 200);
     }
   }
+  async DeleteInstitute(item: LegalEntityInstituteDetailsDataModel) {
+    const index: number = this.request.InstituteDetails.indexOf(item);
+    this.isSubmitted = false;
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
 
+        if (this.request.InstituteDetails[index].InstituteID > 0) {
+          this.request.InstituteDetails[index].DeleteStatus = true;
+          this.request.InstituteDetails[index].ActiveStatus = false;
+          this.request.InstituteDetails[index].IsDeleted = true;
+        }
+        else {
+          this.request.InstituteDetails.splice(index, 1)
+        }
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
 
-  async DeleteInstitute(Index: number) {
-    this.request.InstituteDetails.splice(Index, 1);
   }
+
   async SelectOtherInstitution(OtherInstitution: string) {
     if (OtherInstitution == 'Yes')
       this.IsOtherInstitution = true
@@ -672,7 +828,7 @@ export class LegalEntityComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       var currentlegal = this.request.IsLegalEntity;
-      if (this.request.IsLegalEntity == 1) {
+      if (this.request.IsLegalEntity == '1') {
         this.ResetControl();
         this.isRegisterNoBox = true;
         this.isFormsFill = false;
@@ -978,7 +1134,6 @@ export class LegalEntityComponent implements OnInit {
       this.AadharRequest.OTP = this.UserOTP;
       await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
 
           if (data[0].status == "0") {
@@ -1061,7 +1216,7 @@ export class LegalEntityComponent implements OnInit {
 
           this.isDisabledNewRegistration = true;
           this.memberdetails.PresidentAadhaarNumber = this.AadharRequest.AadharNo;
-          if (this.request.IsLegalEntity != 1) {
+          if (this.request.IsLegalEntity != '1') {
             this.memberdetails.MemberMobileNo = this.request.PresidentMobileNo;
           }
         }
@@ -1665,7 +1820,6 @@ export class LegalEntityComponent implements OnInit {
   }
 
   SetElectionPresentManagementCommitteeDatemindate() {
-    debugger;
     //const mindate1 = new Date(2000, 0, 1);
     const mindate1 = new Date(this.request.SocietyRegistrationDate);
     this.MinDate = new Date(mindate1.getFullYear(), mindate1.getMonth(), mindate1.getDate());
@@ -1675,7 +1829,6 @@ export class LegalEntityComponent implements OnInit {
   }
 
   ElectionPresentManagementCommitteeDate_Change() {
-    debugger;
     if (new Date(this.request.SocietyRegistrationDate) > new Date(this.request.ElectionPresentManagementCommitteeDate)) {
       this.ValidationMinDate = 'Invalid .!';
       this.request.ElectionPresentManagementCommitteeDate = '';
