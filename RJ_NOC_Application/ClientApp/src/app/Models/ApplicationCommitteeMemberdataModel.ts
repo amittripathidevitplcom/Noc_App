@@ -10,6 +10,8 @@ export class ApplicationCommitteeMemberdataModel
   public IsPrimaryMember?: boolean = false;
   public ActiveStatus?: boolean = false;
   public DeleteStatus?: boolean = false;
+  public AadhaarNo?: string = '';
+
 
 }
 

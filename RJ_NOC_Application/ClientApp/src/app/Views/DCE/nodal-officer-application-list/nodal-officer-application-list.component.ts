@@ -14,6 +14,9 @@ import { CommitteeMasterDataModel, CommitteeMemberDetail } from '../../../Models
 import { ApplicationCommitteeMemberdataModel, PostApplicationCommitteeMemberdataModel } from '../../../Models/ApplicationCommitteeMemberdataModel';
 import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
+import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
+import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 
 @Component({
   selector: 'app-nodal-officer-application-list',
@@ -64,9 +67,12 @@ export class NodalOfficerApplicationListComponent implements OnInit {
   public ApplicationNo: string = '';
 
   request_MemberList = new PostApplicationCommitteeMemberdataModel();
+  sSOVerifyDataModel = new SSOLoginDataModel();
 
+  SsoValidationMessage: string = '';
+  SsoSuccessMessage: string = '';
 
-
+  AadhaarNo: string = '';
 
   public isLoading: boolean = false;
   public isSubmitted: boolean = false;
@@ -80,7 +86,7 @@ export class NodalOfficerApplicationListComponent implements OnInit {
   CommitteeMemberDetails!: FormGroup;
   constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
-    private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private decDocumentScrutinyService:DCEDocumentScrutinyService
+    private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private decDocumentScrutinyService: DCEDocumentScrutinyService, private sSOLoginService: SSOLoginService,  private aadharServiceDetails :AadharServiceDetails
   ) { }
 
   async ngOnInit() {
@@ -156,8 +162,6 @@ export class NodalOfficerApplicationListComponent implements OnInit {
 
   async DocumentScrutiny_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string)
   {
-
-
     this.routers.navigate(['/documentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))  ]);
   }
 
@@ -548,27 +552,36 @@ export class NodalOfficerApplicationListComponent implements OnInit {
   }
 
 
-  AddMemberDetail() {
+ async AddMemberDetail() {
     this.isSubmitted_MemberDetails = true;
     if (this.CommitteeMemberDetails.invalid) {
       return
     }
-
     var isValidate = this.request_MemberList.ApplicationCommitteeList.find(e => e.SSOID === this.request_CommitteeMemberDataModel.SSOID);
-    if (!isValidate) {
-      this.request_MemberList.ApplicationCommitteeList.push({
-        CommitteeMemberID: 0,
-        ApplyNocApplicationID: this.SelectedApplyNOCID,
-        NameOfPerson: this.request_CommitteeMemberDataModel.NameOfPerson,
-        MobileNumber: this.request_CommitteeMemberDataModel.MobileNumber,
-        SSOID: this.request_CommitteeMemberDataModel.SSOID,
-        RoleID: 0,
-        IsPrimaryMember: false,
-        ActiveStatus: true,
-        DeleteStatus: false,
-      });
+    if (!isValidate)
+    {
+      await this.VerifySSOID(this.request_CommitteeMemberDataModel.SSOID);
+      if (this.AadhaarNo.length > 0) {
+        this.request_MemberList.ApplicationCommitteeList.push({
+          CommitteeMemberID: 0,
+          ApplyNocApplicationID: this.SelectedApplyNOCID,
+          NameOfPerson: this.request_CommitteeMemberDataModel.NameOfPerson,
+          MobileNumber: this.request_CommitteeMemberDataModel.MobileNumber,
+          SSOID: this.request_CommitteeMemberDataModel.SSOID,
+          RoleID: 0,
+          IsPrimaryMember: false,
+          ActiveStatus: true,
+          DeleteStatus: false,
+          AadhaarNo: this.AadhaarNo,
+        });
+      }
+      else
+      {
+        this.toastr.warning('SssoID Invalid')
+      }
     }
-    else {
+    else
+    {
       this.toastr.warning('This User Alaready Exists')
     }
     // reset
@@ -685,6 +698,76 @@ export class NodalOfficerApplicationListComponent implements OnInit {
       }, 200);
     }
   }
+
+  async CheckMappingSSOID(ssoid: any) {
+    try {
+      this.loaderService.requestStarted();
+      await this.sSOLoginService.CheckMappingSSOID(ssoid)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.sSOVerifyDataModel = data['Data'];
+          console.log(this.sSOVerifyDataModel);
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async VerifySSOID(SSOID:any)
+  {
+    //Show Loading
+    debugger;
+    //verify ssoid
+    await this.CheckMappingSSOID(SSOID);
+    if (this.sSOVerifyDataModel != null && SSOID.toLowerCase() == this.sSOVerifyDataModel.SSOID.toLowerCase())
+    {
+      let d = new AadharServiceDataModel();
+      d.AadharID = this.sSOVerifyDataModel.AadhaarId;
+    await this.GetAadharByVID(d);
+      this.SsoValidationMessage = 'd';
+      this.SsoSuccessMessage = 'SSO Id Verified Successfully';
+
+      AadharServiceDetails
+    }
+    else
+    {
+      this.SsoValidationMessage =''
+      this.SsoValidationMessage = 'SSO Id Invalid !';
+    }
+  }
+
+
+  async GetAadharByVID(data: any)
+  {
+    await this.aadharServiceDetails.GetAadharByVID(data)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        if (data[0].status == "0")
+        {
+          this.AadhaarNo = data[0].data;
+        }
+        else
+        {
+          this.AadhaarNo ='';
+        }
+      }, error => console.error(error));
+  }
+
+
+
+
+
+
 
   SetPrimaryMember(item: any, index: any) {
     let oldArr = this.request_MemberList.ApplicationCommitteeList;
