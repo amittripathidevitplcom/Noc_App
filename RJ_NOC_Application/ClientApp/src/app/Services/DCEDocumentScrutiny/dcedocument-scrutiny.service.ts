@@ -234,4 +234,18 @@ export class DCEDocumentScrutinyService {
       ).toPromise();
   }
 
+
+  public async GetPhysicalVerificationAppliationList(SSOID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID };
+    return await this.http.post(this.APIUrl + "/GetPhysicalVerificationAppliationList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

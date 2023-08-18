@@ -174,7 +174,9 @@ export class CommiteeInspectionComponent implements OnInit {
           ApplyNOCID: this.SelectedApplyNOCID,
           RNCCheckListID: this.CheckListData[i].RNCCheckListID,
           CreatedBy: this.sSOLoginDataModel.UserID,
-          FileUploadName: this.CheckListData[i].FileUpload == true ? this.CheckListData[i].FileUploadName : ""
+          FileUploadName: this.CheckListData[i].FileUpload == true ? this.CheckListData[i].FileUploadName : "",
+          IsChecked: '1',
+          Remark:''
         })
       }
       if (this.ActionID <= 0) {

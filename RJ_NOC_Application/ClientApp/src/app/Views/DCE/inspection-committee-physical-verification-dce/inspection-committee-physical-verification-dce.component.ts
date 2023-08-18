@@ -10,6 +10,7 @@ import { CommonMasterService } from '../../../Services/CommonMaster/common-maste
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
   selector: 'app-inspection-committee-physical-verification-dce',
@@ -21,7 +22,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  public ApplyNocDetails: ApplyNOCApplicationDataModel[] = [];
+  public ApplyNocDetails: any = [];
   public request: CommiteeInspection_RNCCheckList_DataModel[] = [];
   public RoleID: number = 0;
   public UserID: number = 0;
@@ -64,30 +65,32 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   public NextWorkFlowActionList: any[] = [];
 
   public All_U_Select: boolean = false;
+
+
+  public ShowHideApplicationAction: boolean = false;
   constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
-    private fileUploadService: FileUploadService
+    private fileUploadService: FileUploadService, private dceDocumentScrutinyService: DCEDocumentScrutinyService
   ) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
+    await this.GetPhysicalVerificationAppliationList(this.sSOLoginDataModel.SSOID);
 
-    this.GetRNCCheckListByTypeDepartment();
   }
 
-  async GetApplyNOCApplicationListByRole(RoleId: number, UserID: number) {
+  async GetPhysicalVerificationAppliationList(SSOID: string) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId, UserID)
+      await this.dceDocumentScrutinyService.GetPhysicalVerificationAppliationList(SSOID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.ApplyNocDetails = data['Data'];
+          this.ApplyNocDetails = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -103,14 +106,13 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   async GetRNCCheckListByTypeDepartment() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetRNCCheckListByTypeDepartment('MDHNM', this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetRNCCheckListByTypeDepartment('PV', this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.CheckListData = data['Data'];
-          console.log(this.CheckListData);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -134,11 +136,13 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     this.SelectedCollageID = CollegeID;
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
-    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.ShowHideApplicationAction = true;
+    this.GetRNCCheckListByTypeDepartment();
+    //this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+    //  this.closeResult = `Closed with: ${result}`;
+    //}, (reason) => {
+    //  this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    //});
 
   }
   private getDismissReason(reason: any): string {
@@ -155,7 +159,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   }
 
 
-  async DocumentScrutiny() {
+  async SaveData() {
     this.request = [];
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
@@ -164,49 +168,60 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     this.isRemarkValid = false;
     try {
       for (var i = 0; i < this.CheckListData.length; i++) {
+        debugger;
         if (this.CheckListData[i].FileUpload == true) {
           if (this.CheckListData[i].FileUploadName == '' || this.CheckListData[i].FileUploadName == undefined) {
             this.toastr.warning('Please select a file for upload');
             return
           }
         }
+        if (this.CheckListData[i].IsChecked == '2') {
+          if (this.CheckListData[i].Remark == '' || this.CheckListData[i].Remark == undefined) {
+            this.toastr.warning('Please enter remark');
+            return
+          }
+        }
+        if (this.CheckListData[i].IsChecked == '' || this.CheckListData[i].IsChecked == undefined) {
+            this.toastr.warning('Please check all checklist');
+            return
+        }
         this.request.push({
           ApplyNOCID: this.SelectedApplyNOCID,
           RNCCheckListID: this.CheckListData[i].RNCCheckListID,
           CreatedBy: this.sSOLoginDataModel.UserID,
-          FileUploadName: this.CheckListData[i].FileUpload == true ? this.CheckListData[i].FileUploadName : ""
+          FileUploadName: this.CheckListData[i].FileUpload == true ? this.CheckListData[i].FileUploadName : "",
+          IsChecked: this.CheckListData[i].IsChecked,
+          Remark: this.CheckListData[i].Remark
         })
       }
-      if (this.ActionID <= 0) {
-        this.isActionTypeValid = true;
-        this.isFormvalid = false;
-      }
-      if (this.CheckFinalRemark == '') {
-        this.isRemarkValid = true;
-        this.isFormvalid = false;
-      }
+      //if (this.ActionID <= 0) {
+      //  this.isActionTypeValid = true;
+      //  this.isFormvalid = false;
+      //}
+      //if (this.CheckFinalRemark == '') {
+      //  this.isRemarkValid = true;
+      //  this.isFormvalid = false;
+      //}
 
-      if (this.ShowHideNextRoleNextUser) {
-        if (this.NextRoleID <= 0) {
-          this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextActionID <= 0) {
-          this.isNextActionValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextUserID <= 0) {
-          this.isNextUserIdValid = true;
-          this.isFormvalid = false;
-        }
-      }
-      else {
-        this.NextRoleID = 4;
-        this.NextUserID = 0;
-        this.NextActionID = 0;
-      }
-
-
+      //if (this.ShowHideNextRoleNextUser) {
+      //  if (this.NextRoleID <= 0) {
+      //    this.isNextRoleIDValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //  if (this.NextActionID <= 0) {
+      //    this.isNextActionValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //  if (this.NextUserID <= 0) {
+      //    this.isNextUserIdValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //}
+      //else {
+      //  this.NextRoleID = 4;
+      //  this.NextUserID = 0;
+      //  this.NextActionID = 0;
+      //}
       if (!this.isFormvalid) {
         return;
       }
@@ -216,26 +231,12 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
         if (this.State == 0) {
-          this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-            .then((data: any) => {
-              data = JSON.parse(JSON.stringify(data));
-              this.State = data['State'];
-              this.SuccessMessage = data['SuccessMessage'];
-              this.ErrorMessage = data['ErrorMessage'];
-              if (this.State == 0) {
-                this.toastr.success(this.SuccessMessage);
-                this.modalService.dismissAll('After Success');
-                this.routers.navigate(['/dashboard']);
-              }
-              else if (this.State == 2) {
-                this.toastr.warning(this.ErrorMessage)
-              }
-              else {
-                this.toastr.error(this.ErrorMessage)
-              }
-            }, error => console.error(error));
+          this.toastr.success(this.SuccessMessage);
+          this.modalService.dismissAll('After Success');
+          this.ShowHideApplicationAction = false;
+          window.location.reload();
         }
-        if (this.State == 1) {
+        else if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
         }
         else if (this.State == 2) {
@@ -273,7 +274,6 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
           event.target.files[0].type === 'application/pdf') {
           if (event.target.files[0].size > 2000000) {
             event.target.value = '';
-
             this.toastr.warning('Select less then 2MB File');
             return
           }
@@ -493,5 +493,26 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+
+
+  alphanumbersOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z0-9 ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
+  CloseApplicationAction_Click() {
+    this.ApplicationNo = '';
+    this.SelectedCollageID = 0;
+    this.SelectedDepartmentID = 0;
+    this.SelectedApplyNOCID = 0;
+    this.ShowHideApplicationAction = false;
+    this.CheckListData = [];
   }
 }
