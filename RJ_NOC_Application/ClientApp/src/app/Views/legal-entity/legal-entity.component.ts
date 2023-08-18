@@ -649,7 +649,7 @@ export class LegalEntityComponent implements OnInit {
         }
         if (this.request.MemberDetails.length > 0) {
           var result = this.request.MemberDetails.filter(obj => {
-            return obj.MemberPostID === this.memberdetails.MemberPostID && obj.IsDeleted !=true
+            return obj.MemberPostID === this.memberdetails.MemberPostID
           });
           if (result.length > 0) {
             this.toastr.warning(GetPostName + " not duplicate");
