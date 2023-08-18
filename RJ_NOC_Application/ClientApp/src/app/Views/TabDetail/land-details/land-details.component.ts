@@ -70,6 +70,8 @@ export class LandDetailsComponent implements OnInit {
   public LandConversionMinDate: Date = new Date();
   public LandConversionMaxDate: Date = new Date();
 
+  
+
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private landDetailsService: LandDetailsService, private fileUploadService: FileUploadService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder) {
 
@@ -90,13 +92,14 @@ export class LandDetailsComponent implements OnInit {
         txtKhasraNumber: ['', Validators.required],
         txtLandOwnerName: ['', Validators.required],
         txtLandArea: ['', [Validators.required, Validators.min(1)]],
-        txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
+        //txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
         //txtGroundCycleStandArea: ['', Validators.required],
         txtTotalLandArea: [{ value: '', disabled: true }, Validators.required],
         dtLandConversionOrderDate: [''],
         dtAffidavitDate: [''],
         txtLandConversionOrderNo: [''],
       });
+    this.request.BuildingHostelQuartersRoadArea = 0;
     this.request.LandDetailDocument = [];
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
@@ -508,10 +511,10 @@ export class LandDetailsComponent implements OnInit {
     if (this.LandDetailForm.invalid) {
       return
     }
-    if (this.request.BuildingHostelQuartersRoadArea <= 0 || (this.request.BuildingHostelQuartersRoadArea).toString() == "") {
-      this.IstxtBuildingHostel = true;
-      return;
-    }
+    //if (this.request.BuildingHostelQuartersRoadArea <= 0 || (this.request.BuildingHostelQuartersRoadArea).toString() == "") {
+    //  this.IstxtBuildingHostel = true;
+    //  return;
+    //}
     var LandConversionName = this.LandConversionData.find((x: { ID: number; }) => x.ID == this.request.LandConvertedID).Name;
     if (LandConversionName == 'Partially Converted' || LandConversionName == 'Not Converted') {
       if (this.request.AffidavitDate == '' || this.request.AffidavitDate == null) {
@@ -621,7 +624,7 @@ export class LandDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
 
           this.LandDetailsList = data['Data'][0]['data']['Table'];
-          this.LandDetailsDocumentList = data['Data'][0]['data']['Table1'];
+         // this.LandDetailsDocumentList = data['Data'][0]['data']['Table1'];
           console.log(this.LandDetailsDocumentList);
 
         }, error => console.error(error));

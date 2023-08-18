@@ -258,6 +258,7 @@ export class BuildingDetailsDataModel {
   public PanchayatSamitiID: number = 1;
   public CityTownVillage: string = '';
   public Pincode: string = '';
+  public BuildingHostelQuartersRoadArea: number = 0;
   public ContactNo: string = '';
   public OwnerName: string = '';
   public OwnBuildingOrderNo: string = '';

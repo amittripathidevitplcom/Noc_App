@@ -53,7 +53,7 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label class="form-label">Address Line 2 <span style="color:red;">*</span></label>
+                <label class="form-label">Address Line 2 </label>
                 <input type="text" class="form-control" id="txtAddressLine2_Owner" name="txtAddressLine2_Owner" [(ngModel)]="buildingdetails.AddressLine2" formControlName="txtAddressLine2_Owner">
                 <div *ngIf="isSubmitted&&form.txtAddressLine2_Owner.errors" class="text-danger">
                   <p *ngIf="form.txtAddressLine2_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
@@ -136,6 +136,18 @@
                   <p *ngIf="form.txtPincode_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label>
+                  Total Constructed Building Area (in Sq. Ft) <span style="color:red;">*</span>
+                </label>
+                <input type="text" id="txtBuildingHostelQuartersRoadArea" class="form-control" [(ngModel)]="buildingdetails.BuildingHostelQuartersRoadArea" formControlName="txtBuildingHostelQuartersRoadArea" (keypress)="numberOnly($event)" />
+                <p *ngIf="IstxtBuildingHostel" class="text-danger"><i aria-hidden="true"></i>Enter the Building/Hostel/Quarters/Road Area(A1) .!</p>
+                <div *ngIf="isSubmitted&&form.txtBuildingHostelQuartersRoadArea.errors" class="text-danger">
+                  <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.required">This field is required .!</p>
+                  <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.min">This field is required .!</p>
+                </div>
+              </div>
+
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="RentAggrementDocShow">
                 <label for="txtRentAgreementFileUpload" class="form-label">Upload Registered Rent Agreement/Lease Deed<span style="color:red;">*</span></label>
                 <div class="d-flex">
@@ -290,7 +302,8 @@
                 </div>
               </div>
             </div>
-            <div class="card">
+
+            <div class="card" *ngIf="SelectedDepartmentID ==6">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <b><i class="fa fa-filter"></i>&nbsp;Description: </b>
               </div>
@@ -300,8 +313,8 @@
                     <label for="txtTotalProjectCost" class="form-label">Total Project Cost<span style="color:red;">*</span> </label>
                     <input type="text" autocomplete="off" class="form-control" id="txtTotalProjectCost" name="txtTotalProjectCost" [(ngModel)]="buildingdetails.TotalProjectCost" formControlName="txtTotalProjectCost" (keypress)="numbersOnly($event)">
 
-                    <div *ngIf="isSubmitted&&form.txtTotalProjectCost.errors" class="text-danger">
-                      <p *ngIf="form.txtTotalProjectCost.errors.required"> This field is required .!</p>
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.TotalProjectCost =='' || buildingdetails.TotalProjectCost =='0'"> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -326,8 +339,8 @@
                     <label for="txtSourceCostAmount" class="form-label">Source Cost Amount<span style="color:red;">*</span> </label>
                     <input type="text" autocomplete="off" class="form-control" id="txtSourceCostAmount" name="txtSourceCostAmount" [(ngModel)]="buildingdetails.SourceCostAmount" formControlName="txtSourceCostAmount" (keypress)="numbersOnly($event)">
 
-                    <div *ngIf="isSubmitted&&form.txtSourceCostAmount.errors" class="text-danger">
-                      <p *ngIf="form.txtSourceCostAmount.errors.required"> This field is required .!</p>
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.SourceCostAmount =='' || buildingdetails.SourceCostAmount =='0'"> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -354,8 +367,8 @@
                     <label for="txtAmountDeposited" class="form-label">Amount deposited in the Bank near the institution<span style="color:red;">*</span> </label>
                     <input type="text" autocomplete="off" class="form-control" id="txtAmountDeposited" name="txtAmountDeposited" [(ngModel)]="buildingdetails.AmountDeposited" formControlName="txtAmountDeposited" (keypress)="numbersOnly($event)">
 
-                    <div *ngIf="isSubmitted&&form.txtAmountDeposited.errors" class="text-danger">
-                      <p *ngIf="form.txtAmountDeposited.errors.required"> This field is required .!</p>
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.AmountDeposited =='' || buildingdetails.AmountDeposited =='0'"> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -380,8 +393,8 @@
                     <label for="txtOtherFixedAssetsAndSecurities" class="form-label">Other fixed assets/securities of the organization<span style="color:red;">*</span> </label>
                     <input type="text" autocomplete="off" class="form-control" id="txtOtherFixedAssetsAndSecurities" name="txtOtherFixedAssetsAndSecurities" [(ngModel)]="buildingdetails.OtherFixedAssetsAndSecurities" formControlName="txtOtherFixedAssetsAndSecurities" (keypress)="numbersOnly($event)">
 
-                    <div *ngIf="isSubmitted&&form.txtOtherFixedAssetsAndSecurities.errors" class="text-danger">
-                      <p *ngIf="form.txtOtherFixedAssetsAndSecurities.errors.required"> This field is required .!</p>
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.OtherFixedAssetsAndSecurities =='' || buildingdetails.OtherFixedAssetsAndSecurities =='0'"> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -408,8 +421,8 @@
                     <label for="txtGATEYearBalanceSecret" class="form-label">GATE year balance secret of the organization<span style="color:red;">*</span> </label>
                     <input type="text" autocomplete="off" class="form-control" id="txtGATEYearBalanceSecret" name="txtGATEYearBalanceSecret" [(ngModel)]="buildingdetails.GATEYearBalanceSecret" formControlName="txtGATEYearBalanceSecret" (keypress)="numbersOnly($event)">
 
-                    <div *ngIf="isSubmitted&&form.txtGATEYearBalanceSecret.errors" class="text-danger">
-                      <p *ngIf="form.txtGATEYearBalanceSecret.errors.required"> This field is required .!</p>
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.GATEYearBalanceSecret =='' || buildingdetails.GATEYearBalanceSecret =='0'"> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -434,8 +447,8 @@
                     <label for="txtOtherFinancialResources" class="form-label">Other financial resources<span style="color:red;">*</span> </label>
                     <input type="text" autocomplete="off" class="form-control" id="txtOtherFinancialResources" name="txtOtherFinancialResources" [(ngModel)]="buildingdetails.OtherFinancialResources" formControlName="txtOtherFinancialResources" (keypress)="numbersOnly($event)">
 
-                    <div *ngIf="isSubmitted&&form.txtOtherFinancialResources.errors" class="text-danger">
-                      <p *ngIf="form.txtOtherFinancialResources.errors.required"> This field is required .!</p>
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.OtherFinancialResources =='' || buildingdetails.OtherFinancialResources =='0'"> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -532,22 +545,22 @@
                     <th>Order No</th>
                     <th>Order Date</th>
                     <th>Expiring On</th>
-                    <th>Total Project Cost</th>
-                    <th>Source Cost Amount</th>
-                    <th>Amount Deposited</th>
-                    <th>Other Fixed Assets/Securities</th>
-                    <th>GATE Year Balance Secret</th>
-                    <th>Other Financial Resources</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Total Project Cost</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Amount Deposited</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Other Fixed Assets/Securities</th>
+                    <th *ngIf="SelectedDepartmentID ==6">GATE Year Balance Secret</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Other Financial Resources</th>
                     <th>Rent Agreement/Lease File</th>
                     <th>Own/Land & Rented Building File</th>
                     <th>Fire NOC File</th>
                     <th>PWD NOC File</th>
-                    <th>Total Project Cost File</th>
-                    <th>Source Cost Amount File</th>
-                    <th>Amount Deposited File</th>
-                    <th>Other Fixed Assets/Securities File</th>
-                    <th>GATE Year Balance Secret File</th>
-                    <th>Other Financial Resources File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Total Project Cost File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Amount Deposited File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Other Fixed Assets/Securities File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">GATE Year Balance Secret File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Other Financial Resources File</th>
                     <th *ngIf="!downloadingPDF">Action</th>
                   </tr>
                 </thead>
@@ -571,12 +584,12 @@
                     <td>{{item.OrderNo}}</td>
                     <td>{{item.OrderDate}}</td>
                     <td>{{item.ExpiringOn}}</td>
-                    <td>{{item.TotalProjectCost}}</td>
-                    <td>{{item.SourceCostAmount}}</td>
-                    <td>{{item.AmountDeposited}}</td>
-                    <td>{{item.OtherFixedAssetsAndSecurities}}</td>
-                    <td>{{item.GATEYearBalanceSecret}}</td>
-                    <td>{{item.OtherFinancialResources}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.TotalProjectCost}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.SourceCostAmount}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.AmountDeposited}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFixedAssetsAndSecurities}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.GATEYearBalanceSecret}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFinancialResources}}</td>
                     <td *ngIf="item.BuildingTypeName == 'Rented'">
                       <a target="_blank" href="{{item.RentAgreementFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
                     </td>
@@ -586,12 +599,12 @@
                     <td><a target="_blank" href="{{item.OwnBuildingFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td><a target="_blank" href="{{item.FireNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td><a target="_blank" href="{{item.PWDNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.TotalProjectCostFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.SourceCostAmountFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.AmountDepositedFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.OtherFixedAssetsAndSecuritiesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.GATEYearBalanceSecretFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.OtherFinancialResourcesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.TotalProjectCostFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.SourceCostAmountFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.AmountDepositedFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFixedAssetsAndSecuritiesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.GATEYearBalanceSecretFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFinancialResourcesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td>
                       <div class="d-flex">
                         <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>

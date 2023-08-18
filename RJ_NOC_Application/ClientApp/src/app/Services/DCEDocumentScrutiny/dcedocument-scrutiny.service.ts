@@ -234,6 +234,18 @@ export class DCEDocumentScrutinyService {
       ).toPromise();
   }
 
+  //Nodal Officer Applicaiton List 
+  public async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetNodalOfficerApplyNOCApplicationList/" + RoleId + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async GetPhysicalVerificationAppliationList(SSOID: string) {
     const httpOptions = {

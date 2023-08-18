@@ -86,7 +86,7 @@
             Khasra Number <span style="color:red;">*</span>
           </label>
           <input type="text" id="txtKhasraNumber" class="form-control" [(ngModel)]="request.KhasraNumber" formControlName="txtKhasraNumber" />
-          <p style="color: #3458c8;">( If khasra no. is more than one then separate khasra no. by comma.)</p>
+          <!--<p style="color: #3458c8;">( If khasra no. is more than one then separate khasra no. by comma.)</p>-->
           <div *ngIf="isSubmitted&&form.txtKhasraNumber.errors" class="text-danger">
             <p *ngIf="form.txtKhasraNumber.errors.required"> This field is required .!</p>
           </div>
@@ -115,7 +115,7 @@
           </div>
         </div>
 
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
             Total Building Area (in {{UnitOfLand}}) <span style="color:red;">*</span>
           </label>
@@ -125,7 +125,7 @@
             <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.required">This field is required .!</p>
             <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.min">This field is required .!</p>
           </div>
-        </div>
+        </div>-->
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowConversionOrderNo">
           <label>
             Land Conversion Order Date(DD/MM/YYYY) <!--<span style="color:red;">*</span>-->
@@ -206,7 +206,7 @@
                 <th>Khasra No.</th>
                 <th>Owner Name</th>
                 <th>Land Area</th>
-                <th>Building/Hostel/Quarters/Road Area(A1)</th>
+                <!--<th>Building/Hostel/Quarters/Road Area(A1)</th>-->
                 <th>Action</th>
               </tr>
             </thead>
@@ -223,7 +223,7 @@
                 <td>{{item.KhasraNumber}}</td>
                 <td>{{item.LandOwnerName}}</td>
                 <td>{{item.LandArea}}</td>
-                <td>{{item.BuildingHostelQuartersRoadArea}}</td>
+                <!--<td>{{item.BuildingHostelQuartersRoadArea}}</td>-->
                 <td>
                   <div class="d-flex">
                     <button type="button" (click)="Edit_OnClick(item.LandDetailID)" title="Edit" class="btn btn-sm btn-info" [disabled]="isDisabledGrid"><i class="fa fa-edit"></i></button>

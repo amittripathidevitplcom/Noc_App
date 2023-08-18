@@ -1,22 +1,26 @@
 import { Component, OnInit, Input, Injectable, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-import { ApplyNOCApplicationService } from '../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
-import { LoaderService } from '../../Services/Loader/loader.service';
+import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel } from '../../Models/ApplyNOCApplicationDataModel';
+import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel } from '../../../Models/ApplyNOCApplicationDataModel';
 import { ToastrService } from 'ngx-toastr';
-import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
-import { CommonMasterService } from '../../Services/CommonMaster/common-master.service';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { FileUploadService } from '../../Services/FileUpload/file-upload.service';
-import { MedicalDocumentScrutinyService } from '../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { FileUploadService } from '../..//../Services/FileUpload/file-upload.service';
+import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { CommitteeMasterDataModel, CommitteeMemberDetail } from '../../../Models/CommitteeMasterDataModel';
+import { ApplicationCommitteeMemberdataModel, PostApplicationCommitteeMemberdataModel } from '../../../Models/ApplicationCommitteeMemberdataModel';
+import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 
 @Component({
-  selector: 'app-commitee-inspection',
-  templateUrl: './commitee-inspection.component.html',
-  styleUrls: ['./commitee-inspection.component.css']
+  selector: 'app-nodal-officer-application-list',
+  templateUrl: './nodal-officer-application-list.component.html',
+  styleUrls: ['./nodal-officer-application-list.component.css']
 })
-export class CommiteeInspectionComponent implements OnInit {
+export class NodalOfficerApplicationListComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -56,33 +60,53 @@ export class CommiteeInspectionComponent implements OnInit {
   public isNextActionValid: boolean = false;
   public CollegeType_IsExisting: boolean = true;
 
-
+  request_CommitteeMemberDataModel = new ApplicationCommitteeMemberdataModel();
   public ApplicationNo: string = '';
 
+  request_MemberList = new PostApplicationCommitteeMemberdataModel();
 
 
+
+
+  public isLoading: boolean = false;
+  public isSubmitted: boolean = false;
+  public isSubmitted_MemberDetails: boolean = false;
 
   public NextWorkFlowActionList: any[] = [];
 
+  public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
+
   public All_U_Select: boolean = false;
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  CommitteeMemberDetails!: FormGroup;
+  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
-    private fileUploadService: FileUploadService
+    private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private decDocumentScrutinyService:DCEDocumentScrutinyService
   ) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
+    await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
-
     this.GetRNCCheckListByTypeDepartment();
-  }
 
-  async GetApplyNOCApplicationListByRole(RoleId: number, UserID: number) {
+    this.CommitteeMemberDetails = this.formBuilder.group(
+      {
+        txtCMNameOfPerson: ['', Validators.required],
+        txtCMMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
+        txtSSOID: ['', Validators.required]
+      })
+
+  }
+  get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
+
+
+
+  async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number)
+  {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId, UserID)
+      await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -140,7 +164,6 @@ export class CommiteeInspectionComponent implements OnInit {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-
   }
   private getDismissReason(reason: any): string {
     this.SelectedCollageID = 0;
@@ -155,7 +178,27 @@ export class CommiteeInspectionComponent implements OnInit {
     }
   }
 
- 
+
+
+  async OpenAsignCommitteePopUP(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
+    this.ApplicationNo = ApplicationNo;
+    this.SelectedCollageID = CollegeID;
+    this.SelectedDepartmentID = DepartmentID;
+    this.SelectedApplyNOCID = ApplyNOCID;
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+
+    this.GetApplicationCommitteeList(ApplyNOCID)
+  }
+
+
+
+
+
+
   async DocumentScrutiny() {
     this.request = [];
     this.isFormvalid = true;
@@ -175,9 +218,7 @@ export class CommiteeInspectionComponent implements OnInit {
           ApplyNOCID: this.SelectedApplyNOCID,
           RNCCheckListID: this.CheckListData[i].RNCCheckListID,
           CreatedBy: this.sSOLoginDataModel.UserID,
-          FileUploadName: this.CheckListData[i].FileUpload == true ? this.CheckListData[i].FileUploadName : "",
-          IsChecked: '1',
-          Remark:''
+          FileUploadName: this.CheckListData[i].FileUpload == true ? this.CheckListData[i].FileUploadName : ""
         })
       }
       if (this.ActionID <= 0) {
@@ -497,4 +538,160 @@ export class CommiteeInspectionComponent implements OnInit {
       }, 200);
     }
   }
+
+
+  AddMemberDetail() {
+    this.isSubmitted_MemberDetails = true;
+    if (this.CommitteeMemberDetails.invalid) {
+      return
+    }
+
+    var isValidate = this.request_MemberList.ApplicationCommitteeList.find(e => e.SSOID === this.request_CommitteeMemberDataModel.SSOID);
+    if (!isValidate) {
+      this.request_MemberList.ApplicationCommitteeList.push({
+        CommitteeMemberID: 0,
+        ApplyNocApplicationID: this.SelectedApplyNOCID,
+        NameOfPerson: this.request_CommitteeMemberDataModel.NameOfPerson,
+        MobileNumber: this.request_CommitteeMemberDataModel.MobileNumber,
+        SSOID: this.request_CommitteeMemberDataModel.SSOID,
+        RoleID: 0,
+        IsPrimaryMember: false,
+        ActiveStatus: true,
+        DeleteStatus: false,
+      });
+    }
+    else {
+      this.toastr.warning('This User Alaready Exists')
+    }
+    // reset
+    this.request_CommitteeMemberDataModel.NameOfPerson = '';
+    this.request_CommitteeMemberDataModel.MobileNumber = '';
+    this.request_CommitteeMemberDataModel.SSOID = '';
+    this.request_CommitteeMemberDataModel.IsPrimaryMember = false;
+    this.isSubmitted_MemberDetails = false;
+
+
+
+  }
+  DelMemberDetail(item: any, index: any) {
+
+    //  const index: number = this.request_MemberList.ApplicationCommitteeList.indexOf(item);
+
+
+    let chkIsPrimary = this.request_MemberList.ApplicationCommitteeList[index].IsPrimaryMember;
+    this.isSubmitted = false;
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        if (!chkIsPrimary) {
+          this.loaderService.requestStarted();
+          this.request_MemberList.ApplicationCommitteeList.splice(index, 1)
+        }
+        else {
+          this.toastr.warning("You can't delete primary member")
+        }
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
+
+  async SaveData() {
+    this.isSubmitted = true;
+
+    let isValid = true;
+    if (this.form_CommitteeMember.invalid) {
+      isValid = false;
+      return;
+    }
+    if (this.request_MemberList.ApplicationCommitteeList.length == 0) {
+      this.toastr.error("Please add Member Details");
+      isValid = false;
+    }
+
+    let ifPrimaryExits = this.request_MemberList.ApplicationCommitteeList.find(f => f.IsPrimaryMember == true);
+    if (ifPrimaryExits?.IsPrimaryMember == undefined) {
+      this.toastr.error("Atleast one primary member required");
+      isValid = false;
+    }
+
+    if (!isValid) {
+      return;
+    }
+    //console.log(this.request_MemberList.ApplicationCommitteeList);
+    this.request_MemberList.ApplyNocApplicationID = this.SelectedApplyNOCID;
+    console.log(this.request_MemberList);
+    //Show Loading
+    this.loaderService.requestStarted();
+    this.isLoading = true;
+    try {
+      await this.committeeMasterService.SaveApplicationCommitteeData(this.request_MemberList)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          console.log(this.State);
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)
+            this.modalService.dismissAll('After Success');
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
+
+
+  async GetApplicationCommitteeList(ApplyNocApplicationID: number) {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.committeeMasterService.GetApplicationCommitteeList(ApplyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.request_MemberList.ApplicationCommitteeList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  SetPrimaryMember(item: any, index: any) {
+    let oldArr = this.request_MemberList.ApplicationCommitteeList;
+    let newArr = oldArr.map(obj => ({ ...obj, ['IsPrimaryMember']: false }));
+    newArr[index].IsPrimaryMember = true;
+    this.request_MemberList.ApplicationCommitteeList = newArr;
+  }
+
+  MaxLengthValidation_KeyPress(event: any, length: number): boolean {
+    if (event.target.value.length == length) {
+      return false;
+    }
+    return true;
+  }
+
+
 }
+
