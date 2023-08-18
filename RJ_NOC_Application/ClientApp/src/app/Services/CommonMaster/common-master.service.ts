@@ -1020,4 +1020,16 @@ export class CommonMasterService {
       ).toPromise();
   }
 
+  public async GetDocumentScritintyTaril(ID: number, NOCApplyID: number, CollageID: number, DepartmentID: number, ActionType: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDocumentScritintyTaril/" + ID + "/" + NOCApplyID + "/" + CollageID + "/" + DepartmentID + "/" + ActionType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

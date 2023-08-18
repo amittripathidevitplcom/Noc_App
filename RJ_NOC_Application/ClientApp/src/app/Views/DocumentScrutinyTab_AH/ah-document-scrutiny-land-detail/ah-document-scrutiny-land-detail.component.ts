@@ -213,6 +213,4 @@ export class AhDocumentScrutinyLandDetailComponent implements OnInit {
       }, 200);
     }
   }
-
-
 }
