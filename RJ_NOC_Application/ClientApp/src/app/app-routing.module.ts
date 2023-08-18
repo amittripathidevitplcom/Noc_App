@@ -516,10 +516,7 @@ const routes: Routes = [
       ,
       {
         path: 'inspectioncommitteephysicalverification', component: InspectionCommitteePhysicalVerificationDCEComponent
-      }
-
       },
-    
       {
         path: 'nodalofficerapplicationlist', component: NodalOfficerApplicationListComponent
       },
