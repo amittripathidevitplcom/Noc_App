@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 //import { CommonMasterData_UnderAccountGroup, PrintPassbookDataModel } from 'app/Models/CommonMasterDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
+
 import * as CryptoJS from 'crypto-js';
 
 
@@ -418,7 +419,7 @@ export class CommonMasterService {
   }
 
 
-  public async GetCourseList_CollegeWise(CollegeID: number, CourseType: number = 0) {
+  public async GetCourseList_CollegeWise(CollegeID: number, CourseType: string = 'All') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

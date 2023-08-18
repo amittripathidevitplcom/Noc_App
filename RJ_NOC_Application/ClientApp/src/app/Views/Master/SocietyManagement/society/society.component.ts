@@ -48,6 +48,7 @@ export class SocietyComponent implements OnInit {
   public SocietyList_dummy: SocietyDataModel[] = [];
 
   public isDisabledGrid: boolean = false;
+  public isDisabledPrimary: boolean = true;
   isSubmittedItemDetails: boolean = false;
   public isLoadingExport: boolean = false;
   public EditID: any;
@@ -62,6 +63,7 @@ export class SocietyComponent implements OnInit {
   public UserID: number = 0;
   public Femalepre: number = 0;
   searchText: string = '';
+  GetIsPrimary: string = '';
   public dropdownList: any = [];
   public dropdownSettings: IDropdownSettings = {};
 
@@ -174,6 +176,13 @@ export class SocietyComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.SocietyAllList = data['Data'][0]['data'];
           this.CollegeName = this.CollegeList.find((x: { CollegeID: number; }) => x.CollegeID == this.request.CollegeID).CollegeName;
+          this.GetIsPrimary = this.SocietyAllList.find((x: { S_IsPrimary: string; }) => x.S_IsPrimary.replace(/^\r\n\s+|\s+$/g, '') == 'Yes')?.S_IsPrimary;
+          if (this.GetIsPrimary == 'Yes') {
+            this.isDisabledPrimary = true;
+          }
+          else {
+            this.isDisabledPrimary = false;
+          }
           this.Check30Female(CollegeID);
         }, error => console.error(error));
     }
@@ -313,7 +322,20 @@ export class SocietyComponent implements OnInit {
         return
       }
     }
-
+    debugger;
+    this.GetIsPrimary = this.SocietyAllList.find((x: { S_IsPrimary: string; }) => x.S_IsPrimary.replace(/^\r\n\s+|\s+$/g, '') == 'Yes')?.S_IsPrimary;
+    //if (GetIsPrimary == undefined || GetIsPrimary == '' || GetIsPrimary == null ) {
+    //  this.toastr.warning("Add IsPrimary in College Management Society");
+    //  return
+    //}
+    var Is_Primary = this.request.IsPrimary == true ? 'Yes' : 'No';
+    console.log(this.request.SocietyID);
+    if (this.request.SocietyID == 0) {
+      if (this.GetIsPrimary == Is_Primary) {
+        this.toastr.warning("At most you can add only one IsPrimary in a College Management Society");
+        return
+      }
+    }
 
     //Show Loading
     this.loaderService.requestStarted();
@@ -793,16 +815,15 @@ export class SocietyComponent implements OnInit {
             this.request.Dis_ConsentLetter = data['Data'][0]["Dis_ConsentLetter"];
             this.request.ConsentLetterPath = data['Data'][0]["ConsentLetterPath"];
           }
-          this.request.IsPrimary = data['Data'][0]["IsPrimary"];
-
-
-          //this.showAuthorizedDocument = true;
-          //this.showPANCard = true;
-          //this.showSignatureDoc = true;
-          //this.showProfilePhoto = true;
-          //this.showAadhaarCard = true;
-
-
+          this.GetIsPrimary = this.SocietyAllList.find((x: { S_IsPrimary: string; }) => x.S_IsPrimary.replace(/^\r\n\s+|\s+$/g, '') == 'Yes')?.S_IsPrimary;
+          if (this.GetIsPrimary == 'Yes') {
+            this.request.IsPrimary = data['Data'][0]["IsPrimary"];
+            this.isDisabledPrimary = true;
+          }
+          else {
+            this.request.IsPrimary = data['Data'][0]["IsPrimary"];
+            this.isDisabledPrimary = false;
+          }   
           this.isDisabledGrid = true;
 
           const btnSave = document.getElementById('btnSave')
@@ -962,5 +983,23 @@ export class SocietyComponent implements OnInit {
       }, 200);
     }
 
+  }
+
+  async Proceed_Draft() { 
+    
+    //Show Loading
+    this.loaderService.requestStarted();
+    this.isLoading = true;
+    try {
+      this.routers.navigate(['/draftapplicationlist']);
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
   }
 }

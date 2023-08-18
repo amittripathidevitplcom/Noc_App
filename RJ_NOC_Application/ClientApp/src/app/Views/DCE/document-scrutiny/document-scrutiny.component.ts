@@ -38,7 +38,7 @@ import { OtherInformationDataModel } from '../../../Models/OtherInformationDataM
 import { AcademicInformationDetailsDataModel } from '../../../Models/AcademicInformationDetailsDataModel';
 import { HospitalDataModel, HospitalParentNotDataModel } from '../../../Models/HospitalDataModel';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
-import { DocumentScrutinyCheckListDetailsComponent } from '../../DocumentScrutinyTab/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
+import { DocumentScrutinyCheckListDetailsComponentDce } from '../../DocumentScrutinyTabDCE/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
 
 
 @Component({
@@ -156,8 +156,8 @@ export class DocumentScrutinyComponent implements OnInit {
 
   //@ViewChild(DocumentScrutinyCheckListDetailsComponent) checkListDetailsComponent_New: any;
 
-  @ViewChild(DocumentScrutinyCheckListDetailsComponent)
-  private checkListDetailsComponent_New!: DocumentScrutinyCheckListDetailsComponent;
+  @ViewChild(DocumentScrutinyCheckListDetailsComponentDce)
+  private checkListDetailsComponent_New!: DocumentScrutinyCheckListDetailsComponentDce;
 
   //private checkListDetailsComponent: DocumentScrutinyCheckListDetailsComponent;
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,

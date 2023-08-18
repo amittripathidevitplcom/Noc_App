@@ -12,6 +12,7 @@ import { FileUploadService } from '../../../Services/FileUpload/file-upload.serv
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { max } from 'rxjs';
 import { InputValidationService } from '../../../Services/CustomValidators/input-validation.service';
+import { LegalEntityService } from '../../../Services/LegalEntity/legal-entity.service';
 
 @Injectable()
 
@@ -87,7 +88,7 @@ export class AddCollegeComponent implements OnInit {
   request_ContactDetailsDataModel = new ContactDetailsDataModel();
   request_NearestGovernmentHospitals = new NearestGovernmentHospitalsDataModel();
 
-  constructor(private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
+  constructor(private legalEntityListService: LegalEntityService, private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
   }
 
   async ngOnInit() {
@@ -111,7 +112,8 @@ export class AddCollegeComponent implements OnInit {
 
         txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         txtAddressLine1: ['', Validators.required],
-        txtAddressLine2: ['', Validators.required],
+        //txtAddressLine2: ['', Validators.required],
+        txtAddressLine2: [''],
         rbRuralUrban: ['', Validators.required],
         txtDistanceFromCity: ['', Validators.required],
         ddlDivisionID: ['', [DropdownValidators]],
@@ -153,7 +155,7 @@ export class AddCollegeComponent implements OnInit {
         fHospitalDocument: ['', Validators.required],
         txtHospitalDistance: ['', Validators.required],
         txtAddressLine1_Nearest: ['', Validators.required],
-        txtAddressLine2_Nearest: ['', Validators.required],
+        txtAddressLine2_Nearest: [''],
         rbRuralUrban_Nearest: ['', Validators.required],
         ddlDivisionID_Nearest: ['', [DropdownValidators]],
         ddlDistrictID_Nearest: ['', [DropdownValidators]],
@@ -192,7 +194,40 @@ export class AddCollegeComponent implements OnInit {
     // sso id
     this.request.ParentSSOID = this.sSOLoginDataModel.SSOID;
     this.request.MappingSSOID = this.sSOLoginDataModel.SSOID;
-     
+
+
+
+    try {
+      this.loaderService.requestStarted();
+      await this.legalEntityListService.GetLegalEntityBySSOID(this.request.ParentSSOID, 0)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          if (data['Data'][0]['data']['Table'].length == 0) {
+            this.toastr.warning("Add Legal Entity After Add College.!");
+            setTimeout(() => {
+              this.routers.navigate(['/legalentity']);
+            }, 500);
+           
+          }
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      this.routers.navigate(['/legalentity']);
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 0);
+    }
+
+
+
+
   }
 
   //keyPressNumbers(event: any) {
@@ -224,8 +259,7 @@ export class AddCollegeComponent implements OnInit {
               return
             }
           }
-          else
-          {
+          else {
             this.toastr.warning('Select Only jpg/jpeg');
             // type validation
             this.ResetFileAndValidation(Type, 'Select Only jpg/jpeg', '', '', '', false);
@@ -792,7 +826,7 @@ export class AddCollegeComponent implements OnInit {
 
   AddNearestGovernmentHospitalsDetail() {
     try {
-      
+
       if (this.request.NearestGovernmentHospitalsList.length >= 10) {
         this.toastr.error("You can't add more then 10.");
         return
@@ -986,7 +1020,7 @@ export class AddCollegeComponent implements OnInit {
     if (!isValid) {
       return;
     }
-     
+
 
     //Show Loading
     this.loaderService.requestStarted();

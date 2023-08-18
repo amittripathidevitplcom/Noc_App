@@ -10,6 +10,8 @@ import { MenuDataModel } from '../../Models/MenuDataModel';
 export class MenuService {
 
   readonly APIUrl = GlobalConstants.apiURL + "Menu";
+  readonly SSOAPIUrl = GlobalConstants.apiURL + "SSOAPI";
+
   constructor(private http: HttpClient) { }
 
   extractData(res: Response) {
@@ -30,7 +32,7 @@ export class MenuService {
     return this.http.get(this.APIUrl)
       .pipe(
         catchError(this.handleErrorObservable)
-    ).toPromise()
+      ).toPromise()
   }
 
   public GetAllMenuUserRoleRightsRoleWise(RoleID: number) {
@@ -70,7 +72,23 @@ export class MenuService {
       ).toPromise()
   }
 
+  public GetUserRoleList(SSOID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.get(this.SSOAPIUrl + "/GetUserRoleList/" + SSOID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise()
+  }
 
+
+
+  public BackToSSO() {
+    window.open(GlobalConstants.BacktoSSOURL, "_self");
+  }
   public SaveData(request: MenuDataModel): Observable<any> {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);

@@ -6,6 +6,7 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { MenuService } from '../../../Services/Menu/menu.service';
 import { PlatformLocation } from '@angular/common';
+import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 
 @Component({
   selector: 'app-master-page',
@@ -16,7 +17,9 @@ export class MasterPageComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   UserName: any = '';
   public MenuHTML: any = "";
-  constructor(private router: Router, private loaderService: LoaderService, private menuService: MenuService, private sanitizer: DomSanitizer, location: PlatformLocation) {
+  public lstUserRole: any = []
+  public RoleID: number = 0;
+  constructor(private commonMasterService: CommonMasterService, private router: Router, private loaderService: LoaderService, private menuService: MenuService, private sanitizer: DomSanitizer, location: PlatformLocation) {
     location.onPopState(() => {
       console.log('pressed back in add!!!!!');
       //this.router.navigateByUrl(‘/multicomponent’);
@@ -24,44 +27,89 @@ export class MasterPageComponent implements OnInit {
     });
   }
   async ngOnInit() {
-    
- 
-     
 
     //if (sessionStorage.getItem('UserID') == null) {
     //  this.router.navigate(['/dashboard']);
     //}
     //this.UserName = sessionStorage.getItem('UserName');
-    
+
     sessionStorage.setItem('UserID', "1");
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     console.log(this.sSOLoginDataModel);
     if (this.sSOLoginDataModel) {
       if (this.sSOLoginDataModel.SSOID == null && this.sSOLoginDataModel.SSOID == '' && this.sSOLoginDataModel.SSOID == undefined) {
         window.open(GlobalConstants.SSOURL, "_self");
-       // this.router.navigate(['/login']);
+        // this.router.navigate(['/login']);
       }
     }
     else {
       window.open(GlobalConstants.SSOURL, "_self");
-     // this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     }
-
-    await this.LoadMenu();
+    this.RoleID = this.sSOLoginDataModel.RoleID;
+    await this.GetUserRoleList();
+    await this.LoadMenu(this.sSOLoginDataModel.RoleID);
 
   }
-
-
-  ////////////Load Menu///////
-  async LoadMenu() {
+  async GetUserRoleList() {
     try {
       this.loaderService.requestStarted();
-      await this.menuService.GetUserWiseMenu(this.sSOLoginDataModel.RoleID)
+      await this.menuService.GetUserRoleList(this.sSOLoginDataModel.SSOID)
+        .then((RoleData: any) => {
+          RoleData = JSON.parse(JSON.stringify(RoleData));
+          this.lstUserRole = RoleData['Data'][0]['data'];
+          //this.loaderService.requestEnded();
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 100);
+    }
+  }
+  async loadMenuByRoleID(SeletedRole: any) {
+    this.loaderService.requestStarted();
+    this.RoleID = SeletedRole;
+    this.sSOLoginDataModel.RoleID = this.RoleID;
+
+    if (this.RoleID > 0) {
+      await this.commonMasterService.Check_SSOIDWise_LegalEntity(this.sSOLoginDataModel.SSOID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.sSOLoginDataModel.RoleName = data['Data'][0]['data'].find((x: { RoleID: number; }) => x.RoleID == this.RoleID).RoleName;
+          this.sSOLoginDataModel.DepartmentID = data['Data'][0]['data'].find((x: { RoleID: number; }) => x.RoleID == this.RoleID).DepartmentID;
+          this.sSOLoginDataModel.UserID = data['Data'][0]['data'].find((x: { RoleID: number; }) => x.RoleID == this.RoleID).UserID;
+        }, error => console.error(error));
+    }
+    else {
+      this.sSOLoginDataModel.RoleName = "Citizen";
+      this.sSOLoginDataModel.DepartmentID = 0;
+      this.sSOLoginDataModel.UserID = 0
+    }
+    localStorage.setItem('SSOLoginUser', JSON.stringify(this.sSOLoginDataModel))
+
+    //this.LoadMenu(this.RoleID);
+    window.open('/dashboard', "_self");
+
+    //this.router.navigate(['/dashboard']);
+    setTimeout(() => {
+      this.loaderService.requestEnded();
+    }, 100);
+  }
+  ////////////Load Menu///////
+  async LoadMenu(roleID: number) {
+    try {
+      this.loaderService.requestStarted();
+      this.MenuHTML = '';
+      await this.menuService.GetUserWiseMenu(roleID)
         .then((MenuData: any) => {
-          //alert(MenuData);
-          console.log(MenuData);
+
           MenuData = JSON.parse(JSON.stringify(MenuData));
-          //console.log(data);
+
 
           this.MenuHTML += " <li class='nav-item'> ";
           this.MenuHTML += " <a class='nav-link' href='dashboard'> ";
@@ -79,7 +127,7 @@ export class MasterPageComponent implements OnInit {
               /*this.MenuHTML += "<i class='fas fa-angle-down right'></i> ";*/
               this.MenuHTML += "</span> ";
               this.MenuHTML += "</a> ";
-               this.MenuHTML += this.GetSubMenu_Level2(item.MenuId, MenuData['Data'][0].data);
+              this.MenuHTML += this.GetSubMenu_Level2(item.MenuId, MenuData['Data'][0].data);
 
               this.MenuHTML += " </li> ";
             }
@@ -94,13 +142,15 @@ export class MasterPageComponent implements OnInit {
 
           this.MenuHTML = this.sanitizer.bypassSecurityTrustHtml(this.MenuHTML);
 
-          console.log(this.MenuHTML);
+          //console.log(this.MenuHTML);
 
-          this.loaderService.requestEnded();
+          //this.loaderService.requestEnded();
         }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
+    }
+    finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 100);
@@ -116,13 +166,13 @@ export class MasterPageComponent implements OnInit {
       GetSubMenu_Level2str += " <ul class='dropdown-menu' aria-labelledby='UserMasters'> ";
       GetSubMenu_SecondLevelData.forEach((item2: any) => {
         GetSubMenu_Level3str = "";
-         GetSubMenu_Level3str += this.GetSubMenu_Level3(item2.MenuId, SubMenuData);
+        GetSubMenu_Level3str += this.GetSubMenu_Level3(item2.MenuId, SubMenuData);
         if (GetSubMenu_Level3str == "") {
           GetSubMenu_Level2str += " <li class='dropdown-item'> ";
-        /*  GetSubMenu_Level2str += " <a href=" + item2.OnSelect + " class='nav-link '> ";*/
-          GetSubMenu_Level2str += " <a href='" + item2.OnSelect +"' class='nav-link'><i class='fa fa-angle-right'></i>" + item2.MenuName + "</a> ";
+          /*  GetSubMenu_Level2str += " <a href=" + item2.OnSelect + " class='nav-link '> ";*/
+          GetSubMenu_Level2str += " <a href='" + item2.OnSelect + "' class='nav-link'><i class='fa fa-angle-right'></i>" + item2.MenuName + "</a> ";
 
-         // GetSubMenu_Level2str += " <p class='SublebelMenu' style='color: " + item2.Forecolor + " !important;'>" + item2.MenuName + "</p> ";
+          // GetSubMenu_Level2str += " <p class='SublebelMenu' style='color: " + item2.Forecolor + " !important;'>" + item2.MenuName + "</p> ";
           /*GetSubMenu_Level2str += " <i class='fas fa-angle-down right '></i> "; */
           /*GetSubMenu_Level2str += " </a> ";*/
           GetSubMenu_Level2str += GetSubMenu_Level3str;
@@ -130,11 +180,11 @@ export class MasterPageComponent implements OnInit {
         }
         else {
 
-          
+
           GetSubMenu_Level2str += " <li class='nav-item dropdown'> ";
           GetSubMenu_Level2str += " <a href='#' id='3' class='nav-link dropdown-toggle' role='button' data-bs-toggle='dropdown' aria-expanded='false'> ";
           GetSubMenu_Level2str += item2.MenuName;
-         
+
           GetSubMenu_Level2str += " </a> ";
           GetSubMenu_Level2str += GetSubMenu_Level3str;
           GetSubMenu_Level2str += " </li> ";
@@ -166,7 +216,6 @@ export class MasterPageComponent implements OnInit {
   }
   ////////////End Load Menu///////
 
-
   Logout() {
     console.log("Logout...");
     sessionStorage.removeItem('UserID');
@@ -176,8 +225,29 @@ export class MasterPageComponent implements OnInit {
     window.open(GlobalConstants.SSOURL, "_self");
     //window.open(GlobalConstants.SSOURL, "_self");
     //window.open("https://ssotest.rajasthan.gov.in/signin", "_self");
-   // this.router.navigate(['/login']);
-   // this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
   }
 
+  async BackToSSO() {
+    console.log("BAck to SSO...");
+    sessionStorage.removeItem('UserID');
+    sessionStorage.removeItem('LoginID');
+    sessionStorage.clear();
+    localStorage.clear();
+
+    try {
+      this.loaderService.requestStarted();
+      await this.menuService.BackToSSO();
+    }
+    catch (Ex) {
+      console.log(Ex);
+
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 100);
+    }
+  }
 }

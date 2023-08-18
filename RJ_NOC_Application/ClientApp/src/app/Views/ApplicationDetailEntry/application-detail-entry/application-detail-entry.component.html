@@ -1,4 +1,4 @@
-<app-loader></app-loader>
+<app-loader></app-loader> 
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
@@ -94,7 +94,7 @@
             </mat-tab>
 
             <!--Staff Details-->
-            <mat-tab>
+            <mat-tab *ngIf="CollegeType_IsExisting">
               <ng-template mat-tab-label>
                 <i class="fa fa-users icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
@@ -159,7 +159,7 @@
               <app-paramedical-hospital-detail></app-paramedical-hospital-detail>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==6">
+            <mat-tab *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3">
               <ng-template mat-tab-label>
                 <i class="fa fa-bed icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HostelDetails']>0"></i>
@@ -203,11 +203,11 @@
             <mat-tab *ngIf="SelectedDepartmentID==3">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['ClassWiseStatistics']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['ClassWiseStatistics']==0"></span>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
                 <span>Subject Wise Statistics</span>
               </ng-template>
-              <app-class-wise-student-details></app-class-wise-student-details>
+              <app-subject-wise-student-statistics></app-subject-wise-student-statistics>
             </mat-tab>
 
 
