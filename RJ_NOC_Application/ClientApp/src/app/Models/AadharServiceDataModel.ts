@@ -5,4 +5,6 @@ export class AadharServiceDataModel
   public OTP: string = ''
   public Status: string = ''
   public Message: string = ''
+  public AadharID: string = ''
+
 }

@@ -157,7 +157,7 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
 
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
-    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,  private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
+    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
   async ngOnInit() {
@@ -561,7 +561,7 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
- 
+
   async GetLegalEntityData() {
     try {
       await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
@@ -577,7 +577,7 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
             this.toastr.error(this.ErrorMessage)
           }
           else if (this.State == 2) {
-           // this.toastr.warning(this.SuccessMessage)
+            // this.toastr.warning(this.SuccessMessage)
           }
         })
     }
@@ -671,6 +671,27 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
           if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
             || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ParamedicalHospitalDetails'] <= 0
+          ) {
+            this.isFormvalid = false;
+            this.toastr.warning('Please do document scrutiny all tabs');
+          }
+        }
+      }
+
+      if (this.SelectedDepartmentID == 2) {
+        if (this.CollegeType_IsExisting) {
+          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
+            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0) {
+            this.isFormvalid = false;
+            this.toastr.warning('Please do document scrutiny all tabs');
+          }
+        }
+        else {
+          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0
           ) {
             this.isFormvalid = false;
             this.toastr.warning('Please do document scrutiny all tabs');

@@ -505,7 +505,7 @@ const routes: Routes = [
         path: 'animalhusbandryappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAnimalhusbandryComponent
       },
       {
-        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID', component: DocumentScrutinyComponent
+        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNo', component: DocumentScrutinyComponent
       },
       {
         path: 'agricultureappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAgricultureComponent

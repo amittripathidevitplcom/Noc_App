@@ -21,8 +21,8 @@
                 </div>
 
               </th>
-              <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-              <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
+              <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
+              <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
               <th>Sr.No.</th>
               <th>Action</th>
               <th>College</th>
@@ -56,14 +56,14 @@
                 </div>
 
               </td>
-              <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
+              <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
                 Compliance: {{item.C_Action}}<br />
                 <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
               </td>
               <td *ngIf="sSOLoginDataModel.RoleID==5">
                 Compliance: {{item.S_Action}}<br />
                 <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-              </td>
+              </td>-->
               <td>{{idx+1}}</td>
               <td>
                 <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(mymodal,item.LandDetailID)"><i class="fa fa-eye"></i></button>
@@ -236,18 +236,18 @@
 
         </div>
         <!--<div class="row">
-          <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngFor="let item of request.LandDetailDocument ; let idx =index">
-            <label>
-              <b>
-                {{item.DocumentName}} :
-              </b>
-            </label>
-            <div class="clearfix"></div>
-            <a data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
-              <img src="{{item.FilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-            </a>
-          </div>
-        </div>-->
+        <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3" *ngFor="let item of request.LandDetailDocument ; let idx =index">
+          <label>
+            <b>
+              {{item.DocumentName}} :
+            </b>
+          </label>
+          <div class="clearfix"></div>
+          <a data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+            <img src="{{item.FilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+          </a>
+        </div>
+      </div>-->
 
         <div class="card-body">
           <div class="row" *ngIf="request.LandDetailDocument.length>0">

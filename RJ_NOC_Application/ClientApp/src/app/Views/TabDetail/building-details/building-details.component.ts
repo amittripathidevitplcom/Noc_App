@@ -930,20 +930,17 @@ export class BuildingDetailsComponent implements OnInit {
           if (event.target.files[0].size > 2000000) {
             this.ImageValidationMessage = 'Select less then 2MB File';
             this.SetResetFile(Type, true, '', '', '')
-            
             return
           }
           if (event.target.files[0].size < 100000) {
             this.ImageValidationMessage = 'Select more then 100kb File';
             this.SetResetFile(Type, true, '', '', '')
-           
             return
           }
         }
         else {
           this.ImageValidationMessage = 'Select Only pdf file';
           this.SetResetFile(Type, true, '', '', '')
-          
           return
         }
 
@@ -954,9 +951,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-
             this.SetResetFile(Type, false, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"])
-            
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -973,7 +968,7 @@ export class BuildingDetailsComponent implements OnInit {
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
-      }, 200);
+      }, 500);
     }
   }
   DeleteImage(Type: string) {
