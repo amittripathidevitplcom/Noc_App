@@ -106,6 +106,8 @@ import { PreviewHospitalDetailComponent } from './Views/PreviewTabs/preview-hosp
 import { PreviewHostelDetailsComponent } from './Views/PreviewTabs/preview-hostel-detail/preview-hostel-details.component';
 import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgIdleModule } from '@ng-idle/core';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
@@ -231,6 +233,7 @@ import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStuden
 import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE/inspection-committee-physical-verification-dce/inspection-committee-physical-verification-dce.component';
 
 import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-application-list/nodal-officer-application-list.component';
+
 
 
 
@@ -479,6 +482,10 @@ import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-
     MatButtonModule,
     MatIconModule,
     NgMultiSelectDropDownModule.forRoot(),
+    //NgIdleModule.forRoot(),
+    //NgIdleKeepaliveModule.forRoot(),
+
+    NgIdleModule.forRoot(),
 
 
     //NgSelect2Module,

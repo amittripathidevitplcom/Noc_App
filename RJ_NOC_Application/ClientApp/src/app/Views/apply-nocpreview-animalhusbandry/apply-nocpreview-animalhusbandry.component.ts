@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
+import { Component, Injectable, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -144,6 +144,8 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
   public CheckList_OldNocDetails: OldNocDetailsDataModel[] = [];
   public OldNOC_FinalRemarks: any = [];
   public CheckFinalRemark: string = '';
+
+  @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
   constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService,private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
@@ -154,7 +156,6 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
-    debugger;
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetCollageDetails();
     this.CheckTabsEntry();
@@ -202,9 +203,11 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
     }
   }
 
-  ViewTarilCommon(ID: number, ActionType: string) {
-    debugger;
-    this.modalService.open('#TarilMymodal', { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+
+
+
+  public ViewTarilCommon(ID: number, ActionType: string) {
+    this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

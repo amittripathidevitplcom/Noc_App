@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -15,16 +15,16 @@ import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentS
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-ah-document-scrutiny-legal-entity',
   templateUrl: './ah-document-scrutiny-legal-entity.component.html',
   styleUrls: ['./ah-document-scrutiny-legal-entity.component.css']
 })
 export class AhDocumentScrutinyLegalEntityComponent implements OnInit {
-
-  @ViewChild(ApplyNocpreviewAnimalhusbandryComponent)
-  private CommonFuncationView!: ApplyNocpreviewAnimalhusbandryComponent;
-  constructor(private modalService: NgbModal,private animalDocumentScrutinyService: AnimalDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
+  constructor(private modalService: NgbModal, private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService, private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent) { }
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -67,7 +67,7 @@ export class AhDocumentScrutinyLegalEntityComponent implements OnInit {
 
   public FinalRemarks: any = [];
 
- 
+
 
   ngOnInit(): void {
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -252,7 +252,6 @@ export class AhDocumentScrutinyLegalEntityComponent implements OnInit {
   }
 
   ViewTaril(ID: number, ActionType: string) {
-    debugger;
-    this.CommonFuncationView.ViewTarilCommon(  ID, ActionType);
+    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
   }
 }
