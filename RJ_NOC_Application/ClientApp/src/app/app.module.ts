@@ -233,6 +233,8 @@ import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStuden
 import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE/inspection-committee-physical-verification-dce/inspection-committee-physical-verification-dce.component';
 
 import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-application-list/nodal-officer-application-list.component';
+import { DocumentScrutinyClassWiseStudentDetailsComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-class-wise-student-details/document-scrutiny-class-wise-student-details.component';
+import { DocumentScrutinySubjectWiseStudentStatisticsComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-subject-wise-student-statistics/document-scrutiny-subject-wise-student-statistics.component';
 
 
 
@@ -459,6 +461,8 @@ import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-
     InspectionCommitteePhysicalVerificationDCEComponent,
 
     NodalOfficerApplicationListComponent,
+      DocumentScrutinyClassWiseStudentDetailsComponent,
+      DocumentScrutinySubjectWiseStudentStatisticsComponent,
 
   ],
   imports: [

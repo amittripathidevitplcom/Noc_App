@@ -86,8 +86,6 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.GetRoleListForApporval();
-    this.GetWorkFlowActionListByRole();
     await this.GetPhysicalVerificationAppliationList(this.sSOLoginDataModel.SSOID);
 
   }
@@ -151,27 +149,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     this.SelectedApplyNOCID = ApplyNOCID;
     this.ShowHideApplicationAction = true;
     this.GetRNCCheckListByTypeDepartment(ApplyNOCID);
-    //this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-    //  this.closeResult = `Closed with: ${result}`;
-    //}, (reason) => {
-    //  this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    //});
-
   }
-  private getDismissReason(reason: any): string {
-    this.SelectedCollageID = 0;
-    this.SelectedDepartmentID = 0;
-    this.SelectedApplyNOCID = 0;
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
-
   async SaveData() {
     this.isSubmit = true;
     this.request = [];
@@ -381,149 +359,6 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
 
   }
 
-
-
-  async GetRoleListForApporval() {
-    this.UserRoleList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.UserRoleList = data['Data'];
-            if (this.UserRoleList.length > 0) {
-              this.NextRoleID = this.UserRoleList[0]['RoleID'];
-              await this.NextGetUserDetailsByRoleID();
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-
-  async NextGetUserDetailsByRoleID() {
-    this.UserListRoleWise = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.UserListRoleWise = data['Data'];
-            if (this.UserListRoleWise.length > 0) {
-              this.NextUserID = this.UserListRoleWise[0]['UId'];
-              await this.NextGetWorkFlowActionListByRole();
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  async NextGetWorkFlowActionListByRole() {
-    this.NextWorkFlowActionList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next")
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.NextWorkFlowActionList = data['Data'];
-            if (this.NextWorkFlowActionList.length > 0) {
-              this.NextActionID = this.NextWorkFlowActionList[0]['ActionID'];
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-
-
-  async GetWorkFlowActionListByRole() {
-    this.WorkFlowActionList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID, "Current")
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.WorkFlowActionList = data['Data'];
-            if (this.WorkFlowActionList.length > 0) {
-              this.ActionID = this.WorkFlowActionList[0]['ActionID'];
-              var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-              if (IsNextAction == true) {
-                this.ShowHideNextRoleNextUser = true;
-              }
-              else {
-                this.ShowHideNextRoleNextUser = false;
-              }
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-  OnChangeCurrentAction() {
-    var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-    if (IsNextAction == true) {
-      this.ShowHideNextRoleNextUser = true;
-    }
-    else {
-      this.ShowHideNextRoleNextUser = false;
-    }
-  }
-
-  async CheckDocumentScrutinyTabsData() {
-    try {
-      this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.TotalDocumentScrutinyTab = data['Data'];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-
   numbersOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
     var regex = new RegExp("^[0-9]+$");
     var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
@@ -627,8 +462,12 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
           this.ApplicationCommitteeList[idx].Verified = true;
           this.ApplicationCommitteeList[idx].SendOTP = 2;
         }
-        else {
-          this.ApplicationCommitteeList[idx].Verified = false;
+        else
+        {
+          if (UserOTP != Number(this.CustomOTP)) {
+            this.toastr.error(data[0].message);
+            this.ApplicationCommitteeList[idx].Verified = false;
+          }
         }
       }, error => console.error(error));
     if (UserOTP == Number(this.CustomOTP)) {

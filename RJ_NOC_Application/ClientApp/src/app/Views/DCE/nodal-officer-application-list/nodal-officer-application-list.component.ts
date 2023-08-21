@@ -94,6 +94,7 @@ export class NodalOfficerApplicationListComponent implements OnInit
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    console.log(this.sSOLoginDataModel);
     await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
@@ -208,11 +209,6 @@ export class NodalOfficerApplicationListComponent implements OnInit
 
     this.GetApplicationCommitteeList(ApplyNOCID)
   }
-
-
-
-
-
 
   async DocumentScrutiny() {
     this.request = [];
@@ -567,7 +563,8 @@ export class NodalOfficerApplicationListComponent implements OnInit
     if (!isValidate)
     {
       await this.VerifySSOID(this.request_CommitteeMemberDataModel.SSOID);
-      if (this.AadhaarNo.length > 0) {
+      if (this.AadhaarNo.length > 0)
+      {
         this.request_MemberList.ApplicationCommitteeList.push({
           CommitteeMemberID: 0,
           ApplyNocApplicationID: this.SelectedApplyNOCID,
@@ -651,6 +648,7 @@ export class NodalOfficerApplicationListComponent implements OnInit
     }
     //console.log(this.request_MemberList.ApplicationCommitteeList);
     this.request_MemberList.ApplyNocApplicationID = this.SelectedApplyNOCID;
+    this.request_MemberList.UserID = this.sSOLoginDataModel.UserID;
     console.log(this.request_MemberList);
     //Show Loading
     this.loaderService.requestStarted();
