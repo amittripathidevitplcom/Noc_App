@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +9,11 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { RoomDetailsDataModel_RoomDetails } from '../../../Models/RoomDetailsDataModel';
 import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.service';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-ah-document-scrutiny-room-details',
   templateUrl: './ah-document-scrutiny-room-details.component.html',
@@ -29,7 +33,7 @@ export class AhDocumentScrutinyRoomDetailsComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public FinalRemarks: any = [];
-  constructor(private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService,
+  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService,
     private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private roomDetailsService: RoomDetailsService) { }
 
   async ngOnInit() {
@@ -154,5 +158,7 @@ export class AhDocumentScrutinyRoomDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

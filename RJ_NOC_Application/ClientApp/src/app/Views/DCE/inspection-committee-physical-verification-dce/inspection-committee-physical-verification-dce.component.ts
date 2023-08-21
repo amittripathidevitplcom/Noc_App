@@ -181,7 +181,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
-
+      debugger;
       for (var i = 0; i < this.CheckListData.length; i++) {
         if (this.CheckListData[i].FileUpload == true) {
           if (this.CheckListData[i].FileUploadName == '' || this.CheckListData[i].FileUploadName == undefined) {
@@ -210,7 +210,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
           RoleID: this.sSOLoginDataModel.RoleID
         })
       }
-      if (this.FinalRemark == '' || this.FinalRemark == undefined) {
+      if (this.FinalRemark == '' || this.FinalRemark == undefined || this.FinalRemark == null) {
         this.isFormvalid = false;
       }
       //if (this.ActionID <= 0) {

@@ -24,7 +24,11 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { VeterinaryHospitalDataModel, AnimalDataModel } from '../../../Models/VeterinaryHospitalDataModel';
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
+import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-ah-document-scrutiny-check-list-details',
   templateUrl: './ah-document-scrutiny-check-list-details.component.html',
@@ -155,7 +159,7 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
   public IsShowSuperSpecialtyHospital: boolean = false;
   LegalEntityDataModel = new LegalEntityDataModel();
 
-  constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
@@ -886,5 +890,7 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

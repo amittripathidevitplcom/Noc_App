@@ -10,7 +10,11 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-ah-document-scrutiny-academic-information',
   templateUrl: './ah-document-scrutiny-academic-information.component.html',
@@ -30,7 +34,7 @@ export class AhDocumentScrutinyAcademicInformationComponent implements OnInit {
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
-  constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private academicInformationDetailsService: AcademicInformationDetailsService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private academicInformationDetailsService: AcademicInformationDetailsService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute,
     private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
 
@@ -158,5 +162,7 @@ export class AhDocumentScrutinyAcademicInformationComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

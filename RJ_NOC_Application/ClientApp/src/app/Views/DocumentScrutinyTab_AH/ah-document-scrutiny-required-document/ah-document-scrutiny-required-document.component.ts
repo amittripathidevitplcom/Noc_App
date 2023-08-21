@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +11,11 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { ToastrService } from 'ngx-toastr';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-ah-document-scrutiny-required-document',
@@ -36,7 +41,7 @@ export class AhDocumentScrutinyRequiredDocumentComponent implements OnInit {
   //public RequiredDocumentsAllList: any = [];
   public FinalRemarks: any = [];
 
-  constructor(private collegeDocumentService: CollegeDocumentService, private commonMasterService: CommonMasterService,
+  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private collegeDocumentService: CollegeDocumentService, private commonMasterService: CommonMasterService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private animalDocumentScrutinyService: AnimalDocumentScrutinyService
   ) { }
@@ -168,5 +173,8 @@ export class AhDocumentScrutinyRequiredDocumentComponent implements OnInit {
       }, 200);
     }
   }
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+  } 
 
 }

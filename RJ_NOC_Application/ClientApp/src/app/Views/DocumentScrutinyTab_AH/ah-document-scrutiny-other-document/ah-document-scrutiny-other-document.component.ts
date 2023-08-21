@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,7 +9,11 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-ah-document-scrutiny-other-document',
   templateUrl: './ah-document-scrutiny-other-document.component.html',
@@ -32,7 +36,7 @@ export class AhDocumentScrutinyOtherDocumentComponent implements OnInit {
   public FinalRemarks: any = [];
   public HospitalRealtedDocuments: RequiredDocumentsDataModel_Documents[] = []
 
-  constructor(private loaderService: LoaderService,
+  constructor(private loaderService: LoaderService, private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute,
     private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService) { }
 
@@ -180,4 +184,8 @@ export class AhDocumentScrutinyOtherDocumentComponent implements OnInit {
       }, 200);
     }
   }
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+  } 
+
 }
