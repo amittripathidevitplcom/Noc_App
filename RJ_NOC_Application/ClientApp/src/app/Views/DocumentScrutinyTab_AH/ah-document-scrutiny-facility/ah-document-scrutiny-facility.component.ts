@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute } from '@angular/router';
@@ -11,7 +11,11 @@ import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsM
 import { ToastrService } from 'ngx-toastr';
 import { FacilityDetailsService } from '../../../Services/FicilityDetais/facility-details.service';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-ah-document-scrutiny-facility',
   templateUrl: './ah-document-scrutiny-facility.component.html',
@@ -32,7 +36,7 @@ export class AhDocumentScrutinyFacilityComponent implements OnInit {
   public FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
   public FinalRemarks: any = [];
 
-  constructor(private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService,
+  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -155,5 +159,7 @@ export class AhDocumentScrutinyFacilityComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

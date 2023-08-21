@@ -13,4 +13,6 @@ export class CommiteeInspection_RNCCheckList_DataModel {
   public FileUploadName: string = '';
   public Remark: string = '';
   public IsChecked: string = '';
+  public FinalRemark: string = '';
+  public RoleID: number = 0;
 }

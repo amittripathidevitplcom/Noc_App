@@ -104,7 +104,7 @@ export class CommiteeInspectionComponent implements OnInit {
   async GetRNCCheckListByTypeDepartment() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetRNCCheckListByTypeDepartment('MDHNM', this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetRNCCheckListByTypeDepartment('MDHNM', this.sSOLoginDataModel.DepartmentID, 0, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -171,13 +171,25 @@ export class CommiteeInspectionComponent implements OnInit {
             return
           }
         }
+        if (this.CheckListData[i].IsChecked == '2') {
+          if (this.CheckListData[i].Remark == '' || this.CheckListData[i].Remark == undefined) {
+            this.toastr.warning('Please enter remark');
+            return
+          }
+        }
+        if (this.CheckListData[i].IsChecked == '' || this.CheckListData[i].IsChecked == undefined) {
+          this.toastr.warning('Please check all checklist');
+          return
+        }
         this.request.push({
           ApplyNOCID: this.SelectedApplyNOCID,
           RNCCheckListID: this.CheckListData[i].RNCCheckListID,
           CreatedBy: this.sSOLoginDataModel.UserID,
           FileUploadName: this.CheckListData[i].FileUpload == true ? this.CheckListData[i].FileUploadName : "",
-          IsChecked: '1',
-          Remark:''
+          IsChecked: this.CheckListData[i].IsChecked,
+          Remark: this.CheckListData[i].Remark,
+          FinalRemark: '',
+          RoleID: this.sSOLoginDataModel.RoleID
         })
       }
       if (this.ActionID <= 0) {
@@ -496,5 +508,15 @@ export class CommiteeInspectionComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+  alphanumbersOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z0-9 ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
   }
 }

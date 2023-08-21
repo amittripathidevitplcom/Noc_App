@@ -17,7 +17,11 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-ah-document-scrutiny-other-information',
   templateUrl: './ah-document-scrutiny-other-information.component.html',
@@ -43,7 +47,8 @@ export class AhDocumentScrutinyOtherInformationComponent implements OnInit {
   public FinalRemarks: any = [];
   //public RequiredDocumentsAllList: any = [];
 
-  constructor(private otherInformationService: OtherInformationService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private animalDocumentScrutinyService: AnimalDocumentScrutinyService,
+  constructor(
+    private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private otherInformationService: OtherInformationService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private animalDocumentScrutinyService: AnimalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
 
   async ngOnInit() {
@@ -168,5 +173,7 @@ export class AhDocumentScrutinyOtherInformationComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

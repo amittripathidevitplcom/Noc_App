@@ -11,7 +11,11 @@ import { VeterinaryHospitalService } from '../../../Services/VeterinaryHospital/
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-ah-document-scrutiny-veterinary-hospital',
   templateUrl: './ah-document-scrutiny-veterinary-hospital.component.html',
@@ -31,7 +35,7 @@ export class AhDocumentScrutinyVeterinaryHospitalComponent implements OnInit {
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
-  constructor(private veterinaryHospitalService: VeterinaryHospitalService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private veterinaryHospitalService: VeterinaryHospitalService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
     private animalDocumentScrutinyService: AnimalDocumentScrutinyService) { }
 
@@ -157,5 +161,7 @@ export class AhDocumentScrutinyVeterinaryHospitalComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

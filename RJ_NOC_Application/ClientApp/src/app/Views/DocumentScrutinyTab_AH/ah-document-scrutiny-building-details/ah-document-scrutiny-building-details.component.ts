@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +10,11 @@ import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsM
 import { ToastrService } from 'ngx-toastr';
 import { BuildingDetailsDataModel, DocuemntBuildingDetailsDataModel } from '../../../Models/TabDetailDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-ah-document-scrutiny-building-details',
   templateUrl: './ah-document-scrutiny-building-details.component.html',
@@ -37,7 +41,7 @@ export class AhDocumentScrutinyBuildingDetailsComponent implements OnInit {
   dsrequest = new DocumentScrutinyDataModel();
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
-  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService,
+  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -257,5 +261,7 @@ export class AhDocumentScrutinyBuildingDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

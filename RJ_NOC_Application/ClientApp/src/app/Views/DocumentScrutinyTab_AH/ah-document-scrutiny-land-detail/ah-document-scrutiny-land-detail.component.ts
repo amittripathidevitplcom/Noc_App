@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +10,11 @@ import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../..
 import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-ah-document-scrutiny-land-detail',
   templateUrl: './ah-document-scrutiny-land-detail.component.html',
@@ -36,7 +40,7 @@ export class AhDocumentScrutinyLandDetailComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
 
-  constructor(private landDetailsService: LandDetailsService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
+  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent,private landDetailsService: LandDetailsService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
     private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -212,5 +216,8 @@ export class AhDocumentScrutinyLandDetailComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
   }
 }
