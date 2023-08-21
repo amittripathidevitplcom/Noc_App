@@ -140,7 +140,7 @@
                 <label>
                   Total Constructed Building Area (in Sq. Ft) <span style="color:red;">*</span>
                 </label>
-                <input type="text" id="txtBuildingHostelQuartersRoadArea" class="form-control" [(ngModel)]="buildingdetails.BuildingHostelQuartersRoadArea" formControlName="txtBuildingHostelQuartersRoadArea" (keypress)="numberOnly($event)" />
+                <input type="text" id="txtBuildingHostelQuartersRoadArea" class="form-control" [(ngModel)]="buildingdetails.BuildingHostelQuartersRoadArea" formControlName="txtBuildingHostelQuartersRoadArea" (keypress)="numbersOnly($event)" />
                 <p *ngIf="IstxtBuildingHostel" class="text-danger"><i aria-hidden="true"></i>Enter the Building/Hostel/Quarters/Road Area(A1) .!</p>
                 <div *ngIf="isSubmitted&&form.txtBuildingHostelQuartersRoadArea.errors" class="text-danger">
                   <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.required">This field is required .!</p>
@@ -540,6 +540,7 @@
                     <th>CityTownVillage</th>
                     <th>Pincode</th>
                     <th>ContactNo</th>
+                    <th>Constructed Building Area</th>
                     <th>From Date</th>
                     <th>To Date</th>
                     <th>Order No</th>
@@ -579,6 +580,7 @@
                     <td>{{item.CityTownVillage}}</td>
                     <td>{{item.Pincode}}</td>
                     <td>{{item.ContactNo}}</td>
+                    <td>{{item.BuildingHostelQuartersRoadArea}}</td>
                     <td>{{item.FromDate}}</td>
                     <td>{{item.ToDate}}</td>
                     <td>{{item.OrderNo}}</td>
