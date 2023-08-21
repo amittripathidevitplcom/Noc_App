@@ -371,3 +371,5 @@ FodyWeavers.xsd
 /RJ_NOC_Application/ClientApp/src/app/Common/GlobalConstants.ts
 /RJ_NOC_Application/ClientApp/src/app/Common/GlobalConstants.ts
 /RJ_NOC_Application/ClientApp/src/app/Common/GlobalConstants.ts
+/RJ_NOC_Application/ClientApp/.angular/cache/16.2.0/angular-webpack/dd69d1f0d2f4d6f93476aaf40e3da45a88d7e23a
+*.json
