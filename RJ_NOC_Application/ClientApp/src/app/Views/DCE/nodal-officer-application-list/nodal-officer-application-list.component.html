@@ -336,6 +336,9 @@
                           {{row.Remark}}
                         </td>
                       </tr>
+                      <tr *ngIf="PVApplicationDetailsList.length<=0">
+                        <td colspan="5" style="color:red">No Record Found.!</td>
+                      </tr>
                     </tbody>
                   </table>
                   <br />
@@ -394,8 +397,11 @@
                           {{row.SSOID}}
                         </td>
                         <td>
-                           <span class="{{row.IsPrimaryMember=='1'?'fa fa-check text-success':'fa fa-remove text-danger'}}"></span>
+                          <span class="{{row.IsPrimaryMember=='1'?'fa fa-check text-success':'fa fa-remove text-danger'}}"></span>
                         </td>
+                      </tr>
+                      <tr *ngIf="PVCommitteeList.length<=0">
+                        <td colspan="5" style="color:red">No Record Found!</td>
                       </tr>
                     </tbody>
                   </table>
