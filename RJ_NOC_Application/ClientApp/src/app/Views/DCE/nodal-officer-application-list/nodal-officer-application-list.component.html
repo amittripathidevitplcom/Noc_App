@@ -29,10 +29,9 @@
                     <td>{{item.CollegeName}}</td>
                     <td>{{item.ApplicationNo}}</td>
                     <td>
-                      <!--{{item.PVStage}}-->
                       <a href="javascript:void(0)" title="Document Scrutiny" (click)="DocumentScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-
                       &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage=='0'" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
+                      &nbsp;<button type="button"  class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0'" title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
 
                     </td>
                   </tr>
@@ -285,8 +284,133 @@
           </div>
         </ng-template>
         <!--END MODAL-->
+        <!--Modal Start For Assign Commettiee-->
+        <ng-template #mymodalViewPVDetails let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Post Verification Details (ApplicationNo:{{ApplicationNo}})</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <i class="fa fa-close"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row m-t1">
 
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>
+                          Sr.No.
+                        </th>
+                        <th>
+                          Description
+                        </th>
+                        <th>
+                         PV Date
+                        </th>
+                        <th>
+                          Status
+                        </th>
+                        <th>
+                          Remarks
+                        </th>
 
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of PVApplicationDetailsList;let idx=index;">
+                        <td>
+                          {{idx+1}}
+                        </td>
+                        <td>
+                          {{row.RNCCheckListName}}
+                        </td>
+                        <td>
+                          {{row.PVDate}}
+                        </td>
+                        <td>
+                          {{row.strStatus}}
+                        </td>
+                        <td>
+                          {{row.Remark}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="PVApplicationDetailsList.length<=0">
+                        <td colspan="5" style="color:red">No Record Found.!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <br />
+             
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>
+                            Special Remakrs
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>  {{PVApplicationDetailsList[0]['FinalRemark']}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                   
+                 
+                  <br />
+                  <b>DETAILS OF INSPECTION TEAM MEMBERS</b>
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>
+                          Sr.No.
+                        </th>
+                        <th>
+                          Name
+                        </th>
+                        <th>
+                          Mobile Number
+                        </th>
+                        <th>
+                          SSO ID
+                        </th>
+                        <th>
+                          Is Primary Member
+                        </th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of PVCommitteeList;let idx=index;">
+                        <td>
+                          {{idx+1}}
+                        </td>
+                        <td>
+                          {{row.NameOfPerson}}
+                        </td>
+                        <td>
+                          {{row.MobileNumber}}
+                        </td>
+                        <td>
+                          {{row.SSOID}}
+                        </td>
+                        <td>
+                          <span class="{{row.IsPrimaryMember=='1'?'fa fa-check text-success':'fa fa-remove text-danger'}}"></span>
+                        </td>
+                      </tr>
+                      <tr *ngIf="PVCommitteeList.length<=0">
+                        <td colspan="5" style="color:red">No Record Found!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+                </div>
+              </div>
+        </ng-template>
+        <!--END MODAL-->
 
 
       </div>

@@ -123,7 +123,7 @@ export class SSOLoginComponent implements OnInit {
 
 
   async ngOnInit() {
-    //this.loaderService.requestStarted();
+    this.loaderService.requestStarted();
     //this.Username = this.router.snapshot.queryParams.id1;
     //this.LoginRoleType = this.router.snapshot.queryParams.id2;
     //alert(this.LoginType);
@@ -136,9 +136,9 @@ export class SSOLoginComponent implements OnInit {
     }
 
     await this.Citizenlogin(this.Username, this.LoginType);
-    //setTimeout(() => {
-    //  this.loaderService.requestEnded();
-    //}, 200);
+    setTimeout(() => {
+      this.loaderService.requestEnded();
+    }, 200);
   }
 
   async Citizenlogin(LoginSSOID: string, LoginType: string) {

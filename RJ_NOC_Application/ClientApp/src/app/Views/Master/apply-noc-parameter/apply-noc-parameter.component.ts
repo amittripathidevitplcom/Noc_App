@@ -37,7 +37,7 @@ export class ApplyNocParameterComponent implements OnInit {
   public ApplyNocParameterMasterList_ddl: any = [];
   public file: any = '';
 
-  ddlCourse: number=0;
+  ddlCourse: number = 0;
   ddlCourseSubject: number = 0;
 
   ddlCourseTNOC: number = 0;
@@ -125,7 +125,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   public ddlStreamID: number = 0;
   public CourseLevelID: number = 0;
-  
+
 
   public isShowGrid: boolean = true;
   public SubjectDetails: any[] = [];
@@ -161,14 +161,14 @@ export class ApplyNocParameterComponent implements OnInit {
       cbCourse_TNOCExtension: [''],
       cbSubject_TNOCExtension: [''],
       cbCourse_AdditionOfNewSeats60: [''],
-      ddlCourse:['',0]
+      ddlCourse: ['', 0]
 
     });
 
     // load
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
-   
+
   }
 
   get form() {
@@ -244,7 +244,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
       this.loaderService.requestStarted();
       await this.applyNOCApplicationService.CheckAppliedNOCCollegeWise(this.request.CollegeID)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.TotalAppliedNOC = data['Data'];
           if (this.TotalAppliedNOC > 0) {
@@ -253,9 +253,9 @@ export class ApplyNocParameterComponent implements OnInit {
           }
           else {
 
-            this.GetApplicationTypeList(this.request.CollegeID);
+            await this.GetApplicationTypeList(this.request.CollegeID);
 
-            this.applyNocParameterService.GetApplyNocParameterMaster(this.request.CollegeID)
+            await this.applyNocParameterService.GetApplyNocParameterMaster(this.request.CollegeID)
               .then((data: any) => {
                 data = JSON.parse(JSON.stringify(data));
                 this.State = data['State'];
@@ -263,13 +263,10 @@ export class ApplyNocParameterComponent implements OnInit {
                 this.ErrorMessage = data['ErrorMessage'];
                 //
                 this.ApplyNocParameterMasterList_ddl = data['Data'];
-
                 console.log(this.ApplyNocParameterMasterList_ddl);
-                
-
               }, error => console.error(error));
 
-            this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
+            await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
               .then((data: any) => {
                 data = JSON.parse(JSON.stringify(data));
                 this.CollegeDepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
@@ -306,7 +303,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
       console.log(item);
       // TNOC Extension
-      if (this.request.ApplyNocCode == 'MG3_NewCourse' ) {
+      if (this.request.ApplyNocCode == 'MG3_NewCourse') {
         this.ApplyNocParameterMasterList_TNOCExtension = null;
       }
       // Addition of New Seats(60)
@@ -357,8 +354,7 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_NewCourse.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_NewCourse.FeeAmount = item.FeeAmount;
       }
-      if (this.request.ApplyNocCode == 'DEC_NewSubject')
-      {
+      if (this.request.ApplyNocCode == 'DEC_NewSubject') {
         this.ApplyNocParameterMasterList_NewCourseSubject = new ApplyNocParameterMaster_TNOCExtensionDataModel();
         this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_NewCourseSubject.FeeAmount = item.FeeAmount;
@@ -377,8 +373,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
       //unchecked
-      if (!event.target.checked)
-      {
+      if (!event.target.checked) {
         if (this.request.ApplyNocCode == 'DEC_ChangeName') {
           this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
         }
@@ -401,8 +396,7 @@ export class ApplyNocParameterComponent implements OnInit {
         else if (this.request.ApplyNocCode == 'DEC_NewCourse') {
           this.ApplyNocParameterMasterList_NewCourse = null;
         }
-        else if (this.request.ApplyNocCode == 'DEC_NewSubject')
-        {
+        else if (this.request.ApplyNocCode == 'DEC_NewSubject') {
           this.ApplyNocParameterMasterList_NewCourseSubject = null;
         }
 
@@ -420,20 +414,23 @@ export class ApplyNocParameterComponent implements OnInit {
       // get
       await this.applyNocParameterService.GetApplyNocForByParameter(this.request.CollegeID, this.request.ApplyNocFor)
         .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          // TNOC Extension
-          if (this.request.ApplyNocFor == 'NOC For New Course') {
+          if (data != null && data != undefined) {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            // TNOC Extension
+            if (this.request.ApplyNocFor == 'NOC For New Course') {
 
-            this.ApplyNocParameterMasterList_TNOCExtension = data['Data'];
-          }
-          // Addition of New Seats(60)
-          if (this.request.ApplyNocFor == 'Addition of New Seats(60)') {
-            this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = data['Data'];
+              this.ApplyNocParameterMasterList_TNOCExtension = data['Data'];
+            }
+            // Addition of New Seats(60)
+            if (this.request.ApplyNocFor == 'Addition of New Seats(60)') {
+              this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = data['Data'];
+            }
           }
         }, error => console.error(error));
+
     }
     catch (ex) {
       console.log(ex);
@@ -489,14 +486,13 @@ export class ApplyNocParameterComponent implements OnInit {
         this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
       }
       //for Dec New Subject
-      if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null)
-      {
+      if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
         //for Dec New Subject
         this.request.TotalFeeAmount += this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
       }
       //for Dec New Subject
       if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
-       
+
         this.request.TotalFeeAmount += this.calcuateSumofNewSubject();
       }
       //DEC TNOC
@@ -534,7 +530,7 @@ export class ApplyNocParameterComponent implements OnInit {
         }
       }
 
-      else  if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
+      else if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
         let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList;
         if (SelectedCourselist.length == 0) {
           this.toastr.error("Choose any subject from 'NOC For New Course'");
@@ -543,7 +539,7 @@ export class ApplyNocParameterComponent implements OnInit {
       }
 
 
-      else  if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
+      else if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
         let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList;
         if (SelectedCourselist.length == 0) {
           this.toastr.error("Choose any subject from 'NOC For New Subject'");
@@ -552,7 +548,7 @@ export class ApplyNocParameterComponent implements OnInit {
       }
 
 
-     else if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
+      else if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
         let SelectedCourselist = this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList;
         if (SelectedCourselist.length == 0) {
           this.toastr.error("Choose any subject from 'TNOC For New Subject'");
@@ -672,7 +668,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
     this.ApplyNocParameterMasterList_TNOCExtOfSubject = null;
     this.ApplyNocParameterMasterList_PNOCOfSubject = null;
-    
+
 
 
 
@@ -915,20 +911,16 @@ export class ApplyNocParameterComponent implements OnInit {
       }
     }
     //college management
-    if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement != null)
-    {
-      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.NewSocietyName == '')
-      {
+    if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement != null) {
+      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.NewSocietyName == '') {
         this.isNewSocietyName = true;
         this.isFormValid = false;
       }
-      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName == '')
-      {
+      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName == '') {
         this.isCmDocumentName = true;
         this.isFormValid = false;
       }
-      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument == '')
-      {
+      if (this.ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument == '') {
         this.isAnnexureDocument = true;
         this.isFormValid = false;
       }
@@ -1046,19 +1038,17 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-  async FillCourses()
-  {
-    try
-    {
+  async FillCourses() {
+    try {
       // Deparment level
-      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, 0,'GetCollegeWiseCourseList')
+      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, 0, 'GetCollegeWiseCourseList')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.CourseDataList = data['Data'][0]['data'];
-        
+
         }, error => console.error(error));
 
       await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, 0, 'GetCollegeWiseExistingCourseList')
@@ -1100,13 +1090,12 @@ export class ApplyNocParameterComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
- 
+
   }
 
 
   async ddlCourse_change($event: any, SeletedCourseID: any) {
-    try
-    {
+    try {
       this.SubjectDetails = [];
       var CollegeWiseCourseID = this.CourseDataList.find((x: { CourseID: number; }) => x.CourseID == SeletedCourseID).CollegeWiseCourseID;
 
@@ -1198,8 +1187,7 @@ export class ApplyNocParameterComponent implements OnInit {
       var CollegeWiseCourseID = this.CourseDataListPNOC.find((x: { CourseID: number; }) => x.CourseID == SeletedCourseID).CollegeWiseCourseID;
       this.loaderService.requestStarted();
       const courseId = Number(SeletedCourseID);
-      if (courseId <= 0)
-      {
+      if (courseId <= 0) {
         return;
       }
       await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, CollegeWiseCourseID, 'GetCollegeWiseNewSubjectNOCListPNOC')
@@ -1223,8 +1211,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
 
-  async ddlCourseLevel_change(CourseLevelID: any)
-  {
+  async ddlCourseLevel_change(CourseLevelID: any) {
     debugger;
     //this.request.CourseLevelID = CourseLevelID;
 
@@ -1251,8 +1238,7 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
   //Add course
-  btn_AddCourse()
-  {
+  btn_AddCourse() {
     this.isAddNOCCourse = true;
     if (this.ddlCourse == undefined || this.ddlCourse <= 0 || this.ddlCourse == null) {
       return;
@@ -1288,7 +1274,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
 
-  
+
     //close data
     this.modalService.dismissAll('After Success');
     this.isAddNOCCourse = false;
@@ -1296,7 +1282,7 @@ export class ApplyNocParameterComponent implements OnInit {
     this.SubjectDetails = [];
   }
 
- 
+
 
   async AddCourseSubject_click(content: any) {
     try {
@@ -1326,8 +1312,7 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
-  btn_AddCourseSubject()
-  {
+  btn_AddCourseSubject() {
     this.isAddNOCCourseSubject = true;
     if (this.ddlCourseSubject == undefined || this.ddlCourseSubject <= 0 || this.ddlCourseSubject == null) {
       return;
@@ -1453,8 +1438,7 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-  calcuateSumofNewSubject(): number
-  {
+  calcuateSumofNewSubject(): number {
     if (this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList != null) {
       this.totalNewSubjectFees = 0;
       this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.forEach(element => {
@@ -1467,10 +1451,8 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-  calcuateTNOCSubjectFees(): number
-  {
-    if (this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList != null)
-    {
+  calcuateTNOCSubjectFees(): number {
+    if (this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList != null) {
       this.totalTNOCSubjectFees = 0;
       this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList.forEach(element => {
         element.ApplyNocParameterSubjectList.forEach(e2 => {
@@ -1481,8 +1463,7 @@ export class ApplyNocParameterComponent implements OnInit {
     return this.totalTNOCSubjectFees;
   }
 
-  calcuatePNOCSubjectFees(): number
-  {
+  calcuatePNOCSubjectFees(): number {
     if (this.ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList != null) {
       this.totalPNOCSubjectFees = 0;
       this.ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList.forEach(element => {
@@ -1496,8 +1477,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   //delete items
-  btn_DeleteCourse(CourseID: number)
-  {
+  btn_DeleteCourse(CourseID: number) {
     if (confirm("Are you sure you want to delete this ?")) {
 
       const indexToRemove = this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
@@ -1518,8 +1498,7 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-  btn_DeleteTNOCCourseSubject(CourseID: number)
-  {
+  btn_DeleteTNOCCourseSubject(CourseID: number) {
     if (confirm("Are you sure you want to delete this ?")) {
 
       const indexToRemove = this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
@@ -1529,8 +1508,7 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
   btn_DeletePNOCCourseSubject(CourseID: number) {
-    if (confirm("Are you sure you want to delete this ?"))
-    {
+    if (confirm("Are you sure you want to delete this ?")) {
       const indexToRemove = this.ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
       this.ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList.splice(indexToRemove, 1);
       this.ApplyNocParameterMasterList_PNOCOfSubject.FeeAmount = this.calcuatePNOCSubjectFees();

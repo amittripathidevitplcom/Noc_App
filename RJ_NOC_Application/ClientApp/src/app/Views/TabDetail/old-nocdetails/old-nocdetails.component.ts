@@ -426,9 +426,8 @@ export class OldNOCDetailsComponent implements OnInit {
   }
 
   public file: any = '';
-  ValidateDocumentImage(event: any) {
+  async ValidateDocumentImage(event: any) {
     try {
-      debugger;
       this.loaderService.requestStarted();
       if (event.target.files && event.target.files[0]) {
         //if (event.target.files[0].type === 'image/jpeg' ||
@@ -453,7 +452,7 @@ export class OldNOCDetailsComponent implements OnInit {
         }
 
         this.file = event.target.files[0];
-        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];

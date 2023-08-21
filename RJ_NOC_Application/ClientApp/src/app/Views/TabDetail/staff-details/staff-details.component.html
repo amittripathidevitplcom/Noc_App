@@ -95,8 +95,8 @@
           <select id="ddlHighestQualificationId" name="ddlHighestQualificationId" class="form-control" formControlName="ddlHighestQualificationId" [(ngModel)]="request.HighestQualification" (change)="OnChangeHighestQualification()">
             <option disabled value="0">--Select--</option>
             <option *ngFor="let item of HighestQualificationData"
-                    value="{{item.ID}}">
-              {{item.Name}}
+                    value="{{item.QualificationID}}">
+              {{item.QualificationName}}
             </option>
           </select>
           <div *ngIf="isSubmitted&&form.ddlHighestQualificationId.errors" class="text-danger">
@@ -347,7 +347,7 @@
                   <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.UploadDocument,'UploadDocument')"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-              <div *ngIf="isUploadDocRequried" class="text-danger">
+              <div *ngIf="isAddMore&&request.UploadDocument === ''" class="text-danger">
                 <p *ngIf="isUploadDocRequried"> This field is required .!</p>
               </div>
             </div>

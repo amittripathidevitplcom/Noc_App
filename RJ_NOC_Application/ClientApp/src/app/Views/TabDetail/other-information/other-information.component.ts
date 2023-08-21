@@ -110,8 +110,8 @@ export class OtherInformationComponent implements OnInit {
       {
         OtherInformation_ddlCourse: ['', [DropdownValidators]],
         txtNoOfRooms_Room: ['', [Validators.required, Validators.min(1)]],
-        OtherInformation_txtWidth: ['', [Validators.required, Validators.min(1), Validators.max(500000)]],
-        OtherInformation_txtLength: ['', [Validators.required, Validators.min(1), Validators.max(500000)]],
+        OtherInformation_txtWidth: ['', [Validators.required, Validators.min(1)]],
+        //OtherInformation_txtLength: ['', [Validators.required, Validators.min(1), Validators.max(500000)]],
         fileUploadImage: [''],
         fileUploadBookImage: [''],
         OtherInformation_Noofbooks: [''],
@@ -342,7 +342,7 @@ export class OtherInformationComponent implements OnInit {
     if (this.OtherInformationForm.invalid) {
       this.isformvalid = false;
     }
-    if (Number((this.request.Width) * (this.request.Length)) < this.WidthMin) {
+    if (Number((this.request.Width) < (this.WidthMin))) {
       this.CssClass_TextDangerWidth = 'text-danger';
       this.isformvalid = false;
     }

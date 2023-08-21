@@ -380,7 +380,7 @@ export class SocietyComponent implements OnInit {
   }
 
 
-  ValidateImage(event: any, Type: string) {
+  async ValidateImage(event: any, Type: string) {
     try {
       this.loaderService.requestStarted();
       this.isValidProfilePhoto = false;
@@ -441,7 +441,7 @@ export class SocietyComponent implements OnInit {
         }
 
         this.file = event.target.files[0];
-        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           //event.target.value = '';
 
           this.State = data['State'];
@@ -480,7 +480,7 @@ export class SocietyComponent implements OnInit {
     }
   }
 
-  ValidatePdf(event: any, Type: string) {
+  async ValidatePdf(event: any, Type: string) {
     try {
       this.loaderService.requestStarted();
       this.isValidAadhaarCard = false;
@@ -598,7 +598,7 @@ export class SocietyComponent implements OnInit {
         }
 
         this.file = event.target.files[0];
-        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           //event.target.value = '';
 
           this.State = data['State'];
