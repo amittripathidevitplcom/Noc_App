@@ -23,12 +23,13 @@ import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
   templateUrl: './nodal-officer-application-list.component.html',
   styleUrls: ['./nodal-officer-application-list.component.css']
 })
-export class NodalOfficerApplicationListComponent implements OnInit {
+export class NodalOfficerApplicationListComponent implements OnInit
+{
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  public ApplyNocDetails: ApplyNOCApplicationDataModel[] = [];
+  public ApplyNocDetails: any[] = [];
   public request: CommiteeInspection_RNCCheckList_DataModel[] = [];
   public RoleID: number = 0;
   public UserID: number = 0;
@@ -94,7 +95,7 @@ export class NodalOfficerApplicationListComponent implements OnInit {
     await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
-    this.GetRNCCheckListByTypeDepartment();
+    //this.GetRNCCheckListByTypeDepartment();
 
     this.CommitteeMemberDetails = this.formBuilder.group(
       {
@@ -131,28 +132,28 @@ export class NodalOfficerApplicationListComponent implements OnInit {
     }
   }
 
-  async GetRNCCheckListByTypeDepartment() {
-    try {
-      this.loaderService.requestStarted();
-      await this.commonMasterService.GetRNCCheckListByTypeDepartment('MDHNM', this.sSOLoginDataModel.DepartmentID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.CheckListData = data['Data'];
-          console.log(this.CheckListData);
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  //async GetRNCCheckListByTypeDepartment() {
+  //  try {
+  //    this.loaderService.requestStarted();
+  //    await this.commonMasterService.GetRNCCheckListByTypeDepartment('MDHNM', this.sSOLoginDataModel.DepartmentID)
+  //      .then((data: any) => {
+  //        data = JSON.parse(JSON.stringify(data));
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        this.CheckListData = data['Data'];
+  //        console.log(this.CheckListData);
+  //      }, error => console.error(error));
+  //  }
+  //  catch (Ex) {
+  //    console.log(Ex);
+  //  }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
 
 
   async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number)
