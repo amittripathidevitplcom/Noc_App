@@ -1,5 +1,5 @@
 
-<app-loader></app-loader>
+<!--<app-loader></app-loader>-->
 <div class="card-body">
   <div class="card">
     <div class="card-header">
@@ -42,20 +42,20 @@
 
 
           <div class="col-md-3 mb-2">
-            <label>Width (In Feet)<span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="OtherInformation_txtWidth" name="OtherInformation_txtWidth"
+            <label>Minimum Size (Sq. Feet)<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="OtherInformation_txtWidth" name="OtherInformation_txtWidth" maxlength="5"
                    placeholder="Enter Width (In Feet)"
                    [(ngModel)]="request.Width" formControlName="OtherInformation_txtWidth" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.OtherInformation_txtWidth.errors" class="text-danger">
               <p *ngIf="form.OtherInformation_txtWidth.errors.required">This field is required .!</p>
-              <p *ngIf="form.OtherInformation_txtWidth.errors.min">Width will be greater than zero .!</p>
-              <p *ngIf="form.OtherInformation_txtWidth.errors.max">Width will be less than 500000 .!</p>
+              <p *ngIf="form.OtherInformation_txtWidth.errors.min">Minimum Size will be greater than zero .!</p>
+              <!--<p *ngIf="form.OtherInformation_txtWidth.errors.max">Minimum Size will be less than 500000 .!</p>-->
             </div>
             <div *ngIf="request.CourseID>0">
-              <p *ngIf="WidthMin>0 && request.Width>0 && request.Length>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
+              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
             </div>
           </div>
-          <div class="col-md-3 mb-2">
+          <!--<div class="col-md-3 mb-2">
             <label>Length (In Feet)<span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="OtherInformation_txtLength" name="OtherInformation_txtLength"
                    placeholder="Enter Length (In Feet)"
@@ -65,7 +65,7 @@
               <p *ngIf="form.OtherInformation_txtLength.errors.min">Length will be greater than zero .!</p>
               <p *ngIf="form.OtherInformation_txtLength.errors.max">Length will be less than 500000 .!</p>
             </div>
-          </div>
+          </div>-->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="fileUploadImage" class="form-label">Upload Image<span style="color:red;">*</span></label>
             <div class="d-flex">
@@ -144,8 +144,8 @@
                         <th>Sr. No.</th>
                         <th>Course</th>
                         <th>No. of Rooms</th>
-                        <th>Width (In Feet) Size</th>
-                        <th>Length (In Feet)</th>
+                        <th>Minimum Size (Sq. Feet)</th>
+                        <!--<th>Length (In Feet)</th>-->
                         <th>Number Of Books</th>
                         <th>Upload Image</th>
                         <!--<th>Upload Book Image</th>-->
@@ -158,7 +158,7 @@
                         <td>{{row.CourseName}}</td>
                         <td>{{row.NoOfRooms}}</td>
                         <td>{{row.Width}}</td>
-                        <td>{{row.Length}}</td>
+                        <!--<td>{{row.Length}}</td>-->
                         <td>{{row.NoofBooks}}</td>
                         <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                         <!--<td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>-->

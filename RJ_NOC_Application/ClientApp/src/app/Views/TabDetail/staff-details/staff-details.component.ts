@@ -261,7 +261,7 @@ export class StaffDetailsComponent implements OnInit {
   async GetHighestQualificationList_DepartmentAndTypeWise(DepartmentID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, Type)
+      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -537,6 +537,10 @@ export class StaffDetailsComponent implements OnInit {
         this.toastr.warning('Your experience is more from the date of joining till today, so please fill it correctly.');
         return;
       }
+      if (Number(this.request.NumberofExperience) < 0) {
+        this.toastr.warning('Your experience is coming in negative year. so please fill it correctly.');
+        return;
+      }
       if (Number(this.request.NumberofExperience) > 0) {
         if (this.request.ExperienceCertificate == '') {
           this.isExperianceCertificate = true;
@@ -730,7 +734,7 @@ export class StaffDetailsComponent implements OnInit {
     try {
       debugger;
       this.loaderService.requestStarted();
-      var QualificationName = this.HighestQualificationData.find((x: { ID: number; }) => x.ID == this.request.HighestQualification).Name;
+      var QualificationName = this.HighestQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.HighestQualification).QualificationName;
       await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID)
         .then((data: any) => {
 

@@ -218,7 +218,6 @@ export class LegalEntityComponent implements OnInit {
 
 
       this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-      await this.CheckExistsLegalEntity(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.RoleID);
       this.QueryStringLegalEntityID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LegalEntityID')?.toString()));
       /*this.GetDistrict();*/
       this.GetSocietyPresentStatusList();
@@ -233,6 +232,9 @@ export class LegalEntityComponent implements OnInit {
       // get Legal Entity by id
       if (this.QueryStringLegalEntityID > 0) {
         await this.GetApplicationList(this.QueryStringLegalEntityID);
+      }
+      else {
+        await this.CheckExistsLegalEntity(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.RoleID);
       }
 
     }

@@ -283,4 +283,16 @@ export class DCEDocumentScrutinyService {
       ).toPromise();
   }
 
+  //PV APPLICATION LIST
+  public async GetApplicationPvDetails(ApplyNocApplicationID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetApplicationPvDetails/" + ApplyNocApplicationID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
