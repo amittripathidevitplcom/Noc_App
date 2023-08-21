@@ -616,14 +616,6 @@
                             </thead>
                             <tbody>
                               <tr *ngFor="let row of request.MemberDetails; let indexOfelement=index;">
-                                <!--<td *ngIf="row.DeleteStatus !=true"> {{indexOfelement+1}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.MemberName}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.MemberFatherName}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.MemberDOB}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.MemberMobileNo}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.MembersPostName}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.PresidentAadhaarNumber}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">-->
                                 <td> {{indexOfelement+1}}</td>
                                 <td>{{row.MemberName}}</td>
                                 <td>{{row.MemberFatherName}}</td>
@@ -635,16 +627,16 @@
                                   <a *ngIf="row.MemberPhoto!='' && row.MemberPhotoPath!='N/A'" target="_blank" href="{{row.MemberPhotoPath}}" title="View Member Photo"><i class="fa fa-eye"></i></a>
                                   <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
                                 </td>
-                                <td *ngIf="row.DeleteStatus !=true">
+                                <td>
                                   <a *ngIf="row.MemberSignature!='' && row.MemberSignaturePath!='N/A'" target="_blank" href="{{row.MemberSignaturePath}}" title="View Member Sign"><i class="fa fa-eye"></i></a>
                                   <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label>
                                 </td>
-                                <td *ngIf="row.DeleteStatus !=true">
+                                <td>
                                   <a *ngIf="row.PresidentAadhaarProofDoc!='' && row.PresidentAadhaarProofDocPath!='N/A'" target="_blank" href="{{row.PresidentAadhaarProofDocPath}}" title="View Aadhar Document"><i class="fa fa-eye"></i></a>
                                   <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
                                 </td>
-                                <td *ngIf="row.DeleteStatus !=true">
-                                  <button class="btn btn-danger" type="button" (click)="DeleteMember(row)"><i class="fa fa-trash-o"></i></button>
+                                <td>
+                                  <button class="btn btn-danger" type="button" (click)="DeleteMember(indexOfelement)"><i class="fa fa-trash-o"></i></button>
                                 </td>
                               </tr>
                               <tr *ngIf="request.MemberDetails.length<=0">
@@ -741,15 +733,15 @@
                             </thead>
                             <tbody>
                               <tr *ngFor="let row of request.InstituteDetails; let indexOfelement=index;">
-                                <td *ngIf="row.DeleteStatus !=true"> {{indexOfelement+1}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.RegistrationNo}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.InstituteName}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.InstitutePersonName}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.InstituteDesignation}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.InstituteContactNumber}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">{{row.StateName}}</td>
-                                <td *ngIf="row.DeleteStatus !=true">
-                                  <button class="btn btn-danger" type="button" (click)="DeleteInstitute(row)"><i class="fa fa-trash-o"></i></button>
+                                <td> {{indexOfelement+1}}</td>
+                                <td>{{row.RegistrationNo}}</td>
+                                <td>{{row.InstituteName}}</td>
+                                <td>{{row.InstitutePersonName}}</td>
+                                <td>{{row.InstituteDesignation}}</td>
+                                <td>{{row.InstituteContactNumber}}</td>
+                                <td>{{row.StateName}}</td>
+                                <td>
+                                  <button class="btn btn-danger" type="button" (click)="DeleteInstitute(indexOfelement)"><i class="fa fa-trash-o"></i></button>
                                 </td>
                               </tr>
                               <tr *ngIf="request.InstituteDetails.length<=0">
