@@ -29,13 +29,13 @@ export class CommitteeCompletedReportComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetApplicationCompletedReportUserWise(this.sSOLoginDataModel.UserID);
+    await this.GetApplicationCompletedReportUserWise(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
   }
-  async GetApplicationCompletedReportUserWise(UserID: number) {
+  async GetApplicationCompletedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {
     try {
       this.loaderService.requestStarted();
       var ActionName = this.sSOLoginDataModel.RoleID == 8 ? 'Forward To Secretary By Scrutiny Committee' : this.sSOLoginDataModel.RoleID == 9 ?'Forward To Joint Secretary By Registrar Committee': '';
-      await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID, ActionName)
+      await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID, ActionName, RoleID, DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

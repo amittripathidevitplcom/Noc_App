@@ -29,13 +29,13 @@ export class CommitteeRejectedReportComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetApplicationRejectedReportUserWise(this.sSOLoginDataModel.UserID);
+    await this.GetApplicationRejectedReportUserWise(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
   }
-  async GetApplicationRejectedReportUserWise(UserID: number) {
+  async GetApplicationRejectedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {
     try {
       this.loaderService.requestStarted();
       var ActionName = this.sSOLoginDataModel.RoleID == 8 ? 'Reject By Commitee' : this.sSOLoginDataModel.RoleID == 9 ? 'Reject Inspection Commitee' : '';
-      await this.applyNOCApplicationService.GetApplyNOCRejectedReport(UserID, ActionName)
+      await this.applyNOCApplicationService.GetApplyNOCRejectedReport(UserID, ActionName, RoleID, DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

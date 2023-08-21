@@ -29,12 +29,12 @@ export class SecretaryRejectedReportComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetApplicationRejectedReportUserWise(this.sSOLoginDataModel.UserID);
+    await this.GetApplicationRejectedReportUserWise(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
   }
-  async GetApplicationRejectedReportUserWise(UserID: number) {
+  async GetApplicationRejectedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCRejectedReport(UserID, 'Reject By Secretary')
+      await this.applyNOCApplicationService.GetApplyNOCRejectedReport(UserID, 'Reject By Secretary', RoleID, DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
