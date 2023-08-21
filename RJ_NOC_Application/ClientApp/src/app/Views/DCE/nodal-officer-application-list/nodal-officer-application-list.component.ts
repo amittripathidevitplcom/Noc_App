@@ -23,12 +23,13 @@ import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
   templateUrl: './nodal-officer-application-list.component.html',
   styleUrls: ['./nodal-officer-application-list.component.css']
 })
-export class NodalOfficerApplicationListComponent implements OnInit {
+export class NodalOfficerApplicationListComponent implements OnInit
+{
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  public ApplyNocDetails: ApplyNOCApplicationDataModel[] = [];
+  public ApplyNocDetails: any[] = [];
   public request: CommiteeInspection_RNCCheckList_DataModel[] = [];
   public RoleID: number = 0;
   public UserID: number = 0;
