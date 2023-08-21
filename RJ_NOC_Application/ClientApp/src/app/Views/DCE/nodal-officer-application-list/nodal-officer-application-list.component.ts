@@ -85,6 +85,8 @@ export class NodalOfficerApplicationListComponent implements OnInit
 
   public All_U_Select: boolean = false;
   CommitteeMemberDetails!: FormGroup;
+  public PVApplicationDetailsList: any[] = [];
+  public PVCommitteeList: any[] = [];
   constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private decDocumentScrutinyService: DCEDocumentScrutinyService, private sSOLoginService: SSOLoginService,  private aadharServiceDetails :AadharServiceDetails
@@ -557,7 +559,10 @@ export class NodalOfficerApplicationListComponent implements OnInit
     this.isSubmitted_MemberDetails = true;
     if (this.CommitteeMemberDetails.invalid) {
       return
-    }
+   }
+   //rest
+   this.AadhaarNo = '';
+
     var isValidate = this.request_MemberList.ApplicationCommitteeList.find(e => e.SSOID === this.request_CommitteeMemberDataModel.SSOID);
     if (!isValidate)
     {
@@ -763,13 +768,6 @@ export class NodalOfficerApplicationListComponent implements OnInit
         }
       }, error => console.error(error));
   }
-
-
-
-
-
-
-
   SetPrimaryMember(item: any, index: any) {
     let oldArr = this.request_MemberList.ApplicationCommitteeList;
     let newArr = oldArr.map(obj => ({ ...obj, ['IsPrimaryMember']: false }));
@@ -784,6 +782,77 @@ export class NodalOfficerApplicationListComponent implements OnInit
     return true;
   }
 
+  //Application Details
+  async ViewApplicationPvDetails(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) 
+  {
+    this.ApplicationNo = ApplicationNo;
+    this.SelectedCollageID = CollegeID;
+    this.SelectedDepartmentID = DepartmentID;
+    this.SelectedApplyNOCID = ApplyNOCID;
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    //
+    await this.GetApplicationPvDetails(this.SelectedApplyNOCID);
+    await this.GetPVApplicationCommitteeList(this.SelectedApplyNOCID);
+
+
+  }
+
+  
+
+
+  async GetApplicationPvDetails(ApplyNocApplicationID: number) {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.decDocumentScrutinyService.GetApplicationPvDetails(ApplyNocApplicationID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.PVApplicationDetailsList = data['Data'][0]['data'];
+
+          console.log
+            (this.PVApplicationDetailsList);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetPVApplicationCommitteeList(ApplyNocApplicationID: number) {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.committeeMasterService.GetApplicationCommitteeList(ApplyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.PVCommitteeList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
 }
 
