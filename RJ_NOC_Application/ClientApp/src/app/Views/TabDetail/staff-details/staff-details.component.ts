@@ -537,6 +537,10 @@ export class StaffDetailsComponent implements OnInit {
         this.toastr.warning('Your experience is more from the date of joining till today, so please fill it correctly.');
         return;
       }
+      if (Number(this.request.NumberofExperience) < 0) {
+        this.toastr.warning('Your experience is coming in negative year. so please fill it correctly.');
+        return;
+      }
       if (Number(this.request.NumberofExperience) > 0) {
         if (this.request.ExperienceCertificate == '') {
           this.isExperianceCertificate = true;
