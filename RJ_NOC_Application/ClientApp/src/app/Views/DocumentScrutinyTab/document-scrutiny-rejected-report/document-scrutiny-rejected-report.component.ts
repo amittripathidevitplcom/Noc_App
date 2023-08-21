@@ -29,12 +29,12 @@ export class DocumentScrutinyRejectedReportComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetDocumentScrutinyRejectedReportUserWise(this.sSOLoginDataModel.UserID);
+    await this.GetDocumentScrutinyRejectedReportUserWise(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
   }
-  async GetDocumentScrutinyRejectedReportUserWise(UserID: number) {
+  async GetDocumentScrutinyRejectedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCRejectedReport(UserID,'Reject')
+      await this.applyNOCApplicationService.GetApplyNOCRejectedReport(UserID, 'Reject', RoleID, DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
