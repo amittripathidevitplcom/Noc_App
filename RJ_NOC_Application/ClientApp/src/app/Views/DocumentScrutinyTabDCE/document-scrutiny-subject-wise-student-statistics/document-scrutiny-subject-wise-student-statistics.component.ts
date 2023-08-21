@@ -55,11 +55,11 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-
-    this.GetSubjectWiseStudenetDetails(this.SelectedCollageID)
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.GetSubjectWiseStudenetDetails();
   }
 
-  async GetSubjectWiseStudenetDetails(CollageID: number) {
+  async GetSubjectWiseStudenetDetails() {
     try {
       this.loaderService.requestStarted();
       await this.dceDocumentScrutinyService.DocumentScrutiny_SubjectWiseStudentDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
@@ -118,10 +118,6 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
     //
     this.TotalFooter = this.SubjectWiseStudentDetailsList.map(t => t.Total).reduce((acc, value) => acc + value, 0)
 
-
-
-
-
   }
   async SaveData() {
     this.loaderService.requestStarted();
@@ -139,7 +135,7 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
 
-            this.GetSubjectWiseStudenetDetails(this.SelectedCollageID);
+           // this.GetSubjectWiseStudenetDetails(this.SelectedCollageID);
           }
           else {
             this.toastr.error(this.ErrorMessage)
