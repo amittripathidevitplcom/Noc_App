@@ -283,6 +283,20 @@ export class DCEDocumentScrutinyService {
       ).toPromise();
   }
 
+
+  public async DocumentScrutiny_SubjectWiseStudentDetail(CollageID: number, RoleID: number, ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/DocumentScrutiny_SubjectWiseStudentDetail/" + CollageID + "/" + RoleID + "/" + ApplyNOCID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
   //PV APPLICATION LIST
   public async GetApplicationPvDetails(ApplyNocApplicationID: number) {
     const httpOptions = {
@@ -295,4 +309,6 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+
 }
