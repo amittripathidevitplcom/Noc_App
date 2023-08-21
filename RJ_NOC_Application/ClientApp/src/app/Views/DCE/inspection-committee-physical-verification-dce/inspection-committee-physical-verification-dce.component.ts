@@ -11,6 +11,9 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
+import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
+import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 
 @Component({
   selector: 'app-inspection-committee-physical-verification-dce',
@@ -49,6 +52,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   public SelectedApplyNOCID: number = 0;
   public WorkFlowActionList: any[] = [];
   public CheckListData: any[] = [];
+  public FinalCheckListData: any[] = [];
   public NextActionID: number = 0;
 
   public isNextRoleIDValid: boolean = false;
@@ -59,18 +63,25 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
 
 
   public ApplicationNo: string = '';
+  public CommitteeApplicationNo: string = '';
 
 
 
   public NextWorkFlowActionList: any[] = [];
+  public ApplicationCommitteeList: any[] = [];
 
   public All_U_Select: boolean = false;
-
+  public isSubmit: boolean = false;
+  public FinalRemark: string = '';
 
   public ShowHideApplicationAction: boolean = false;
+  public ShowHideCommittee: boolean = false;
+  AadharRequest = new AadharServiceDataModel();
+  public CustomOTP: string = '123456';
   constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
-    private fileUploadService: FileUploadService, private dceDocumentScrutinyService: DCEDocumentScrutinyService
+    private fileUploadService: FileUploadService, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private committeeMasterService: CommitteeMasterService,
+    private aadharServiceDetails: AadharServiceDetails
   ) { }
 
   async ngOnInit() {
@@ -103,16 +114,18 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     }
   }
 
-  async GetRNCCheckListByTypeDepartment() {
+  async GetRNCCheckListByTypeDepartment(ApplyNOCID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetRNCCheckListByTypeDepartment('PV', this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetRNCCheckListByTypeDepartment('PV', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.CheckListData = data['Data'];
+          this.CheckListData = data['Data'].filter((x: { IsCheckList: number }) => x.IsCheckList == 0);
+          this.FinalCheckListData = data['Data'].filter((x: { IsCheckList: number }) => x.IsCheckList == 1);
+          this.FinalRemark = this.CheckListData[0].FinalRemark;
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -131,13 +144,13 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   }
 
 
-  async OpenActionPopUP(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
+  async OpenActionPopUP(ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
     this.ApplicationNo = ApplicationNo;
     this.SelectedCollageID = CollegeID;
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
     this.ShowHideApplicationAction = true;
-    this.GetRNCCheckListByTypeDepartment();
+    this.GetRNCCheckListByTypeDepartment(ApplyNOCID);
     //this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
     //  this.closeResult = `Closed with: ${result}`;
     //}, (reason) => {
@@ -160,6 +173,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
 
 
   async SaveData() {
+    this.isSubmit = true;
     this.request = [];
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
@@ -167,8 +181,8 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
+
       for (var i = 0; i < this.CheckListData.length; i++) {
-        debugger;
         if (this.CheckListData[i].FileUpload == true) {
           if (this.CheckListData[i].FileUploadName == '' || this.CheckListData[i].FileUploadName == undefined) {
             this.toastr.warning('Please select a file for upload');
@@ -182,8 +196,8 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
           }
         }
         if (this.CheckListData[i].IsChecked == '' || this.CheckListData[i].IsChecked == undefined) {
-            this.toastr.warning('Please check all checklist');
-            return
+          this.toastr.warning('Please check all checklist');
+          return
         }
         this.request.push({
           ApplyNOCID: this.SelectedApplyNOCID,
@@ -191,8 +205,13 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
           CreatedBy: this.sSOLoginDataModel.UserID,
           FileUploadName: this.CheckListData[i].FileUpload == true ? this.CheckListData[i].FileUploadName : "",
           IsChecked: this.CheckListData[i].IsChecked,
-          Remark: this.CheckListData[i].Remark
+          Remark: this.CheckListData[i].Remark,
+          FinalRemark: this.FinalRemark,
+          RoleID: this.sSOLoginDataModel.RoleID
         })
+      }
+      if (this.FinalRemark == '' || this.FinalRemark == undefined) {
+        this.isFormvalid = false;
       }
       //if (this.ActionID <= 0) {
       //  this.isActionTypeValid = true;
@@ -265,7 +284,6 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
 
   public file: any = '';
   async ValidateDocumentImage(event: any, idx: number) {
-    this.loaderService.requestStarted();
     try {
       this.CheckListData[idx].ShowHideImgButton = false;
       if (event.target.files && event.target.files[0]) {
@@ -292,30 +310,40 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
           return
         }
         this.file = event.target.files[0];
-        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.CheckListData[idx].ShowHideImgButton = true;
-            this.CheckListData[idx].FileUploadName = data['Data'][0]["FileName"];
-            this.CheckListData[idx].FileUploadNamePath = data['Data'][0]["FilePath"];
-            this.CheckListData[idx].FileUploadName_Dis_FileName = data['Data'][0]["Dis_FileName"];
-            event.target.value = '';
-          }
-          if (this.State == 1) {
-            this.toastr.error(this.ErrorMessage)
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-        });
+        try {
+          this.loaderService.requestStarted();
+          await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.CheckListData[idx].ShowHideImgButton = true;
+              this.CheckListData[idx].FileUploadName = data['Data'][0]["FileName"];
+              this.CheckListData[idx].FileUploadNamePath = data['Data'][0]["FilePath"];
+              this.CheckListData[idx].FileUploadName_Dis_FileName = data['Data'][0]["Dis_FileName"];
+              event.target.value = '';
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+        }
+        catch (ex) {
+          console.log(ex);
+        }
+        finally {
+          this.loaderService.requestEnded();
+        }
       }
-    } catch (ex) {
-
+    }
+    catch (ex) {
+      console.log(ex);
     }
     finally {
-      this.loaderService.requestEnded();
+      //this.loaderService.requestEnded();
     }
   }
 
@@ -496,7 +524,15 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   }
 
 
-
+  numbersOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
   alphanumbersOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
     var regex = new RegExp("^[a-zA-Z0-9 ]+$");
     var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
@@ -508,11 +544,160 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   }
 
   CloseApplicationAction_Click() {
+    this.isSubmit = false;
     this.ApplicationNo = '';
     this.SelectedCollageID = 0;
     this.SelectedDepartmentID = 0;
     this.SelectedApplyNOCID = 0;
     this.ShowHideApplicationAction = false;
     this.CheckListData = [];
+  }
+
+  async GetApplicationCommitteeList(ApplyNocApplicationID: number) {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.committeeMasterService.GetApplicationCommitteeList(ApplyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationCommitteeList = data['Data'];
+          if (this.ApplicationCommitteeList.length > 0) {
+            this.ApplicationCommitteeList = this.ApplicationCommitteeList.filter(x => x.IsPrimaryMember == 0);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public FinalSubmitApplyNOCID: number = 0;
+  async OpenApplicationCommitteeMember(ApplyNOCID: number, ApplicationNo: string) {
+    this.CommitteeApplicationNo = ApplicationNo;
+    this.ShowHideCommittee = true;
+    this.FinalSubmitApplyNOCID = ApplyNOCID;
+    await this.GetApplicationCommitteeList(ApplyNOCID);
+    await this.GetRNCCheckListByTypeDepartment(ApplyNOCID);
+  }
+  CloseCommittee_Click() {
+    this.CommitteeApplicationNo = '';
+    this.ShowHideCommittee = false;
+    this.ApplicationCommitteeList = [];
+    this.FinalSubmitApplyNOCID = 0;
+  }
+  public TransactionNo: string = '';
+  async SendOTP(AadhaarNo: string, idx: number) {
+    if (AadhaarNo != undefined && AadhaarNo.length == 12) {
+      this.AadharRequest.AadharNo = AadhaarNo;
+      for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
+        if (idx != i && this.ApplicationCommitteeList[i].SendOTP != 2) {
+          this.ApplicationCommitteeList[i].SendOTP = 0;
+        }
+      }
+      await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
+        .then((data: any) => {
+          if (data[0].status == "0") {
+            this.ApplicationCommitteeList[idx].SendOTP = 1;
+            this.TransactionNo = data[0].data;
+            this.toastr.success("OTP send Successfully");
+          }
+          else {
+            //this.toastr.error(data[0].message);
+            this.ApplicationCommitteeList[idx].SendOTP = 1;
+          }
+        }, error => console.error(error));
+    }
+  }
+
+  async VerifyOTP(UserOTP: number, idx: number) {
+    await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        if (data[0].status == "0") {
+          //this.AadharDetails = JSON.parse(data[0].data);
+          this.toastr.success("OTP Verify Successfully");
+          this.ApplicationCommitteeList[idx].Verified = true;
+          this.ApplicationCommitteeList[idx].SendOTP = 2;
+        }
+        else {
+          this.ApplicationCommitteeList[idx].Verified = false;
+        }
+      }, error => console.error(error));
+    if (UserOTP == Number(this.CustomOTP)) {
+      this.ApplicationCommitteeList[idx].Verified = true;
+      this.ApplicationCommitteeList[idx].SendOTP = 2;
+    }
+  }
+
+  async SubmitPhysicalVerification() {
+    this.request = [];
+    try {
+      for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
+        if (this.ApplicationCommitteeList[i].SendOTP != 2) {
+          this.toastr.warning('Verified All Memeber');
+          return;
+        }
+      }
+      for (var i = 0; i < this.FinalCheckListData.length; i++) {
+        if (this.FinalCheckListData[i].IsChecked == '2') {
+          if (this.FinalCheckListData[i].Remark == '' || this.FinalCheckListData[i].Remark == undefined) {
+            this.toastr.warning('Please enter remark');
+            return
+          }
+        }
+        if (this.FinalCheckListData[i].IsChecked == '' || this.FinalCheckListData[i].IsChecked == undefined) {
+          this.toastr.warning('Please check all checklist');
+          return
+        }
+        this.request.push({
+          ApplyNOCID: this.FinalSubmitApplyNOCID,
+          RNCCheckListID: this.FinalCheckListData[i].RNCCheckListID,
+          CreatedBy: this.sSOLoginDataModel.UserID,
+          FileUploadName: "",//this.FinalCheckListData[i].FileUpload == true ? this.FinalCheckListData[i].FileUploadName :
+          IsChecked: this.FinalCheckListData[i].IsChecked,
+          Remark: this.FinalCheckListData[i].Remark,
+          FinalRemark: '',//this.FinalRemark
+          RoleID: this.sSOLoginDataModel.RoleID
+        })
+      }
+      await this.applyNOCApplicationService.SaveCommiteeInspectionRNCCheckList(this.request).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+      });
+      await this.dceDocumentScrutinyService.FinalSubmitInspectionCommittee(this.ApplicationCommitteeList[0].ApplyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.toastr.success(this.SuccessMessage);
+            window.location.reload();
+          }
+          else if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
@@ -7,6 +7,11 @@ import { LoaderService } from '../../../Services/Loader/loader.service';
 import { MenuService } from '../../../Services/Menu/menu.service';
 import { PlatformLocation } from '@angular/common';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
+//import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
+//import { Keepalive } from '@ng-idle/keepalive';
+import { Idle, DEFAULT_INTERRUPTSOURCES } from "@ng-idle/core";
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-master-page',
@@ -19,14 +24,54 @@ export class MasterPageComponent implements OnInit {
   public MenuHTML: any = "";
   public lstUserRole: any = []
   public RoleID: number = 0;
-  constructor(private commonMasterService: CommonMasterService, private router: Router, private loaderService: LoaderService, private menuService: MenuService, private sanitizer: DomSanitizer, location: PlatformLocation) {
+
+  //Manage Session
+  idleState = 'Not started.';
+  timedOut = false;
+  lastPing?: Date = undefined;
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+
+  @ViewChild('mymodalSessionExpired') mymodalSessionExpired: TemplateRef<any> | undefined;
+
+  constructor(private commonMasterService: CommonMasterService, private router: Router, private loaderService: LoaderService, private menuService: MenuService, private sanitizer: DomSanitizer, location: PlatformLocation, private idle: Idle, private modalService: NgbModal) {
     location.onPopState(() => {
-      console.log('pressed back in add!!!!!');
-      //this.router.navigateByUrl(‘/multicomponent’);
-      //history.forward();
+      console.log('pressed back in add!!!!!'); 
     });
   }
+  reset() {
+    this.idle.watch();
+    this.idleState = 'Started.';
+    this.timedOut = false;
+  }
   async ngOnInit() {
+
+    //Added By rishi kapoor >> Manage Session
+    this.idle.setIdle(2);
+    // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
+    this.idle.setTimeout(600);
+    // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
+    this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+    this.idle.onIdleEnd.subscribe(() => (this.idleState = "No longer idle."));
+    this.idle.onTimeout.subscribe(() => {
+      //this.modalService.open('#mymodalSessionExpired', { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' });
+      this.modalService.open(this.mymodalSessionExpired, {centered: true, backdrop: 'static',keyboard: false});
+      this.idleState = "Timed out!";
+      sessionStorage.removeItem('UserID');
+      sessionStorage.removeItem('LoginID');
+      sessionStorage.clear();
+      localStorage.clear();
+      this.timedOut = true;
+    });
+    this.idle.onIdleStart.subscribe(
+      () => (this.idleState = "You've gone idle!")
+    );
+    this.idle.onTimeoutWarning.subscribe(
+      countdown =>
+        (this.idleState = "You will time out in " + countdown + " seconds!")
+    );
+    this.reset();
+
 
     //if (sessionStorage.getItem('UserID') == null) {
     //  this.router.navigate(['/dashboard']);
@@ -51,6 +96,7 @@ export class MasterPageComponent implements OnInit {
     await this.LoadMenu(this.sSOLoginDataModel.RoleID);
 
   }
+
   async GetUserRoleList() {
     try {
       this.loaderService.requestStarted();
@@ -249,5 +295,9 @@ export class MasterPageComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 100);
     }
+  }
+
+  btnOk() {
+    this.BackToSSO();
   }
 }

@@ -381,6 +381,23 @@ export class LandDetailsComponent implements OnInit {
     return false;
   }
 
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
+  }
+
+  numbersOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode == 47 || charCode < 46 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
   async GetLandSqureMeterMappingDetails(LandAreaId: number) {
     try {
       this.loaderService.requestStarted();
@@ -703,15 +720,6 @@ export class LandDetailsComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  }
-
-  numberOnly(event: any): boolean {
-    const charCode = (event.which) ? event.which : event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      return false;
-    }
-    return true;
-
   }
 
   async Edit_OnClick(LandDetailID: number) {

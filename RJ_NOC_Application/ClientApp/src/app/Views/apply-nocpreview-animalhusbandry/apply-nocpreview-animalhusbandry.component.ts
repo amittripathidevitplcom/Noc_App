@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
+import { Component, Injectable, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,7 +33,12 @@ import { OtherInformationDataModel } from '../../Models/OtherInformationDataMode
 import { AcademicInformationDetailsDataModel } from '../../Models/AcademicInformationDetailsDataModel';
 import { HospitalDataModel, HospitalParentNotDataModel } from '../../Models/HospitalDataModel';
 import { CollegeService } from '../../services/collegedetailsform/College/college.service';
+import { AnimalDocumentScrutinyService } from '../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 
+
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-apply-nocpreview-animalhusbandry',
   templateUrl: './apply-nocpreview-animalhusbandry.component.html',
@@ -81,6 +86,8 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
   public AllTabDocumentScrutinyData: any = [];
   public DocumentScrutinyButtonText: string = '';
   public ApplicationNo: string = '';
+  public lstTarils: any = [];
+
 
   ldrequest = new LandDetailDataModel();
   public CheckList_LandDetailList: LandDetailDataModel[] = [];
@@ -137,7 +144,9 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
   public CheckList_OldNocDetails: OldNocDetailsDataModel[] = [];
   public OldNOC_FinalRemarks: any = [];
   public CheckFinalRemark: string = '';
-  constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+
+  @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
+  constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService,private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
@@ -147,9 +156,9 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
-    debugger;
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetCollageDetails();
+    this.CheckTabsEntry();
     if (this.tabGroup != null)
       this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
     else
@@ -182,6 +191,63 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
           }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+  public ViewTarilCommon(ID: number, ActionType: string) {
+    this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+        this.commonMasterService.GetDocumentScritintyTaril(ID, this.SelectedApplyNOCID, this.SelectedCollageID, this.SelectedDepartmentID, ActionType)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.lstTarils = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  public CheckTabsEntryData: any = [];
+  async CheckTabsEntry() {
+    try {
+      this.loaderService.requestStarted();
+      await this.animalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
