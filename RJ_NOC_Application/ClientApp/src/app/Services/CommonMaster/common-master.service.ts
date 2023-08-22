@@ -842,39 +842,39 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetRoleListForApporval(RoleID: number) {
+  public async GetRoleListForApporval(RoleID: number, DepartmentID: number) {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetRoleListForApporval/" + RoleID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetRoleListForApporval/" + RoleID + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
 
-  public async GetUserDetailsByRoleID(RoleID: number) {
+  public async GetUserDetailsByRoleID(RoleID: number, DepartmentID: number) {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetUserDetailsByRoleID/" + RoleID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetUserDetailsByRoleID/" + RoleID + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetWorkFlowActionListByRole(RoleID: number, Type: string) {
+  public async GetWorkFlowActionListByRole(RoleID: number, Type: string, DepartmentID: number) {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetWorkFlowActionListByRole/" + RoleID + "/" + Type)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetWorkFlowActionListByRole/" + RoleID + "/" + Type + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
