@@ -161,7 +161,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-files-o icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" ></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStudentDetail']>0"  ></i>
                 <span>Subject Wise Student Statistics</span>
               </ng-template>
               <app-document-scrutiny-subject-wise-student-statistics></app-document-scrutiny-subject-wise-student-statistics>
