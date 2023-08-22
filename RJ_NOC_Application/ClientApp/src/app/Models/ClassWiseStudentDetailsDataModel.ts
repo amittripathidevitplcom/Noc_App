@@ -26,6 +26,8 @@ export class ClassWiseStudentDetailsDataModel {
   public OFTotalMinorityGirls: number = 0
   public OFTotalPHBoys: number = 0
   public OFTotalPHGirls: number = 0
+  public Action: string = ''
+  public Remark: string = ''
 }
 
 export class PostClassWiseStudentDetailsDataModel {
