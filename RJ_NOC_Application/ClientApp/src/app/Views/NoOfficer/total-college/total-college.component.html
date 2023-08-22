@@ -48,14 +48,30 @@
 
                 <tr *ngFor="let row of draftApplicatoinListData ;let idx=index;">
                   <td style="width:12%">
-                    <div class="d-flex">
+
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                              style="background-color: #132649;">
+                        Action
+                      </button>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                        <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)">View</a></li>
+                        <li> <a href="/addcollege/{{row.CollegeID}}" class="dropdown-item list-group-item list-group-item-action list-group-item-danger">Edit</a></li>
+                        <li><a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="DeleteData(row)">Delete</a></li>
+                        <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>
+                      </ul>
+                    </div>
+
+
+                    <!--<div class="d-flex">
                       <a href="/addcollege/{{row.CollegeID}}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
 
-                      <!--<a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="DraftEdit_OnClick(row.CollegeID)"><i class="fa fa-edit"></i></a>-->
+
                       <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
                       <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
                       <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)"><i class="fa fa-eye"></i></a>
-                    </div>
+                    </div>-->
                   </td>
                   <td>{{idx+1}}</td>
                   <td>{{row.SocietyName}}</td>
@@ -174,7 +190,7 @@
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
                     <label><b>NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 100KB) (Max.Size 2MB) :</b></label>
                     <div class="clearfix"></div>
-                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.NAACAccreditedCertificatePath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.NAACAccreditedCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>                    
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.NAACAccreditedCertificatePath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.NAACAccreditedCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>AISHE Code Status :</label>
