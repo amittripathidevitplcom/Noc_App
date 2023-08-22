@@ -168,6 +168,7 @@ export class ApplyNocParameterComponent implements OnInit {
     // load
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
+    this.loaderService.requestEnded();
 
   }
 
@@ -676,6 +677,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   async ValidateDocument(event: any, Type: string, SubType: string) {
+    debugger;
     if (event.target.files && event.target.files[0]) {
       if (event.target.files[0].type === 'application/pdf') {
         if (event.target.files[0].size > 2000000) {
@@ -724,7 +726,8 @@ export class ApplyNocParameterComponent implements OnInit {
       }
 
     }
-    else {
+    else
+    {
       this.ApplyNocParameterMasterList_ChangeInNameOfCollege.Dis_DocumentName = '';
       this.ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentPath = '';
       this.ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentName = '';
@@ -733,7 +736,7 @@ export class ApplyNocParameterComponent implements OnInit {
   async DeleteDocument(file: string, Type: string, SubType: string) {
     try {
       // delete from server folder
-      this.loaderService.requestEnded();
+      this.loaderService.requestStarted();
       await this.fileUploadService.DeleteDocument(file).then((data: any) => {
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
@@ -760,6 +763,7 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
   ResetDocument(Type: string, Dis_Name: string, Name: string, Path: string, SubType: string) {
+    this.loaderService.requestStarted();
     if (Type == 'ChangeInNameOfCollege') {
       this.ApplyNocParameterMasterList_ChangeInNameOfCollege.Dis_DocumentName = Dis_Name;
       this.ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentPath = Path;
@@ -868,6 +872,7 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_MergerCollege.StaffInformation = Name;
       }
     }
+    this.loaderService.requestEnded();
   }
 
 

@@ -203,7 +203,7 @@ export class JointSecretaryPendingNOCReportComponent implements OnInit {
     this.UserRoleList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID)
+      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID)
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -230,7 +230,7 @@ export class JointSecretaryPendingNOCReportComponent implements OnInit {
     this.UserListRoleWise = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID)
+      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -255,7 +255,7 @@ export class JointSecretaryPendingNOCReportComponent implements OnInit {
     this.NextWorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next")
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next", this.sSOLoginDataModel.DepartmentID)
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -282,7 +282,7 @@ export class JointSecretaryPendingNOCReportComponent implements OnInit {
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID, "Current")
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID, "Current", this.sSOLoginDataModel.DepartmentID)
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
