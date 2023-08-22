@@ -78,39 +78,43 @@ export class TotalCollegeComponent implements OnInit {
   }
 
   async DeleteData(row: any) {
-    //Show Loading
-    this.loaderService.requestStarted();
-    this.isLoading = true;
 
-    try {
-      await this.collegeService.DeleteData(row.CollegeID, this.ModifyBy)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
+    if (confirm("Are you sure you want to delete this ?")) {
 
-          //console.log(this.request.RuralUrban);
+      //Show Loading
+      this.loaderService.requestStarted();
+      this.isLoading = true;
 
-          if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
-            // data
-            const index: number = this.draftApplicatoinListData.indexOf(row);
-            if (index != -1) {
-              this.draftApplicatoinListData.splice(index, 1)
+      try {
+        await this.collegeService.DeleteData(row.CollegeID, this.ModifyBy)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+
+            //console.log(this.request.RuralUrban);
+
+            if (!this.State) {
+              this.toastr.success(this.SuccessMessage)
+              // data
+              const index: number = this.draftApplicatoinListData.indexOf(row);
+              if (index != -1) {
+                this.draftApplicatoinListData.splice(index, 1)
+              }
             }
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-        this.isLoading = false;
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
+      catch (ex) { console.log(ex) }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+          this.isLoading = false;
 
-      }, 200);
+        }, 200);
+      }
     }
   }
 

@@ -1,157 +1,158 @@
 
 <app-loader></app-loader>
-      <div class="clearfix"></div>
-      <form [formGroup]="ApplyNOCFDRDetailForm" class="form-horizontal">
-        <div class="card mb-0">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b>Add FDR Details For  {{DApplicationNo}}   </b>
-            <span class="text-danger">(*) Fields is compulsory</span>
+<div class="clearfix"></div>
+<form [formGroup]="ApplyNOCFDRDetailForm" class="form-horizontal">
+  <div class="card mb-0">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <b>Add FDR Details For  {{DApplicationNo}}   </b>
+      <span class="text-danger">(*) Fields is compulsory</span>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+
+          <!--<label *ngFor="let item of FDRDetailsData"><b>FDR Amount for     ({{item.CourseType}} College [{{item.CollegeType}}]) </b> :  {{item.Amount}}</label>-->
+          <!--<label *ngFor="let item of FDRDetailsData">-->
+          <b>FDR Amount for   ({{FDRDetailsData[0]['CollegeName']}}) </b> :  {{FDRDetailsData[0]['Amount']}}
+          <!--</label>-->
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label for="txtBankName" class="form-label">Bank Name <span style="color:red;">*</span></label>
+          <div *ngIf="request.IsFDRSubmited == true">
+            <input class="form-control disabled" disabled value="{{request.BankName}}" />
           </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-
-                <!--<label *ngFor="let item of FDRDetailsData"><b>FDR Amount for     ({{item.CourseType}} College [{{item.CollegeType}}]) </b> :  {{item.Amount}}</label>-->
-                <!--<label *ngFor="let item of FDRDetailsData">-->
-                <b>FDR Amount for   ({{FDRDetailsData[0]['CollegeName']}}) </b> :  {{FDRDetailsData[0]['Amount']}}
-                <!--</label>-->
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtBankName" class="form-label">Bank Name <span style="color:red;">*</span></label>
-                <div *ngIf="request.IsFDRSubmited == true">
-                  <input class="form-control disabled" disabled value="{{request.BankName}}" />
-                </div>
-                <div *ngIf="request.IsFDRSubmited != true">
-                  <input type="text" class="form-control" id="txtBankName" name="txtBankName" formControlName="txtBankName" [(ngModel)]="request.BankName" autocomplete="off" (keypress)="alphaOnly($event)">
-                </div>
-
-                <div *ngIf="isSubmitted&&form.txtBankName.errors" class="text-danger">
-                  <p *ngIf="form.txtBankName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtBranchName" class="form-label">Branch Name <span style="color:red;">*</span></label>
-                <div *ngIf="request.IsFDRSubmited == true">
-                  <input class="form-control disabled" disabled value="{{request.BranchName}}" />
-                </div>
-                <div *ngIf="request.IsFDRSubmited != true">
-                  <input type="text" class="form-control" id="txtBranchName" name="txtBranchName" formControlName="txtBranchName" [(ngModel)]="request.BranchName" autocomplete="off" (keypress)="alphaOnly($event)">
-                </div>
-                <div *ngIf="isSubmitted&&form.txtBranchName.errors" class="text-danger">
-                  <p *ngIf="form.txtBranchName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtIFSCCode" class="form-label">IFSC Code <span style="color:red;">*</span></label>
-                <div *ngIf="request.IsFDRSubmited == true">
-                  <input class="form-control disabled" disabled value="{{request.IFSCCode}}" />
-                </div>
-                <div *ngIf="request.IsFDRSubmited != true">
-                  <input type="text" class="form-control" id="txtIFSCCode" name="txtIFSCCode" formControlName="txtIFSCCode" [(ngModel)]="request.IFSCCode" autocomplete="off" (keypress)="alphaNumaricOnly($event)">
-                </div>
-                <div *ngIf="isSubmitted&&form.txtIFSCCode.errors" class="text-danger">
-                  <p *ngIf="form.txtIFSCCode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtIFSCCode.errors.pattern"><i aria-hidden="true"></i> IFSC Code is not valid .!</p>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtFDRNumber" class="form-label">FDR Number <span style="color:red;">*</span></label>
-                <div *ngIf="request.IsFDRSubmited == true">
-                  <input class="form-control disabled" disabled value="{{request.FDRNumber}}" />
-                </div>
-                <div *ngIf="request.IsFDRSubmited != true">
-                  <input type="text" class="form-control" id="txtFDRNumber" name="txtFDRNumber" [(ngModel)]="request.FDRNumber" formControlName="txtFDRNumber" (keypress)="numberOnly($event)">
-                </div>
-                <div *ngIf="isSubmitted&&request.FDRNumber <= 0" class="text-danger">
-                  <p *ngIf="request.FDRNumber <= 0">This field is required .!</p>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtFDRAmount" class="form-label">FDR Amount<span style="color:red;">*</span></label>
-                <div *ngIf="request.IsFDRSubmited == true">
-                  <input class="form-control disabled" disabled value="{{request.FDRAmount}}" />
-                </div>
-                <div *ngIf="request.IsFDRSubmited != true">
-                  <input type="text" id="txtFDRAmount" maxlength="100" class="form-control" [(ngModel)]="request.FDRAmount" formControlName="txtFDRAmount" (keypress)="numbersOnly($event)">
-                </div>
-                <div *ngIf="isSubmitted&&request.FDRAmount <= 0" class="text-danger">
-                  <p *ngIf="request.FDRAmount <= 0">This field is required .!</p>
-                </div>
-              </div>
-
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtFDRDate" class="form-label"> FDR Date <span style="color:red;">*</span></label>
-                <div *ngIf="request.IsFDRSubmited == true">
-                  <input class="form-control disabled" disabled value="{{request.FDRDate | date:'yyyy-MM-dd'}}" />
-                </div>
-                <div *ngIf="request.IsFDRSubmited != true">
-                  <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtFDRDate" [(ngModel)]="request.FDRDate" formControlName="txtFDRDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"  />
-                </div>
-                <div *ngIf="isSubmitted&&form.txtFDRDate.errors" class="text-danger">
-                  <p *ngIf="form.txtFDRDate.errors.required"> This field is required .!</p>
-                </div>
-              </div>
-
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="ddlPeriodOfFDR" class="form-label">Period of FDR (Years)<span style="color:red;">*</span></label>
-                <div *ngIf="request.IsFDRSubmited == true">
-                  <input class="form-control disabled" disabled value="{{request.PeriodOfFDR}}" />
-                </div>
-                <div *ngIf="request.IsFDRSubmited != true">
-                  <select class="form-select" id="ddlPeriodOfFDR" name="ddlPeriodOfFDR" [(ngModel)]="request.PeriodOfFDR" formControlName="ddlPeriodOfFDR">
-                    <option value="0" selected>--Select--</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                  </select>
-                </div>
-                <div *ngIf="isSubmitted&&request.PeriodOfFDR == '0'" class="text-danger">
-                  <p *ngIf="request.PeriodOfFDR == '0'"><i aria-hidden="true"></i>   This field is required .!</p>
-                </div>
-              </div>
-
-
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label>
-                  FDR Document (Only pdf file) Min Size 100(KB) Max Size 2(MB) <span style="color:red;">*</span>
-                </label>
-                <div *ngIf="request.IsFDRSubmited == true">
-                  <a data-fancybox="gallery" href="{{request.FDRDocumentPath}}" data-caption="Image 10" title="click here to zoom">
-                    <img src="{{request.FDRDocumentPath}}" alt="FDR Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                  </a>
-                </div>
-                <div *ngIf="request.IsFDRSubmited != true">
-                  <div class="d-flex">
-                    <input type="file" name="FDRDocument" id="FDRDocument" class="form-control" style="display:none" formControlName="FDRDocument" (change)="ValidateDocumentImage($event)" />
-                    <label class="btn upload" for="FDRDocument">
-                      <span class="filename">Choose file</span>
-                      {{request.FDRDocument === '' ? 'No File Choosen' : request.FDRDocument_Dis_FileName}}
-                    </label>
-                    <div class="btn-group" *ngIf="showFDRDocument">
-                      <a class="btn btn-outline-primary" target="_blank" href="{{request.FDRDocumentPath}}"><i class="fa fa-eye"></i></a>
-                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.FDRDocument)"><i class="fa fa-trash-o"></i></button>
-                    </div>
-                  </div>
-                  <div *ngIf="isValidFDRDocument" class="text-danger">
-                    <p> {{DocumentValidMessage}}</p>
-                  </div>
-                </div>
-              </div>
-
-            </div>
+          <div *ngIf="request.IsFDRSubmited != true">
+            <input type="text" class="form-control" id="txtBankName" name="txtBankName" formControlName="txtBankName" [(ngModel)]="request.BankName" autocomplete="off" (keypress)="alphaOnly($event)">
           </div>
-          <div class="card-footer text-end">
-            <button type="button" class="btn btn-danger" (click)="CloseModelPopUp()">Close</button>
-            <button type="submit" [hidden]="request.IsFDRSubmited != false" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
-            <!--<button type="submit" [hidden]="request.IsFDRSubmited != false" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>-->
+
+          <div *ngIf="isSubmitted&&form.txtBankName.errors" class="text-danger">
+            <p *ngIf="form.txtBankName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
           </div>
         </div>
-      </form>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label for="txtBranchName" class="form-label">Branch Name <span style="color:red;">*</span></label>
+          <div *ngIf="request.IsFDRSubmited == true">
+            <input class="form-control disabled" disabled value="{{request.BranchName}}" />
+          </div>
+          <div *ngIf="request.IsFDRSubmited != true">
+            <input type="text" class="form-control" id="txtBranchName" name="txtBranchName" formControlName="txtBranchName" [(ngModel)]="request.BranchName" autocomplete="off" (keypress)="alphaOnly($event)">
+          </div>
+          <div *ngIf="isSubmitted&&form.txtBranchName.errors" class="text-danger">
+            <p *ngIf="form.txtBranchName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label for="txtIFSCCode" class="form-label">IFSC Code <span style="color:red;">*</span></label>
+          <div *ngIf="request.IsFDRSubmited == true">
+            <input class="form-control disabled" disabled value="{{request.IFSCCode}}" />
+          </div>
+          <div *ngIf="request.IsFDRSubmited != true">
+            <input type="text" class="form-control" id="txtIFSCCode" name="txtIFSCCode" formControlName="txtIFSCCode" [(ngModel)]="request.IFSCCode" autocomplete="off" (keypress)="alphaNumaricOnly($event)">
+          </div>
+          <div *ngIf="isSubmitted&&form.txtIFSCCode.errors" class="text-danger">
+            <p *ngIf="form.txtIFSCCode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            <p *ngIf="form.txtIFSCCode.errors.pattern"><i aria-hidden="true"></i> IFSC Code is not valid .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label for="txtFDRNumber" class="form-label">FDR Number <span style="color:red;">*</span></label>
+          <div *ngIf="request.IsFDRSubmited == true">
+            <input class="form-control disabled" disabled value="{{request.FDRNumber}}" />
+          </div>
+          <div *ngIf="request.IsFDRSubmited != true">
+            <input type="text" class="form-control" id="txtFDRNumber" name="txtFDRNumber" [(ngModel)]="request.FDRNumber" formControlName="txtFDRNumber" (keypress)="numberOnly($event)">
+          </div>
+          <div *ngIf="isSubmitted&&request.FDRNumber <= 0" class="text-danger">
+            <p *ngIf="request.FDRNumber <= 0">This field is required .!</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label for="txtFDRAmount" class="form-label">FDR Amount<span style="color:red;">*</span></label>
+          <div *ngIf="request.IsFDRSubmited == true">
+            <input class="form-control disabled" disabled value="{{request.FDRAmount}}" />
+          </div>
+          <div *ngIf="request.IsFDRSubmited != true">
+            <input type="text" id="txtFDRAmount" maxlength="100" class="form-control" [(ngModel)]="request.FDRAmount" formControlName="txtFDRAmount" (keypress)="numbersOnly($event)">
+          </div>
+          <div *ngIf="isSubmitted&&request.FDRAmount <= 0" class="text-danger">
+            <p *ngIf="request.FDRAmount <= 0">This field is required .!</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label for="txtFDRDate" class="form-label"> FDR Date <span style="color:red;">*</span></label>
+          <div *ngIf="request.IsFDRSubmited == true">
+            <input class="form-control disabled" disabled value="{{request.FDRDate | date:'yyyy-MM-dd'}}" />
+          </div>
+          <div *ngIf="request.IsFDRSubmited != true">
+            <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtFDRDate" [(ngModel)]="request.FDRDate" formControlName="txtFDRDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+          </div>
+          <div *ngIf="isSubmitted&&form.txtFDRDate.errors" class="text-danger">
+            <p *ngIf="form.txtFDRDate.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label for="ddlPeriodOfFDR" class="form-label">Period of FDR (Years)<span style="color:red;">*</span></label>
+          <div *ngIf="request.IsFDRSubmited == true">
+            <input class="form-control disabled" disabled value="{{request.PeriodOfFDR}}" />
+          </div>
+          <div *ngIf="request.IsFDRSubmited != true">
+            <select class="form-select" id="ddlPeriodOfFDR" name="ddlPeriodOfFDR" [(ngModel)]="request.PeriodOfFDR" formControlName="ddlPeriodOfFDR">
+              <option value="0" selected>--Select--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+          <div *ngIf="isSubmitted&&request.PeriodOfFDR == '0'" class="text-danger">
+            <p *ngIf="request.PeriodOfFDR == '0'"><i aria-hidden="true"></i>   This field is required .!</p>
+          </div>
+        </div>
+
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>
+            FDR Document (Only pdf file) Min Size 100(KB) Max Size 2(MB) <span style="color:red;">*</span>
+          </label>
+          <div *ngIf="request.IsFDRSubmited == true">
+            <!--<a data-fancybox="gallery" href="{{request.FDRDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+              <img src="{{request.FDRDocumentPath}}" alt="FDR Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+            </a>-->
+            <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.FDRDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{request.FDRDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+          </div>
+          <div *ngIf="request.IsFDRSubmited != true">
+            <div class="d-flex">
+              <input type="file" name="FDRDocument" id="FDRDocument" class="form-control" style="display:none" formControlName="FDRDocument" (change)="ValidateDocumentImage($event)" />
+              <label class="btn upload" for="FDRDocument">
+                <span class="filename">Choose file</span>
+                {{request.FDRDocument === '' ? 'No File Choosen' : request.FDRDocument_Dis_FileName}}
+              </label>
+              <div class="btn-group" *ngIf="showFDRDocument">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.FDRDocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.FDRDocument)"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isValidFDRDocument" class="text-danger">
+              <p> {{DocumentValidMessage}}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <button type="button" class="btn btn-danger" (click)="CloseModelPopUp()">Close</button>
+      <button type="submit" [hidden]="request.IsFDRSubmited != false" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
+      <!--<button type="submit" [hidden]="request.IsFDRSubmited != false" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>-->
+    </div>
+  </div>
+</form>
 

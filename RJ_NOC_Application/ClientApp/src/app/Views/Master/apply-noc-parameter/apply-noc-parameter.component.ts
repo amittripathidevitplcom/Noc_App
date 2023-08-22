@@ -14,6 +14,8 @@ import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { Console } from 'console';
 import internal from 'stream';
 
+
+
 @Component({
   selector: 'app-apply-noc-parameter',
   templateUrl: './apply-noc-parameter.component.html',
@@ -162,9 +164,7 @@ export class ApplyNocParameterComponent implements OnInit {
       cbSubject_TNOCExtension: [''],
       cbCourse_AdditionOfNewSeats60: [''],
       ddlCourse: ['', 0]
-
     });
-
     // load
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
@@ -187,10 +187,6 @@ export class ApplyNocParameterComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           //
           this.CollegeList_ddl = data['Data'];
-
-
-
-
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -322,6 +318,7 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege = new ApplyNocParameterMasterList_ChangeInNameOfCollege();
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege.FeeAmount = item.FeeAmount;
+        setTimeout(function () { (window as any).LoadData(); },200)
       }
       if (this.request.ApplyNocCode == 'DEC_ChangePlace') {
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = new ApplyNocParameterMasterList_ChangeInPlaceOfCollege();
@@ -678,6 +675,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   async ValidateDocument(event: any, Type: string, SubType: string) {
     debugger;
+    this.loaderService.requestStarted();
     if (event.target.files && event.target.files[0]) {
       if (event.target.files[0].type === 'application/pdf') {
         if (event.target.files[0].size > 2000000) {
@@ -702,7 +700,7 @@ export class ApplyNocParameterComponent implements OnInit {
       // upload
       this.file = event.target.files[0];
       try {
-        this.loaderService.requestStarted();
+       
         await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -876,8 +874,8 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-  ValidateApplyNOCForm(): boolean {
-    this.ResetValidationVariable();
+   ValidateApplyNOCForm(): boolean {
+     this.ResetValidationVariable();
     //change in name
     if (this.ApplyNocParameterMasterList_ChangeInNameOfCollege != null) {
       if (this.ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameEnglish == '') {
@@ -1583,7 +1581,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   ddlSreamChangeReset(ID: any) { }
 
-  ResetValidationVariable() {
+   ResetValidationVariable() {
     this.isFormValid = true;
     this.isValidCollegeNewName_Eng = false;
     this.isValidCollegeNewName_Hi = false;
