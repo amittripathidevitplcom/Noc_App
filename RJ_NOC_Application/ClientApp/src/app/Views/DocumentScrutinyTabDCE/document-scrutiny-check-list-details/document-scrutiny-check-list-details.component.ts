@@ -744,8 +744,6 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.FinalYearBoysCountFooter = this.CheckList_SubjectWiseStudentDetailsList.map(t => t.FinalYearBoysCount).reduce((acc, value) => acc + value, 0)
     this.FinalYearGirlsCountFooter = this.CheckList_SubjectWiseStudentDetailsList.map(t => t.FinalYearGirlsCount).reduce((acc, value) => acc + value, 0);
 
-
-
     //Girls Footer SUM
     this.PervYearBoysCountFooter = this.CheckList_SubjectWiseStudentDetailsList.map(t => t.PervYearBoysCount).reduce((acc, value) => acc + value, 0)
     this.PervYearGirlsCountFooter = this.CheckList_SubjectWiseStudentDetailsList.map(t => t.PervYearBoysCount).reduce((acc, value) => acc + value, 0);

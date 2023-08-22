@@ -180,5 +180,29 @@ export class AnimalDocumentScrutinyService {
       ).toPromise();
   }
 
+  public async GetPhysicalVerificationAppliationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetPhysicalVerificationAppliationList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async FinalSubmitInspectionCommittee(ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/FinalSubmitInspectionCommittee/" + ApplyNOCID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
   
 }

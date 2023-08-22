@@ -136,7 +136,7 @@
 </div>
 
 
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6 &&this.sSOLoginDataModel.RoleID==2">
+<div class="container-fluid mainContents" *ngIf="(this.sSOLoginDataModel.DepartmentID==6 || this.sSOLoginDataModel.DepartmentID==9) &&this.sSOLoginDataModel.RoleID==2">
   <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -170,7 +170,7 @@
 
 
 <!--Section Officer Dashboard-->
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleID==3">
+<div class="container-fluid mainContents" *ngIf="(this.sSOLoginDataModel.DepartmentID==6 || this.sSOLoginDataModel.DepartmentID==9) && this.sSOLoginDataModel.RoleID==3">
   <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -201,7 +201,7 @@
 </div>
 <!--Section Officer Dashboard-->
 <!--AssistantSecretary_Pending-->
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleID==5">
+<div class="container-fluid mainContents" *ngIf="(this.sSOLoginDataModel.DepartmentID==6 || this.sSOLoginDataModel.DepartmentID==9)  && this.sSOLoginDataModel.RoleID==5">
   <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -231,7 +231,7 @@
 </div>
 <!--AssistantSecretary Pending-->
 <!--JointSecretary Count-->
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleID==6">
+<div class="container-fluid mainContents" *ngIf="(this.sSOLoginDataModel.DepartmentID==6 || this.sSOLoginDataModel.DepartmentID==9)  && this.sSOLoginDataModel.RoleID==6">
   <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -264,7 +264,7 @@
 </div>
 <!--JointSecretary ending-->
 <!--secretary Dashboard Count-->
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleID==7">
+<div class="container-fluid mainContents" *ngIf="(this.sSOLoginDataModel.DepartmentID==6 || this.sSOLoginDataModel.DepartmentID==9)  && this.sSOLoginDataModel.RoleID==7">
   <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -302,7 +302,7 @@
 
 <!--Clerk Dashboard Start-->
 <!--Scrutiny Committee-->
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleID==8">
+<div class="container-fluid mainContents" *ngIf="(this.sSOLoginDataModel.DepartmentID==6 || this.sSOLoginDataModel.DepartmentID==9)  && this.sSOLoginDataModel.RoleID==8">
   <div class="row">
     <div class="col-lg-5 col-md-5 col-sm-5 col-12">
       <div class="card staticsCards">
@@ -331,7 +331,7 @@
 </div>
 <!--Clerk Dashboard Start-->
 <!--Registrar Committee-->
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==6  && this.sSOLoginDataModel.RoleID==9">
+<div class="container-fluid mainContents" *ngIf="(this.sSOLoginDataModel.DepartmentID==6 || this.sSOLoginDataModel.DepartmentID==9)  && this.sSOLoginDataModel.RoleID==9">
   <div class="row">
     <div class="col-lg-5 col-md-5 col-sm-5 col-12">
       <div class="card staticsCards">
@@ -389,25 +389,27 @@
             </div>
           </div>
         </div>
-        
-        <div class="card staticsCards"  *ngIf="this.sSOLoginDataModel.DepartmentID==2 && this.sSOLoginDataModel.RoleID==11">
-          <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Post Verification</h5></div>
-          <div class="card-body">
-            <div class="d-flex justify-content-between">
-              <div class="dashCardContent text-start">
-                <h4>Pending</h4>
-                <h2>
-                  <a href="/AHinspectioncommitteephysicalverification/Pending" style="background: none;">{{dashboardDataModel.PVCommittee_Pending}}</a>
-                </h2>
-              </div>
-              <div class="dashCardContent  text-start">
-                <h4>Rejected</h4>
-                <a href="//AHinspectioncommitteephysicalverification/Rejected" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
-              </div>
-              <div class="dashCardContent">
-                <h4>Completed</h4>
-                <a href="//AHinspectioncommitteephysicalverification/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
-              </div>
+      </div>
+
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==2 && this.sSOLoginDataModel.RoleID==11">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Post Verification</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/AHinspectioncommitteephysicalverification/Pending" style="background: none;">{{dashboardDataModel.PVCommittee_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent  text-start">
+              <h4>Rejected</h4>
+              <a href="//AHinspectioncommitteephysicalverification/Rejected" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="//AHinspectioncommitteephysicalverification/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
             </div>
           </div>
         </div>

@@ -82,7 +82,7 @@ export class CommiteeInspectionComponent implements OnInit {
   async GetApplyNOCApplicationListByRole(RoleId: number, UserID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId, UserID)
+      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId, UserID, this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

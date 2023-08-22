@@ -29,7 +29,7 @@ export class RevertApplyNOCApplicationListComponent implements OnInit {
   async GetRevertApplyNOCApplicationDepartmentRoleWise(DepartmentID: number, RoleId: number, UserID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId, UserID)
+      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId, UserID, DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
