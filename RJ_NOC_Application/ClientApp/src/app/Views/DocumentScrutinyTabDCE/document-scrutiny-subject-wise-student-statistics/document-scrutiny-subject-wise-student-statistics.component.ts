@@ -9,6 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
+import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 
 @Component({
   selector: 'app-document-scrutiny-subject-wise-student-statistics',
@@ -47,8 +49,12 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
   public SelectedApplyNOCID: number = 0
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined
+  public FinalRemarks: any = [];
+  public isFormvalid: boolean = true;
+  public isRemarkValid: boolean = false;
+  dsrequest = new DocumentScrutinyDataModel();
 
-  constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService, private dceDocumentScrutinyService: DCEDocumentScrutinyService) { }
+  constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit()
   {
@@ -69,7 +75,9 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.SubjectWiseStudentDetailsList = data['Data'];
+   
+          this.SubjectWiseStudentDetailsList = data['Data'][0]['SubjectWiseStudentDetails'];
+          this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
 
           this.TotalFooterSum();
 
@@ -119,38 +127,7 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
     this.TotalFooter = this.SubjectWiseStudentDetailsList.map(t => t.Total).reduce((acc, value) => acc + value, 0)
 
   }
-  async SaveData() {
-    this.loaderService.requestStarted();
-    this.isLoading = true;
-    this.request.CollegeID = this.SelectedCollageID;
-    this.request.UserID = this.sSOLoginDataModel.UserID;
-    this.request.SubjectWiseStatisticsDetails = this.SubjectWiseStudentDetailsList;
-    try {
-      await this.classWiseStudentDetailsServiceService.SaveDataSubjectWise(this.request)
-        .then((data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
-          if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
-
-           // this.GetSubjectWiseStudenetDetails(this.SelectedCollageID);
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-        this.isLoading = false;
-
-      }, 200);
-    }
-  }
+ 
 
   //validattions
   numberOnly(event: any): boolean {
@@ -185,6 +162,101 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
       + Number(FinalB) + Number(FinalG)
       + Number(DiplomaB) + Number(DiplomaG)
       + Number(OtherB) + Number(OtherG)
+  }
+
+
+  async SubmitClassWiseStudentDetail_Onclick() {
+    this.dsrequest.DepartmentID = this.SelectedDepartmentID;
+    this.dsrequest.CollegeID = this.SelectedCollageID;
+    this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
+    this.dsrequest.UserID = 0;
+    this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
+    this.dsrequest.TabName = 'Class Wise Student Detail';
+    this.isRemarkValid = false;
+    this.isFormvalid = true;
+    this.dsrequest.DocumentScrutinyDetail = [];
+    for (var i = 0; i < this.SubjectWiseStudentDetailsList.length; i++) {
+      if (this.SubjectWiseStudentDetailsList[i].Action == '' || this.SubjectWiseStudentDetailsList[i].Action == undefined) {
+        this.toastr.warning('Please take Action on all records');
+        return;
+      }
+      if (this.SubjectWiseStudentDetailsList[i].Action == 'No') {
+        if (this.SubjectWiseStudentDetailsList[i].Remark == '' || this.SubjectWiseStudentDetailsList[i].Remark == undefined) {
+          this.toastr.warning('Please enter remark');
+          return;
+        }
+      }
+    }
+
+    if (this.dsrequest.FinalRemark == '') {
+      this.isRemarkValid = true;
+      this.isFormvalid = false;
+    }
+    if (!this.isFormvalid) {
+      return;
+    }
+    if (this.SubjectWiseStudentDetailsList.length > 0)
+    {
+      for (var i = 0; i < this.SubjectWiseStudentDetailsList.length; i++) {
+        console.log(this.SubjectWiseStudentDetailsList[i]);
+        this.dsrequest.DocumentScrutinyDetail.push({
+          DocumentScrutinyID: 0,
+          DepartmentID: this.SelectedDepartmentID,
+          CollegeID: this.SelectedCollageID,
+          UserID: this.sSOLoginDataModel.UserID,
+          RoleID: this.sSOLoginDataModel.RoleID,
+          ApplyNOCID: this.SelectedApplyNOCID,
+          Action: this.SubjectWiseStudentDetailsList[i].Action,
+          Remark: this.SubjectWiseStudentDetailsList[i].Remark,
+          TabRowID: this.SubjectWiseStudentDetailsList[i].SubjectStaticsID,
+          SubTabName: ''
+        });
+      }
+
+    }
+    try {
+      this.loaderService.requestStarted();
+      await this.applyNOCApplicationService.SaveDocumentScrutiny(this.dsrequest)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.toastr.success(this.SuccessMessage);
+            this.isRemarkValid = false;
+            this.isFormvalid = true;
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    } catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async selectAll(ActionType: string) {
+    await this.SubjectWiseStudentDetailsList.forEach((i: { Action: string, Remark: string }) => {
+      i.Action = ActionType;
+      i.Remark = '';
+    })
+  }
+
+
+  ClickOnAction(idx: number) {
+    for (var i = 0; i < this.SubjectWiseStudentDetailsList.length; i++) {
+      if (i == idx) {
+        this.SubjectWiseStudentDetailsList[i].Remark = '';
+      }
+    }
   }
 
 }
