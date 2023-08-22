@@ -313,8 +313,9 @@ export class AddCollegeComponent implements OnInit {
 
   async DeleteImage(Type: string, file: string) {
     try {
-      this.loaderService.requestStarted();
+    
       if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
         // delete from server folder
         await this.fileUploadService.DeleteDocument(file).then((data: any) => {
           this.State = data['State'];

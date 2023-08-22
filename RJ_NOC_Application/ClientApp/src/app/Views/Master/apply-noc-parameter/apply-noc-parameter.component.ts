@@ -14,6 +14,8 @@ import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { Console } from 'console';
 import internal from 'stream';
 
+
+
 @Component({
   selector: 'app-apply-noc-parameter',
   templateUrl: './apply-noc-parameter.component.html',
@@ -162,9 +164,7 @@ export class ApplyNocParameterComponent implements OnInit {
       cbSubject_TNOCExtension: [''],
       cbCourse_AdditionOfNewSeats60: [''],
       ddlCourse: ['', 0]
-
     });
-
     // load
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
@@ -186,10 +186,6 @@ export class ApplyNocParameterComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           //
           this.CollegeList_ddl = data['Data'];
-
-
-
-
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -321,6 +317,7 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege = new ApplyNocParameterMasterList_ChangeInNameOfCollege();
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege.FeeAmount = item.FeeAmount;
+
       }
       if (this.request.ApplyNocCode == 'DEC_ChangePlace') {
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = new ApplyNocParameterMasterList_ChangeInPlaceOfCollege();
