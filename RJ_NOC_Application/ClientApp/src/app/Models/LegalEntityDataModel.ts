@@ -62,9 +62,6 @@ export class LegalEntityMemberDetailsDataModel {
   public Dis_PresidentAadhaarProofDocName: string = '';
   public PresidentAadhaarProofDocPath: string = '';
   public PresidentAadhaarProofDoc: string = '';
-  public ActiveStatus: boolean= true;
-  public DeleteStatus: boolean = false;
-  public IsDeleted: boolean = false;
 }
 export class LegalEntityInstituteDetailsDataModel {
   public InstituteID: number = 0;
@@ -75,7 +72,4 @@ export class LegalEntityInstituteDetailsDataModel {
   public InstituteContactNumber: string = '';
   public StateID: number = 0;
   public StateName: number = 0;
-  public ActiveStatus: boolean = true;
-  public DeleteStatus: boolean = false;
-  public IsDeleted: boolean = false;
 }

@@ -692,10 +692,7 @@ export class LegalEntityComponent implements OnInit {
         PresidentAadhaarNumber: this.memberdetails.PresidentAadhaarNumber,
         PresidentAadhaarProofDoc: this.memberdetails.PresidentAadhaarProofDoc,
         Dis_PresidentAadhaarProofDocName: this.memberdetails.Dis_PresidentAadhaarProofDocName,
-        PresidentAadhaarProofDocPath: this.memberdetails.PresidentAadhaarProofDocPath == '' ? 'N/A' : this.memberdetails.PresidentAadhaarProofDocPath,
-        ActiveStatus: true,
-        DeleteStatus: false,
-        IsDeleted: false,
+        PresidentAadhaarProofDocPath: this.memberdetails.PresidentAadhaarProofDocPath == '' ? 'N/A' : this.memberdetails.PresidentAadhaarProofDocPath
       });
       this.memberdetails = new LegalEntityMemberDetailsDataModel();
       this.isMemberAdded = false;
@@ -710,37 +707,21 @@ export class LegalEntityComponent implements OnInit {
       }, 200);
     }
   }
-  async DeleteMember(item: LegalEntityMemberDetailsDataModel) {
-    const index: number = this.request.MemberDetails.indexOf(item);
-    this.isSubmitted = false;
-    try {
-      if (confirm("Are you sure you want to delete this ?")) {
-        this.loaderService.requestStarted();
-
-        //if (this.request.MemberDetails[index].MemberID > 0) {
-        //  this.request.MemberDetails[index].DeleteStatus = true;
-        //  this.request.MemberDetails[index].ActiveStatus = false;
-        //  this.request.MemberDetails[index].IsDeleted = true;
-        //}
-        //else {
-          this.request.MemberDetails.splice(index, 1)
-        //}
-      }
-    }
-    catch (ex) { }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-
-  }
-
-  //async DeleteMember(Index: number) {
+  //async DeleteMember(item: LegalEntityMemberDetailsDataModel) {
+  //  const index: number = this.request.MemberDetails.indexOf(item);
+  //  this.isSubmitted = false;
   //  try {
   //    if (confirm("Are you sure you want to delete this ?")) {
   //      this.loaderService.requestStarted();
-  //      this.request.MemberDetails.splice(Index, 1);
+
+  //      //if (this.request.MemberDetails[index].MemberID > 0) {
+  //      //  this.request.MemberDetails[index].DeleteStatus = true;
+  //      //  this.request.MemberDetails[index].ActiveStatus = false;
+  //      //  this.request.MemberDetails[index].IsDeleted = true;
+  //      //}
+  //      //else {
+  //        this.request.MemberDetails.splice(index, 1)
+  //      //}
   //    }
   //  }
   //  catch (ex) { }
@@ -749,7 +730,23 @@ export class LegalEntityComponent implements OnInit {
   //      this.loaderService.requestEnded();
   //    }, 200);
   //  }
+
   //}
+
+  async DeleteMember(Index: number) {
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        this.request.MemberDetails.splice(Index, 1);
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
 
   async AddInstitute() {
@@ -767,10 +764,7 @@ export class LegalEntityComponent implements OnInit {
         InstitutePersonName: this.institutedetails.InstitutePersonName,
         RegistrationNo: this.institutedetails.RegistrationNo,
         StateID: this.institutedetails.StateID,
-        StateName: this.lstState.find((x: { StateID: number; }) => x.StateID == this.institutedetails.StateID).StateName,
-        ActiveStatus: true,
-        DeleteStatus: false,
-        IsDeleted: false,
+        StateName: this.lstState.find((x: { StateID: number; }) => x.StateID == this.institutedetails.StateID).StateName
       });
       this.institutedetails = new LegalEntityInstituteDetailsDataModel();
       this.isInstitueAdded = false;
@@ -782,21 +776,12 @@ export class LegalEntityComponent implements OnInit {
       }, 200);
     }
   }
-  async DeleteInstitute(item: LegalEntityInstituteDetailsDataModel) {
-    const index: number = this.request.InstituteDetails.indexOf(item);
+  async DeleteInstitute(Index: number) {
     this.isSubmitted = false;
     try {
       if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
-
-        if (this.request.InstituteDetails[index].InstituteID > 0) {
-          this.request.InstituteDetails[index].DeleteStatus = true;
-          this.request.InstituteDetails[index].ActiveStatus = false;
-          this.request.InstituteDetails[index].IsDeleted = true;
-        }
-        else {
-          this.request.InstituteDetails.splice(index, 1)
-        }
+        this.request.InstituteDetails.splice(Index, 1);
       }
     }
     catch (ex) { }
