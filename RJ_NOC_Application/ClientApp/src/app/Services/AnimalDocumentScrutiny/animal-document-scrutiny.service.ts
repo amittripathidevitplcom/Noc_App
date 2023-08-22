@@ -186,7 +186,6 @@ export class AnimalDocumentScrutinyService {
         'Content-Type': 'application/json'
       })
     };
-    debugger;
     const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
     return await this.http.post(this.APIUrl + "/GetPhysicalVerificationAppliationList/", body, httpOptions)
       .pipe(
