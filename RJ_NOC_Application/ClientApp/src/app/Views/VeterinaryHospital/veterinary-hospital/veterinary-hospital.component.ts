@@ -258,7 +258,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       }, 200);
     }
   }
-  ValidateUploadImage(event: any, Type: string) {
+  async ValidateUploadImage(event: any, Type: string) {
     try {
       this.loaderService.requestStarted();
       this.isValidFileUpload = false;
@@ -297,7 +297,7 @@ export class VeterinaryHospitalComponent implements OnInit {
         }
 
         this.file = event.target.files[0];
-        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
 
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -327,7 +327,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       }, 200);
     }
   }
-  DeleteImage(Type: string) {
+  async DeleteImage(Type: string) {
     try {
       this.loaderService.requestStarted();
       if (Type == 'FileUpload') {

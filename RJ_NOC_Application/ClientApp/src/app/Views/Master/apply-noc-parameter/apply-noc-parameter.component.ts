@@ -676,6 +676,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   async ValidateDocument(event: any, Type: string, SubType: string) {
+    this.loaderService.requestStarted();
     if (event.target.files && event.target.files[0]) {
       if (event.target.files[0].type === 'application/pdf') {
         if (event.target.files[0].size > 2000000) {
@@ -700,7 +701,7 @@ export class ApplyNocParameterComponent implements OnInit {
       // upload
       this.file = event.target.files[0];
       try {
-        this.loaderService.requestStarted();
+       
         await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -759,7 +760,7 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
-  ResetDocument(Type: string, Dis_Name: string, Name: string, Path: string, SubType: string) {
+  async ResetDocument(Type: string, Dis_Name: string, Name: string, Path: string, SubType: string) {
     if (Type == 'ChangeInNameOfCollege') {
       this.ApplyNocParameterMasterList_ChangeInNameOfCollege.Dis_DocumentName = Dis_Name;
       this.ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentPath = Path;
@@ -871,8 +872,8 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-  ValidateApplyNOCForm(): boolean {
-    this.ResetValidationVariable();
+   ValidateApplyNOCForm(): boolean {
+     this.ResetValidationVariable();
     //change in name
     if (this.ApplyNocParameterMasterList_ChangeInNameOfCollege != null) {
       if (this.ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameEnglish == '') {
@@ -1578,7 +1579,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   ddlSreamChangeReset(ID: any) { }
 
-  ResetValidationVariable() {
+   ResetValidationVariable() {
     this.isFormValid = true;
     this.isValidCollegeNewName_Eng = false;
     this.isValidCollegeNewName_Hi = false;
