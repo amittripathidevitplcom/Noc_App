@@ -78,6 +78,7 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
    
           this.SubjectWiseStudentDetailsList = data['Data'][0]['SubjectWiseStudentDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
 
           this.TotalFooterSum();
 
@@ -165,13 +166,13 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
   }
 
 
-  async SubmitClassWiseStudentDetail_Onclick() {
+  async SubmitSubjectWiseStudentDetail_Onclick() {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
     this.dsrequest.UserID = 0;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
-    this.dsrequest.TabName = 'Class Wise Student Detail';
+    this.dsrequest.TabName = 'Subject Wise Student Detail';
     this.isRemarkValid = false;
     this.isFormvalid = true;
     this.dsrequest.DocumentScrutinyDetail = [];

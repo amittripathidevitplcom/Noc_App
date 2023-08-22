@@ -77,6 +77,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
     this.request.ApplyNocID = this.ApplyNocApplicationID;
     this.request.CollegeName = this.CollegeName;
     this.DApplicationNo = this.ApplicationNo;
+
     //load
     await this.GetApplyNoc_FDRMasterByCollegeID(this.SelectedCollageID)
     //debugger
