@@ -195,7 +195,8 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
     if (!this.isFormvalid) {
       return;
     }
-    if (this.SubjectWiseStudentDetailsList.length > 0) {
+    if (this.SubjectWiseStudentDetailsList.length > 0)
+    {
       for (var i = 0; i < this.SubjectWiseStudentDetailsList.length; i++) {
         console.log(this.SubjectWiseStudentDetailsList[i]);
         this.dsrequest.DocumentScrutinyDetail.push({
@@ -211,6 +212,7 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
           SubTabName: ''
         });
       }
+
     }
     try {
       this.loaderService.requestStarted();
