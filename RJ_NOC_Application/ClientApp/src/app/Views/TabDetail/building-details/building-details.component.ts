@@ -318,7 +318,7 @@ export class BuildingDetailsComponent implements OnInit {
       this.ImageValidate = 'This field is required .!';
       return
     }
-    
+
     if (this.SelectedDepartmentID == 6) {
       if (this.buildingdetails.TotalProjectCost == '' || this.buildingdetails.TotalProjectCost == '0' || this.buildingdetails.TotalProjectCost == null) {
         this.ImageValidate = 'This field is required .!';
@@ -344,7 +344,7 @@ export class BuildingDetailsComponent implements OnInit {
         this.ImageValidate = 'This field is required .!';
         return
       }
-      if (this.buildingdetails.TotalProjectCostFileUpload == '' ) {
+      if (this.buildingdetails.TotalProjectCostFileUpload == '') {
         this.ImageValidate = 'This field is required .!';
         return
       }
@@ -919,7 +919,7 @@ export class BuildingDetailsComponent implements OnInit {
     return false;
   }
 
-  ValidateUploadImage(event: any, Type: string) {
+  async ValidateUploadImage(event: any, Type: string) {
     try {
       this.loaderService.requestStarted();
       this.isValidOwnBuildingFileUpload = false;
@@ -945,7 +945,7 @@ export class BuildingDetailsComponent implements OnInit {
         }
 
         this.file = event.target.files[0];
-        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
 
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -971,7 +971,7 @@ export class BuildingDetailsComponent implements OnInit {
       }, 500);
     }
   }
-  DeleteImage(Type: string) {
+  async DeleteImage(Type: string) {
     try {
       this.loaderService.requestStarted();
       if (Type == 'OwnBuildingFileUpload' || Type == 'All') {
@@ -1017,7 +1017,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
 
-  SetResetFile(Type: string, isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
+  async SetResetFile(Type: string, isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
     if (Type == 'OwnBuildingFileUpload') {
       this.isValidOwnBuildingFileUpload = isShow;
       this.buildingdetails.OwnBuildingFileUpload = fileName;
@@ -1044,7 +1044,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
 
-  DescriptionValidateUploadImage(event: any, Type: string) {
+  async DescriptionValidateUploadImage(event: any, Type: string) {
     try {
       this.loaderService.requestStarted();
       this.isValidTotalProjectCostFileUpload = false;
@@ -1060,32 +1060,32 @@ export class BuildingDetailsComponent implements OnInit {
           if (event.target.files[0].size > 2000000) {
             this.ImageValidationMessage = 'Select less then 2MB File';
             this.DescriptionSetResetFile(Type, true, '', '', '')
-            
+
             return
           }
           if (event.target.files[0].size < 100000) {
             this.ImageValidationMessage = 'Select more then 100kb File';
             this.DescriptionSetResetFile(Type, true, '', '', '')
-           
+
             return
           }
         }
         else {
           this.ImageValidationMessage = 'Select Only xlsx/xls/pdf file';
           this.DescriptionSetResetFile(Type, true, '', '', '')
-          
+
           return
         }
 
         this.file = event.target.files[0];
-        this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
 
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.DescriptionSetResetFile(Type, false, data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"])
-            
+
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -1105,7 +1105,7 @@ export class BuildingDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  DescriptionSetResetFile(Type: string, isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
+  async DescriptionSetResetFile(Type: string, isShow: boolean, fileName: string, filePath: string, dis_Name: string) {
     if (Type == 'TotalProjectCostFileUpload') {
       this.isValidTotalProjectCostFileUpload = isShow;
       this.buildingdetails.TotalProjectCostFileUpload = fileName;
@@ -1143,7 +1143,7 @@ export class BuildingDetailsComponent implements OnInit {
       this.buildingdetails.OtherFinancialResourcesFileUploadPath = filePath;
     }
   }
-  DescriptionDeleteImage(Type: string) {
+  async DescriptionDeleteImage(Type: string) {
     try {
       this.loaderService.requestStarted();
       if (Type == 'TotalProjectCostFileUpload' || Type == 'All') {
