@@ -75,6 +75,7 @@ export class CollegeManagementSocietyComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request = data['Data'][0];
+          console.log(this.request);
         }, error => console.error(error));
     }
     catch (Ex) {

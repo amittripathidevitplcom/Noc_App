@@ -91,7 +91,7 @@ export class MasterPageComponent implements OnInit {
       window.open(GlobalConstants.SSOURL, "_self");
       // this.router.navigate(['/login']);
     }
-    this.RoleID = this.sSOLoginDataModel.RoleID;
+    this.RoleID = this.sSOLoginDataModel.UserID;
     await this.GetUserRoleList();
     await this.LoadMenu(this.sSOLoginDataModel.RoleID);
 
@@ -117,18 +117,20 @@ export class MasterPageComponent implements OnInit {
       }, 100);
     }
   }
-  async loadMenuByRoleID(SeletedRole: any) {
+  async loadMenuByRoleID(SeletedUserId: any) {
+    debugger;
     this.loaderService.requestStarted();
-    this.RoleID = SeletedRole;
+
+    this.RoleID = this.lstUserRole.find((x: { UserID: number; }) => x.UserID == SeletedUserId).RoleID;;
     this.sSOLoginDataModel.RoleID = this.RoleID;
 
     if (this.RoleID > 0) {
       await this.commonMasterService.Check_SSOIDWise_LegalEntity(this.sSOLoginDataModel.SSOID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.sSOLoginDataModel.RoleName = data['Data'][0]['data'].find((x: { RoleID: number; }) => x.RoleID == this.RoleID).RoleName;
-          this.sSOLoginDataModel.DepartmentID = data['Data'][0]['data'].find((x: { RoleID: number; }) => x.RoleID == this.RoleID).DepartmentID;
-          this.sSOLoginDataModel.UserID = data['Data'][0]['data'].find((x: { RoleID: number; }) => x.RoleID == this.RoleID).UserID;
+          this.sSOLoginDataModel.RoleName = data['Data'][0]['data'].find((x: { RoleID: number; UserID: number; }) => x.RoleID == this.RoleID && x.UserID == SeletedUserId).RoleName;
+          this.sSOLoginDataModel.DepartmentID = data['Data'][0]['data'].find((x: { RoleID: number; UserID: number; }) => x.RoleID == this.RoleID && x.UserID == SeletedUserId).DepartmentID;
+          this.sSOLoginDataModel.UserID = data['Data'][0]['data'].find((x: { RoleID: number; UserID: number; }) => x.RoleID == this.RoleID && x.UserID == SeletedUserId).UserID;
         }, error => console.error(error));
     }
     else {
