@@ -744,68 +744,6 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.FinalYearBoysCountFooter = this.CheckList_SubjectWiseStudentDetailsList.map(t => t.FinalYearBoysCount).reduce((acc, value) => acc + value, 0)
     this.FinalYearGirlsCountFooter = this.CheckList_SubjectWiseStudentDetailsList.map(t => t.FinalYearGirlsCount).reduce((acc, value) => acc + value, 0);
 
-  //Start Class Wise Student
-  async GetCollegeWiseStudenetDetails() {
-    try {
-
-      this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_ClassWiseStudentDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
-        .then((data: any) => {
-
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.CheckList_ClassWiseStudentDetailsList = data['Data'][0]['ClassWiseStudentDetails'];
-          this.ClassWiseStudentFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          this.dsrequest.FinalRemark = this.ClassWiseStudentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
-          this.TotalClassWiseStudentFooterSum();
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-  TotalClassWiseStudentFooterSum() {
-
-    //Boys
-    this.SCBoysCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { SCBoysCount: any; }) => t.SCBoysCount).reduce((acc: any, value: any) => acc + value, 0)
-    this.STBoysCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { STBoysCount: any; }) => t.STBoysCount).reduce((acc: any, value: any) => acc + value, 0);
-    this.OBCBoysCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { OBCBoysCount: any; }) => t.OBCBoysCount).reduce((acc: any, value: any) => acc + value, 0)
-    this.MBCBoysCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { MBCBoysCount: any; }) => t.MBCBoysCount).reduce((acc: any, value: any) => acc + value, 0);
-    this.GenBoysCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { GenBoysCount: any; }) => t.GenBoysCount).reduce((acc: any, value: any) => acc + value, 0);
-    this.EWSBoysCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { EWSBoysCount: any; }) => t.EWSBoysCount).reduce((acc: any, value: any) => acc + value, 0);
-    //Girls Footer SUM
-    this.SCGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { SCGirlsCount: any; }) => t.SCGirlsCount).reduce((acc: any, value: any) => acc + value, 0)
-    this.STGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { STGirlsCount: any; }) => t.STGirlsCount).reduce((acc: any, value: any) => acc + value, 0);
-    this.OBCGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { OBCGirlsCount: any; })  => t.OBCGirlsCount).reduce((acc: any, value: any) => acc + value, 0)
-    this.MBCGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { MBCGirlsCount: any; })  => t.MBCGirlsCount).reduce((acc: any, value: any) => acc + value, 0);
-    this.GenGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { GenGirlsCount: any; }) => t.GenGirlsCount).reduce((acc: any, value: any) => acc + value, 0);
-    this.EWSGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { EWSGirlsCount: any; }) => t.EWSGirlsCount).reduce((acc: any, value: any) => acc + value, 0);
-
-    //
-    this.TotalBoysFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { TotalBoys: any; }) => t.TotalBoys).reduce((acc: any, value: any) => acc + value, 0)
-    this.TotalGirlsFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { TotalGirls: any; }) => t.TotalGirls).reduce((acc: any, value: any) => acc + value, 0);
-
-
-    this.OFTotalMinorityBoysFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { OFTotalMinorityBoys: any; }) => t.OFTotalMinorityBoys).reduce((acc: any, value: any) => acc + value, 0)
-    this.OFTotalMinorityGirlsFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { OFTotalMinorityGirls: any; }) => t.OFTotalMinorityGirls).reduce((acc: any, value: any) => acc + value, 0);
-
-    this.OFTotalPHBoysFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { OFTotalPHBoys: any; }) => t.OFTotalPHBoys).reduce((acc: any, value: any) => acc + value, 0)
-    this.OFTotalPHGirlsFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { OFTotalPHGirls: any; }) => t.OFTotalPHGirls).reduce((acc: any, value: any) => acc + value, 0);
-
-
-  }
-  //End Class Wise Student
-
-
-
     //Girls Footer SUM
     this.PervYearBoysCountFooter = this.CheckList_SubjectWiseStudentDetailsList.map(t => t.PervYearBoysCount).reduce((acc, value) => acc + value, 0)
     this.PervYearGirlsCountFooter = this.CheckList_SubjectWiseStudentDetailsList.map(t => t.PervYearBoysCount).reduce((acc, value) => acc + value, 0);
