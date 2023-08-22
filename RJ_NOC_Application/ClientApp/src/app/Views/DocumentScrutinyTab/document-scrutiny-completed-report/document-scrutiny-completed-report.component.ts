@@ -29,12 +29,12 @@ export class DocumentScrutinyCompletedReportComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetDocumentScrutinyCompletedReportUserWise(this.sSOLoginDataModel.UserID);
+    await this.GetDocumentScrutinyCompletedReportUserWise(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
   }
-  async GetDocumentScrutinyCompletedReportUserWise(UserID: number) {
+  async GetDocumentScrutinyCompletedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID,'Approve')
+      await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID, 'Approve', RoleID, DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

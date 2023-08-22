@@ -360,7 +360,7 @@
 </div>
 <!--Registrar Committee-->
 <!-- Animal Husbinadry Dashboard-->
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==2">
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==2 &&( this.sSOLoginDataModel.RoleID==11 || this.sSOLoginDataModel.RoleID ==12  || this.sSOLoginDataModel.RoleID ==13 || this.sSOLoginDataModel.RoleID ==5)">
   <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -374,6 +374,10 @@
                 <a href="/applynocapplicationlist" style="background: none;">{{dashboardDataModel.Pending}}</a>
               </h2>
             </div>
+            <div class="dashCardContent  text-start">
+              <h4>Forward to Commitee</h4>
+              <a href="/documentscrutinyForwardToCommiteereport" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Forward}}</h2></a>
+            </div>
 
             <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
@@ -382,6 +386,57 @@
             <div class="dashCardContent">
               <h4>Completed</h4>
               <a href="/documentscrutinycompletedreport" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card staticsCards"  *ngIf="this.sSOLoginDataModel.DepartmentID==2 && this.sSOLoginDataModel.RoleID==11">
+          <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Post Verification</h5></div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div class="dashCardContent text-start">
+                <h4>Pending</h4>
+                <h2>
+                  <a href="/AHinspectioncommitteephysicalverification/Pending" style="background: none;">{{dashboardDataModel.PVCommittee_Pending}}</a>
+                </h2>
+              </div>
+              <div class="dashCardContent  text-start">
+                <h4>Rejected</h4>
+                <a href="//AHinspectioncommitteephysicalverification/Rejected" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
+              </div>
+              <div class="dashCardContent">
+                <h4>Completed</h4>
+                <a href="//AHinspectioncommitteephysicalverification/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--AH-PV COMMITTEE SECTION DASHBOARD START -->
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==2 &&(this.sSOLoginDataModel.RoleID==18)">
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Post Verification</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/AHinspectioncommitteephysicalverification/Pending" style="background: none;">{{dashboardDataModel.PVCommittee_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent  text-start">
+              <h4>Rejected</h4>
+              <a href="/AHinspectioncommitteephysicalverification/Rejected" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="/AHinspectioncommitteephysicalverification/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
             </div>
           </div>
         </div>
@@ -401,8 +456,8 @@
           <div class="d-flex justify-content-between">
             <div class="dashCardContent text-start">
               <h4>Pending</h4>
-                <a href="/nodalofficerapplicationlist" style="background: none;"><h2> {{dashboardDataModel.Nodal_Pending}}</h2></a>
-              
+              <a href="/nodalofficerapplicationlist" style="background: none;"><h2> {{dashboardDataModel.Nodal_Pending}}</h2></a>
+
             </div>
             <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
@@ -422,8 +477,6 @@
   </div>
 </div>
 <!--DEC SECTION DASHBOARD END-->
-
-
 <!--PV COMMITTEE SECTION DASHBOARD START -->
 <div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==3 && this.sSOLoginDataModel.RoleID==16">
   <div class="row">

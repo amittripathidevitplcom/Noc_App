@@ -29,12 +29,12 @@ export class SecretaryCompletedReportComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetApplicationCompletedReportUserWise(this.sSOLoginDataModel.UserID);
+    await this.GetApplicationCompletedReportUserWise(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
   }
-  async GetApplicationCompletedReportUserWise(UserID: number) {
+  async GetApplicationCompletedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID, 'Forward To Committee')
+      await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID, 'Forward To Committee', RoleID, DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

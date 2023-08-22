@@ -1,1 +1,230 @@
-<p>document-scrutiny-subject-wise-student-statistics works!</p>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i>Subject Wise Student Statistics </b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>
+                    Compliance<br />
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rdClassWiseSelectAllActionType" id="rdClassWiseSelectAllYes" value="Yes" (change)="selectAll('Yes')">
+                      <label class="form-check-label">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="rdClassWiseSelectAllActionType" id="rdClassWiseSelectAllNo" value="No" (change)="selectAll('No')">
+                      <label class="form-check-label">No</label>
+                    </div>
+                  </th>
+                  <th>Sr. No</th>
+                  <th>Faculty</th>
+                  <th>SubjectName</th>
+
+                  <th>1st Year Boys</th>
+                  <th>1st Year Girls</th>
+
+                  <th>2nd Year Boys</th>
+                  <th>2nd Year Girls </th>
+
+                  <th>3rd Year Boys</th>
+                  <th>3rd Year Girls</th>
+
+                  <th>Previous Boys</th>
+                  <th>Previous Girls</th>
+
+                  <th>Final Boys</th>
+                  <th>Final Girls</th>
+
+                  <th>Diploma Boys</th>
+                  <th>Diploma Girls</th>
+
+                  <th>Other Boys</th>
+                  <th>Other Girls</th>
+
+                  <th>Total</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of SubjectWiseStudentDetailsList let idx=index;">
+                  
+                  <td>
+                    <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rdSubjectWiseActionType{{idx+1}}" id="rdSubjectWiseActionTypeYes{{idx+1}}" [(ngModel)]="item.Action" value="Yes" (change)="ClickOnAction(idx)">
+                        <label class="form-check-label">Yes</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="rdSubjectWiseActionType{{idx+1}}" id="rdSubjectWiseActionTypeNo{{idx+1}}" value="No" [(ngModel)]="item.Action" (change)="ClickOnAction(idx)">
+                        <label class="form-check-label">No</label>
+                      </div>
+                    </div>
+                    <div class="row" [hidden]="item.Action !='No'">
+                      <div class="col-lg-11 col-md-11 col-sm-6 col-12 mb-3">
+                        <label>Remark : </label>
+                        <textarea type="text" class="form-control" name="txtSubjectWiseRemark{{idx+1}}" id="txtSubjectWiseRemark{{idx+1}}" [(ngModel)]="item.Remark"></textarea>
+                      </div>
+                    </div>
+
+                  </td>
+
+              
+                  <td>{{idx+1}}</td>
+                  <td>
+                    {{item.CourseName}}
+
+                  </td>
+                  <td>
+                    {{item.SubjectName}}
+                  </td>
+
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FirstYearBoysCount" autocomplete="off">
+
+                  </td>
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FirstYearGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.SecYearBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.SecYearGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.ThirdYearBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.ThirdYearGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.PervYearBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.PervYearGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FinalYearBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FinalYearGirlsCount" autocomplete="off">
+                  </td>
+
+
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.DiplomaBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.DiplomaGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txOtherBoysCount{{idx}}" name="txTotalBoys{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.OtherBoysCount" autocomplete="off">
+                  </td>
+                  <td>
+                    <input type="text" disabled class="form-control" (blur)="CalculateAll(item,idx)" id="txOtherGirlsCount{{idx}}" name="txTotalGirls{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.OtherGirlsCount" autocomplete="off">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" disabled id="txTotal{{idx}}" name="txTotalGirls{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.Total" autocomplete="off">
+                  </td>
+                </tr>
+              </tbody>
+
+              <tfoot>
+                <tr class="fw-bold">
+                  <td colspan="2">Total</td>
+
+                  <td></td>
+                  <td>{{FirstYearBoysCountFooter}}</td>
+                  <td>{{FirstYearGirlsCountFooter}}</td>
+
+                  <td>{{SecYearBoysCountFooter}}</td>
+                  <td>{{SecYearGirlsCountFooter}}</td>
+
+                  <td>{{ThirdYearBoysCountFooter}}</td>
+                  <td>{{ThirdYearGirlsCountFooter}}</td>
+
+                  <td>{{PervYearBoysCountFooter}}</td>
+                  <td>{{PervYearGirlsCountFooter}}</td>
+
+                  <td>{{FinalYearBoysCountFooter}}</td>
+                  <td>{{FinalYearGirlsCountFooter}}</td>
+
+                  <td>{{DiplomaBoysCountFooter}}</td>
+                  <td>{{DiplomaGirlsCountFooter}}</td>
+
+                  <td>{{OtherBoysCountFooter}}</td>
+                  <td>{{OtherGirlsCountFooter}}</td>
+                  <td>{{TotalFooter}}</td>
+
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+
+          <div class="row" *ngIf="FinalRemarks.length>0">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>Role</th>
+                    <th>Remark</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item1 of FinalRemarks ; let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item1.RoleID}}</td>
+                    <td>{{item1.Remark}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Remarks</label>
+              <textarea id="ClassWiseStudentRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+              <div *ngIf="isRemarkValid" class="text-danger">
+                <p *ngIf="isRemarkValid"> This field is required .!</p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button class="btn btn-primary" type="button" (click)="SubmitClassWiseStudentDetail_Onclick()">Submit</button>
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="card-footer text-end">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -85,25 +85,25 @@ export class ApplyNOCApplicationService {
       ).toPromise();
   }
 
-  public async GetApplyNOCCompletedReport(UserID: number, ActionName: string) {
+  public async GetApplyNOCCompletedReport(UserID: number, ActionName: string, RoleID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetApplyNOCCompletedReport/" + UserID + "/" + ActionName)
+    return await this.http.get(this.APIUrl + "/GetApplyNOCCompletedReport/" + UserID + "/" + ActionName + "/" + RoleID + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
 
-  public async GetApplyNOCRejectedReport(UserID: number, ActionName: string) {
+  public async GetApplyNOCRejectedReport(UserID: number, ActionName: string, RoleID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetApplyNOCRejectedReport/" + UserID + "/" + ActionName)
+    return await this.http.get(this.APIUrl + "/GetApplyNOCRejectedReport/" + UserID + "/" + ActionName + "/" + RoleID + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
