@@ -20,6 +20,8 @@ export class SubjectWiseStatisticsDetailsDataModel {
   public OtherBoysCount: number = 0
   public OtherGirlsCount: number = 0
   public Total: number = 0
+  public Action:string=''
+  public Remark: string = ''
 }
 
 export class PostSubjectWiseStatisticsDetailsDataModel {

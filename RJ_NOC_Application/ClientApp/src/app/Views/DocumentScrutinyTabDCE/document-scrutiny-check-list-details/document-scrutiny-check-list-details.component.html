@@ -1722,7 +1722,6 @@
                 </tfoot>
               </table>
             </div>
-
             <div class="row" *ngIf="ClassWiseStudentFinalRemarks.length>0">
               <div class="table-responsive">
                 <table class="table table-bordered table-hover table-striped">
@@ -1742,7 +1741,6 @@
                   </tbody>
                 </table>
               </div>
-
             </div>
           </div>
           <div class="card-footer text-end">
@@ -1751,8 +1749,218 @@
         </div>
       </div>
     </div>
-
   <!--End Class Wise Student Details-->
+
+
+  <!--subject wise data-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="clearfix"></div>
+        <div class="card mb-0">
+          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+            <b><i class="bi bi-table"></i>Subject Wise Student Statistics </b>
+            <div class="d-flex align-items-center">
+              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+
+              </div>
+              <div class="d-flex align-items-center table-filter mr-15">
+
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                <thead>
+                  <tr>
+                    <th>
+                      Compliance
+                    </th>
+                    <th>Remark</th>
+                    <th>Sr. No</th>
+                    <th>Faculty</th>
+                    <th>SubjectName</th>
+
+                    <th>1st Year Boys</th>
+                    <th>1st Year Girls</th>
+
+                    <th>2nd Year Boys</th>
+                    <th>2nd Year Girls </th>
+
+                    <th>3rd Year Boys</th>
+                    <th>3rd Year Girls</th>
+
+                    <th>Previous Boys</th>
+                    <th>Previous Girls</th>
+
+                    <th>Final Boys</th>
+                    <th>Final Girls</th>
+
+                    <th>Diploma Boys</th>
+                    <th>Diploma Girls</th>
+
+                    <th>Other Boys</th>
+                    <th>Other Girls</th>
+
+                    <th>Total</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of CheckList_SubjectWiseStudentDetailsList let idx=index;">
+
+                    <td>
+                      {{item.Action}}
+                    </td>
+                    <td>
+                      {{item.Action=='No'?item.Remark:''}}
+                    </td>
+
+                    <td>{{idx+1}}</td>
+                    <td>
+                      {{item.CourseName}}
+
+                    </td>
+                    <td>
+                      {{item.SubjectName}}
+                    </td>
+
+                    <td>
+                      <input type="text" disabled class="form-control" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}"  [(ngModel)]="item.FirstYearBoysCount" autocomplete="off">
+
+                    </td>
+                    <td>
+                      <input type="text" disabled class="form-control" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" [(ngModel)]="item.FirstYearGirlsCount" autocomplete="off">
+                    </td>
+
+                    <td>
+                      <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}"  [(ngModel)]="item.SecYearBoysCount" autocomplete="off">
+                    </td>
+                    <td>
+                      <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}"  [(ngModel)]="item.SecYearGirlsCount" autocomplete="off">
+                    </td>
+
+                    <td>
+                      <input type="text" disabled class="form-control" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}"  [(ngModel)]="item.ThirdYearBoysCount" autocomplete="off">
+                    </td>
+                    <td>
+                      <input type="text" disabled class="form-control" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}"  [(ngModel)]="item.ThirdYearGirlsCount" autocomplete="off">
+                    </td>
+
+                    <td>
+                      <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}"  [(ngModel)]="item.PervYearBoysCount" autocomplete="off">
+                    </td>
+                    <td>
+                      <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.PervYearGirlsCount" autocomplete="off">
+                    </td>
+
+                    <td>
+                      <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}"  [(ngModel)]="item.FinalYearBoysCount" autocomplete="off">
+                    </td>
+                    <td>
+                      <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}"  [(ngModel)]="item.FinalYearGirlsCount" autocomplete="off">
+                    </td>
+
+
+                    <td>
+                      <input type="text" disabled class="form-control" id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}"  [(ngModel)]="item.DiplomaBoysCount" autocomplete="off">
+                    </td>
+                    <td>
+                      <input type="text" disabled class="form-control" id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}"  [(ngModel)]="item.DiplomaGirlsCount" autocomplete="off">
+                    </td>
+
+                    <td>
+                      <input type="text" disabled class="form-control" id="txOtherBoysCount{{idx}}" name="txTotalBoys{{idx}}"  [(ngModel)]="item.OtherBoysCount" autocomplete="off">
+                    </td>
+                    <td>
+                      <input type="text" disabled class="form-control" id="txOtherGirlsCount{{idx}}" name="txTotalGirls{{idx}}"  [(ngModel)]="item.OtherGirlsCount" autocomplete="off">
+                    </td>
+
+                    <td>
+                      <input type="text" class="form-control" disabled id="txTotal{{idx}}" name="txTotalGirls{{idx}}"  [(ngModel)]="item.Total" autocomplete="off">
+                    </td>
+                  </tr>
+                </tbody>
+
+                <tfoot>
+                  <tr class="fw-bold">
+                    <td colspan="3">Total</td>
+
+                    <td></td>
+                    <td>{{FirstYearBoysCountFooter}}</td>
+                    <td>{{FirstYearGirlsCountFooter}}</td>
+
+                    <td>{{SecYearBoysCountFooter}}</td>
+                    <td>{{SecYearGirlsCountFooter}}</td>
+
+                    <td>{{ThirdYearBoysCountFooter}}</td>
+                    <td>{{ThirdYearGirlsCountFooter}}</td>
+
+                    <td>{{PervYearBoysCountFooter}}</td>
+                    <td>{{PervYearGirlsCountFooter}}</td>
+
+                    <td>{{FinalYearBoysCountFooter}}</td>
+                    <td>{{FinalYearGirlsCountFooter}}</td>
+
+                    <td>{{DiplomaBoysCountFooter}}</td>
+                    <td>{{DiplomaGirlsCountFooter}}</td>
+
+                    <td>{{OtherBoysCountFooter}}</td>
+                    <td>{{OtherGirlsCountFooter}}</td>
+                    <td>{{TotalFooter}}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+
+            <div class="row" *ngIf="SubjectWiseStudentFinalRemarks.length>0">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Role</th>
+                      <th>Remark</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item1 of SubjectWiseStudentFinalRemarks ; let idx =index">
+                      <td>{{idx+1}}</td>
+                      <td>{{item1.RoleID}}</td>
+                      <td>{{item1.Remark}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+  
+            <div class="row">
+              <div class="col-md-12">
+                <!--<button class="btn btn-primary" type="button" (click)="SubmitSubjectWiseStudentDetail_Onclick()">Submit</button>-->
+              </div>
+            </div>
+
+
+
+          </div>
+          <div class="card-footer text-end">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <!--end subject wise data-->
+
+
+  
+
+
+
   <div class="row m-2">
     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
       <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
