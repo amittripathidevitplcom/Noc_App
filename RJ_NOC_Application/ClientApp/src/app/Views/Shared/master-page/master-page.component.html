@@ -35,7 +35,7 @@
           <select id="ddlRole" name="ddlRoleID" class="form-select d-inline" [(ngModel)]="RoleID"
                   #SeletedRole (change)="loadMenuByRoleID(SeletedRole.value)">
             <option *ngFor="let item of lstUserRole"
-                    value="{{item.RoleID}}">
+                    value="{{item.UserID}}">
               {{item.RoleName}}
             </option>
           </select>

@@ -1120,12 +1120,12 @@ export class AddCollegeComponent implements OnInit {
           // rural/urban
           await this.IsRuralOrUrban(this.request.RuralUrban == 1 ? true : false, null, false);
 
-          if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
+          //if (!this.State) {
+          //  //this.toastr.success(this.SuccessMessage)
+          //}
+          //else {
+          //  this.toastr.error(this.ErrorMessage)
+          //}
         })
     }
     catch (ex) { console.log(ex) }
