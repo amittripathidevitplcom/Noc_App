@@ -192,17 +192,52 @@ export class AnimalDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async FinalSubmitInspectionCommittee(ApplyNOCID: number) {
+  public async GetPreVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.post(this.APIUrl + "/FinalSubmitInspectionCommittee/" + ApplyNOCID, httpOptions)
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetPreVerificationDoneList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async FinalSubmitInspectionCommittee(ApplyNOCID: number, DepartmentID: number, UserID: Number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/FinalSubmitInspectionCommittee/" + ApplyNOCID + "/" + DepartmentID + "/" + UserID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
 
-  
+  public async GetPreVerificationchecklistDetails(Type: string, DepartmentID: number, ApplyNOCID: number, CreatedBy: number, RoleID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetPreVerificationchecklistDetails/" + Type + "/" + DepartmentID + "/" + ApplyNOCID + "/" + CreatedBy + "/" + RoleID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async FinalSubmitPreVerification(ApplyNOCID: number, DepartmentID: number, UserID: Number, ActionName: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/FinalSubmitPreVerification/" + ApplyNOCID + "/" + DepartmentID + "/" + UserID + "/" + ActionName, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

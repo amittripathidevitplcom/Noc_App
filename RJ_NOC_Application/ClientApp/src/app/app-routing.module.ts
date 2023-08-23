@@ -122,6 +122,7 @@ import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE
 import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-application-list/nodal-officer-application-list.component';
 import { AhDocumentScrutinyForwardToCommetteReportComponent } from './Views/DocumentScrutinyTab_AH/ahDocumentScrutinyForwardToCommetteReport/ah-document-scrutiny-forward-to-commette-report/ah-document-scrutiny-forward-to-commette-report.component';
 import { AhInspectionCommitteePhysicalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-inspection-committee-physical-verification/ah-inspection-committee-physical-verification.component';
+import { AhPreVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-pre-verification-done-list/ah-pre-verification-done-list.component';
 
 
 
@@ -528,6 +529,9 @@ const routes: Routes = [
 
       {
         path: 'AHinspectioncommitteephysicalverification/:Status', component: AhInspectionCommitteePhysicalVerificationComponent
+      },
+      {
+        path: 'AHPreVerificationDoneList/:Status', component: AhPreVerificationDoneListComponent
       },
     ]
   },

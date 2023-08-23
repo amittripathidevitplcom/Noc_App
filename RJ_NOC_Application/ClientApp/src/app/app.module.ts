@@ -237,6 +237,7 @@ import { DocumentScrutinyClassWiseStudentDetailsComponent } from './Views/Docume
 import { DocumentScrutinySubjectWiseStudentStatisticsComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-subject-wise-student-statistics/document-scrutiny-subject-wise-student-statistics.component';
 import { AhDocumentScrutinyForwardToCommetteReportComponent } from './Views/DocumentScrutinyTab_AH/ahDocumentScrutinyForwardToCommetteReport/ah-document-scrutiny-forward-to-commette-report/ah-document-scrutiny-forward-to-commette-report.component';
 import { AhInspectionCommitteePhysicalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-inspection-committee-physical-verification/ah-inspection-committee-physical-verification.component';
+import { AhPreVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-pre-verification-done-list/ah-pre-verification-done-list.component';
 
 
 
@@ -467,6 +468,7 @@ import { AhInspectionCommitteePhysicalVerificationComponent } from './Views/Docu
     DocumentScrutinySubjectWiseStudentStatisticsComponent,
     AhDocumentScrutinyForwardToCommetteReportComponent,
     AhInspectionCommitteePhysicalVerificationComponent,
+    AhPreVerificationDoneListComponent,
 
   ],
   imports: [
