@@ -123,6 +123,7 @@ import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-
 import { AhDocumentScrutinyForwardToCommetteReportComponent } from './Views/DocumentScrutinyTab_AH/ahDocumentScrutinyForwardToCommetteReport/ah-document-scrutiny-forward-to-commette-report/ah-document-scrutiny-forward-to-commette-report.component';
 import { AhInspectionCommitteePhysicalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-inspection-committee-physical-verification/ah-inspection-committee-physical-verification.component';
 import { AhPreVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-pre-verification-done-list/ah-pre-verification-done-list.component';
+import { IssuedNOCReportComponent } from './Views/Reports/Medical/issued-noc-report/issued-noc-report.component';
 
 
 
@@ -535,6 +536,9 @@ const routes: Routes = [
       },
       {
         path: 'AHPreVerificationDoneList/:Status', component: AhPreVerificationDoneListComponent
+      },
+      {
+        path: 'issuednocreport', component: IssuedNOCReportComponent
       },
     ]
   },
