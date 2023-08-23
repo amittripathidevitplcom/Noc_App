@@ -15,6 +15,7 @@ import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { fail } from 'assert';
 
 @Component({
   selector: 'app-ah-inspection-committee-physical-verification',
@@ -80,6 +81,8 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
   AadharRequest = new AadharServiceDataModel();
   public CustomOTP: string = '123456';
   public QueryStringStatus: any = '';
+  public IsDisabled: boolean = false;
+  public IsBtnShowHide: boolean = true;
 
   constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
@@ -92,13 +95,20 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetPhysicalVerificationAppliationList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.UserID, Number(this.sSOLoginDataModel.RoleID), this.sSOLoginDataModel.DepartmentID, this.QueryStringStatus);
-    
+
+    if (this.QueryStringStatus == 'Pending') {
+      this.IsDisabled = false;
+      this.IsBtnShowHide = true;
+    }
+    else {
+      this.IsDisabled = true;
+      this.IsBtnShowHide = false;
+    }
   }
 
   async GetPhysicalVerificationAppliationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     try {
       this.loaderService.requestStarted();
-      debugger;
       await this.animalDocumentScrutinyService.GetPhysicalVerificationAppliationList(SSOID, UserID, RoleID, DepartmentID, QueryStringStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -143,12 +153,6 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
     }
   }
 
-
-  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number) {
-    this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
-  }
-
-
   async OpenActionPopUP(ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
     this.ApplicationNo = ApplicationNo;
     this.SelectedCollageID = CollegeID;
@@ -166,7 +170,6 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
     this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
-      debugger;
       for (var i = 0; i < this.CheckListData.length; i++) {
         if (this.CheckListData[i].FileUpload == true) {
           if (this.CheckListData[i].FileUploadName == '' || this.CheckListData[i].FileUploadName == undefined) {
@@ -491,7 +494,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
       });
-      await this.animalDocumentScrutinyService.FinalSubmitInspectionCommittee(this.ApplicationCommitteeList[0].ApplyNocApplicationID)
+      await this.animalDocumentScrutinyService.FinalSubmitInspectionCommittee(this.ApplicationCommitteeList[0].ApplyNocApplicationID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

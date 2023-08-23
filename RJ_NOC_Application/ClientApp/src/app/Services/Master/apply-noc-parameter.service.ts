@@ -48,21 +48,21 @@ export class ApplyNocParameterService {
       ).toPromise();
   }
 
-  public async GetApplyNocForByParameter(CollegeID: number, ApplyNocFor: string) {
+  public async GetApplyNocForByParameter(CollegeID: number, ApplyNocForCode: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
     let response: any;
-    if (ApplyNocFor == 'NOC For New Course') {
-      response = await this.http.get(this.APIUrl + "/GetApplyNocFor_TNOCExtension/" + CollegeID + "/" + ApplyNocFor)
+    if (ApplyNocForCode == 'NewCourse') {
+      response = await this.http.get(this.APIUrl + "/GetApplyNocFor_TNOCExtension/" + CollegeID + "/" + ApplyNocForCode)
         .pipe(
           catchError(this.handleErrorObservable)
         ).toPromise();
     }
-    if (ApplyNocFor == 'Addition of New Seats(60)') {
-      response = await this.http.get(this.APIUrl + "/GetApplyNocFor_AdditionOfNewSeats60/" + CollegeID + "/" + ApplyNocFor)
+    if (ApplyNocForCode == 'ANewSeats') {
+      response = await this.http.get(this.APIUrl + "/GetApplyNocFor_AdditionOfNewSeats60/" + CollegeID + "/" + ApplyNocForCode)
         .pipe(
           catchError(this.handleErrorObservable)
         ).toPromise();
