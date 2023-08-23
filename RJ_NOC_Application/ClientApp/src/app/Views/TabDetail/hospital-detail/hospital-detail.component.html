@@ -449,9 +449,9 @@
                   <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingMedicalBeds" name="txtOncologyNursingMedicalBeds" id="txtOncologyNursingMedicalBeds" formControlName="txtOncologyNursingMedicalBeds" (keypress)="NumberOnly($event)" maxlength="5" />
                 </div>
                 <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label>Surgical Beds </label>
-              <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
-            </div>-->
+                  <label>Surgical Beds </label>
+                  <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingSurgicalBeds" name="txtOncologyNurSingsurgicalBeds" id="txtOncologyNursingSurgicalBeds" formControlName="txtOncologyNursingSurgicalBeds" />
+                </div>-->
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label>Chemotherapy Beds </label>
                   <input class="form-control" type="text" [(ngModel)]="request.OncologyNursingChemotherapyBeds" name="txtOncologyNursingChemotherapyBeds" id="txtOncologyNursingChemotherapyBeds" formControlName="txtOncologyNursingChemotherapyBeds" (keypress)="NumberOnly($event)" maxlength="5" />
@@ -1177,20 +1177,20 @@
                 </div>
                 <!-- end -->
                 <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
-      <label class="form-label">Document </label>
-      <div class="d-flex">
-        <input type="file" class="form-control" id="fParentNotDocument" name="fParentNotDocument"
-               [(ngModel)]="requestNot.ParentNotDocument"
-               formControlName="fParentNotDocument" (change)="onFilechange($event,'ParentNotDocument')" />
-        <div class="btn-group" *ngIf="showParentNotDocument">
-          <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ParentNotDocument}}"><i class="fa fa-eye"></i></a>
-          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ParentNotDocument')"><i class="fa fa-trash-o"></i></button>
-        </div>
-      </div>
-      <div *ngIf="ParentNotDocumentValidationMessage!=''" class="text-danger">
-        <p><i aria-hidden="true"></i>{{ParentNotDocumentValidationMessage}}</p>
-      </div>
-    </div>-->
+                  <label class="form-label">Document </label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fParentNotDocument" name="fParentNotDocument"
+                           [(ngModel)]="requestNot.ParentNotDocument"
+                           formControlName="fParentNotDocument" (change)="onFilechange($event,'ParentNotDocument')" />
+                    <div class="btn-group" *ngIf="showParentNotDocument">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ParentNotDocument}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ParentNotDocument')"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+                  <div *ngIf="ParentNotDocumentValidationMessage!=''" class="text-danger">
+                    <p><i aria-hidden="true"></i>{{ParentNotDocumentValidationMessage}}</p>
+                  </div>
+                </div>-->
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                   <label for="fParentNotDocument" class="form-label">Document</label>
                   <div class="d-flex">
@@ -1225,18 +1225,18 @@
                     </div>
                   </div>
                   <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;" [hidden]="!IsAffiliatedHospitalAffiliationToOther">
-        <label class="form-label">Consent form </label>
-        <div class="d-flex">
-          <input type="file" class="form-control" id="fConsentForm" name="fConsentForm" [(ngModel)]="requestNot.ConsentForm" formControlName="fConsentForm" (change)="onFilechange($event,'ConsentForm')" />
-          <div class="btn-group" *ngIf="showParentNotConsentForm">
-            <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ConsentForm}}"><i class="fa fa-eye"></i></a>
-            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ConsentForm')"><i class="fa fa-trash-o"></i></button>
-          </div>
-        </div>
-        <div *ngIf="ParentNotConsentFormValidationMessage!=''" class="text-danger">
-          <p><i aria-hidden="true"></i>{{ParentNotConsentFormValidationMessage}}</p>
-        </div>
-      </div>-->
+                    <label class="form-label">Consent form </label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="fConsentForm" name="fConsentForm" [(ngModel)]="requestNot.ConsentForm" formControlName="fConsentForm" (change)="onFilechange($event,'ConsentForm')" />
+                      <div class="btn-group" *ngIf="showParentNotConsentForm">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{requestNot.ConsentForm}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ConsentForm')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div *ngIf="ParentNotConsentFormValidationMessage!=''" class="text-danger">
+                      <p><i aria-hidden="true"></i>{{ParentNotConsentFormValidationMessage}}</p>
+                    </div>
+                  </div>-->
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;">
                     <label for="fConsentForm" class="form-label">Consent form</label>
                     <div class="d-flex">
@@ -1742,10 +1742,10 @@
         </div>
         <div class="card">
           <div class="card-header" *ngIf="HospitalData.ParentHospitalID==2">
-              <b> Which affiliated hospitals would the organization like to associate with for clinical training </b>
+            <b> Which affiliated hospitals would the organization like to associate with for clinical training </b>
           </div>
           <div class="card-header" *ngIf="HospitalData.ParentHospitalID==1">
-              <b> Hospital Detail </b>
+            <b> Hospital Detail </b>
           </div>
 
           <div class="card-body">

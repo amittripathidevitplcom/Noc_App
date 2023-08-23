@@ -6,7 +6,7 @@ export class SocietyDataModel {
   public DesignationID: number = 0;
   public DesignationName: number = 0;
   public OccupationID: number = 0;
-  public OccupationName: number = 0;
+  public OccupationName: string = '';
   public Educationists: string = '';
   public PersonName: string = '';
   public FatherName: string = '';

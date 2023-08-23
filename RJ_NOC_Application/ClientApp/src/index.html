@@ -11,10 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;600;700;800;900&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="assets/images/favIcon.png">
-
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 
   <script type="text/javascript">
     //function preventBack() {
@@ -23,7 +23,7 @@
     //setTimeout("preventBack()", 0);
     //window.onunload = function () { null };
 
-    //// disable right click
+    // disable right click
     //document.addEventListener('contextmenu', event => event.preventDefault());
 
     //document.onkeydown = function (e) {
@@ -71,12 +71,37 @@
       }
     }
     google.setOnLoadCallback(onLoad);
+     
+  </script>
+
+  <script>
+    function LoadData()
+    { 
+      var options = {
+        //Source Language
+        sourceLanguage: google.elements.transliteration.LanguageCode.ENGLISH,
+        // Destination language to Transliterate
+        destinationLanguage: [google.elements.transliteration.LanguageCode.HINDI],
+        shortcutKey: "ctrl+g",
+        transliterationEnabled: true
+      },
+        control = new google.elements.transliteration.TransliterationControl(options);
+      const element = document.getElementById("txtCollegeNameHi");
+      const element1 = document.getElementById("CollegeNewName_Hi");
+      console.log(element1);
+      if (element != null) {
+        control.makeTransliteratable(["txtCollegeNameHi"]);
+      }
+      if (element1 != null) {
+        control.makeTransliteratable(["CollegeNewName_Hi"]);
+      } 
+    }
   </script>
 
 
 </head>
 <!--<body onLoad="preventBack();" oncontextmenu="return false;">-->
-<body>
+<body oncontextmenu="return false;">
   <app-root></app-root>
 </body>
 </html>

@@ -811,7 +811,7 @@ export class HostelDetailsComponent implements OnInit {
       // loading
       this.loaderService.requestStarted();
       // get
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, "HostelCategory")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.SelectedDepartmentID, "HostelCategory")
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

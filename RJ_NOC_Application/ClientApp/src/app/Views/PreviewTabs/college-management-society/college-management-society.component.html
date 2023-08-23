@@ -139,6 +139,22 @@
                   <label *ngIf="request.AuthorizedDocumentPath=='N/A'">{{request.AuthorizedDocumentPath}}</label>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.AuthorizedDocument.includes('.pdf') && request.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{request.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.OccupationName=='Educationist'">
+                  <label> <b>Education Proof </b></label>
+                  <a *ngIf="!request.EducationProof.includes('.pdf') && request.EducationProofPath!='N/A'" data-fancybox="gallery" href="{{request.EducationProofPath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{request.EducationProofPath}}" alt="Education Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="request.EducationProofPath=='N/A'">{{request.EducationProofPath}}</label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.EducationProof.includes('.pdf') && request.EducationProofPath!='N/A'" data-fancybox="gallery" href="{{request.EducationProofPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.OccupationName=='Educationist'">
+                  <label> <b>Consent Letter </b></label>
+                  <a *ngIf="!request.ConsentLetter.includes('.pdf') && request.ConsentLetterPath!='N/A'" data-fancybox="gallery" href="{{request.ConsentLetterPath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{request.ConsentLetterPath}}" alt="Consent Letter" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="request.ConsentLetterPath=='N/A'">{{request.ConsentLetterPath}}</label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.ConsentLetter.includes('.pdf') && request.ConsentLetterPath!='N/A'" data-fancybox="gallery" href="{{request.ConsentLetterPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
               </div>
             </div>
         </ng-template>
