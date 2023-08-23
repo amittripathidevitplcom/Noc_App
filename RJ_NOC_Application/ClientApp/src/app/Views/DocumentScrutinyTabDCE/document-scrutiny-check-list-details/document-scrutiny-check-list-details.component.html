@@ -691,8 +691,8 @@
                     </a>
                     <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AuthorizedDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </td>
-                  <td>{{row.IsPrimary}}</td>
-                  <td>{{row.IsAuthorized}}</td>
+                  <td>{{row.IsPrimary==1?'Yes':'No'}}</td>
+                  <td>{{row.IsAuthorized==1?'Yes':'No'}}</td>
                 </tr>
                 <tr *ngIf="CheckList_SocietyAllList.length<=0">
                   <td colspan="20" style="color:red">No Data Found.!</td>

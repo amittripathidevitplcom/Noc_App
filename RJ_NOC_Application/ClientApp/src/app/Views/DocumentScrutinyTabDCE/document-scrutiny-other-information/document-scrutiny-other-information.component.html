@@ -83,10 +83,11 @@
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
                 <td>
-                  <a *ngIf="!item.BookImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                  <a *ngIf="!item.BookImageFilePath.includes('.pdf')&&item.BookImageFileName!=''" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{item.BookImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf')&&item.BookImageFileName!=''" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  <span *ngIf="item.BookImageFileName==''">N/A</span>
                 </td>
               </tr>
               <tr *ngIf="OtherInformation.length<=0">
