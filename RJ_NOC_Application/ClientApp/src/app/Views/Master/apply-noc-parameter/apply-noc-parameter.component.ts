@@ -292,7 +292,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   async ApplyNocFor_cbChange(event: any, SelectedApplyNocForID: string, item: any) {
     try {
-      //debugger
+      debugger
       this.loaderService.requestStarted();
       this.request.ApplyNocID = Number(SelectedApplyNocForID);
       this.request.ApplyNocFor = item.ApplyNocFor;
@@ -300,12 +300,18 @@ export class ApplyNocParameterComponent implements OnInit {
 
       console.log(item);
       // TNOC Extension
-      if (this.request.ApplyNocCode == 'MG3_NewCourse') {
+      if (this.request.ApplyNocCode == 'NewCourse')
+      {
         this.ApplyNocParameterMasterList_TNOCExtension = null;
+     
+
       }
       // Addition of New Seats(60)
-      if (this.request.ApplyNocCode == 'MG3_ANewSeats') {
+      if (this.request.ApplyNocCode == 'ANewSeats')
+      {
         this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
+  
+
       }
 
       if (this.request.ApplicationTypeID <= 0) {
@@ -410,25 +416,8 @@ export class ApplyNocParameterComponent implements OnInit {
         return;
       }
       // get
-      await this.applyNocParameterService.GetApplyNocForByParameter(this.request.CollegeID, this.request.ApplyNocFor)
-        .then((data: any) => {
-          if (data != null && data != undefined) {
-            data = JSON.parse(JSON.stringify(data));
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            // TNOC Extension
-            if (this.request.ApplyNocFor == 'NOC For New Course') {
 
-              this.ApplyNocParameterMasterList_TNOCExtension = data['Data'];
-            }
-            // Addition of New Seats(60)
-            if (this.request.ApplyNocFor == 'Addition of New Seats(60)') {
-              this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = data['Data'];
-            }
-          }
-        }, error => console.error(error));
-
+      this.GetApplyNocForByParameter();
     }
     catch (ex) {
       console.log(ex);
@@ -438,6 +427,28 @@ export class ApplyNocParameterComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+
+ async GetApplyNocForByParameter()
+ {
+   await this.applyNocParameterService.GetApplyNocForByParameter(this.request.CollegeID, this.request.ApplyNocCode)
+      .then((data: any) => {
+        if (data != null && data != undefined) {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // TNOC Extension
+          if (this.request.ApplyNocCode == 'NewCourse') {
+            this.ApplyNocParameterMasterList_TNOCExtension = data['Data'];
+          }
+          // Addition of New Seats(60)
+          if (this.request.ApplyNocCode == 'ANewSeats') {
+            this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = data['Data'];
+          }
+        }
+      }, error => console.error(error));
   }
 
   HasData(): boolean {
