@@ -68,6 +68,7 @@ export class PreviewLegalEntityComponent implements OnInit {
     try {
       await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
         .then(async (data: any) => {
+          debugger;
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -126,6 +127,7 @@ export class PreviewLegalEntityComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.legalEntityListService.GetLegalEntityBySSOID(SSOID, this.UserID)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
