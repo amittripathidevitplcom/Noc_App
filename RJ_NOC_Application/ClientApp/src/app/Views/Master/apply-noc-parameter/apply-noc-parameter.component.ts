@@ -292,7 +292,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   async ApplyNocFor_cbChange(event: any, SelectedApplyNocForID: string, item: any) {
     try {
-      //debugger
+      debugger
       this.loaderService.requestStarted();
       this.request.ApplyNocID = Number(SelectedApplyNocForID);
       this.request.ApplyNocFor = item.ApplyNocFor;
@@ -409,6 +409,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
         return;
       }
+
       // get
       await this.applyNocParameterService.GetApplyNocForByParameter(this.request.CollegeID, this.request.ApplyNocFor)
         .then((data: any) => {
