@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
 import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 @Component({
   selector: 'app-document-scrutiny-staff-details-dce',
@@ -41,7 +42,7 @@ export class DocumentScrutinyStaffDetailsComponentDce implements OnInit {
   public isRemarkValid: boolean = false;
   public isFormvalid: boolean = true;
 
-  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
+  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent,private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -146,7 +147,7 @@ export class DocumentScrutinyStaffDetailsComponentDce implements OnInit {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Staff Details';
     this.isRemarkValid = false;
@@ -179,7 +180,7 @@ export class DocumentScrutinyStaffDetailsComponentDce implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.StaffDetailModel[i].Action,
@@ -216,5 +217,8 @@ export class DocumentScrutinyStaffDetailsComponentDce implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 }

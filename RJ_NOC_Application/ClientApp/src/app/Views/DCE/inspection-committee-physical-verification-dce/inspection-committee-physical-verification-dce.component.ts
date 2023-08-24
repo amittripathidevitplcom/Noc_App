@@ -73,6 +73,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   public All_U_Select: boolean = false;
   public isSubmit: boolean = false;
   public FinalRemark: string = '';
+  public QueryStringStatus: any = '';
 
   public ShowHideApplicationAction: boolean = false;
   public ShowHideCommittee: boolean = false;
@@ -86,14 +87,15 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetPhysicalVerificationAppliationList(this.sSOLoginDataModel.SSOID);
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    await this.GetPhysicalVerificationAppliationList(this.sSOLoginDataModel.SSOID, this.QueryStringStatus);
 
   }
 
-  async GetPhysicalVerificationAppliationList(SSOID: string) {
+  async GetPhysicalVerificationAppliationList(SSOID: string, Status: any) {
     try {
       this.loaderService.requestStarted();
-      await this.dceDocumentScrutinyService.GetPhysicalVerificationAppliationList(SSOID)
+      await this.dceDocumentScrutinyService.GetPhysicalVerificationAppliationList(SSOID, Status)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

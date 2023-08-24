@@ -1,0 +1,168 @@
+<div class="card tabCard1 mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp;Application List</b>
+  </div>
+  <div class="card-body">
+    <div class="clearfix"></div>
+    <div class="card">
+      <div class="card-header">
+        <b>Application List</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Department Name</th>
+                    <th>College Name</th>
+                    <th>Application No.</th>
+                    <th>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of ApplyNocDetails let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.DepartmentName}}</td>
+                    <td>{{item.CollegeName}}</td>
+                    <td>{{item.ApplicationNo}}</td>
+                    <td>
+                      <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      &nbsp;<button type="button" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
+                    </td><!----*ngIf="item.PVStage=='0'"-->
+                  </tr>
+                  <tr>
+                    <td colspan="4" *ngIf="ApplyNocDetails.length<=0" style="color:red"> No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--Modal Start For Assign Commettiee-->
+  <ng-template #mymodalAsignCommittee let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Assign  Committee (ApplicationNo : {{ApplicationNo}})</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+
+        <form [formGroup]="CommitteeMemberDetails" class="form-horizontal">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <b><i class="fa fa-plus"></i>&nbsp;Member Details <span style="color:red;">*</span></b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtCMNameOfPerson" class="form-label">Name Of Person <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtCMNameOfPerson" name="txtCMNameOfPerson" [(ngModel)]="request_CommitteeMemberDataModel.NameOfPerson" formControlName="txtCMNameOfPerson">
+                  <div *ngIf="isSubmitted_MemberDetails&&form_CommitteeMember.txtCMNameOfPerson.errors" class="text-danger">
+                    <p *ngIf="form_CommitteeMember.txtCMNameOfPerson.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtCMMobileNumber" class="form-label">Mobile Number <span style="color:red;">*</span></label>
+                  <input type="number" class="form-control" id="txtCMMobileNumber" name="txtCMMobileNumber" [(ngModel)]="request_CommitteeMemberDataModel.MobileNumber" formControlName="txtCMMobileNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
+                  <div *ngIf="isSubmitted_MemberDetails&&form_CommitteeMember.txtCMMobileNumber.errors" class="text-danger">
+                    <p *ngIf="form_CommitteeMember.txtCMMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form_CommitteeMember.txtCMMobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtCMMobileNumber" class="form-label">SSO ID <span style="color:red;">*</span></label>
+                  <input class="form-control" id="txtSSOID" name="txtSSOID" [(ngModel)]="request_CommitteeMemberDataModel.SSOID" formControlName="txtSSOID">
+                  <div *ngIf="isSubmitted_MemberDetails&&form_CommitteeMember.txtSSOID.errors" class="text-danger">
+                    <p *ngIf="form_CommitteeMember.txtSSOID.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-4">
+                  <br />
+                  <button type="button" class="btn btn-primary pull-right" (click)="AddMemberDetail()"><i class="fa fa-plus"></i> Add</button>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>
+                            Sr.No.
+                          </th>
+                          <th>
+                            Name
+                          </th>
+                          <th>
+                            Mobile Number
+                          </th>
+                          <th>
+                            SSO ID
+                          </th>
+                          <th>
+                            Is Primary Member
+                          </th>
+                          <th>
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of request_MemberList.ApplicationCommitteeList;let idx=index;">
+                          <td>
+                            {{idx+1}}
+                          </td>
+                          <td>
+                            {{row.NameOfPerson}}
+                          </td>
+                          <td>
+                            {{row.MobileNumber}}
+                          </td>
+                          <td>
+                            {{row.SSOID}}
+                          </td>
+                          <td>
+                            <div class="form-check form-switch d-flex align-items-center">
+                              <input class="form-check-input" disabled="{{row.IsPrimaryMember}}" [ngModelOptions]="{standalone: true}" (change)="SetPrimaryMember(row,idx)" type="checkbox" name="Activechk{{idx}}" id="Activechk{{idx}}" [(ngModel)]="row.IsPrimaryMember">
+                            </div>
+                          </td>
+                          <td>
+                            <div class="d-flex">
+                              <button type="button" class="btn btn-danger" (click)="DelMemberDetail(row,idx)"><i class="fa fa-trash-o"></i></button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr *ngIf="request_MemberList.ApplicationCommitteeList.length<=0">
+                          <td colspan="5" style="color:red">No Member Added.!</td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row  m-2">
+        <div class="col-md-12">
+          <button type="button" class="btn btn-primary" (click)="SaveData()" title="Submit">Submit</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <!--END MODAL-->
+</div>

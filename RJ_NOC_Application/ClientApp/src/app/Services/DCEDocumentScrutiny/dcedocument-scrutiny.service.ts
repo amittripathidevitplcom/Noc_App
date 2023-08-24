@@ -235,25 +235,25 @@ export class DCEDocumentScrutinyService {
   }
 
   //Nodal Officer Applicaiton List 
-  public async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number) {
+  public async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number, Status: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetNodalOfficerApplyNOCApplicationList/" + RoleId + "/" + UserID)
+    return await this.http.get(this.APIUrl + "/GetNodalOfficerApplyNOCApplicationList/" + RoleId + "/" + UserID + "/" + Status)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
 
-  public async GetPhysicalVerificationAppliationList(SSOID: string) {
+  public async GetPhysicalVerificationAppliationList(SSOID: string, Status: any) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    const body = { SSOID: SSOID };
+    const body = { SSOID: SSOID, Status: Status };
     return await this.http.post(this.APIUrl + "/GetPhysicalVerificationAppliationList/", body, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)

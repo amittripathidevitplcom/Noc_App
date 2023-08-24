@@ -79,6 +79,8 @@ export class NodalOfficerApplicationListComponent implements OnInit
   public isSubmitted: boolean = false;
   public isSubmitted_MemberDetails: boolean = false;
 
+  public QueryStringStatus: any = '';
+
   public NextWorkFlowActionList: any[] = [];
 
   public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
@@ -95,7 +97,11 @@ export class NodalOfficerApplicationListComponent implements OnInit
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     console.log(this.sSOLoginDataModel);
-    await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+
+    await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
+   
+
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
     //this.GetRNCCheckListByTypeDepartment();
@@ -112,11 +118,11 @@ export class NodalOfficerApplicationListComponent implements OnInit
 
 
 
-  async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number)
+  async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number, Status: string)
   {
     try {
       this.loaderService.requestStarted();
-      await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID)
+      await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID, Status)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -256,7 +262,7 @@ export class NodalOfficerApplicationListComponent implements OnInit
         }
       }
       else {
-        this.NextRoleID = 4;
+        this.NextRoleID = 1;
         this.NextUserID = 0;
         this.NextActionID = 0;
       }
@@ -773,13 +779,6 @@ export class NodalOfficerApplicationListComponent implements OnInit
     this.request_MemberList.ApplicationCommitteeList = newArr;
   }
 
-  MaxLengthValidation_KeyPress(event: any, length: number): boolean {
-    if (event.target.value.length == length) {
-      return false;
-    }
-    return true;
-  }
-
   //Application Details
   async ViewApplicationPvDetails(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) 
   {
@@ -798,9 +797,6 @@ export class NodalOfficerApplicationListComponent implements OnInit
 
 
   }
-
-  
-
 
   async GetApplicationPvDetails(ApplyNocApplicationID: number) {
 
@@ -852,5 +848,23 @@ export class NodalOfficerApplicationListComponent implements OnInit
     }
   }
 
+  numbersOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
 }
 

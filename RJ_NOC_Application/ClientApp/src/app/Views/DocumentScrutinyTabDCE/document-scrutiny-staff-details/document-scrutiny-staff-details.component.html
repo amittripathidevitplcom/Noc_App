@@ -51,7 +51,7 @@
                     <th>Mobile No.</th>
                     <th>Highest Qualification</th>
                     <th>Date of Birth</th>
-
+                    <th>Trails</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -92,11 +92,11 @@
                     <td>{{item.MobileNo}}</td>
                     <td>{{item.HighestQualificationName}}</td>
                     <td>{{item.DateOfBirth}}</td>
-
+                    <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.StaffDetailID,'StaffDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
 
                   </tr>
                   <tr *ngIf="StaffDetailModel.length<=0">
-                    <td colspan="7" style="color:red">No Data Found.!</td>
+                    <td colspan="20" style="color:red">No Data Found.!</td>
                   </tr>
                 </tbody>
               </table>

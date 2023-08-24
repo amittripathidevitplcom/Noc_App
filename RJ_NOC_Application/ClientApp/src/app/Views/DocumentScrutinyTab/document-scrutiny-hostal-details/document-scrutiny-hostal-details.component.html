@@ -133,6 +133,10 @@
         <input class="form-control disabled" disabled value="{{request.IsHostelCampus}}" />
       </div>
       <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
+        <label><b>Hostel Category</b>: &nbsp;&nbsp; </label>
+        <input class="form-control disabled" disabled value="{{request.HostelCategory}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
         <label><b>Hostel Name</b>:&nbsp;&nbsp; </label>
         <input class="form-control disabled" disabled value="{{request.HostelName}}" />
       </div>
@@ -228,8 +232,8 @@
                     <tr>
                       <th>Sr. No.</th>
                       <th>Hostel Block</th>
-                      <th>Width (In Feet)</th>
-                      <th>Length (In Feet)</th>
+                      <th>Area (In Sq Feet)</th>
+                      <!--<th>Length (In Feet)</th>-->
                       <th>Image</th>
                     </tr>
                   </thead>
@@ -238,7 +242,7 @@
                       <td>{{idx+1}}</td>
                       <td>{{row.CourseName}}</td>
                       <td>{{row.Width}}</td>
-                      <td>{{row.Length}}</td>
+                      <!--<td>{{row.Length}}</td>-->
                       <td>
                         <a *ngIf="!row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
                           <img src="{{row.ImageFilePath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />

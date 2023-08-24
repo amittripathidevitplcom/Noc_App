@@ -12,6 +12,7 @@ import { HostelDetailService } from '../../../Services/Tabs/hostel-details.servi
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { HostelDataModel, HostelDetailsDataModel_Hostel } from '../../../Models/HostelDetailsDataModel';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 @Component({
   selector: 'app-document-scrutiny-hostal-details-dce',
@@ -42,7 +43,7 @@ export class DocumentScrutinyHostalDetailsComponentDce implements OnInit {
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
 
-  constructor(private modalService: NgbModal, private loaderService: LoaderService, private hostelDetailService: HostelDetailService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
+  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private modalService: NgbModal, private loaderService: LoaderService, private hostelDetailService: HostelDetailService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
 
   async ngOnInit() {
@@ -143,7 +144,7 @@ export class DocumentScrutinyHostalDetailsComponentDce implements OnInit {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Hostel Details';
     this.isRemarkValid = false;
@@ -176,7 +177,7 @@ export class DocumentScrutinyHostalDetailsComponentDce implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.hostelDataModel[i].Action,
@@ -213,5 +214,8 @@ export class DocumentScrutinyHostalDetailsComponentDce implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 }
