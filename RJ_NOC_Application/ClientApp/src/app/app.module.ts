@@ -242,6 +242,8 @@ import { IssuedNOCReportComponent } from './Views/Reports/Medical/issued-noc-rep
 import { AhApplyNocApplicationListComponent } from './Views/ahApplyNocApplicationList/ah-apply-noc-application-list/ah-apply-noc-application-list.component';
 import { AhDocumentScrutinyForwardCommetteComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-forward-commette/ah-document-scrutiny-forward-commette.component';
 import { AhPhysicalPostVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-physical-post-verification/ah-physical-post-verification.component';
+import { DceDocumentScrutinyCompletedReportComponent } from './Views/Reports/DCE/dce-document-scrutiny-completed-report/dce-document-scrutiny-completed-report.component';
+
 
 
 
@@ -477,6 +479,8 @@ import { AhPhysicalPostVerificationComponent } from './Views/DocumentScrutinyTab
     AhApplyNocApplicationListComponent,
     AhDocumentScrutinyForwardCommetteComponent,
     AhPhysicalPostVerificationComponent,
+    DceDocumentScrutinyCompletedReportComponent,
+    
 
   ],
   imports: [
