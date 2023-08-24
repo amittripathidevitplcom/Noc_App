@@ -6,7 +6,7 @@
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
           <li class="breadcrumb-item active" aria-current="page">Inspection List</li>
         </ol>
       </nav>
@@ -45,7 +45,7 @@
                       <td>{{item.CollegeName}}</td>
                       <td>{{item.ApplicationNo}}</td>
                       <td>
-                        <a href="javascript:void(0)" target="_blank" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                        <a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank"  class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                         <button type="button" class="btn btn-sm btn-success" title="Action" (click)="OpenActionPopUP(item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-tasks"></i></button>
                         <button *ngIf="item.ISRNCData==1" type="button" class="btn btn-sm btn-success" title="Final Submit" (click)="OpenApplicationCommitteeMember(item.ApplyNOCID,item.ApplicationNo)"><i class="fa fa-gear"></i></button>
                       </td>
