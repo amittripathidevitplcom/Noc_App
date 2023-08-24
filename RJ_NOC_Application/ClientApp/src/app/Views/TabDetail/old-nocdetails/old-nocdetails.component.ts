@@ -141,23 +141,13 @@ export class OldNOCDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.lstCourse = [];
-      // await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID, 4)//4=existing
-      //comment by Deepak 16082023
-      //let CourseExitId = 0;
-      //if (this.SelectedDepartmentID == 6) {
-      //  CourseExitId = 4;
-      //}
-      //else if (this.SelectedDepartmentID == 6) {
-      //  CourseExitId = 49;
-      //}
-      await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID, 'Existing')//4=existing
+      await this.commonMasterService.Get_CollegeWiseCourse_Subject_OldNOC(this.SelectedCollageID, 'Course')//4=existing
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.lstCourse = data['Data'];
-
+          this.lstCourse = data['Data'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -172,16 +162,18 @@ export class OldNOCDetailsComponent implements OnInit {
 
   async GetSubjectList(CourseID: any) {
     try {
+      this.SelectedSubjectDetails = [];
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetSubjectList_CourseIDWise(CourseID)
+
+      await this.commonMasterService.Get_CollegeWiseCourse_Subject_OldNOC(this.SelectedCollageID, 'Subject', CourseID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.subjectDataList = data['Data'];
-          if (this.SelectedDepartmentID != 3 && this.SelectedDepartmentID != 2 ) {
-            this.SelectedSubjectDetails = data['Data'];
+          this.subjectDataList = data['Data'][0];
+          if (this.SelectedDepartmentID != 3 && this.SelectedDepartmentID != 2) {
+            this.SelectedSubjectDetails = data['Data'][0];
             this.isToDisable = true;
           }
           else {
@@ -189,7 +181,6 @@ export class OldNOCDetailsComponent implements OnInit {
             this.isToDisable = false;
           }
           this.dropdownSettings = Object.assign({}, this.dropdownSettings);
-
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -329,9 +320,6 @@ export class OldNOCDetailsComponent implements OnInit {
     this.IsFormValid = true;
     this.SubjectRequried = false;
     this.SubjectDataModel = [];
-
-
-
     if (this.SelectedSubjectDetails.length > 0) {
       for (var i = 0; i < this.SelectedSubjectDetails.length; i++) {
         this.SubjectDataModel.push({
@@ -456,7 +444,7 @@ export class OldNOCDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {          
+          if (this.State == 0) {
             this.request.UploadNOCDoc = data['Data'][0]["FileName"];
             this.request.UploadNOCDocPath = data['Data'][0]["FilePath"];
             this.request.Dis_FileName = data['Data'][0]["Dis_FileName"];
@@ -608,7 +596,7 @@ export class OldNOCDetailsComponent implements OnInit {
     }
   }
 
-  ResetControl() {
+  async ResetControl() {
     try {
       this.loaderService.requestStarted();
       this.request = new OldNocDetailsDataModel();
@@ -616,6 +604,9 @@ export class OldNOCDetailsComponent implements OnInit {
       this.ShowOldNOCType = false;
       this.SubjectDataModel = [];
       this.SelectedSubjectDetails = [];
+
+      await this.GetCourseList();
+
       this.isSubmitted = false;
       this.isDisabled = false;
       this.showImageFilePath = false;

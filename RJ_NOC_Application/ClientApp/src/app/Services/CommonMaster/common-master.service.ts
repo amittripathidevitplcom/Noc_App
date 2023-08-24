@@ -430,6 +430,40 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async Get_CollegeWiseCourse_Subject_OldNOC(CollegeID: number, Type: string, CourseID: number = 0) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/Get_CollegeWiseCourse_Subject_OldNOC/" + CollegeID + "/" + Type + "/" + CourseID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetCollegeWise_SubjectList_StaffDetails(CollegeID: number, Type: string, CourseID: number = 0) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeWise_SubjectList_StaffDetails/" + CollegeID + "/" + Type + "/" + CourseID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetCollegeWise_CourseList_AcademicInformation(CollegeID: number, Type: string, CourseID: number = 0) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeWise_CourseList_AcademicInformation/" + CollegeID + "/" + Type + "/" + CourseID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async GetCourseRoomSize(CourseID: number) {
     const httpOptions = {
@@ -546,6 +580,20 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetAllFinancialYear_AcademicInformation() {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetAllFinancialYear_AcademicInformation")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 
 
   public async GetAllDesignation() {

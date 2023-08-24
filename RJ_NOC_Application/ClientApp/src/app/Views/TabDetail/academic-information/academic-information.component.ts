@@ -109,13 +109,13 @@ export class AcademicInformationComponent implements OnInit {
   async GetCourseList_CollegeWise(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCourseList_CollegeWise(CollegeID,'Existing')
+      await this.commonMasterService.GetCollegeWise_CourseList_AcademicInformation(this.SelectedCollageID, 'CourseList')//4=existing
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.CourseData = data['Data'];
+          this.CourseData = data['Data'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -153,7 +153,7 @@ export class AcademicInformationComponent implements OnInit {
   async GetAllFinancialYear() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetAllFinancialYear()
+      await this.commonMasterService.GetAllFinancialYear_AcademicInformation()
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
