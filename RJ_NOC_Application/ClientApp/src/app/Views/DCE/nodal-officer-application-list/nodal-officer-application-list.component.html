@@ -183,14 +183,14 @@
                     <div class="row">
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label for="txtCMNameOfPerson" class="form-label">Name Of Person <span style="color:red;">*</span></label>
-                        <input type="text" class="form-control" id="txtCMNameOfPerson" name="txtCMNameOfPerson" [(ngModel)]="request_CommitteeMemberDataModel.NameOfPerson" formControlName="txtCMNameOfPerson">
+                        <input type="text" class="form-control" id="txtCMNameOfPerson" name="txtCMNameOfPerson" [(ngModel)]="request_CommitteeMemberDataModel.NameOfPerson" formControlName="txtCMNameOfPerson" (keypress)="alphaOnly($event);">
                         <div *ngIf="isSubmitted_MemberDetails&&form_CommitteeMember.txtCMNameOfPerson.errors" class="text-danger">
                           <p *ngIf="form_CommitteeMember.txtCMNameOfPerson.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                         </div>
                       </div>
                       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                         <label for="txtCMMobileNumber" class="form-label">Mobile Number <span style="color:red;">*</span></label>
-                        <input type="number" class="form-control" id="txtCMMobileNumber" name="txtCMMobileNumber" [(ngModel)]="request_CommitteeMemberDataModel.MobileNumber" formControlName="txtCMMobileNumber" (keypress)="MaxLengthValidation_KeyPress($event,10);">
+                        <input type="text" class="form-control" id="txtCMMobileNumber" name="txtCMMobileNumber" [(ngModel)]="request_CommitteeMemberDataModel.MobileNumber" formControlName="txtCMMobileNumber" (keypress)="numbersOnly($event);" maxlength="10">
                         <div *ngIf="isSubmitted_MemberDetails&&form_CommitteeMember.txtCMMobileNumber.errors" class="text-danger">
                           <p *ngIf="form_CommitteeMember.txtCMMobileNumber.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                           <p *ngIf="form_CommitteeMember.txtCMMobileNumber.errors.pattern"><i aria-hidden="true"></i> Mobile number is not valid .!</p>
