@@ -502,9 +502,8 @@
     </div>
   </div>
 </div>
-<!--DEC SECTION DASHBOARD END-->
-
-<!--PV USERS SECTION DASHBOARD START -->
+<!--DCE SECTION DASHBOARD END-->
+<!--DCE PV USERS SECTION DASHBOARD START -->
 <div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==3 && this.sSOLoginDataModel.RoleID==16">
   <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-4 col-12">
@@ -533,8 +532,8 @@
     </div>
   </div>
 </div>
-<!--DEC SECTION DASHBOARD END-->
-<!--DEC SECTION Level 1 DASHBOARD START-->
+<!--DCE SECTION DASHBOARD END-->
+<!--DCE SECTION Level 1 DASHBOARD START-->
 <div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==3 && this.sSOLoginDataModel.RoleID==19">
   <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-4 col-12">
@@ -564,10 +563,10 @@
     </div>
   </div>
 </div>
-<!--DEC SECTION DASHBOARD END-->
+<!--DCE SECTION DASHBOARD END-->
 
-<!--DEC SECTION Joint Director DASHBOARD START-->
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==3 && this.sSOLoginDataModel.RoleID==11">
+<!--DCE SECTION JointDirector/AssistantCommissioner/Commissioner DASHBOARD START-->
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==3 && (this.sSOLoginDataModel.RoleID==11 || this.sSOLoginDataModel.RoleID==23 || this.sSOLoginDataModel.RoleID==24)">
   <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-4 col-12">
       <div class="card staticsCards">
