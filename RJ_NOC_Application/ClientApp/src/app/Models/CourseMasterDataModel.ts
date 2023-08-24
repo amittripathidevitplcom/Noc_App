@@ -3,7 +3,6 @@ export class CourseMasterDataModel {
   public DepartmentID: number = 0;
   public CollegeID: number = 0;
   public CourseID: number = 0;
-  public CourseTypeID: number = 0;
   public Seats: number = 0;
   public NoOfEnrolledStudents: number = null;
   public SelectedSubjectDetails: CourseMasterDataModel_SubjectDetails[] = [];
