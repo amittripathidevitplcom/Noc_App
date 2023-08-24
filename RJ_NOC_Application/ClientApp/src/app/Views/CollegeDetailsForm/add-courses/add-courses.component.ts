@@ -162,6 +162,8 @@ export class AddCoursesComponent implements OnInit {
   }
   async ddlDepartment_change(SeletedDepartmentID: any) {
     this.request.DepartmentID = SeletedDepartmentID;
+    this.request.SelectedSubjectDetails = [];
+    this.subjectDataList = [];
     try {
       this.loaderService.requestStarted();
 
@@ -247,7 +249,7 @@ export class AddCoursesComponent implements OnInit {
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
             this.subjectDataList = data['Data'];
-            if (this.request.DepartmentID != 3 && this.request.DepartmentID != 2) {
+            if (this.request.DepartmentID != 3) {
               this.request.SelectedSubjectDetails = data['Data'];
             }
             //this.request.SelectedSubjectDetails = data['Data'];

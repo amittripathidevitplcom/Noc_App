@@ -63,8 +63,8 @@
                   <p *ngIf="isSubmitted&&request.DepartmentID==3&&request.StreamID==0"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
                 <!--<div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
-    <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-  </div>-->
+                  <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>-->
               </div>
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -95,7 +95,7 @@
               </div>
 
 
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==2">
                 <label for="ddlSubject" class="form-label">Subject <span style="color:red">*</span></label>
                 <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
                                          [settings]="dropdownSettings"
