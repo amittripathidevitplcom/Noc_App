@@ -95,6 +95,7 @@ import { SSOLandingDataDataModel, SSOLoginDataModel } from '../../../Models/SSOL
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-ssologin',
@@ -113,7 +114,7 @@ export class SSOLoginComponent implements OnInit {
   public ErrorMessage: any = [];
   public SSOjson: any = [];
 
-  constructor(private activatedRoute: ActivatedRoute, private sSOLoginService: SSOLoginService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private commonMasterService: CommonMasterService) { }
+  constructor(private activatedRoute: ActivatedRoute, private sSOLoginService: SSOLoginService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private commonMasterService: CommonMasterService, private cookieService: CookieService) { }
 
   init() {
     this.loaderService.getSpinnerObserver().subscribe((status) => {
@@ -127,13 +128,24 @@ export class SSOLoginComponent implements OnInit {
     //this.Username = this.router.snapshot.queryParams.id1;
     //this.LoginRoleType = this.router.snapshot.queryParams.id2;
     //alert(this.LoginType);
-   this.Username = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id1')?.toString());
-   // this.LoginType = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id2')?.toString());
-    console.log(this.Username);
-    if (this.Username == undefined) {
-      this.Username = this.router.snapshot.queryParams.id1;
 
+
+
+   //this.Username = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id1')?.toString());
+    // this.LoginType = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id2')?.toString());
+    
+    if (this.cookieService.get('UNOC') != null && this.cookieService.get('UNOC') != '') {
+      this.Username = this.commonMasterService.Decrypt(this.cookieService.get('UNOC'));
+      this.cookieService.delete('UNOC')
     }
+    else {
+      this.Username = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('id1')?.toString());
+      if (this.Username == undefined) {
+        this.Username = this.router.snapshot.queryParams.id1;
+      }
+    }
+
+    
 
     await this.Citizenlogin(this.Username, this.LoginType);
     setTimeout(() => {

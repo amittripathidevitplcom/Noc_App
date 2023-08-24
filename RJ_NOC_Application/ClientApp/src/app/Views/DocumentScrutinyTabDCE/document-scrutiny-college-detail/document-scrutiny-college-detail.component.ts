@@ -11,14 +11,14 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
-
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 @Component({
   selector: 'app-document-scrutiny-college-detail-dce',
   templateUrl: './document-scrutiny-college-detail.component.html',
   styleUrls: ['./document-scrutiny-college-detail.component.css']
 })
 export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
-  constructor(private dceDocumentScrutinyService: DCEDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
+  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent,private dceDocumentScrutinyService: DCEDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
 
   }
 
@@ -112,7 +112,7 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'College Detail';
     this.isRemarkValid = false;
@@ -145,7 +145,7 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.collegeNearestGovernmentHospitalsList[i].Action,
@@ -182,5 +182,8 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 }

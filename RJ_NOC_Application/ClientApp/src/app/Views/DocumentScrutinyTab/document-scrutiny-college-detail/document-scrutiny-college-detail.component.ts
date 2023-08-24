@@ -68,7 +68,6 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.medicalDocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -112,7 +111,7 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'College Detail';
     this.isRemarkValid = false;
@@ -145,7 +144,7 @@ export class DocumentScrutinyCollegeDetailComponent implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.collegeNearestGovernmentHospitalsList[i].Action,

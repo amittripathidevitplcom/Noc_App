@@ -14,10 +14,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { EnumDepartment } from '../../../Common/enum-noc';
-import { Console } from 'console';
-
-
-
+import { Console } from 'console'; 
 @Injectable()
 
 @Component({
@@ -60,7 +57,6 @@ export class AddCoursesComponent implements OnInit {
   public CollegeStatus: string = 'New';
   public CollegeStatusID: number = 0;
   public SelectedDepartmentID: number = 0;
-  public isCollegExisting: boolean = false;
   public iSNoOfEnrolledStudents: boolean = false;
   public CourseLevelList: any = [];
   public streamDataList: any = [];
@@ -79,7 +75,6 @@ export class AddCoursesComponent implements OnInit {
           ddlCollege: ['', [DropdownValidators]],
           ddlCourse: ['', [DropdownValidators]],
           ddlSubject: ['', Validators.required],
-          ddlCourseType: ['', [DropdownValidators]],
           ddlSeatInformation: [''],//, [DropdownValidators]
           txtNoOfEnrolledStudents: [''],//, Validators.required
           txtsearchText: [''],
@@ -135,7 +130,6 @@ export class AddCoursesComponent implements OnInit {
   }
 
   async ddlCollege_change(SeletedCollegeID: any) {
-    this.isSelectedCourseType = false;
     this.request.Seats = 0;
     try {
       this.request.CollegeID = SeletedCollegeID;
@@ -162,6 +156,8 @@ export class AddCoursesComponent implements OnInit {
   }
   async ddlDepartment_change(SeletedDepartmentID: any) {
     this.request.DepartmentID = SeletedDepartmentID;
+    this.request.SelectedSubjectDetails = [];
+    this.subjectDataList = [];
     try {
       this.loaderService.requestStarted();
 
@@ -184,15 +180,6 @@ export class AddCoursesComponent implements OnInit {
       if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
         await this.GetStreamList();
       }
-
-      if (this.CollegeStatus == 'Existing' && this.AllCourseList.length == 0) {
-        this.request.CourseTypeID = this.CollegeStatusID;
-        this.isCollegExisting = true;
-      }
-      else {
-        this.request.CourseTypeID = 0;
-        this.isCollegExisting = false;
-      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -213,13 +200,8 @@ export class AddCoursesComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(data['Data']);
           this.streamDataList = data['Data'][0]['data'];
-
-          console.log(data['Data']);
-
         }, error => console.error(error));
-
     }
     catch (Ex) {
       console.log(Ex);
@@ -247,7 +229,7 @@ export class AddCoursesComponent implements OnInit {
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
             this.subjectDataList = data['Data'];
-            if (this.request.DepartmentID != 3 && this.request.DepartmentID != 2) {
+            if (this.request.DepartmentID != 3) {
               this.request.SelectedSubjectDetails = data['Data'];
             }
             //this.request.SelectedSubjectDetails = data['Data'];
@@ -315,7 +297,6 @@ export class AddCoursesComponent implements OnInit {
     //  this.CourseMasterForm.get('ddlStreamID')?.updateValueAndValidity();
     //  this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
     //}
-    debugger;
     if (this.CourseMasterForm.invalid) {
       this.isFormValid = false;
       return
@@ -326,26 +307,15 @@ export class AddCoursesComponent implements OnInit {
       }
     }
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
-      if (this.isSelectedCourseType) {
-        if (this.request.NoOfEnrolledStudents == null || this.request.NoOfEnrolledStudents.toString() == '' || this.request.NoOfEnrolledStudents == 0)
+        if (this.request.NoOfEnrolledStudents == null || this.request.NoOfEnrolledStudents.toString() == '')
           this.isFormValid = false;
-      }
     }
     if (!this.isFormValid) {
       return;
     }
 
-
-
-
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
-
-
-
       var CourseLevel = this.CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.CourseLevelID).Name;
-      var CourseType = this.courseTypeDataList.find((x: { ID: number; }) => x.ID == this.request.CourseTypeID).Name;
-
-      //console.log(this.courseDataList);
       var CourseName = this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.CourseID).CourseName;
       //Comment By rishi kapoor
       //if (this.isSelectedCourseType == true) {
@@ -364,7 +334,7 @@ export class AddCoursesComponent implements OnInit {
         }
       }
 
-      if ((CourseName == 'Bachelor of Arts' || CourseName == 'Bachelor of Commerce' || CourseName == 'Bachelor of Science') && CourseType == 'New') {
+      if ((CourseName == 'Bachelor of Arts' || CourseName == 'Bachelor of Commerce' || CourseName == 'Bachelor of Science')) {
         if (this.request.SelectedSubjectDetails.length < 3) {
           this.toastr.error("Minimum 3 Subject Required for UG.");
           return;
@@ -426,7 +396,6 @@ export class AddCoursesComponent implements OnInit {
     this.ddlCourse_change(this, this.request.CourseID);
     this.request.CourseLevelID = 0;
     this.ddlCourseLevel_change(this.request.CourseLevelID);
-    this.request.CourseTypeID = 0;
     this.request.Seats = 0;
     this.request.NoOfEnrolledStudents = undefined;
     this.request.SelectedSubjectDetails = [];
@@ -439,7 +408,6 @@ export class AddCoursesComponent implements OnInit {
     this.request.StreamID = 0;
     this.isShowStreambox = false;
 
-    this.isCollegExisting = false;
     this.CollegeStatus = 'New';
     this.CollegeStatusID = 0;
 
@@ -481,7 +449,6 @@ export class AddCoursesComponent implements OnInit {
           await this.ddlCourse_change(null, this.request.CourseID);
 
           this.request.Seats = data['Data'][0]["Seats"];
-          this.request.CourseTypeID = data['Data'][0]["CourseTypeID"];
           this.request.SelectedSubjectDetails = data['Data'][0]["SelectedSubjectDetails"];
 
           this.request.UserID = data['Data'][0]["UserID"];
@@ -763,28 +730,7 @@ export class AddCoursesComponent implements OnInit {
 
   }
 
-  //added by rishi kapoor
-  public isSelectedCourseType: boolean = false;
-  async ddlCourseType_change(CourseTypeID: any) {
-    if (this.request.DepartmentID == 3) {
-      let CourseTypeName = '';
-      CourseTypeName = this.courseTypeDataList.filter((item: any) => item.ID == CourseTypeID)[0]['Name'];
-      if (CourseTypeName == "New") {
-        this.isSelectedCourseType = false;
-        //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.clearValidators();
-      }
-      else {
-        //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.setValidators([Validators.required]);
-        this.isSelectedCourseType = true;
-      }
-      //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
-    }
-    else {
-      //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.clearValidators();
-      //this.CourseMasterForm.get('txtNoOfEnrolledStudents')?.updateValueAndValidity();
-    }
-  }
-
+   
 }
 
 

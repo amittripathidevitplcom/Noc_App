@@ -32,7 +32,7 @@ export class ApplyNOCComponent implements OnInit {
     this.SelectedDepartmentID = 6;
     //this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.DepartmentID = this.SelectedDepartmentID;
-    this.sSOLoginDataModel.SSOID = 'rishikapoordelhi'; //JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.sSOLoginDataModel.SSOID = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetDepartmentList();
     this.GetCollageMaster();
     this.loaderService.requestEnded();

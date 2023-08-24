@@ -11,6 +11,7 @@ import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsM
 import { ToastrService } from 'ngx-toastr';
 import { FacilityDetailsService } from '../../../Services/FicilityDetais/facility-details.service';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 @Component({
   selector: 'app-document-scrutiny-facility-dce',
@@ -32,7 +33,7 @@ export class DocumentScrutinyFacilityComponentDce implements OnInit {
   public FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
   public FinalRemarks: any = [];
 
-  constructor(private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
+  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -84,7 +85,7 @@ export class DocumentScrutinyFacilityComponentDce implements OnInit {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Facility';
     this.isRemarkValid = false;
@@ -117,7 +118,7 @@ export class DocumentScrutinyFacilityComponentDce implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.FacilitiesDataAllList[i].Action,
@@ -154,5 +155,8 @@ export class DocumentScrutinyFacilityComponentDce implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 }

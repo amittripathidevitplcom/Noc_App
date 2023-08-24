@@ -144,6 +144,7 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   async IsChnageTechingType(val: any) {
+    this.request.SubjectID = 0;
     this.DeleteResetFiles('All', false, '', '', '');
   }
 
@@ -320,13 +321,14 @@ export class StaffDetailsComponent implements OnInit {
   async GetCollegeWiseSubjectList(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCollegeWiseSubjectList(CollegeID)
+      await this.commonMasterService.GetCollegeWise_SubjectList_StaffDetails(this.SelectedCollageID, 'SubjectList',0)//4=existing
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.SubjectData = data['Data'];
+          this.SubjectData = data['Data'][0];
+          console.log(this.SubjectData);
         }, error => console.error(error));
     }
     catch (Ex) {

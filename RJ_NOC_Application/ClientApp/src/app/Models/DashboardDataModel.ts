@@ -45,6 +45,7 @@ export class DashboardDataModel {
   public JointSecretary_Rejected: number = 0;
   public JointSecretary_Completed: number = 0;
   public JointSecretary_ReleaseNOCPending: number = 0;
+  public JointSecretary_ReleaseNOC: number = 0;
 
   //JointSecretary Pending
   public ScrutinyCommittee_Pending: number = 0;

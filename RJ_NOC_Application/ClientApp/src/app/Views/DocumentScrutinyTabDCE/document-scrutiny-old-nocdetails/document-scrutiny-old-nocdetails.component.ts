@@ -19,6 +19,7 @@ import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../..
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 
 
@@ -52,7 +53,7 @@ export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
 
   public FinalRemarks: any = [];
 
-  constructor(private oldnocdetailService: OldnocdetailService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
+  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private oldnocdetailService: OldnocdetailService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
 
 
@@ -144,7 +145,7 @@ export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'OLD NOC Details';
     this.isRemarkValid = false;
@@ -177,7 +178,7 @@ export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.OldNocDetails[i].Action,
@@ -214,5 +215,8 @@ export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 }
