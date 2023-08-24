@@ -187,7 +187,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
               return;
             }
 
-            
+            if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
+              this.toastr.error("Enter All Class Room Details.")
+              this.isCheck30Female = true;
+              return;
+            }
+
 
           }
           else {
