@@ -38,9 +38,9 @@
                       <th>College Name</th>
                       <th>NOC Issued Date</th>
                       <th>Remarks</th>
-                      <th>NOC Issued Remark</th>
+                      <!--<th>NOC Issued Remark</th>-->
                       <th>Status</th>
-                      <th>View Report</th>
+                      <th>View NOC</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -49,11 +49,11 @@
                       <td>{{item.DepartmentName}}</td>
                       <td>{{item.CollegeName}}</td>
                       <td>{{item.NOCIssuedDate}}</td>
-                      <td>{{item.Remark}}</td>
+                      <!--<td>{{item.Remark}}</td>-->
                       <td>{{item.NOCIssuedRemark}}</td>
                       <td>{{item.Status}}</td>
                       <td>
-                        <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{item.NOCFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <a class="bi bi-file-earmark-pdf-fill"  href="{{item.NOCFilePath}}" title="click here to zoom"  target="_blank"></a>
                         <!--<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-eye"></i></button>-->
                       </td>
                     </tr>
