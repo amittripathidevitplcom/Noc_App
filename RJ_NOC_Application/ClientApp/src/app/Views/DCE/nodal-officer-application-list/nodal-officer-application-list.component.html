@@ -31,7 +31,7 @@
                     <td>
                       <a href="javascript:void(0)" title="Document Scrutiny" (click)="DocumentScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage=='0' && this.sSOLoginDataModel.RoleID==17" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
-                      &nbsp;<button type="button"  class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
+                      &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
 
                     </td>
                   </tr>
@@ -307,7 +307,7 @@
                           Description
                         </th>
                         <th>
-                         PV Date
+                          PV Date
                         </th>
                         <th>
                           Status
@@ -342,21 +342,21 @@
                     </tbody>
                   </table>
                   <br />
-             
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>
-                            Special Remakrs
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>  {{PVApplicationDetailsList[0]['FinalRemark']}}</td>
-                        </tr>
-                      </tbody>
-                    </table>
+
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>
+                          Special Remakrs
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>  {{PVApplicationDetailsList[0]['FinalRemark']}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                   <br />
                   <b>DETAILS OF INSPECTION TEAM MEMBERS</b>
                   <table class="table table-bordered">
@@ -394,7 +394,9 @@
                           {{row.SSOID}}
                         </td>
                         <td>
-                          <span class="{{row.IsPrimaryMember=='1'?'fa fa-check text-success':'fa fa-remove text-danger'}}"></span>
+                          <span>
+                            {{row.IsPrimaryMember=='1'?'Yes':'No'}}
+                          </span>
                         </td>
                       </tr>
                       <tr *ngIf="PVCommitteeList.length<=0">
@@ -404,12 +406,10 @@
                   </table>
                 </div>
               </div>
-                </div>
-              </div>
+            </div>
+          </div>
         </ng-template>
         <!--END MODAL-->
-
-
       </div>
     </div>
   </div>
