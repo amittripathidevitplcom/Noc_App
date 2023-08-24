@@ -523,10 +523,13 @@ const routes: Routes = [
       }
       ,
       {
-        path: 'inspectioncommitteephysicalverification', component: InspectionCommitteePhysicalVerificationDCEComponent
+        path: 'inspectioncommitteephysicalverification:Status', component: InspectionCommitteePhysicalVerificationDCEComponent
       },
       {
-        path: 'nodalofficerapplicationlist', component: NodalOfficerApplicationListComponent
+        path: 'nodalofficerapplicationlist:Status', component: NodalOfficerApplicationListComponent
+      },
+      {
+        path: 'dceapplicationlist:Status', component: NodalOfficerApplicationListComponent
       },
       {
         path: 'documentscrutinyForwardToCommiteereport', component: AhDocumentScrutinyForwardCommetteComponent
