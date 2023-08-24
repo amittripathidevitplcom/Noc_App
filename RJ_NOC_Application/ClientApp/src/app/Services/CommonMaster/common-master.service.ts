@@ -609,13 +609,13 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetBuildingTypeCheck() {
+  public async GetBuildingTypeCheck(SelectedDepartmentID:number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetBuildingTypeCheck")
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetBuildingTypeCheck/" + SelectedDepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

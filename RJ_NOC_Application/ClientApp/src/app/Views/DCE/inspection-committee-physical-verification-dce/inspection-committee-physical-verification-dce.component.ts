@@ -139,7 +139,8 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   }
 
 
-  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number) {
+  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number)
+  {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
 
