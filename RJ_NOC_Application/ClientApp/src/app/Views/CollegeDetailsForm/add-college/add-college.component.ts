@@ -164,7 +164,7 @@ export class AddCollegeComponent implements OnInit {
         txtCityTownVillage_Nearest: ['', Validators.required],
         txtPincode_Nearest: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]]
       })
-
+    setTimeout(function () { (window as any).LoadData(); }, 200)
     // query string
     this.QueryStringCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
 

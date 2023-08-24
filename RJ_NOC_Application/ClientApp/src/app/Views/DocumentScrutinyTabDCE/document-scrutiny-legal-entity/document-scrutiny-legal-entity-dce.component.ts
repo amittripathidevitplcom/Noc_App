@@ -12,7 +12,7 @@ import { AbstractControl, FormControl, FormGroup, Validators, FormArray } from '
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
-
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 @Component({
   selector: 'app-document-scrutiny-legal-entity-dce',
   templateUrl: './document-scrutiny-legal-entity-dec.component.html',
@@ -20,7 +20,7 @@ import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutin
 })
 export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
 
-  constructor(private dcedocumentScrutinyService: DCEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
+  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent,private dcedocumentScrutinyService: DCEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
 
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -139,7 +139,7 @@ export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Legal Entity';
     this.dsrequest.DocumentScrutinyDetail=[];
@@ -185,7 +185,7 @@ export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.legalEntityMemberDetailData[i].Action,
@@ -203,7 +203,7 @@ export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
             DocumentScrutinyID: 0,
             DepartmentID: this.SelectedDepartmentID,
             CollegeID: this.SelectedCollageID,
-            UserID: 0,
+            UserID: this.sSOLoginDataModel.UserID,
             RoleID: this.sSOLoginDataModel.RoleID,
             ApplyNOCID: this.SelectedApplyNOCID,
             Action: this.legalEntityInstituteDetailData[i].Action,
@@ -241,5 +241,8 @@ export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 }

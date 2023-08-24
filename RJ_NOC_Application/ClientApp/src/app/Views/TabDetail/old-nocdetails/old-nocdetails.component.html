@@ -22,10 +22,7 @@
           <label>Course <span style="color:red;">*</span></label>
           <select class="form-select" id="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID" (change)="GetSubjectList(request.CourseID)">
             <option value="0" disabled>--Select Course--</option>
-            <option *ngFor="let item of lstCourse"
-                    value="{{item.CourseID}}">
-              {{item.CourseName}}
-            </option>
+            <option *ngFor="let item of lstCourse" value="{{item.CourseID}}">{{item.CourseName}}</option>
           </select>
           <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
             <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
@@ -132,7 +129,7 @@
         </div>
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
           <button type="button" class="btn btn-primary" id="btnAddNOCDetail" name="btnSave" (click)="AddOldNOCDetails()"><i class="fa fa-plus"></i>&nbsp;Add & Save</button>&nbsp;
-          <button type="button" class="btn btn-danger" (click)="ResetControl()"> Reset</button>
+          <button type="button" class="btn btn-danger"  id="btnAddReset" (click)="ResetControl()"> Reset</button>
         </div>
         <!--<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 text-end">
           <button class="btn btn-primary" type="button" (click)="AddData()">Save & Next</button>
@@ -228,6 +225,9 @@
                     <td>{{row.IssuedYear == 11 ? 'Permanently':row.IssuedYear + " Year"}} </td>
                     <td>{{row.NOCNumber}}</td>
                     <td>{{row.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
+
+
+
                     <!--<td>{{row.NOCExpireDate=='1900-01-01'?'':row.NOCExpireDate | date:'dd-MM-yyyy'}}</td>-->
                     <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
                     <td>{{row.Remark}}</td>

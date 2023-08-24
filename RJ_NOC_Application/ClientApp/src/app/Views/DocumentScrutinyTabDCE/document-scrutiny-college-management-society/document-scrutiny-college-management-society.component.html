@@ -37,6 +37,7 @@
                 <th>Authorized Document</th>
                 <th>Is Primary</th>
                 <th>Is Authorize</th>
+                <th>Trails</th>
               </tr>
             </thead>
             <tbody>
@@ -68,6 +69,8 @@
     Compliance: {{row.S_Action}}<br />
     <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
   </td>-->
+                
+
                 <td>{{idx+1}}</td>
                 <td>{{row.PersonName}}</td>
                 <td>{{row.FatherName}}</td>
@@ -108,6 +111,7 @@
                 </td>
                 <td>{{row.IsPrimary==1?'Yes':'No'}}</td>
                 <td>{{row.IsAuthorized==1?'Yes':'No'}}</td>
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.SocietyID,'ManagementSocietyTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
               </tr>
               <tr *ngIf="SocietyAllList.length==0">
                 <td colspan="20" style="color:red">

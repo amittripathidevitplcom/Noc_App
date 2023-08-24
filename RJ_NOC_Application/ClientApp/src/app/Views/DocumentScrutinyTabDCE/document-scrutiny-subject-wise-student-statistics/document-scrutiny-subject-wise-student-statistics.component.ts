@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 @Component({
   selector: 'app-document-scrutiny-subject-wise-student-statistics',
@@ -54,7 +55,7 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
 
-  constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
+  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit()
   {
@@ -170,7 +171,7 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Subject Wise Student Detail';
     this.isRemarkValid = false;
@@ -259,5 +260,7 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
       }
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
+  }
 }

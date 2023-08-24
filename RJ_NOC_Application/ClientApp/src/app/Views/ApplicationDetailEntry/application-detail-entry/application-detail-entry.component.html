@@ -60,6 +60,18 @@
               <app-required-document></app-required-document>
             </mat-tab>
 
+            <!--OLD NOC Details Only for New-->
+
+            <mat-tab *ngIf="CollegeType_IsExisting">
+              <ng-template mat-tab-label>
+                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['OLDNOCDetails']==0"></span>
+                <span>OLD NOC Details</span>
+              </ng-template>
+              <app-old-nocdetails></app-old-nocdetails>
+            </mat-tab>
+
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
@@ -103,17 +115,7 @@
               </ng-template>
               <app-staff-details></app-staff-details>
             </mat-tab>
-            <!--OLD NOC Details Only for New-->
 
-            <mat-tab *ngIf="CollegeType_IsExisting">
-              <ng-template mat-tab-label>
-                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['OLDNOCDetails']==0"></span>
-                <span>OLD NOC Details</span>
-              </ng-template>
-              <app-old-nocdetails></app-old-nocdetails>
-            </mat-tab>
 
             <!--Academic Information Only for New-->
             <mat-tab *ngIf="CollegeType_IsExisting">

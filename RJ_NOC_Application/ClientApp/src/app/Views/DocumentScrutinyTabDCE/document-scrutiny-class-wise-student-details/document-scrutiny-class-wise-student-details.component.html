@@ -53,6 +53,7 @@
                   <th>Total Minority Girls</th>
                   <th>Total PH Boys</th>
                   <th>Total PH Girls</th>
+                  <th>Trails</th>
                 </tr>
               </thead>
               <tbody>
@@ -152,6 +153,7 @@
                   <td>
                     <input type="text" disabled class="form-control" id="txOFTotalPHGirls{{idx}}" name="txOFTotalPHGirls{{idx}}" [(ngModel)]="item.OFTotalPHGirls" autocomplete="off">
                   </td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.ClassStatisticID,'ClassWiseStudentTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
                 </tr>
               </tbody>
               <tfoot>

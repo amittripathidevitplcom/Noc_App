@@ -30,6 +30,7 @@
               <th>Length (In Feet)</th>
               <th>Student Capacity</th>
               <th>Upload Image</th>
+              <th>Trails</th>
             </tr>
           </thead>
           <tbody>
@@ -54,13 +55,13 @@
                 </div>
               </td>
               <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                Compliance: {{item.C_Action}}<br />
-                                             <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-              </td>
-              <td *ngIf="sSOLoginDataModel.RoleID==5">
-                Compliance: {{item.S_Action}}<br />
-                                             <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-              </td>-->
+    Compliance: {{item.C_Action}}<br />
+                                 <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+  </td>
+  <td *ngIf="sSOLoginDataModel.RoleID==5">
+    Compliance: {{item.S_Action}}<br />
+                                 <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+  </td>-->
               <td width="5%">
                 {{idx+1}}
               </td>
@@ -82,7 +83,7 @@
                 </a>
                 <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
               </td>
-
+              <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.CollegeWiseRoomID,'ClassRoomDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
             </tr>
             <tr *ngIf="RoomDetails.length<=0">
               <td colspan="7" style="color:red">No Data Found.!</td>
