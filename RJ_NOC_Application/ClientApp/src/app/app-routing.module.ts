@@ -541,6 +541,9 @@ const routes: Routes = [
       {
         path: 'AHPreVerificationDoneList/:Status', component: AhPreVerificationDoneListComponent
       },
+      {
+        path: 'issuednocreport', component: IssuedNOCReportComponent
+      },
     ]
   },
 
