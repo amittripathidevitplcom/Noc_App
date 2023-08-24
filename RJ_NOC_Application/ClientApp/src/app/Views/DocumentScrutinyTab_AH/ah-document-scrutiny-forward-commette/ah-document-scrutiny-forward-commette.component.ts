@@ -1,20 +1,21 @@
 import { Component, OnInit, Input, Injectable, ViewChild, ElementRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-import { LoaderService } from '../../../../Services/Loader/loader.service';
+import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonMasterDataModel } from '../../../../Models/CommonMasterDataModel';
+import { CommonMasterDataModel } from '../../../Models/CommonMasterDataModel';
 import { ToastrService } from 'ngx-toastr';
-import { SSOLoginDataModel } from '../../../../Models/SSOLoginDataModel';
-import { CommonMasterService } from '../../../../Services/CommonMaster/common-master.service';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ApplyNOCApplicationService } from '../../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 
 @Component({
-  selector: 'app-ah-document-scrutiny-forward-to-commette-report',
-  templateUrl: './ah-document-scrutiny-forward-to-commette-report.component.html',
-  styleUrls: ['./ah-document-scrutiny-forward-to-commette-report.component.css']
+  selector: 'app-ah-document-scrutiny-forward-commette',
+  templateUrl: './ah-document-scrutiny-forward-commette.component.html',
+  styleUrls: ['./ah-document-scrutiny-forward-commette.component.css']
 })
-export class AhDocumentScrutinyForwardToCommetteReportComponent {
+export class AhDocumentScrutinyForwardCommetteComponent {
+
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
   sSOLoginDataModel = new SSOLoginDataModel();
