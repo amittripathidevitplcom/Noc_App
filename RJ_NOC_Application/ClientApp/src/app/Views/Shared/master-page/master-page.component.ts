@@ -114,11 +114,11 @@ export class MasterPageComponent implements OnInit {
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
-      }, 100);
+      }, 10);
     }
   }
   async loadMenuByRoleID(SeletedUserId: any) {
-    debugger;
+    
     this.loaderService.requestStarted();
 
     this.RoleID = this.lstUserRole.find((x: { UserID: number; }) => x.UserID == SeletedUserId).RoleID;;

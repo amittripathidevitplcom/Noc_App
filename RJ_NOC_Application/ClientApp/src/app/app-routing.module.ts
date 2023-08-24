@@ -120,10 +120,12 @@ import { ApplyNocpreviewAgricultureComponent } from './Views/apply-nocpreview-ag
 import { SubjectWiseStudentStatisticsComponent } from './Views/SubjectWiseStudentStatistics/subject-wise-student-statistics/subject-wise-student-statistics.component'
 import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE/inspection-committee-physical-verification-dce/inspection-committee-physical-verification-dce.component';
 import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-application-list/nodal-officer-application-list.component';
-import { AhDocumentScrutinyForwardToCommetteReportComponent } from './Views/DocumentScrutinyTab_AH/ahDocumentScrutinyForwardToCommetteReport/ah-document-scrutiny-forward-to-commette-report/ah-document-scrutiny-forward-to-commette-report.component';
+//import { AhDocumentScrutinyForwardToCommetteReportComponent } from './Views/DocumentScrutinyTab_AH/ahDocumentScrutinyForwardToCommetteReport/ah-document-scrutiny-forward-to-commette-report/ah-document-scrutiny-forward-to-commette-report.component';
 import { AhInspectionCommitteePhysicalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-inspection-committee-physical-verification/ah-inspection-committee-physical-verification.component';
 import { AhPreVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-pre-verification-done-list/ah-pre-verification-done-list.component';
-
+import { AhApplyNocApplicationListComponent } from './Views/ahApplyNocApplicationList/ah-apply-noc-application-list/ah-apply-noc-application-list.component';
+import { AhDocumentScrutinyForwardCommetteComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-forward-commette/ah-document-scrutiny-forward-commette.component';
+import { IssuedNOCReportComponent } from './Views/Reports/Medical/issued-noc-report/issued-noc-report.component';
 
 
 
@@ -527,7 +529,7 @@ const routes: Routes = [
         path: 'nodalofficerapplicationlist', component: NodalOfficerApplicationListComponent
       },
       {
-        path: 'documentscrutinyForwardToCommiteereport', component: AhDocumentScrutinyForwardToCommetteReportComponent
+        path: 'documentscrutinyForwardToCommiteereport', component: AhDocumentScrutinyForwardCommetteComponent
       },
 
       {

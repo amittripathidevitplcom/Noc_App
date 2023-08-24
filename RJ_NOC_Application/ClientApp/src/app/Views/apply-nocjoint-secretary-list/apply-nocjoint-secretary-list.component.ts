@@ -160,7 +160,7 @@ export class ApplyNOCJointSecretaryListComponent implements OnInit {
         }
       }
       else {
-        this.NextRoleID = 4;
+        this.NextRoleID = 1;
         this.NextUserID = 0;
         this.NextActionID = 0;
       }

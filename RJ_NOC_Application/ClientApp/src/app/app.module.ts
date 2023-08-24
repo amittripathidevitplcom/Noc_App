@@ -235,9 +235,12 @@ import { InspectionCommitteePhysicalVerificationDCEComponent } from './Views/DCE
 import { NodalOfficerApplicationListComponent } from './Views/DCE/nodal-officer-application-list/nodal-officer-application-list.component';
 import { DocumentScrutinyClassWiseStudentDetailsComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-class-wise-student-details/document-scrutiny-class-wise-student-details.component';
 import { DocumentScrutinySubjectWiseStudentStatisticsComponent } from './Views/DocumentScrutinyTabDCE/document-scrutiny-subject-wise-student-statistics/document-scrutiny-subject-wise-student-statistics.component';
-import { AhDocumentScrutinyForwardToCommetteReportComponent } from './Views/DocumentScrutinyTab_AH/ahDocumentScrutinyForwardToCommetteReport/ah-document-scrutiny-forward-to-commette-report/ah-document-scrutiny-forward-to-commette-report.component';
+//import { AhDocumentScrutinyForwardToCommetteReportComponent } from './Views/DocumentScrutinyTab_AH/ahDocumentScrutinyForwardToCommetteReport/ah-document-scrutiny-forward-to-commette-report/ah-document-scrutiny-forward-to-commette-report.component';
 import { AhInspectionCommitteePhysicalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-inspection-committee-physical-verification/ah-inspection-committee-physical-verification.component';
 import { AhPreVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-pre-verification-done-list/ah-pre-verification-done-list.component';
+import { IssuedNOCReportComponent } from './Views/Reports/Medical/issued-noc-report/issued-noc-report.component';
+import { AhApplyNocApplicationListComponent } from './Views/ahApplyNocApplicationList/ah-apply-noc-application-list/ah-apply-noc-application-list.component';
+import { AhDocumentScrutinyForwardCommetteComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-forward-commette/ah-document-scrutiny-forward-commette.component';
 
 
 
@@ -466,9 +469,12 @@ import { AhPreVerificationDoneListComponent } from './Views/DocumentScrutinyTab_
     NodalOfficerApplicationListComponent,
     DocumentScrutinyClassWiseStudentDetailsComponent,
     DocumentScrutinySubjectWiseStudentStatisticsComponent,
-    AhDocumentScrutinyForwardToCommetteReportComponent,
+    /*AhDocumentScrutinyForwardToCommetteReportComponent,*/
     AhInspectionCommitteePhysicalVerificationComponent,
     AhPreVerificationDoneListComponent,
+    IssuedNOCReportComponent,
+    AhApplyNocApplicationListComponent,
+    AhDocumentScrutinyForwardCommetteComponent,
 
   ],
   imports: [
