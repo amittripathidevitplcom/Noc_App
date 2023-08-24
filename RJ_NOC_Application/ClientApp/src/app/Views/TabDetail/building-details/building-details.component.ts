@@ -223,7 +223,7 @@ export class BuildingDetailsComponent implements OnInit {
   async GetBuildingTypeCheck() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetBuildingTypeCheck()
+      await this.commonMasterService.GetBuildingTypeCheck(this.SelectedDepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
