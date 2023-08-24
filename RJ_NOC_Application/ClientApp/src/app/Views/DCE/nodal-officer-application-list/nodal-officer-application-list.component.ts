@@ -79,6 +79,8 @@ export class NodalOfficerApplicationListComponent implements OnInit
   public isSubmitted: boolean = false;
   public isSubmitted_MemberDetails: boolean = false;
 
+  public QueryStringStatus: any = '';
+
   public NextWorkFlowActionList: any[] = [];
 
   public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
@@ -95,7 +97,11 @@ export class NodalOfficerApplicationListComponent implements OnInit
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     console.log(this.sSOLoginDataModel);
-    await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+
+    await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
+   
+
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
     //this.GetRNCCheckListByTypeDepartment();
@@ -112,11 +118,11 @@ export class NodalOfficerApplicationListComponent implements OnInit
 
 
 
-  async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number)
+  async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number, Status: string)
   {
     try {
       this.loaderService.requestStarted();
-      await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID)
+      await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID, Status)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
