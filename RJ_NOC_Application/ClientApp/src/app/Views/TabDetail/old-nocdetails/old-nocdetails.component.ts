@@ -137,11 +137,11 @@ export class OldNOCDetailsComponent implements OnInit {
     }
   }
 
-  async GetCourseList() {
+  async GetCourseList(Type: string = 'Course', OldNocID: number=0) {
     try {
       this.loaderService.requestStarted();
       this.lstCourse = [];
-      await this.commonMasterService.Get_CollegeWiseCourse_Subject_OldNOC(this.SelectedCollageID, 'Course')//4=existing
+      await this.commonMasterService.Get_CollegeWiseCourse_Subject_OldNOC(this.SelectedCollageID, Type,0, OldNocID)//4=existing
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -160,12 +160,12 @@ export class OldNOCDetailsComponent implements OnInit {
     }
   }
 
-  async GetSubjectList(CourseID: any) {
+  async GetSubjectList(CourseID: any, GetType: string = 'Subject', OldNocID: number=0) {
     try {
       this.SelectedSubjectDetails = [];
       this.loaderService.requestStarted();
 
-      await this.commonMasterService.Get_CollegeWiseCourse_Subject_OldNOC(this.SelectedCollageID, 'Subject', CourseID)
+      await this.commonMasterService.Get_CollegeWiseCourse_Subject_OldNOC(this.SelectedCollageID, GetType, CourseID, OldNocID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -566,16 +566,20 @@ export class OldNOCDetailsComponent implements OnInit {
       this.IsUploadDocRequried = false;
       this.loaderService.requestStarted();
       await this.oldnocdetailService.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, OldNocID)
-        .then((data: any) => {
-          debugger;
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request = data['Data'][0];
-          this.GetSubjectList(this.request.CourseID);
+          debugger;
+          await this.GetCourseList('CourseEditList', OldNocID);
+          await this.GetSubjectList(this.request.CourseID, 'SubjectEditList', OldNocID);
+
+          //this.GetSubjectList(this.request.CourseID);
+
           this.SelectedSubjectDetails = this.request.SubjectData;
-          this.OnChangeOldNOCType();
+          await this.OnChangeOldNOCType();
           this.request.UploadNOCDoc = this.request.UploadNOCDoc;
           this.request.UploadNOCDocPath = this.request.UploadNOCDocPath;
           this.request.Dis_FileName = this.request.Dis_FileName;
@@ -584,6 +588,10 @@ export class OldNOCDetailsComponent implements OnInit {
           this.isDisabled = true;
           const btnAdd = document.getElementById('btnAddNOCDetail')
           if (btnAdd) { btnAdd.innerHTML = "Update"; }
+
+          const btnAddReset = document.getElementById('btnAddReset')
+          if (btnAddReset) { btnAddReset.innerHTML = "Cancel"; }
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -613,6 +621,9 @@ export class OldNOCDetailsComponent implements OnInit {
       this.isToDisable = true;
       const btnAdd = document.getElementById('btnAddNOCDetail')
       if (btnAdd) { btnAdd.innerHTML = '<i class="fa fa-plus"></i>&nbsp;Add & Save'; }
+
+      const btnAddReset = document.getElementById('btnAddReset')
+      if (btnAddReset) { btnAddReset.innerHTML = "Reset"; }
       this.GetOldNOCDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
     }
     catch (Ex) {

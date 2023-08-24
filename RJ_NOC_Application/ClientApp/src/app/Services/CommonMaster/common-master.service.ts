@@ -430,13 +430,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async Get_CollegeWiseCourse_Subject_OldNOC(CollegeID: number, Type: string, CourseID: number = 0) {
+  public async Get_CollegeWiseCourse_Subject_OldNOC(CollegeID: number, Type: string, CourseID: number = 0, OldNocID: number = 0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/Get_CollegeWiseCourse_Subject_OldNOC/" + CollegeID + "/" + Type + "/" + CourseID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/Get_CollegeWiseCourse_Subject_OldNOC/" + CollegeID + "/" + Type + "/" + CourseID + "/" + OldNocID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
