@@ -586,7 +586,7 @@ export class NodalOfficerApplicationListComponent implements OnInit
       }
       else
       {
-        this.toastr.warning('SssoID Invalid')
+        this.toastr.warning('SSOID Invalid')
       }
     }
     else
