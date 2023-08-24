@@ -836,26 +836,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
           }
         }
       }
-      if (this.SelectedDepartmentID == 9) {
-        if (this.CollegeType_IsExisting) {
-          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ParamedicalHospitalDetails'] <= 0) {
-            this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
-          }
-        }
-        else {
-          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ParamedicalHospitalDetails'] <= 0
-          ) {
-            this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
-          }
-        }
-      }
+      
       if (!this.isFormvalid) {
         return;
       }

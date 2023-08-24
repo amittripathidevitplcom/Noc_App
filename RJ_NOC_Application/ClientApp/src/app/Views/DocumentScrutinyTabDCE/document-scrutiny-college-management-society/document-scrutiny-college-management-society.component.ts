@@ -11,6 +11,7 @@ import { SocityService } from '../../../Services/Master/SocietyManagement/socity
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
-  constructor(private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DCEDocumentScrutinyService) { }
 
@@ -87,7 +88,7 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'College Management Society';
     this.isRemarkValid = false;
@@ -120,7 +121,7 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.SocietyAllList[i].Action,
@@ -157,5 +158,10 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 }

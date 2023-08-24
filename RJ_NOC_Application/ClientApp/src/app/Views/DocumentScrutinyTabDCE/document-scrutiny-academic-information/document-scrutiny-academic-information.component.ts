@@ -10,6 +10,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 @Component({
   selector: 'app-document-scrutiny-academic-information-dce',
@@ -31,7 +32,8 @@ export class DocumentScrutinyAcademicInformationComponentDce implements OnInit {
   public FinalRemarks: any = [];
   constructor(private dceDocumentScrutinyService: DCEDocumentScrutinyService,private academicInformationDetailsService: AcademicInformationDetailsService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute,
-    private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
+    private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService,
+    private dcedocumentscrutiny: DocumentScrutinyComponent) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -85,7 +87,7 @@ export class DocumentScrutinyAcademicInformationComponentDce implements OnInit {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Academic Information';
     this.isRemarkValid = false;
@@ -118,7 +120,7 @@ export class DocumentScrutinyAcademicInformationComponentDce implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.AcademicInformationList[i].Action,
@@ -155,5 +157,9 @@ export class DocumentScrutinyAcademicInformationComponentDce implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 }

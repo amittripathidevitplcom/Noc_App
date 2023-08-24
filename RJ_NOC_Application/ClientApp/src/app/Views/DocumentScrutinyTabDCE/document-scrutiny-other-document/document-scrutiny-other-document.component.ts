@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 @Component({
   selector: 'app-document-scrutiny-other-document-dce',
@@ -33,7 +34,7 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
   public FinalRemarks: any = [];
   public HospitalRealtedDocuments: RequiredDocumentsDataModel_Documents[] = []
 
-  constructor(private loaderService: LoaderService,
+  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private loaderService: LoaderService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute,
     private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService, private dcedocumentScrutinyService: DCEDocumentScrutinyService) { }
 
@@ -113,7 +114,7 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Other Document';
     this.isRemarkValid = false;
@@ -146,7 +147,7 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.request.DocumentDetails[i].Action,
@@ -183,5 +184,8 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 }

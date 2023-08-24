@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
+import { Component, Injectable, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -40,7 +40,9 @@ import { HospitalDataModel, HospitalParentNotDataModel } from '../../../Models/H
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { DocumentScrutinyCheckListDetailsComponentDce } from '../../DocumentScrutinyTabDCE/document-scrutiny-check-list-details/document-scrutiny-check-list-details.component';
 
-
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-document-scrutiny',
   templateUrl: './document-scrutiny.component.html',
@@ -92,6 +94,7 @@ export class DocumentScrutinyComponent implements OnInit {
   public AllTabDocumentScrutinyData: any = [];
   public DocumentScrutinyButtonText: string = '';
   public ApplicationNo: string = '';
+  public lstTarils: any = [];
 
 
 
@@ -160,6 +163,8 @@ export class DocumentScrutinyComponent implements OnInit {
   private checkListDetailsComponent_New!: DocumentScrutinyCheckListDetailsComponentDce;
 
   //private checkListDetailsComponent: DocumentScrutinyCheckListDetailsComponent;
+
+  @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
@@ -171,11 +176,7 @@ export class DocumentScrutinyComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
-    this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNo')?.toString());
-
-
-
-
+    this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollageDetails();
     await this.CheckTabsEntry();
@@ -259,6 +260,40 @@ export class DocumentScrutinyComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+  public ViewTarilCommon(ID: number, ActionType: string) {
+    this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      this.commonMasterService.GetDocumentScritintyTaril(ID, this.SelectedApplyNOCID, this.SelectedCollageID, this.SelectedDepartmentID, ActionType)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.lstTarils = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
     }
   }
 }

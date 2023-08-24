@@ -11,6 +11,7 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { ToastrService } from 'ngx-toastr';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 @Component({
   selector: 'app-document-scrutiny-required-document-dce',
@@ -36,7 +37,7 @@ export class DocumentScrutinyRequiredDocumentComponentDce implements OnInit {
   //public RequiredDocumentsAllList: any = [];
   public FinalRemarks: any = [];
 
-  constructor(private collegeDocumentService: CollegeDocumentService, private commonMasterService: CommonMasterService,
+  constructor(private dcedocumentscrutiny: DocumentScrutinyComponent,private collegeDocumentService: CollegeDocumentService, private commonMasterService: CommonMasterService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DCEDocumentScrutinyService
   ) { }
@@ -130,7 +131,7 @@ export class DocumentScrutinyRequiredDocumentComponentDce implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.request.DocumentDetails[i].Action,
@@ -167,5 +168,8 @@ export class DocumentScrutinyRequiredDocumentComponentDce implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 }
