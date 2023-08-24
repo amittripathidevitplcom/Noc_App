@@ -240,4 +240,18 @@ export class AnimalDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetNOCApplicationList(Action: string, DepartmentID: number, UserID: number, RoleID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetNOCApplicationList/" + UserID + "/" + RoleID + "/" + DepartmentID + "/" + Action)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

@@ -11,6 +11,7 @@ export class ApplicationCommitteeMemberdataModel
   public ActiveStatus?: boolean = false;
   public DeleteStatus?: boolean = false;
   public AadhaarNo?: string = '';
+  public CommitteeType?: string = '';
 
 
 }

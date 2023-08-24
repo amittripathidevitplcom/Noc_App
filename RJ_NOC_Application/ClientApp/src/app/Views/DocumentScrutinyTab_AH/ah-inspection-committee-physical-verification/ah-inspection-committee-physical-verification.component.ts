@@ -375,7 +375,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
 
     try {
       this.loaderService.requestStarted();
-      await this.committeeMasterService.GetApplicationCommitteeList(ApplyNocApplicationID)
+      await this.committeeMasterService.GetApplicationCommitteeList_AH(ApplyNocApplicationID, "PreVerification")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

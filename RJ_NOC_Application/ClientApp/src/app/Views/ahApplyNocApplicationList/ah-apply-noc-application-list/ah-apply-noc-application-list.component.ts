@@ -13,7 +13,8 @@ import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { ApplicationCommitteeMemberdataModel, PostApplicationCommitteeMemberdataModel } from '../../../Models/ApplicationCommitteeMemberdataModel';
-
+import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { fail } from 'assert';
 @Component({
   selector: 'app-ah-apply-noc-application-list',
   templateUrl: './ah-apply-noc-application-list.component.html',
@@ -25,7 +26,7 @@ export class AhApplyNocApplicationListComponent {
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  public ApplyNocDetails: ApplyNOCApplicationDataModel[] = [];
+  public ApplyNocDetails: any[] = [];
   public RoleID: number = 0;
   public UserID: number = 0;
   public SelectedCollageID: number = 0;
@@ -50,12 +51,32 @@ export class AhApplyNocApplicationListComponent {
   SsoSuccessMessage: string = '';
   public isSubmitted: boolean = false;
   public isLoading: boolean = false;
+  public CommitteType: string = '';
+  public IsCommitteType: boolean = false;
 
-  constructor(private sSOLoginService: SSOLoginService, private aadharServiceDetails:AadharServiceDetails,private committeeMasterService: CommitteeMasterService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private sSOLoginService: SSOLoginService, private aadharServiceDetails: AadharServiceDetails, private committeeMasterService: CommitteeMasterService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    //this.RoleID = this.sSOLoginDataModel.RoleID;
+    if (this.sSOLoginDataModel.RoleID == 11) {
+      this.CommitteType = 'PreVerification';
+      this.IsCommitteType = true;
+    }
+    else if (this.sSOLoginDataModel.RoleID == 14) {
+      this.CommitteType = 'PostVerification';
+      this.IsCommitteType = true;
+    }
+    else if (this.sSOLoginDataModel.RoleID == 14) {
+      this.CommitteType = 'FinalVerification';
+      this.IsCommitteType = true;
+    }
+    else {
+      this.CommitteType = 'All';
+      this.IsCommitteType = false;
+    }
+
     this.CommitteeMemberDetails = this.formBuilder.group(
       {
         txtCMNameOfPerson: ['', Validators.required],
@@ -69,7 +90,7 @@ export class AhApplyNocApplicationListComponent {
   async GetApplyNOCApplicationListByRole(RoleId: number, UserID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCApplicationListByRole(RoleId, UserID, this.sSOLoginDataModel.DepartmentID)
+      await this.animalDocumentScrutinyService.GetNOCApplicationList(this.CommitteType, this.sSOLoginDataModel.DepartmentID, UserID, RoleId)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -118,7 +139,7 @@ export class AhApplyNocApplicationListComponent {
 
     try {
       this.loaderService.requestStarted();
-      await this.committeeMasterService.GetApplicationCommitteeList(ApplyNocApplicationID)
+      await this.committeeMasterService.GetApplicationCommitteeList_AH(ApplyNocApplicationID, this.CommitteType)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -159,6 +180,7 @@ export class AhApplyNocApplicationListComponent {
           ActiveStatus: true,
           DeleteStatus: false,
           AadhaarNo: this.AadhaarNo,
+          CommitteeType: this.CommitteType
         });
       }
       else {
@@ -277,15 +299,16 @@ export class AhApplyNocApplicationListComponent {
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
-      await this.committeeMasterService.SaveApplicationCommitteeData(this.request_MemberList)
+      await this.committeeMasterService.SaveApplicationCommitteeData_AH(this.request_MemberList)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
+         
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.modalService.dismissAll('After Success');
+             this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
           }
           else {
             this.toastr.error(this.ErrorMessage)

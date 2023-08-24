@@ -22,7 +22,7 @@ export class CommitteeMasterService {
     return throwError(error);
   }
   public async SaveData(request: CommitteeMasterDataModel) {
-    
+
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
@@ -33,7 +33,7 @@ export class CommitteeMasterService {
 
   public async GetCommitteeMasterList(CommitteeMasterID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return await this.http.get(this.APIUrl + '/GetCommitteeMasterList/' + CommitteeMasterID , httpOptions)
+    return await this.http.get(this.APIUrl + '/GetCommitteeMasterList/' + CommitteeMasterID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -46,11 +46,18 @@ export class CommitteeMasterService {
       ).toPromise();
   }
 
-  public async SaveApplicationCommitteeData(request: PostApplicationCommitteeMemberdataModel)
-  {
+  public async SaveApplicationCommitteeData(request: PostApplicationCommitteeMemberdataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + '/SaveApplicationCommitteeData', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async SaveApplicationCommitteeData_AH(request: PostApplicationCommitteeMemberdataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/SaveApplicationCommitteeData_AH', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -59,6 +66,14 @@ export class CommitteeMasterService {
   public async GetApplicationCommitteeList(ApplyNocApplicationID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl + '/GetApplicationCommitteeList/' + ApplyNocApplicationID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetApplicationCommitteeList_AH(ApplyNocApplicationID: number, ActionType: string) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GetApplicationCommitteeList_AH/' + ApplyNocApplicationID + "/" + ActionType, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
