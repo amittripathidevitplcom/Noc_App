@@ -494,7 +494,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
       });
-      await this.animalDocumentScrutinyService.FinalSubmitInspectionCommittee(this.ApplicationCommitteeList[0].ApplyNocApplicationID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID)
+      await this.animalDocumentScrutinyService.FinalSubmitInspectionCommittee(this.ApplicationCommitteeList[0].ApplyNocApplicationID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID,"Pre Verification Forward")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

@@ -126,6 +126,8 @@ import { AhPreVerificationDoneListComponent } from './Views/DocumentScrutinyTab_
 import { AhApplyNocApplicationListComponent } from './Views/ahApplyNocApplicationList/ah-apply-noc-application-list/ah-apply-noc-application-list.component';
 import { AhDocumentScrutinyForwardCommetteComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-forward-commette/ah-document-scrutiny-forward-commette.component';
 import { IssuedNOCReportComponent } from './Views/Reports/Medical/issued-noc-report/issued-noc-report.component';
+import { AhPhysicalPostVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-physical-post-verification/ah-physical-post-verification.component';
+import { AhPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-post-verification-done-list/ah-post-verification-done-list.component';
 
 
 
@@ -547,6 +549,15 @@ const routes: Routes = [
 
       {
         path: 'applynocapplicationlistAH', component: AhApplyNocApplicationListComponent
+      },
+      {
+        path: 'AHinspectioncommitteephysicalverification/:Status', component: AhInspectionCommitteePhysicalVerificationComponent
+      },
+      {
+        path: 'AHinspectioncommitteepostverification/:Status', component: AhPhysicalPostVerificationComponent
+      },
+      {
+        path: 'AHPostVerificationDoneList/:Status', component: AhPostVerificationDoneListComponent
       },
     ]
   },

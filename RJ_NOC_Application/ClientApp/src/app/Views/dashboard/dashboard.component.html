@@ -364,7 +364,7 @@
 </div>
 <!--Registrar Committee-->
 <!-- Animal Husbinadry Dashboard-->
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==2 &&( this.sSOLoginDataModel.RoleID==11 || this.sSOLoginDataModel.RoleID ==12  || this.sSOLoginDataModel.RoleID ==13 || this.sSOLoginDataModel.RoleID ==5 || this.sSOLoginDataModel.RoleID ==14)">
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==2 &&( this.sSOLoginDataModel.RoleID==11 || this.sSOLoginDataModel.RoleID ==12  || this.sSOLoginDataModel.RoleID ==13 || this.sSOLoginDataModel.RoleID ==5 || this.sSOLoginDataModel.RoleID ==14 ||  this.sSOLoginDataModel.RoleID ==15 || this.sSOLoginDataModel.RoleID ==25)">
   <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -384,12 +384,12 @@
               <a href="/documentscrutinyrejectedreport" style="background: none;"><h2>{{dashboardDataModel.Rejected}}</h2></a>
             </div>
 
-            <div class="dashCardContent  text-start" *ngIf="this.sSOLoginDataModel.RoleID==11 ||this.sSOLoginDataModel.RoleID==14">
+            <div class="dashCardContent  text-start" *ngIf="this.sSOLoginDataModel.RoleID==11 ||this.sSOLoginDataModel.RoleID==14||this.sSOLoginDataModel.RoleID==25">
               <h4>Forward to Commitee</h4>
               <a href="/documentscrutinyForwardToCommiteereport" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Forward}}</h2></a>
             </div>
 
-            <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID!=11 && this.sSOLoginDataModel.RoleID !=14">
+            <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID!=11 && this.sSOLoginDataModel.RoleID !=14 && this.sSOLoginDataModel.RoleID != 25">
               <h4>Completed</h4>
               <a href="/documentscrutinycompletedreport" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
             </div>
@@ -424,6 +424,29 @@
     <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==2 && this.sSOLoginDataModel.RoleID==14">
       <div class="card staticsCards">
         <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Post Verification</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/AHPostVerificationDoneList/Pending" style="background: none;">{{dashboardDataModel.PVCommittee_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent  text-start">
+              <h4>Rejected</h4>
+              <a href="/AHPostVerificationDoneList/Rejected" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="/AHPostVerificationDoneList/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==2 && this.sSOLoginDataModel.RoleID==25">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Final Verification</h5></div>
         <div class="card-body">
           <div class="d-flex justify-content-between">
             <div class="dashCardContent text-start">
@@ -475,7 +498,35 @@
     </div>
   </div>
 </div>
-<!--Animal Husbinadry Dashboard-->
+
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==2 &&(this.sSOLoginDataModel.RoleID==21)">
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Post Verification</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/AHinspectioncommitteepostverification/Pending" style="background: none;">{{dashboardDataModel.PVCommittee_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent  text-start">
+              <h4>Rejected</h4>
+              <a href="/AHinspectioncommitteepostverification/Rejected" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="/AHinspectioncommitteepostverification/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Animal Husbinadry Dashboard end-->
 <!--Nodal Officer DEC SECTION DASHBOARD START-->
 <div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==3 && this.sSOLoginDataModel.RoleID==17">
   <div class="row">
