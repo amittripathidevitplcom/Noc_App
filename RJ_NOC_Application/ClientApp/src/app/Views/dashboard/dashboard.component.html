@@ -67,37 +67,37 @@
     </div>
 
     <!--<div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards staticsCards4">
-        <div class="card-body">
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="dashCardIcon">
-              <i class="fa fa-bank"></i>
-            </div>
-            <div class="dashCardContent">
-              <h4>NOC Issued</h4>
-              <h2>{{dashboardDataModel.NOCIssued}}</h2>
-            </div>
+    <div class="card staticsCards staticsCards4">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="dashCardIcon">
+            <i class="fa fa-bank"></i>
+          </div>
+          <div class="dashCardContent">
+            <h4>NOC Issued</h4>
+            <h2>{{dashboardDataModel.NOCIssued}}</h2>
           </div>
         </div>
-        <a routerLink="/nocissued">View more <i class="fa fa-chevron-circle-right"></i></a>
       </div>
-    </div>-->
+      <a routerLink="/nocissued">View more <i class="fa fa-chevron-circle-right"></i></a>
+    </div>
+  </div>-->
     <!--<div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards staticsCards12">
-        <div class="card-body">
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="dashCardIcon">
-              <i class="fa fa-bank"></i>
-            </div>
-            <div class="dashCardContent">
-              <h4>Pending NOC</h4>
-              <h2>{{dashboardDataModel.PendingNOC}}</h2>
-            </div>
+    <div class="card staticsCards staticsCards12">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="dashCardIcon">
+            <i class="fa fa-bank"></i>
+          </div>
+          <div class="dashCardContent">
+            <h4>Pending NOC</h4>
+            <h2>{{dashboardDataModel.PendingNOC}}</h2>
           </div>
         </div>
-        <a routerLink="/deficiencymarked">View more <i class="fa fa-chevron-circle-right"></i></a>
       </div>
-    </div>-->
+      <a routerLink="/deficiencymarked">View more <i class="fa fa-chevron-circle-right"></i></a>
+    </div>
+  </div>-->
     <div class="col-lg-2 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==0">
       <div class="card staticsCards">
         <div class="card-body">
@@ -124,11 +124,27 @@
             </div>
             <div class="dashCardContent">
               <h4>Reject Application</h4>
-              <h2>{{dashboardDataModel.TotalRevertApplication}}</h2>
+              <h2>{{dashboardDataModel.TotalRejectApplication}}</h2>
             </div>
           </div>
         </div>
         <a routerLink="/draftapplicationlist">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-bank"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Reverted Application</h4>
+              <h2>{{dashboardDataModel.TotalRevertApplication}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="/revertedapplicationlist">View more <i class="fa fa-chevron-circle-right"></i></a>
       </div>
     </div>
 
@@ -583,11 +599,11 @@
             </div>
             <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
-              <a href="/dceapplicationlist/Rejected" style="background: none;"><h2>{{dashboardDataModel.Rejected}}</h2></a>
+              <a href="/dceapplicationreport/Rejected" style="background: none;"><h2>{{dashboardDataModel.Rejected}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
-              <a href="/dceapplicationlist/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+              <a href="/dceapplicationreport/Approve" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
             </div>
           </div>
         </div>
