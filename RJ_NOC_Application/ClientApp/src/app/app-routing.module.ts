@@ -126,6 +126,7 @@ import { AhPreVerificationDoneListComponent } from './Views/DocumentScrutinyTab_
 import { AhApplyNocApplicationListComponent } from './Views/ahApplyNocApplicationList/ah-apply-noc-application-list/ah-apply-noc-application-list.component';
 import { AhDocumentScrutinyForwardCommetteComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-forward-commette/ah-document-scrutiny-forward-commette.component';
 import { IssuedNOCReportComponent } from './Views/Reports/Medical/issued-noc-report/issued-noc-report.component';
+import { DceDocumentScrutinyCompletedReportComponent } from './Views/Reports/DCE/dce-document-scrutiny-completed-report/dce-document-scrutiny-completed-report.component';
 
 
 
@@ -544,9 +545,11 @@ const routes: Routes = [
       {
         path: 'issuednocreport', component: IssuedNOCReportComponent
       },
-
       {
         path: 'applynocapplicationlistAH', component: AhApplyNocApplicationListComponent
+      },
+      {
+        path: 'dceapplicationreport/:Status', component: DceDocumentScrutinyCompletedReportComponent
       },
     ]
   },
