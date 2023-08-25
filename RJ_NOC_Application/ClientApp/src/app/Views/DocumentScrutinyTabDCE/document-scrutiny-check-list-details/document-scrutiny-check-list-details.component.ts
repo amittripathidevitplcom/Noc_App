@@ -66,7 +66,9 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   public isActionValid: boolean = false;
   public isObjectionValid: boolean = false;
   public isRemarkValid: boolean = false;
-  public ShowHideNextRoleNextUser: boolean = true;
+  public ShowHideNextRole: boolean = true;
+  public ShowHideNextUser: boolean = true;
+  public ShowHideNextAction: boolean = true;
   public isActionTypeValid: boolean = false;
   public isNextActionValid: boolean = false;
 
@@ -193,27 +195,27 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   OFTotalPHGirlsFooter: number = 0
   //
 
- FirstYearBoysCountFooter: number = 0
- FirstYearGirlsCountFooter: number = 0
- SecYearBoysCountFooter: number = 0
- SecYearGirlsCountFooter: number = 0
- ThirdYearBoysCountFooter: number = 0
- ThirdYearGirlsCountFooter: number = 0
- PervYearBoysCountFooter: number = 0
- PervYearGirlsCountFooter: number = 0
- FinalYearBoysCountFooter: number = 0
- FinalYearGirlsCountFooter: number = 0
- DiplomaBoysCountFooter: number = 0
- DiplomaGirlsCountFooter: number = 0
- OtherBoysCountFooter: number = 0
- OtherGirlsCountFooter: number = 0
- TotalFooter: number = 0
+  FirstYearBoysCountFooter: number = 0
+  FirstYearGirlsCountFooter: number = 0
+  SecYearBoysCountFooter: number = 0
+  SecYearGirlsCountFooter: number = 0
+  ThirdYearBoysCountFooter: number = 0
+  ThirdYearGirlsCountFooter: number = 0
+  PervYearBoysCountFooter: number = 0
+  PervYearGirlsCountFooter: number = 0
+  FinalYearBoysCountFooter: number = 0
+  FinalYearGirlsCountFooter: number = 0
+  DiplomaBoysCountFooter: number = 0
+  DiplomaGirlsCountFooter: number = 0
+  OtherBoysCountFooter: number = 0
+  OtherGirlsCountFooter: number = 0
+  TotalFooter: number = 0
 
 
 
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private landDetailsService: LandDetailsService,private  dcedocumentScrutinyService:DCEDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
-    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, 
+    private landDetailsService: LandDetailsService, private dcedocumentScrutinyService: DCEDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
+    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
 
@@ -675,8 +677,8 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     //Girls Footer SUM
     this.SCGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { SCGirlsCount: any; }) => t.SCGirlsCount).reduce((acc: any, value: any) => acc + value, 0)
     this.STGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { STGirlsCount: any; }) => t.STGirlsCount).reduce((acc: any, value: any) => acc + value, 0);
-    this.OBCGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { OBCGirlsCount: any; })  => t.OBCGirlsCount).reduce((acc: any, value: any) => acc + value, 0)
-    this.MBCGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { MBCGirlsCount: any; })  => t.MBCGirlsCount).reduce((acc: any, value: any) => acc + value, 0);
+    this.OBCGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { OBCGirlsCount: any; }) => t.OBCGirlsCount).reduce((acc: any, value: any) => acc + value, 0)
+    this.MBCGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { MBCGirlsCount: any; }) => t.MBCGirlsCount).reduce((acc: any, value: any) => acc + value, 0);
     this.GenGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { GenGirlsCount: any; }) => t.GenGirlsCount).reduce((acc: any, value: any) => acc + value, 0);
     this.EWSGirlsCountFooter = this.CheckList_ClassWiseStudentDetailsList.map((t: { EWSGirlsCount: any; }) => t.EWSGirlsCount).reduce((acc: any, value: any) => acc + value, 0);
 
@@ -726,8 +728,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     }
   }
 
-  TotalFooterSum()
-  {
+  TotalFooterSum() {
 
 
     //Boys
@@ -764,7 +765,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   //end subject wise student detials
 
 
- 
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -796,8 +797,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
         this.isRemarkValid = true;
         this.isFormvalid = false;
       }
-
-      if (this.ShowHideNextRoleNextUser) {
+      if (this.ShowHideNextRole && this.ShowHideNextAction && this.ShowHideNextUser) {
         if (this.NextRoleID <= 0) {
           this.isNextRoleIDValid = true;
           this.isFormvalid = false;
@@ -811,32 +811,51 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
           this.isFormvalid = false;
         }
       }
-      else {
+      else if (!this.ShowHideNextUser && !this.ShowHideNextRole && !this.ShowHideNextAction) {
         this.NextRoleID = 1;
+        this.NextUserID = 0;
+        this.NextActionID = 0;
+      }
+      else if (this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+        if (this.NextRoleID <= 0) {
+          this.isNextRoleIDValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.NextUserID <= 0) {
+          this.isNextUserIdValid = true;
+          this.isFormvalid = false;
+        }
+        this.NextActionID = 0;
+      }
+      else if (!this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+        if (this.NextRoleID <= 0) {
+          this.isNextRoleIDValid = true;
+          this.isFormvalid = false;
+        }
         this.NextUserID = 0;
         this.NextActionID = 0;
       }
       if (this.SelectedDepartmentID == 6) {
         if (this.CollegeType_IsExisting) {
-          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
             || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HospitalDetails'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {
+            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0) {
             this.isFormvalid = false;
             this.toastr.warning('Please do document scrutiny all tabs');
           }
         }
         else {
-          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HospitalDetails'] <= 0
-            || this.CheckTabsEntryData['HostelDetails'] <= 0) {
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
+            || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0) {
             this.isFormvalid = false;
             this.toastr.warning('Please do document scrutiny all tabs');
           }
         }
       }
-      
+
       if (!this.isFormvalid) {
         return;
       }
@@ -896,21 +915,29 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   async NextGetUserDetailsByRoleID() {
     this.UserListRoleWise = [];
     this.NextWorkFlowActionList = [];
+    this.NextUserID = 0;
+    this.NextActionID=0
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.UserListRoleWise = data['Data'];
-            if (this.UserListRoleWise.length > 0) {
-              this.NextUserID = this.UserListRoleWise[0]['UId'];
-              await this.NextGetWorkFlowActionListByRole();
+      if (this.NextRoleID == 1) {
+        this.ShowHideNextUser = false;
+      }
+      else {
+        this.ShowHideNextUser = true;
+        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (data['Data'].length > 0) {
+              this.UserListRoleWise = data['Data'];
+              if (this.UserListRoleWise.length > 0) {
+                this.NextUserID = this.UserListRoleWise[0]['UId'];
+                await this.NextGetWorkFlowActionListByRole();
+              }
             }
-          }
-        })
+          })
+      }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -920,6 +947,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     }
   }
   async NextGetWorkFlowActionListByRole() {
+    this.NextActionID = 0;
     this.NextWorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
@@ -957,11 +985,21 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
             if (this.WorkFlowActionList.length > 0) {
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-              if (IsNextAction == true) {
-                this.ShowHideNextRoleNextUser = true;
+              var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
+              if (IsNextAction == true && IsRevert == false) {
+                this.ShowHideNextUser = true;
+                this.ShowHideNextRole = true;
+                this.ShowHideNextAction = true;
               }
-              else {
-                this.ShowHideNextRoleNextUser = false;
+              else if (IsNextAction == false && IsRevert == false) {
+                this.ShowHideNextUser = false;
+                this.ShowHideNextRole = false;
+                this.ShowHideNextAction = false;
+              }
+              else if (IsNextAction == false && IsRevert == true) {
+                this.ShowHideNextUser = true;
+                this.ShowHideNextRole = true;
+                this.ShowHideNextAction = false;
               }
             }
           }
@@ -997,12 +1035,23 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     }
   }
   OnChangeCurrentAction() {
+    debugger;
     var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-    if (IsNextAction == true) {
-      this.ShowHideNextRoleNextUser = true;
+    var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
+    if (IsNextAction == true && IsRevert == false) {
+      this.ShowHideNextUser = true;
+      this.ShowHideNextRole = true;
+      this.ShowHideNextAction = true;
     }
-    else {
-      this.ShowHideNextRoleNextUser = false;
+    else if (IsNextAction == false && IsRevert == false) {
+      this.ShowHideNextUser = false;
+      this.ShowHideNextRole = false;
+      this.ShowHideNextAction = false;
+    }
+    else if (IsNextAction == false && IsRevert == true) {
+      this.ShowHideNextUser = true;
+      this.ShowHideNextRole = true;
+      this.ShowHideNextAction = false;
     }
   }
 
