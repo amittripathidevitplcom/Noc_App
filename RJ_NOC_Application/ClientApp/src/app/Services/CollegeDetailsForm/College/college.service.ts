@@ -54,4 +54,18 @@ export class CollegeService {
       ).toPromise();
   }
 
+
+  public async RevertedApplicationList(LoginSSOID: string) {
+    const httpOptions =
+    {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/RevertedApplicationList/" + LoginSSOID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }
