@@ -100,16 +100,16 @@
                           <td>{{idx+1}}</td>
                           <td>{{item.RNCCheckListName}}</td>
                           <td>
-                            <input class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistYes{{idx}}" value="1" [(ngModel)]="item.IsChecked">
+                            <input [disabled]="IsDisabled" class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistYes{{idx}}" value="1" [(ngModel)]="item.IsChecked">
                             &nbsp;<label class="form-check-label">Yes</label>&nbsp;&nbsp;
                             <input class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNo{{idx}}" value="2" [(ngModel)]="item.IsChecked">
                             &nbsp;<label class="form-check-label"> No</label>&nbsp;&nbsp;
-                            <input class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNotapplicable{{idx}}" value="3" [(ngModel)]="item.IsChecked">
+                            <input [disabled]="IsDisabled" class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNotapplicable{{idx}}" value="3" [(ngModel)]="item.IsChecked">
                             &nbsp;<label class="form-check-label"> Not Applicable</label>
                           </td>
                           <td>
                             <div *ngIf="item.IsChecked==2">
-                              <textarea type="text" id="txtRemark{{idx}}" placeholder="Remark*" name="txtRemark{{idx}}" class="form-control" [(ngModel)]="item.Remark" (keypress)="alphanumbersOnly($event)"></textarea>
+                              <textarea [disabled]="IsDisabled" type="text" id="txtRemark{{idx}}" placeholder="Remark*" name="txtRemark{{idx}}" class="form-control" [(ngModel)]="item.Remark" (keypress)="alphanumbersOnly($event)"></textarea>
                             </div>
                           </td>
                           <!--<td><input type="checkbox" class="checkboxSelect" [checked]="item.IsChecked" [(ngModel)]="item.IsChecked" id="IsChecked{{idx+1}}" name="IsChecked{{idx+1}}"></td>-->
@@ -121,14 +121,14 @@
                           <td>
                             
                             <div class="d-flex" *ngIf="item.FileUpload">
-                              <input type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)" />
+                              <input [disabled]="IsDisabled" type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)" />
                               <label class="btn upload" for="fileUpload{{idx+1}}">
                                 <span class="filename">Choose file</span>
                                 {{item.FileUploadName === '' || item.FileUploadName == undefined ? 'No File Choosen' : item.FileUploadName_Dis_FileName}}
                               </label>
                               <div class="btn-group" *ngIf="item.FileUploadName!=undefined &&item.FileUploadName!=''">
                                 <a class="btn btn-outline-primary" target="_blank" href="{{item.FileUploadNamePath}}"><i class="fa fa-eye"></i></a>
-                                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(idx)"><i class="fa fa-trash-o"></i></button>
+                                <button type="button" [disabled]="IsDisabled" class="btn btn-outline-danger" (click)="DeleteImage(idx)"><i class="fa fa-trash-o"></i></button>
                               </div>
                             </div>
 
@@ -143,13 +143,13 @@
               <div class="row">
                 <div class="col-md-12">
                   <label for="txtFinalRemark" class="form-label">Final Remark <span style="color:red">*</span></label>
-                  <textarea type="text" id="txtFinalRemark" name="txtFinalRemark" class="form-control" [(ngModel)]="FinalRemark" (keypress)="alphanumbersOnly($event)"></textarea>
+                  <textarea [disabled]="IsDisabled" type="text" id="txtFinalRemark" name="txtFinalRemark" class="form-control" [(ngModel)]="FinalRemark" (keypress)="alphanumbersOnly($event)"></textarea>
                   <p class="text-danger" *ngIf="isSubmit&&(FinalRemark=='' || FinalRemark==null)"> This field is required .!</p>
                 </div>
               </div>
               <div class="row  m-2">
                 <div class="col-md-12">
-                  <button type="button" class="btn btn-primary" (click)="SaveData()" title="Submit">Submit</button>
+                  <button type="button" class="btn btn-primary" *ngIf="IsBtnShowHide" (click)="SaveData()" title="Submit">Submit</button>
                 </div>
               </div>
             </div>
@@ -184,14 +184,14 @@
                           <td>{{idx+1}}</td>
                           <td>{{item.RNCCheckListName}}</td>
                           <td>
-                            <input class="form-check-input" type="radio" name="rdfinalChecklistYesNo{{idx}}" id="rdfinalChecklistYes{{idx}}" value="1" [(ngModel)]="item.IsChecked">
+                            <input [disabled]="IsDisabled" class="form-check-input" type="radio" name="rdfinalChecklistYesNo{{idx}}" id="rdfinalChecklistYes{{idx}}" value="1" [(ngModel)]="item.IsChecked">
                             &nbsp;<label class="form-check-label">Yes</label>&nbsp;&nbsp;
-                            <input class="form-check-input" type="radio" name="rdfinalChecklistYesNo{{idx}}" id="rdfinalChecklistNo{{idx}}" value="2" [(ngModel)]="item.IsChecked">
+                            <input [disabled]="IsDisabled" class="form-check-input" type="radio" name="rdfinalChecklistYesNo{{idx}}" id="rdfinalChecklistNo{{idx}}" value="2" [(ngModel)]="item.IsChecked">
                             &nbsp;<label class="form-check-label"> No</label>&nbsp;&nbsp;
                           </td>
                           <td>
                             <div *ngIf="item.IsChecked==2">
-                              <textarea type="text" id="txtfinalRemark{{idx}}" placeholder="Remark*" name="txtfinalRemark{{idx}}" class="form-control" [(ngModel)]="item.Remark" (keypress)="alphanumbersOnly($event)"></textarea>
+                              <textarea type="text" [disabled]="IsDisabled" id="txtfinalRemark{{idx}}" placeholder="Remark*" name="txtfinalRemark{{idx}}" class="form-control" [(ngModel)]="item.Remark" (keypress)="alphanumbersOnly($event)"></textarea>
                             </div>
                           </td>
                           <!--<td><input type="checkbox" class="checkboxSelect" [checked]="item.IsChecked" [(ngModel)]="item.IsChecked" id="IsChecked{{idx+1}}" name="IsChecked{{idx+1}}"></td>-->
@@ -238,8 +238,8 @@
                           <td>{{item.SSOID}}</td>
                           <td>{{item.NameOfPerson}}</td>
                           <td>
-                            <button *ngIf="item.SendOTP==undefined || item.SendOTP==0" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTP(item.AadhaarNo,idx)">Send OTP</button>
-                            <div class="row">
+                            <button *ngIf="(item.SendOTP==undefined || item.SendOTP==0)&& IsBtnShowHide" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTP(item.AadhaarNo,idx)">Send OTP</button>
+                            <div class="row" *ngIf="IsBtnShowHide">
                               <div class="col-sm-9 col-md-9">
                                 <input *ngIf="item.SendOTP==1" type="text" id="txtUserOTP{{idx}}" placeholder="OTP*" name="txtUserOTP{{idx}}" class="form-control" [(ngModel)]="item.UserOTP" (keypress)="numbersOnly($event)" maxlength="6" />
                               </div>
@@ -247,7 +247,7 @@
                                 <button *ngIf="item.SendOTP==1" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="VerifyOTP(item.UserOTP,idx)">Verify</button>
                               </div>
                             </div>
-                            <span *ngIf="item.SendOTP==2"><i class="fa fa-check text-success"></i></span>
+                            <span *ngIf="item.SendOTP==2 || IsDisabled"><i class="fa fa-check text-success"></i></span>
                           </td>
                         </tr>
                       </tbody>
@@ -266,7 +266,7 @@
               </div>
               <div class="row  m-2">
                 <div class="col-md-12">
-                  <button *ngIf="ApplicationCommitteeList.length>0" type="button" class="btn btn-primary" (click)="SubmitPhysicalVerification()" title="Submit">Submit</button>
+                  <button *ngIf="ApplicationCommitteeList.length>0 && IsBtnShowHide" type="button" class="btn btn-primary" (click)="SubmitPhysicalVerification()" title="Submit">Submit</button>
                 </div>
               </div>
             </div>

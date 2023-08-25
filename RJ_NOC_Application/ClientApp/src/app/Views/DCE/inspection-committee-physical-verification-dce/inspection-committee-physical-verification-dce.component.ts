@@ -79,6 +79,8 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   public ShowHideCommittee: boolean = false;
   AadharRequest = new AadharServiceDataModel();
   public CustomOTP: string = '123456';
+  public IsDisabled: boolean = false;
+  public IsBtnShowHide: boolean = true;
   constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private committeeMasterService: CommitteeMasterService,
@@ -90,6 +92,14 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetPhysicalVerificationAppliationList(this.sSOLoginDataModel.SSOID, this.QueryStringStatus);
 
+    if (this.QueryStringStatus == 'Pending') {
+      this.IsDisabled = false;
+      this.IsBtnShowHide = true;
+    }
+    else {
+      this.IsDisabled = true;
+      this.IsBtnShowHide = false;
+    }
   }
 
   async GetPhysicalVerificationAppliationList(SSOID: string, Status: any) {
