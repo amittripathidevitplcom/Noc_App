@@ -153,7 +153,7 @@
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.FinancialYearName}}" />
             </div>
           </div>
-          <div class="row">           
+          <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Pincode :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.Pincode}}" />
@@ -161,6 +161,10 @@
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>Website Link :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.WebsiteLink}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
+              <label>NACC Validity Date :</label>
+              <input class="form-control disabled mt-1" disabled value="{{collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}" />
             </div>
           </div>
         </div>

@@ -45,6 +45,7 @@ export class CollegeDataModel {
   public NAACAccreditedCertificate: string = '';
   public NAACAccreditedCertificatePath: string = '';
   public NAACAccreditedCertificate_Dis_FileName: string = '';
+  public NACCValidityDate: string = '';
 
   public ContactDetailsList: ContactDetailsDataModel[] = [];
   public NearestGovernmentHospitalsList: NearestGovernmentHospitalsDataModel[] = [];

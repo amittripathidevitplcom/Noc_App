@@ -192,6 +192,19 @@ export class AnimalDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetPostVerificationAppliationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetPostVerificationAppliationList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetPreVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -204,13 +217,26 @@ export class AnimalDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async FinalSubmitInspectionCommittee(ApplyNOCID: number, DepartmentID: number, UserID: Number) {
+
+  public async GetPostVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.post(this.APIUrl + "/FinalSubmitInspectionCommittee/" + ApplyNOCID + "/" + DepartmentID + "/" + UserID, httpOptions)
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetPostVerificationDoneList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async FinalSubmitInspectionCommittee(ApplyNOCID: number, DepartmentID: number, UserID: Number, ActionName: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/FinalSubmitInspectionCommittee/" + ApplyNOCID + "/" + DepartmentID + "/" + UserID + "/" + ActionName, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
