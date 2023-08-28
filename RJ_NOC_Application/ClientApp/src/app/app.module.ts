@@ -243,6 +243,7 @@ import { AhApplyNocApplicationListComponent } from './Views/ahApplyNocApplicatio
 import { AhDocumentScrutinyForwardCommetteComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-forward-commette/ah-document-scrutiny-forward-commette.component';
 import { AhPhysicalPostVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-physical-post-verification/ah-physical-post-verification.component';
 import { DceDocumentScrutinyCompletedReportComponent } from './Views/Reports/DCE/dce-document-scrutiny-completed-report/dce-document-scrutiny-completed-report.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -503,6 +504,7 @@ import { DceDocumentScrutinyCompletedReportComponent } from './Views/Reports/DCE
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    RouterModule,
     NgMultiSelectDropDownModule.forRoot(),
     //NgIdleModule.forRoot(),
     //NgIdleKeepaliveModule.forRoot(),
