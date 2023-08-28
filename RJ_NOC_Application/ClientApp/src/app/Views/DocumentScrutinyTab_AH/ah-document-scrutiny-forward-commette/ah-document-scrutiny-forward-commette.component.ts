@@ -25,19 +25,31 @@ export class AhDocumentScrutinyForwardCommetteComponent {
   public DocumentScrutinyForwardCommiteeList: any = [];
   public ApplicationTrailList: any = [];
 
+  public CommitteType: string = '';
+
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private modalService: NgbModal) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    if (this.sSOLoginDataModel.RoleID == 11) {
+      this.CommitteType = 'Forward To Respective Document Commitee';
+    }
+    else if (this.sSOLoginDataModel.RoleID == 14) {
+      this.CommitteType = 'Forward To Physical Infrasturcture Commitee';
+    }
+    else if (this.sSOLoginDataModel.RoleID == 25) {
+      this.CommitteType = 'Forward To Physical Check Policy Commitee';
+    }
     await this.GetDocumentScrutinyRejectedReportUserWise(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
+    
   }
 
   async GetDocumentScrutinyRejectedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCRejectedReport(UserID, 'Forward To Respective Document Commitee', RoleID, DepartmentID)
+      await this.applyNOCApplicationService.GetApplyNOCRejectedReport(UserID, this.CommitteType, RoleID, DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

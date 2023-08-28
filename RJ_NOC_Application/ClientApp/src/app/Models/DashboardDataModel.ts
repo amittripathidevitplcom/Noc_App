@@ -7,6 +7,7 @@ export class DashboardDataModel {
   public TotalLegalEntity: number = 0;
   public TotalRevertApplication: number = 0;
   public TotalApplyNocApplication: number = 0;
+  public TotalRejectApplication: number = 0;
 
   // Common All Department for Doc verification
   public Pending: number = 0;

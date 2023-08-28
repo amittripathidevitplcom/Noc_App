@@ -77,8 +77,10 @@ export class AddCollegeComponent implements OnInit {
   public ProfileLogoValidationMessage: string = '';
   public AISHECodeValidationMessage: string = '';
   public NAACAccreditedCertificateValidationMessage: string = '';
+  public NACCValidityDateValidationMessage: string = '';
   public HospitalDocumentValidationMessage: string = '';
   public QueryStringCollageID: number = 0;
+  public MinDate: Date = new Date;
 
   // login model
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -138,6 +140,7 @@ export class AddCollegeComponent implements OnInit {
         txtTGC_Longitude: [''],
         fCollegeLogo: [''],
         NAACAccreditedCertificate: [''],
+        txtNACCValidityDate: [''],
       })
 
     this.CollegeDetailsForm_ContactDetails = this.formBuilder.group(
@@ -971,7 +974,7 @@ export class AddCollegeComponent implements OnInit {
     this.isValidNAACAccreditedCertificate = false;
     this.isSubmitted = true;
 
-    console.log(this.CollegeDetailsForm);
+    console.log(this.request.NACCValidityDate);
 
 
     let isValid = true;
@@ -997,6 +1000,9 @@ export class AddCollegeComponent implements OnInit {
       if (this.request.NAACAccreditedCertificate == null || this.request.NAACAccreditedCertificate == '') {
         isValid = false;
         this.NAACAccreditedCertificateValidationMessage = 'This field is required .!';
+      }
+      if (this.request.NACCValidityDate == null || this.request.NACCValidityDate == '' || this.request.NACCValidityDate == undefined) {
+        isValid = false;
       }
     }
 

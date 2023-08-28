@@ -1,1 +1,227 @@
-<p>ah-physical-post-verification works!</p>
+<div class="card tabCard1 mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>Committee Inspection Application List</b>
+  </div>
+  <div class="card-body">
+    <div class="clearfix"></div>
+    <div class="card">
+      <div class="card-header">
+        <b>Committee Inspection Application List</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Department Name</th>
+                    <th>College Name</th>
+                    <th>Application No.</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of ApplyNocDetails let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.DepartmentName}}</td>
+                    <td>{{item.CollegeName}}</td>
+                    <td>{{item.ApplicationNo}}</td>
+                    <td>
+                      <a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-sm btn-success" title="Action" (click)="OpenActionPopUP(item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-tasks"></i></button>
+                      <button *ngIf="item.ISRNCData==1" type="button" class="btn btn-sm btn-success" title="Final Submit" (click)="OpenApplicationCommitteeMember(item.ApplyNOCID,item.ApplicationNo)"><i class="fa fa-gear"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="10" *ngIf="ApplyNocDetails.length<=0" style="color:red"> No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card tabCard1 mb-0" *ngIf="ShowHideApplicationAction">
+          <div class="card-header">
+            <b><i class="bi bi-table"></i> Committee for checking all respective documents check list (ApplicationNo : {{ApplicationNo}})</b>
+            <div class="text-end">
+              <button type="button" class="close" aria-label="Close" (click)="CloseApplicationAction_Click()">
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>S.No.</th>
+                        <th>Name</th>
+                        <th>
+                          Yes / No / Not Applicable
+                        </th>
+                        <th></th>
+
+                        <th>FileUpload</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of CheckListData let idx =index">
+                        <td>{{idx+1}}</td>
+                        <td>{{item.RNCCheckListName}}</td>
+                        <td>
+                          <input class="form-check-input" [disabled]="IsDisabled" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistYes{{idx}}" value="1" [(ngModel)]="item.IsChecked">
+                          &nbsp;<label class="form-check-label">Yes</label>&nbsp;&nbsp;
+                          <input class="form-check-input" [disabled]="IsDisabled" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNo{{idx}}" value="2" [(ngModel)]="item.IsChecked">
+                          &nbsp;<label class="form-check-label"> No</label>&nbsp;&nbsp;
+                          <input class="form-check-input" [disabled]="IsDisabled" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNotapplicable{{idx}}" value="3" [(ngModel)]="item.IsChecked">
+                          &nbsp;<label class="form-check-label"> Not Applicable</label>
+                        </td>
+                        <td>
+                          <div *ngIf="item.IsChecked==2">
+                            <textarea type="text" [disabled]="IsDisabled" id="txtRemark{{idx}}" placeholder="Remark*" name="txtRemark{{idx}}" class="form-control" [(ngModel)]="item.Remark" (keypress)="alphanumbersOnly($event)"></textarea>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div class="d-flex" *ngIf="item.FileUpload">
+                            <input [disabled]="IsDisabled" type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)" />
+                            <label class="btn upload" for="fileUpload{{idx+1}}">
+                              <span class="filename">Choose file</span>
+                              {{item.FileUploadName === '' || item.FileUploadName == undefined ? 'No File Choosen' : item.FileUploadName_Dis_FileName}}
+                            </label>
+                            <div class="btn-group" *ngIf="item.FileUploadName!=undefined &&item.FileUploadName!=''">
+                              <a class="btn btn-outline-primary" target="_blank" href="{{item.FileUploadNamePath}}"><i class="fa fa-eye"></i></a>
+                              <button type="button" [disabled]="IsDisabled" class="btn btn-outline-danger" (click)="DeleteImage(idx)"><i class="fa fa-trash-o"></i></button>
+                            </div>
+                          </div>
+
+                        </td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <label for="txtFinalRemark" class="form-label">Final Remark <span style="color:red">*</span></label>
+                <textarea type="text" [disabled]="IsDisabled" id="txtFinalRemark" name="txtFinalRemark" class="form-control" [(ngModel)]="FinalRemark" (keypress)="alphanumbersOnly($event)"></textarea>
+                <p class="text-danger" *ngIf="isSubmit&&(FinalRemark=='' || FinalRemark==null)"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="row  m-2">
+              <div class="col-md-12">
+                <button type="button" *ngIf="IsBtnShowHide" class="btn btn-primary" (click)="SaveData()" title="Submit">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card tabCard1 mb-0" *ngIf="ShowHideCommittee">
+          <div class="card-header">
+            <b><i class="bi bi-table"></i> Final check list and verify Committee Member (ApplicationNo : {{CommitteeApplicationNo}})</b>
+            <div class="text-end">
+              <button type="button" class="close" aria-label="Close" (click)="CloseCommittee_Click()">
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>S.No.</th>
+                        <th>Name</th>
+                        <th>
+                          Yes / No
+                        </th>
+                        <th></th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of FinalCheckListData let idx =index">
+                        <td>{{idx+1}}</td>
+                        <td>{{item.RNCCheckListName}}</td>
+                        <td>
+                          <input class="form-check-input" [disabled]="IsDisabled" type="radio" name="rdfinalChecklistYesNo{{idx}}" id="rdfinalChecklistYes{{idx}}" value="1" [(ngModel)]="item.IsChecked">
+                          &nbsp;<label class="form-check-label">Yes</label>&nbsp;&nbsp;
+                          <input class="form-check-input" [disabled]="IsDisabled" readonly="readonly" type="radio" name="rdfinalChecklistYesNo{{idx}}" id="rdfinalChecklistNo{{idx}}" value="2" [(ngModel)]="item.IsChecked">
+                          &nbsp;<label class="form-check-label"> No</label>&nbsp;&nbsp;
+                        </td>
+                        <td>
+                          <div *ngIf="item.IsChecked==2">
+                            <textarea type="text" [disabled]="IsDisabled" id="txtfinalRemark{{idx}}" placeholder="Remark*" name="txtfinalRemark{{idx}}" class="form-control" [(ngModel)]="item.Remark" (keypress)="alphanumbersOnly($event)"></textarea>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>S.No.</th>
+                        <th>
+                          SSOID
+                        </th>
+                        <th>Name</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of ApplicationCommitteeList let idx =index">
+                        <td>{{idx+1}}</td>
+                        <td>{{item.SSOID}}</td>
+                        <td>{{item.NameOfPerson}}</td>
+                        <td>
+                          <button *ngIf="(item.SendOTP==undefined || item.SendOTP==0) && IsBtnShowHide" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTP(item.AadhaarNo,idx)">Send OTP</button>
+                          <div class="row" *ngIf="IsBtnShowHide">
+                            <div class="col-sm-9 col-md-9">
+                              <input *ngIf="item.SendOTP==1" type="text" id="txtUserOTP{{idx}}" placeholder="OTP*" name="txtUserOTP{{idx}}" class="form-control" [(ngModel)]="item.UserOTP" (keypress)="numbersOnly($event)" maxlength="6" />
+                            </div>
+                            <div class="col-sm-3 col-md-3">
+                              <button *ngIf="item.SendOTP==1" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="VerifyOTP(item.UserOTP,idx)">Verify</button>
+                            </div>
+                          </div>
+                          <span *ngIf="item.SendOTP==2 || IsDisabled"><i class="fa fa-check text-success"></i></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-danger">
+                <p>1. हम सभी निरीक्षण अधिकारियों ने ऑनलाइन आवेदन पत्र के सभी बिंदुओं की जांच कर ली है तथा आवेदन पत्र में दी गई सभी सूचनाओं का उनसे संबंधित मूल दस्तावेज से मिलान कर लिया है तथा भौतिक निरीक्षण कर लिया है</p>
+                <p>2. हम सभी निरीक्षण अधिकारियों ने सभी दस्तावेजों का(एफ.डी.आर सहित) मूल एवं भौतिक रूप से मिलान कर लिया है|</p>
+                <p>3. संलग्न किए गए सभी दस्तावेजों को हमारे द्वारा मोहर सहित प्रमाणित कर दिया गया है|</p>
+                <p>4. महाविद्यालय की एवं महाविद्यालय भूमि की संलग्न पत्र के अनुसार फोटो लगाकर रिपोर्ट के साथ प्रस्तुत कर दिया गया है|</p>
+                <p>5. भवन एवं भूमि के छाया चित्रों में कंप्यूटराइज्ड छेड़छाड़ नहीं की गई है तथा वे वास्तविक हैं|</p>
+              </div>
+            </div>
+            <div class="row  m-2">
+              <div class="col-md-12">
+                <button *ngIf="ApplicationCommitteeList.length>0 && IsBtnShowHide" type="button" class="btn btn-primary" (click)="SubmitPhysicalVerification()" title="Submit">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

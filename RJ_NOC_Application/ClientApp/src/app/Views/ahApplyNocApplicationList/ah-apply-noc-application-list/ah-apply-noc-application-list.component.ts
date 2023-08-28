@@ -68,7 +68,7 @@ export class AhApplyNocApplicationListComponent {
       this.CommitteType = 'PostVerification';
       this.IsCommitteType = true;
     }
-    else if (this.sSOLoginDataModel.RoleID == 14) {
+    else if (this.sSOLoginDataModel.RoleID == 25) {
       this.CommitteType = 'FinalVerification';
       this.IsCommitteType = true;
     }
