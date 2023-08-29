@@ -88,7 +88,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">Area:</span>
                     </div>
-                    <input type="text" class="form-control" [ngModelOptions]="{standalone: true}"  value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numberOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
+                    <input type="text" class="form-control" [disabled]="!item.IsLandSelected"  [ngModelOptions]="{standalone: true}"  value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numberOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
                   </div>
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandArea==0"> This field is required .!</p>
@@ -100,7 +100,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">Khasra No:</span>
                     </div>
-                    <input type="text" class="form-control" [ngModelOptions]="{standalone: true}"  placeholder="Enter Khasra No" id="txtKhasraNo{{idx}}" name="txtKhasraNo{{idx}}" [(ngModel)]="item.KhasraNo" autocomplete="off">
+                    <input type="text" class="form-control" [disabled]="!item.IsLandSelected"  [ngModelOptions]="{standalone: true}"  placeholder="Enter Khasra No" id="txtKhasraNo{{idx}}" name="txtKhasraNo{{idx}}" [(ngModel)]="item.KhasraNo" autocomplete="off">
                   </div>
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.KhasraNo==''"> This field is required .!</p>
