@@ -11,6 +11,7 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { Console, debug, log } from 'console';
 import { Table } from 'jspdf-autotable';
+import { type } from 'os';
 
 @Component({
   selector: 'app-land-details',
@@ -70,7 +71,9 @@ export class LandDetailsComponent implements OnInit {
   public LandConversionMinDate: Date = new Date();
   public LandConversionMaxDate: Date = new Date();
 
-  
+
+
+  public LandTypeKhataAndLandArea: any = [];
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private landDetailsService: LandDetailsService, private fileUploadService: FileUploadService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder) {
@@ -88,8 +91,8 @@ export class LandDetailsComponent implements OnInit {
         ddlLandAreaId: ['', [DropdownValidators]],
         ddlLandDocumentTypeId: ['', [DropdownValidators]],
         ddlLandconvertedId: ['', [DropdownValidators]],
-        ddlLandTypeId: ['', [DropdownValidators]],
-        txtKhasraNumber: ['', Validators.required],
+   /*     ddlLandTypeId: ['', [DropdownValidators]],*/
+     /*   txtKhasraNumber: ['', Validators.required],*/
         txtLandOwnerName: ['', Validators.required],
         txtLandArea: ['', [Validators.required, Validators.min(1)]],
         //txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
@@ -175,6 +178,11 @@ export class LandDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+ 
+  
+
+
   async GetLandTypeMasterList_DepartmentAndLandConvertWise(DepartmentID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
@@ -197,6 +205,33 @@ export class LandDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+
+  async GetLandTypeDetails_CollegeWise(DepartmentID: number, Type: string, LandTypeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetLandTypeDetails_CollegeWise(DepartmentID, Type, LandTypeID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+         this.request.CollegeLandTypeDetails = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
   async GetLandDocument(DepartmentID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
@@ -551,10 +586,28 @@ export class LandDetailsComponent implements OnInit {
         return
       }
     }
-    if (this.request.LandArea < this.RequiredLandArea || this.RequiredLandArea == 0) {
-      this.toastr.error("Land area must be at least : " + this.RequiredLandAreaMsg);
-      return
+
+    //Temp Comment Ravi added by naresh
+    //if (this.request.LandArea < this.RequiredLandArea || this.RequiredLandArea == 0) {
+    //  this.toastr.error("Land area must be at least : " + this.RequiredLandAreaMsg);
+    //  return
+    //}
+
+    let totaldata = this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected == true).map(t => t.LandArea).reduce((acc, value) => acc + Number( value), 0);
+
+    if (this.request.LandArea != Number(totaldata))
+    {
+      this.toastr.error("Total land area is not equal to sum of all land type that you have checked.total land area is : " + totaldata);
+     return
     }
+ 
+    if (this.request.CollegeLandTypeDetails != null && this.request.CollegeLandTypeDetails.length > 0) {
+      if (this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected == true).length <= 0) {
+        this.toastr.error("Please Fill College Land Type Details");
+        return;
+      }
+    }
+
     for (var i = 0; i < this.request.LandDetailDocument.length; i++) {
       if (this.request.LandDetailDocument[i].FilePath == '' || this.request.LandDetailDocument[i].FilePath == undefined) {
         message = 'Please choose ' + this.request.LandDetailDocument[i].DocumentName + ' document';
@@ -572,6 +625,9 @@ export class LandDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
     this.isLoading = true;
     try {
+      debugger;
+      this.request.CollegeLandTypeDetails = this.request.CollegeLandTypeDetails;
+
       await this.landDetailsService.SaveData(this.request)
         .then(async (data: any) => {
           this.State = data['State'];
@@ -705,6 +761,7 @@ export class LandDetailsComponent implements OnInit {
       this.RequiredLandAreaMsg = '';
       this.LandUnitType = '';
       this.request.LandDetailDocument = [];
+      this.request.CollegeLandTypeDetails = [];
       this.ShowConversionOrderNo = false;
       this.isDisabledGrid = false;
       await this.GetLandDocument(this.SelectedDepartmentID, 'LandDetail');
@@ -752,8 +809,9 @@ export class LandDetailsComponent implements OnInit {
           this.request.LandDocumentTypeName = data['Data'][0]['LandDocumentTypeName'];
           this.request.IsConvereted = data['Data'][0]['IsConvereted'];
           this.request.LandTypeName = data['Data'][0]['LandTypeName'];
-
           this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
+
+        
 
           this.GetLandSqureMeterMappingDetails(this.request.LandAreaID);
           console.log(this.request.LandDetailDocument);
@@ -801,11 +859,36 @@ export class LandDetailsComponent implements OnInit {
       Type = 'LandDetail';
     }
 
-
     await this.GetLandTypeMasterList_DepartmentAndLandConvertWise(this.SelectedDepartmentID, Code);
+    await this.GetLandTypeDetails_CollegeWise(this.SelectedDepartmentID, Code, this.request.LandDetailID);
+
     if (IsEdit != 'Yes') {
       await this.GetLandDocument(this.SelectedDepartmentID, Type);
     }
     await this.GetAnnexureDataList_DepartmentWise(this.SelectedDepartmentID, this.request.LandDocumentTypeID, this.request.LandConvertedID);
   }
+
+  async ApplyNocFor_cbChange(event: any,  item: any) {
+    try {
+      debugger
+      this.loaderService.requestStarted();
+      //unchecked
+      if (!event.target.checked)
+      {
+        item.LandArea = 0;
+        item.KhasraNo = '';
+        return;
+      }
+     
+    }
+    catch (ex) {
+      console.log(ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+ 
 }

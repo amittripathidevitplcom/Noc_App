@@ -485,7 +485,7 @@ import { AhPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab
     DceDocumentScrutinyCompletedReportComponent,
     RevertedApplicationListComponent,
     AhPostVerificationDoneListComponent,
-    
+
 
   ],
   imports: [

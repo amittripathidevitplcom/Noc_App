@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 
 import * as CryptoJS from 'crypto-js';
+import internal from 'stream';
 
 
 
@@ -730,13 +731,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number) {
+  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number, Type: string='-1') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetQualificationMasterList_DepartmentWise/" + DepartmentID + "/" + IsTeaching)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetQualificationMasterList_DepartmentWise/" + DepartmentID + "/" + IsTeaching + "/" + Type)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1056,13 +1057,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetCourseByStreamID(StreamID: number, DepartmentID: number, CourseLevelID: number) {
+  public async GetCourseByStreamID(StreamID: number, DepartmentID: number, CourseLevelID: number, UniversityID: Number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseByStreamID/" + StreamID + "/" + DepartmentID + "/" + CourseLevelID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseByStreamID/" + StreamID + "/" + DepartmentID + "/" + CourseLevelID + "/" + UniversityID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1091,6 +1092,18 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetLandTypeDetails_CollegeWise(DepartmentID: number, Type: string, LandTypeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetLandTypeDetails_CollegeWise/" + DepartmentID + "/" + Type + "/" +LandTypeID + "/")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 
   public async GetUniversityDepartmentWise(DepartmentID: number) {
 

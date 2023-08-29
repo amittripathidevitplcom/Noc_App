@@ -675,13 +675,32 @@ export class AddCoursesComponent implements OnInit {
       }, 200);
     }
   }
-
+  async GetCollegeBasicDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.UniversityID = data['Data'][0]['data'][0]['UniversityID'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public UniversityID: number = 0;
   async ddlCourseLevel_change(CourseLevelID: any) {
+    await this.GetCollegeBasicDetails();
 
     this.request.CourseLevelID = CourseLevelID;
     if (this.request.DepartmentID == 3) {
-      //this.request.CourseID = 0;
-      await this.commonMasterService.GetCourseByStreamID(this.request.StreamID, this.request.DepartmentID, this.request.CourseLevelID)
+      //this.request.CourseID = 0; 
+      await this.commonMasterService.GetCourseByStreamID(this.request.StreamID, this.request.DepartmentID, this.request.CourseLevelID, this.UniversityID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.courseDataList = data['Data'][0]['data'];
