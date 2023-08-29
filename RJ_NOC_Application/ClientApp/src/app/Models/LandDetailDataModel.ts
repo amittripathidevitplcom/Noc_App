@@ -34,14 +34,23 @@ export class LandDetailDataModel {
   public Code: string = '';
   public Action: string = '';
   public Remark: string = '';
-
   public C_Action: string = '';
   public C_Remark: string = '';
   public S_Action: string = '';
   public S_Remark: string = '';
   public AreaType: string = '';
+  public CollegeLandTypeDetails: CollegeLandTypeDetailsDataModel[]=[];
 }
 
 export class LandDetailDocumentDataModel extends RequiredDocumentsDataModel_Documents {
 
+}
+
+
+export class CollegeLandTypeDetailsDataModel {
+  public LandTypeID: number = 0;
+  public LandTypeName: string = '';
+  public LandArea: number = 0;
+  public KhasraNo: string = '';
+  public IsLandSelected: boolean = true;
 }

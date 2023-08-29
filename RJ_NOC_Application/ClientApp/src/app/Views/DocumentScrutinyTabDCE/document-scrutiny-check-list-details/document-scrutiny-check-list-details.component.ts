@@ -835,7 +835,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
         this.NextUserID = 0;
         this.NextActionID = 0;
       }
-      if (this.SelectedDepartmentID == 6) {
+      if (this.SelectedDepartmentID == 3) {
         if (this.CollegeType_IsExisting) {
           if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0

@@ -85,13 +85,14 @@ export class StaffDetailsComponent implements OnInit {
       {
         rdTeachingType: ['', Validators.required],
         ddlSubjectId: [''],
-        ddlRoleId: [''],
+        ddlRoleId: ['', [DropdownValidators]],
         txtNameOfPerson: ['', Validators.required],
         txtMobileNo: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$"), Validators.minLength(10), Validators.maxLength(10)]],
-        txtEmail: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
+        txtEmail: ['', [Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         ddlHighestQualificationId: ['', [DropdownValidators]],
         txtNoOfYearExperience: ['', Validators.required],
         ProfilePhoto: [''],
+        ddlGender: ['', [Validators.required]],
         AadhaarCard: [''],
         PANCard: [''],
         ExperienceCertificate: [''],
@@ -101,12 +102,12 @@ export class StaffDetailsComponent implements OnInit {
         dtDateOfAppointment: ['', Validators.required],
         dtDateOfJoining: ['', Validators.required],
         txtSpecializationSubject: [''],
-        txtRoleMapping: [''],
+        //txtRoleMapping: [''],
         txtSalary: ['', Validators.required],
         rdStaffStatus: ['', Validators.required],
         rdPFDeduction: [''],
         txtUANNo: [''],
-        rdResearchGuide: ['', Validators.required],
+        rdResearchGuide: [''],
       });
     this.StaffEducationDetailForm = this.formBuilder.group(
       {
@@ -121,8 +122,7 @@ export class StaffDetailsComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-    await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, 'HighestQualification');
-    await this.GetRoleListByLevel(0);
+
     await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
     //await this.GetQualificationList_DepartmentAndTypeWise();
     await this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
@@ -146,6 +146,8 @@ export class StaffDetailsComponent implements OnInit {
   async IsChnageTechingType(val: any) {
     this.request.SubjectID = 0;
     this.DeleteResetFiles('All', false, '', '', '');
+    await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
+    await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0);
   }
 
   async AddMoreEducationalQualification() {
@@ -167,7 +169,7 @@ export class StaffDetailsComponent implements OnInit {
         this.toastr.warning('Invalid Percentage/Grade');
         return;
       }
-     
+
       if (this.request.UploadDocument == '' || this.request.UploadDocument == undefined) {
         this.isUploadDocRequried = true;
         this.toastr.warning('Upload Educational Qualification Document');
@@ -259,10 +261,10 @@ export class StaffDetailsComponent implements OnInit {
     }
   }
 
-  async GetHighestQualificationList_DepartmentAndTypeWise(DepartmentID: number, Type: string) {
+  async GetHighestQualificationList_DepartmentAndTypeWise(DepartmentID: number, IsTeaching: number) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(DepartmentID)
+      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(DepartmentID, IsTeaching)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -321,7 +323,7 @@ export class StaffDetailsComponent implements OnInit {
   async GetCollegeWiseSubjectList(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCollegeWise_SubjectList_StaffDetails(this.SelectedCollageID, 'SubjectList',0)//4=existing
+      await this.commonMasterService.GetCollegeWise_SubjectList_StaffDetails(this.SelectedCollageID, 'SubjectList', 0)//4=existing
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -341,17 +343,17 @@ export class StaffDetailsComponent implements OnInit {
     }
   }
 
-  async GetRoleListByLevel(LevelID: number) {
+  async GetStaffDesignation(IsTeaching: number) {
     try {
 
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetRoleListByLevel(LevelID)
+       await this.commonMasterService.GetStaffDesignation(IsTeaching)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.RoleData = data['Data'];
+          this.RoleData = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -561,13 +563,10 @@ export class StaffDetailsComponent implements OnInit {
           this.isSubject = true;
           this.FormValid = false;
         }
-        if (this.request.RoleID == 0) {
-          //this.toastr.warning('Role is required');
-          this.isRole = true;
+        if (this.request.Email == '' || this.request.Email == null) {
           this.FormValid = false;
         }
         if (this.request.SpecializationSubject == '') {
-          //this.toastr.warning('Specialization Subject is required');
           this.isSpecializationSubject = true;
           this.FormValid = false;
         }
@@ -575,15 +574,18 @@ export class StaffDetailsComponent implements OnInit {
           this.isPANCard = true;
           this.FormValid = false;
         }
-      }
-      if (this.request.TeachingType == 'NonTeaching') {
-        if (this.request.RoleMapping == '') {
-          //this.toastr.warning('Role Mapping is required');
-          this.isRoleMapping = true;
+        if (this.request.ResearchGuide == '' || this.request.ResearchGuide == null) {
           this.FormValid = false;
         }
       }
-     
+      if (this.request.TeachingType == 'NonTeaching') {
+        //if (this.request.RoleMapping == '') {
+        //  //this.toastr.warning('Role Mapping is required');
+        //  this.isRoleMapping = true;
+        //  this.FormValid = false;
+        //}
+      }
+
 
       //if (this.request.EducationalQualificationDetails.length > 0) {
       //  var DocRequried = this.ProfessionalQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.ProfessionalQualificationID).IsDocCompulsory;
@@ -674,11 +676,11 @@ export class StaffDetailsComponent implements OnInit {
     }
   }
 
-  OnChangeHighestQualification() {
+  async OnChangeHighestQualification() {
     try {
       this.loaderService.requestStarted();
-      this.GetQualificationList_DepartmentAndTypeWise();
-      var QualificationName = this.HighestQualificationData.find((x: { ID: number; }) => x.ID == this.request.HighestQualification).Name;
+      await this.GetQualificationList_DepartmentAndTypeWise();
+      var QualificationName = this.HighestQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.HighestQualification).QualificationName;
       if (QualificationName != 'PHD') {
         this.request.ResearchGuide = 'No';
         this.isDisabledResearchGuide = true;
@@ -734,13 +736,13 @@ export class StaffDetailsComponent implements OnInit {
 
   async GetQualificationList_DepartmentAndTypeWise() {
     try {
-      debugger;
       this.loaderService.requestStarted();
-      var QualificationName = this.HighestQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.HighestQualification).QualificationName;
-      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID)
+      var QualificationName = this.HighestQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.HighestQualification)?.QualificationName;
+      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
+          debugger;
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -848,9 +850,10 @@ export class StaffDetailsComponent implements OnInit {
       this.isDisabled = false;
       this.loaderService.requestStarted();
       await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, StaffDetailID)
-        .then((data: any) => {
+        .then(async (data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
+          console.log(data);
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -859,6 +862,9 @@ export class StaffDetailsComponent implements OnInit {
           this.request.PassingYearID = 0;
           this.request.Marks = '';
           this.GetCollegeWiseSubjectList(this.SelectedCollageID);
+          await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
+          await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0);
+
           this.OnChangeHighestQualification();
           //this.SetDateofAppointment();
           this.showPANCard = true;
@@ -866,7 +872,7 @@ export class StaffDetailsComponent implements OnInit {
           this.isProfilePhoto = false;
           this.isExperianceCertificate = false;
           this.showProfilePhoto = this.request.ProfilePhoto != '' ? true : false;
-          
+
           this.showExperienceCertificate = this.request.ExperienceCertificate != '' ? true : false;
           //profile
           this.ResetFiles('ProfilePhoto', true, this.request.ProfilePhoto, this.request.ProfilePhotoPath, this.request.ProfilePhoto_Dis_FileName);
@@ -878,6 +884,7 @@ export class StaffDetailsComponent implements OnInit {
           this.ResetFiles('ExperienceCertificate', this.showExperienceCertificate, this.request.ExperienceCertificate, this.request.ExperienceCertificatePath, this.request.ExperienceCertificate_Dis_FileName);
           //profile
           //this.ResetFiles('UploadDocument', true, this.request.UploadDocument, this.request.UploadDocumentPath, this.request.UploadDocument_Dis_FileName);
+
           this.isDisabled = true;
           this.SetDateofAppointment();
           this.setPassingYear();

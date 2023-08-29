@@ -127,6 +127,7 @@ export class StaffDetailDataModel {
   public C_Remark: string = '';
   public S_Action: string = '';
   public S_Remark: string = '';
+  public Gender: string=''
 }
 export class EducationalQualificationDetails_StaffDetail {
   public EducationalQualificationID: number = 0;
@@ -298,6 +299,7 @@ export class BuildingDetailsDataModel {
   public OtherFinancialResourcesFileUpload: string = '';
   public Dis_OtherFinancialResourcesFileUpload: string = '';
   public OtherFinancialResourcesFileUploadPath: string = '';
+  public Rentvaliditydate: string = '';
   public lstBuildingDocDetails: DocuemntBuildingDetailsDataModel[] = [];
 
   public C_Action: string = '';

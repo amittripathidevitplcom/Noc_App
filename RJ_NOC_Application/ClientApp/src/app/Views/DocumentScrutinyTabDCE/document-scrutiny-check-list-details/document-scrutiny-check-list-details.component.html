@@ -447,6 +447,10 @@
                   <label>Website Link :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.WebsiteLink}}" />
                 </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeNAACAccredited =='Yes'">
+                  <label>NACC Validity Date :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}" />
+                </div>
               </div>
             </div>
           </div>
