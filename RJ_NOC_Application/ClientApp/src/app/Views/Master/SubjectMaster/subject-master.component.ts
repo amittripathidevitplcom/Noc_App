@@ -36,7 +36,7 @@ export class SubjectMasterComponent implements OnInit {
   public UserID: number = 0;
   public DepartmentList: any;
   public SubjectMasterData: any;
-  public CourseDataList: any;
+  /*public CourseDataList: any;*/
   public isDisabledClient: boolean = true;
   public checked: boolean = true;
   searchText: string = '';
@@ -48,7 +48,7 @@ export class SubjectMasterComponent implements OnInit {
     this.SubjectMasterForm = this.formBuilder.group(
       {
         ddlDepartmentID: ['', [DropdownValidators]],
-        ddlCourseID: ['', [DropdownValidators]],
+        //ddlCourseID: ['', [DropdownValidators]],
         txtSubjectName: ['', [Validators.required, Validators.maxLength(100)]],
         chkIsPredical: [''],
         chkActiveStatus: [''],
@@ -64,7 +64,7 @@ export class SubjectMasterComponent implements OnInit {
     {
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
       this.is_disableDepartment = true;
-      await this.DepartmentChangecourse(null, this.sSOLoginDataModel.DepartmentID.toString());
+      //await this.DepartmentChangecourse(null, this.sSOLoginDataModel.DepartmentID.toString());
     }
     this.ActiveStatus = true;
   }
@@ -90,7 +90,7 @@ export class SubjectMasterComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.DepartmentList = data['Data'];
-          this.request.CourseID = 0;
+          //this.request.CourseID = 0;
 
         }, error => console.error(error));
     }
@@ -104,41 +104,41 @@ export class SubjectMasterComponent implements OnInit {
     }
   };
 
-  async DepartmentChangecourse(event: any, SeletedDepartmentID: string) {
-    this.request.CourseID = 0;
-    try {
-      this.loaderService.requestStarted();
-      const departmentId = Number(SeletedDepartmentID);
-      if (departmentId <= 0) {
-        return;
-      }
-      // Deparment level
-      await this.commonMasterService.GetCourseList_DepartmentIDWise(departmentId)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.CourseDataList = data['Data'];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  //async DepartmentChangecourse(event: any, SeletedDepartmentID: string) {
+  //  this.request.CourseID = 0;
+  //  try {
+  //    this.loaderService.requestStarted();
+  //    const departmentId = Number(SeletedDepartmentID);
+  //    if (departmentId <= 0) {
+  //      return;
+  //    }
+  //    // Deparment level
+  //    await this.commonMasterService.GetCourseList_DepartmentIDWise(departmentId)
+  //      .then((data: any) => {
+  //        data = JSON.parse(JSON.stringify(data));
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        this.CourseDataList = data['Data'];
+  //      }, error => console.error(error));
+  //  }
+  //  catch (Ex) {
+  //    console.log(Ex);
+  //  }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
 
   async ResetControl() {
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
     this.request.SubjectID = 0;
-    //this.request.DepartmentID = 0;
-    this.request.CourseID = 0;
+    this.request.DepartmentID = 0;
+    //this.request.CourseID = 0;
     this.request.SubjectName = '';
     this.request.UserID = 0;
     this.request.ActiveStatus = true;
@@ -159,8 +159,8 @@ export class SubjectMasterComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.request.SubjectID = data['Data'][0]["SubjectID"];
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-          this.DepartmentChangecourse('', (this.request.DepartmentID).toString())
-          this.request.CourseID = data['Data'][0]["CourseID"];
+          //this.DepartmentChangecourse('', (this.request.DepartmentID).toString())
+          //this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.SubjectName = data['Data'][0]["SubjectName"];
           this.request.IsPredical = data['Data'][0]["IsPredical"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
@@ -232,50 +232,7 @@ export class SubjectMasterComponent implements OnInit {
       }, 200);
     }
   }
-  //async ResetControl() {
-  //  const ddlDepartmentID = document.getElementById('ddlDepartmentID')
-  //  if (ddlDepartmentID) ddlDepartmentID.focus();
-  //  this.isSubmitted = false;
-  //  this.request.SubjectID = 0;
-  //  this.request.DepartmentID = 0;
-  //  this.request.CourseID = 0;
-  //  this.request.SubjectName = '';
-  //  this.request.UserID = 0;
-  //  this.request.ActiveStatus = true;
-  //  this.isDisabledGrid = false;
-  //  const btnSave = document.getElementById('btnSave')
-  //  if (btnSave) btnSave.innerHTML = "Save";
-  //  const btnReset = document.getElementById('')
-  //  if (btnReset) btnReset.innerHTML = "Reset";
-  //}
-  //async Edit_OnClick(SubjectID: number) {
-  //  
-  //  this.isSubmitted = false;
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.subjectMasterService.GetByID(SubjectID, this.UserID)
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.request.SubjectID = data['Data'][0]["SubjectID"];
-  //        this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-  //        this.DepartmentChangecourse(this.request.DepartmentID);
-  //        this.request.CourseID = data['Data'][0]["CourseID"];
-  //        this.request.SubjectName = data['Data'][0]["SubjectName"];
-  //        this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
-  //        this.isDisabledGrid = true;
-  //        const btnSave = document.getElementById('btnSave')
-  //        if (btnSave) btnSave.innerHTML = "Update";
-  //        const btnReset = document.getElementById('btnReset')
-  //        if (btnReset) btnReset.innerHTML = "Cancel";
-  //      }, error => console.error(error));
-  //  }
-  //  catch (ex) { console.log(ex) }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
+
   async Delete_OnClick(SubjectID: number) {
     this.isSubmitted = false;
     try {
@@ -358,7 +315,7 @@ export class SubjectMasterComponent implements OnInit {
           pDFData.push({
             "S.No.": i + 1,
             "DepartmentName": this.SubjectMasterData[i]['DepartmentName'],
-            "CourseName": this.SubjectMasterData[i]['CourseName'],
+            //"CourseName": this.SubjectMasterData[i]['CourseName'],
             "SubjectName": this.SubjectMasterData[i]['SubjectName'],
             "IsPredical": this.SubjectMasterData[i]['Predical'],
             "Status": this.SubjectMasterData[i]['ActiveDeactive']
@@ -366,7 +323,7 @@ export class SubjectMasterComponent implements OnInit {
         }
 
         let values: any;
-        let privados = ['S.No.', "DepartmentName", "CourseName", "SubjectName","Predical", "Status"];
+        let privados = ['S.No.', "DepartmentName", "SubjectName","IsPredical", "Status"];
         let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
         values = pDFData.map((elemento: any) => Object.values(elemento));
 
