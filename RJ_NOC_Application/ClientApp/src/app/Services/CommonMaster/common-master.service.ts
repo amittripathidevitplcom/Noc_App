@@ -731,13 +731,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number) {
+  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number, Type: string='-1') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetQualificationMasterList_DepartmentWise/" + DepartmentID + "/" + IsTeaching)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetQualificationMasterList_DepartmentWise/" + DepartmentID + "/" + IsTeaching + "/" + Type)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
