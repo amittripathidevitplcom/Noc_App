@@ -861,6 +861,7 @@ export class LandDetailsComponent implements OnInit {
 
     await this.GetLandTypeMasterList_DepartmentAndLandConvertWise(this.SelectedDepartmentID, Code);
     await this.GetLandTypeDetails_CollegeWise(this.SelectedDepartmentID, Code, this.request.LandDetailID);
+
     if (IsEdit != 'Yes') {
       await this.GetLandDocument(this.SelectedDepartmentID, Type);
     }
