@@ -246,6 +246,8 @@ import { DceDocumentScrutinyCompletedReportComponent } from './Views/Reports/DCE
 import { RouterModule } from '@angular/router';
 import { RevertedApplicationListComponent } from './Views/RevertedApllication/reverted-application-list/reverted-application-list.component';
 import { AhPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-post-verification-done-list/ah-post-verification-done-list.component';
+import { EnableControlDirective } from './Common/enable-control.directive';
+import { EnterTabDirective } from './Common/enter-tab.directive';
 
 
 
@@ -254,6 +256,7 @@ import { AhPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab
 
 @NgModule({
   declarations: [
+   
     AppComponent,
     MasterPageComponent,
 
@@ -486,7 +489,8 @@ import { AhPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab
     RevertedApplicationListComponent,
     AhPostVerificationDoneListComponent,
 
-
+    EnableControlDirective,
+    EnterTabDirective,
   ],
   imports: [
     CommonModule,
@@ -535,6 +539,7 @@ import { AhPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false },
+       
     },
   ],
   bootstrap: [AppComponent]
