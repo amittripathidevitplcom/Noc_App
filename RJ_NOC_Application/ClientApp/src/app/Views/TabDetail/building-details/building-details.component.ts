@@ -174,6 +174,7 @@ export class BuildingDetailsComponent implements OnInit {
         GATEYearBalanceSecretFileUpload: [''],
         OtherFinancialResourcesFileUpload: [''],
         txtOwnBuildingUpload: [''],
+        Rentvaliditydate: [''],
 
         txtsearchText: [''],
       })
@@ -307,6 +308,9 @@ export class BuildingDetailsComponent implements OnInit {
       if (this.buildingdetails.RentAgreementFileUpload == '') {
         this.ImageValidate = 'This field is required .!';
         return
+      }
+      if (this.buildingdetails.Rentvaliditydate == '') {
+        return;
       }
     }
 
@@ -477,7 +481,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUpload"];
           this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUploadPath"];
           this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFinancialResourcesFileUpload"];
-
+          this.buildingdetails.Rentvaliditydate = data['Data'][0]['data']['Table'][0]["Rentvaliditydate"];
           this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
 
           this.isDisabledGrid = true;
@@ -629,6 +633,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.PanchayatSamitiID = 0;
     this.buildingdetails.CityTownVillage = '';
     this.buildingdetails.ContactNo = '';
+    this.buildingdetails.Rentvaliditydate = '';
     this.OwnBuildingFileUpload = false;
     this.RentAggrementDocShow = false;
     this.isValidRentAgreementFileUpload = false;

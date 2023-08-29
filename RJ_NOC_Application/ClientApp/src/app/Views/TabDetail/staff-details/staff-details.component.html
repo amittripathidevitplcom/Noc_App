@@ -28,9 +28,7 @@
               {{item.SubjectName}}
             </option>-->
           </select>
-          <div *ngIf="isSubject" class="text-danger">
-            <p *ngIf="isSubject"> This field is required .!</p>
-          </div>
+          <p *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&request.SubjectID<=0" class="text-danger"> This field is required .!</p>
         </div>
       </div>
       <div class="row">
@@ -41,7 +39,7 @@
             <p *ngIf="form.txtNameOfPerson.errors.required">This field is required .!</p>
           </div>
         </div>
-        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
+        <div class="col-md-4 mb-3">
           <label>Designation <span style="color:red;">*</span></label>
           <select id="ddlRoleId" name="ddlRoleId" class="form-control" formControlName="ddlRoleId" [(ngModel)]="request.RoleID">
             <option disabled value="0">--Select Role--</option>
@@ -50,9 +48,12 @@
               {{item.RoleName}}
             </option>
           </select>
-          <div *ngIf="isRole" class="text-danger">
-            <p *ngIf="isRole"> This field is required .!</p>
+          <div *ngIf="isSubmitted&&form.ddlRoleId.errors" class="text-danger">
+            <p *ngIf="!form.ddlRoleId.errors.DropdownValidators"> This field is required .!</p>
           </div>
+          <!--<div *ngIf="isRole" class="text-danger">
+            <p *ngIf="isRole"> This field is required .!</p>
+          </div>-->
         </div>
         <div class="col-md-4 mb-3">
           <label>Mobile No. <span style="color:red;">*</span></label>
@@ -64,11 +65,23 @@
           </div>
         </div>
         <div class="col-md-4 mb-3">
-          <label>Email <span style="color:red;">*</span></label>
+          <label>Email <span style="color:red;" *ngIf="request.TeachingType=='Teaching'">*</span></label>
           <input type="text" id="txtEmail" name="txtEmail" class="form-control" formControlName="txtEmail" [(ngModel)]="request.Email" />
           <div *ngIf="isSubmitted&&form.txtEmail.errors" class="text-danger">
-            <p *ngIf="form.txtEmail.errors.required"> This field is required .!</p>
             <p *ngIf="form.txtEmail.errors.pattern"> Invalid Email .!</p>
+          </div>
+          <p class="text-danger" *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&(request.Email==null|| request.Email=='' || request.Email==undefined)"> This field is required .!</p>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label for="ddlGender" class="form-label">Gender <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlGender" name="ddlGender" [(ngModel)]="request.Gender" formControlName="ddlGender">
+            <option value="" disabled>--Select Gender--</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+          <div *ngIf="isSubmitted&&form.ddlGender.errors" class="text-danger">
+            <p *ngIf="form.ddlGender.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -147,9 +160,7 @@
               <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.PANCard,'PANCard')"><i class="fa fa-trash-o"></i></button>
             </div>
           </div>
-          <div *ngIf="isPANCard" class="text-danger">
-            <p *ngIf="isPANCard"> This field is required .!</p>
-          </div>
+          <p class="text-danger" *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&(request.PANCard==''||request.PANCard==null||request.PANCard==undefined)"> This field is required .!</p>
         </div>
 
         <div class="col-md-4 mb-3">
@@ -207,13 +218,13 @@
             <p *ngIf="isSpecializationSubject"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='NonTeaching'">
+        <!--<div class="col-md-4 mb-3" *ngIf="request.TeachingType=='NonTeaching'">
           <label>Designation <span style="color:red;">*</span></label>
           <input type="text" id="txtRoleMapping" name="txtRoleMapping" class="form-control" formControlName="txtRoleMapping" [(ngModel)]="request.RoleMapping" (keypress)="alphaOnly($event)" />
           <div *ngIf="isRoleMapping" class="text-danger">
             <p *ngIf="isRoleMapping"> This field is required .!</p>
           </div>
-        </div>
+        </div>-->
         <div class="col-md-4 mb-3">
           <label>Salary <span style="color:red;">*</span></label>
           <input type="text" id="txtSalary" name="txtSalary" class="form-control" formControlName="txtSalary" [(ngModel)]="request.Salary" maxlength="10" (keypress)="numbersOnly($event)" />
@@ -258,7 +269,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
           <label class="form-label" style="margin-right:15px">Research Guide <span style="color:red;">*</span></label>
           <div class="clearfix"></div>
           <div class="form-check form-check-inline">
@@ -269,9 +280,7 @@
             <input class="form-check-input" type="radio" name="rdResearchGuide" id="rdResearchGuideNo" value="No" formControlName="rdResearchGuide" [(ngModel)]="request.ResearchGuide" [attr.disabled]="isDisabledResearchGuide ? true : null">
             <label class="form-check-label" for="rdResearchGuideNo">No</label>
           </div>
-          <div *ngIf="isSubmitted&&form.rdResearchGuide.errors" class="text-danger">
-            <p *ngIf="form.rdResearchGuide.errors.required">  This field is required .!</p>
-          </div>
+          <p *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&(request.ResearchGuide==null||request.ResearchGuide==''||request.ResearchGuide==undefined)" class="text-danger">  This field is required .!</p>
         </div>
       </div>
     </form>
@@ -458,7 +467,7 @@
                       <p class="m-0"><b>Email ID : </b> {{item.Email}}</p>
                       <p class="m-0"><b>Qualification : </b> {{item.HighestQualificationName}}</p>
                       <p class="m-0"><b>Type : </b>{{item.TeachingType}}</p>
-
+                      <p class="m-0"><b>Gender : </b>{{item.Gender}}</p>
                     </td>
                     <td>
                       <p class="m-0"><b>DATE OF BIRTH : </b>{{item.DateOfBirth}}</p>
@@ -469,8 +478,8 @@
 
                     </td>
                     <td>
-                      <p class="m-0" *ngIf="item.TeachingType=='Teaching'"><b>Designation : </b>{{item.RoleName}}</p>
-                      <p class="m-0" *ngIf="item.TeachingType=='NonTeaching'"><b>Designation : </b>{{item.RoleMapping}}</p>
+                      <p class="m-0" ><b>Designation : </b>{{item.RoleName}}</p>
+                      <!--<p class="m-0" *ngIf="item.TeachingType=='NonTeaching'"><b>Designation : </b>{{item.RoleMapping}}</p>-->
                       <p class="m-0"><b>Course : </b>NA</p>
                       <p class="m-0" *ngIf="item.TeachingType=='Teaching'"><b>Subject : </b>{{item.SubjectName}}</p>
                       <p class="m-0"><b>Staff Status : </b> {{item.StaffStatus}}</p>

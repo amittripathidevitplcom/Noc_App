@@ -101,11 +101,11 @@
                           <td>{{item.RNCCheckListName}}</td>
                           <td>
                             <input [disabled]="IsDisabled" class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistYes{{idx}}" value="1" [(ngModel)]="item.IsChecked">
-                            &nbsp;<label class="form-check-label">Yes</label>&nbsp;&nbsp;
+                            &nbsp;<label class="form-check-label" for="rdChecklistYes{{idx}}">Yes</label>&nbsp;&nbsp;
                             <input class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNo{{idx}}" value="2" [(ngModel)]="item.IsChecked">
-                            &nbsp;<label class="form-check-label"> No</label>&nbsp;&nbsp;
+                            &nbsp;<label class="form-check-label" for="rdChecklistNo{{idx}}"> No</label>&nbsp;&nbsp;
                             <input [disabled]="IsDisabled" class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNotapplicable{{idx}}" value="3" [(ngModel)]="item.IsChecked">
-                            &nbsp;<label class="form-check-label"> Not Applicable</label>
+                            &nbsp;<label class="form-check-label" for="rdChecklistNotapplicable{{idx}}"> Not Applicable</label>
                           </td>
                           <td>
                             <div *ngIf="item.IsChecked==2">
@@ -185,9 +185,9 @@
                           <td>{{item.RNCCheckListName}}</td>
                           <td>
                             <input [disabled]="IsDisabled" class="form-check-input" type="radio" name="rdfinalChecklistYesNo{{idx}}" id="rdfinalChecklistYes{{idx}}" value="1" [(ngModel)]="item.IsChecked">
-                            &nbsp;<label class="form-check-label">Yes</label>&nbsp;&nbsp;
+                            &nbsp;<label class="form-check-label" for="rdfinalChecklistYes{{idx}}">Yes</label>&nbsp;&nbsp;
                             <input [disabled]="IsDisabled" class="form-check-input" type="radio" name="rdfinalChecklistYesNo{{idx}}" id="rdfinalChecklistNo{{idx}}" value="2" [(ngModel)]="item.IsChecked">
-                            &nbsp;<label class="form-check-label"> No</label>&nbsp;&nbsp;
+                            &nbsp;<label class="form-check-label" for="rdfinalChecklistNo{{idx}}"> No</label>&nbsp;&nbsp;
                           </td>
                           <td>
                             <div *ngIf="item.IsChecked==2">

@@ -731,13 +731,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number) {
+  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetQualificationMasterList_DepartmentWise/" + DepartmentID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetQualificationMasterList_DepartmentWise/" + DepartmentID + "/" + IsTeaching)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1080,7 +1080,18 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetStaffDesignation(IsTeaching: number) {
 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetStaffDesignation/" + IsTeaching)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetLandTypeDetails_CollegeWise(DepartmentID: number, Type: string, LandTypeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
