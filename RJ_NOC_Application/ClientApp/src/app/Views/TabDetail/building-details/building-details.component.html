@@ -13,615 +13,620 @@
     </div>
   </div>
 </div>-->
-  <div class="card-body">
-    <div class="row">
-      <div class="col-md-12">
+<div class="card-body">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-filter"></i>&nbsp;Building Documents</b>
+          <span style="color:red;">Upload File(Only PDF,JPEG,JPG)(Min size 100(KB))(Max size 2(MB))</span>
+        </div>
+        <form [formGroup]="buildingdetailsForm" class="form-horizontal">
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                <label for="buildingdeatilstype" class="form-label" style="margin-right:15px">Building Category <span style="color:red;">*</span> : </label>
+                <div class="form-check form-check-inline" *ngFor="let item of lstBuildingTypeChk">
+
+                  <input class="form-check-input" type="radio" name="rdBuildingType" formControlName="rdBuildingType" id="rdBuildingType_{{item.BuildingTypeID}}" value="{{item.BuildingTypeID}}" [value]="item.BuildingTypeID" [(ngModel)]="buildingdetails.BuildingTypeID" (change)="changeBuildingType(item.BuildingTypeName)">
+                  <label class="form-check-label" for="txtBuildinDetails">{{item.BuildingTypeName}}</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rdBuildingType.errors" class="text-danger">
+                  <p *ngIf="form.rdBuildingType.errors.required"> This field is required .!</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Name <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" [(ngModel)]="buildingdetails.OwnerName" formControlName="txtOwnerName" (keypress)="alphaOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtOwnerName.errors" class="text-danger">
+                  <p *ngIf="form.txtOwnerName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtAddressLine1_Owner" name="txtAddressLine1_Owner" [(ngModel)]="buildingdetails.AddressLine1" formControlName="txtAddressLine1_Owner">
+                <div *ngIf="isSubmitted&&form.txtAddressLine1_Owner.errors" class="text-danger">
+                  <p *ngIf="form.txtAddressLine1_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Address Line 2 </label>
+                <input type="text" class="form-control" id="txtAddressLine2_Owner" name="txtAddressLine2_Owner" [(ngModel)]="buildingdetails.AddressLine2" formControlName="txtAddressLine2_Owner">
+                <div *ngIf="isSubmitted&&form.txtAddressLine2_Owner.errors" class="text-danger">
+                  <p *ngIf="form.txtAddressLine2_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label" style="margin-right:15px"></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbRural_Owner" name="rbRuralUrban_Owner" [(ngModel)]="buildingdetails.RuralUrban" value="Rural" formControlName="rbRuralUrban_Owner" (change)="IsRuralOrUrban(true)">
+                  <label class="form-check-label" for="rbRural_Owner">Rural</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="rbUrban_Owner" name="rbRuralUrban_Owner" [(ngModel)]="buildingdetails.RuralUrban" value="Urban" formControlName="rbRuralUrban_Owner" (change)="IsRuralOrUrban(false)">
+                  <label class="form-check-label" for="rbUrban_Owner">Urban</label>
+                </div>
+                <div *ngIf="isSubmitted&&form.rbRuralUrban_Owner.errors" class="text-danger">
+                  <p *ngIf="form.rbRuralUrban_Owner.errors.required"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Division <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlDivisionID_Owner" name="ddlDivisionID_Owner" [(ngModel)]="buildingdetails.DivisionID" formControlName="ddlDivisionID_Owner" #SeletedValueDivision (change)="FillDivisionRelatedDDL($event,SeletedValueDivision.value)">
+                  <option value="0">--Select Division--</option>
+                  <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDivisionID_Owner.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDivisionID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">District <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlDistrictID_Owner" name="ddlDistrictID_Owner" [(ngModel)]="buildingdetails.DistrictID" formControlName="ddlDistrictID_Owner" #SeletedValueDistrict (change)="FillDistrictRelatedDDL($event,SeletedValueDistrict.value)">
+                  <option value="0">--Select District--</option>
+                  <option *ngFor="let item of DistrictList_Owner" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDistrictID_Owner.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDistrictID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="buildingdetails.TehsilID" formControlName="ddlTehsilID_Owner">
+                  <option value="0">--Select Tehsil--</option>
+                  <option *ngFor="let item of TehsilList_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&IsTehsilrequired" class="text-danger">
+                  <p *ngIf="isSubmitted&&IsTehsilrequired"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlPanchayatSamitiID_Owner" name="ddlPanchayatSamitiID_Owner" [(ngModel)]="buildingdetails.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID_Owner">
+                  <option value="0">--Select Panchayat Samiti--</option>
+                  <option *ngFor="let item of PanchyatSamitiList_Owner" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&IsPanchayatSamitirequried" class="text-danger">
+                  <p *ngIf="isSubmitted&&IsPanchayatSamitirequried"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtCityTownVillage_Owner" name="txtCityTownVillage_Owner" [(ngModel)]="buildingdetails.CityTownVillage" formControlName="txtCityTownVillage_Owner">
+                <div *ngIf="isSubmitted&&form.txtCityTownVillage_Owner.errors" class="text-danger">
+                  <p *ngIf="form.txtCityTownVillage_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Contact No <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtContactNo_Owner" name="txtContactNo_Owner" [(ngModel)]="buildingdetails.ContactNo" formControlName="txtContactNo_Owner" maxlength="10" (keypress)="numberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtContactNo_Owner.errors" class="text-danger">
+                  <p *ngIf="form.txtContactNo_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtContactNo_Owner.errors.pattern || form.txtContactNo_Owner.errors.maxlength || form.txtContactNo_Owner.errors.minlength">Invalid Mobile number</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Pincode <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="buildingdetails.Pincode" formControlName="txtPincode_Owner" maxlength="6" (keypress)="numberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtPincode_Owner.errors" class="text-danger">
+                  <p *ngIf="form.txtPincode_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label>
+                  Total Constructed Building Area (in Sq. Ft) <span style="color:red;">*</span>
+                </label>
+                <input type="text" id="txtBuildingHostelQuartersRoadArea" class="form-control" [(ngModel)]="buildingdetails.BuildingHostelQuartersRoadArea" formControlName="txtBuildingHostelQuartersRoadArea" (keypress)="numbersOnly($event)" />
+                <p *ngIf="IstxtBuildingHostel" class="text-danger"><i aria-hidden="true"></i>Enter the Building/Hostel/Quarters/Road Area(A1) .!</p>
+                <div *ngIf="isSubmitted&&form.txtBuildingHostelQuartersRoadArea.errors" class="text-danger">
+                  <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.required">This field is required .!</p>
+                  <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.min">This field is required .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="RentAggrementDocShow">
+                <label for="txtRentAgreementFileUpload" class="form-label">Upload Registered Rent Agreement/Lease Deed<span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="txtRentAgreementFileUpload" style="display:none" formControlName="txtRentAgreementFileUpload" (change)="ValidateUploadImage($event,'RentAgreementFileUpload')" RentAgreementFileUpload />
+                  <label class="btn upload" for="txtRentAgreementFileUpload">
+                    <span class="filename">Choose file</span>
+                    {{buildingdetails.RentAgreementFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_RentAgreementFileUpload}}
+                  </label>
+                  <div class="btn-group" *ngIf="buildingdetails.RentAgreementFileUpload !=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.RentAgreementFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('RentAgreementFileUpload')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&buildingdetails.RentAgreementFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                <div *ngIf="isValidRentAgreementFileUpload" class="text-danger">
+                  <p *ngIf="isValidRentAgreementFileUpload"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-12 mb-3" *ngIf="RentAggrementDocShow">
+                <label for="">Rent Valid Up To <span style="color:red;">*</span></label>
+                <input class="form-control" type="date" id="txtToDate" [(ngModel)]="buildingdetails.Rentvaliditydate" formControlName="Rentvaliditydate" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                <p *ngIf="isSubmitted&&RentAggrementDocShow&&buildingdetails.Rentvaliditydate==''" class="text-danger"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>{{Owin_RentDocTitle}}</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOwnBuildingOrderNo" class="form-label">Order No<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtOwnBuildingOrderNo" name="txtOwnBuildingOrderNo" [(ngModel)]="buildingdetails.OwnBuildingOrderNo" formControlName="txtOwnBuildingOrderNo">
+
+                    <div *ngIf="isSubmitted&&form.txtOwnBuildingOrderNo.errors" class="text-danger">
+                      <p *ngIf="form.txtOwnBuildingOrderNo.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOwnBuildingOrderDate">Order Date<span style="color:red;">*</span></label>
+                    <input class="form-control" type="date" id="txtOwnBuildingOrderDate" [(ngModel)]="buildingdetails.OwnBuildingOrderDate" formControlName="txtOwnBuildingOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <div *ngIf="isSubmitted&&form.txtOwnBuildingOrderDate.errors" class="text-danger">
+                      <p *ngIf="form.txtOwnBuildingOrderDate.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtOwnBuildingUpload" class="form-label">Upload Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="txtOwnBuildingUpload" style="display:none" formControlName="txtOwnBuildingUpload" (change)="ValidateUploadImage($event,'OwnBuildingFileUpload')" #txtOwnBuildingUpload />
+                      <label class="btn upload" for="txtOwnBuildingUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.OwnBuildingFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_OwnBuildingFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.OwnBuildingFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.OwnBuildingFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('OwnBuildingFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <a *ngIf="SampleDocument!=''" style="color: #3458c8;" target="_blank" href="{{SampleDocument}}">(Download Annexure-13)</a>
+                    <p *ngIf="isSubmitted&&buildingdetails.OwnBuildingFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidOwnBuildingFileUpload" class="text-danger">
+                      <p *ngIf="isValidOwnBuildingFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Fire NOC Validity</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="">From Date</label>
+                    <input class="form-control" type="date" id="txtFromDate" placeholder="Enter From Date" [(ngModel)]="buildingdetails.FromDate" formControlName="txtFromDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <div *ngIf="isSubmitted&&form.txtFromDate.errors" class="text-danger">
+                      <p *ngIf="form.txtFromDate.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="">To Date</label>
+                    <input class="form-control" type="date" id="txtToDate" placeholder="Enter To Date" [(ngModel)]="buildingdetails.ToDate" formControlName="txtToDate" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <div *ngIf="isSubmitted&&form.txtToDate.errors" class="text-danger">
+                      <p *ngIf="form.txtToDate.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtFireNOCUpload" class="form-label">Upload Fire NOC Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="txtFireNOCUpload" style="display:none" formControlName="txtFireNOCUpload" (change)="ValidateUploadImage($event,'FireNOCFileUpload')" #txtFireNOCUpload />
+                      <label class="btn upload" for="txtFireNOCUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.FireNOCFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_FireNOCFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.FireNOCFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.FireNOCFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FireNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&buildingdetails.FireNOCFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidFireNOCFileUpload" class="text-danger">
+                      <p *ngIf="isValidFireNOCFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Current Year Building Safety Certificate Order No. & Order Date: </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOrderNo" class="form-label">Order No<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtOrderNo" name="txtOrderNo" [(ngModel)]="buildingdetails.OrderNo" formControlName="txtOrderNo" placeholder="Enter Order Number.">
+
+                    <div *ngIf="isSubmitted&&form.txtOrderNo.errors" class="text-danger">
+                      <p *ngIf="form.txtOrderNo.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOrderDate">Order Date<span style="color:red;">*</span></label>
+                    <input class="form-control" type="date" id="txtOrderDate" placeholder="Enter Order Date" [(ngModel)]="buildingdetails.OrderDate" formControlName="txtOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <div *ngIf="isSubmitted&&form.txtOrderDate.errors" class="text-danger">
+                      <p *ngIf="form.txtOrderDate.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtExpiringOn">Expiring On<span style="color:red;">*</span></label>
+                    <input class="form-control" type="date" id="txtExpiringOn" placeholder="Enter To Date" [(ngModel)]="buildingdetails.ExpiringOn" formControlName="txtExpiringOn" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <div *ngIf="isSubmitted&&form.txtExpiringOn.errors" class="text-danger">
+                      <p *ngIf="form.txtExpiringOn.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtPWDNOCFileUpload" class="form-label">Upload PWD NOC Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="txtPWDNOCFileUpload" style="display:none" formControlName="txtPWDNOCFileUpload" (change)="ValidateUploadImage($event,'PWDNOCFileUpload')" #txtPWDNOCFileUpload />
+                      <label class="btn upload" for="txtPWDNOCFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.PWDNOCFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_PWDNOCFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.PWDNOCFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.PWDNOCFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PWDNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&buildingdetails.PWDNOCFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidPWDNOCFileUpload" class="text-danger">
+                      <p *ngIf="isValidPWDNOCFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" *ngIf="SelectedDepartmentID ==6">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-filter"></i>&nbsp;Description: </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtTotalProjectCost" class="form-label">Total Project Cost<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtTotalProjectCost" name="txtTotalProjectCost" [(ngModel)]="buildingdetails.TotalProjectCost" formControlName="txtTotalProjectCost" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.TotalProjectCost =='' || buildingdetails.TotalProjectCost =='0'"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="TotalProjectCostFileUpload" class="form-label">Upload Total Project Cost Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="TotalProjectCostFileUpload" style="display:none" formControlName="TotalProjectCostFileUpload" (change)="DescriptionValidateUploadImage($event,'TotalProjectCostFileUpload')" #TotalProjectCostFileUpload />
+                      <label class="btn upload" for="TotalProjectCostFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.TotalProjectCostFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_TotalProjectCostFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.TotalProjectCostFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.TotalProjectCostFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('TotalProjectCostFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&buildingdetails.TotalProjectCostFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidTotalProjectCostFileUpload" class="text-danger">
+                      <p *ngIf="isValidTotalProjectCostFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtSourceCostAmount" class="form-label">Source Cost Amount<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtSourceCostAmount" name="txtSourceCostAmount" [(ngModel)]="buildingdetails.SourceCostAmount" formControlName="txtSourceCostAmount" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.SourceCostAmount =='' || buildingdetails.SourceCostAmount =='0'"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="SourceCostAmountFileUpload" class="form-label">Upload Source Cost Amount Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="SourceCostAmountFileUpload" style="display:none" formControlName="SourceCostAmountFileUpload" (change)="DescriptionValidateUploadImage($event,'SourceCostAmountFileUpload')" #SourceCostAmountFileUpload />
+                      <label class="btn upload" for="SourceCostAmountFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.SourceCostAmountFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_SourceCostAmountFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.SourceCostAmountFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.SourceCostAmountFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('SourceCostAmountFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&buildingdetails.SourceCostAmountFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidSourceCostAmountFileUpload" class="text-danger">
+                      <p *ngIf="isValidSourceCostAmountFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtAmountDeposited" class="form-label">Amount deposited in the Bank near the institution<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtAmountDeposited" name="txtAmountDeposited" [(ngModel)]="buildingdetails.AmountDeposited" formControlName="txtAmountDeposited" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.AmountDeposited =='' || buildingdetails.AmountDeposited =='0'"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="AmountDepositedFileUpload" class="form-label">Upload Amount Deposited Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="AmountDepositedFileUpload" style="display:none" formControlName="AmountDepositedFileUpload" (change)="DescriptionValidateUploadImage($event,'AmountDepositedFileUpload')" #AmountDepositedFileUpload />
+                      <label class="btn upload" for="AmountDepositedFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.AmountDepositedFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_AmountDepositedFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.AmountDepositedFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.AmountDepositedFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('AmountDepositedFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&buildingdetails.AmountDepositedFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidAmountDepositedFileUpload" class="text-danger">
+                      <p *ngIf="isValidAmountDepositedFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOtherFixedAssetsAndSecurities" class="form-label">Other fixed assets/securities of the organization<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtOtherFixedAssetsAndSecurities" name="txtOtherFixedAssetsAndSecurities" [(ngModel)]="buildingdetails.OtherFixedAssetsAndSecurities" formControlName="txtOtherFixedAssetsAndSecurities" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.OtherFixedAssetsAndSecurities =='' || buildingdetails.OtherFixedAssetsAndSecurities =='0'"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="OtherFixedAssetsAndSecuritiesFileUpload" class="form-label">Upload Other Fixed Assets/Securities Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="OtherFixedAssetsAndSecuritiesFileUpload" style="display:none" formControlName="OtherFixedAssetsAndSecuritiesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFixedAssetsAndSecuritiesFileUpload')" #OtherFixedAssetsAndSecuritiesFileUpload />
+                      <label class="btn upload" for="OtherFixedAssetsAndSecuritiesFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('OtherFixedAssetsAndSecuritiesFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidOtherFixedAssetsAndSecuritiesFileUpload" class="text-danger">
+                      <p *ngIf="isValidOtherFixedAssetsAndSecuritiesFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtGATEYearBalanceSecret" class="form-label">GATE year balance secret of the organization<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtGATEYearBalanceSecret" name="txtGATEYearBalanceSecret" [(ngModel)]="buildingdetails.GATEYearBalanceSecret" formControlName="txtGATEYearBalanceSecret" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.GATEYearBalanceSecret =='' || buildingdetails.GATEYearBalanceSecret =='0'"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="GATEYearBalanceSecretFileUpload" class="form-label">Upload GATE Year Balance Secret Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="GATEYearBalanceSecretFileUpload" style="display:none" formControlName="GATEYearBalanceSecretFileUpload" (change)="DescriptionValidateUploadImage($event,'GATEYearBalanceSecretFileUpload')" #GATEYearBalanceSecretFileUpload />
+                      <label class="btn upload" for="GATEYearBalanceSecretFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.GATEYearBalanceSecretFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_GATEYearBalanceSecretFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.GATEYearBalanceSecretFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.GATEYearBalanceSecretFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('GATEYearBalanceSecretFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&buildingdetails.GATEYearBalanceSecretFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidGATEYearBalanceSecretFileUpload" class="text-danger">
+                      <p *ngIf="isValidGATEYearBalanceSecretFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtOtherFinancialResources" class="form-label">Other financial resources<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtOtherFinancialResources" name="txtOtherFinancialResources" [(ngModel)]="buildingdetails.OtherFinancialResources" formControlName="txtOtherFinancialResources" (keypress)="numbersOnly($event)">
+
+                    <div *ngIf="isSubmitted" class="text-danger">
+                      <p *ngIf="buildingdetails.OtherFinancialResources =='' || buildingdetails.OtherFinancialResources =='0'"> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="OtherFinancialResourcesFileUpload" class="form-label">Upload Other Financial Resources Document<span style="color:red;">*</span></label>
+                    <div class="d-flex">
+                      <input type="file" class="form-control" id="OtherFinancialResourcesFileUpload" style="display:none" formControlName="OtherFinancialResourcesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFinancialResourcesFileUpload')" #OtherFinancialResourcesFileUpload />
+                      <label class="btn upload" for="OtherFinancialResourcesFileUpload">
+                        <span class="filename">Choose file</span>
+                        {{buildingdetails.OtherFinancialResourcesFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_OtherFinancialResourcesFileUpload}}
+                      </label>
+                      <div class="btn-group" *ngIf="buildingdetails.OtherFinancialResourcesFileUpload!=''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.OtherFinancialResourcesFileUploadPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('OtherFinancialResourcesFileUpload')"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <p *ngIf="isSubmitted&&buildingdetails.OtherFinancialResourcesFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <div *ngIf="isValidOtherFinancialResourcesFileUpload" class="text-danger">
+                      <p *ngIf="isValidOtherFinancialResourcesFileUpload"> {{ImageValidationMessage}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
         <div class="card">
           <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-filter"></i>&nbsp;Building Documents</b>
-            <span style="color:red;">Upload File(Only PDF,JPEG,JPG)(Min size 100(KB))(Max size 2(MB))</span>
+            <b><i class="fa fa-filter"></i>&nbsp;Building Photos</b>
           </div>
-          <form [formGroup]="buildingdetailsForm" class="form-horizontal">
-            <div class="card-body">
-
-              <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-                  <label for="buildingdeatilstype" class="form-label" style="margin-right:15px">Building Category <span style="color:red;">*</span> : </label>
-                  <div class="form-check form-check-inline" *ngFor="let item of lstBuildingTypeChk">
-
-                    <input class="form-check-input" type="radio" name="rdBuildingType" formControlName="rdBuildingType" id="rdBuildingType_{{item.BuildingTypeID}}" value="{{item.BuildingTypeID}}" [value]="item.BuildingTypeID" [(ngModel)]="buildingdetails.BuildingTypeID" (change)="changeBuildingType(item.BuildingTypeName)">
-                    <label class="form-check-label" for="txtBuildinDetails">{{item.BuildingTypeName}}</label>
-                  </div>
-                  <div *ngIf="isSubmitted&&form.rdBuildingType.errors" class="text-danger">
-                    <p *ngIf="form.rdBuildingType.errors.required"> This field is required .!</p>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Name <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" [(ngModel)]="buildingdetails.OwnerName" formControlName="txtOwnerName" (keypress)="alphaOnly($event)" />
-                  <div *ngIf="isSubmitted&&form.txtOwnerName.errors" class="text-danger">
-                    <p *ngIf="form.txtOwnerName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtAddressLine1_Owner" name="txtAddressLine1_Owner" [(ngModel)]="buildingdetails.AddressLine1" formControlName="txtAddressLine1_Owner">
-                  <div *ngIf="isSubmitted&&form.txtAddressLine1_Owner.errors" class="text-danger">
-                    <p *ngIf="form.txtAddressLine1_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Address Line 2 </label>
-                  <input type="text" class="form-control" id="txtAddressLine2_Owner" name="txtAddressLine2_Owner" [(ngModel)]="buildingdetails.AddressLine2" formControlName="txtAddressLine2_Owner">
-                  <div *ngIf="isSubmitted&&form.txtAddressLine2_Owner.errors" class="text-danger">
-                    <p *ngIf="form.txtAddressLine2_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label" style="margin-right:15px"></label>
-                  <div class="clearfix"></div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="rbRural_Owner" name="rbRuralUrban_Owner" [(ngModel)]="buildingdetails.RuralUrban" value="Rural" formControlName="rbRuralUrban_Owner" (change)="IsRuralOrUrban(true)">
-                    <label class="form-check-label" for="rbRural_Owner">Rural</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="rbUrban_Owner" name="rbRuralUrban_Owner" [(ngModel)]="buildingdetails.RuralUrban" value="Urban" formControlName="rbRuralUrban_Owner" (change)="IsRuralOrUrban(false)">
-                    <label class="form-check-label" for="rbUrban_Owner">Urban</label>
-                  </div>
-                  <div *ngIf="isSubmitted&&form.rbRuralUrban_Owner.errors" class="text-danger">
-                    <p *ngIf="form.rbRuralUrban_Owner.errors.required"> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Division <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlDivisionID_Owner" name="ddlDivisionID_Owner" [(ngModel)]="buildingdetails.DivisionID" formControlName="ddlDivisionID_Owner" #SeletedValueDivision (change)="FillDivisionRelatedDDL($event,SeletedValueDivision.value)">
-                    <option value="0">--Select Division--</option>
-                    <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlDivisionID_Owner.errors" class="text-danger">
-                    <p *ngIf="!form.ddlDivisionID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">District <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlDistrictID_Owner" name="ddlDistrictID_Owner" [(ngModel)]="buildingdetails.DistrictID" formControlName="ddlDistrictID_Owner" #SeletedValueDistrict (change)="FillDistrictRelatedDDL($event,SeletedValueDistrict.value)">
-                    <option value="0">--Select District--</option>
-                    <option *ngFor="let item of DistrictList_Owner" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlDistrictID_Owner.errors" class="text-danger">
-                    <p *ngIf="!form.ddlDistrictID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
-                  <label class="form-label">Tehsil <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="buildingdetails.TehsilID" formControlName="ddlTehsilID_Owner">
-                    <option value="0">--Select Tehsil--</option>
-                    <option *ngFor="let item of TehsilList_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&IsTehsilrequired" class="text-danger">
-                    <p *ngIf="isSubmitted&&IsTehsilrequired"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
-                  <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlPanchayatSamitiID_Owner" name="ddlPanchayatSamitiID_Owner" [(ngModel)]="buildingdetails.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID_Owner">
-                    <option value="0">--Select Panchayat Samiti--</option>
-                    <option *ngFor="let item of PanchyatSamitiList_Owner" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&IsPanchayatSamitirequried" class="text-danger">
-                    <p *ngIf="isSubmitted&&IsPanchayatSamitirequried"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtCityTownVillage_Owner" name="txtCityTownVillage_Owner" [(ngModel)]="buildingdetails.CityTownVillage" formControlName="txtCityTownVillage_Owner">
-                  <div *ngIf="isSubmitted&&form.txtCityTownVillage_Owner.errors" class="text-danger">
-                    <p *ngIf="form.txtCityTownVillage_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Contact No <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtContactNo_Owner" name="txtContactNo_Owner" [(ngModel)]="buildingdetails.ContactNo" formControlName="txtContactNo_Owner" maxlength="10" (keypress)="numberOnly($event)">
-                  <div *ngIf="isSubmitted&&form.txtContactNo_Owner.errors" class="text-danger">
-                    <p *ngIf="form.txtContactNo_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    <p *ngIf="form.txtContactNo_Owner.errors.pattern || form.txtContactNo_Owner.errors.maxlength || form.txtContactNo_Owner.errors.minlength">Invalid Mobile number</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Pincode <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="buildingdetails.Pincode" formControlName="txtPincode_Owner" maxlength="6" (keypress)="numberOnly($event)">
-                  <div *ngIf="isSubmitted&&form.txtPincode_Owner.errors" class="text-danger">
-                    <p *ngIf="form.txtPincode_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label>
-                    Total Constructed Building Area (in Sq. Ft) <span style="color:red;">*</span>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of buildingdetails.lstBuildingDocDetails  let idx =index">
+                <label>
+                  {{item.DocumentName}} <span style="color:red;">*</span>
+                </label>
+                <div class="d-flex">
+                  <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (change)="onFilechange($event,item)" />
+                  <label class="btn upload" for="fileLandDocument_{{item.DID}}">
+                    <span class="filename">Choose file</span>
+                    {{item.Dis_FileName === '' ? 'No File Choosen' : item.Dis_FileName}}
                   </label>
-                  <input type="text" id="txtBuildingHostelQuartersRoadArea" class="form-control" [(ngModel)]="buildingdetails.BuildingHostelQuartersRoadArea" formControlName="txtBuildingHostelQuartersRoadArea" (keypress)="numbersOnly($event)" />
-                  <p *ngIf="IstxtBuildingHostel" class="text-danger"><i aria-hidden="true"></i>Enter the Building/Hostel/Quarters/Road Area(A1) .!</p>
-                  <div *ngIf="isSubmitted&&form.txtBuildingHostelQuartersRoadArea.errors" class="text-danger">
-                    <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.required">This field is required .!</p>
-                    <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.min">This field is required .!</p>
+                  <div class="btn-group" *ngIf="item.FileName !== ''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImages(item)"><i class="fa fa-trash-o"></i></button>
                   </div>
                 </div>
-
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="RentAggrementDocShow">
-                  <label for="txtRentAgreementFileUpload" class="form-label">Upload Registered Rent Agreement/Lease Deed<span style="color:red;">*</span></label>
-                  <div class="d-flex">
-                    <input type="file" class="form-control" id="txtRentAgreementFileUpload" style="display:none" formControlName="txtRentAgreementFileUpload" (change)="ValidateUploadImage($event,'RentAgreementFileUpload')" RentAgreementFileUpload />
-                    <label class="btn upload" for="txtRentAgreementFileUpload">
-                      <span class="filename">Choose file</span>
-                      {{buildingdetails.RentAgreementFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_RentAgreementFileUpload}}
-                    </label>
-                    <div class="btn-group" *ngIf="buildingdetails.RentAgreementFileUpload !=''">
-                      <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.RentAgreementFileUploadPath}}"><i class="fa fa-eye"></i></a>
-                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('RentAgreementFileUpload')"><i class="fa fa-trash-o"></i></button>
-                    </div>
-                  </div>
-                  <p *ngIf="isSubmitted&&buildingdetails.RentAgreementFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
-                  <div *ngIf="isValidRentAgreementFileUpload" class="text-danger">
-                    <p *ngIf="isValidRentAgreementFileUpload"> {{ImageValidationMessage}}</p>
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="fa fa-filter"></i>{{Owin_RentDocTitle}}</b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                      <label for="txtOwnBuildingOrderNo" class="form-label">Order No<span style="color:red;">*</span> </label>
-                      <input type="text" autocomplete="off" class="form-control" id="txtOwnBuildingOrderNo" name="txtOwnBuildingOrderNo" [(ngModel)]="buildingdetails.OwnBuildingOrderNo" formControlName="txtOwnBuildingOrderNo">
-
-                      <div *ngIf="isSubmitted&&form.txtOwnBuildingOrderNo.errors" class="text-danger">
-                        <p *ngIf="form.txtOwnBuildingOrderNo.errors.required"> This field is required .!</p>
-                      </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                      <label for="txtOwnBuildingOrderDate">Order Date<span style="color:red;">*</span></label>
-                      <input class="form-control" type="date" id="txtOwnBuildingOrderDate" [(ngModel)]="buildingdetails.OwnBuildingOrderDate" formControlName="txtOwnBuildingOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
-                      <div *ngIf="isSubmitted&&form.txtOwnBuildingOrderDate.errors" class="text-danger">
-                        <p *ngIf="form.txtOwnBuildingOrderDate.errors.required"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label for="txtOwnBuildingUpload" class="form-label">Upload Document<span style="color:red;">*</span></label>
-                      <div class="d-flex">
-                        <input type="file" class="form-control" id="txtOwnBuildingUpload" style="display:none" formControlName="txtOwnBuildingUpload" (change)="ValidateUploadImage($event,'OwnBuildingFileUpload')" #txtOwnBuildingUpload />
-                        <label class="btn upload" for="txtOwnBuildingUpload">
-                          <span class="filename">Choose file</span>
-                          {{buildingdetails.OwnBuildingFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_OwnBuildingFileUpload}}
-                        </label>
-                        <div class="btn-group" *ngIf="buildingdetails.OwnBuildingFileUpload!=''">
-                          <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.OwnBuildingFileUploadPath}}"><i class="fa fa-eye"></i></a>
-                          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('OwnBuildingFileUpload')"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                      </div>
-                      <a *ngIf="SampleDocument!=''" style="color: #3458c8;" target="_blank" href="{{SampleDocument}}">(Download Annexure-13)</a>
-                      <p *ngIf="isSubmitted&&buildingdetails.OwnBuildingFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
-                      <div *ngIf="isValidOwnBuildingFileUpload" class="text-danger">
-                        <p *ngIf="isValidOwnBuildingFileUpload"> {{ImageValidationMessage}}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="fa fa-filter"></i>&nbsp;Fire NOC Validity</b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label for="">From Date</label>
-                      <input class="form-control" type="date" id="txtFromDate" placeholder="Enter From Date" [(ngModel)]="buildingdetails.FromDate" formControlName="txtFromDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
-                      <div *ngIf="isSubmitted&&form.txtFromDate.errors" class="text-danger">
-                        <p *ngIf="form.txtFromDate.errors.required"> This field is required .!</p>
-                      </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                      <label for="">To Date</label>
-                      <input class="form-control" type="date" id="txtToDate" placeholder="Enter To Date" [(ngModel)]="buildingdetails.ToDate" formControlName="txtToDate" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
-                      <div *ngIf="isSubmitted&&form.txtToDate.errors" class="text-danger">
-                        <p *ngIf="form.txtToDate.errors.required"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label for="txtFireNOCUpload" class="form-label">Upload Fire NOC Document<span style="color:red;">*</span></label>
-                      <div class="d-flex">
-                        <input type="file" class="form-control" id="txtFireNOCUpload" style="display:none" formControlName="txtFireNOCUpload" (change)="ValidateUploadImage($event,'FireNOCFileUpload')" #txtFireNOCUpload />
-                        <label class="btn upload" for="txtFireNOCUpload">
-                          <span class="filename">Choose file</span>
-                          {{buildingdetails.FireNOCFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_FireNOCFileUpload}}
-                        </label>
-                        <div class="btn-group" *ngIf="buildingdetails.FireNOCFileUpload!=''">
-                          <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.FireNOCFileUploadPath}}"><i class="fa fa-eye"></i></a>
-                          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FireNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                      </div>
-                      <p *ngIf="isSubmitted&&buildingdetails.FireNOCFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
-                      <div *ngIf="isValidFireNOCFileUpload" class="text-danger">
-                        <p *ngIf="isValidFireNOCFileUpload"> {{ImageValidationMessage}}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="fa fa-filter"></i>&nbsp;Current Year Building Safety Certificate Order No. & Order Date: </b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                      <label for="txtOrderNo" class="form-label">Order No<span style="color:red;">*</span> </label>
-                      <input type="text" autocomplete="off" class="form-control" id="txtOrderNo" name="txtOrderNo" [(ngModel)]="buildingdetails.OrderNo" formControlName="txtOrderNo" placeholder="Enter Order Number.">
-
-                      <div *ngIf="isSubmitted&&form.txtOrderNo.errors" class="text-danger">
-                        <p *ngIf="form.txtOrderNo.errors.required"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                      <label for="txtOrderDate">Order Date<span style="color:red;">*</span></label>
-                      <input class="form-control" type="date" id="txtOrderDate" placeholder="Enter Order Date" [(ngModel)]="buildingdetails.OrderDate" formControlName="txtOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
-                      <div *ngIf="isSubmitted&&form.txtOrderDate.errors" class="text-danger">
-                        <p *ngIf="form.txtOrderDate.errors.required"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                      <label for="txtExpiringOn">Expiring On<span style="color:red;">*</span></label>
-                      <input class="form-control" type="date" id="txtExpiringOn" placeholder="Enter To Date" [(ngModel)]="buildingdetails.ExpiringOn" formControlName="txtExpiringOn" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
-                      <div *ngIf="isSubmitted&&form.txtExpiringOn.errors" class="text-danger">
-                        <p *ngIf="form.txtExpiringOn.errors.required"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label for="txtPWDNOCFileUpload" class="form-label">Upload PWD NOC Document<span style="color:red;">*</span></label>
-                      <div class="d-flex">
-                        <input type="file" class="form-control" id="txtPWDNOCFileUpload" style="display:none" formControlName="txtPWDNOCFileUpload" (change)="ValidateUploadImage($event,'PWDNOCFileUpload')" #txtPWDNOCFileUpload />
-                        <label class="btn upload" for="txtPWDNOCFileUpload">
-                          <span class="filename">Choose file</span>
-                          {{buildingdetails.PWDNOCFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_PWDNOCFileUpload}}
-                        </label>
-                        <div class="btn-group" *ngIf="buildingdetails.PWDNOCFileUpload!=''">
-                          <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.PWDNOCFileUploadPath}}"><i class="fa fa-eye"></i></a>
-                          <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PWDNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                      </div>
-                      <p *ngIf="isSubmitted&&buildingdetails.PWDNOCFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
-                      <div *ngIf="isValidPWDNOCFileUpload" class="text-danger">
-                        <p *ngIf="isValidPWDNOCFileUpload"> {{ImageValidationMessage}}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="card" *ngIf="SelectedDepartmentID ==6">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <b><i class="fa fa-filter"></i>&nbsp;Description: </b>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                      <label for="txtTotalProjectCost" class="form-label">Total Project Cost<span style="color:red;">*</span> </label>
-                      <input type="text" autocomplete="off" class="form-control" id="txtTotalProjectCost" name="txtTotalProjectCost" [(ngModel)]="buildingdetails.TotalProjectCost" formControlName="txtTotalProjectCost" (keypress)="numbersOnly($event)">
-
-                      <div *ngIf="isSubmitted" class="text-danger">
-                        <p *ngIf="buildingdetails.TotalProjectCost =='' || buildingdetails.TotalProjectCost =='0'"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label for="TotalProjectCostFileUpload" class="form-label">Upload Total Project Cost Document<span style="color:red;">*</span></label>
-                      <div class="d-flex">
-                        <input type="file" class="form-control" id="TotalProjectCostFileUpload" style="display:none" formControlName="TotalProjectCostFileUpload" (change)="DescriptionValidateUploadImage($event,'TotalProjectCostFileUpload')" #TotalProjectCostFileUpload />
-                        <label class="btn upload" for="TotalProjectCostFileUpload">
-                          <span class="filename">Choose file</span>
-                          {{buildingdetails.TotalProjectCostFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_TotalProjectCostFileUpload}}
-                        </label>
-                        <div class="btn-group" *ngIf="buildingdetails.TotalProjectCostFileUpload!=''">
-                          <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.TotalProjectCostFileUploadPath}}"><i class="fa fa-eye"></i></a>
-                          <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('TotalProjectCostFileUpload')"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                      </div>
-                      <p *ngIf="isSubmitted&&buildingdetails.TotalProjectCostFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
-                      <div *ngIf="isValidTotalProjectCostFileUpload" class="text-danger">
-                        <p *ngIf="isValidTotalProjectCostFileUpload"> {{ImageValidationMessage}}</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                      <label for="txtSourceCostAmount" class="form-label">Source Cost Amount<span style="color:red;">*</span> </label>
-                      <input type="text" autocomplete="off" class="form-control" id="txtSourceCostAmount" name="txtSourceCostAmount" [(ngModel)]="buildingdetails.SourceCostAmount" formControlName="txtSourceCostAmount" (keypress)="numbersOnly($event)">
-
-                      <div *ngIf="isSubmitted" class="text-danger">
-                        <p *ngIf="buildingdetails.SourceCostAmount =='' || buildingdetails.SourceCostAmount =='0'"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label for="SourceCostAmountFileUpload" class="form-label">Upload Source Cost Amount Document<span style="color:red;">*</span></label>
-                      <div class="d-flex">
-                        <input type="file" class="form-control" id="SourceCostAmountFileUpload" style="display:none" formControlName="SourceCostAmountFileUpload" (change)="DescriptionValidateUploadImage($event,'SourceCostAmountFileUpload')" #SourceCostAmountFileUpload />
-                        <label class="btn upload" for="SourceCostAmountFileUpload">
-                          <span class="filename">Choose file</span>
-                          {{buildingdetails.SourceCostAmountFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_SourceCostAmountFileUpload}}
-                        </label>
-                        <div class="btn-group" *ngIf="buildingdetails.SourceCostAmountFileUpload!=''">
-                          <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.SourceCostAmountFileUploadPath}}"><i class="fa fa-eye"></i></a>
-                          <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('SourceCostAmountFileUpload')"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                      </div>
-                      <p *ngIf="isSubmitted&&buildingdetails.SourceCostAmountFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
-                      <div *ngIf="isValidSourceCostAmountFileUpload" class="text-danger">
-                        <p *ngIf="isValidSourceCostAmountFileUpload"> {{ImageValidationMessage}}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                      <label for="txtAmountDeposited" class="form-label">Amount deposited in the Bank near the institution<span style="color:red;">*</span> </label>
-                      <input type="text" autocomplete="off" class="form-control" id="txtAmountDeposited" name="txtAmountDeposited" [(ngModel)]="buildingdetails.AmountDeposited" formControlName="txtAmountDeposited" (keypress)="numbersOnly($event)">
-
-                      <div *ngIf="isSubmitted" class="text-danger">
-                        <p *ngIf="buildingdetails.AmountDeposited =='' || buildingdetails.AmountDeposited =='0'"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label for="AmountDepositedFileUpload" class="form-label">Upload Amount Deposited Document<span style="color:red;">*</span></label>
-                      <div class="d-flex">
-                        <input type="file" class="form-control" id="AmountDepositedFileUpload" style="display:none" formControlName="AmountDepositedFileUpload" (change)="DescriptionValidateUploadImage($event,'AmountDepositedFileUpload')" #AmountDepositedFileUpload />
-                        <label class="btn upload" for="AmountDepositedFileUpload">
-                          <span class="filename">Choose file</span>
-                          {{buildingdetails.AmountDepositedFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_AmountDepositedFileUpload}}
-                        </label>
-                        <div class="btn-group" *ngIf="buildingdetails.AmountDepositedFileUpload!=''">
-                          <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.AmountDepositedFileUploadPath}}"><i class="fa fa-eye"></i></a>
-                          <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('AmountDepositedFileUpload')"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                      </div>
-                      <p *ngIf="isSubmitted&&buildingdetails.AmountDepositedFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
-                      <div *ngIf="isValidAmountDepositedFileUpload" class="text-danger">
-                        <p *ngIf="isValidAmountDepositedFileUpload"> {{ImageValidationMessage}}</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                      <label for="txtOtherFixedAssetsAndSecurities" class="form-label">Other fixed assets/securities of the organization<span style="color:red;">*</span> </label>
-                      <input type="text" autocomplete="off" class="form-control" id="txtOtherFixedAssetsAndSecurities" name="txtOtherFixedAssetsAndSecurities" [(ngModel)]="buildingdetails.OtherFixedAssetsAndSecurities" formControlName="txtOtherFixedAssetsAndSecurities" (keypress)="numbersOnly($event)">
-
-                      <div *ngIf="isSubmitted" class="text-danger">
-                        <p *ngIf="buildingdetails.OtherFixedAssetsAndSecurities =='' || buildingdetails.OtherFixedAssetsAndSecurities =='0'"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label for="OtherFixedAssetsAndSecuritiesFileUpload" class="form-label">Upload Other Fixed Assets/Securities Document<span style="color:red;">*</span></label>
-                      <div class="d-flex">
-                        <input type="file" class="form-control" id="OtherFixedAssetsAndSecuritiesFileUpload" style="display:none" formControlName="OtherFixedAssetsAndSecuritiesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFixedAssetsAndSecuritiesFileUpload')" #OtherFixedAssetsAndSecuritiesFileUpload />
-                        <label class="btn upload" for="OtherFixedAssetsAndSecuritiesFileUpload">
-                          <span class="filename">Choose file</span>
-                          {{buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload}}
-                        </label>
-                        <div class="btn-group" *ngIf="buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload!=''">
-                          <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath}}"><i class="fa fa-eye"></i></a>
-                          <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('OtherFixedAssetsAndSecuritiesFileUpload')"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                      </div>
-                      <p *ngIf="isSubmitted&&buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
-                      <div *ngIf="isValidOtherFixedAssetsAndSecuritiesFileUpload" class="text-danger">
-                        <p *ngIf="isValidOtherFixedAssetsAndSecuritiesFileUpload"> {{ImageValidationMessage}}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                      <label for="txtGATEYearBalanceSecret" class="form-label">GATE year balance secret of the organization<span style="color:red;">*</span> </label>
-                      <input type="text" autocomplete="off" class="form-control" id="txtGATEYearBalanceSecret" name="txtGATEYearBalanceSecret" [(ngModel)]="buildingdetails.GATEYearBalanceSecret" formControlName="txtGATEYearBalanceSecret" (keypress)="numbersOnly($event)">
-
-                      <div *ngIf="isSubmitted" class="text-danger">
-                        <p *ngIf="buildingdetails.GATEYearBalanceSecret =='' || buildingdetails.GATEYearBalanceSecret =='0'"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label for="GATEYearBalanceSecretFileUpload" class="form-label">Upload GATE Year Balance Secret Document<span style="color:red;">*</span></label>
-                      <div class="d-flex">
-                        <input type="file" class="form-control" id="GATEYearBalanceSecretFileUpload" style="display:none" formControlName="GATEYearBalanceSecretFileUpload" (change)="DescriptionValidateUploadImage($event,'GATEYearBalanceSecretFileUpload')" #GATEYearBalanceSecretFileUpload />
-                        <label class="btn upload" for="GATEYearBalanceSecretFileUpload">
-                          <span class="filename">Choose file</span>
-                          {{buildingdetails.GATEYearBalanceSecretFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_GATEYearBalanceSecretFileUpload}}
-                        </label>
-                        <div class="btn-group" *ngIf="buildingdetails.GATEYearBalanceSecretFileUpload!=''">
-                          <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.GATEYearBalanceSecretFileUploadPath}}"><i class="fa fa-eye"></i></a>
-                          <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('GATEYearBalanceSecretFileUpload')"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                      </div>
-                      <p *ngIf="isSubmitted&&buildingdetails.GATEYearBalanceSecretFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
-                      <div *ngIf="isValidGATEYearBalanceSecretFileUpload" class="text-danger">
-                        <p *ngIf="isValidGATEYearBalanceSecretFileUpload"> {{ImageValidationMessage}}</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                      <label for="txtOtherFinancialResources" class="form-label">Other financial resources<span style="color:red;">*</span> </label>
-                      <input type="text" autocomplete="off" class="form-control" id="txtOtherFinancialResources" name="txtOtherFinancialResources" [(ngModel)]="buildingdetails.OtherFinancialResources" formControlName="txtOtherFinancialResources" (keypress)="numbersOnly($event)">
-
-                      <div *ngIf="isSubmitted" class="text-danger">
-                        <p *ngIf="buildingdetails.OtherFinancialResources =='' || buildingdetails.OtherFinancialResources =='0'"> This field is required .!</p>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                      <label for="OtherFinancialResourcesFileUpload" class="form-label">Upload Other Financial Resources Document<span style="color:red;">*</span></label>
-                      <div class="d-flex">
-                        <input type="file" class="form-control" id="OtherFinancialResourcesFileUpload" style="display:none" formControlName="OtherFinancialResourcesFileUpload" (change)="DescriptionValidateUploadImage($event,'OtherFinancialResourcesFileUpload')" #OtherFinancialResourcesFileUpload />
-                        <label class="btn upload" for="OtherFinancialResourcesFileUpload">
-                          <span class="filename">Choose file</span>
-                          {{buildingdetails.OtherFinancialResourcesFileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_OtherFinancialResourcesFileUpload}}
-                        </label>
-                        <div class="btn-group" *ngIf="buildingdetails.OtherFinancialResourcesFileUpload!=''">
-                          <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.OtherFinancialResourcesFileUploadPath}}"><i class="fa fa-eye"></i></a>
-                          <button type="button" class="btn btn-outline-danger" (click)="DescriptionDeleteImage('OtherFinancialResourcesFileUpload')"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                      </div>
-                      <p *ngIf="isSubmitted&&buildingdetails.OtherFinancialResourcesFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
-                      <div *ngIf="isValidOtherFinancialResourcesFileUpload" class="text-danger">
-                        <p *ngIf="isValidOtherFinancialResourcesFileUpload"> {{ImageValidationMessage}}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
-
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <b><i class="fa fa-filter"></i>&nbsp;Building Photos</b>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of buildingdetails.lstBuildingDocDetails  let idx =index">
-                  <label>
-                    {{item.DocumentName}} <span style="color:red;">*</span>
-                  </label>
-                  <div class="d-flex">
-                    <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (change)="onFilechange($event,item)" />
-                    <label class="btn upload" for="fileLandDocument_{{item.DID}}">
-                      <span class="filename">Choose file</span>
-                      {{item.Dis_FileName === '' ? 'No File Choosen' : item.Dis_FileName}}
-                    </label>
-                    <div class="btn-group" *ngIf="item.FileName !== ''">
-                      <a class="btn btn-outline-primary" target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a>
-                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImages(item)"><i class="fa fa-trash-o"></i></button>
-                    </div>
-                  </div>
-                  <div *ngIf="isSubmitted&&item.FileName == ''" class="text-danger">
-                    <p>This field is required .!</p>
-                  </div>
+                <div *ngIf="isSubmitted&&item.FileName == ''" class="text-danger">
+                  <p>This field is required .!</p>
                 </div>
               </div>
             </div>
           </div>
-          <div class="card-footer text-end saveCancelBtn">
-            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
-            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
-          </div>
-          <div class="card mb-0" *ngIf="lstBuildingDetails.length>0">
-            <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-              <b><i class="bi bi-table"></i> Building Details List </b>
-              <div class="d-flex align-items-center">
-                <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-                  <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
-                  <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
-                  <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
-                </div>
-                <div class="d-flex align-items-center table-filter mr-15">
-                  <i class="fa fa-search"></i>
-                  <input type="text" class="form-control" placeholder="Search Here" />
-                </div>
+        </div>
+        <div class="card-footer text-end saveCancelBtn">
+          <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
+          <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+        </div>
+        <div class="card mb-0" *ngIf="lstBuildingDetails.length>0">
+          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+            <b><i class="bi bi-table"></i> Building Details List </b>
+            <div class="d-flex align-items-center">
+              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+                <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+                <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+              </div>
+              <div class="d-flex align-items-center table-filter mr-15">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control" placeholder="Search Here" />
               </div>
             </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-hover table-striped-columns" id="tabellist" #content>
-                  <thead>
-                    <tr>
-                      <th>Sr. No</th>
-                      <th>Building Type</th>
-                      <th>Owner Name</th>
-                      <th>Address Line1</th>
-                      <th>Address Line2</th>
-                      <th>Rural Urban</th>
-                      <th>DivisionName</th>
-                      <th>DistrictName</th>
-                      <th>TehsilName</th>
-                      <th>PanchyatSamitiName</th>
-                      <th>CityTownVillage</th>
-                      <th>Pincode</th>
-                      <th>ContactNo</th>
-                      <th>Constructed Building Area</th>
-                      <th>From Date</th>
-                      <th>To Date</th>
-                      <th>Order No</th>
-                      <th>Order Date</th>
-                      <th>Expiring On</th>
-                      <th *ngIf="SelectedDepartmentID ==6">Total Project Cost</th>
-                      <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount</th>
-                      <th *ngIf="SelectedDepartmentID ==6">Amount Deposited</th>
-                      <th *ngIf="SelectedDepartmentID ==6">Other Fixed Assets/Securities</th>
-                      <th *ngIf="SelectedDepartmentID ==6">GATE Year Balance Secret</th>
-                      <th *ngIf="SelectedDepartmentID ==6">Other Financial Resources</th>
-                      <th>Rent Agreement/Lease File</th>
-                      <th>Own/Land & Rented Building File</th>
-                      <th>Fire NOC File</th>
-                      <th>PWD NOC File</th>
-                      <th *ngIf="SelectedDepartmentID ==6">Total Project Cost File</th>
-                      <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount File</th>
-                      <th *ngIf="SelectedDepartmentID ==6">Amount Deposited File</th>
-                      <th *ngIf="SelectedDepartmentID ==6">Other Fixed Assets/Securities File</th>
-                      <th *ngIf="SelectedDepartmentID ==6">GATE Year Balance Secret File</th>
-                      <th *ngIf="SelectedDepartmentID ==6">Other Financial Resources File</th>
-                      <th *ngIf="!downloadingPDF">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of lstBuildingDetails | tableSearchFilter:searchText;let idx=index;">
-                      <td>{{idx+1}}</td>
-                      <td>{{item.BuildingTypeName}}</td>
-                      <td>{{item.OwnerName}}</td>
-                      <td>{{item.AddressLine1}}</td>
-                      <td>{{item.AddressLine2}}</td>
-                      <td>{{item.RuralUrban}}</td>
-                      <td>{{item.Division_English}}</td>
-                      <td>{{item.District_Eng}}</td>
-                      <td>{{item.TehsilName}}</td>
-                      <td>{{item.PanchyatSamitiName}}</td>
-                      <td>{{item.CityTownVillage}}</td>
-                      <td>{{item.Pincode}}</td>
-                      <td>{{item.ContactNo}}</td>
-                      <td>{{item.BuildingHostelQuartersRoadArea}}</td>
-                      <td>{{item.FromDate}}</td>
-                      <td>{{item.ToDate}}</td>
-                      <td>{{item.OrderNo}}</td>
-                      <td>{{item.OrderDate}}</td>
-                      <td>{{item.ExpiringOn}}</td>
-                      <td *ngIf="SelectedDepartmentID ==6">{{item.TotalProjectCost}}</td>
-                      <td *ngIf="SelectedDepartmentID ==6">{{item.SourceCostAmount}}</td>
-                      <td *ngIf="SelectedDepartmentID ==6">{{item.AmountDeposited}}</td>
-                      <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFixedAssetsAndSecurities}}</td>
-                      <td *ngIf="SelectedDepartmentID ==6">{{item.GATEYearBalanceSecret}}</td>
-                      <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFinancialResources}}</td>
-                      <td *ngIf="item.BuildingTypeName == 'Rented'">
-                        <a target="_blank" href="{{item.RentAgreementFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
-                      </td>
-                      <td *ngIf="item.BuildingTypeName == 'Owned'">
-                        N/A
-                      </td>
-                      <td><a target="_blank" href="{{item.OwnBuildingFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                      <td><a target="_blank" href="{{item.FireNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                      <td><a target="_blank" href="{{item.PWDNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                      <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.TotalProjectCostFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                      <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.SourceCostAmountFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                      <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.AmountDepositedFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                      <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFixedAssetsAndSecuritiesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                      <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.GATEYearBalanceSecretFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                      <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFinancialResourcesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                      <td>
-                        <div class="d-flex">
-                          <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                          <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                <thead>
+                  <tr>
+                    <th>Sr. No</th>
+                    <th>Building Type</th>
+                    <th>Owner Name</th>
+                    <th>Address Line1</th>
+                    <th>Address Line2</th>
+                    <th>Rural Urban</th>
+                    <th>DivisionName</th>
+                    <th>DistrictName</th>
+                    <th>TehsilName</th>
+                    <th>PanchyatSamitiName</th>
+                    <th>CityTownVillage</th>
+                    <th>Pincode</th>
+                    <th>ContactNo</th>
+                    <th>Constructed Building Area</th>
+                    <th>From Date</th>
+                    <th>To Date</th>
+                    <th>Order No</th>
+                    <th>Order Date</th>
+                    <th>Expiring On</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Total Project Cost</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Amount Deposited</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Other Fixed Assets/Securities</th>
+                    <th *ngIf="SelectedDepartmentID ==6">GATE Year Balance Secret</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Other Financial Resources</th>
+                    <th>Rent Agreement/Lease File</th>
+                    <th>Own/Land & Rented Building File</th>
+                    <th>Fire NOC File</th>
+                    <th>PWD NOC File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Total Project Cost File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Amount Deposited File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Other Fixed Assets/Securities File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">GATE Year Balance Secret File</th>
+                    <th *ngIf="SelectedDepartmentID ==6">Other Financial Resources File</th>
+                    <th *ngIf="!downloadingPDF">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstBuildingDetails | tableSearchFilter:searchText;let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.BuildingTypeName}}</td>
+                    <td>{{item.OwnerName}}</td>
+                    <td>{{item.AddressLine1}}</td>
+                    <td>{{item.AddressLine2}}</td>
+                    <td>{{item.RuralUrban}}</td>
+                    <td>{{item.Division_English}}</td>
+                    <td>{{item.District_Eng}}</td>
+                    <td>{{item.TehsilName}}</td>
+                    <td>{{item.PanchyatSamitiName}}</td>
+                    <td>{{item.CityTownVillage}}</td>
+                    <td>{{item.Pincode}}</td>
+                    <td>{{item.ContactNo}}</td>
+                    <td>{{item.BuildingHostelQuartersRoadArea}}</td>
+                    <td>{{item.FromDate}}</td>
+                    <td>{{item.ToDate}}</td>
+                    <td>{{item.OrderNo}}</td>
+                    <td>{{item.OrderDate}}</td>
+                    <td>{{item.ExpiringOn}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.TotalProjectCost}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.SourceCostAmount}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.AmountDeposited}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFixedAssetsAndSecurities}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.GATEYearBalanceSecret}}</td>
+                    <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFinancialResources}}</td>
+                    <td *ngIf="item.BuildingTypeName == 'Rented'">
+                      <a target="_blank" href="{{item.RentAgreementFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
+                    </td>
+                    <td *ngIf="item.BuildingTypeName == 'Owned'">
+                      N/A
+                    </td>
+                    <td><a target="_blank" href="{{item.OwnBuildingFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.FireNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.PWDNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.TotalProjectCostFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.SourceCostAmountFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.AmountDepositedFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFixedAssetsAndSecuritiesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.GATEYearBalanceSecretFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFinancialResourcesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                        <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 
