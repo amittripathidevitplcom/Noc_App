@@ -56,17 +56,17 @@ export class SubjectMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetDepartmentByCourse(DepartmentID: number) {    
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return await this.http.get(this.APIUrl + "/GetDepartmentByCourse/" + DepartmentID)
-      .pipe(
-        catchError(this.handleErrorObservable)
-      ).toPromise();
-  }
+  //public async GetDepartmentByCourse(DepartmentID: number) {    
+  //  const httpOptions = {
+  //    headers: new HttpHeaders({
+  //      'Content-Type': 'application/json'
+  //    })
+  //  };
+  //  return await this.http.get(this.APIUrl + "/GetDepartmentByCourse/" + DepartmentID)
+  //    .pipe(
+  //      catchError(this.handleErrorObservable)
+  //    ).toPromise();
+  //}
 
 }
 
