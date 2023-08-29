@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ToastrService } from 'ngx-toastr';
 import { CourseMasterService } from '../../../Services/Master/CourseMaster/course-master.service'
-import { CourseMasterAddDataModel } from '../../../Models/CourseMasterAddDataModel'
+import { CourseMasterAddDataModel, SubjectCourseMasterAddDataModel } from '../../../Models/CourseMasterAddDataModel'
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
@@ -43,9 +43,13 @@ export class CourseMasterComponent implements OnInit {
   public checked: boolean = true;
   sSOLoginDataModel = new SSOLoginDataModel();
   searchText: string = '';
+  public SubjectSearch: string = '';
   public ActiveStatus: boolean = true;
   public isShowGrid: boolean = false;
   public is_disableDepartment: boolean = false;
+  public UniversityList: any = [];
+  public SubjectList: any = [];
+  public StreamDDLList: any = [];
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
   async ngOnInit() {
@@ -55,9 +59,12 @@ export class CourseMasterComponent implements OnInit {
         ddlCourseLevelID: ['', [DropdownValidators]],
         ddlCourseDurationType: ['', [DropdownValidators]],
         ddlCollegeLevel: ['', [DropdownValidators]],
+        ddlUniversity: ['', [DropdownValidators]],
+        ddlStreamID: ['', [DropdownValidators]],
         txtCourseDuration: ['', Validators.required],
         txtCourseName: ['', Validators.required],
         txtNoOfRooms: ['', Validators.required],
+        txtNoofSubjectsForCombination: ['', Validators.required],
         chkActiveStatus: [''],
       }
     )
@@ -66,6 +73,7 @@ export class CourseMasterComponent implements OnInit {
     await this.GetDepartmentList();
     await this.GetCourseDurationTypeList();
 
+
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
     //disable dropdown
@@ -73,6 +81,9 @@ export class CourseMasterComponent implements OnInit {
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
       this.is_disableDepartment = true;
       this.FillCourselevel(null, this.request.DepartmentID.toString());
+      await this.GetUniversityDepartmentWise();
+      await this.GetSubjectDepartmentWise();
+      await this.GetStreamMasterList(this.sSOLoginDataModel.DepartmentID);
     }
 
     await this.GetAllCourseList();
@@ -205,6 +216,7 @@ export class CourseMasterComponent implements OnInit {
     }
   }
   async SaveData() {
+    this.request.CourseSubjects = [];
     this.isSubmitted = true;
     if (this.CourseMasterForm.invalid) {
       return
@@ -215,6 +227,18 @@ export class CourseMasterComponent implements OnInit {
       this.toastr.error("Course Duration Must be greater than 0.");
       return;
     }
+    var CourseSubjectSelectedList = this.SubjectList.filter((x: { IsSubject: boolean; }) => x.IsSubject == true);
+    if (CourseSubjectSelectedList.length <= 0) {
+      this.toastr.error("Add Subject details");
+      return;
+    }
+    for (var i = 0; i < CourseSubjectSelectedList.length; i++) {
+      this.request.CourseSubjects.push({
+        CourseID: 0,
+        SubjectID: CourseSubjectSelectedList[i].SubjectID
+      })
+    }
+
 
     this.loaderService.requestStarted();
     this.isLoading = true;
@@ -259,18 +283,22 @@ export class CourseMasterComponent implements OnInit {
     this.request.CollegeLevel = 0;
     this.request.CourseName = '';
     this.request.CourseDurationType = 0;
-    this.CollegeLevelDDLList = [];
-    this.CourseLevelList = [];
+    //this.CollegeLevelDDLList = [];
+    //this.CourseLevelList = [];
     this.request.Duration = null;
     this.request.NoOfRooms = null;
     this.request.UserID = 0;
     this.request.ActiveStatus = true;
     this.isDisabledGrid = false;
     this.isShowGrid = false;
+    this.request.UniversityID = 0;
+    this.request.StreamID = 0;
+    this.request.NoofSubjectsForCombination = null;
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";
     const btnReset = document.getElementById('')
     if (btnReset) btnReset.innerHTML = "Reset";
+    await this.GetSubjectDepartmentWise();
   }
   async Edit_OnClick(CourseID: number) {
 
@@ -278,7 +306,7 @@ export class CourseMasterComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       await this.courseMasterService.GetCourseIDWise(CourseID, this.UserID)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.CourseID = data['Data'][0]["CourseID"];
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
@@ -292,7 +320,19 @@ export class CourseMasterComponent implements OnInit {
           this.request.Duration = data['Data'][0]["Duration"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
 
-
+          this.request.UniversityID = data['Data'][0]["UniversityID"];
+          this.request.StreamID = data['Data'][0]["StreamID"];
+          this.request.NoofSubjectsForCombination = data['Data'][0]["NoofSubjectsForCombination"];
+          await this.GetSubjectDepartmentWise();
+          if (data['Data'][0]["CourseSubjects"] != null) {
+            for (var i = 0; i < data['Data'][0]["CourseSubjects"].length; i++) {
+              var GetIndex = this.SubjectList.findIndex((x: { SubjectID: number; }) => x.SubjectID == data['Data'][0]["CourseSubjects"][i].SubjectID);
+              if (GetIndex != -1) {
+                this.SubjectList[GetIndex].IsSubjectChecked = true;
+                this.SubjectList[GetIndex].IsSubject = true;
+              }
+            }
+          }
           this.isShowGrid = true;
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
@@ -450,6 +490,72 @@ export class CourseMasterComponent implements OnInit {
       }, 200);
     }
 
+  }
+
+
+  async GetUniversityDepartmentWise() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetUniversityDepartmentWise(this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.UniversityList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  };
+  async GetSubjectDepartmentWise() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetSubjectDepartmentWise(this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.SubjectList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  };
+  async GetStreamMasterList(departmentID: number) {
+    try {
+      //Deparment level
+      await this.commonMasterService.GetStreamMasterList(departmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          console.log(data);
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.StreamDDLList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
 
