@@ -731,13 +731,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number) {
+  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number, Type: string='-1') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetQualificationMasterList_DepartmentWise/" + DepartmentID + "/" + IsTeaching)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetQualificationMasterList_DepartmentWise/" + DepartmentID + "/" + IsTeaching + "/" + Type)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1057,13 +1057,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetCourseByStreamID(StreamID: number, DepartmentID: number, CourseLevelID: number) {
+  public async GetCourseByStreamID(StreamID: number, DepartmentID: number, CourseLevelID: number, UniversityID: Number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseByStreamID/" + StreamID + "/" + DepartmentID + "/" + CourseLevelID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseByStreamID/" + StreamID + "/" + DepartmentID + "/" + CourseLevelID + "/" + UniversityID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1118,4 +1118,28 @@ export class CommonMasterService {
   }
 
 
+
+  public async GetUniversityDepartmentWise(DepartmentID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetUniversityDepartmentWise/" + DepartmentID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetSubjectDepartmentWise(DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetSubjectDepartmentWise/" + DepartmentID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

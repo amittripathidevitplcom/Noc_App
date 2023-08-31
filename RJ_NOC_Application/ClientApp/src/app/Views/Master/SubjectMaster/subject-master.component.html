@@ -27,7 +27,7 @@
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlDepartmentID" class="form-label">Select Department Name  <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (change)="DepartmentChangecourse($event,SeletedDepartmentID.value)" [attr.disabled]="is_disableDepartment ? '' : null">
+                <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" [attr.disabled]="is_disableDepartment ? '' : null">
                   <option value="0" disabled>--Select Department--</option>
                   <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
                 </select>
@@ -35,7 +35,7 @@
                   <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlCourseID" class="form-label">Select Course <span style="color:red;">*</span></label>
                 <select class="form-select" id="ddlCourseID" name="ddlCourseID" [(ngModel)]="request.CourseID" formControlName="ddlCourseID">
                   <option value="0" disabled>--Select Course--</option>
@@ -44,7 +44,7 @@
                 <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
                   <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
-              </div>
+              </div>-->
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="txtSubjectName" class="form-label">Subject Name<span style="color:red;">*</span></label>
                 <input type="text" id="txtSubjectName" formControlName="txtSubjectName" maxlength="100" class="form-control" [(ngModel)]="request.SubjectName">
@@ -94,7 +94,7 @@
                 <tr>
                   <th>Sr. No</th>
                   <th>Department Name</th>
-                  <th>Course Name</th>
+                  <!--<th>Course Name</th>-->
                   <th>Subject Name</th>
                   <th>Is Predical</th>
                   <th>Status</th>
@@ -105,7 +105,7 @@
                 <tr *ngFor="let row of SubjectMasterData | tableSearchFilter:searchText;let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>{{row.DepartmentName}}</td>
-                  <td>{{row.CourseName}}</td>
+                  <!--<td>{{row.CourseName}}</td>-->
                   <td>{{row.SubjectName}}</td>
                   <td>{{row.Predical}}</td>
                   <td>{{row.ActiveDeactive}}</td>

@@ -144,6 +144,8 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   async IsChnageTechingType(val: any) {
+    this.ProfessionalQualificationData = [];
+    this.request.HighestQualification = 0;
     this.request.SubjectID = 0;
     this.DeleteResetFiles('All', false, '', '', '');
     await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
@@ -738,7 +740,7 @@ export class StaffDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       var QualificationName = this.HighestQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.HighestQualification)?.QualificationName;
-      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0)
+      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0,'Qualification')
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
