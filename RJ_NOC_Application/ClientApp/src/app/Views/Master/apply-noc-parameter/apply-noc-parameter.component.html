@@ -19,8 +19,19 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
       <div class="card">
         <div class="card-body">
+       
           <form [formGroup]="ApplyNocParameterForm" class="form-horizontal">
             <div class="row">
+              <div class="col-lg-12">
+                <span id="blinker" style="color:red">
+                  TNOC/ PNOC प्राप्त वे संस्थाएं ही जिन्हे किसी भी प्रकरण हेतु NOC की आवश्यकता नहीं है
+                  केवल वे ही INSPECTION FEE मद पर क्लिक करें। केवल INSPECTION FEE मद पर आवेदन करने पर संस्था के किसी भी NOC प्रकरण को
+                  प्रक्रियाधीन नहीं किया जा सकेगा। जिसके लिए संस्था स्वयं जिम्मेदार होगी।
+                </span>
+              </div>
+            </div>
+
+            <div class="row mt-1" >
               <div class="row" *ngIf="TotalAppliedNOC>0">
                 <span style="color:red">You have already applied for NOC and NOC not issued yet</span>
               </div>
@@ -39,16 +50,20 @@
                   <label for="rbApplicationType" style="margin-top:15px;">Application Type <span style="color:red">*</span></label>
                   <div class="clearfix"></div>
                   <div class="form-check form-check-inline" *ngFor="let item of ApplicationTypeList">
-                    <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID">
+                    <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID" #SelectedApplicationTypeID (change)="ApplyNocFor_rbChange($event,SelectedApplicationTypeID.value,item)">
                     <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
                   </div>
                   <div *ngIf="isSubmitted&&form.rbApplicationType.errors" class="text-danger">
                     <p *ngIf="form.rbApplicationType.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
                   </div>
                 </div>
-              </div>
+                <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.CollegeID>0">
 
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ApplyNocParameterMasterList_ddl.length>0">
+        <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID">
+        <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
+      </div>-->
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">
                 <label for="">Application Apply For</label>
                 <div class="clearfix"></div>
                 <div class="form-check form-check-inline" *ngFor="let item of ApplyNocParameterMasterList_ddl">
@@ -189,7 +204,7 @@
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>New Place Name and Address <span style="color:red;"> *</span> </label>
-                    <textarea name="ChangeInPlaceNewName" id="ChangeInPlaceNewName"  (keypress)="alphaOnly($event)"  maxlength="500" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceName"></textarea>
+                    <textarea name="ChangeInPlaceNewName" id="ChangeInPlaceNewName" (keypress)="alphaOnly($event)" maxlength="500" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceName"></textarea>
                     <div *ngIf="isChangeInPlaceNewName" class="text-danger">
                       <p *ngIf="isChangeInPlaceNewName"> This field is required .!</p>
                     </div>
@@ -706,7 +721,7 @@
                           </td>
                           <td>
                             <div style="margin-right:0.5rem" class="form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
-                              <label  class="bg-primary text-white rounded px-2" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                              <label class="bg-primary text-white rounded px-2" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
                             </div>
                           </td>
                           <td>
@@ -723,7 +738,6 @@
               </div>
             </div>
             <!--end-->
-
             <!--TNOC Subject-->
             <div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtOfSubject != null">
               <div class="card-header">
@@ -769,7 +783,6 @@
               </div>
             </div>
             <!--end-->
-
             <!--PNOC Subject-->
             <div class="card" *ngIf="ApplyNocParameterMasterList_PNOCOfSubject != null">
               <div class="card-header">
@@ -815,6 +828,24 @@
               </div>
             </div>
             <!--end-->
+
+           <!--Start Only Inspection Fee-->
+            <div class="card" *ngIf="isInspectionFee && DepartmentInspectionFee>0">
+              <div class="card-header">
+                <b>Only Inspection Fee : {{DepartmentInspectionFee}}</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <b>Total Fee&nbsp;:&nbsp;{{DepartmentInspectionFee}} (Inspection Fee)</b>
+                </div>
+              </div>
+              <div class="card-footer">
+                <!--SaveInspectionFee_click-->
+                <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()">Apply Noc</button>
+
+              </div>
+            </div>
+           <!--END Only Inspection Fee-->
 
           </div>
           <div class="card-footer">
