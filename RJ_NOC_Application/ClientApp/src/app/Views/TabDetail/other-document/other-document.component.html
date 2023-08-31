@@ -3,65 +3,87 @@
   <div class="card-header">
     <b><i class="bi bi-table"></i>&nbsp;Other Documents</b>
   </div>
-
-  <div class="card-body">
-    <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of request.DocumentDetails ; let idx =index">
-        <label>
-          {{item.DocumentName}} <span style="color:red;" *ngIf="item.IsMandatory">*</span>
-        </label>
-        <div class="d-flex">
-          <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (change)="onFilechange($event,item)" />
-          <label class="btn upload" for="fileLandDocument_{{item.DID}}">
-            <span class="filename">Choose file</span>
-            {{item.FileName === '' ? 'No File Choosen' : item.Dis_FileName}}
-          </label>
-
-          <div class="btn-group" *ngIf="item.FileName !== ''">
-            <a class="btn btn-outline-primary" target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a>
-            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(item)"><i class="fa fa-trash-o"></i></button>
+  <form [formGroup]="otherDocumentsForm" class="form-horizontal">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label class="form-label">Document Name <span style="color:red;">*</span></label>
+          <input type="text" class="form-control" id="txtDocumentName" name="txtDocumentName" [(ngModel)]="requestDoc.DocumentName" formControlName="txtDocumentName" />
+          <div *ngIf="isSubmitted&&form.txtDocumentName.errors" class="text-danger">
+            <p *ngIf="form.txtDocumentName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
           </div>
         </div>
-        <div *ngIf="isSubmitted&&item.FileName == ''" class="text-danger">
-          <p>This field is required .!</p>
-        </div>
-      </div>
-
-    </div>
-    <div class="row" *ngIf="SelectedDepartmentID==6">
-      <div class="card-header">
-        <b><i class="bi bi-table"></i>&nbsp;Hospital Related Documents</b>
-      </div>
-      <div class="card-body">
-        
-
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of HospitalRealtedDocuments ; let idx =index">
-          <label>
-            {{item.DocumentName}} <span style="color:red;" *ngIf="item.IsMandatory">*</span>
-          </label>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="txtFileName" class="form-label">Select Document<span style="color:red;">*</span></label>
           <div class="d-flex">
-            <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (change)="onFilechange($event,item)" />
-            <label class="btn upload" for="fileLandDocument_{{item.DID}}">
+            <input type="file" class="form-control" id="txtFileName" style="display:none" formControlName="txtFileName" (change)="ValidateUploadImage($event,'FileUpload')" #txtFileName />
+            <label class="btn upload" for="txtFileName">
               <span class="filename">Choose file</span>
-              {{item.FileName === '' ? 'No File Choosen' : item.Dis_FileName}}
+              {{requestDoc.FileName === '' ? 'No File Choosen' : requestDoc.Dis_FileName}}
             </label>
-
-            <div class="btn-group" *ngIf="item.FileName !== ''">
-              <a class="btn btn-outline-primary" target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a>
-              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(item)"><i class="fa fa-trash-o"></i></button>
+            <div class="btn-group" *ngIf="requestDoc.FileName!=''">
+              <a class="btn btn-outline-primary" target="_blank" href="{{requestDoc.FilePath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FileUpload')"><i class="fa fa-trash-o"></i></button>
             </div>
           </div>
-          <div *ngIf="isSubmitted&&item.FileName == ''" class="text-danger">
-            <p>This field is required .!</p>
+          <p *ngIf="isSubmitted&&requestDoc.FileName ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+          <div *ngIf="isValidFileName" class="text-danger">
+            <p *ngIf="isValidFileName"> {{ImageValidationMessage}}</p>
           </div>
         </div>
       </div>
-      </div>
     </div>
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-6 col-12  text-end">
-        <button class="btn btn-primary" (click)="SaveData()" type="button">Save</button>
-      </div>
+  </form>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-6 col-12  text-end">
+      <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
+      <!--<button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>-->
     </div>
   </div>
+  <!--<div class="card mb-0" *ngIf="lstOtherDocuments.length>0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i> Other Documents Data List </b>
+      <div class="d-flex align-items-center">
+        <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+          <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+          <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+          <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+        </div>
+        <div class="d-flex align-items-center table-filter mr-15">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" />
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns" id="tabellist" #content>
+          <thead>
+            <tr>
+              <th>Sr. No</th>
+              <th>Document Name</th>
+              <th>Upload Documents</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of lstOtherDocuments | tableSearchFilter:searchText;let idx=index;">
+              <td>{{idx+1}}</td>
+              <td>{{item.DocumentName}}</td>
+              <td>
+                <a target="_blank" href="{{item.FileNamePath}}" title="View File"><i class="fa fa-eye"></i></a>
+              </td>
+              <td>
+                <div class="d-flex">
+                  <button type="button" (click)="Edit_OnClick(item.OtherDocumentID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                  <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.OtherDocumentID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>-->
+</div>
 
