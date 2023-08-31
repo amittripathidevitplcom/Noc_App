@@ -36,6 +36,16 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlCollegeLevel" class="form-label">Select University <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlUniversity" name="ddlUniversity" [(ngModel)]="request.UniversityID" formControlName="ddlUniversity">
+                  <option value="0" disabled>--Select University--</option>
+                  <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlUniversity.errors" class="text-danger">
+                  <p *ngIf="!form.ddlUniversity.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlCollegeLevel" class="form-label">Select College Level <span style="color:red;">*</span></label>
                 <select class="form-select" id="ddlCollegeLevel" name="ddlCollegeLevel" [(ngModel)]="request.CollegeLevel" formControlName="ddlCollegeLevel">
                   <option value="0" disabled>--Select College Level--</option>
@@ -61,6 +71,16 @@
                 <input type="text" id="txtCourseName" formControlName="txtCourseName" maxlength="100" class="form-control" [(ngModel)]="request.CourseName" (keypress)="alphaOnly($event)" autocomplete="off">
                 <div *ngIf="isSubmitted&&form.txtCourseName.errors" class="text-danger">
                   <p *ngIf="form.txtCourseName.errors.required">This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlStreamID" class="form-label">Select Stream Name <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID">
+                  <option value="0" disabled>--Select Stream Name--</option>
+                  <option *ngFor="let item of StreamDDLList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -90,9 +110,38 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtNoOfRooms" class="form-label mb-0">No of Subjects For Combination <span style="color:red;">*</span> </label>
+                <input type="text" class="form-control" id="txtNoofSubjectsForCombination" name="txtNoofSubjectsForCombination" formControlName="txtNoofSubjectsForCombination" [(ngModel)]="request.NoofSubjectsForCombination" (keypress)="numberOnly($event)">
+
+                <div *ngIf="isSubmitted&&form.txtNoofSubjectsForCombination.errors" class="text-danger">
+                  <p *ngIf="form.txtNoofSubjectsForCombination.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="chkActiveStatus" class="form-label">Status</label>
                 <div class="form-check form-switch d-flex align-items-center">
                   <input class="form-check-input" type="checkbox" id="Active" [(ngModel)]="request.ActiveStatus" formControlName="chkActiveStatus">
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                <div class="card mb-0">
+                  <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+                    <b><i class="bi bi-table"></i> Add Subject Details</b>
+                    <div class="d-flex align-items-center">
+                      <div class="d-flex align-items-center table-filter mr-15">
+                        <i class="fa fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="SubjectSearch" [ngModelOptions]="{standalone: true}" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="row" style="max-height: 300px; overflow: scroll;">
+                      <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3" *ngFor="let row of SubjectList | tableSearchFilter:SubjectSearch;let idx=index;">
+                        <input type="checkbox" [checked]="row.IsSubjectChecked" [(ngModel)]="row.IsSubject" id="chkSubject_{{idx}}" name="chkSubject_{{idx}}" [ngModelOptions]="{standalone: true}">
+                        &nbsp;<label class="form-label mb-0" for="chkSubject_{{idx}}">{{row.SubjectName}}</label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -125,12 +174,15 @@
                 <tr>
                   <th>Sr. No</th>
                   <th>Department Name</th>
+                  <th>University Name</th>
                   <th>College Level</th>
                   <th>Course Level Name</th>
                   <th>Course Name</th>
+                  <th>Stream Name</th>
                   <th>Course Duration Type</th>
                   <th>Course Duration</th>
                   <th>No. Of Rooms</th>
+                  <th>No. of Subjects For Combination</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
@@ -139,12 +191,15 @@
                 <tr *ngFor="let row of CourseDataList | tableSearchFilter:searchText;let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>{{row.DepartmentName}}</td>
+                  <td>{{row.UniversityName}}</td>
                   <td>{{row.CollegeLevelName}}</td>
                   <td>{{row.CourseLevel}}</td>
                   <td>{{row.CourseName}}</td>
+                  <td>{{row.StreamName}}</td>
                   <td>{{row.CourseDuratinName}}</td>
                   <td>{{row.Duration}}</td>
                   <td>{{row.NoOfRooms}}</td>
+                  <td>{{row.NoofSubjectsForCombination}}</td>
                   <td>{{row.ActiveDeactive}}</td>
                   <td>
                     <div class="d-flex">

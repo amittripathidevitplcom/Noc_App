@@ -156,7 +156,8 @@
             Land Area (in {{LandUnitType !=''?LandUnitType:UnitOfLand}}) <span style="color:red;">*</span>
           </label>
           <input type="text" id="txtLandArea" class="form-control" [(ngModel)]="request.LandArea" formControlName="txtLandArea" (keypress)="numbersOnly($event)" />
-          <p *ngIf="IsRequiredLandArea" class="text-danger"><i aria-hidden="true"></i>Land area must be at least : {{RequiredLandAreaMsg}}</p>
+          <!--<p *ngIf="IsRequiredLandArea" class="text-danger"><i aria-hidden="true"></i>Land area must be at least : {{RequiredLandAreaMsg}}</p>-->
+
           <div *ngIf="isSubmitted&&form.txtLandArea.errors" class="text-danger">
             <p *ngIf="form.txtLandArea.errors.required">This field is required .!</p>
             <p *ngIf="form.txtLandArea.errors.min">This field is required .!</p>

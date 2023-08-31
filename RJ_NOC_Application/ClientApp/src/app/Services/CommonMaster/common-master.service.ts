@@ -1057,13 +1057,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetCourseByStreamID(StreamID: number, DepartmentID: number, CourseLevelID: number) {
+  public async GetCourseByStreamID(StreamID: number, DepartmentID: number, CourseLevelID: number, UniversityID: Number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseByStreamID/" + StreamID + "/" + DepartmentID + "/" + CourseLevelID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseByStreamID/" + StreamID + "/" + DepartmentID + "/" + CourseLevelID + "/" + UniversityID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1104,4 +1104,42 @@ export class CommonMasterService {
       ).toPromise();
   }
 
+
+  public async GetCollegeInspectionFee(CollegeID: number,  DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeInspectionFee/" + CollegeID + "/" + DepartmentID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
+
+  public async GetUniversityDepartmentWise(DepartmentID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetUniversityDepartmentWise/" + DepartmentID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetSubjectDepartmentWise(DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetSubjectDepartmentWise/" + DepartmentID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
