@@ -193,6 +193,19 @@ export class AnimalDocumentScrutinyService {
       ).toPromise();
   }
 
+  public async GetFinalVerificationAppliationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetFinalVerificationAppliationList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
   public async GetPostVerificationAppliationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -226,6 +239,18 @@ export class AnimalDocumentScrutinyService {
     };
     const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
     return await this.http.post(this.APIUrl + "/GetPostVerificationDoneList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetFinalVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetFinalVerificationDoneList/", body, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -275,6 +300,19 @@ export class AnimalDocumentScrutinyService {
       })
     };
     return await this.http.get(this.APIUrl + "/GetNOCApplicationList/" + UserID + "/" + RoleID + "/" + DepartmentID + "/" + Action)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetFinalNOCApplicationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetFinalNOCApplicationList/", body, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

@@ -248,6 +248,9 @@ import { RevertedApplicationListComponent } from './Views/RevertedApllication/re
 import { AhPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-post-verification-done-list/ah-post-verification-done-list.component';
 import { EnableControlDirective } from './Common/enable-control.directive';
 import { EnterTabDirective } from './Common/enter-tab.directive';
+import { AhPhysicalFinalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-physical-final-verification/ah-physical-final-verification.component';
+import { AhFinalVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-verification-done-list/ah-final-verification-done-list.component';
+import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-noc-application-list/ah-final-noc-application-list.component';
 
 
 
@@ -488,6 +491,9 @@ import { EnterTabDirective } from './Common/enter-tab.directive';
     DceDocumentScrutinyCompletedReportComponent,
     RevertedApplicationListComponent,
     AhPostVerificationDoneListComponent,
+    AhPhysicalFinalVerificationComponent,
+    AhFinalVerificationDoneListComponent,
+    AhFinalNocApplicationListComponent,
 
     EnableControlDirective,
     EnterTabDirective,

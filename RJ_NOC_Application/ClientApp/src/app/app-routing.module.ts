@@ -130,7 +130,9 @@ import { DceDocumentScrutinyCompletedReportComponent } from './Views/Reports/DCE
 import { RevertedApplicationListComponent } from './Views/RevertedApllication/reverted-application-list/reverted-application-list.component';
 import { AhPhysicalPostVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-physical-post-verification/ah-physical-post-verification.component';
 import { AhPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-post-verification-done-list/ah-post-verification-done-list.component';
-
+import { AhPhysicalFinalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-physical-final-verification/ah-physical-final-verification.component';
+import { AhFinalVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-verification-done-list/ah-final-verification-done-list.component';
+import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-noc-application-list/ah-final-noc-application-list.component';
 
 
 const routes: Routes = [
@@ -566,6 +568,17 @@ const routes: Routes = [
       {
         path: 'AHPostVerificationDoneList/:Status', component: AhPostVerificationDoneListComponent
       },
+
+      {
+        path: 'AHinspectioncommitteefinalverification/:Status', component: AhPhysicalFinalVerificationComponent
+      },
+      {
+        path: 'AHFinalVerificationDoneList/:Status', component: AhFinalVerificationDoneListComponent
+      },
+
+      {
+        path: 'AhFinalNocApplicationList/:Status', component: AhFinalNocApplicationListComponent
+      }
     ]
   },
 
