@@ -91,7 +91,7 @@ export class OtherDocumentComponent implements OnInit {
     this.otherDocumentsForm = this.formBuilder.group(
       {
         txtDocumentName: ['', Validators.required],
-        txtFileName: [''],
+        txtFileName_OtherDocument: [''],
         txtsearchText: [''],
       })
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
@@ -105,7 +105,7 @@ export class OtherDocumentComponent implements OnInit {
     //if (this.SelectedDepartmentID == 6) {
     //  this.GetHospitalRelatedDocuments('HospitalRelatedDocument');
     //}
-    //this.GetAllOtherDocumentList();
+    this.GetAllOtherDocumentList();
     //this.request.ActiveStatus = true;
     //this.request.DeleteStatus = false;
   }
@@ -306,6 +306,9 @@ export class OtherDocumentComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+    this.file = document.getElementById('txtFileName_OtherDocument');
+    this.file.value = '';
+    
   }
   async DeleteImage(Type: string) {
     try {
@@ -342,7 +345,7 @@ export class OtherDocumentComponent implements OnInit {
       this.isValidFileName = false;
       //this.request.ActiveStatus = true;
       //this.isDisabledGrid = false;
-      //this.GetAllOtherDocumentList();
+      this.GetAllOtherDocumentList();
       const btnSave = document.getElementById('btnSave')
       if (btnSave) btnSave.innerHTML = "Save";
       const btnReset = document.getElementById('')
@@ -400,87 +403,86 @@ export class OtherDocumentComponent implements OnInit {
   //    }, 200);
   //  }
   //}
-  //async GetAllOtherDocumentList() {
+  async GetAllOtherDocumentList() {
 
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.collegeDocumentService.GetAllOtherDocumentList(this.UserID, this.request.CollegeID)
-  //      .then((data: any) => {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID,"OtherDocument")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.lstOtherDocuments = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async Edit_OnClick(OtherDocumentID: number) {
 
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        this.lstOtherDocuments = data['Data'][0]['data'];
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-  //async Edit_OnClick(OtherDocumentID: number) {
-
-  //  this.isSubmitted = false;
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.collegeDocumentService.GetOtheDocumentByID(OtherDocumentID, this.UserID)
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.request.OtherDocumentID = data['Data']["OtherDocumentID"];
-  //        this.request.CollegeID = data['Data']["CollegeID"];
-  //        this.request.DocumentName = data['Data']["DocumentName"];
+    //this.isSubmitted = false;
+    //try {
+    //  this.loaderService.requestStarted();
+    //  await this.collegeDocumentService.GetOtheDocumentByID(OtherDocumentID, this.UserID)
+    //    .then((data: any) => {
+    //      data = JSON.parse(JSON.stringify(data));
+    //      this.request.OtherDocumentID = data['Data']["OtherDocumentID"];
+    //      this.request.CollegeID = data['Data']["CollegeID"];
+    //      this.request.DocumentName = data['Data']["DocumentName"];
 
 
-  //        this.request.FileName = data['Data']["FileName"];
-  //        this.request.FilePath = data['Data']["FilePath"];
-  //        this.request.Dis_FileName = data['Data']["Dis_FileName"];
-  //        this.isDisabledGrid = true;
-  //        const btnSave = document.getElementById('btnSave')
-  //        if (btnSave) btnSave.innerHTML = "Update";
-  //        const btnReset = document.getElementById('btnReset')
-  //        if (btnReset) btnReset.innerHTML = "Cancel";
-  //      }, error => console.error(error));
-  //  }
-  //  catch (ex) { console.log(ex) }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-  //async Delete_OnClick(OtherDocumentID: number) {
+    //      this.request.FileName = data['Data']["FileName"];
+    //      this.request.FilePath = data['Data']["FilePath"];
+    //      this.request.Dis_FileName = data['Data']["Dis_FileName"];
+    //      this.isDisabledGrid = true;
+    //      const btnSave = document.getElementById('btnSave')
+    //      if (btnSave) btnSave.innerHTML = "Update";
+    //      const btnReset = document.getElementById('btnReset')
+    //      if (btnReset) btnReset.innerHTML = "Cancel";
+    //    }, error => console.error(error));
+    //}
+    //catch (ex) { console.log(ex) }
+    //finally {
+    //  setTimeout(() => {
+    //    this.loaderService.requestEnded();
+    //  }, 200);
+    //}
+  }
+  async Delete_OnClick(AID: number) {
 
-  //  this.isSubmitted = false;
-  //  try {
-  //    if (confirm("Are you sure you want to delete this ?")) {
-  //      this.loaderService.requestStarted();
-  //      await this.collegeDocumentService.DeleteData(OtherDocumentID, this.UserID)
-  //        .then((data: any) => {
-  //          this.State = data['State'];
-  //          this.SuccessMessage = data['SuccessMessage'];
-  //          this.ErrorMessage = data['ErrorMessage'];
-  //          if (this.State == 0) {
-  //            this.toastr.success(this.SuccessMessage)
-  //            this.GetAllOtherDocumentList();
-  //          }
-  //          else {
-  //            this.toastr.error(this.ErrorMessage)
-  //          }
-  //        })
-  //    }
-  //  }
-  //  catch (ex) { }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
+    this.isSubmitted = false;
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        await this.collegeDocumentService.Delete(AID)
+          .then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage)
+              this.GetAllOtherDocumentList();
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   //async ResetControl() {
   //  try {
   //    this.loaderService.requestStarted();
@@ -513,97 +515,97 @@ export class OtherDocumentComponent implements OnInit {
   //  this.routers.navigate(['/dashboard']);
 
   //}
-  //btnCopyTable_Click() {
-  //  const tabellist = document.getElementById('tabellist')
-  //  if (tabellist) {
-  //    this.clipboard.copy(tabellist.innerText);
-  //  }
-  //}
-  //btnExportTable_Click(): void {
-  //  this.loaderService.requestStarted();
-  //  if (this.lstOtherDocuments.length > 0) {
-  //    try {
-  //      this.isLoadingExport = true;
-  //      this.downloadingPDF = true;
-  //      /* table id is passed over here */
-  //      let element = document.getElementById('tabellist');
-  //      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-  //      /* generate workbook and add the worksheet */
-  //      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  //      //Hide Column
-  //      //ws['!cols'] = [];
-  //      //ws['!cols'][0] = { hidden: true };
-  //      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-  //      /* save to file */
-  //      XLSX.writeFile(wb, "OtherDocument.xlsx");
-  //    }
-  //    catch (Ex) {
-  //      console.log(Ex);
-  //    }
-  //    finally {
-  //      setTimeout(() => {
-  //        this.loaderService.requestEnded();
-  //        this.isLoadingExport = false;
-  //      }, 200);
-  //    }
-  //  }
-  //  else {
-  //    this.toastr.warning("No Record Found.!");
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //      this.isLoadingExport = false;
-  //    }, 200);
-  //  }
-  //}
+  btnCopyTable_Click() {
+    const tabellist = document.getElementById('tabellist')
+    if (tabellist) {
+      this.clipboard.copy(tabellist.innerText);
+    }
+  }
+  btnExportTable_Click(): void {
+    this.loaderService.requestStarted();
+    if (this.lstOtherDocuments.length > 0) {
+      try {
+        this.isLoadingExport = true;
+        this.downloadingPDF = true;
+        /* table id is passed over here */
+        let element = document.getElementById('tabellist');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        //Hide Column
+        //ws['!cols'] = [];
+        //ws['!cols'][0] = { hidden: true };
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        /* save to file */
+        XLSX.writeFile(wb, "OtherDocument.xlsx");
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+          this.isLoadingExport = false;
+        }, 200);
+      }
+    }
+    else {
+      this.toastr.warning("No Record Found.!");
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoadingExport = false;
+      }, 200);
+    }
+  }
   //@ViewChild('content') content: ElementRef | any;
-  //btnSavePDF_Click(): void {
-  //  this.downloadingPDF = true;
-  //  this.loaderService.requestStarted();
-  //  if (this.lstOtherDocuments.length > 0) {
-  //    try {
-  //      let doc = new jsPDF('p', 'mm', [432, 279])
-  //      doc.setFontSize(16);
+  btnSavePDF_Click(): void {
+    this.downloadingPDF = true;
+    this.loaderService.requestStarted();
+    if (this.lstOtherDocuments.length > 0) {
+      try {
+        let doc = new jsPDF('p', 'mm', [432, 279])
+        doc.setFontSize(16);
 
-  //      doc.text("Other Documents", 100, 10, { align: 'center', maxWidth: 100 });
-  //      autoTable(doc, {
-  //        html: '#tabellist'
-  //        , styles: { fontSize: 8 },
-  //        headStyles: {
-  //          fillColor: '#3f51b5',
-  //          textColor: '#fff',
-  //          halign: 'center'
+        doc.text("Other Documents", 100, 10, { align: 'center', maxWidth: 100 });
+        autoTable(doc, {
+          html: '#tabellist'
+          , styles: { fontSize: 8 },
+          headStyles: {
+            fillColor: '#3f51b5',
+            textColor: '#fff',
+            halign: 'center'
 
-  //        },
-  //        bodyStyles: {
-  //          halign: 'center'
-  //        },
-  //        margin: {
-  //          left: 5,
-  //          right: 5,
-  //          top: 15
-  //        },
-  //        tableLineWidth: 0
+          },
+          bodyStyles: {
+            halign: 'center'
+          },
+          margin: {
+            left: 5,
+            right: 5,
+            top: 15
+          },
+          tableLineWidth: 0
 
-  //      })
-  //      doc.save("Other Documents" + '.pdf');
-  //    }
-  //    catch (Ex) {
-  //      console.log(Ex);
-  //    }
-  //    finally {
-  //      setTimeout(() => {
-  //        this.loaderService.requestEnded();
-  //        this.isLoadingExport = false;
-  //      }, 200);
-  //    }
-  //  }
-  //  else {
-  //    this.toastr.warning("No Record Found.!");
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //      this.isLoadingExport = false;
-  //    }, 200);
-  //  }
+        })
+        doc.save("Other Documents" + '.pdf');
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+          this.isLoadingExport = false;
+        }, 200);
+      }
+    }
+    else {
+      this.toastr.warning("No Record Found.!");
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoadingExport = false;
+      }, 200);
+    }
 
-  //}
+  }
 }

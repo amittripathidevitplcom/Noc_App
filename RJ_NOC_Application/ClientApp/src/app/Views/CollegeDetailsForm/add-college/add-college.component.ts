@@ -28,7 +28,7 @@ export class AddCollegeComponent implements OnInit {
   CollegeDetailsForm_NearestGovernmentHospitals!: FormGroup;
 
   //public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
-  public LandLineRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
+  public LandLineRegex = new RegExp(/[0-9]{6,12}/)
   public PinNoRegex = new RegExp(/[0-9]{6}/)
 
   public State: number = -1;
@@ -102,6 +102,7 @@ export class AddCollegeComponent implements OnInit {
         ddlPresentCollegeStatus: ['', [DropdownValidators]],
         ddlCollegeTypeID: ['', [DropdownValidators]],
         ddlCollegeLevelID: ['', [DropdownValidators]],
+        txtCollegeCode: ['', Validators.required],
         txtCollegeNameEn: ['', Validators.required],
         txtCollegeNameHi: ['', Validators.required],
         AISHECodeStatus: ['', Validators.required],
@@ -110,7 +111,7 @@ export class AddCollegeComponent implements OnInit {
         ddlCollegeMedium: ['', [DropdownValidators]],
         ddlUniversityID: ['', [DropdownValidators]],
         txtMobileNumber: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]],
-        txtCollegeLandlineNumber: ['', [Validators.required, Validators.pattern(this.LandLineRegex)]],
+        txtCollegeLandlineNumber: ['', [Validators.required, Validators.pattern("^[0-9]{10,12}$")]],
 
         txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         txtAddressLine1: ['', Validators.required],
@@ -135,7 +136,7 @@ export class AddCollegeComponent implements OnInit {
         txtCDEmailAddress: ['', Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")],// handle in sub form
         ddlGCD_DesignationID: [''],
         txtGCD_MobileNumber: ['', [Validators.pattern("^[6-9][0-9]{9}$")]],
-        txtGCD_LandlineNumber: ['', [Validators.pattern(this.LandLineRegex)]],
+        txtGCD_LandlineNumber: ['', [Validators.pattern("^[0-9]{10,12}$")]],
         txtTGC_Latitude: [''],
         txtTGC_Longitude: [''],
         fCollegeLogo: [''],
@@ -794,12 +795,12 @@ export class AddCollegeComponent implements OnInit {
 
   AddContectDetail() {
     try {
-      this.loaderService.requestStarted();
+      
       this.isSubmitted_ContactDetails = true;
       if (this.CollegeDetailsForm_ContactDetails.invalid) {
         return
       }
-
+      this.loaderService.requestStarted();
       //debugger
       this.request.ContactDetailsList.push({
         ContactID: 0,
@@ -970,13 +971,26 @@ export class AddCollegeComponent implements OnInit {
     this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
     this.CollegeDetailsForm.get('ddlPresentCollegeStatus')?.updateValueAndValidity();
 
+    console.log(this.request.RuralUrban);
+    if (this.request.RuralUrban == 1) {
+
+      this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.setValidators([DropdownValidators]);
+    }
+    else {
+      this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.clearValidators();
+    }
+    this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
+    
+
+
+
     this.isValidCollegeLogo = false;
     this.isValidNAACAccreditedCertificate = false;
     this.isSubmitted = true;
 
     console.log(this.request.NACCValidityDate);
 
-
+    console.log(this.CollegeDetailsForm);
     let isValid = true;
     if (this.CollegeDetailsForm.invalid) {
       isValid = false;
@@ -1028,6 +1042,7 @@ export class AddCollegeComponent implements OnInit {
       return;
     }
 
+   
 
     //Show Loading
     this.loaderService.requestStarted();

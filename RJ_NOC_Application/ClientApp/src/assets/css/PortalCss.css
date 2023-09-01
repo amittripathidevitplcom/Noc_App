@@ -26,6 +26,9 @@ body, html {
 
   .table th, .table td { white-space:nowrap;}
 
+/*.table-responsive {
+  height: calc(100vh - 268px) !important;
+}*/
 @font-face {
   font-family: 'fontawesome';
   src: url('font-awesome/fonts/fontawesome-webfont.ttf') format('truetype');

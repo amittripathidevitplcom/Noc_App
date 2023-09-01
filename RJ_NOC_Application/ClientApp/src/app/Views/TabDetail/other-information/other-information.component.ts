@@ -299,10 +299,12 @@ export class OtherInformationComponent implements OnInit {
     }
     finally {
       setTimeout(() => {
-        event.target.value = '';
+        
         this.loaderService.requestEnded();
       }, 200);
     }
+    this.file = document.getElementById('fileUploadImage');
+    this.file.value = '';
   }
   DeleteImage(Type: string) {
     try {
@@ -328,6 +330,8 @@ export class OtherInformationComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+    this.file = document.getElementById('fileUploadImage');
+    this.file.value = '';
   }
   public isformvalid: boolean = true;
   async SaveData() {
@@ -433,6 +437,9 @@ export class OtherInformationComponent implements OnInit {
       if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
       const btnReset = document.getElementById('')
       if (btnReset) btnReset.innerHTML = "Reset";
+
+      this.file = document.getElementById('fileUploadImage');
+      this.file.value = '';
     }
     catch (ex) { console.log(ex) }
     finally {

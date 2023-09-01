@@ -15,143 +15,137 @@
   </div>
 </div>
 <div class="container-fluid mainContents">
-  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="card" *ngIf="ApplyNocApplicationList.length>0">
-              <div class="card-header">
-                <b>Apply Noc List</b>
+  <div class="card" *ngIf="ApplyNocApplicationList.length>0">
+    <div class="card-header">
+      <b>Apply Noc List</b>
+    </div>
+    <div class="card-body">
+      <div class="d-flex align-items-center table-filter mr-15">
+        <i class="fa fa-search"></i>
+        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" id="txtsearchText" name="txtsearchText" />
+      </div>
+
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="ApplyNocApplicationList.length==0">
+        No Record Found
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped-columns">
+        <thead>
+          <tr>
+            <th>Action</th>
+
+            <th>Sr. No.</th>
+            <th>Society Name</th>
+            <th>College Application No.</th>
+            <th>College Name</th>
+            <th>Department Name</th>
+            <th>College Status</th>
+            <th>College Type</th>
+            <th>College Medium</th>
+            <th>University Name</th>
+            <th>College Mobile No.</th>
+            <th>College Landline No.</th>
+            <th>College Email</th>
+            <th>Full Address</th>
+            <th>Creation Date</th>
+            <th>Geo Tagging</th>
+            <th>Application No.</th>
+            <th>Application Type</th>
+            <th>Total Fee Amount</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of ApplyNocApplicationList | tableSearchFilter:searchText; let idx=index;">
+            <td>
+
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                        style="background-color: #132649;">
+                  Action
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li>
+                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="View Apply Details"
+                       (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)">View Apply Details</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" aria-label="Preview Application">Preview Application</a>
+                  </li>
+
+                  <li *ngIf="item.IsMakePayment==false">
+                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Delete Application"
+                       (click)="DeleteApplyNocApplication_click(item)">Delete</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add FDR" (click)="AddFDR_click(item)">
+                      {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
+                      Payment
+                    </a>
+                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==true" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
+                      Payment History
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" *ngIf="item.IsMakePayment_ApplicationFee==false"
+                       (click)="EmitraPaymentApplyNocApplication_click(mymodalemitrapayment,item.ApplyNocApplicationID)">
+                      Emitra  Payment
+                    </a>
+                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" *ngIf="item.IsMakePayment_ApplicationFee==true" (click)="PaymentHistoryNocApplication_click(mymodalemitrapaymenthistory,item.ApplyNocApplicationID)">
+                      Application Payment History
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
+                       *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==false" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
+                      Final Submit
+                    </a>
+                  </li>
+
+                </ul>
               </div>
-              <div class="card-body">
-                <div class="d-flex align-items-center table-filter mr-15">
-                  <i class="fa fa-search"></i>
-                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" id="txtsearchText" name="txtsearchText" />
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-hover table-striped-columns">
-                    <thead>
-                      <tr>
-                        <th>Action</th>
-
-                        <th>Sr. No.</th>
-                        <th>Society Name</th>
-                        <th>College Application No.</th>
-                        <th>College Name</th>
-                        <th>Department Name</th>
-                        <th>College Status</th>
-                        <th>College Type</th>
-                        <th>College Medium</th>
-                        <th>University Name</th>
-                        <th>College Mobile No.</th>
-                        <th>College Landline No.</th>
-                        <th>College Email</th>
-                        <th>Full Address</th>
-                        <th>Creation Date</th>
-                        <th>Geo Tagging</th>
-                        <th>Application No.</th>
-                        <th>Application Type</th>
-                        <th>Total Fee Amount</th>
-
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let item of ApplyNocApplicationList | tableSearchFilter:searchText; let idx=index;">
-                        <td>
-
-                          <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                                    style="background-color: #132649;">
-                              Action
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                              <li>
-                                <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="View Apply Details"
-                                   (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)">View Apply Details</a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" aria-label="Preview Application">Preview Application</a>
-                              </li>
-
-                              <li *ngIf="item.IsMakePayment==false">
-                                <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Delete Application"
-                                   (click)="DeleteApplyNocApplication_click(item)">Delete</a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add FDR" (click)="AddFDR_click(item)">
-                                  {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
-                                </a>
-                              </li>
-
-                              <li>
-                                <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
-                                  Payment
-                                </a>
-                                <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==true" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
-                                  Payment History
-                                </a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" *ngIf="item.IsMakePayment_ApplicationFee==false"
-                                   (click)="EmitraPaymentApplyNocApplication_click(mymodalemitrapayment,item.ApplyNocApplicationID)">
-                                  Emitra  Payment
-                                </a>
-                                <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" *ngIf="item.IsMakePayment_ApplicationFee==true" (click)="PaymentHistoryNocApplication_click(mymodalemitrapaymenthistory,item.ApplyNocApplicationID)">
-                                  Application Payment History
-                                </a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
-                                   *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==false" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
-                                  Final Submit
-                                </a>
-                              </li>
-
-                            </ul>
-                          </div>
 
 
 
 
-                        </td>
-                        <td>{{idx+1}}</td>
-                        <td>{{item.SocietyName}}</td>
-                        <td>{{item.CollegeRegistrationNo}}</td>
-                        <td>{{item.CollegeName}}</td>
-                        <td>{{item.DepartmentName}}</td>
-                        <td>{{item.CollegeStatus}}</td>
-                        <td>{{item.CollegeType}}</td>
-                        <td>{{item.CollegeMedium}}</td>
-                        <td>{{item.UniversityName}}</td>
-                        <td>{{item.CollegeMobileNumber}}</td>
-                        <td>{{item.CollegeLandlineNumber}}</td>
-                        <td>{{item.CollegeEmail}}</td>
-                        <td>{{item.FullAddress}}</td>
-                        <td>{{item.CreateDate}}</td>
-                        <td>{{item.GeoTagging}}</td>
-                        <td>
-                          {{item.ApplicationNo}}
-                        </td>
-                        <td>
-                          {{item.ApplicationTypeName}}
-                        </td>
-                        <td>
-                          {{item.TotalFeeAmount}}
-                        </td>
+            </td>
+            <td>{{idx+1}}</td>
+            <td>{{item.SocietyName}}</td>
+            <td>{{item.CollegeRegistrationNo}}</td>
+            <td>{{item.CollegeName}}</td>
+            <td>{{item.DepartmentName}}</td>
+            <td>{{item.CollegeStatus}}</td>
+            <td>{{item.CollegeType}}</td>
+            <td>{{item.CollegeMedium}}</td>
+            <td>{{item.UniversityName}}</td>
+            <td>{{item.CollegeMobileNumber}}</td>
+            <td>{{item.CollegeLandlineNumber}}</td>
+            <td>{{item.CollegeEmail}}</td>
+            <td>{{item.FullAddress}}</td>
+            <td>{{item.CreateDate}}</td>
+            <td>{{item.GeoTagging}}</td>
+            <td>
+              {{item.ApplicationNo}}
+            </td>
+            <td>
+              {{item.ApplicationTypeName}}
+            </td>
+            <td>
+              {{item.TotalFeeAmount}}
+            </td>
 
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="ApplyNocApplicationList.length==0">
-              No Record Found
-            </div>
-          </div>
-        </div>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
         <!--model-->
         <ng-template #mymodalview let-modal>
@@ -661,7 +655,5 @@
           </div>
         </div>
         <!--end-->
-      </div>
-    </div>
-  </div>
-</div>
+
+
