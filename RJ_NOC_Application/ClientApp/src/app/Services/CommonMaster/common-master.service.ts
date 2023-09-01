@@ -1104,4 +1104,42 @@ export class CommonMasterService {
       ).toPromise();
   }
 
+
+  public async GetCollegeInspectionFee(CollegeID: number,  DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeInspectionFee/" + CollegeID + "/" + DepartmentID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
+
+  public async GetUniversityDepartmentWise(DepartmentID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetUniversityDepartmentWise/" + DepartmentID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetSubjectDepartmentWise(DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetSubjectDepartmentWise/" + DepartmentID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

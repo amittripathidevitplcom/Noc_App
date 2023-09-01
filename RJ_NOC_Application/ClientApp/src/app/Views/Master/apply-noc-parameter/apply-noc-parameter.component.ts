@@ -142,14 +142,15 @@ export class ApplyNocParameterComponent implements OnInit {
 
   public isAddNOCCourseSubjectTNOC: boolean = false;
   public isAddNOCCoursePNOC: boolean = false;
-
   searchTextNewCourse: string = '';
   searchTextNewSubject: string = '';
-
-
   searchTextNewPNOC: string = '';
   searchTextNewTNOC: string = '';
 
+  public isInspectionFee: boolean = false;
+  public isAlreadyApplied: boolean = false;
+
+  public DepartmentInspectionFee: number = 0;
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
     private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal) {
 
@@ -239,6 +240,10 @@ export class ApplyNocParameterComponent implements OnInit {
       this.ApplyNocParameterMasterList_TNOCExtOfSubject = null;
       this.ApplyNocParameterMasterList_PNOCOfSubject = null;
 
+      this.isInspectionFee = false;
+      this.ApplicationTypeList = [];
+
+      
       this.loaderService.requestStarted();
       await this.applyNOCApplicationService.CheckAppliedNOCCollegeWise(this.request.CollegeID)
         .then(async (data: any) => {
@@ -246,6 +251,7 @@ export class ApplyNocParameterComponent implements OnInit {
           this.TotalAppliedNOC = data['Data'];
           if (this.TotalAppliedNOC > 0) {
             this.toastr.warning('You have already applied for NOC and NOC not issued yet');
+            this.ApplicationTypeList = [];
             return;
           }
           else {
@@ -300,17 +306,15 @@ export class ApplyNocParameterComponent implements OnInit {
 
       console.log(item);
       // TNOC Extension
-      if (this.request.ApplyNocCode == 'NewCourse')
-      {
+      if (this.request.ApplyNocCode == 'NewCourse') {
         this.ApplyNocParameterMasterList_TNOCExtension = null;
-     
+
 
       }
       // Addition of New Seats(60)
-      if (this.request.ApplyNocCode == 'ANewSeats')
-      {
+      if (this.request.ApplyNocCode == 'ANewSeats') {
         this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
-  
+
 
       }
 
@@ -324,7 +328,7 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege = new ApplyNocParameterMasterList_ChangeInNameOfCollege();
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_ChangeInNameOfCollege.FeeAmount = item.FeeAmount;
-        setTimeout(function () { (window as any).LoadData(); },200)
+        setTimeout(function () { (window as any).LoadData(); }, 200)
       }
       if (this.request.ApplyNocCode == 'DEC_ChangePlace') {
         this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = new ApplyNocParameterMasterList_ChangeInPlaceOfCollege();
@@ -431,9 +435,8 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
- async GetApplyNocForByParameter()
- {
-   await this.applyNocParameterService.GetApplyNocForByParameter(this.request.CollegeID, this.request.ApplyNocCode)
+  async GetApplyNocForByParameter() {
+    await this.applyNocParameterService.GetApplyNocForByParameter(this.request.CollegeID, this.request.ApplyNocCode)
       .then((data: any) => {
         if (data != null && data != undefined) {
           data = JSON.parse(JSON.stringify(data));
@@ -516,7 +519,9 @@ export class ApplyNocParameterComponent implements OnInit {
         this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
       }
 
-
+      if (this.isInspectionFee) {
+        this.request.TotalFeeAmount = this.DepartmentInspectionFee;
+      }
 
 
 
@@ -679,6 +684,9 @@ export class ApplyNocParameterComponent implements OnInit {
     this.ApplyNocParameterMasterList_TNOCExtOfSubject = null;
     this.ApplyNocParameterMasterList_PNOCOfSubject = null;
 
+    this.isInspectionFee = false;
+    this.DepartmentInspectionFee = 0;
+
 
 
 
@@ -712,7 +720,7 @@ export class ApplyNocParameterComponent implements OnInit {
       // upload
       this.file = event.target.files[0];
       try {
-       
+
         await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -736,8 +744,7 @@ export class ApplyNocParameterComponent implements OnInit {
       }
 
     }
-    else
-    {
+    else {
       this.ApplyNocParameterMasterList_ChangeInNameOfCollege.Dis_DocumentName = '';
       this.ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentPath = '';
       this.ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentName = '';
@@ -886,8 +893,8 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-   ValidateApplyNOCForm(): boolean {
-     this.ResetValidationVariable();
+  ValidateApplyNOCForm(): boolean {
+    this.ResetValidationVariable();
     //change in name
     if (this.ApplyNocParameterMasterList_ChangeInNameOfCollege != null) {
       if (this.ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameEnglish == '') {
@@ -1593,7 +1600,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   ddlSreamChangeReset(ID: any) { }
 
-   ResetValidationVariable() {
+  ResetValidationVariable() {
     this.isFormValid = true;
     this.isValidCollegeNewName_Eng = false;
     this.isValidCollegeNewName_Hi = false;
@@ -1629,6 +1636,47 @@ export class ApplyNocParameterComponent implements OnInit {
     this.isAnnexureDocument = false;
 
 
+  }
+
+
+  async ApplyNocFor_rbChange(event: any, selectedvalue: any, item: any) {
+    debugger;
+    if (item.Code == 'InspectionFee') {
+      this.isInspectionFee = true;
+      this.GetCollegeInspectionFee();
+
+    }
+    else
+    {
+      this.isInspectionFee = false;
+    }
+
+    this.ApplyNocParameterMasterList_TNOCExtension = null;
+    this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
+    //parameters details
+    this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+    this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+    this.ApplyNocParameterMasterList_ChangeInGirlstoCoed = null;
+    this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
+    this.ApplyNocParameterMasterList_MergerCollege = null;
+    this.ApplyNocParameterMasterList_NewCourse = null;
+    this.ApplyNocParameterMasterList_NewCourseSubject = null;
+    this.ApplyNocParameterMasterList_TNOCExtOfSubject = null;
+    this.ApplyNocParameterMasterList_PNOCOfSubject = null;
+  }
+
+
+  async GetCollegeInspectionFee() {
+    await this.commonMasterService.GetCollegeInspectionFee(this.request.CollegeID, this.request.DepartmentID)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        this.DepartmentInspectionFee = data['Data'][0]['data'][0]['FeeAmount'];
+        console.log(data);
+      }, error => console.error(error));
+  }
+
+  async SaveInspectionFee_click() {
+    alert(this.DepartmentInspectionFee);
   }
 
 
