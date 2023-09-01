@@ -25,21 +25,25 @@ export class AhFinalNocApplicationListComponent {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
 
-
   public RoleID: number = 0;
   public UserID: number = 0;
   public ActionID: any = 0;
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
-  
+
   public selectedApplyNOCID: number = 0;
   public QueryStringStatus: any = '';
   public IsDisabled: boolean = true;
   public IsPreDisabled: boolean = true;
   public IsBtnShowHide: boolean = true;
+  public isRemarkValid: boolean = false;
+  public FinalRemark: string = '';
+  public ApplicationNO: string = '';
+  public btntext: string = 'Approved';
 
   public ApplicationTrailList: any = [];
   public ApplyNocDetails: any = [];
+  public lstNOCCourse: any = [];
 
   constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
@@ -119,6 +123,7 @@ export class AhFinalNocApplicationListComponent {
       }, 200);
     }
   }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -128,19 +133,41 @@ export class AhFinalNocApplicationListComponent {
       return `with: ${reason}`;
     }
   }
-  async NOCApproved(ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
+
+  async NOCApproved_Rejected(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string, type: string) {
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    this.selectedApplyNOCID = ApplyNOCID;
+    this.ApplicationNO = ApplicationNo;
+    this.GetApplyNocCourse(this.selectedApplyNOCID);
+    this.btntext = type;
   }
-  async NOCRejected(ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
+  async GetApplyNocCourse(ApplyNOCID: number) {
+    await this.animalDocumentScrutinyService.GetNOCCourse('GetNOCCourse', 2, ApplyNOCID, 4416)
+      .then((data: any) => {
+        if (data != null && data != undefined) {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          debugger;
+          this.lstNOCCourse = data['Data'][0]["data"];
+          // TNOC Extension
+          //if (this.request.ApplyNocCode == 'NewCourse') {
+          //  this.ApplyNocParameterMasterList_TNOCExtension = data['Data'];
+          //}
+          //// Addition of New Seats(60)
+          //if (this.request.ApplyNocCode == 'ANewSeats') {
+          //  this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = data['Data'];
+          //}
+        }
+      }, error => console.error(error));
   }
 
+  async NOCRejectRelese() {
 
-  //async OpenActionPopUP(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
-  //  this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-  //    this.closeResult = `Closed with: ${result}`;
-  //  }, (reason) => {
-  //    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-  //  });
-  //  this.selectedApplyNOCID = ApplyNOCID;
-  //  this.GetRNCCheckListByTypeDepartment(this.selectedApplyNOCID);
-  //}
+  }
 }

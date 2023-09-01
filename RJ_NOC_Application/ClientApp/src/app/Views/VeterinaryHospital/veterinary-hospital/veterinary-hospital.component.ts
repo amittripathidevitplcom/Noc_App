@@ -460,7 +460,7 @@ export class VeterinaryHospitalComponent implements OnInit {
             this.ResetControl();
             this.GetDivisionList();
             this.GetAnimalMasterList();
-            this.GetAllVeterinaryHospitalList();
+            //this.GetAllVeterinaryHospitalList();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -588,7 +588,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       if (txtHospitalName) txtHospitalName.focus();
       this.isSubmitted = false;
       this.request.VeterinaryHospitalID = 0;
-      this.request.CollegeID = 0;
+      //this.request.CollegeID = 0;
       this.request.AddressLine1 = '';
       this.request.AddressLine2 = '';
       this.request.TehsilID = 0;
