@@ -25,7 +25,10 @@
                 <b>Apply Noc List</b>
               </div>
               <div class="card-body">
-
+                <div class="d-flex align-items-center table-filter mr-15">
+                  <i class="fa fa-search"></i>
+                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" id="txtsearchText" name="txtsearchText" />
+                </div>
                 <div class="table-responsive">
                   <table class="table table-hover table-striped-columns">
                     <thead>
@@ -54,7 +57,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let item of ApplyNocApplicationList;let idx=index;">
+                      <tr *ngFor="let item of ApplyNocApplicationList | tableSearchFilter:searchText; let idx=index;">
                         <td>
 
                           <div class="dropdown">
@@ -67,7 +70,7 @@
                                 <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="View Apply Details"
                                    (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)">View Apply Details</a>
                               </li>
-                              <li >
+                              <li>
                                 <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" aria-label="Preview Application">Preview Application</a>
                               </li>
 

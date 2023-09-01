@@ -21,6 +21,13 @@
           <b><i class="bi bi-table"></i> Total College List </b>
         </div>
         <div class="card-body">
+
+
+          <div class="d-flex align-items-center table-filter mr-15">
+            <i class="fa fa-search"></i>
+            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" id="txtsearchText" name="txtsearchText" />
+          </div>
+
           <div class="table-responsive">
             <table class="table table-hover table-striped-columns">
               <thead>
@@ -46,7 +53,7 @@
               </thead>
               <tbody *ngIf="draftApplicatoinListData !=null && draftApplicatoinListData.length>0">
 
-                <tr *ngFor="let row of draftApplicatoinListData ;let idx=index;">
+                <tr *ngFor="let row of draftApplicatoinListData  | tableSearchFilter:searchText; let idx=index;">
                   <td style="width:12%">
 
                     <div class="dropdown">
@@ -65,13 +72,13 @@
 
 
                     <!--<div class="d-flex">
-                      <a href="/addcollege/{{row.CollegeID}}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+              <a href="/addcollege/{{row.CollegeID}}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
 
 
-                      <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
-                      <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
-                      <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)"><i class="fa fa-eye"></i></a>
-                    </div>-->
+              <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
+              <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
+              <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)"><i class="fa fa-eye"></i></a>
+            </div>-->
                   </td>
                   <td>{{idx+1}}</td>
                   <td>{{row.SocietyName}}</td>

@@ -50,6 +50,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   public isTimerDisabled: boolean = false;
   public StartTimer: any;
   public DisplayTimer: string = '';
+  public searchText: string = '';
 
   public PaymentHistoryDetails: any = [];
 
