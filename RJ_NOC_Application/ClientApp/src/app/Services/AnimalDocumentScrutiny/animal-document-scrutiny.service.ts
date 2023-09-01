@@ -318,4 +318,17 @@ export class AnimalDocumentScrutinyService {
       ).toPromise();
   }
 
+  public async GetNOCCourse(ActionType: string, DepartmentID: number, ApplyNocID: number, CollegeID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetNOCCourse/" + ApplyNocID + "/" + DepartmentID + "/" + CollegeID + "/" + ActionType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }
