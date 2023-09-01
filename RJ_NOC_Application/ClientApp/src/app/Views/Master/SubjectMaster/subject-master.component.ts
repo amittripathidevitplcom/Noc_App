@@ -137,7 +137,7 @@ export class SubjectMasterComponent implements OnInit {
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
     this.request.SubjectID = 0;
-    this.request.DepartmentID = 0;
+    //this.request.DepartmentID = 0;
     //this.request.CourseID = 0;
     this.request.SubjectName = '';
     this.request.UserID = 0;

@@ -246,6 +246,8 @@ import { DceDocumentScrutinyCompletedReportComponent } from './Views/Reports/DCE
 import { RouterModule } from '@angular/router';
 import { RevertedApplicationListComponent } from './Views/RevertedApllication/reverted-application-list/reverted-application-list.component';
 import { AhPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-post-verification-done-list/ah-post-verification-done-list.component';
+import { EnableControlDirective } from './Common/enable-control.directive';
+import { EnterTabDirective } from './Common/enter-tab.directive';
 import { AhPhysicalFinalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-physical-final-verification/ah-physical-final-verification.component';
 import { AhFinalVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-verification-done-list/ah-final-verification-done-list.component';
 import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-noc-application-list/ah-final-noc-application-list.component';
@@ -257,6 +259,7 @@ import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_
 
 @NgModule({
   declarations: [
+   
     AppComponent,
     MasterPageComponent,
 
@@ -492,7 +495,8 @@ import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_
     AhFinalVerificationDoneListComponent,
     AhFinalNocApplicationListComponent,
 
-
+    EnableControlDirective,
+    EnterTabDirective,
   ],
   imports: [
     CommonModule,
@@ -541,6 +545,7 @@ import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false },
+       
     },
   ],
   bootstrap: [AppComponent]
