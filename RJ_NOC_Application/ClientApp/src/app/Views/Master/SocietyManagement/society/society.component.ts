@@ -718,57 +718,60 @@ export class SocietyComponent implements OnInit {
   }
 
   DeleteImage(Type: string) {
-    try {
-      this.loaderService.requestStarted();
-      if (Type == 'ProfilePhoto') {
-        //this.showProfilePhoto = false;
-        this.request.ProfilePhoto = '';
-        this.request.Dis_ProfilePhoto = '';
-        this.request.ProfilePhotoPath = '';
-      }
-      else if (Type == 'AadhaarCard') {
-        //this.showAadhaarCard = false;
-        this.request.AadhaarCard = '';
-        this.request.Dis_AadhaarCard = '';
-        this.request.AadhaarCardPath = '';
-      }
-      else if (Type == 'SignatureDoc') {
-        //this.showSignatureDoc = false;
-        this.request.SignatureDoc = '';
-        this.request.Dis_SignatureDoc = '';
-        this.request.SignatureDocPath = '';
-      }
-      else if (Type == 'PANCard') {
-        //this.showPANCard = false;
-        this.request.PANCard = '';
-        this.request.Dis_PANCard = '';
-        this.request.PANCardPath = '';
-      }
-      else if (Type == 'AuthorizedDocument') {
-        //this.showAuthorizedDocument = false;
-        this.request.AuthorizedDocument = '';
-        this.request.Dis_AuthorizedDocument = '';
-        this.request.AuthorizedDocumentPath = '';
-      }
-      else if (Type == 'EducationProof') {
-        this.request.EducationProof = '';
-        this.request.Dis_EducationProof = '';
-        this.request.EducationProofPath = '';
-      }
-      else if (Type == 'ConsentLetter') {
-        this.request.ConsentLetter = '';
-        this.request.Dis_ConsentLetter = '';
-        this.request.ConsentLetterPath = '';
-      }
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
+    this.ResetFileAndValidation(Type, '', '', '', false);
+    //try {
+      
+    //  //this.loaderService.requestStarted();
+      
+    //  //if (Type == 'ProfilePhoto') {
+    //  //  //this.showProfilePhoto = false;
+    //  //  this.request.ProfilePhoto = '';
+    //  //  this.request.Dis_ProfilePhoto = '';
+    //  //  this.request.ProfilePhotoPath = '';
+    //  //}
+    //  //else if (Type == 'AadhaarCard') {
+    //  //  //this.showAadhaarCard = false;
+    //  //  this.request.AadhaarCard = '';
+    //  //  this.request.Dis_AadhaarCard = '';
+    //  //  this.request.AadhaarCardPath = '';
+    //  //}
+    //  //else if (Type == 'SignatureDoc') {
+    //  //  //this.showSignatureDoc = false;
+    //  //  this.request.SignatureDoc = '';
+    //  //  this.request.Dis_SignatureDoc = '';
+    //  //  this.request.SignatureDocPath = '';
+    //  //}
+    //  //else if (Type == 'PANCard') {
+    //  //  //this.showPANCard = false;
+    //  //  this.request.PANCard = '';
+    //  //  this.request.Dis_PANCard = '';
+    //  //  this.request.PANCardPath = '';
+    //  //}
+    //  //else if (Type == 'AuthorizedDocument') {
+    //  //  //this.showAuthorizedDocument = false;
+    //  //  this.request.AuthorizedDocument = '';
+    //  //  this.request.Dis_AuthorizedDocument = '';
+    //  //  this.request.AuthorizedDocumentPath = '';
+    //  //}
+    //  //else if (Type == 'EducationProof') {
+    //  //  this.request.EducationProof = '';
+    //  //  this.request.Dis_EducationProof = '';
+    //  //  this.request.EducationProofPath = '';
+    //  //}
+    //  //else if (Type == 'ConsentLetter') {
+    //  //  this.request.ConsentLetter = '';
+    //  //  this.request.Dis_ConsentLetter = '';
+    //  //  this.request.ConsentLetterPath = '';
+    //  //}
+    //}
+    //catch (Ex) {
+    //  console.log(Ex);
+    //}
+    //finally {
+    //  setTimeout(() => {
+    //    this.loaderService.requestEnded();
+    //  }, 200);
+    //}
   }
 
 
