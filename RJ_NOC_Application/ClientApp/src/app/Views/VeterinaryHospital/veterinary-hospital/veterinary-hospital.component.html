@@ -218,7 +218,7 @@
               <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Select Animal <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlAnimalMasterID" name="ddlAnimalMasterID" [(ngModel)]="requestAnimal.AnimalMasterID" formControlName="ddlAnimalMasterID" #SeletedValueAnimalMasterID>
+                  <select class="form-select" id="ddlAnimalMasterID" name="ddlAnimalMasterID" [(ngModel)]="requestAnimal.AnimalMasterID" formControlName="ddlAnimalMasterID" #SeletedValueAnimalMasterID (change)="GetMaleFemaleAnimalCount(SeletedValueAnimalMasterID.value)">
                     <option value="0">--Select Animal--</option>
                     <option *ngFor="let item of AnimalMasterList" value="{{item.AnimalMasterID}}">{{item.AnimalName}}</option>
                   </select>
@@ -226,8 +226,22 @@
                     <p *ngIf="!animalform.ddlAnimalMasterID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                   </div>
                 </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isMaleFemaleAnimal">
+                  <label class="form-label">Enter Male Animal Count <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtMaleAnimalCount" name="txtMaleAnimalCount" [(ngModel)]="requestAnimal.MaleAnimalCount" formControlName="txtMaleAnimalCount" maxlength="4" (keypress)="numberOnly($event)" />
+                  <div *ngIf="isAnimalAdded&&animalform.txtMaleAnimalCount.errors" class="text-danger">
+                    <p *ngIf="animalform.txtMaleAnimalCount.errors.required"> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isMaleFemaleAnimal">
+                  <label class="form-label">Enter Female Animal Count <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtFemaleAnimalCount" name="txtFemaleAnimalCount" [(ngModel)]="requestAnimal.FemaleAnimalCount" formControlName="txtFemaleAnimalCount" maxlength="4" (keypress)="numberOnly($event)" />
+                  <div *ngIf="isAnimalAdded&&animalform.txtFemaleAnimalCount.errors" class="text-danger">
+                    <p *ngIf="animalform.txtFemaleAnimalCount.errors.required"> This field is required .!</p>
+                  </div>
+                </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label class="form-label">Enter Animal Count <span style="color:red;">*</span></label>
+                  <label class="form-label">{{AnimalCountText}}<span style="color:red;">*</span></label>
                   <input type="text" class="form-control" id="txtAnimalCount" name="txtAnimalCount" [(ngModel)]="requestAnimal.AnimalCount" formControlName="txtAnimalCount" maxlength="4" (keypress)="numberOnly($event)" />
                   <div *ngIf="isAnimalAdded&&animalform.txtAnimalCount.errors" class="text-danger">
                     <p *ngIf="animalform.txtAnimalCount.errors.required"> This field is required .!</p>
