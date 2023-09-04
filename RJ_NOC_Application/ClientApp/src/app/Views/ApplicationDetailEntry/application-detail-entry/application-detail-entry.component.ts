@@ -9,6 +9,7 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
+import { StaffDetailsComponent } from '../../TabDetail/staff-details/staff-details.component';
 
 @Component({
   selector: 'app-application-detail-entry',
@@ -38,6 +39,9 @@ export class ApplicationDetailEntryComponent implements OnInit {
   public ErrorMessage: any = [];
   public IsShowDraftFinalSubmit: boolean = true;
 
+
+  @ViewChild(StaffDetailsComponent)
+  private staffDetailsComponent!: StaffDetailsComponent;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService) { }
 
@@ -76,6 +80,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
   onTabChange(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
     this.ShowDraftFinalSubmitBtn();
+    this.staffDetailsComponent.GetCollegeWiseSubjectList(this.SelectedCollageID);
 
   }
 

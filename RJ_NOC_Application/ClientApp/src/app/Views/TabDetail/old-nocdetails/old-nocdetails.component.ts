@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
@@ -10,7 +10,11 @@ import { DropdownValidators } from '../../../Services/CustomValidators/custom-va
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
+import { StaffDetailsComponent } from '../staff-details/staff-details.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-old-nocdetails',
   templateUrl: './old-nocdetails.component.html',
@@ -66,6 +70,8 @@ export class OldNOCDetailsComponent implements OnInit {
   public NOCExpireDateRequried: boolean = false;
   public isToDisable = true;
   //NOC Details
+
+
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private fileUploadService: FileUploadService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private oldnocdetailService: OldnocdetailService) {
@@ -371,16 +377,17 @@ export class OldNOCDetailsComponent implements OnInit {
       console.log(this.oldNOCForm.controls);
 
       await this.oldnocdetailService.SaveData(this.request)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-
+         
 
 
           if (this.State == 0) {
             //console.log(data['Data']);
+            
             this.toastr.success(this.SuccessMessage);
             this.ResetControl();
           }
@@ -486,11 +493,11 @@ export class OldNOCDetailsComponent implements OnInit {
     try {
       // delete from server folder
       this.loaderService.requestEnded();
-      await this.fileUploadService.DeleteDocument(this.request.UploadNOCDoc).then((data: any) => {
+      await this.fileUploadService.DeleteDocument(this.request.UploadNOCDoc).then(async (data: any) => {
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
+        if (this.State == 0) { 
           this.request.UploadNOCDoc = '';
           this.request.UploadNOCDocPath = '';
           this.request.Dis_FileName = '';

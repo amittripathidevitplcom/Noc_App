@@ -11,6 +11,11 @@ import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.s
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
+
+@Injectable({
+  providedIn: 'root'
+})
+
 @Component({
   selector: 'app-staff-details',
   templateUrl: './staff-details.component.html',
@@ -146,6 +151,7 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   async IsChnageTechingType(val: any) {
+    this.GetCollegeWiseSubjectList(this.SelectedCollageID);
     this.ProfessionalQualificationData = [];
     this.request.HighestQualification = 0;
     this.request.SubjectID = 0;
