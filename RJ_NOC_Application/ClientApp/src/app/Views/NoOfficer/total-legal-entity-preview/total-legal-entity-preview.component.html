@@ -53,7 +53,7 @@
                   <td>{{row.RegistrationNo}}</td>
                   <td>{{row.PresidentMobileNo}}</td>
                   <td>{{row.SocietyRegisteredAddress}}</td>
-                  <td>{{row.SocietyRegistrationDate}}</td>
+                  <td>{{row.SocietyRegistrationDate | date:'dd-MM-yyyy'}}</td>
                   <!--<td>{{row.PresidentAadhaarNumber}}</td>-->
                   <td>{{row.SocietyPANNumber}}</td>
                   <td>{{row.SSOID}}</td>
@@ -110,8 +110,7 @@
                       <label>President Email ID :</label>
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.PresidentEmail}}" />
                     </div>
-                  </div>
-                  <div class="row">
+
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Name  :</label>
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyName}}" />
@@ -124,8 +123,7 @@
                       <label>State  :</label>
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.StateName_English}}" />
                     </div>
-                  </div>
-                  <div class="row">
+
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>District  :</label>
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.District_Eng}}" />
@@ -134,15 +132,18 @@
                       <label>Act (Which Act You Registered)  :</label>
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.RegisteredAct}}" />
                     </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="legalEntityListData1.RegisteredAct=='Other'">
+                      <label>Act (Which Act You Registered)  :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.RegisteredActName}}" />
+                    </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Date Of Registration :</label>
-                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyRegistrationDate}}" />
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyRegistrationDate | date:'dd-MM-yyyy'}}" />
                     </div>
-                  </div>
-                  <div class="row">
+
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Date of Election of Present Management Committee :</label>
-                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.ElectionPresentManagementCommitteeDate}}" />
+                      <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.ElectionPresentManagementCommitteeDate | date:'dd-MM-yyyy'}}" />
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Registered Address :</label>
@@ -152,8 +153,7 @@
                       <label>Pincode :</label>
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.Pincode}}" />
                     </div>
-                  </div>
-                  <div class="row">
+
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Other Institution run by the Society :</label>
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsOtherInstitution}}" />
@@ -166,8 +166,7 @@
                       <label>Date of Election of Management Committee not more than 3 Year :</label>
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsDateOfElection}}" />
                     </div>
-                  </div>
-                  <div class="row">
+
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label>Management Committee certified By Registrar :</label>
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.ManagementCommitteeCertified}}" />
@@ -176,8 +175,7 @@
                       <label>PAN Number :</label>
                       <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SocietyPANNumber}}" />
                     </div>
-                  </div>
-                  <div class="row">
+
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label><b>Trust Logo :</b></label>
                       <div class="clearfix"></div>
@@ -187,11 +185,11 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label><b>Trustee Member Proof :</b></label>&nbsp;
-                      <label><a target="_blank" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" title="View Trustee Member Proof"><i class="fa fa-eye"></i></a></label>                     
+                      <label><a target="_blank" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" title="View Trustee Member Proof"><i class="fa fa-eye"></i></a></label>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                       <label><b>Pan Proof :</b></label>&nbsp;
-                      <label><a target="_blank" href="{{legalEntityListData1.SocietyPanProofDocPath}}" title="View Society Pan Proof"><i class="fa fa-eye"></i></a></label>                      
+                      <label><a target="_blank" href="{{legalEntityListData1.SocietyPanProofDocPath}}" title="View Society Pan Proof"><i class="fa fa-eye"></i></a></label>
                     </div>
                   </div>
                   <div class="row">

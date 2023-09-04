@@ -331,4 +331,27 @@ export class AnimalDocumentScrutinyService {
       ).toPromise();
   }
 
+  public async UpdateNOCPDFData(ActionType: string, DepartmentID: number, ApplyNocID: number, CollegeID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/UpdateNOCPDFData/" + ApplyNocID + "/" + DepartmentID + "/" + CollegeID + "/" + ActionType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async FinalNOCRejectRelese(ApplyNOCID: number, DepartmentID: number, RoleID: number, UserID: number, NOCIssuedRemark: string) {
+    
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify({ ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID, RoleID: RoleID, UserID: UserID, NOCIssuedRemark: NOCIssuedRemark });
+    return await this.http.post(this.APIUrl + '/FinalNOCRejectRelese', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

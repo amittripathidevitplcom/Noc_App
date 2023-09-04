@@ -75,9 +75,10 @@ export class CourseMasterComponent implements OnInit {
 
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-
+   
     //disable dropdown
-    if (this.sSOLoginDataModel.DepartmentID != 0) {
+    if (this.sSOLoginDataModel.DepartmentID != 0)
+    {
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
       this.is_disableDepartment = true;
       this.FillCourselevel(null, this.request.DepartmentID.toString());
