@@ -19,7 +19,7 @@
             <p *ngIf="form.rdTeachingType.errors.required"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching'">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes'">
           <label>Subject <span style="color:red;">*</span></label>
           <select id="ddlSubjectId" name="ddlSubjectId" class="form-control" formControlName="ddlSubjectId" [(ngModel)]="request.SubjectID">
             <option value="0" disabled>--Select--</option>
