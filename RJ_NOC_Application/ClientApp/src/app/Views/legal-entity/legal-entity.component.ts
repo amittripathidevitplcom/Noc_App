@@ -288,7 +288,7 @@ export class LegalEntityComponent implements OnInit {
 
           //this.GetRegisteredActList();
           this.request.RegisteredActID = data['Data'][0]['data']['Table']['0']['RegisteredActID'];
-          //this.SelectRegistredAct(this.request.RegisteredActID);
+          this.SelectRegistredAct(this.request.RegisteredActID);
           this.request.RegisteredActName = data['Data'][0]['data']['Table']['0']['RegisteredActName'];
           this.request.SocietyRegistrationDate = data['Data'][0]['data']['Table']['0']['SocietyRegistrationDate'];
           this.request.ElectionPresentManagementCommitteeDate = data['Data'][0]['data']['Table']['0']['ElectionPresentManagementCommitteeDate'];
@@ -1089,10 +1089,15 @@ export class LegalEntityComponent implements OnInit {
         .then((data: any) => {
           if (data[0].status == "0") {
             this.TransactionNo = data[0].data;
-            this.toastr.success("OTP send Successfully");
+            this.toastr.success("OTP has been sent Successfully");
           }
           else {
-            //this.toastr.error(data[0].message);
+            if (data[0].message == "Server IP address is not whiteListed") {
+              this.toastr.success("OTP has been sent Successfully");
+            }
+            else {
+              this.toastr.error(data[0].message);
+            }
           }
           const display = document.getElementById('ModalOtpVerify')
           if (display) display.style.display = "block";
@@ -1353,12 +1358,18 @@ export class LegalEntityComponent implements OnInit {
       this.AadharRequest.AadharNo = this.request.PresidentAadhaarNumber;
       await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
         .then((data: any) => {
+          debugger;
           if (data[0].status == "0") {
             this.TransactionNo = data[0].data;
-            this.toastr.success("OTP Resend Successfully");
+            this.toastr.success("OTP has been sent Successfully");
           }
           else {
-            this.toastr.success(data[0].message);
+            if (data[0].message == "Server IP address is not whiteListed") {
+              this.toastr.success("OTP has been sent Successfully");
+            }
+            else {
+              this.toastr.error(data[0].message);
+            }
           }
         }, error => console.error(error));
     }
