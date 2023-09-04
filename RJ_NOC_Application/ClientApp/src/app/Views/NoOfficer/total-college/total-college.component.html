@@ -36,6 +36,7 @@
                   <th>Sr. No.</th>
                   <th>Society Name</th>
                   <th>College Application No.</th>
+                  <th>College Code</th>
                   <th>College Name</th>
                   <th>Department Name</th>
                   <th>College Status</th>
@@ -83,6 +84,7 @@
                   <td>{{idx+1}}</td>
                   <td>{{row.SocietyName}}</td>
                   <td>{{row.CollegeRegistrationNo}}</td>
+                  <td>{{row.CollegeCode}}</td>
                   <td>{{row.CollegeName}}</td>
                   <td>{{row.DepartmentName}}</td>
                   <td>{{row.CollegeStatus}}</td>
@@ -182,6 +184,11 @@
                   </div>
                 </div>
                 <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Code :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeCode}}" />
+                  </div>
+
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>College Name in English :</label>
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeNameEn}}" />

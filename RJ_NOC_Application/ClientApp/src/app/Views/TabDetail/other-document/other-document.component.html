@@ -14,10 +14,10 @@
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-          <label for="txtFileName" class="form-label">Select Document<span style="color:red;">*</span></label>
+          <label for="txtFileName_OtherDocument" class="form-label">Select Document<span style="color:red;">*</span></label>
           <div class="d-flex">
-            <input type="file" class="form-control" id="txtFileName" style="display:none" formControlName="txtFileName" (change)="ValidateUploadImage($event,'FileUpload')" #txtFileName />
-            <label class="btn upload" for="txtFileName">
+            <input type="file" class="form-control" id="txtFileName_OtherDocument" style="display:none" formControlName="txtFileName_OtherDocument" (change)="ValidateUploadImage($event,'FileUpload')" #txtFileName_OtherDocument />
+            <label class="btn upload" for="txtFileName_OtherDocument">
               <span class="filename">Choose file</span>
               {{requestDoc.FileName === '' ? 'No File Choosen' : requestDoc.Dis_FileName}}
             </label>
@@ -32,15 +32,16 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-6 col-12  text-end">
+          <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
+          <!--<button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>-->
+        </div>
+      </div>
     </div>
   </form>
-  <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-6 col-12  text-end">
-      <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
-      <!--<button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>-->
-    </div>
-  </div>
-  <!--<div class="card mb-0" *ngIf="lstOtherDocuments.length>0">
+
+  <div class="card mb-0" *ngIf="lstOtherDocuments.length>0">
     <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
       <b><i class="bi bi-table"></i> Other Documents Data List </b>
       <div class="d-flex align-items-center">
@@ -75,8 +76,8 @@
               </td>
               <td>
                 <div class="d-flex">
-                  <button type="button" (click)="Edit_OnClick(item.OtherDocumentID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                  <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.OtherDocumentID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                  <!--<button type="button" (click)="Edit_OnClick(item.OtherDocumentID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>-->
+                  <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.AID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
                 </div>
               </td>
             </tr>
@@ -84,6 +85,6 @@
         </table>
       </div>
     </div>
-  </div>-->
+  </div>
 </div>
 

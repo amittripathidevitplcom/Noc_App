@@ -9,6 +9,7 @@ export class CollegeDataModel {
   public CollegeTypeID: number = 0;
   public CollegeLevelID: number = 0;
   public CollegeNameEn: string = '';
+  public CollegeCode: string = '';
   public CollegeNameHi: string = '';
   public AISHECodeStatus: number = null;
   public AISHECode: string = null;

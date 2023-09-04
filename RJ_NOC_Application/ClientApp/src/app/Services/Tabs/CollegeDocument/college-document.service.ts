@@ -32,6 +32,17 @@ export class CollegeDocumentService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async Delete(AID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/Delete/" + AID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   
   public async SaveData(request: RequiredDocumentsDataModel) {
     const headers = { 'content-type': 'application/json' }
