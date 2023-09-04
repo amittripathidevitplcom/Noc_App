@@ -20,6 +20,7 @@ export class CommonMasterService {
   readonly APIUrl_CommonMaster = GlobalConstants.apiURL + "CommonFuncation";
   readonly APIUrl_SocietyMaster = GlobalConstants.apiURL + "SocietyMaster";
   readonly APIUrl_SSOAPI = GlobalConstants.apiURL + "SSOAPI";
+  readonly APIUrl = GlobalConstants.apiURL + "VeterinaryHospital";
 
   constructor(private http: HttpClient) { }
 
@@ -610,7 +611,7 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetBuildingTypeCheck(SelectedDepartmentID:number) {
+  public async GetBuildingTypeCheck(SelectedDepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -731,7 +732,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number, Type: string='-1') {
+  public async GetQualificationMasterList_DepartmentWise(DepartmentID: number, IsTeaching: number, Type: string = '-1') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -1080,14 +1081,14 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetStaffDesignation(IsTeaching: number) {
+  public async GetStaffDesignation(IsTeaching: number, DepartmentID: number) {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetStaffDesignation/" + IsTeaching)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetStaffDesignation/" + IsTeaching + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1098,20 +1099,20 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetLandTypeDetails_CollegeWise/" + DepartmentID + "/" + Type + "/" +LandTypeID + "/")
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetLandTypeDetails_CollegeWise/" + DepartmentID + "/" + Type + "/" + LandTypeID + "/")
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
 
 
-  public async GetCollegeInspectionFee(CollegeID: number,  DepartmentID: number) {
+  public async GetCollegeInspectionFee(CollegeID: number, DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeInspectionFee/" + CollegeID + "/" + DepartmentID )
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeInspectionFee/" + CollegeID + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1126,7 +1127,7 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetUniversityDepartmentWise/" + DepartmentID )
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetUniversityDepartmentWise/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1137,7 +1138,19 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetSubjectDepartmentWise/" + DepartmentID )
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetSubjectDepartmentWise/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetCourseLevelByCollegeIDAndDepartmentID(CollegeID: number, DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetSeatInformationByCourse/" + CollegeID + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

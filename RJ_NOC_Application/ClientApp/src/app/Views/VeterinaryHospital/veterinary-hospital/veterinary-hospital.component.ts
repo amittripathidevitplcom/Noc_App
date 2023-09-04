@@ -82,7 +82,9 @@ export class VeterinaryHospitalComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   isUploadImage: boolean = false;
   public lstVeterinaryHospital: any = [];
+  public CourseWiseSeatInformationList: any = [];
   public isAnimalAdded: boolean = false;
+  public Seats: string = '';
 
 
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -102,7 +104,7 @@ export class VeterinaryHospitalComponent implements OnInit {
     this.veterinaryHospitalForm = this.formBuilder.group(
       {
         txtHospitalName: ['', Validators.required],
-        txtDistanceFromInstitute: ['', Validators.required],
+        txtDistanceFromInstitute: ['', [Validators.required, Validators.maxLength(4)]],
         txtAuthorizedPerson: ['', Validators.required],
         txtAddressLine1: ['', Validators.required],
         txtAddressLine2: [''],
@@ -124,7 +126,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       })
     this.animalForm = this.formBuilder.group(
       {
-        txtAnimalCount: ['', [Validators.required, Validators.maxLength(5)]],
+        txtAnimalCount: ['', [Validators.required, Validators.maxLength(4)]],
         ddlAnimalMasterID: ['', [DropdownValidators]],
       })
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
@@ -138,6 +140,7 @@ export class VeterinaryHospitalComponent implements OnInit {
     this.GetAnimalMasterList();
     this.GetAllVeterinaryHospitalList();
     this.ActiveStatus = true;
+    this.GetSeatInformationByCourse();
   }
   get form() { return this.veterinaryHospitalForm.controls; }
   get animalform() { return this.animalForm.controls; }
@@ -165,6 +168,30 @@ export class VeterinaryHospitalComponent implements OnInit {
     }
     return true;
   }
+
+  async GetSeatInformationByCourse() {
+    try {
+      this.loaderService.requestStarted();
+      await this.veterinaryHospitalService.GetSeatInformationByCourse(this.request.CollegeID,this.request.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CourseWiseSeatInformationList = data['Data'][0]['data'];
+          this.Seats = this.CourseWiseSeatInformationList[0].SeatsValue;          
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
   async GetDivisionList() {
     try {
 

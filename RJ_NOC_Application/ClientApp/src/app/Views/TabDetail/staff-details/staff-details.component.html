@@ -19,7 +19,7 @@
             <p *ngIf="form.rdTeachingType.errors.required"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching'">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes'">
           <label>Subject <span style="color:red;">*</span></label>
           <select id="ddlSubjectId" name="ddlSubjectId" class="form-control" formControlName="ddlSubjectId" [(ngModel)]="request.SubjectID">
             <option value="0" disabled>--Select--</option>
@@ -52,8 +52,8 @@
             <p *ngIf="!form.ddlRoleId.errors.DropdownValidators"> This field is required .!</p>
           </div>
           <!--<div *ngIf="isRole" class="text-danger">
-            <p *ngIf="isRole"> This field is required .!</p>
-          </div>-->
+          <p *ngIf="isRole"> This field is required .!</p>
+        </div>-->
         </div>
         <div class="col-md-4 mb-3">
           <label>Mobile No. <span style="color:red;">*</span></label>
@@ -220,12 +220,12 @@
           </div>
         </div>
         <!--<div class="col-md-4 mb-3" *ngIf="request.TeachingType=='NonTeaching'">
-          <label>Designation <span style="color:red;">*</span></label>
-          <input type="text" id="txtRoleMapping" name="txtRoleMapping" class="form-control" formControlName="txtRoleMapping" [(ngModel)]="request.RoleMapping" (keypress)="alphaOnly($event)" />
-          <div *ngIf="isRoleMapping" class="text-danger">
-            <p *ngIf="isRoleMapping"> This field is required .!</p>
-          </div>
-        </div>-->
+        <label>Designation <span style="color:red;">*</span></label>
+        <input type="text" id="txtRoleMapping" name="txtRoleMapping" class="form-control" formControlName="txtRoleMapping" [(ngModel)]="request.RoleMapping" (keypress)="alphaOnly($event)" />
+        <div *ngIf="isRoleMapping" class="text-danger">
+          <p *ngIf="isRoleMapping"> This field is required .!</p>
+        </div>
+      </div>-->
         <div class="col-md-4 mb-3">
           <label>Salary <span style="color:red;">*</span></label>
           <input type="text" id="txtSalary" name="txtSalary" class="form-control" formControlName="txtSalary" [(ngModel)]="request.Salary" maxlength="10" (keypress)="numbersOnly($event)" />
@@ -411,9 +411,9 @@
         </div>
       </div>
       <!--<div class="card-footer text-end">
-        <button class="btn btn-primary" type="button" (click)="AddData()"><i class="fa fa-plus"></i>&nbsp;Add</button>
-        <button class="btn btn-success" type="button">Save & Next</button>
-      </div>-->
+      <button class="btn btn-primary" type="button" (click)="AddData()"><i class="fa fa-plus"></i>&nbsp;Add</button>
+      <button class="btn btn-success" type="button">Save & Next</button>
+    </div>-->
     </div>
     <div class="clearfix"></div>
     <div class="row">
@@ -479,7 +479,7 @@
 
                     </td>
                     <td>
-                      <p class="m-0" ><b>Designation : </b>{{item.RoleName}}</p>
+                      <p class="m-0"><b>Designation : </b>{{item.RoleName}}</p>
                       <!--<p class="m-0" *ngIf="item.TeachingType=='NonTeaching'"><b>Designation : </b>{{item.RoleMapping}}</p>-->
                       <p class="m-0"><b>Course : </b>NA</p>
                       <p class="m-0" *ngIf="item.TeachingType=='Teaching'"><b>Subject : </b>{{item.SubjectName}}</p>
@@ -500,6 +500,7 @@
                     <td>
                       <button type="button" class="btn btn-sm btn-primary" title="Edit" [attr.disabled]="isDisabled ? true : null" (click)="EditItem(item.StaffDetailID)"><i class="fa fa-edit"></i></button>
                       <button type="button" class="btn btn-sm btn-danger" title="Delete" [attr.disabled]="isDisabled ? true : null" (click)="DeleteStaffDetails(item.StaffDetailID)"><i class="fa fa-trash"></i></button>
+                      <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewStaffDetail(mymodal,item.StaffDetailID)"><i class="fa fa-eye"></i></button>
                     </td>
                   </tr>
                 </tbody>
@@ -509,5 +510,63 @@
         </div>
       </div>
     </div>
+    <ng-template #mymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Educational Qualification Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">       
+        <div class="card">
+          <!--<div class="card-header">
+            <b>Educational Qualification Details</b>
+          </div>-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="EducationalQualificationDetailsById.length>0">
+                <table class="table table-hover table-striped-columns">
+                  <thead>
+                    <tr>
+                      <th>Professional Qualification</th>
+                      <th> Stream/Subject </th>
+                      <th>University/Board/ Institution</th>
+                      <th>Passing Year</th>
+                      <th>Percentage/Grade</th>
+                      <th>Upload Document</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of EducationalQualificationDetailsById let idx =index">
+                      <td>
+                        {{item.ProfessionalQualification}}
+                      </td>
+                      <td>
+                        {{item.StreamSubject}}
+                      </td>
+                      <td>
+                        {{item.UniversityBoardInstitutionName}}
+                      </td>
+                      <td>
+                        {{item.PassingYear}}
+                      </td>
+                      <td>
+                        {{item.Marks}}
+                      </td>
+                      <td>
+                        <a *ngIf="!item.UploadDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{item.UploadDocumentPath}}" alt="Upload Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.UploadDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

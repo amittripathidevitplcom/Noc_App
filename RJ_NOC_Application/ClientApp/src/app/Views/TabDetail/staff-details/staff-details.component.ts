@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-staff-details',
@@ -41,6 +42,7 @@ export class StaffDetailsComponent implements OnInit {
   public TotalTeachingStaffDetail: number = 0;
 
   public isSubject: boolean = false;
+  public CourseLevelName: string = '';
   public isRole: boolean = false;
   public isSpecializationSubject: boolean = false;
   public isRoleMapping: boolean = false;
@@ -62,15 +64,17 @@ export class StaffDetailsComponent implements OnInit {
   public showPANCard: boolean = false;
   public showExperienceCertificate: boolean = false;
   public showUploadDocument: boolean = false;
+  public IsCourseLevel: string = 'Yes';
   public file: any = '';
 
   public MaxDate: Date = new Date();
   public DOBMinDate: Date = new Date();
   public StartYear: number = 0;
-
+  closeResult: string | undefined;
+  public EducationalQualificationDetailsById: any = [];
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private staffDetailService: StaffDetailService, private fileUploadService: FileUploadService
-    , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder) {
+    , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private modalService: NgbModal) {
 
   }
 
@@ -123,6 +127,7 @@ export class StaffDetailsComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
 
+    await this.GetCourseLevelByCollegeIDAndDepartmentID();
     await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
     //await this.GetQualificationList_DepartmentAndTypeWise();
     await this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
@@ -150,6 +155,14 @@ export class StaffDetailsComponent implements OnInit {
     this.DeleteResetFiles('All', false, '', '', '');
     await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
     await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0);
+    if (this.SelectedDepartmentID == 2) {
+      if (this.CourseLevelName == 'Diploma')
+        this.IsCourseLevel = 'No';
+      else
+        this.IsCourseLevel = 'Yes';
+    }
+    else
+      this.IsCourseLevel = 'Yes';
   }
 
   async AddMoreEducationalQualification() {
@@ -349,7 +362,7 @@ export class StaffDetailsComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-       await this.commonMasterService.GetStaffDesignation(IsTeaching)
+      await this.commonMasterService.GetStaffDesignation(IsTeaching, this.SelectedDepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -559,7 +572,7 @@ export class StaffDetailsComponent implements OnInit {
           this.FormValid = false;
         }
       }
-      if (this.request.TeachingType == 'Teaching') {
+      if (this.request.TeachingType == 'Teaching' && this.IsCourseLevel=='Yes') {
         if (this.request.SubjectID == 0) {
           //this.toastr.warning('Subject is required');
           this.isSubject = true;
@@ -740,7 +753,7 @@ export class StaffDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       var QualificationName = this.HighestQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.HighestQualification)?.QualificationName;
-      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0,'Qualification')
+      await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0, 'Qualification')
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -973,5 +986,65 @@ export class StaffDetailsComponent implements OnInit {
     // Set for Passing Year
     const Maxyear = this.StartYear == 0 ? 0 : DDAppointment.getFullYear();
     this.FillYearData(Maxyear, this.StartYear);
+  }
+
+  async ViewStaffDetail(content: any, StaffDetailID: number) {
+    /*this.request = new StaffDetailDataModel();*/
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, StaffDetailID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.EducationalQualificationDetailsById = data['Data'][0].EducationalQualificationDetails;
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  async GetCourseLevelByCollegeIDAndDepartmentID() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCourseLevelByCollegeIDAndDepartmentID(this.SelectedCollageID, this.SelectedDepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CourseLevelName = data['Data'][0]['data'][0].CourseLevelName;
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
