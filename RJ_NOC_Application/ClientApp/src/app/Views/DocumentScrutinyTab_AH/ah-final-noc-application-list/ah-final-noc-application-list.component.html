@@ -1,3 +1,4 @@
+<app-loader></app-loader>
 <div class="card tabCard1 mb-0">
   <div class="card-header">
     <b><i class="bi bi-table"></i>Final NOC Application List</b>
@@ -32,11 +33,12 @@
                     <td>
                       <a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       <button type="button" class="btn btn-sm btn-info" title="Trails" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
-
+                      <a *ngIf="item.NOCFilePath !=''" class="btn btn-outline-primary" title="View NOC PDF" target="_blank" href="{{item.NOCFilePath}}"><i class="fa fa-eye"></i></a>
                     </td>
                     <td>
-                      <button ng-If="IsBtnShowHide" type="button" class="btn btn-sm btn-info" title="NOC Approve" (click)="NOCApproved_Rejected(ReleceNOC,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo,'Approved')"><i class="fa fa-check"></i></button>
-                      <button ng-If="IsBtnShowHide" type="button" class="btn btn-sm btn-info" title="NOC Reject" (click)="NOCApproved_Rejected(ReleceNOC,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo,'Reject')"><i class="fa fa-times"></i></button>
+                      <button *ngIf="item.NOCFilePath==''" type="button" id="btnGenratePDF" class="btn btn-primary" (click)="GenratePDF(item.ApplyNOCID,item.CollegeID)" title="Submit">Genrate PDF</button>
+                      <button *ngIf="IsBtnShowHide && item.NOCFilePath !=''" type="button" class="btn btn-sm btn-info" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved')"><i class="fa fa-check"></i></button>
+                      <button *ngIf="IsBtnShowHide && item.NOCFilePath !=''" type="button" class="btn btn-sm btn-info" title="NOC Reject" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Reject')"><i class="fa fa-times"></i></button>
                     </td>
                   </tr>
                   <tr>
@@ -119,7 +121,7 @@
                         <td>{{idx+1}}</td>
                         <td>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="cbCourse_TNOCExtension_{{idx+1}}" id="cbCourse_TNOCExtension_{{idx+1}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked">
+                            <input class="form-check-input" disabled="disabled" type="checkbox" name="cbCourse_TNOCExtension_{{idx+1}}" id="cbCourse_TNOCExtension_{{idx+1}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked">
                             <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
                           </div>
                         </td>
@@ -136,8 +138,10 @@
                     <p *ngIf="isRemarkValid"> This field is required .!</p>
                   </div>
                 </div>
+                
+
                 <div class="row col-md-2">
-                  <button type="button" id="btnNOCRejectRelese" class="btn btn-primary" (click)="NOCRejectRelese()" title="Submit">{{btntext}}</button>
+                  <button type="button" id="btnNOCRejectRelese" class="btn btn-primary" (click)="FinalNOCRejectRelese()" title="Submit">{{btntext}}</button>
                 </div>
               </div>
             </div>
