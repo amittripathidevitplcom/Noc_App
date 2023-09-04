@@ -1351,27 +1351,44 @@ export class LegalEntityComponent implements OnInit {
   }
 
   async ResendOTP() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       this.timer(1);
-
-      this.AadharRequest.AadharNo = this.request.PresidentAadhaarNumber;
-      await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
-        .then((data: any) => {
-          debugger;
-          if (data[0].status == "0") {
-            this.TransactionNo = data[0].data;
-            this.toastr.success("OTP has been sent Successfully");
-          }
-          else {
-            if (data[0].message == "Server IP address is not whiteListed") {
+      if (this.isRegisterNoBox) {
+        var MaskedMobileNo = this.OldRegistrationNo != '' ? this.ScoietyData.PresidentMobileNo : this.request.PresidentMobileNo;
+        await this.commonMasterService.SendMessage(MaskedMobileNo, 'OTP')
+          .then((data: any) => {
+            this.OTP = data['Data'];
+            this.CustomOTP = '123456';
+            if (MaskedMobileNo.length > 0) {
+              const visibleDigits = 4;
+              let maskedSection = MaskedMobileNo.slice(0, -visibleDigits);
+              let visibleSection = MaskedMobileNo.slice(-visibleDigits);
+              MaskedMobileNo = maskedSection.replace(/./g, 'X') + visibleSection;
+            }
+            this.toastr.info('Successfully Resend OTP on ' + MaskedMobileNo);
+          }, error => console.error(error));
+      }
+      else {
+        this.AadharRequest.AadharNo = this.request.PresidentAadhaarNumber;
+        await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
+          .then((data: any) => {
+            debugger;
+            if (data[0].status == "0") {
+              this.TransactionNo = data[0].data;
               this.toastr.success("OTP has been sent Successfully");
             }
             else {
-              this.toastr.error(data[0].message);
+              if (data[0].message == "Server IP address is not whiteListed") {
+                this.toastr.success("OTP has been sent Successfully");
+              }
+              else {
+                this.toastr.error(data[0].message);
+              }
             }
-          }
-        }, error => console.error(error));
+          }, error => console.error(error));
+      }
     }
     catch (Ex) {
       console.log(Ex);

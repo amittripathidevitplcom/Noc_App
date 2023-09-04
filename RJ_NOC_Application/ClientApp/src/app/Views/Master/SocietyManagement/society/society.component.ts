@@ -350,10 +350,10 @@ export class SocietyComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             // get saved society
-            this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'Society');
+            //this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'Society');
             this.GetAllDesignation();
             this.GetAllOccupation();
-            this.GetSocietyAllList(this.CollegeList[0]["CollegeID"]);
+            this.GetSocietyAllList(this.request.CollegeID);//this.CollegeList[0]["CollegeID"]
             this.ResetControl();
           }
           else {
@@ -395,12 +395,16 @@ export class SocietyComponent implements OnInit {
               this.request.ProfilePhoto = '';
               this.request.Dis_ProfilePhoto = '';
               this.request.ProfilePhotoPath = '';
+              this.file = document.getElementById('fProfilePhoto');
+              this.file.value = '';
             }
             else if (Type == 'SignatureDoc') {
               this.isValidSignatureDoc = true;
               this.request.SignatureDoc = '';
               this.request.Dis_SignatureDoc = '';
               this.request.SignatureDocPath = '';
+              this.file = document.getElementById('fSignatureDoc');
+              this.file.value = '';
             }
             return
           }
@@ -412,12 +416,16 @@ export class SocietyComponent implements OnInit {
               this.request.ProfilePhoto = '';
               this.request.Dis_ProfilePhoto = '';
               this.request.ProfilePhotoPath = '';
+              this.file = document.getElementById('fProfilePhoto');
+              this.file.value = '';
             }
             else if (Type == 'SignatureDoc') {
               this.isValidSignatureDoc = true;
               this.request.SignatureDoc = '';
               this.request.Dis_SignatureDoc = '';
               this.request.SignatureDocPath = '';
+              this.file = document.getElementById('fSignatureDoc');
+              this.file.value = '';
             }
             return
           }
@@ -430,12 +438,16 @@ export class SocietyComponent implements OnInit {
             this.request.ProfilePhoto = '';
             this.request.Dis_ProfilePhoto = '';
             this.request.ProfilePhotoPath = '';
+            this.file = document.getElementById('fProfilePhoto');
+            this.file.value = '';
           }
           else if (Type == 'SignatureDoc') {
             this.isValidSignatureDoc = true;
             this.request.SignatureDoc = '';
             this.request.Dis_SignatureDoc = '';
             this.request.SignatureDocPath = '';
+            this.file = document.getElementById('fSignatureDoc');
+            this.file.value = '';
           }
           return
         }
@@ -453,12 +465,16 @@ export class SocietyComponent implements OnInit {
               this.request.ProfilePhoto = data['Data'][0]["FileName"];
               this.request.Dis_ProfilePhoto = data['Data'][0]["Dis_FileName"];
               this.request.ProfilePhotoPath = data['Data'][0]["FilePath"];
+              this.file = document.getElementById('fProfilePhoto');
+              this.file.value = '';
             }
             else if (Type == 'SignatureDoc') {
               //this.showSignatureDoc = true;
               this.request.SignatureDoc = data['Data'][0]["FileName"];
               this.request.Dis_SignatureDoc = data['Data'][0]["Dis_FileName"];
               this.request.SignatureDocPath = data['Data'][0]["FilePath"];
+              this.file = document.getElementById('fSignatureDoc');
+              this.file.value = '';
             }
           }
           if (this.State == 1) {
@@ -496,30 +512,40 @@ export class SocietyComponent implements OnInit {
               this.request.AadhaarCard = '';
               this.request.Dis_AadhaarCard = '';
               this.request.AadhaarCardPath = '';
+              this.file = document.getElementById('fAadhaarCard');
+              this.file.value = '';
             }
             else if (Type == 'PANCard') {
               this.isValidPANCard = true;
               this.request.PANCard = '';
               this.request.Dis_PANCard = '';
               this.request.PANCardPath = '';
+              this.file = document.getElementById('fPANCard');
+              this.file.value = '';
             }
             else if (Type == 'AuthorizedDocument') {
               this.isValidAuthorizedDocument = true;
               this.request.AuthorizedDocument = '';
               this.request.Dis_AuthorizedDocument = '';
               this.request.AuthorizedDocumentPath = '';
+              this.file = document.getElementById('fAuthorizedDocument');
+              this.file.value = '';
             }
             else if (Type == 'EducationProof') {
               this.isValidEducationProof = true;
               this.request.EducationProof = '';
               this.request.Dis_EducationProof = '';
               this.request.EducationProofPath = '';
+              this.file = document.getElementById('fEducationProof');
+              this.file.value = '';
             }
             else if (Type == 'ConsentLetter') {
               this.isValidConsentLetter = true;
               this.request.ConsentLetter = '';
               this.request.Dis_ConsentLetter = '';
               this.request.ConsentLetterPath = '';
+              this.file = document.getElementById('fConsentLetter');
+              this.file.value = '';
             }
             return
           }
@@ -532,30 +558,40 @@ export class SocietyComponent implements OnInit {
               this.request.AadhaarCard = '';
               this.request.Dis_AadhaarCard = '';
               this.request.AadhaarCardPath = '';
+              this.file = document.getElementById('fAadhaarCard');
+              this.file.value = '';
             }
             else if (Type == 'PANCard') {
               this.isValidPANCard = true;
               this.request.PANCard = '';
               this.request.Dis_PANCard = '';
               this.request.PANCardPath = '';
+              this.file = document.getElementById('fPANCard');
+              this.file.value = '';
             }
             else if (Type == 'AuthorizedDocument') {
               this.isValidAuthorizedDocument = true;
               this.request.AuthorizedDocument = '';
               this.request.Dis_AuthorizedDocument = '';
               this.request.AuthorizedDocumentPath = '';
+              this.file = document.getElementById('fAuthorizedDocument');
+              this.file.value = '';
             }
             else if (Type == 'EducationProof') {
               this.isValidEducationProof = true;
               this.request.EducationProof = '';
               this.request.Dis_EducationProof = '';
               this.request.EducationProofPath = '';
+              this.file = document.getElementById('fEducationProof');
+              this.file.value = '';
             }
             else if (Type == 'ConsentLetter') {
               this.isValidConsentLetter = true;
               this.request.ConsentLetter = '';
               this.request.Dis_ConsentLetter = '';
               this.request.ConsentLetterPath = '';
+              this.file = document.getElementById('fConsentLetter');
+              this.file.value = '';
             }
             return
           }
@@ -569,30 +605,40 @@ export class SocietyComponent implements OnInit {
             this.request.AadhaarCard = '';
             this.request.Dis_AadhaarCard = '';
             this.request.AadhaarCardPath = '';
+            this.file = document.getElementById('fAadhaarCard');
+            this.file.value = '';
           }
           else if (Type == 'PANCard') {
             this.isValidPANCard = true;
             this.request.PANCard = '';
             this.request.Dis_PANCard = '';
             this.request.PANCardPath = '';
+            this.file = document.getElementById('fPANCard');
+            this.file.value = '';
           }
           else if (Type == 'AuthorizedDocument') {
             this.isValidAuthorizedDocument = true;
             this.request.AuthorizedDocument = '';
             this.request.Dis_AuthorizedDocument = '';
             this.request.AuthorizedDocumentPath = '';
+            this.file = document.getElementById('fAuthorizedDocument');
+            this.file.value = '';
           }
           else if (Type == 'EducationProof') {
             this.isValidEducationProof = true;
             this.request.EducationProof = '';
             this.request.Dis_EducationProof = '';
             this.request.EducationProofPath = '';
+            this.file = document.getElementById('fEducationProof');
+            this.file.value = '';
           }
           else if (Type == 'ConsentLetter') {
             this.isValidConsentLetter = true;
             this.request.ConsentLetter = '';
             this.request.Dis_ConsentLetter = '';
             this.request.ConsentLetterPath = '';
+            this.file = document.getElementById('fConsentLetter');
+            this.file.value = '';
           }
           return
         }
@@ -610,28 +656,38 @@ export class SocietyComponent implements OnInit {
               this.request.AadhaarCard = data['Data'][0]["FileName"];
               this.request.Dis_AadhaarCard = data['Data'][0]["Dis_FileName"];
               this.request.AadhaarCardPath = data['Data'][0]["FilePath"];
+              this.file = document.getElementById('fAadhaarCard');
+              this.file.value = '';
             }
             else if (Type == 'PANCard') {
               //this.showPANCard = true;
               this.request.PANCard = data['Data'][0]["FileName"];
               this.request.Dis_PANCard = data['Data'][0]["Dis_FileName"];
               this.request.PANCardPath = data['Data'][0]["FilePath"];
+              this.file = document.getElementById('fPANCard');
+              this.file.value = '';
             }
             else if (Type == 'AuthorizedDocument') {
               //this.showAuthorizedDocument = true;
               this.request.AuthorizedDocument = data['Data'][0]["FileName"];
               this.request.Dis_AuthorizedDocument = data['Data'][0]["Dis_FileName"];
               this.request.AuthorizedDocumentPath = data['Data'][0]["FilePath"];
+              this.file = document.getElementById('fAuthorizedDocument');
+              this.file.value = '';
             }
             else if (Type == 'EducationProof') {
               this.request.EducationProof = data['Data'][0]["FileName"];
               this.request.Dis_EducationProof = data['Data'][0]["Dis_FileName"];
               this.request.EducationProofPath = data['Data'][0]["FilePath"];
+              this.file = document.getElementById('fEducationProof');
+              this.file.value = '';
             }
             else if (Type == 'ConsentLetter') {
               this.request.ConsentLetter = data['Data'][0]["FileName"];
               this.request.Dis_ConsentLetter = data['Data'][0]["Dis_FileName"];
               this.request.ConsentLetterPath = data['Data'][0]["FilePath"];
+              this.file = document.getElementById('fConsentLetter');
+              this.file.value = '';
             }
           }
           if (this.State == 1) {
@@ -716,7 +772,7 @@ export class SocietyComponent implements OnInit {
 
       this.isSubmitted = false;
       this.request.SocietyID = 0;
-      this.request.CollegeID = 0;
+      //this.request.CollegeID = 0;
       this.request.PersonName = '';
       this.request.ProfilePhoto = '';
       this.request.Dis_ProfilePhoto = '';
@@ -868,7 +924,7 @@ export class SocietyComponent implements OnInit {
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage)
-              this.GetSocietyAllList(this.CollegeList[0]["CollegeID"]);
+              this.GetSocietyAllList(this.request.CollegeID);
             }
             else {
               this.toastr.error(this.ErrorMessage)
