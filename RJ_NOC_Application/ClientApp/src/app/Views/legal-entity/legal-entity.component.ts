@@ -1367,7 +1367,7 @@ export class LegalEntityComponent implements OnInit {
               let visibleSection = MaskedMobileNo.slice(-visibleDigits);
               MaskedMobileNo = maskedSection.replace(/./g, 'X') + visibleSection;
             }
-            this.toastr.info('Successfully Resend OTP on ' + MaskedMobileNo);
+            this.toastr.success('Successfully Resend OTP on ' + MaskedMobileNo);
           }, error => console.error(error));
       }
       else {
