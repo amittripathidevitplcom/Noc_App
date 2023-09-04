@@ -28,8 +28,8 @@
             <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
           </div>
         </div>
-
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID==2">
           <label>Subject <span style="color:red;">*</span></label>
 
           <ng-multiselect-dropdown [disabled]="isToDisable" [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
@@ -129,11 +129,11 @@
         </div>
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
           <button type="button" class="btn btn-primary" id="btnAddNOCDetail" name="btnSave" (click)="AddOldNOCDetails()"><i class="fa fa-plus"></i>&nbsp;Add & Save</button>&nbsp;
-          <button type="button" class="btn btn-danger"  id="btnAddReset" (click)="ResetControl()"> Reset</button>
+          <button type="button" class="btn btn-danger" id="btnAddReset" (click)="ResetControl()"> Reset</button>
         </div>
         <!--<div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3 text-end">
-          <button class="btn btn-primary" type="button" (click)="AddData()">Save & Next</button>
-        </div>-->
+    <button class="btn btn-primary" type="button" (click)="AddData()">Save & Next</button>
+  </div>-->
       </div>
     </form>
 
