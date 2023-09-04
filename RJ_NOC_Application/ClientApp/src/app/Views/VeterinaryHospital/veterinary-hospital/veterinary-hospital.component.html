@@ -32,7 +32,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label class="form-label">Distance From Institute(in KM) <span style="color:red;">*</span></label>
-                <input type="text" class="form-control" id="txtDistanceFromInstitute" name="txtDistanceFromInstitute" [(ngModel)]="request.DistanceFromInstitute" formControlName="txtDistanceFromInstitute" (keypress)="numberOnly($event)" />
+                <input type="text" class="form-control" id="txtDistanceFromInstitute" name="txtDistanceFromInstitute" [(ngModel)]="request.DistanceFromInstitute" formControlName="txtDistanceFromInstitute" maxlength="2" (keypress)="numberOnly($event)" />
 
                 <div *ngIf="isSubmitted&&form.txtDistanceFromInstitute.errors" class="text-danger">
                   <p *ngIf="form.txtDistanceFromInstitute.errors.required"><i aria-hidden="true"></i> This field is required .!</p>                  
@@ -228,7 +228,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Enter Animal Count <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtAnimalCount" name="txtAnimalCount" [(ngModel)]="requestAnimal.AnimalCount" formControlName="txtAnimalCount" maxlength="5" (keypress)="numberOnly($event)" />
+                  <input type="text" class="form-control" id="txtAnimalCount" name="txtAnimalCount" [(ngModel)]="requestAnimal.AnimalCount" formControlName="txtAnimalCount" maxlength="4" (keypress)="numberOnly($event)" />
                   <div *ngIf="isAnimalAdded&&animalform.txtAnimalCount.errors" class="text-danger">
                     <p *ngIf="animalform.txtAnimalCount.errors.required"> This field is required .!</p>
                   </div>

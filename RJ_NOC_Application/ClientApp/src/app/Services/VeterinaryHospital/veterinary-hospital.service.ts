@@ -65,4 +65,15 @@ export class VeterinaryHospitalService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetSeatInformationByCourse(CollegeID: number, DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetSeatInformationByCourse/" + CollegeID + "/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
