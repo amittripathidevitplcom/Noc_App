@@ -84,7 +84,9 @@ export class VeterinaryHospitalComponent implements OnInit {
   public lstVeterinaryHospital: any = [];
   public CourseWiseSeatInformationList: any = [];
   public isAnimalAdded: boolean = false;
+  public isMaleFemaleAnimal: boolean = false;
   public Seats: string = '';
+  public AnimalCountText: string = 'Enter Animal Count';
 
 
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -126,6 +128,8 @@ export class VeterinaryHospitalComponent implements OnInit {
       })
     this.animalForm = this.formBuilder.group(
       {
+        txtMaleAnimalCount: ['', [Validators.required, Validators.maxLength(4)]],
+        txtFemaleAnimalCount: ['', [Validators.required, Validators.maxLength(4)]],
         txtAnimalCount: ['', [Validators.required, Validators.maxLength(4)]],
         ddlAnimalMasterID: ['', [DropdownValidators]],
       })
@@ -396,6 +400,8 @@ export class VeterinaryHospitalComponent implements OnInit {
         AnimalDetailsID: 0,
         AnimalMasterID: this.requestAnimal.AnimalMasterID,
         AnimalName: this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.requestAnimal.AnimalMasterID).AnimalName,
+        MaleAnimalCount: this.requestAnimal.MaleAnimalCount,
+        FemaleAnimalCount: this.requestAnimal.FemaleAnimalCount,
         AnimalCount: this.requestAnimal.AnimalCount,
         ActiveStatus: this.request.ActiveStatus,
         DeleteStatus: this.request.DeleteStatus,
@@ -433,9 +439,34 @@ export class VeterinaryHospitalComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.AnimalMasterList = data['Data'];
+          this.AnimalMasterList = data['Data'];          
           console.log(this.AnimalMasterList);
         }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetMaleFemaleAnimalCount(AnimalMasterID: any) {
+    try {
+      this.loaderService.requestStarted();
+      var GetAnimalName = this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == AnimalMasterID).AnimalName;
+      if (GetAnimalName == 'Goat' || GetAnimalName == 'pig') {
+        this.isMaleFemaleAnimal = true;
+        this.AnimalCountText = "Total Animal Count"
+      }
+      else {
+        this.isMaleFemaleAnimal = false;
+        this.AnimalCountText = "Enter Animal Count"
+      }
+      this.requestAnimal.MaleAnimalCount = null;
+      this.requestAnimal.FemaleAnimalCount = null;
+      this.requestAnimal.AnimalCount = null;
     }
     catch (Ex) {
       console.log(Ex);

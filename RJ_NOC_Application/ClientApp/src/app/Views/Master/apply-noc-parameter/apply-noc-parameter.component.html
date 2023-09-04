@@ -66,8 +66,8 @@
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">
                 <label for="">Application Apply For</label>
                 <div class="clearfix"></div>
-                <div class="form-check form-check-inline" *ngFor="let item of ApplyNocParameterMasterList_ddl">
-                  <input class="form-check-input" type="checkbox" name="cbNocFor" id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}" formControlName="cbNocFor" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item)" [(ngModel)]="item.IsChecked" [attr.checked]="item.IsChecked">
+                <div class="form-check form-check-inline" *ngFor="let item of ApplyNocParameterMasterList_ddl ;let idx=index;">
+                  <input class="form-check-input" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}"   id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}"  #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked" [ngModelOptions]="{standalone: true}">
                   <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}">{{item.ApplyNocFor}}</label>
                 </div>
                 <div *ngIf="isSubmitted&&form.cbNocFor.errors" class="text-danger">

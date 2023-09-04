@@ -161,7 +161,7 @@
 
           </div>
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label>
               <b>
                 Land Type
@@ -179,7 +179,7 @@
               </b>
             </label>
             <input class="form-control disabled" disabled value="{{request.KhasraNumber}}" />
-          </div>
+          </div>-->
 
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label>
@@ -250,39 +250,70 @@
           </div>
         </div>-->
 
-        <div class="card-body">
-          <div class="row" *ngIf="request.LandDetailDocument.length>0">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-              <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped">
-                  <thead>
-                    <tr>
-                      <th>Sr. No.</th>
-                      <th>Document Name</th>
-                      <th>File</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of request.LandDetailDocument ; let indexOfelement=index;">
-                      <td> {{indexOfelement+1}}</td>
-                      <td>
-                        <label>
-                          <b>{{item.DocumentName}} :</b>&nbsp;&nbsp;
-                        </label>
-                      </td>
-                      <td>
-                        <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{item.FilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                        </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+      <div class="card-body">
+        <div class="row" *ngIf="request.LandDetailDocument.length>0">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Document Name</th>
+                    <th>File</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of request.LandDetailDocument ; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>
+                      <label>
+                        <b>{{item.DocumentName}} :</b>&nbsp;&nbsp;
+                      </label>
+                    </td>
+                    <td>
+                      <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{item.FilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="request.CollegeLandTypeDetails.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i>&nbsp;Detail of the Land (With Khasra No.):  </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr.No.</th>
+                        <th>Land Type</th>
+                        <th>Area</th>
+                        <th>Khasra No</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of request.CollegeLandTypeDetails; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td>{{row.LandTypeName}}</td>
+                        <td>{{row.LandArea}}</td>
+                        <td>{{row.KhasraNo}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
       </div>
     </ng-template>
   </div>
