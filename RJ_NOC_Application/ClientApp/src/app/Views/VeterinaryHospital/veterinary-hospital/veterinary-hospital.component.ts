@@ -105,7 +105,7 @@ export class VeterinaryHospitalComponent implements OnInit {
         txtDistanceFromInstitute: ['', Validators.required],
         txtAuthorizedPerson: ['', Validators.required],
         txtAddressLine1: ['', Validators.required],
-        txtAddressLine2: ['', Validators.required],
+        txtAddressLine2: [''],
         txtRelation: ['', Validators.required],
         rbRuralUrban: ['', Validators.required],
         rbYesNo: ['', Validators.required],
@@ -124,7 +124,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       })
     this.animalForm = this.formBuilder.group(
       {
-        txtAnimalCount: ['', Validators.required],
+        txtAnimalCount: ['', [Validators.required, Validators.maxLength(5)]],
         ddlAnimalMasterID: ['', [DropdownValidators]],
       })
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
@@ -260,6 +260,7 @@ export class VeterinaryHospitalComponent implements OnInit {
   }
   async ValidateUploadImage(event: any, Type: string) {
     try {
+      debugger;
       this.loaderService.requestStarted();
       this.isValidFileUpload = false;
       if (event.target.files && event.target.files[0]) {
@@ -420,12 +421,16 @@ export class VeterinaryHospitalComponent implements OnInit {
   }
   async SaveData() {
     this.isValidFileUpload = false;
-
+    debugger;
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
     this.isSubmitted = true;
     this.isFormValid = true;
+    
     if (this.veterinaryHospitalForm.invalid) {
+      this.isFormValid = false;
+    }   
+    if (this.request.DistanceFromInstitute > 20) {
       this.isFormValid = false;
     }
     if (this.request.RuralUrban == 'Rural') {
@@ -441,7 +446,7 @@ export class VeterinaryHospitalComponent implements OnInit {
     if (this.request.FileUpload == '') {
       this.ImageValidate = 'This field is required .!';
       return
-    }
+    }   
 
     if (!this.isFormValid) {
       return;
