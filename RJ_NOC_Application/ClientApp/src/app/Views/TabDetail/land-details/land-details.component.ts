@@ -37,6 +37,7 @@ export class LandDetailsComponent implements OnInit {
   public LandDetailsList: any = [];
   public LandDetailsDocumentList: any = [];
   public LandDetailsDocumentListByID: any = [];
+  public DetailoftheLand: any = [];
   public isDisabledGrid: boolean = false;
   public LandConversionData: any = [];
   public LandTypeData: any = [];
@@ -718,6 +719,7 @@ export class LandDetailsComponent implements OnInit {
     try {
 
       this.LandDetailsDocumentListByID = [];
+      this.DetailoftheLand = [];
       this.loaderService.requestStarted();
       await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
         .then(async (data: any) => {
@@ -725,6 +727,7 @@ export class LandDetailsComponent implements OnInit {
 
           //this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
           this.LandDetailsDocumentListByID = data['Data'][0]["LandDetailDocument"];
+          this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
           console.log(this.request.LandDetailDocument);
         }, error => console.error(error));
     }

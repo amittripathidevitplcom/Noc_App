@@ -350,10 +350,10 @@ export class SocietyComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             // get saved society
-            this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'Society');
+            //this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'Society');
             this.GetAllDesignation();
             this.GetAllOccupation();
-            this.GetSocietyAllList(this.CollegeList[0]["CollegeID"]);
+            this.GetSocietyAllList(this.request.CollegeID);//this.CollegeList[0]["CollegeID"]
             this.ResetControl();
           }
           else {
@@ -390,53 +390,68 @@ export class SocietyComponent implements OnInit {
           if (event.target.files[0].size > 2000000) {
             //event.target.value = '';
             this.ImageValidationMessage = 'Select less then 2MB File';
-            if (Type == 'ProfilePhoto') {
-              this.isValidProfilePhoto = true;
-              this.request.ProfilePhoto = '';
-              this.request.Dis_ProfilePhoto = '';
-              this.request.ProfilePhotoPath = '';
-            }
-            else if (Type == 'SignatureDoc') {
-              this.isValidSignatureDoc = true;
-              this.request.SignatureDoc = '';
-              this.request.Dis_SignatureDoc = '';
-              this.request.SignatureDocPath = '';
-            }
+            this.ResetFileAndValidation(Type, '', '', '', true);
+            //if (Type == 'ProfilePhoto') {
+            //  this.isValidProfilePhoto = true;
+            //  this.request.ProfilePhoto = '';
+            //  this.request.Dis_ProfilePhoto = '';
+            //  this.request.ProfilePhotoPath = '';
+            //  this.file = document.getElementById('fProfilePhoto');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'SignatureDoc') {
+            //  this.isValidSignatureDoc = true;
+            //  this.request.SignatureDoc = '';
+            //  this.request.Dis_SignatureDoc = '';
+            //  this.request.SignatureDocPath = '';
+            //  this.file = document.getElementById('fSignatureDoc');
+            //  this.file.value = '';
+            //}
             return
           }
           if (event.target.files[0].size < 100000) {
             //event.target.value = '';
             this.ImageValidationMessage = 'Select more then 100kb File';
-            if (Type == 'ProfilePhoto') {
-              this.isValidProfilePhoto = true;
-              this.request.ProfilePhoto = '';
-              this.request.Dis_ProfilePhoto = '';
-              this.request.ProfilePhotoPath = '';
-            }
-            else if (Type == 'SignatureDoc') {
-              this.isValidSignatureDoc = true;
-              this.request.SignatureDoc = '';
-              this.request.Dis_SignatureDoc = '';
-              this.request.SignatureDocPath = '';
-            }
+            //if (Type == 'ProfilePhoto') {
+            //  this.isValidProfilePhoto = true;
+            //  this.request.ProfilePhoto = '';
+            //  this.request.Dis_ProfilePhoto = '';
+            //  this.request.ProfilePhotoPath = '';
+            //  this.file = document.getElementById('fProfilePhoto');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'SignatureDoc') {
+            //  this.isValidSignatureDoc = true;
+            //  this.request.SignatureDoc = '';
+            //  this.request.Dis_SignatureDoc = '';
+            //  this.request.SignatureDocPath = '';
+            //  this.file = document.getElementById('fSignatureDoc');
+            //  this.file.value = '';
+            //}
+            this.ResetFileAndValidation(Type,'', '', '', true);
             return
           }
         }
         else {
           this.ImageValidationMessage = 'Select Only jpg/jpeg file';
-          //event.target.value = '';
-          if (Type == 'ProfilePhoto') {
-            this.isValidProfilePhoto = true;
-            this.request.ProfilePhoto = '';
-            this.request.Dis_ProfilePhoto = '';
-            this.request.ProfilePhotoPath = '';
-          }
-          else if (Type == 'SignatureDoc') {
-            this.isValidSignatureDoc = true;
-            this.request.SignatureDoc = '';
-            this.request.Dis_SignatureDoc = '';
-            this.request.SignatureDocPath = '';
-          }
+          event.target.value = '';
+          //if (Type == 'ProfilePhoto') {
+          //  this.isValidProfilePhoto = true;
+          //  this.request.ProfilePhoto = '';
+          //  this.request.Dis_ProfilePhoto = '';
+          //  this.request.ProfilePhotoPath = '';
+          //  this.file = document.getElementById('fProfilePhoto');
+          //  this.file.value = '';
+          //}
+          //else if (Type == 'SignatureDoc') {
+          //  this.isValidSignatureDoc = true;
+          //  this.request.SignatureDoc = '';
+          //  this.request.Dis_SignatureDoc = '';
+          //  this.request.SignatureDocPath = '';
+          //  this.file = document.getElementById('fSignatureDoc');
+          //  this.file.value = '';
+          //}
+          this.ResetFileAndValidation(Type,  '', '', '', true);
           return
         }
 
@@ -448,18 +463,23 @@ export class SocietyComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-            if (Type == 'ProfilePhoto') {
-              //this.showProfilePhoto = true;
-              this.request.ProfilePhoto = data['Data'][0]["FileName"];
-              this.request.Dis_ProfilePhoto = data['Data'][0]["Dis_FileName"];
-              this.request.ProfilePhotoPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'SignatureDoc') {
-              //this.showSignatureDoc = true;
-              this.request.SignatureDoc = data['Data'][0]["FileName"];
-              this.request.Dis_SignatureDoc = data['Data'][0]["Dis_FileName"];
-              this.request.SignatureDocPath = data['Data'][0]["FilePath"];
-            }
+            this.ResetFileAndValidation(Type,  data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], false);
+            //if (Type == 'ProfilePhoto') {
+            //  //this.showProfilePhoto = true;
+            //  this.request.ProfilePhoto = data['Data'][0]["FileName"];
+            //  this.request.Dis_ProfilePhoto = data['Data'][0]["Dis_FileName"];
+            //  this.request.ProfilePhotoPath = data['Data'][0]["FilePath"];
+            //  this.file = document.getElementById('fProfilePhoto');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'SignatureDoc') {
+            //  //this.showSignatureDoc = true;
+            //  this.request.SignatureDoc = data['Data'][0]["FileName"];
+            //  this.request.Dis_SignatureDoc = data['Data'][0]["Dis_FileName"];
+            //  this.request.SignatureDocPath = data['Data'][0]["FilePath"];
+            //  this.file = document.getElementById('fSignatureDoc');
+            //  this.file.value = '';
+            //}
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -491,72 +511,94 @@ export class SocietyComponent implements OnInit {
           if (event.target.files[0].size > 2000000) {
             //event.target.value = '';
             this.ImageValidationMessage = 'Select less then 2MB File';
-            if (Type == 'AadhaarCard') {
-              this.isValidAadhaarCard = true;
-              this.request.AadhaarCard = '';
-              this.request.Dis_AadhaarCard = '';
-              this.request.AadhaarCardPath = '';
-            }
-            else if (Type == 'PANCard') {
-              this.isValidPANCard = true;
-              this.request.PANCard = '';
-              this.request.Dis_PANCard = '';
-              this.request.PANCardPath = '';
-            }
-            else if (Type == 'AuthorizedDocument') {
-              this.isValidAuthorizedDocument = true;
-              this.request.AuthorizedDocument = '';
-              this.request.Dis_AuthorizedDocument = '';
-              this.request.AuthorizedDocumentPath = '';
-            }
-            else if (Type == 'EducationProof') {
-              this.isValidEducationProof = true;
-              this.request.EducationProof = '';
-              this.request.Dis_EducationProof = '';
-              this.request.EducationProofPath = '';
-            }
-            else if (Type == 'ConsentLetter') {
-              this.isValidConsentLetter = true;
-              this.request.ConsentLetter = '';
-              this.request.Dis_ConsentLetter = '';
-              this.request.ConsentLetterPath = '';
-            }
+            this.ResetFileAndValidation(Type,'', '', '', true);
+            //if (Type == 'AadhaarCard') {
+            //  this.isValidAadhaarCard = true;
+            //  this.request.AadhaarCard = '';
+            //  this.request.Dis_AadhaarCard = '';
+            //  this.request.AadhaarCardPath = '';
+            //  this.file = document.getElementById('fAadhaarCard');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'PANCard') {
+            //  this.isValidPANCard = true;
+            //  this.request.PANCard = '';
+            //  this.request.Dis_PANCard = '';
+            //  this.request.PANCardPath = '';
+            //  this.file = document.getElementById('fPANCard');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'AuthorizedDocument') {
+            //  this.isValidAuthorizedDocument = true;
+            //  this.request.AuthorizedDocument = '';
+            //  this.request.Dis_AuthorizedDocument = '';
+            //  this.request.AuthorizedDocumentPath = '';
+            //  this.file = document.getElementById('fAuthorizedDocument');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'EducationProof') {
+            //  this.isValidEducationProof = true;
+            //  this.request.EducationProof = '';
+            //  this.request.Dis_EducationProof = '';
+            //  this.request.EducationProofPath = '';
+            //  this.file = document.getElementById('fEducationProof');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'ConsentLetter') {
+            //  this.isValidConsentLetter = true;
+            //  this.request.ConsentLetter = '';
+            //  this.request.Dis_ConsentLetter = '';
+            //  this.request.ConsentLetterPath = '';
+            //  this.file = document.getElementById('fConsentLetter');
+            //  this.file.value = '';
+            //}
             return
           }
           if (event.target.files[0].size < 100000) {
             //event.target.value = '';
             this.ImageValidationMessage = 'Select more then 100kb File';
 
-            if (Type == 'AadhaarCard') {
-              this.isValidAadhaarCard = true;
-              this.request.AadhaarCard = '';
-              this.request.Dis_AadhaarCard = '';
-              this.request.AadhaarCardPath = '';
-            }
-            else if (Type == 'PANCard') {
-              this.isValidPANCard = true;
-              this.request.PANCard = '';
-              this.request.Dis_PANCard = '';
-              this.request.PANCardPath = '';
-            }
-            else if (Type == 'AuthorizedDocument') {
-              this.isValidAuthorizedDocument = true;
-              this.request.AuthorizedDocument = '';
-              this.request.Dis_AuthorizedDocument = '';
-              this.request.AuthorizedDocumentPath = '';
-            }
-            else if (Type == 'EducationProof') {
-              this.isValidEducationProof = true;
-              this.request.EducationProof = '';
-              this.request.Dis_EducationProof = '';
-              this.request.EducationProofPath = '';
-            }
-            else if (Type == 'ConsentLetter') {
-              this.isValidConsentLetter = true;
-              this.request.ConsentLetter = '';
-              this.request.Dis_ConsentLetter = '';
-              this.request.ConsentLetterPath = '';
-            }
+            //if (Type == 'AadhaarCard') {
+            //  this.isValidAadhaarCard = true;
+            //  this.request.AadhaarCard = '';
+            //  this.request.Dis_AadhaarCard = '';
+            //  this.request.AadhaarCardPath = '';
+            //  this.file = document.getElementById('fAadhaarCard');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'PANCard') {
+            //  this.isValidPANCard = true;
+            //  this.request.PANCard = '';
+            //  this.request.Dis_PANCard = '';
+            //  this.request.PANCardPath = '';
+            //  this.file = document.getElementById('fPANCard');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'AuthorizedDocument') {
+            //  this.isValidAuthorizedDocument = true;
+            //  this.request.AuthorizedDocument = '';
+            //  this.request.Dis_AuthorizedDocument = '';
+            //  this.request.AuthorizedDocumentPath = '';
+            //  this.file = document.getElementById('fAuthorizedDocument');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'EducationProof') {
+            //  this.isValidEducationProof = true;
+            //  this.request.EducationProof = '';
+            //  this.request.Dis_EducationProof = '';
+            //  this.request.EducationProofPath = '';
+            //  this.file = document.getElementById('fEducationProof');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'ConsentLetter') {
+            //  this.isValidConsentLetter = true;
+            //  this.request.ConsentLetter = '';
+            //  this.request.Dis_ConsentLetter = '';
+            //  this.request.ConsentLetterPath = '';
+            //  this.file = document.getElementById('fConsentLetter');
+            //  this.file.value = '';
+            //}
+            this.ResetFileAndValidation(Type,'', '', '', true);
             return
           }
         }
@@ -564,36 +606,47 @@ export class SocietyComponent implements OnInit {
           this.ImageValidationMessage = 'Select Only pdf file';
           //event.target.value = '';
 
-          if (Type == 'AadhaarCard') {
-            this.isValidAadhaarCard = true;
-            this.request.AadhaarCard = '';
-            this.request.Dis_AadhaarCard = '';
-            this.request.AadhaarCardPath = '';
-          }
-          else if (Type == 'PANCard') {
-            this.isValidPANCard = true;
-            this.request.PANCard = '';
-            this.request.Dis_PANCard = '';
-            this.request.PANCardPath = '';
-          }
-          else if (Type == 'AuthorizedDocument') {
-            this.isValidAuthorizedDocument = true;
-            this.request.AuthorizedDocument = '';
-            this.request.Dis_AuthorizedDocument = '';
-            this.request.AuthorizedDocumentPath = '';
-          }
-          else if (Type == 'EducationProof') {
-            this.isValidEducationProof = true;
-            this.request.EducationProof = '';
-            this.request.Dis_EducationProof = '';
-            this.request.EducationProofPath = '';
-          }
-          else if (Type == 'ConsentLetter') {
-            this.isValidConsentLetter = true;
-            this.request.ConsentLetter = '';
-            this.request.Dis_ConsentLetter = '';
-            this.request.ConsentLetterPath = '';
-          }
+          //if (Type == 'AadhaarCard') {
+          //  this.isValidAadhaarCard = true;
+          //  this.request.AadhaarCard = '';
+          //  this.request.Dis_AadhaarCard = '';
+          //  this.request.AadhaarCardPath = '';
+          //  this.file = document.getElementById('fAadhaarCard');
+          //  this.file.value = '';
+          //}
+          //else if (Type == 'PANCard') {
+          //  this.isValidPANCard = true;
+          //  this.request.PANCard = '';
+          //  this.request.Dis_PANCard = '';
+          //  this.request.PANCardPath = '';
+          //  this.file = document.getElementById('fPANCard');
+          //  this.file.value = '';
+          //}
+          //else if (Type == 'AuthorizedDocument') {
+          //  this.isValidAuthorizedDocument = true;
+          //  this.request.AuthorizedDocument = '';
+          //  this.request.Dis_AuthorizedDocument = '';
+          //  this.request.AuthorizedDocumentPath = '';
+          //  this.file = document.getElementById('fAuthorizedDocument');
+          //  this.file.value = '';
+          //}
+          //else if (Type == 'EducationProof') {
+          //  this.isValidEducationProof = true;
+          //  this.request.EducationProof = '';
+          //  this.request.Dis_EducationProof = '';
+          //  this.request.EducationProofPath = '';
+          //  this.file = document.getElementById('fEducationProof');
+          //  this.file.value = '';
+          //}
+          //else if (Type == 'ConsentLetter') {
+          //  this.isValidConsentLetter = true;
+          //  this.request.ConsentLetter = '';
+          //  this.request.Dis_ConsentLetter = '';
+          //  this.request.ConsentLetterPath = '';
+          //  this.file = document.getElementById('fConsentLetter');
+          //  this.file.value = '';
+          //}
+          this.ResetFileAndValidation(Type, '', '', '', true);
           return
         }
 
@@ -605,34 +658,45 @@ export class SocietyComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-            if (Type == 'AadhaarCard') {
-              //this.showAadhaarCard = true;
-              this.request.AadhaarCard = data['Data'][0]["FileName"];
-              this.request.Dis_AadhaarCard = data['Data'][0]["Dis_FileName"];
-              this.request.AadhaarCardPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'PANCard') {
-              //this.showPANCard = true;
-              this.request.PANCard = data['Data'][0]["FileName"];
-              this.request.Dis_PANCard = data['Data'][0]["Dis_FileName"];
-              this.request.PANCardPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'AuthorizedDocument') {
-              //this.showAuthorizedDocument = true;
-              this.request.AuthorizedDocument = data['Data'][0]["FileName"];
-              this.request.Dis_AuthorizedDocument = data['Data'][0]["Dis_FileName"];
-              this.request.AuthorizedDocumentPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'EducationProof') {
-              this.request.EducationProof = data['Data'][0]["FileName"];
-              this.request.Dis_EducationProof = data['Data'][0]["Dis_FileName"];
-              this.request.EducationProofPath = data['Data'][0]["FilePath"];
-            }
-            else if (Type == 'ConsentLetter') {
-              this.request.ConsentLetter = data['Data'][0]["FileName"];
-              this.request.Dis_ConsentLetter = data['Data'][0]["Dis_FileName"];
-              this.request.ConsentLetterPath = data['Data'][0]["FilePath"];
-            }
+            this.ResetFileAndValidation(Type, data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], false);
+            //if (Type == 'AadhaarCard') {
+            //  //this.showAadhaarCard = true;
+            //  this.request.AadhaarCard = data['Data'][0]["FileName"];
+            //  this.request.Dis_AadhaarCard = data['Data'][0]["Dis_FileName"];
+            //  this.request.AadhaarCardPath = data['Data'][0]["FilePath"];
+            //  this.file = document.getElementById('fAadhaarCard');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'PANCard') {
+            //  //this.showPANCard = true;
+            //  this.request.PANCard = data['Data'][0]["FileName"];
+            //  this.request.Dis_PANCard = data['Data'][0]["Dis_FileName"];
+            //  this.request.PANCardPath = data['Data'][0]["FilePath"];
+            //  this.file = document.getElementById('fPANCard');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'AuthorizedDocument') {
+            //  //this.showAuthorizedDocument = true;
+            //  this.request.AuthorizedDocument = data['Data'][0]["FileName"];
+            //  this.request.Dis_AuthorizedDocument = data['Data'][0]["Dis_FileName"];
+            //  this.request.AuthorizedDocumentPath = data['Data'][0]["FilePath"];
+            //  this.file = document.getElementById('fAuthorizedDocument');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'EducationProof') {
+            //  this.request.EducationProof = data['Data'][0]["FileName"];
+            //  this.request.Dis_EducationProof = data['Data'][0]["Dis_FileName"];
+            //  this.request.EducationProofPath = data['Data'][0]["FilePath"];
+            //  this.file = document.getElementById('fEducationProof');
+            //  this.file.value = '';
+            //}
+            //else if (Type == 'ConsentLetter') {
+            //  this.request.ConsentLetter = data['Data'][0]["FileName"];
+            //  this.request.Dis_ConsentLetter = data['Data'][0]["Dis_FileName"];
+            //  this.request.ConsentLetterPath = data['Data'][0]["FilePath"];
+            //  this.file = document.getElementById('fConsentLetter');
+            //  this.file.value = '';
+            //}
           }
           if (this.State == 1) {
             this.toastr.error(this.ErrorMessage)
@@ -654,57 +718,60 @@ export class SocietyComponent implements OnInit {
   }
 
   DeleteImage(Type: string) {
-    try {
-      this.loaderService.requestStarted();
-      if (Type == 'ProfilePhoto') {
-        //this.showProfilePhoto = false;
-        this.request.ProfilePhoto = '';
-        this.request.Dis_ProfilePhoto = '';
-        this.request.ProfilePhotoPath = '';
-      }
-      else if (Type == 'AadhaarCard') {
-        //this.showAadhaarCard = false;
-        this.request.AadhaarCard = '';
-        this.request.Dis_AadhaarCard = '';
-        this.request.AadhaarCardPath = '';
-      }
-      else if (Type == 'SignatureDoc') {
-        //this.showSignatureDoc = false;
-        this.request.SignatureDoc = '';
-        this.request.Dis_SignatureDoc = '';
-        this.request.SignatureDocPath = '';
-      }
-      else if (Type == 'PANCard') {
-        //this.showPANCard = false;
-        this.request.PANCard = '';
-        this.request.Dis_PANCard = '';
-        this.request.PANCardPath = '';
-      }
-      else if (Type == 'AuthorizedDocument') {
-        //this.showAuthorizedDocument = false;
-        this.request.AuthorizedDocument = '';
-        this.request.Dis_AuthorizedDocument = '';
-        this.request.AuthorizedDocumentPath = '';
-      }
-      else if (Type == 'EducationProof') {
-        this.request.EducationProof = '';
-        this.request.Dis_EducationProof = '';
-        this.request.EducationProofPath = '';
-      }
-      else if (Type == 'ConsentLetter') {
-        this.request.ConsentLetter = '';
-        this.request.Dis_ConsentLetter = '';
-        this.request.ConsentLetterPath = '';
-      }
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
+    this.ResetFileAndValidation(Type, '', '', '', false);
+    //try {
+      
+    //  //this.loaderService.requestStarted();
+      
+    //  //if (Type == 'ProfilePhoto') {
+    //  //  //this.showProfilePhoto = false;
+    //  //  this.request.ProfilePhoto = '';
+    //  //  this.request.Dis_ProfilePhoto = '';
+    //  //  this.request.ProfilePhotoPath = '';
+    //  //}
+    //  //else if (Type == 'AadhaarCard') {
+    //  //  //this.showAadhaarCard = false;
+    //  //  this.request.AadhaarCard = '';
+    //  //  this.request.Dis_AadhaarCard = '';
+    //  //  this.request.AadhaarCardPath = '';
+    //  //}
+    //  //else if (Type == 'SignatureDoc') {
+    //  //  //this.showSignatureDoc = false;
+    //  //  this.request.SignatureDoc = '';
+    //  //  this.request.Dis_SignatureDoc = '';
+    //  //  this.request.SignatureDocPath = '';
+    //  //}
+    //  //else if (Type == 'PANCard') {
+    //  //  //this.showPANCard = false;
+    //  //  this.request.PANCard = '';
+    //  //  this.request.Dis_PANCard = '';
+    //  //  this.request.PANCardPath = '';
+    //  //}
+    //  //else if (Type == 'AuthorizedDocument') {
+    //  //  //this.showAuthorizedDocument = false;
+    //  //  this.request.AuthorizedDocument = '';
+    //  //  this.request.Dis_AuthorizedDocument = '';
+    //  //  this.request.AuthorizedDocumentPath = '';
+    //  //}
+    //  //else if (Type == 'EducationProof') {
+    //  //  this.request.EducationProof = '';
+    //  //  this.request.Dis_EducationProof = '';
+    //  //  this.request.EducationProofPath = '';
+    //  //}
+    //  //else if (Type == 'ConsentLetter') {
+    //  //  this.request.ConsentLetter = '';
+    //  //  this.request.Dis_ConsentLetter = '';
+    //  //  this.request.ConsentLetterPath = '';
+    //  //}
+    //}
+    //catch (Ex) {
+    //  console.log(Ex);
+    //}
+    //finally {
+    //  setTimeout(() => {
+    //    this.loaderService.requestEnded();
+    //  }, 200);
+    //}
   }
 
 
@@ -716,7 +783,7 @@ export class SocietyComponent implements OnInit {
 
       this.isSubmitted = false;
       this.request.SocietyID = 0;
-      this.request.CollegeID = 0;
+      //this.request.CollegeID = 0;
       this.request.PersonName = '';
       this.request.ProfilePhoto = '';
       this.request.Dis_ProfilePhoto = '';
@@ -868,7 +935,7 @@ export class SocietyComponent implements OnInit {
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage)
-              this.GetSocietyAllList(this.CollegeList[0]["CollegeID"]);
+              this.GetSocietyAllList(this.request.CollegeID);
             }
             else {
               this.toastr.error(this.ErrorMessage)
@@ -1006,6 +1073,80 @@ export class SocietyComponent implements OnInit {
     this.isLoading = true;
     try {
       this.routers.navigate(['/draftapplicationlist']);
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
+
+
+
+  ResetFileAndValidation(type: string, name: string, dis_name: string, path: string, isShowFile: boolean) {
+    //event.target.value = '';
+    try {
+      this.loaderService.requestStarted();
+      if (type == 'ProfilePhoto' || type == 'All') {
+        this.isValidProfilePhoto = isShowFile;
+        this.request.ProfilePhoto = name;
+        this.request.Dis_ProfilePhoto = dis_name;
+        this.request.ProfilePhotoPath = path;
+        this.file = document.getElementById('fProfilePhoto');
+        this.file.value = '';
+      }
+      if (type == 'SignatureDoc' || type == 'All') {
+        this.isValidSignatureDoc = isShowFile;
+        this.request.SignatureDoc = name;
+        this.request.Dis_SignatureDoc = dis_name;
+        this.request.SignatureDocPath = path;
+        this.file = document.getElementById('fSignatureDoc');
+        this.file.value = '';
+      }
+      if (type == 'AadhaarCard' || type == 'All') {
+        this.isValidAadhaarCard = isShowFile;
+        this.request.AadhaarCard = name;
+        this.request.Dis_AadhaarCard = dis_name;
+        this.request.AadhaarCardPath = path;
+        this.file = document.getElementById('fAadhaarCard');
+        this.file.value = '';
+      }
+      if (type == 'PANCard' || type == 'All') {
+        this.isValidPANCard = isShowFile;
+        this.request.PANCard = name;
+        this.request.Dis_PANCard = dis_name;
+        this.request.PANCardPath = path;
+        this.file = document.getElementById('fPANCard');
+        this.file.value = '';
+      }
+      if (type == 'AuthorizedDocument' || type == 'All') {
+        this.isValidAuthorizedDocument = isShowFile;
+        this.request.AuthorizedDocument = name;
+        this.request.Dis_AuthorizedDocument = dis_name;
+        this.request.AuthorizedDocumentPath = path;
+        this.file = document.getElementById('fAuthorizedDocument');
+        this.file.value = '';
+      }
+      if (type == 'EducationProof' || type == 'All') {
+        this.isValidEducationProof = isShowFile;
+        this.request.EducationProof = name;
+        this.request.Dis_EducationProof = dis_name;
+        this.request.EducationProofPath = path;
+        this.file = document.getElementById('fEducationProof');
+        this.file.value = '';
+      }
+      if (type == 'ConsentLetter' || type == 'All') {
+        this.isValidConsentLetter = isShowFile;
+        this.request.ConsentLetter = name;
+        this.request.Dis_ConsentLetter = dis_name;
+        this.request.ConsentLetterPath = path;
+        this.file = document.getElementById('fConsentLetter');
+        this.file.value = '';
+      }
+
     }
     catch (ex) { console.log(ex) }
     finally {
