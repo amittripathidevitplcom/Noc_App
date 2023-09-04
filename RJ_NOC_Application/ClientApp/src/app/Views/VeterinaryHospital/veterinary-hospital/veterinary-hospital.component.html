@@ -33,8 +33,13 @@
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label class="form-label">Distance From Institute(in KM) <span style="color:red;">*</span></label>
                 <input type="text" class="form-control" id="txtDistanceFromInstitute" name="txtDistanceFromInstitute" [(ngModel)]="request.DistanceFromInstitute" formControlName="txtDistanceFromInstitute" (keypress)="numberOnly($event)" />
+
                 <div *ngIf="isSubmitted&&form.txtDistanceFromInstitute.errors" class="text-danger">
-                  <p *ngIf="form.txtDistanceFromInstitute.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtDistanceFromInstitute.errors.required"><i aria-hidden="true"></i> This field is required .!</p>                  
+                </div>
+
+                <div *ngIf="isSubmitted&&request.DistanceFromInstitute>20" class="text-danger">
+                  <p *ngIf="request.DistanceFromInstitute>20" class="text-danger"><i aria-hidden="true"></i> The distance from the institute should be maximum 20 KMs .!</p>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -60,7 +65,7 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label class="form-label">Address Line 2 <span style="color:red;">*</span></label>
+                <label class="form-label">Address Line 2</label>
                 <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2">
                 <div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
                   <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
@@ -219,14 +224,14 @@
                   </select>
                   <div *ngIf="isAnimalAdded&&animalform.ddlAnimalMasterID.errors" class="text-danger">
                     <p *ngIf="!animalform.ddlAnimalMasterID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>                  
+                  </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Enter Animal Count <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtAnimalCount" name="txtAnimalCount" [(ngModel)]="requestAnimal.AnimalCount" formControlName="txtAnimalCount" (keypress)="numberOnly($event)" />
+                  <input type="text" class="form-control" id="txtAnimalCount" name="txtAnimalCount" [(ngModel)]="requestAnimal.AnimalCount" formControlName="txtAnimalCount" maxlength="5" (keypress)="numberOnly($event)" />
                   <div *ngIf="isAnimalAdded&&animalform.txtAnimalCount.errors" class="text-danger">
                     <p *ngIf="animalform.txtAnimalCount.errors.required"> This field is required .!</p>
-                  </div>                  
+                  </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <button class="btn btn-primary" style="margin-top:27px" (click)="AddAnimalDetails()"><i class="fa fa-plus"></i> Add</button>
@@ -270,8 +275,8 @@
             <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
             <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
           </div>
-      
-        </form>        
+
+        </form>
         <div class="card mb-0" *ngIf="lstVeterinaryHospital.length>0">
           <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
             <b><i class="bi bi-table"></i> Veterinary Hospital Data List </b>
@@ -316,7 +321,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of lstVeterinaryHospital | tableSearchFilter:searchText;let idx=index;">
-                    <td>{{idx+1}}</td>  
+                    <td>{{idx+1}}</td>
                     <td>{{item.HospitalName}}</td>
                     <td>{{item.DistanceFromInstitute}}</td>
                     <td>{{item.AddressLine1}}</td>
@@ -334,8 +339,9 @@
                     <td>{{item.Relation}}</td>
                     <td>{{item.Remark}}</td>
                     <td>{{item.AuthorizedPerson}}</td>
-                    <td><a *ngIf="item.FileUpload!='N/A'" target="_blank" href="{{item.FileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
-                        <label *ngIf="item.FileUpload =='N/A'">{{item.FileUploadPath}}</label>
+                    <td>
+                      <a *ngIf="item.FileUpload!='N/A'" target="_blank" href="{{item.FileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
+                      <label *ngIf="item.FileUpload =='N/A'">{{item.FileUploadPath}}</label>
                     </td>
                     <td>
                       <div class="d-flex">

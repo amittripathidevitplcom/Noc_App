@@ -32,6 +32,7 @@ export class AhFinalNocApplicationListComponent {
   modalReference: NgbModalRef | undefined;
 
   public selectedApplyNOCID: number = 0;
+  public selectedCollegeID: number = 0;
   public QueryStringStatus: any = '';
   public IsDisabled: boolean = true;
   public IsPreDisabled: boolean = true;
@@ -39,6 +40,7 @@ export class AhFinalNocApplicationListComponent {
   public isRemarkValid: boolean = false;
   public FinalRemark: string = '';
   public ApplicationNO: string = '';
+  public NOCFilePath: string = '';
   public btntext: string = 'Approved';
 
   public ApplicationTrailList: any = [];
@@ -134,40 +136,114 @@ export class AhFinalNocApplicationListComponent {
     }
   }
 
-  async NOCApproved_Rejected(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string, type: string) {
+  async NOCApproved_Rejected_Model(content: any, ApplyNOCID: number, CollegeID: number, ApplicationNo: string, type: string) {
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
     this.selectedApplyNOCID = ApplyNOCID;
+    this.selectedCollegeID = CollegeID;
     this.ApplicationNO = ApplicationNo;
     this.GetApplyNocCourse(this.selectedApplyNOCID);
     this.btntext = type;
   }
+
   async GetApplyNocCourse(ApplyNOCID: number) {
-    await this.animalDocumentScrutinyService.GetNOCCourse('GetNOCCourse', 2, ApplyNOCID, 4416)
-      .then((data: any) => {
-        if (data != null && data != undefined) {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          debugger;
-          this.lstNOCCourse = data['Data'][0]["data"];
-          // TNOC Extension
-          //if (this.request.ApplyNocCode == 'NewCourse') {
-          //  this.ApplyNocParameterMasterList_TNOCExtension = data['Data'];
-          //}
-          //// Addition of New Seats(60)
-          //if (this.request.ApplyNocCode == 'ANewSeats') {
-          //  this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = data['Data'];
-          //}
-        }
-      }, error => console.error(error));
+    this.loaderService.requestStarted();
+    try {
+      await this.animalDocumentScrutinyService.GetNOCCourse('GetNOCCourse', 2, ApplyNOCID, this.selectedCollegeID)
+        .then((data: any) => {
+          if (data != null && data != undefined) {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.lstNOCCourse = data['Data'][0]["data"];
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 100);
+    }
   }
 
-  async NOCRejectRelese() {
+  async FinalNOCRejectRelese() {
+    this.loaderService.requestStarted();
+    try {
+      this.isRemarkValid = false;
+      if (this.FinalRemark == '') {
+        this.isRemarkValid = true;
+        return;
+      }
+      else {
+        await this.animalDocumentScrutinyService.FinalNOCRejectRelese(this.selectedApplyNOCID, 2, 0, this.sSOLoginDataModel.UserID, this.FinalRemark)
+          .then((data: any) => {
+            if (data != null && data != undefined) {
+              data = JSON.parse(JSON.stringify(data));
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              this.toastr.success(this.SuccessMessage);
+              this.GetFinalNOCApplicationList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.UserID, Number(this.sSOLoginDataModel.RoleID), this.sSOLoginDataModel.DepartmentID, this.QueryStringStatus);
+            }
+          }, error => console.error(error));
+      }
 
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 100);
+    }
+  }
+  async GenratePDF(ApplyNOCID: number, CollegeID: number) {
+    this.loaderService.requestStarted();
+    try {
+      await this.animalDocumentScrutinyService.UpdateNOCPDFData('GetDataForPDF', 2, ApplyNOCID, CollegeID)
+        .then((data: any) => {
+          if (data != null && data != undefined) {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.toastr.success(this.SuccessMessage);
+            this.GetFinalNOCApplicationList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.UserID, Number(this.sSOLoginDataModel.RoleID), this.sSOLoginDataModel.DepartmentID, this.QueryStringStatus);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 100);
+    }
+  }
+
+  async DeleteImage(Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      if (Type == 'NOCFilePath') {
+        this.NOCFilePath = '';
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 100);
+    }
   }
 }

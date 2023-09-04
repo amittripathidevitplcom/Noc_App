@@ -172,7 +172,7 @@ export class OldNOCDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.subjectDataList = data['Data'][0];
-          if (this.SelectedDepartmentID != 3 && this.SelectedDepartmentID != 2) {
+          if (this.SelectedDepartmentID != 3) {
             this.SelectedSubjectDetails = data['Data'][0];
             this.isToDisable = true;
           }

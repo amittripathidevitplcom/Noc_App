@@ -593,6 +593,14 @@ export class LandDetailsComponent implements OnInit {
     //  return
     //}
 
+    if (this.request.CollegeLandTypeDetails != null && this.request.CollegeLandTypeDetails.length > 0)
+    {
+      if (this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected == true).length <= 0) {
+        this.toastr.error("please select at least one land type details");
+        return;
+      }
+    }
+
     let totaldata = this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected == true).map(t => t.LandArea).reduce((acc, value) => acc + Number( value), 0);
 
     if (this.request.LandArea != Number(totaldata))
@@ -601,12 +609,7 @@ export class LandDetailsComponent implements OnInit {
      return
     }
  
-    if (this.request.CollegeLandTypeDetails != null && this.request.CollegeLandTypeDetails.length > 0) {
-      if (this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected == true).length <= 0) {
-        this.toastr.error("Please Fill College Land Type Details");
-        return;
-      }
-    }
+    
 
     for (var i = 0; i < this.request.LandDetailDocument.length; i++) {
       if (this.request.LandDetailDocument[i].FilePath == '' || this.request.LandDetailDocument[i].FilePath == undefined) {
