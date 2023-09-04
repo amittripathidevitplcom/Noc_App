@@ -200,7 +200,7 @@ export class HospitalDetailComponent implements OnInit {
         txtEmergencyAndDisasterNursingEmergencylBeds: [''],
 
         txtAddressLine1: ['', Validators.required],
-        txtAddressLine2: ['', Validators.required],
+        txtAddressLine2: [''],//, Validators.required
         rbRuralUrban: ['', Validators.required],
         ddlDivisionID: ['', [DropdownValidators]],
         ddlDistrictID: ['', [DropdownValidators]],
@@ -210,7 +210,7 @@ export class HospitalDetailComponent implements OnInit {
         txtPincode: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
 
         txtAddressLine1_ManageBy: ['', Validators.required],
-        txtAddressLine2_ManageBy: ['', Validators.required],
+        txtAddressLine2_ManageBy: [''],//, Validators.required
         rbRuralUrban_ManageBy: ['', Validators.required],
         ddlDivisionID_ManageBy: ['', [DropdownValidators]],
         ddlDistrictID_ManageBy: ['', [DropdownValidators]],
@@ -220,7 +220,7 @@ export class HospitalDetailComponent implements OnInit {
         txtPincode_ManageBy: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
 
         txtAddressLine1_Owner: ['', Validators.required],
-        txtAddressLine2_Owner: ['', Validators.required],
+        txtAddressLine2_Owner: [''],//, Validators.required
         rbRuralUrban_Owner: ['', Validators.required],
         ddlDivisionID_Owner: ['', [DropdownValidators]],
         ddlDistrictID_Owner: ['', [DropdownValidators]],
@@ -267,7 +267,7 @@ export class HospitalDetailComponent implements OnInit {
         fConsentForm: [''],
 
         txtAddressLine1: ['', Validators.required],
-        txtAddressLine2: ['', Validators.required],
+        txtAddressLine2: [''],//, Validators.required
         rbRuralUrban: ['', Validators.required],
         ddlDivisionID: ['', [DropdownValidators]],
         ddlDistrictID: ['', [DropdownValidators]],
@@ -277,7 +277,7 @@ export class HospitalDetailComponent implements OnInit {
         txtPincode: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
 
         txtAddressLine1_ManageBy: ['', Validators.required],
-        txtAddressLine2_ManageBy: ['', Validators.required],
+        txtAddressLine2_ManageBy: [''],//, Validators.required
         rbRuralUrban_ManageBy: ['', Validators.required],
         ddlDivisionID_ManageBy: ['', [DropdownValidators]],
         ddlDistrictID_ManageBy: ['', [DropdownValidators]],
@@ -287,7 +287,7 @@ export class HospitalDetailComponent implements OnInit {
         txtPincode_ManageBy: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
 
         txtAddressLine1_Owner: ['', Validators.required],
-        txtAddressLine2_Owner: ['', Validators.required],
+        txtAddressLine2_Owner: [''],//, Validators.required
         rbRuralUrban_Owner: ['', Validators.required],
         ddlDivisionID_Owner: ['', [DropdownValidators]],
         ddlDistrictID_Owner: ['', [DropdownValidators]],
