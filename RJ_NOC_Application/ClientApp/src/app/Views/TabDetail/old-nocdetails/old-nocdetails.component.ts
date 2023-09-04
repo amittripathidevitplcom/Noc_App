@@ -42,6 +42,7 @@ export class OldNOCDetailsComponent implements OnInit {
   public SubjectID: any = [];
   public dropdownSettings: IDropdownSettings = {};
   public showImageFilePath: boolean = false;
+  public SubjectShow_Hide: boolean = false;
 
   //NOC Details
   public CollegeID: number = 0;
@@ -91,6 +92,15 @@ export class OldNOCDetailsComponent implements OnInit {
     this.request.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetCollegeList(this.sSOLoginDataModel.SSOID, this.SelectedDepartmentID);
+
+    if (this.SelectedDepartmentID == 2) {
+      this.SubjectShow_Hide = false;
+
+    }
+    else {
+      this.SubjectShow_Hide = true;
+
+    }
     await this.getNOCType();
     await this.GetIssueYear();
     await this.GetSessionYear();
@@ -172,6 +182,7 @@ export class OldNOCDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.subjectDataList = data['Data'][0];
+          debugger;
           if (this.SelectedDepartmentID != 3) {
             this.SelectedSubjectDetails = data['Data'][0];
             this.isToDisable = true;
@@ -317,6 +328,7 @@ export class OldNOCDetailsComponent implements OnInit {
 
 
   async AddOldNOCDetails() {
+    debugger;
     this.IsFormValid = true;
     this.SubjectRequried = false;
     this.SubjectDataModel = [];

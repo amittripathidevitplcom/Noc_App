@@ -258,16 +258,6 @@ export class ApplyNocParameterComponent implements OnInit {
 
             await this.GetApplicationTypeList(this.request.CollegeID);
 
-            await this.applyNocParameterService.GetApplyNocParameterMaster(this.request.CollegeID)
-              .then((data: any) => {
-                data = JSON.parse(JSON.stringify(data));
-                this.State = data['State'];
-                this.SuccessMessage = data['SuccessMessage'];
-                this.ErrorMessage = data['ErrorMessage'];
-                //
-                this.ApplyNocParameterMasterList_ddl = data['Data'];
-                console.log(this.ApplyNocParameterMasterList_ddl);
-              }, error => console.error(error));
 
             await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
               .then((data: any) => {
@@ -295,6 +285,23 @@ export class ApplyNocParameterComponent implements OnInit {
       }, 200);
     }
   }
+
+
+  async GetApplyNocParameterMaster()
+  {
+    await this.applyNocParameterService.GetApplyNocParameterMaster(this.request.CollegeID)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        //
+        this.ApplyNocParameterMasterList_ddl = data['Data'];
+        console.log(this.ApplyNocParameterMasterList_ddl);
+      }, error => console.error(error));
+  }
+
+
 
   async ApplyNocFor_cbChange(event: any, SelectedApplyNocForID: string, item: any) {
     try {
@@ -1283,6 +1290,16 @@ export class ApplyNocParameterComponent implements OnInit {
     let CollegeLevel = this.CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.ddlCourse).strCollegeLevel;
     let CourseFeesAmount = this.CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.ddlCourse).CourseFeesAmount;
 
+
+ 
+    if (CourseName == 'Bachelor of Arts' || CourseName == 'Bachelor of Commerce' || CourseName == 'Bachelor of Science')
+    {
+      if (this.SubjectDetails.filter(f => f.IsChecked == true).length < 3) {
+        this.toastr.error("Minimum 3 Subject Required for UG.");
+        return;
+      }
+    }
+
     var data: ApplyNocParameterCourseDataModel = new ApplyNocParameterCourseDataModel();
     data.CourseID = this.ddlCourse;
     data.CourseName = CourseName;
@@ -1648,6 +1665,7 @@ export class ApplyNocParameterComponent implements OnInit {
     }
     else
     {
+      this.GetApplyNocParameterMaster();
       this.isInspectionFee = false;
     }
 

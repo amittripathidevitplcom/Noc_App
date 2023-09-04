@@ -307,7 +307,11 @@
                         <thead>
                           <tr>
                             <th>SNo</th>
+                            <!--<th>College</th>-->
                             <th>Name</th>
+                            <th>Designation</th>
+                            <th>Occupation</th>
+                            <th>Management Committee Should have at least two educationists</th>
                             <th>Father Name</th>
                             <th>Mobile No</th>
                             <th>Gender</th>
@@ -330,7 +334,11 @@
                           <!--<tr *ngFor="let row of SocietyAllList;let idx=index;">-->
                           <tr *ngFor="let row of SocietyAllList | tableSearchFilter:searchText;let idx=index;">
                             <td>{{idx+1}}</td>
+                            <!--<td>{{CollegeName}}</td>-->
                             <td>{{row.PersonName}}</td>
+                            <td>{{row.DesignationName}}</td>
+                            <td>{{row.OccupationName}}</td>
+                            <td>{{row.Educationists}}</td>
                             <td>{{row.FatherName}}</td>
                             <td>{{row.MobileNo}}</td>
                             <td>{{row.Gender}}</td>
