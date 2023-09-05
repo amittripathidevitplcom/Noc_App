@@ -702,7 +702,6 @@ export class VeterinaryHospitalComponent implements OnInit {
           else {
             this.IsRural = false;
           }
-          debugger;
           this.request.CityTownVillage = data['Data']["CityTownVillage"];
           this.request.MobileNo = data['Data']["MobileNo"];
           this.request.Pincode = data['Data']["Pincode"];
