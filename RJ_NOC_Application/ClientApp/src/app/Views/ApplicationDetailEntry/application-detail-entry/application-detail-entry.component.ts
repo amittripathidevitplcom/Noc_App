@@ -89,9 +89,10 @@ export class ApplicationDetailEntryComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.collegeService.GetData(this.SelectedCollageID)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
-          if (this.collegeDataList['CollegeStatusID'] == 3) {
+          if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
           }
@@ -199,6 +200,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
             if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
               this.toastr.error("Enter All Class Room Details.")
+              this.isCheck30Female = true;
+              return;
+            }
+
+            if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
+              this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] +' Sq. Feet')
               this.isCheck30Female = true;
               return;
             }

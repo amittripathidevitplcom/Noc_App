@@ -129,6 +129,10 @@
                 <label *ngIf="buildingdetails.RentAgreementFileUploadPath=='N/A'">{{buildingdetails.RentAgreementFileUploadPath}}</label>
                 <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.RentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.RentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
               </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                <label class="form-label"><b>Rent Valid Up To :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.Rentvaliditydate}}" />
+              </div>
             </div>
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">

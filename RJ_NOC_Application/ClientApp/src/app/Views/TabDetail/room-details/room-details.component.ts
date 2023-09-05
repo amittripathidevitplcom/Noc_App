@@ -70,12 +70,15 @@ export class RoomDetailsComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   public WidthMin: number = 0;
+  public NoofPredicalRoomsMin: number = 0;
   public LengthMin: number = 0;
   public LengthMin_Dis: number = 0;
   public MinNoOfRooms: number = 0;
+  public NoofPredicalRooms: number = 0;
   public CssClass_TextDangerWidth: string = 'text-danger';
   public CssClass_TextDangerLength: string = 'text-danger';
   public CssClass_TextDangerNoOfRooms: string = 'text-danger';
+  public CssClass_TextDangerNoOfLab: string = 'text-danger';
   public ImageValidate: string = '';
 
   isUploadImage: boolean = false;
@@ -83,6 +86,7 @@ export class RoomDetailsComponent implements OnInit {
   public showImageFilePath: boolean = false;
   public isformvalid: boolean = true;
   public WidthMin_Dis: number = 0;
+  public NoofPredicalRoomsMin_Dis: number = 0;
 
   // ssologin model
   ssoLoginModel = new SSOLoginDataModel();
@@ -154,12 +158,13 @@ export class RoomDetailsComponent implements OnInit {
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
     this.CssClass_TextDangerNoOfRooms = '';
+    this.CssClass_TextDangerNoOfLab = '';
 
 
     console.log(SeletedCourseID);
     try {
       this.loaderService.requestStarted();
-      this.commonMasterService.GetCourseRoomSize(this.request.CourseID)
+      this.commonMasterService.GetCourseRoomSize(this.request.CourseID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.RoomSizeDataList = data['Data'];
@@ -169,6 +174,7 @@ export class RoomDetailsComponent implements OnInit {
           this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
           this.LengthMin_Dis = this.RoomSizeDataList[0]['LengthMin'];
           this.MinNoOfRooms = this.RoomSizeDataList[0]['NoOfRooms'];
+          this.NoofPredicalRooms = this.RoomSizeDataList[0]['NoofPredicalRooms'];
           console.log(this.RoomSizeDataList);
         }, error => console.error(error));
     }
@@ -281,12 +287,14 @@ export class RoomDetailsComponent implements OnInit {
     this.WidthMin = this.WidthMin_Dis;
     this.LengthMin = this.LengthMin_Dis;
     this.MinNoOfRooms = this.MinNoOfRooms;
+    this.NoofPredicalRooms = this.NoofPredicalRooms;
     this.isformvalid = true;
     this.isValidImageFilePath = false;
     this.isSubmitted = true;
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
     this.CssClass_TextDangerNoOfRooms = '';
+    this.CssClass_TextDangerNoOfLab = '';
     if (this.RoomDetailsForm.invalid) {
       this.isformvalid = false;
     }
@@ -315,6 +323,12 @@ export class RoomDetailsComponent implements OnInit {
     if (Number(this.request.NoOfRooms) < Number(this.MinNoOfRooms)) {
       this.CssClass_TextDangerNoOfRooms = 'text-danger';
       this.toastr.warning('Please Enter Min No. of Rooms : ' + this.MinNoOfRooms);
+      //this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
+      this.isformvalid = false;
+    }
+    if (Number(this.request.NoOfLab) < Number(this.NoofPredicalRooms)) {
+      this.CssClass_TextDangerNoOfLab = 'text-danger';
+      this.toastr.warning('Please Enter Min No. of Lab : ' + this.NoofPredicalRooms);
       //this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
       this.isformvalid = false;
     }
@@ -373,6 +387,7 @@ export class RoomDetailsComponent implements OnInit {
       this.request.CollegeWiseRoomID = 0;
       this.request.CourseID = 0;
       this.request.NoOfRooms = 1;
+     
       this.request.Width = 0;
       this.request.Length = 0;
       this.request.StudentCapacity = 0;

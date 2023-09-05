@@ -46,9 +46,9 @@ export class AnimalDataModel {
   public AnimalDetailsID: number = 0;
   public AnimalMasterID: number = 0;
   public AnimalName: string = '';
-  public MaleAnimalCount: number = null;  
-  public FemaleAnimalCount: number = null;  
-  public AnimalCount: number = null;  
+  public MaleAnimalCount: number = 0;  
+  public FemaleAnimalCount: number = 0;  
+  public AnimalCount: number = 0;  
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
 }

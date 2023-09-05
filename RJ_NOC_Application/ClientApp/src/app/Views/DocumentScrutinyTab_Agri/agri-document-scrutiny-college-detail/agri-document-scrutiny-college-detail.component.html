@@ -27,7 +27,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeStatus!='New'">
                 <label>Present Status of College :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.PresentCollegeStatus}}" />
               </div>
@@ -38,6 +38,10 @@
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label>College Level :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeLevel}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>College Code :</label>
+                <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeCode}}" />
               </div>
             </div>
             <div class="row">

@@ -70,11 +70,11 @@
             Detail of the Land (With Khasra No.): *
           </label>
           <table class="table table-hover table-striped-columns" id="tabellist" #content>
-            
+
             <tbody>
               <tr *ngFor="let item of request.CollegeLandTypeDetails let idx=index;">
                 <td>
-               
+
                   <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{item.LandTypeID}}"
                          id="cbSubject_TNOCExtension_{{idx+1}}_{{item.LandTypeID}}" value="{{item.LandTypeID}}"
                          (change)="ApplyNocFor_cbChange($event,item)"
@@ -88,7 +88,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">Area:</span>
                     </div>
-                    <input type="text" class="form-control" [disabled]="!item.IsLandSelected"  [ngModelOptions]="{standalone: true}"  value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numberOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
+                    <input type="text" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numberOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
                   </div>
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandArea==0"> This field is required .!</p>
@@ -100,7 +100,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">Khasra No:</span>
                     </div>
-                    <input type="text" class="form-control" [disabled]="!item.IsLandSelected"  [ngModelOptions]="{standalone: true}"  placeholder="Enter Khasra No" id="txtKhasraNo{{idx}}" name="txtKhasraNo{{idx}}" [(ngModel)]="item.KhasraNo" autocomplete="off">
+                    <input type="text" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" placeholder="Enter Khasra No" id="txtKhasraNo{{idx}}" name="txtKhasraNo{{idx}}" [(ngModel)]="item.KhasraNo" autocomplete="off">
                   </div>
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.KhasraNo==''"> This field is required .!</p>
@@ -108,8 +108,8 @@
 
                 </td>
               </tr>
-              </tbody>
-            </table>
+            </tbody>
+          </table>
         </div>
 
         <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -133,8 +133,8 @@
             Khasra Number <span style="color:red;">*</span>
           </label>
           <input type="text" id="txtKhasraNumber" class="form-control" [(ngModel)]="request.KhasraNumber" formControlName="txtKhasraNumber" />-->
-          <!--<p style="color: #3458c8;">( If khasra no. is more than one then separate khasra no. by comma.)</p>-->
-          <!--<div *ngIf="isSubmitted&&form.txtKhasraNumber.errors" class="text-danger">
+        <!--<p style="color: #3458c8;">( If khasra no. is more than one then separate khasra no. by comma.)</p>-->
+        <!--<div *ngIf="isSubmitted&&form.txtKhasraNumber.errors" class="text-danger">
             <p *ngIf="form.txtKhasraNumber.errors.required"> This field is required .!</p>
           </div>
         </div>-->
@@ -161,7 +161,7 @@
           <div *ngIf="isSubmitted&&form.txtLandArea.errors" class="text-danger">
             <p *ngIf="form.txtLandArea.errors.required">This field is required .!</p>
             <p *ngIf="form.txtLandArea.errors.min">This field is required .!</p>
-            
+
           </div>
         </div>
 

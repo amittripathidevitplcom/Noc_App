@@ -97,7 +97,10 @@
             <label><b>Email :</b></label>
             <input class="form-control disabled" disabled value="{{request.Email}}" />
           </div>
-
+          <div class="col-md-4 mb-3">
+            <label><b>Gender :</b></label>
+            <input class="form-control disabled" disabled value="{{request.Gender}}" />
+          </div>
           <div class="col-md-4 mb-3">
             <label><b>Highest Qualification :</b></label>
             <input class="form-control disabled" disabled value="{{request.HighestQualificationName}}" />
@@ -146,7 +149,7 @@
             <label><b> UAN No. :</b></label>
             <input class="form-control disabled" disabled value=" {{request.UANNumber}}" />
           </div>
-          <div class="col-md-4 mb-3">
+          <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
             <label class="form-label" style="margin-right:15px"><b>Research Guide :</b></label>
             <input class="form-control disabled" disabled value="{{request.ResearchGuide}}" />
           </div>
