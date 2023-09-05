@@ -190,6 +190,7 @@ export class AhFinalNocApplicationListComponent {
               this.SuccessMessage = data['SuccessMessage'];
               this.ErrorMessage = data['ErrorMessage'];
               this.toastr.success(this.SuccessMessage);
+              this.modalService.dismissAll('After Success');
               this.GetFinalNOCApplicationList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.UserID, Number(this.sSOLoginDataModel.RoleID), this.sSOLoginDataModel.DepartmentID, this.QueryStringStatus);
             }
           }, error => console.error(error));
