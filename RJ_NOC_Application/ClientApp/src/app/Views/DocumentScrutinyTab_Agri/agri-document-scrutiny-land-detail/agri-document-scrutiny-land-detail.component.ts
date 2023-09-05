@@ -35,6 +35,7 @@ export class AgriDocumentScrutinyLandDetailComponent implements OnInit {
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
+  public DetailoftheLand: any = [];
 
   constructor(private landDetailsService: LandDetailsService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
     private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
@@ -102,6 +103,7 @@ export class AgriDocumentScrutinyLandDetailComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request = data['Data'][0];
+          this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
         }, error => console.error(error));
     }
     catch (Ex) {
