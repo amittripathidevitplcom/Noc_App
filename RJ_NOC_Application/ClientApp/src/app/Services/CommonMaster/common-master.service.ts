@@ -467,13 +467,13 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetCourseRoomSize(CourseID: number) {
+  public async GetCourseRoomSize(CourseID: number, CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseRoomSize/" + CourseID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseRoomSize/" + CourseID + "/" + CollegeID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

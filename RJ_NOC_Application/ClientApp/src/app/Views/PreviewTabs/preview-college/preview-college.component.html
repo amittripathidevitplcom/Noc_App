@@ -37,6 +37,10 @@
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>College Level :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeLevel}}" />
+            </div>            
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>College Code :</label>
+              <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeCode}}" />
             </div>
           </div>
           <div class="row">
@@ -148,7 +152,7 @@
               <label>City/Town/Village :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.CityTownVillage}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3"  *ngIf="collegeListData.CollegeStatus!='New'">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeStatus!='New'">
               <label>Year of Establishment :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.FinancialYearName}}" />
             </div>

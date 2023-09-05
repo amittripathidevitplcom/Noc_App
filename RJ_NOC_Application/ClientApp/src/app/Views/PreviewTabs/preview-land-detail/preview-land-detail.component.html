@@ -14,8 +14,8 @@
               <th>Land Situated</th>
               <th>Land Doc Type</th>
               <th>Is Convereted</th>
-              <th>Land Type</th>
-              <th>Khasra Number</th>
+              <!--<th>Land Type</th>
+              <th>Khasra Number</th>-->
               <th>Owner Name</th>
               <th>Action</th>
             </tr>
@@ -27,8 +27,8 @@
               <td>{{item.LandAreaSituatedName}}</td>
               <td>{{item.LandDocumentTypeName}}</td>
               <td>{{item.IsConvereted}}</td>
-              <td>{{item.LandTypeName}}</td>
-              <td>{{item.KhasraNumber}}</td>
+              <!--<td>{{item.LandTypeName}}</td>
+              <td>{{item.KhasraNumber}}</td>-->
               <td>{{item.LandOwnerName}}</td>
               <td>
                 <!--<button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(item.LandDetailID)"><i class="fa fa-eye"></i></button>-->
@@ -42,90 +42,121 @@
         </table>
       </div>
     </div>
-    <ng-template #mymodal let-modal>  
-          <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Land Details</h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-              <i class="fa fa-close"></i>
-            </button>
+    <ng-template #mymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Land Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b> College:</b></label>
+            <input class="form-control disabled" disabled value="{{request.CollegeName}}" />
           </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label><b> College:</b></label>
-                <input class="form-control disabled" disabled value="{{request.CollegeName}}" />
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Land Area Situated In :</b></label>
+            <input class="form-control disabled" disabled value="{{request.LandAreaSituatedName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Land Document Type :</b></label>
+            <input class="form-control disabled" disabled value="{{request.LandDocumentTypeName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Is Your Land converted to Institution/Education :</b></label>
+            <input class="form-control disabled" disabled value="{{request.IsConvereted}}" />
+          </div>
+          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Land Type :</b></label>
+            <input class="form-control disabled" disabled value="{{request.LandTypeName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Khasra Number :</b></label>
+            <input class="form-control disabled" disabled value="{{request.KhasraNumber}}" />
+          </div>-->
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Name of Owner of Land :</b></label>
+            <input class="form-control disabled" disabled value="{{request.LandOwnerName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Land Area (in {{request.AreaType !=''?request.AreaType:UnitOfLand}}) :</b></label>
+            <input class="form-control disabled" disabled value="{{request.LandArea}}" />
+          </div>
+          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Total Building Area (in {{UnitOfLand}}) :</b></label>
+            <input class="form-control disabled" disabled value="{{request.BuildingHostelQuartersRoadArea}}" />
+          </div>-->
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
+            <label><b> Land Conversion Order Date(DD/MM/YYYY) :</b></label>
+            <input class="form-control disabled" disabled value="{{request.LandConversionOrderDate}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
+            <label><b>Land Conversion Order No :</b></label>
+            <input class="form-control disabled" disabled value="{{request.LandConversionOrderNo}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')">
+            <label><b>Affidavit Date(DD/MM/YYYY) :</b></label>
+            <input class="form-control disabled" disabled value="{{request.AffidavitDate}}" />
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row" *ngIf="request.LandDetailDocument.length>0">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Document Name</th>
+                      <th>File</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of request.LandDetailDocument ; let indexOfelement=index;">
+                      <td> {{indexOfelement+1}}</td>
+                      <td>
+                        <label>
+                          <b>{{item.DocumentName}} :</b>&nbsp;&nbsp;
+                        </label>
+                      </td>
+                      <td>
+                        <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{item.FilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label><b>Land Area Situated In :</b></label>
-                <input class="form-control disabled" disabled value="{{request.LandAreaSituatedName}}" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label><b>Land Document Type :</b></label>
-                <input class="form-control disabled" disabled value="{{request.LandDocumentTypeName}}" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label><b>Is Your Land converted to Institution/Education :</b></label>
-                <input class="form-control disabled" disabled value="{{request.IsConvereted}}" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label><b>Land Type :</b></label>
-                <input class="form-control disabled" disabled value="{{request.LandTypeName}}" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label><b>Khasra Number :</b></label>
-                <input class="form-control disabled" disabled value="{{request.KhasraNumber}}" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label><b>Name of Owner of Land :</b></label>
-                <input class="form-control disabled" disabled value="{{request.LandOwnerName}}" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label><b>Land Area (in {{request.AreaType !=''?request.AreaType:UnitOfLand}}) :</b></label>
-                <input class="form-control disabled" disabled value="{{request.LandArea}}" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label><b>Total Building Area (in {{UnitOfLand}}) :</b></label>
-                <input class="form-control disabled" disabled value="{{request.BuildingHostelQuartersRoadArea}}" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
-                <label><b> Land Conversion Order Date(DD/MM/YYYY) :</b></label>
-                <input class="form-control disabled" disabled value="{{request.LandConversionOrderDate}}" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
-                <label><b>Land Conversion Order No :</b></label>
-                <input class="form-control disabled" disabled value="{{request.LandConversionOrderNo}}" />
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')">
-                <label><b>Affidavit Date(DD/MM/YYYY) :</b></label>
-                <input class="form-control disabled" disabled value="{{request.AffidavitDate}}" />
-              </div>
-            </div>            
-            <div class="card-body">
-              <div class="row" *ngIf="request.LandDetailDocument.length>0">
+            </div>
+          </div>
+
+
+          <div class="row" *ngIf="DetailoftheLand.length>0">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i>&nbsp;Detail of the Land (With Khasra No.):  </b>
+                </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                   <div class="table-responsive">
                     <table class="table table-bordered table-hover table-striped">
                       <thead>
                         <tr>
-                          <th>Sr. No.</th>
-                          <th>Document Name</th>
-                          <th>File</th>
+                          <th>Sr.No.</th>
+                          <th>Land Type</th>
+                          <th>Area</th>
+                          <th>Khasra No</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of request.LandDetailDocument ; let indexOfelement=index;">
+                        <tr *ngFor="let row of DetailoftheLand; let indexOfelement=index;">
                           <td> {{indexOfelement+1}}</td>
-                          <td>
-                            <label>
-                              <b>{{item.DocumentName}} :</b>&nbsp;&nbsp;
-                            </label>
-                          </td>
-                          <td>
-                            <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
-                              <img src="{{item.FilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                            </a>
-                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                          </td>
+                          <td>{{row.LandTypeName}}</td>
+                          <td>{{row.LandArea}}</td>
+                          <td>{{row.KhasraNo}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -133,7 +164,9 @@
                 </div>
               </div>
             </div>
-          </div>        
+          </div>
+        </div>
+      </div>
     </ng-template>
   </div>
 </div>
