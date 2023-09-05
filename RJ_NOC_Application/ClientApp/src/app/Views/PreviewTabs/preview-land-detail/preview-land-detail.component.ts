@@ -19,7 +19,9 @@ export class PreviewLandDetailComponent implements OnInit {
   public LandDetailList: LandDetailDataModel[] = [];
   public UnitOfLand: string = '';
 
-  closeResult: string | undefined ;
+  public DetailoftheLand: any = [];
+
+  closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
 
   constructor(private landDetailsService: LandDetailsService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
@@ -30,7 +32,7 @@ export class PreviewLandDetailComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     await this.GetLandDetailsDataList();
-    await this.GetUnitOfLandArea(this.SelectedDepartmentID,'LandUnit');
+    await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
   }
   async GetLandDetailsDataList() {
     try {
@@ -84,6 +86,7 @@ export class PreviewLandDetailComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request = data['Data'][0];
+          this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
         }, error => console.error(error));
     }
     catch (Ex) {

@@ -92,8 +92,8 @@ export class LandDetailsComponent implements OnInit {
         ddlLandAreaId: ['', [DropdownValidators]],
         ddlLandDocumentTypeId: ['', [DropdownValidators]],
         ddlLandconvertedId: ['', [DropdownValidators]],
-   /*     ddlLandTypeId: ['', [DropdownValidators]],*/
-     /*   txtKhasraNumber: ['', Validators.required],*/
+        /*     ddlLandTypeId: ['', [DropdownValidators]],*/
+        /*   txtKhasraNumber: ['', Validators.required],*/
         txtLandOwnerName: ['', Validators.required],
         txtLandArea: ['', [Validators.required, Validators.min(1)]],
         //txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
@@ -180,8 +180,8 @@ export class LandDetailsComponent implements OnInit {
     }
   }
 
- 
-  
+
+
 
 
   async GetLandTypeMasterList_DepartmentAndLandConvertWise(DepartmentID: number, Type: string) {
@@ -217,7 +217,7 @@ export class LandDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-         this.request.CollegeLandTypeDetails = data['Data'];
+          this.request.CollegeLandTypeDetails = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -457,7 +457,7 @@ export class LandDetailsComponent implements OnInit {
             this.IsRequiredLandArea = false;
             //this.toastr.warning("Land Area  mapping record not found. ")
           }
-         
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -594,23 +594,21 @@ export class LandDetailsComponent implements OnInit {
     //  return
     //}
 
-    if (this.request.CollegeLandTypeDetails != null && this.request.CollegeLandTypeDetails.length > 0)
-    {
+    if (this.request.CollegeLandTypeDetails != null && this.request.CollegeLandTypeDetails.length > 0) {
       if (this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected == true).length <= 0) {
         this.toastr.error("please select at least one land type details");
         return;
       }
     }
 
-    let totaldata = this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected == true).map(t => t.LandArea).reduce((acc, value) => acc + Number( value), 0);
+    let totaldata = this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected == true).map(t => t.LandArea).reduce((acc, value) => acc + Number(value), 0);
 
-    if (this.request.LandArea != Number(totaldata))
-    {
+    if (this.request.LandArea != Number(totaldata)) {
       this.toastr.error("Total land area is not equal to sum of all land type that you have checked.total land area is : " + totaldata);
-     return
+      return
     }
- 
-    
+
+
 
     for (var i = 0; i < this.request.LandDetailDocument.length; i++) {
       if (this.request.LandDetailDocument[i].FilePath == '' || this.request.LandDetailDocument[i].FilePath == undefined) {
@@ -701,7 +699,7 @@ export class LandDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
 
           this.LandDetailsList = data['Data'][0]['data']['Table'];
-         // this.LandDetailsDocumentList = data['Data'][0]['data']['Table1'];
+          // this.LandDetailsDocumentList = data['Data'][0]['data']['Table1'];
           console.log(this.LandDetailsDocumentList);
 
         }, error => console.error(error));
@@ -817,7 +815,7 @@ export class LandDetailsComponent implements OnInit {
           this.request.LandTypeName = data['Data'][0]['LandTypeName'];
           this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
 
-        
+
 
           this.GetLandSqureMeterMappingDetails(this.request.LandAreaID);
           console.log(this.request.LandDetailDocument);
@@ -874,18 +872,17 @@ export class LandDetailsComponent implements OnInit {
     await this.GetAnnexureDataList_DepartmentWise(this.SelectedDepartmentID, this.request.LandDocumentTypeID, this.request.LandConvertedID);
   }
 
-  async ApplyNocFor_cbChange(event: any,  item: any) {
+  async ApplyNocFor_cbChange(event: any, item: any) {
     try {
       debugger
       this.loaderService.requestStarted();
       //unchecked
-      if (!event.target.checked)
-      {
+      if (!event.target.checked) {
         item.LandArea = 0;
         item.KhasraNo = '';
         return;
       }
-     
+
     }
     catch (ex) {
       console.log(ex);
@@ -896,5 +893,5 @@ export class LandDetailsComponent implements OnInit {
       }, 200);
     }
   }
- 
+
 }
