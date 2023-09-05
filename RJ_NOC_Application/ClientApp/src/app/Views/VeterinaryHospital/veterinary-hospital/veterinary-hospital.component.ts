@@ -390,7 +390,6 @@ export class VeterinaryHospitalComponent implements OnInit {
   }
   async AddAnimalDetails() {
     try {
-      debugger;
       this.loaderService.requestStarted();
       this.isValidAnimalCount = false;
       this.isValidMaleAnimalCount = false;
@@ -480,8 +479,6 @@ export class VeterinaryHospitalComponent implements OnInit {
           }
         }
       }
-
-
       this.GetAnimalName = this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.requestAnimal.AnimalMasterID).AnimalName;
       if (this.request.AnimalDetails.length > 0) {
         var result = this.request.AnimalDetails.filter(obj => {
