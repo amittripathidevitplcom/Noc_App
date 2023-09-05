@@ -479,7 +479,6 @@ export class VeterinaryHospitalComponent implements OnInit {
           }
         }
       }
-      this.GetAnimalName = this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.requestAnimal.AnimalMasterID).AnimalName;
       if (this.request.AnimalDetails.length > 0) {
         var result = this.request.AnimalDetails.filter(obj => {
           return obj.AnimalMasterID === this.requestAnimal.AnimalMasterID
@@ -573,7 +572,7 @@ export class VeterinaryHospitalComponent implements OnInit {
 
   async GetTotalAnimalCount() {
     try {
-
+      this.loaderService.requestStarted();
       this.requestAnimal.AnimalCount = Number(this.requestAnimal.MaleAnimalCount) + Number(this.requestAnimal.FemaleAnimalCount);
     }
     catch (Ex) {
