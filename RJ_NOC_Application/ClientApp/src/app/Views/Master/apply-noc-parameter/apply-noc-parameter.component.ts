@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -13,6 +13,7 @@ import { FileUploadService } from '../../../Services/FileUpload/file-upload.serv
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Console } from 'console';
 import internal from 'stream';
+import { EnumDepartment } from '../../../Common/enum-noc';
 
 
 
@@ -36,7 +37,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   public ApplicationTypeList: any = [];
   public CollegeList_ddl: any = [];
-  public ApplyNocParameterMasterList_ddl: any = [];
+  public ApplyNocParameterMasterList_ddl: any[] = [];
   public file: any = '';
 
   ddlCourse: number = 0;
@@ -152,7 +153,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   public DepartmentInspectionFee: number = 0;
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
-    private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal) {
+    private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal, private cdref: ChangeDetectorRef) {
 
   }
 
@@ -160,7 +161,7 @@ export class ApplyNocParameterComponent implements OnInit {
     this.ApplyNocParameterForm = this.formBuilder.group({
       rbApplicationType: ['', Validators.required],
       ddlCollege: ['', [DropdownValidators]],
-      cbNocFor: ['', Validators.required],
+      /*cbNocFor: ['', Validators.required],*/
       cbCourse_TNOCExtension: [''],
       cbSubject_TNOCExtension: [''],
       cbCourse_AdditionOfNewSeats60: [''],
@@ -243,7 +244,7 @@ export class ApplyNocParameterComponent implements OnInit {
       this.isInspectionFee = false;
       this.ApplicationTypeList = [];
 
-      
+
       this.loaderService.requestStarted();
       await this.applyNOCApplicationService.CheckAppliedNOCCollegeWise(this.request.CollegeID)
         .then(async (data: any) => {
@@ -287,8 +288,8 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-  async GetApplyNocParameterMaster()
-  {
+  async GetApplyNocParameterMaster() {
+  
     await this.applyNocParameterService.GetApplyNocParameterMaster(this.request.CollegeID)
       .then((data: any) => {
         data = JSON.parse(JSON.stringify(data));
@@ -303,15 +304,28 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
 
-  async ApplyNocFor_cbChange(event: any, SelectedApplyNocForID: string, item: any) {
+  async ApplyNocFor_cbChange(event: any, SelectedApplyNocForID: string, item: any, index: any) {
     try {
-      debugger
       this.loaderService.requestStarted();
       this.request.ApplyNocID = Number(SelectedApplyNocForID);
       this.request.ApplyNocFor = item.ApplyNocFor;
       this.request.ApplyNocCode = item.ApplyNocCode;
 
-      console.log(item);
+      //debugger;
+      if (this.CollegeDepartmentID == 2) {
+        await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
+          if (item.ApplyNocID != rowitem.ApplyNocID) {
+             rowitem.IsChecked = false;
+          }
+          else {
+            rowitem.IsChecked = true;
+          }
+        });
+      }
+     
+
+      // await  this.SetPrimaryMember(item, index)
+
       // TNOC Extension
       if (this.request.ApplyNocCode == 'NewCourse') {
         this.ApplyNocParameterMasterList_TNOCExtension = null;
@@ -321,8 +335,6 @@ export class ApplyNocParameterComponent implements OnInit {
       // Addition of New Seats(60)
       if (this.request.ApplyNocCode == 'ANewSeats') {
         this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
-
-
       }
 
       if (this.request.ApplicationTypeID <= 0) {
@@ -458,6 +470,15 @@ export class ApplyNocParameterComponent implements OnInit {
           if (this.request.ApplyNocCode == 'ANewSeats') {
             this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = data['Data'];
           }
+
+          if (this.CollegeDepartmentID == EnumDepartment.Animal_Husbandry) {
+            if (this.request.ApplyNocCode == 'NewCourse') {
+              this.ApplyNocParameterMasterList_AdditionOfNewSeats60 = null;
+            }
+            if (this.request.ApplyNocCode == 'ANewSeats') {
+              this.ApplyNocParameterMasterList_TNOCExtension = null;
+            }
+          }
         }
       }, error => console.error(error));
   }
@@ -473,6 +494,10 @@ export class ApplyNocParameterComponent implements OnInit {
   }
   public isSave: boolean = true;
   async SaveApplyNoc_click() {
+
+   
+
+    debugger;
     //this.isSave = false; 
     try {
       let isValid = true;
@@ -1291,9 +1316,8 @@ export class ApplyNocParameterComponent implements OnInit {
     let CourseFeesAmount = this.CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.ddlCourse).CourseFeesAmount;
 
 
- 
-    if (CourseName == 'Bachelor of Arts' || CourseName == 'Bachelor of Commerce' || CourseName == 'Bachelor of Science')
-    {
+
+    if (CourseName == 'Bachelor of Arts' || CourseName == 'Bachelor of Commerce' || CourseName == 'Bachelor of Science') {
       if (this.SubjectDetails.filter(f => f.IsChecked == true).length < 3) {
         this.toastr.error("Minimum 3 Subject Required for UG.");
         return;
@@ -1663,8 +1687,7 @@ export class ApplyNocParameterComponent implements OnInit {
       this.GetCollegeInspectionFee();
 
     }
-    else
-    {
+    else {
       this.GetApplyNocParameterMaster();
       this.isInspectionFee = false;
     }
@@ -1724,6 +1747,8 @@ export class ApplyNocParameterComponent implements OnInit {
     event.preventDefault();
     return false;
   }
+
+
 
 
 

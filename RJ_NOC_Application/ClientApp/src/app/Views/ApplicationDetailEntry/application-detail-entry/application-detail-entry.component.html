@@ -38,6 +38,40 @@
               <app-land-details></app-land-details>
             </mat-tab>
 
+            <!--Building Documents-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-building-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['BuildingDocuments']==0"></span>
+                <span>Building Documents</span>
+              </ng-template>
+              <app-building-details></app-building-details>
+            </mat-tab>
+
+            <!--OLD NOC Details Only for New-->
+
+            <mat-tab *ngIf="CollegeType_IsExisting">
+              <ng-template mat-tab-label>
+                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['OLDNOCDetails']==0"></span>
+                <span>OLD NOC Details</span>
+              </ng-template>
+              <app-old-nocdetails></app-old-nocdetails>
+            </mat-tab>
+
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-home icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['RoomDetails']==0"></span>
+                <span>Class Room Details</span>
+              </ng-template>
+              <app-room-details></app-room-details>
+            </mat-tab>
+
             <!--Facility-->
             <mat-tab>
               <ng-template mat-tab-label>
@@ -60,27 +94,18 @@
               <app-required-document></app-required-document>
             </mat-tab>
 
-            <!--OLD NOC Details Only for New-->
 
-            <mat-tab *ngIf="CollegeType_IsExisting">
-              <ng-template mat-tab-label>
-                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['OLDNOCDetails']==0"></span>
-                <span>OLD NOC Details</span>
-              </ng-template>
-              <app-old-nocdetails></app-old-nocdetails>
-            </mat-tab>
-
+            <!--Other Document-->
             <mat-tab>
               <ng-template mat-tab-label>
-                <i class="fa fa-home icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['RoomDetails']==0"></span>
-                <span>Class Room Details</span>
+                <i class="fa fa-files-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['OtherDocument']==0"></span>
+                <span>Other Document</span>
               </ng-template>
-              <app-room-details></app-room-details>
+              <app-other-document></app-other-document>
             </mat-tab>
+
 
             <!--Other Information-->
             <mat-tab>
@@ -94,16 +119,7 @@
               <app-other-information></app-other-information>
             </mat-tab>
 
-            <!--Building Documents-->
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <i class="fa fa-building-o icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['BuildingDocuments']==0"></span>
-                <span>Building Documents</span>
-              </ng-template>
-              <app-building-details></app-building-details>
-            </mat-tab>
+
 
             <!--Staff Details-->
             <mat-tab *ngIf="CollegeType_IsExisting">
@@ -128,16 +144,7 @@
               <app-academic-information></app-academic-information>
             </mat-tab>
 
-            <!--Other Document-->
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <i class="fa fa-files-o icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['OtherDocument']==0"></span>
-                <span>Other Document</span>
-              </ng-template>
-              <app-other-document></app-other-document>
-            </mat-tab>
+
 
             <!--Hospital Details-->
             <mat-tab *ngIf="SelectedDepartmentID==6">

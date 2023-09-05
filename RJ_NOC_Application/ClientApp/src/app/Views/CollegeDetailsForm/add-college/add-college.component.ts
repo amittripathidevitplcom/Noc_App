@@ -959,16 +959,16 @@ export class AddCollegeComponent implements OnInit {
 
     if (this.IsExisting == true) {
       this.CollegeDetailsForm.get('ddlYearofEstablishment')?.setValidators([DropdownValidators]);
-      this.CollegeDetailsForm.get('AISHECodeStatus')?.setValidators([DropdownValidators]);
+      //this.CollegeDetailsForm.get('AISHECodeStatus')?.setValidators([DropdownValidators]);
       this.CollegeDetailsForm.get('ddlPresentCollegeStatus')?.setValidators([DropdownValidators]);
     }
     else {
       this.CollegeDetailsForm.get('ddlYearofEstablishment')?.clearValidators();
-      this.CollegeDetailsForm.get('AISHECodeStatus')?.clearValidators();
+      //this.CollegeDetailsForm.get('AISHECodeStatus')?.clearValidators();
       this.CollegeDetailsForm.get('ddlPresentCollegeStatus')?.clearValidators();
     }
     this.CollegeDetailsForm.get('ddlYearofEstablishment')?.updateValueAndValidity();
-    this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
+    //this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
     this.CollegeDetailsForm.get('ddlPresentCollegeStatus')?.updateValueAndValidity();
 
     console.log(this.request.RuralUrban);
@@ -1002,14 +1002,14 @@ export class AddCollegeComponent implements OnInit {
     //if (this.ProfileLogoValidationMessage != '') {
     //  isValid = false;
     //}
-    if (this.IsExisting == true) {
-      if (this.request.AISHECodeStatus == 1) {
-        if (this.request.AISHECode == null || this.request.AISHECode == '') {
-          isValid = false;
-          this.AISHECodeValidationMessage = 'This field is required .!';
-        }
-      }
-    }
+    //if (this.IsExisting == true) {
+    //  if (this.request.AISHECodeStatus == 1) {
+    //    if (this.request.AISHECode == null || this.request.AISHECode == '') {
+    //      isValid = false;
+    //      this.AISHECodeValidationMessage = 'This field is required .!';
+    //    }
+    //  }
+    //}
     if (this.request.CollegeNAACAccredited == 1) {
       if (this.request.NAACAccreditedCertificate == null || this.request.NAACAccreditedCertificate == '') {
         isValid = false;

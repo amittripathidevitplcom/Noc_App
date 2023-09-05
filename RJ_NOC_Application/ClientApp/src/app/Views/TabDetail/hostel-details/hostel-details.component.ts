@@ -43,6 +43,7 @@ export class HostelDetailsComponent implements OnInit {
   public ErrorMessage: any = [];
   /*Save Data Model*/
   request = new HostelDataModel();
+  viewhostel = new HostelDataModel();
   hosteldetail = new HostelDetailsDataModel_Hostel();
   public hostelDataModel: HostelDataModel[] = [];
   public DivisionList: any = [];
@@ -160,7 +161,7 @@ export class HostelDetailsComponent implements OnInit {
         dtToDate: [''],
 
         txtAddressLine1: ['', Validators.required],
-        txtAddressLine2: ['', Validators.required],
+        txtAddressLine2: [''],//, Validators.required
         RuralUrban: ['', Validators.required],
         ddlDivisionID: ['', [DropdownValidators]],
         ddlDistrictID: ['', [DropdownValidators]],
@@ -940,11 +941,11 @@ export class HostelDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.request = data['Data'][0];
-          if (this.request.HostelType == 'Rent') {
+          this.viewhostel = data['Data'][0];
+          if (this.viewhostel.HostelType == 'Rent') {
             this.showRentDocument = true;
           }
-          this.request.RentDocumentPath = this.imageUrlPath + this.request.RentDocument;
+          this.viewhostel.RentDocumentPath = this.imageUrlPath + this.request.RentDocument;
 
         }, error => console.error(error));
     }
