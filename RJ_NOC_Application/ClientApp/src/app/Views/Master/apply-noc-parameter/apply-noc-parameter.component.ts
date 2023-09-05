@@ -322,16 +322,19 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.ApplyNocFor = item.ApplyNocFor;
       this.request.ApplyNocCode = item.ApplyNocCode;
 
-      //debugger;
-      if (this.CollegeDepartmentID == 2) {
-        await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
-          if (item.ApplyNocID != rowitem.ApplyNocID) {
-             rowitem.IsChecked = false;
-          }
-          else {
-            rowitem.IsChecked = true;
-          }
-        });
+      debugger;
+      if (this.CollegeDepartmentID == 2)
+      {
+        if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length > 0) {
+          await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
+            if (item.ApplyNocID != rowitem.ApplyNocID) {
+              rowitem.IsChecked = false;
+            }
+            else {
+              rowitem.IsChecked = true;
+            }
+          });
+        }
       }
      
 
@@ -445,6 +448,8 @@ export class ApplyNocParameterComponent implements OnInit {
         else if (this.request.ApplyNocCode == 'DEC_PNOCSubject') {
           this.ApplyNocParameterMasterList_PNOCOfSubject = null;
         }
+
+
         if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length == 0)
         {
           this.isShowPriceDetails = false;
