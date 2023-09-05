@@ -186,6 +186,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
               this.isCheck30Female = true;
               return;
             }
+            if (data['Data'][0]['data'][0]['PendingOtherInformation']>0) {
+              this.toastr.error("Enter All Other Information Details.")
+              this.isCheck30Female = true;
+              return;
+            }
 
             if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
               this.toastr.error("Enter All Class Room Details.")
