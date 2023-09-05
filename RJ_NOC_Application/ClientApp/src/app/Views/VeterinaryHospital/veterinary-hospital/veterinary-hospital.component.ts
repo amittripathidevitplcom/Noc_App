@@ -402,38 +402,38 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.GetAnimalName = this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.requestAnimal.AnimalMasterID).AnimalName;
       if (this.Seats == '50') {
         if (this.GetAnimalName == 'Cow') {
-          if (this.requestAnimal.AnimalCount > 10 || this.requestAnimal.AnimalCount == 0) {
+          if (this.requestAnimal.AnimalCount < 10 || this.requestAnimal.AnimalCount == 0) {
             this.isValidAnimalCount = true;
             this.AnimalCountValidate = 'Enter Minimum 10 Cow';
             return;
           }
         }
         else if (this.GetAnimalName == 'Goat') {
-          if (this.requestAnimal.MaleAnimalCount > 1 || this.requestAnimal.MaleAnimalCount == 0) {
+          if (this.requestAnimal.MaleAnimalCount < 1 || this.requestAnimal.MaleAnimalCount == 0) {
             this.isValidMaleAnimalCount = true;
             this.MaleAnimalCountValidate = 'Enter Minimum 1 Male Goat'
             return;
           }
-          else if (this.requestAnimal.FemaleAnimalCount > 20 || this.requestAnimal.FemaleAnimalCount == 0) {
+          else if (this.requestAnimal.FemaleAnimalCount < 20 || this.requestAnimal.FemaleAnimalCount == 0) {
             this.isValidFemaleAnimalCount = true;
             this.FemaleAnimalCountValidate = 'Enter Minimum 20 Female Goat'
             return;
           }
         }
         else if (this.GetAnimalName == 'Cock') {
-          if (this.requestAnimal.AnimalCount > 100 || this.requestAnimal.AnimalCount == 0) {
+          if (this.requestAnimal.AnimalCount < 100 || this.requestAnimal.AnimalCount == 0) {
             this.isValidAnimalCount = true;
             this.AnimalCountValidate = 'There will be a minimum of 100 layers to operate';
             return;
           }
         }
         else if (this.GetAnimalName == 'pig') {
-          if (this.requestAnimal.MaleAnimalCount > 1 || this.requestAnimal.MaleAnimalCount == 0) {
+          if (this.requestAnimal.MaleAnimalCount < 1 || this.requestAnimal.MaleAnimalCount == 0) {
             this.isValidMaleAnimalCount = true;
             this.MaleAnimalCountValidate = 'Enter Minimum 1 Male Pig';
             return;
           }
-          else if (this.requestAnimal.FemaleAnimalCount > 5  || this.requestAnimal.FemaleAnimalCount == 0) {
+          else if (this.requestAnimal.FemaleAnimalCount < 5  || this.requestAnimal.FemaleAnimalCount == 0) {
             this.isValidFemaleAnimalCount = true;
             this.FemaleAnimalCountValidate = 'Enter Minimum 5 Female Pig';
             return;
@@ -442,38 +442,38 @@ export class VeterinaryHospitalComponent implements OnInit {
       }
       else if (this.Seats == '100') {
         if (this.GetAnimalName == 'Cow') {
-          if (this.requestAnimal.AnimalCount > 20 || this.requestAnimal.AnimalCount == 0) {
+          if (this.requestAnimal.AnimalCount < 20 || this.requestAnimal.AnimalCount == 0) {
             this.isValidAnimalCount = true;
             this.AnimalCountValidate = 'Enter Minimum 20 Cow';
             return;
           }
         }
         else if (this.GetAnimalName == 'Goat') {
-          if (this.requestAnimal.MaleAnimalCount > 2 || this.requestAnimal.MaleAnimalCount == 0) {
+          if (this.requestAnimal.MaleAnimalCount < 2 || this.requestAnimal.MaleAnimalCount == 0) {
             this.isValidMaleAnimalCount = true;
             this.MaleAnimalCountValidate = 'Enter Minimum 2 Male Goat';
             return;
           }
-          else if (this.requestAnimal.FemaleAnimalCount > 40  || this.requestAnimal.FemaleAnimalCount == 0) {
+          else if (this.requestAnimal.FemaleAnimalCount < 40  || this.requestAnimal.FemaleAnimalCount == 0) {
             this.isValidFemaleAnimalCount = true;
             this.FemaleAnimalCountValidate = 'Enter Minimum 40 Female Goat';
             return;
           }
         }
         else if (this.GetAnimalName == 'Hen') {
-          if (this.requestAnimal.AnimalCount > 200 || this.requestAnimal.AnimalCount == 0) {
+          if (this.requestAnimal.AnimalCount < 200 || this.requestAnimal.AnimalCount == 0) {
             this.isValidAnimalCount = true;
             this.AnimalCountValidate = 'There will be a minimum of 200 layers to operate';
             return;
           }
         }
         else if (this.GetAnimalName == 'pig') {
-          if (this.requestAnimal.MaleAnimalCount > 2 || this.requestAnimal.MaleAnimalCount == 0 ) {
+          if (this.requestAnimal.MaleAnimalCount < 2 || this.requestAnimal.MaleAnimalCount == 0 ) {
             this.isValidMaleAnimalCount = true;
             this.MaleAnimalCountValidate = 'Enter Minimum 2 Male Pig';
             return;
           }
-          else if (this.requestAnimal.FemaleAnimalCount > 10 || this.requestAnimal.FemaleAnimalCount == 0) {
+          else if (this.requestAnimal.FemaleAnimalCount < 10 || this.requestAnimal.FemaleAnimalCount == 0) {
             this.isValidFemaleAnimalCount = true;
             this.FemaleAnimalCountValidate = 'Enter Minimum 10 Female Pig';
             return;
