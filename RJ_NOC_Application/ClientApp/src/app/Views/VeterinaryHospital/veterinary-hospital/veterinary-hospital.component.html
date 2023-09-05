@@ -35,7 +35,7 @@
                 <input type="text" class="form-control" id="txtDistanceFromInstitute" name="txtDistanceFromInstitute" [(ngModel)]="request.DistanceFromInstitute" formControlName="txtDistanceFromInstitute" maxlength="2" (keypress)="numberOnly($event)" />
 
                 <div *ngIf="isSubmitted&&form.txtDistanceFromInstitute.errors" class="text-danger">
-                  <p *ngIf="form.txtDistanceFromInstitute.errors.required"><i aria-hidden="true"></i> This field is required .!</p>                  
+                  <p *ngIf="form.txtDistanceFromInstitute.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
 
                 <div *ngIf="isSubmitted&&request.DistanceFromInstitute>20" class="text-danger">
@@ -377,6 +377,7 @@
                       <div class="d-flex">
                         <button type="button" (click)="Edit_OnClick(item.VeterinaryHospitalID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                         <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.VeterinaryHospitalID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewAnimalDetail(mymodal,item.VeterinaryHospitalID)"><i class="fa fa-eye"></i></button>
                       </div>
                     </td>
                   </tr>
@@ -388,6 +389,44 @@
       </div>
     </div>
   </div>
+  <ng-template #mymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Animal Details</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="table-responsive" *ngIf="ViewAnimalDetails.length>0">
+              <table class="table table-hover table-striped-columns">
+                <thead>
+                  <tr>
+                    <th>Sr. No</th>
+                    <th>Animal Name</th>
+                    <th>Male Animal Count</th>
+                    <th>Female Animal Count</th>
+                    <th>Animal Count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of ViewAnimalDetails | tableSearchFilter:searchText;let indexOfelement=index;">
+                    <td>{{indexOfelement+1}}</td>
+                    <td>{{item.AnimalName}}</td>
+                    <td>{{item.MaleAnimalCount}}</td>
+                    <td>{{item.FemaleAnimalCount}}</td>
+                    <td>{{item.AnimalCount}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>
 
 

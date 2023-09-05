@@ -15,6 +15,7 @@ import autoTable, { Table } from 'jspdf-autotable'
 import * as XLSX from 'xlsx';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-veterinary-hospital',
@@ -98,10 +99,12 @@ export class VeterinaryHospitalComponent implements OnInit {
 
   sSOLoginDataModel = new SSOLoginDataModel();
 
+  closeResult: string | undefined;
+  public ViewAnimalDetails: any = [];
 
   constructor(private veterinaryHospitalService: VeterinaryHospitalService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute,
-    private routers: Router, private cdRef: ChangeDetectorRef, private clipboard: Clipboard) { }
+    private routers: Router, private cdRef: ChangeDetectorRef, private clipboard: Clipboard, private modalService: NgbModal) { }
 
   init() {
     this.loaderService.getSpinnerObserver().subscribe((status) => {
@@ -902,5 +905,43 @@ export class VeterinaryHospitalComponent implements OnInit {
       }, 200);
     }
 
+  }
+
+  async ViewAnimalDetail(content: any, VeterinaryHospitalID: number) {
+    /*this.request = new StaffDetailDataModel();*/
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.veterinaryHospitalService.GetVeterinaryHospitalByID(VeterinaryHospitalID, this.UserID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ViewAnimalDetails = data['Data']["AnimalDetails"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }
