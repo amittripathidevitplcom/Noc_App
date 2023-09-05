@@ -227,7 +227,7 @@ export class DocumentScrutinyComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
-          if (this.collegeDataList['CollegeStatusID'] == 3) {
+          if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
           }
