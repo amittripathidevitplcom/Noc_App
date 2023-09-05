@@ -15,6 +15,7 @@ import autoTable, { Table } from 'jspdf-autotable'
 import * as XLSX from 'xlsx';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-veterinary-hospital',
@@ -98,10 +99,12 @@ export class VeterinaryHospitalComponent implements OnInit {
 
   sSOLoginDataModel = new SSOLoginDataModel();
 
+  closeResult: string | undefined;
+  public ViewAnimalDetails: any = [];
 
   constructor(private veterinaryHospitalService: VeterinaryHospitalService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute,
-    private routers: Router, private cdRef: ChangeDetectorRef, private clipboard: Clipboard) { }
+    private routers: Router, private cdRef: ChangeDetectorRef, private clipboard: Clipboard, private modalService: NgbModal) { }
 
   init() {
     this.loaderService.getSpinnerObserver().subscribe((status) => {
@@ -387,7 +390,6 @@ export class VeterinaryHospitalComponent implements OnInit {
   }
   async AddAnimalDetails() {
     try {
-      debugger;
       this.loaderService.requestStarted();
       this.isValidAnimalCount = false;
       this.isValidMaleAnimalCount = false;
@@ -399,38 +401,38 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.GetAnimalName = this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.requestAnimal.AnimalMasterID).AnimalName;
       if (this.Seats == '50') {
         if (this.GetAnimalName == 'Cow') {
-          if (this.requestAnimal.AnimalCount > 10 || this.requestAnimal.AnimalCount == 0) {
+          if (this.requestAnimal.AnimalCount < 10 || this.requestAnimal.AnimalCount == 0) {
             this.isValidAnimalCount = true;
             this.AnimalCountValidate = 'Enter Minimum 10 Cow';
             return;
           }
         }
         else if (this.GetAnimalName == 'Goat') {
-          if (this.requestAnimal.MaleAnimalCount > 1 || this.requestAnimal.MaleAnimalCount == 0) {
+          if (this.requestAnimal.MaleAnimalCount < 1 || this.requestAnimal.MaleAnimalCount == 0) {
             this.isValidMaleAnimalCount = true;
             this.MaleAnimalCountValidate = 'Enter Minimum 1 Male Goat'
             return;
           }
-          else if (this.requestAnimal.FemaleAnimalCount > 20 || this.requestAnimal.FemaleAnimalCount == 0) {
+          else if (this.requestAnimal.FemaleAnimalCount < 20 || this.requestAnimal.FemaleAnimalCount == 0) {
             this.isValidFemaleAnimalCount = true;
             this.FemaleAnimalCountValidate = 'Enter Minimum 20 Female Goat'
             return;
           }
         }
         else if (this.GetAnimalName == 'Cock') {
-          if (this.requestAnimal.AnimalCount > 100 || this.requestAnimal.AnimalCount == 0) {
+          if (this.requestAnimal.AnimalCount < 100 || this.requestAnimal.AnimalCount == 0) {
             this.isValidAnimalCount = true;
             this.AnimalCountValidate = 'There will be a minimum of 100 layers to operate';
             return;
           }
         }
         else if (this.GetAnimalName == 'pig') {
-          if (this.requestAnimal.MaleAnimalCount > 1 || this.requestAnimal.MaleAnimalCount == 0) {
+          if (this.requestAnimal.MaleAnimalCount < 1 || this.requestAnimal.MaleAnimalCount == 0) {
             this.isValidMaleAnimalCount = true;
             this.MaleAnimalCountValidate = 'Enter Minimum 1 Male Pig';
             return;
           }
-          else if (this.requestAnimal.FemaleAnimalCount > 5  || this.requestAnimal.FemaleAnimalCount == 0) {
+          else if (this.requestAnimal.FemaleAnimalCount < 5 || this.requestAnimal.FemaleAnimalCount == 0) {
             this.isValidFemaleAnimalCount = true;
             this.FemaleAnimalCountValidate = 'Enter Minimum 5 Female Pig';
             return;
@@ -439,47 +441,44 @@ export class VeterinaryHospitalComponent implements OnInit {
       }
       else if (this.Seats == '100') {
         if (this.GetAnimalName == 'Cow') {
-          if (this.requestAnimal.AnimalCount > 20 || this.requestAnimal.AnimalCount == 0) {
+          if (this.requestAnimal.AnimalCount < 20 || this.requestAnimal.AnimalCount == 0) {
             this.isValidAnimalCount = true;
             this.AnimalCountValidate = 'Enter Minimum 20 Cow';
             return;
           }
         }
         else if (this.GetAnimalName == 'Goat') {
-          if (this.requestAnimal.MaleAnimalCount > 2 || this.requestAnimal.MaleAnimalCount == 0) {
+          if (this.requestAnimal.MaleAnimalCount < 2 || this.requestAnimal.MaleAnimalCount == 0) {
             this.isValidMaleAnimalCount = true;
             this.MaleAnimalCountValidate = 'Enter Minimum 2 Male Goat';
             return;
           }
-          else if (this.requestAnimal.FemaleAnimalCount > 40  || this.requestAnimal.FemaleAnimalCount == 0) {
+          else if (this.requestAnimal.FemaleAnimalCount < 40 || this.requestAnimal.FemaleAnimalCount == 0) {
             this.isValidFemaleAnimalCount = true;
             this.FemaleAnimalCountValidate = 'Enter Minimum 40 Female Goat';
             return;
           }
         }
-        else if (this.GetAnimalName == 'Hen') {
-          if (this.requestAnimal.AnimalCount > 200 || this.requestAnimal.AnimalCount == 0) {
+        else if (this.GetAnimalName == 'Cock') {
+          if (this.requestAnimal.AnimalCount < 200 || this.requestAnimal.AnimalCount == 0) {
             this.isValidAnimalCount = true;
             this.AnimalCountValidate = 'There will be a minimum of 200 layers to operate';
             return;
           }
         }
         else if (this.GetAnimalName == 'pig') {
-          if (this.requestAnimal.MaleAnimalCount > 2 || this.requestAnimal.MaleAnimalCount == 0 ) {
+          if (this.requestAnimal.MaleAnimalCount < 2 || this.requestAnimal.MaleAnimalCount == 0) {
             this.isValidMaleAnimalCount = true;
             this.MaleAnimalCountValidate = 'Enter Minimum 2 Male Pig';
             return;
           }
-          else if (this.requestAnimal.FemaleAnimalCount > 10 || this.requestAnimal.FemaleAnimalCount == 0) {
+          else if (this.requestAnimal.FemaleAnimalCount < 10 || this.requestAnimal.FemaleAnimalCount == 0) {
             this.isValidFemaleAnimalCount = true;
             this.FemaleAnimalCountValidate = 'Enter Minimum 10 Female Pig';
             return;
           }
         }
       }
-
-
-      this.GetAnimalName = this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.requestAnimal.AnimalMasterID).AnimalName;
       if (this.request.AnimalDetails.length > 0) {
         var result = this.request.AnimalDetails.filter(obj => {
           return obj.AnimalMasterID === this.requestAnimal.AnimalMasterID
@@ -573,12 +572,8 @@ export class VeterinaryHospitalComponent implements OnInit {
 
   async GetTotalAnimalCount() {
     try {
-
+      this.loaderService.requestStarted();
       this.requestAnimal.AnimalCount = Number(this.requestAnimal.MaleAnimalCount) + Number(this.requestAnimal.FemaleAnimalCount);
-
-      //this.requestAnimal.MaleAnimalCount = null;
-      //this.requestAnimal.FemaleAnimalCount = null;
-      //this.requestAnimal.AnimalCount = null;
     }
     catch (Ex) {
       console.log(Ex);
@@ -902,5 +897,43 @@ export class VeterinaryHospitalComponent implements OnInit {
       }, 200);
     }
 
+  }
+
+  async ViewAnimalDetail(content: any, VeterinaryHospitalID: number) {
+    /*this.request = new StaffDetailDataModel();*/
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.veterinaryHospitalService.GetVeterinaryHospitalByID(VeterinaryHospitalID, this.UserID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ViewAnimalDetails = data['Data']["AnimalDetails"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }
