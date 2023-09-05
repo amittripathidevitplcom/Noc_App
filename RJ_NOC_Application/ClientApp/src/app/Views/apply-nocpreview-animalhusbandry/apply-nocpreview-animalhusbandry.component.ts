@@ -34,6 +34,7 @@ import { AcademicInformationDetailsDataModel } from '../../Models/AcademicInform
 import { HospitalDataModel, HospitalParentNotDataModel } from '../../Models/HospitalDataModel';
 import { CollegeService } from '../../services/collegedetailsform/College/college.service';
 import { AnimalDocumentScrutinyService } from '../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { AhDocumentScrutinyCheckListDetailsComponent } from '../DocumentScrutinyTab_AH/ah-document-scrutiny-check-list-details/ah-document-scrutiny-check-list-details.component';
 
 
 @Injectable({
@@ -146,6 +147,10 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
   public CheckFinalRemark: string = '';
 
   @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
+
+
+  @ViewChild(AhDocumentScrutinyCheckListDetailsComponent)
+  private checkListDetailsComponent_New!: AhDocumentScrutinyCheckListDetailsComponent;
   constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService,private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
@@ -170,14 +175,24 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
     if (this.selectedIndex != this.maxNumberOfTabs) {
       this.selectedIndex = this.selectedIndex + 1;
     }
+    if (this.selectedIndex == this.maxNumberOfTabs) {
+      this.checkListDetailsComponent_New.ngOnInit();
+    }
+    this.CheckTabsEntry();
   }
   PreviousStep() {
     if (this.selectedIndex != 0) {
       this.selectedIndex = this.selectedIndex - 1;
     }
+
+    this.CheckTabsEntry();
   }
   onTabChange(event: MatTabChangeEvent) {
+    if (this.selectedIndex == this.maxNumberOfTabs) {
+      this.checkListDetailsComponent_New.ngOnInit();
+    }
     this.selectedIndex = event.index;
+    this.CheckTabsEntry();
   }
 
   async GetCollageDetails() {

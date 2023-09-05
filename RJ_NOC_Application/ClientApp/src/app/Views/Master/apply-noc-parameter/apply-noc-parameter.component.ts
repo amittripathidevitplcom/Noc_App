@@ -152,6 +152,10 @@ export class ApplyNocParameterComponent implements OnInit {
   public isAlreadyApplied: boolean = false;
 
   public DepartmentInspectionFee: number = 0;
+
+  public TotalLateFees: number = 0;
+
+  public isShowPriceDetails: boolean = false;
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
     private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal, private cdref: ChangeDetectorRef) {
 
@@ -241,6 +245,13 @@ export class ApplyNocParameterComponent implements OnInit {
       this.ApplyNocParameterMasterList_TNOCExtOfSubject = null;
       this.ApplyNocParameterMasterList_PNOCOfSubject = null;
 
+      this.ApplyNocParameterMasterList_ChangeInCoedtoGirls = null;
+
+      this.request.ApplyNocLateFeeDetailList = [];
+      this.isShowPriceDetails = false;
+     
+
+
       this.isInspectionFee = false;
       this.ApplicationTypeList = [];
 
@@ -311,16 +322,19 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.ApplyNocFor = item.ApplyNocFor;
       this.request.ApplyNocCode = item.ApplyNocCode;
 
-      //debugger;
-      if (this.CollegeDepartmentID == 2) {
-        await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
-          if (item.ApplyNocID != rowitem.ApplyNocID) {
-             rowitem.IsChecked = false;
-          }
-          else {
-            rowitem.IsChecked = true;
-          }
-        });
+      debugger;
+      if (this.CollegeDepartmentID == 2)
+      {
+        if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length > 0) {
+          await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
+            if (item.ApplyNocID != rowitem.ApplyNocID) {
+              rowitem.IsChecked = false;
+            }
+            else {
+              rowitem.IsChecked = true;
+            }
+          });
+        }
       }
      
 
@@ -436,12 +450,19 @@ export class ApplyNocParameterComponent implements OnInit {
         }
 
 
+        if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length == 0)
+        {
+          this.isShowPriceDetails = false;
+          this.request.ApplyNocLateFeeDetailList = [];
+        }
+        await this.CalculateAllAmount();
         return;
       }
-
       // get
-
-      this.GetApplyNocForByParameter();
+      await this.GetApplyNocForByParameter();
+      this.isShowPriceDetails = true;
+      await this.GetNocLateFees();
+      await this.CalculateAllAmount();
     }
     catch (ex) {
       console.log(ex);
@@ -482,6 +503,35 @@ export class ApplyNocParameterComponent implements OnInit {
         }
       }, error => console.error(error));
   }
+
+
+
+
+  async GetNocLateFees() {
+    try {
+      this.loaderService.requestStarted();
+      await this.applyNocParameterService.GetNocLateFees(this.CollegeDepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.request.ApplyNocLateFeeDetailList = data['Data'][0]['data'];
+          this.TotalLateFees = this.request.ApplyNocLateFeeDetailList.map(t => t.FeesAmount).reduce((acc, value) => acc + value, 0);
+         
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
 
   HasData(): boolean {
     let HasData = false;
@@ -551,12 +601,18 @@ export class ApplyNocParameterComponent implements OnInit {
         this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
       }
 
-      if (this.isInspectionFee) {
-        this.request.TotalFeeAmount = this.DepartmentInspectionFee;
+      this.request.TotalNocFee = this.request.TotalFeeAmount;
+      if (this.request.ApplyNocLateFeeDetailList.length > 0)
+      {
+        this.request.TotalFeeAmount += this.TotalLateFees;
+        this.request.LateFee = this.TotalLateFees;
       }
 
-
-
+      if (this.isInspectionFee)
+      {
+        this.request.TotalFeeAmount = this.DepartmentInspectionFee;
+      }
+  
       // TNOC Extension      
       this.request.ApplyNocParameterMasterList_TNOCExtension = this.ApplyNocParameterMasterList_TNOCExtension;
       // filter and validation
@@ -642,7 +698,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
       this.request.ApplyNocParameterMasterList_PNOCOfSubject = this.ApplyNocParameterMasterList_PNOCOfSubject;
 
-
+     
       //validation
       this.isFormValid = this.ValidateApplyNOCForm();
       if (!this.isFormValid) {
@@ -718,6 +774,8 @@ export class ApplyNocParameterComponent implements OnInit {
 
     this.isInspectionFee = false;
     this.DepartmentInspectionFee = 0;
+
+    this.isShowPriceDetails = false;
 
 
 
@@ -1334,8 +1392,8 @@ export class ApplyNocParameterComponent implements OnInit {
 
     this.ApplyNocParameterMasterList_NewCourse.FeeAmount = this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
 
-
-
+    //calc
+    this.CalculateAllAmount();
 
 
     //close data
@@ -1408,6 +1466,10 @@ export class ApplyNocParameterComponent implements OnInit {
     //close data
     this.ApplyNocParameterMasterList_NewCourseSubject.FeeAmount = this.calcuateSumofNewSubject();
 
+    //calc
+    this.CalculateAllAmount();
+
+
     this.modalService.dismissAll('After Successd');
     this.isAddNOCCourseSubject = false;
     this.ddlCourseSubject = 0;
@@ -1448,8 +1510,13 @@ export class ApplyNocParameterComponent implements OnInit {
     data.CourseFeesAmount = CourseFeesAmount;
     data.ApplyNocParameterSubjectList = this.TNOCSubjectDetails.filter(f => f.IsChecked == true);
     this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList.push(data);
+
+    //calc
+    this.CalculateAllAmount();
     //close data
     this.ApplyNocParameterMasterList_TNOCExtOfSubject.FeeAmount = this.calcuateTNOCSubjectFees();
+
+
 
     this.modalService.dismissAll('After Success');
     this.isAddNOCCourseSubjectTNOC = false;
@@ -1493,6 +1560,9 @@ export class ApplyNocParameterComponent implements OnInit {
     this.ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList.push(data);
     //close data
     this.ApplyNocParameterMasterList_PNOCOfSubject.FeeAmount = this.calcuatePNOCSubjectFees();
+
+    //calc
+    this.CalculateAllAmount();
 
     this.modalService.dismissAll('After Success');
     this.isAddNOCCoursePNOC = false;
@@ -1545,6 +1615,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
       const indexToRemove = this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
       this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.splice(indexToRemove, 1);
+      this.CalculateAllAmount();
       //Remove Calculation
       this.ApplyNocParameterMasterList_NewCourse.FeeAmount = this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
 
@@ -1556,6 +1627,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
       const indexToRemove = this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
       this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.splice(indexToRemove, 1);
+      this.CalculateAllAmount();
       this.ApplyNocParameterMasterList_NewCourseSubject.FeeAmount = this.calcuateSumofNewSubject();
     }
   }
@@ -1567,6 +1639,7 @@ export class ApplyNocParameterComponent implements OnInit {
       const indexToRemove = this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
       this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList.splice(indexToRemove, 1);
       this.ApplyNocParameterMasterList_TNOCExtOfSubject.FeeAmount = this.calcuateTNOCSubjectFees();
+      this.CalculateAllAmount();
     }
   }
 
@@ -1575,6 +1648,7 @@ export class ApplyNocParameterComponent implements OnInit {
       const indexToRemove = this.ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
       this.ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList.splice(indexToRemove, 1);
       this.ApplyNocParameterMasterList_PNOCOfSubject.FeeAmount = this.calcuatePNOCSubjectFees();
+      this.CalculateAllAmount();
     }
   }
 
@@ -1682,14 +1756,18 @@ export class ApplyNocParameterComponent implements OnInit {
 
   async ApplyNocFor_rbChange(event: any, selectedvalue: any, item: any) {
     debugger;
-    if (item.Code == 'InspectionFee') {
+    if (item.Code == 'InspectionFee')
+    {
       this.isInspectionFee = true;
       this.GetCollegeInspectionFee();
+      this.request.ApplyNocLateFeeDetailList = [];
+      this.isShowPriceDetails = false;
 
     }
     else {
       this.GetApplyNocParameterMaster();
       this.isInspectionFee = false;
+     // this.isShowPriceDetails = true;
     }
 
     this.ApplyNocParameterMasterList_TNOCExtension = null;
@@ -1704,6 +1782,11 @@ export class ApplyNocParameterComponent implements OnInit {
     this.ApplyNocParameterMasterList_NewCourseSubject = null;
     this.ApplyNocParameterMasterList_TNOCExtOfSubject = null;
     this.ApplyNocParameterMasterList_PNOCOfSubject = null;
+
+    this.ApplyNocParameterMasterList_ChangeInCoedtoGirls = null
+  
+
+
   }
 
 
@@ -1717,7 +1800,7 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
   async SaveInspectionFee_click() {
-    alert(this.DepartmentInspectionFee);
+    this.DepartmentInspectionFee;
   }
 
 
@@ -1749,7 +1832,45 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
+  async CalculateAllAmount()
+  {
+    this.request.ApplyNocParameterMasterListDataModel = this.ApplyNocParameterMasterList_ddl;
 
+    let totalFeeList = this.request.ApplyNocParameterMasterListDataModel?.filter((element: any) => { return element.IsChecked == true; });
+    // and total fee
+    this.request.TotalFeeAmount = 0;
+    for (let i = 0; i < totalFeeList.length; i++) {
+      this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
+    }
+    //for Dec New Subject
+    if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
+      //for Dec New Subject
+      this.request.TotalFeeAmount += this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
+    }
+    //for Dec New Subject
+    if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
+
+      this.request.TotalFeeAmount += this.calcuateSumofNewSubject();
+    }
+    //DEC TNOC
+    if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
+
+      this.request.TotalFeeAmount += this.calcuateTNOCSubjectFees();
+    }
+    //DEC NOC
+    if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
+
+      this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
+    }
+
+    this.request.TotalNocFee = this.request.TotalFeeAmount;
+    if (this.request.ApplyNocLateFeeDetailList.length > 0) {
+      this.request.TotalFeeAmount += this.TotalLateFees;
+      this.request.LateFee = this.TotalLateFees;
+    }
+
+    
+  }
 
 
 }

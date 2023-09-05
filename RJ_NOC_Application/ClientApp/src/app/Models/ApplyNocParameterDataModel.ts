@@ -15,6 +15,9 @@ export class ApplyNocParameterDataModel {
   public ModifyBy: number = 0;
 
   public SSOID: string = '';
+  public TotalNocFee: number = 0;
+  public LateFee: number = 0;
+ 
 
   public ApplyNocParameterMasterListDataModel: ApplyNocParameterMasterListDataModel[] = [];
 
@@ -35,6 +38,8 @@ export class ApplyNocParameterDataModel {
 
   public ApplyNocParameterMasterList_TNOCExtOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_PNOCOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
+
+  public ApplyNocLateFeeDetailList: ApplyNocLateFeeDetailDataModal[] = [];
 
 }
 
@@ -264,6 +269,18 @@ export class ApplyNocParameterMasterList_MergerCollege {
   public Dis_StaffInformation: string = '';
   public StaffInformation: string = '';
   public StaffInformationPath: string = '';
+}
+
+
+export class ApplyNocLateFeeDetailDataModal
+{
+  public ID: number = 0;
+  public DepartmentID: number = 0;
+  public LateFeeID: number = 0;
+  public FeesType: string = '';
+  public FeesAmount: number = 0;
+  public StartDate: string = '';
+  public EndDate: string = '';
 }
 
 
