@@ -77,6 +77,11 @@
             <div *ngIf="isSubmitted&&form.txtNoOfLab.errors" class="text-danger">
               <p *ngIf="form.txtNoOfLab.errors.required">This field is required .!</p>
             </div>
+
+            <div *ngIf="request.CourseID>0">
+              <p *ngIf="NoofPredicalRooms>0" class="{{request.NoOfRooms >= NoofPredicalRooms ? '' : CssClass_TextDangerNoOfLab}}">Please Enter Min No. of Lab : {{NoofPredicalRooms}}</p>
+            </div>
+
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -134,7 +139,7 @@
                         <th>Student Capacity</th>
                         <th>No of Lab</th>
                         <th>Upload Image</th>
-                        <th  align="center">Action</th>
+                        <th align="center">Action</th>
                       </tr>
                     </thead>
                     <tbody>
