@@ -494,6 +494,10 @@ export class ApplyNocParameterComponent implements OnInit {
   }
   public isSave: boolean = true;
   async SaveApplyNoc_click() {
+
+    alert('f');
+
+    debugger;
     //this.isSave = false; 
     try {
       let isValid = true;
