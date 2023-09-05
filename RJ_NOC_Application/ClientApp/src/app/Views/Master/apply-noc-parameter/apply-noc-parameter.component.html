@@ -828,8 +828,7 @@
               </div>
             </div>
             <!--end-->
-
-           <!--Start Only Inspection Fee-->
+            <!--Start Only Inspection Fee-->
             <div class="card" *ngIf="isInspectionFee && DepartmentInspectionFee>0">
               <div class="card-header">
                 <b>Only Inspection Fee : {{DepartmentInspectionFee}}</b>
@@ -845,7 +844,73 @@
 
               </div>
             </div>
-           <!--END Only Inspection Fee-->
+            <!--END Only Inspection Fee-->
+            <!--Start Late Fee-->
+            <div class="card" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
+              <div class="card-header">
+                <b>Application Late Fees Details :₹ {{TotalLateFees}}</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellatefee">
+                      <thead>
+                        <tr>
+                          <th>Sr. No</th>
+                          <th>Fee Type</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of request.ApplyNocLateFeeDetailList;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            {{row.FeesType}}
+                          </td>
+                          <td>{{row.FeesAmount}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!--END Late Fee-->
+
+            <!--Start Late Deatils-->
+            <div class="card" *ngIf="isShowPriceDetails">
+              <div class="card-header">
+                <b>Application Late Fees Details </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+
+                    <div class="row">
+                      <div class="col-lg-2"><b> Noc Application Fees</b></div>
+                      <div class="col-lg-6">{{request.TotalNocFee}}</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-2"><b>Late Fees</b></div>
+                      <div class="col-lg-6">{{request.LateFee}}</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-2"><b>Total Application Fees</b></div>
+                      <div class="col-lg-6">{{request.TotalFeeAmount}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!--END Late Fee-->
+
+
+
+
+
+
 
           </div>
           <div class="card-footer">
