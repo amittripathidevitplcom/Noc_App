@@ -161,7 +161,7 @@ export class ApplyNocParameterComponent implements OnInit {
     this.ApplyNocParameterForm = this.formBuilder.group({
       rbApplicationType: ['', Validators.required],
       ddlCollege: ['', [DropdownValidators]],
-      cbNocFor: ['', Validators.required],
+      /*cbNocFor: ['', Validators.required],*/
       cbCourse_TNOCExtension: [''],
       cbSubject_TNOCExtension: [''],
       cbCourse_AdditionOfNewSeats60: [''],
@@ -495,7 +495,7 @@ export class ApplyNocParameterComponent implements OnInit {
   public isSave: boolean = true;
   async SaveApplyNoc_click() {
 
-    alert('f');
+   
 
     debugger;
     //this.isSave = false; 
