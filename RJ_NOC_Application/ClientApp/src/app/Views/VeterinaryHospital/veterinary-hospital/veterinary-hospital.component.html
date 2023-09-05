@@ -228,23 +228,35 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isMaleFemaleAnimal">
                   <label class="form-label">Enter Male Animal Count <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtMaleAnimalCount" name="txtMaleAnimalCount" [(ngModel)]="requestAnimal.MaleAnimalCount" formControlName="txtMaleAnimalCount" maxlength="4" (keypress)="numberOnly($event)" />
-                  <div *ngIf="isAnimalAdded&&animalform.txtMaleAnimalCount.errors" class="text-danger">
-                    <p *ngIf="animalform.txtMaleAnimalCount.errors.required"> This field is required .!</p>
+                  <input type="text" class="form-control" id="txtMaleAnimalCount" name="txtMaleAnimalCount" [(ngModel)]="requestAnimal.MaleAnimalCount" formControlName="txtMaleAnimalCount" maxlength="4" (change)="GetTotalAnimalCount()" (keypress)="numberOnly($event)" />
+                  <p *ngIf="isAnimalAdded&&requestAnimal.MaleAnimalCount ==0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+                  <!--<div *ngIf="isAnimalAdded&&animalform.txtMaleAnimalCount.errors" class="text-danger">
+                    <p *ngIf="animalform.txtMaleAnimalCount.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>-->
+                  <div *ngIf="isValidMaleAnimalCount" class="text-danger">
+                    <p *ngIf="isValidMaleAnimalCount"> {{MaleAnimalCountValidate}}</p>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isMaleFemaleAnimal">
                   <label class="form-label">Enter Female Animal Count <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtFemaleAnimalCount" name="txtFemaleAnimalCount" [(ngModel)]="requestAnimal.FemaleAnimalCount" formControlName="txtFemaleAnimalCount" maxlength="4" (keypress)="numberOnly($event)" />
-                  <div *ngIf="isAnimalAdded&&animalform.txtFemaleAnimalCount.errors" class="text-danger">
-                    <p *ngIf="animalform.txtFemaleAnimalCount.errors.required"> This field is required .!</p>
+                  <input type="text" class="form-control" id="txtFemaleAnimalCount" name="txtFemaleAnimalCount" [(ngModel)]="requestAnimal.FemaleAnimalCount" formControlName="txtFemaleAnimalCount" maxlength="4" (change)="GetTotalAnimalCount()" (keypress)="numberOnly($event)" />
+                  <p *ngIf="isAnimalAdded&&requestAnimal.FemaleAnimalCount ==0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+                  <!--<div *ngIf="isAnimalAdded&&animalform.txtFemaleAnimalCount.errors" class="text-danger">
+                    <p *ngIf="animalform.txtFemaleAnimalCount.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>-->
+                  <div *ngIf="isValidFemaleAnimalCount" class="text-danger">
+                    <p *ngIf="isValidFemaleAnimalCount"> {{FemaleAnimalCountValidate}}</p>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">{{AnimalCountText}}<span style="color:red;">*</span></label>
                   <input type="text" class="form-control" id="txtAnimalCount" name="txtAnimalCount" [(ngModel)]="requestAnimal.AnimalCount" formControlName="txtAnimalCount" maxlength="4" (keypress)="numberOnly($event)" />
+                  <!--<p *ngIf="isAnimalAdded&&requestAnimal.AnimalCount ==null" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>-->
                   <div *ngIf="isAnimalAdded&&animalform.txtAnimalCount.errors" class="text-danger">
-                    <p *ngIf="animalform.txtAnimalCount.errors.required"> This field is required .!</p>
+                    <p *ngIf="animalform.txtAnimalCount.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                  <div *ngIf="isValidAnimalCount" class="text-danger">
+                    <p *ngIf="isValidAnimalCount"> {{AnimalCountValidate}}</p>
                   </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -261,6 +273,8 @@
                           <tr>
                             <th>Sr. No</th>
                             <th>Animal Name</th>
+                            <th>Male Animal Count</th>
+                            <th>Female Animal Count</th>
                             <th>Animal Count</th>
                             <th>Action</th>
                           </tr>
@@ -269,6 +283,8 @@
                           <tr *ngFor="let item of request.AnimalDetails | tableSearchFilter:searchText;let indexOfelement=index;">
                             <td>{{indexOfelement+1}}</td>
                             <td>{{item.AnimalName}}</td>
+                            <td>{{item.MaleAnimalCount}}</td>
+                            <td>{{item.FemaleAnimalCount}}</td>
                             <td>{{item.AnimalCount}}</td>
                             <td>
                               <button class="btn btn-danger" type="button" (click)="DeleteAnimal(indexOfelement)"><i class="fa fa-trash-o"></i></button>
