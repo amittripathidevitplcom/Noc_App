@@ -89,9 +89,10 @@ export class ApplicationDetailEntryComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.collegeService.GetData(this.SelectedCollageID)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
-          if (this.collegeDataList['CollegeStatusID'] == 3) {
+          if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
           }
