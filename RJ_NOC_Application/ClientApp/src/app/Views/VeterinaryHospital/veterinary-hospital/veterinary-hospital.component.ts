@@ -433,7 +433,7 @@ export class VeterinaryHospitalComponent implements OnInit {
             this.MaleAnimalCountValidate = 'Enter Minimum 1 Male Pig';
             return;
           }
-          else if (this.requestAnimal.FemaleAnimalCount < 5  || this.requestAnimal.FemaleAnimalCount == 0) {
+          else if (this.requestAnimal.FemaleAnimalCount < 5 || this.requestAnimal.FemaleAnimalCount == 0) {
             this.isValidFemaleAnimalCount = true;
             this.FemaleAnimalCountValidate = 'Enter Minimum 5 Female Pig';
             return;
@@ -454,13 +454,13 @@ export class VeterinaryHospitalComponent implements OnInit {
             this.MaleAnimalCountValidate = 'Enter Minimum 2 Male Goat';
             return;
           }
-          else if (this.requestAnimal.FemaleAnimalCount < 40  || this.requestAnimal.FemaleAnimalCount == 0) {
+          else if (this.requestAnimal.FemaleAnimalCount < 40 || this.requestAnimal.FemaleAnimalCount == 0) {
             this.isValidFemaleAnimalCount = true;
             this.FemaleAnimalCountValidate = 'Enter Minimum 40 Female Goat';
             return;
           }
         }
-        else if (this.GetAnimalName == 'Hen') {
+        else if (this.GetAnimalName == 'Cock') {
           if (this.requestAnimal.AnimalCount < 200 || this.requestAnimal.AnimalCount == 0) {
             this.isValidAnimalCount = true;
             this.AnimalCountValidate = 'There will be a minimum of 200 layers to operate';
@@ -468,7 +468,7 @@ export class VeterinaryHospitalComponent implements OnInit {
           }
         }
         else if (this.GetAnimalName == 'pig') {
-          if (this.requestAnimal.MaleAnimalCount < 2 || this.requestAnimal.MaleAnimalCount == 0 ) {
+          if (this.requestAnimal.MaleAnimalCount < 2 || this.requestAnimal.MaleAnimalCount == 0) {
             this.isValidMaleAnimalCount = true;
             this.MaleAnimalCountValidate = 'Enter Minimum 2 Male Pig';
             return;
@@ -578,10 +578,6 @@ export class VeterinaryHospitalComponent implements OnInit {
     try {
 
       this.requestAnimal.AnimalCount = Number(this.requestAnimal.MaleAnimalCount) + Number(this.requestAnimal.FemaleAnimalCount);
-
-      //this.requestAnimal.MaleAnimalCount = null;
-      //this.requestAnimal.FemaleAnimalCount = null;
-      //this.requestAnimal.AnimalCount = null;
     }
     catch (Ex) {
       console.log(Ex);
