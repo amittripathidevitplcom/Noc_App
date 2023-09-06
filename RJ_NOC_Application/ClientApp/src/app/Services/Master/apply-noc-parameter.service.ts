@@ -151,4 +151,12 @@ export class ApplyNocParameterService {
       ).toPromise();
   }
 
+
+
+  public async GetNocLateFees(DepartmentID: number) {
+    return await this.http.get(this.APIUrl + "/GetNocLateFees/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
