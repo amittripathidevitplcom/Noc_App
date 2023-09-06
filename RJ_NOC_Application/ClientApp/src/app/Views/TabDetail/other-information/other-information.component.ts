@@ -174,6 +174,7 @@ export class OtherInformationComponent implements OnInit {
       else {
         this.ShowHideBook = false;
       }
+
       this.loaderService.requestStarted();
       this.commonMasterService.GetOtherInformationSize(this.request.CourseID)
         .then((data: any) => {
