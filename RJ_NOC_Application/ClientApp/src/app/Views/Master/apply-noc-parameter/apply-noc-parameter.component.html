@@ -882,17 +882,17 @@
             <!--Start Late Deatils-->
             <div class="card" *ngIf="isShowPriceDetails">
               <div class="card-header">
-                <b>Application Late Fees Details </b>
+                <b>Application Fees Details </b>
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="table-responsive">
 
-                    <div class="row">
+                    <div class="row" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
                       <div class="col-lg-2"><b> Noc Application Fees</b></div>
                       <div class="col-lg-6">{{request.TotalNocFee}}</div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
                       <div class="col-lg-2"><b>Late Fees</b></div>
                       <div class="col-lg-6">{{request.LateFee}}</div>
                     </div>

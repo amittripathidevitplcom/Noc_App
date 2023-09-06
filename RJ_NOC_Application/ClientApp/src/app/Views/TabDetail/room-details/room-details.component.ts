@@ -177,7 +177,7 @@ export class RoomDetailsComponent implements OnInit {
           this.NoofPredicalRooms = this.RoomSizeDataList[0]['NoofPredicalRooms'];
           console.log(this.RoomSizeDataList);
         }, error => console.error(error));
-      debugger;
+     
       let NoofStudents = 0;
       if (this.SelectedDepartmentID == 2) {
         await this.commonMasterService.GetCourseLevelByCollegeIDAndDepartmentID(this.SelectedCollageID, this.SelectedDepartmentID)
