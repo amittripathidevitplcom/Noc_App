@@ -33,11 +33,11 @@
             <td>{{item.OwnerName}}</td>
             <td>{{item.RuralUrban}}</td>
             <td>{{item.ContactNo}}</td>
-            <td>{{item.FromDate}}</td>
-            <td>{{item.ToDate}}</td>
+            <td>{{item.FromDate | date:'dd-MM-yyyy'}}</td>
+            <td>{{item.ToDate | date:'dd-MM-yyyy'}}</td>
             <td>{{item.OrderNo}}</td>
-            <td>{{item.OrderDate}}</td>
-            <td>{{item.ExpiringOn}}</td>
+            <td>{{item.OrderDate | date:'dd-MM-yyyy'}}</td>
+            <td>{{item.ExpiringOn | date:'dd-MM-yyyy'}}</td>
             <td>
               <div class="d-flex">
                 <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewBuildingDetails(mymodal,item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></button>
@@ -131,7 +131,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Rent Valid Up To :</b></label>
-                <input class="form-control disabled" disabled value="{{buildingdetails.Rentvaliditydate}}" />
+                <input class="form-control disabled" disabled value="{{buildingdetails.Rentvaliditydate | date:'dd-MM-yyyy'}}" />
               </div>
             </div>
             <div class="card">
@@ -148,7 +148,7 @@
 
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
                     <label class="form-label"><b>Order Date :</b></label>
-                    <input class="form-control disabled" disabled value="{{buildingdetails.OwnBuildingOrderDate}}" />
+                    <input class="form-control disabled" disabled value="{{buildingdetails.OwnBuildingOrderDate | date:'dd-MM-yyyy'}}" />
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label><b>Upload Own Building Document :</b></label>
@@ -168,12 +168,12 @@
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label class="form-label"><b>From Date :</b></label>
-                    <input class="form-control disabled" disabled value="{{buildingdetails.FromDate}}" />
+                    <input class="form-control disabled" disabled value="{{buildingdetails.FromDate | date:'dd-MM-yyyy'}}" />
                   </div>
 
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label class="form-label"><b>To Date :</b></label>
-                    <input class="form-control disabled" disabled value="{{buildingdetails.ToDate}}" />
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ToDate | date:'dd-MM-yyyy'}}" />
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label><b>Upload Fire NOC Document :</b></label>
@@ -197,11 +197,11 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
                     <label for="txtOrderDate"><b>Order Date :</b></label>
-                    <input class="form-control disabled" disabled value="{{buildingdetails.OrderDate}}" />
+                    <input class="form-control disabled" disabled value="{{buildingdetails.OrderDate | date:'dd-MM-yyyy'}}" />
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
                     <label for="txtExpiringOn"><b>Expiring On :</b></label>
-                    <input class="form-control disabled" disabled value="{{buildingdetails.ExpiringOn}}" />
+                    <input class="form-control disabled" disabled value="{{buildingdetails.ExpiringOn | date:'dd-MM-yyyy'}}" />
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label><b>Upload PWD NOC Document :</b></label>

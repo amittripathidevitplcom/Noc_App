@@ -40,6 +40,7 @@ export class SocietyDataModel {
   public ConsentLetter: string = '';
   public Dis_ConsentLetter: string = '';
   public ConsentLetterPath: string = '';
+  public OtherOccupation: string = '';
   //public FileName: string = '';
   //public FilePath: string = '';
 

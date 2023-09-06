@@ -129,11 +129,11 @@
         </div>
         <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
           <label><b>From Date</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.FromDate}}" />
+          <input class="form-control disabled" disabled value="{{request.FromDate | date:'dd-MM-yyyy'}}" />
         </div>
         <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
           <label><b>To Date</b>:&nbsp;&nbsp; </label>
-          <input class="form-control disabled" disabled value="{{request.ToDate}}" />
+          <input class="form-control disabled" disabled value="{{request.ToDate | date:'dd-MM-yyyy'}}" />
         </div>
         <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
           <label><b>Rent Document</b> :&nbsp;&nbsp;</label>

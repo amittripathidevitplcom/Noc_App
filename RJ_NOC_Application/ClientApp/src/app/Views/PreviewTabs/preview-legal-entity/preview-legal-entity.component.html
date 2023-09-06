@@ -138,7 +138,7 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="legalEntityInstituteDetailData.length>0">
+        <div class="row" *ngIf="TrusteeGeneralInfoList.length>0">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
@@ -180,7 +180,7 @@
                               {{idx+1}}
                             </td>
                             <td>
-                              {{row.DateOfElectionOfPresentManagementCommittee}}
+                              {{row.DateOfElectionOfPresentManagementCommittee | date:'dd-MM-yyyy'}}
                             </td>
                             <td>
                               {{row.WomenMembersOfManagementCommitteeID==1?'Yes':'No'}}

@@ -23,7 +23,12 @@
                 <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
                 <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
                 <th>SNo</th>
+                <th>College</th>
                 <th>Name</th>
+                <th>Designation</th>
+                <th>Occupation</th>
+                <th>Other Occupation</th>
+                <th>Management Committee Should have at least two educationists</th>
                 <th>Father Name</th>
                 <th>Mobile No</th>
                 <th>Gender</th>
@@ -35,6 +40,8 @@
                 <th>Signature Document</th>
                 <th>Profile Photo</th>
                 <th>Authorized Document</th>
+                <th>Education Proof</th>
+                <th>Consent Letter</th>
                 <th>Is Primary</th>
                 <th>Is Authorize</th>
               </tr>
@@ -69,7 +76,12 @@
                   <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
                 </td>
                 <td>{{idx+1}}</td>
+                <td>{{row.CollegeNameEn}}</td>
                 <td>{{row.PersonName}}</td>
+                <td>{{row.DesignationName}}</td>
+                <td>{{row.OccupationName}}</td>
+                <td>{{row.OtherOccupation}}</td>
+                <td>{{row.Educationists}}</td>
                 <td>{{row.FatherName}}</td>
                 <td>{{row.MobileNo}}</td>
                 <td>{{row.Gender}}</td>
@@ -105,6 +117,20 @@
                     <img src="{{row.AuthorizedDocumentPath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AuthorizedDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </td>
+                <td>
+                  <a *ngIf="!row.EducationProof.includes('.pdf') && row.EducationProofPath!='N/A'" data-fancybox="gallery" href="{{row.EducationProofPath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{row.EducationProofPath}}" alt="Education Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="row.EducationProofPath=='N/A'">{{row.EducationProofPath}}</label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.EducationProof.includes('.pdf') && row.EducationProofPath!='N/A'" data-fancybox="gallery" href="{{row.EducationProofPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </td>
+                <td>
+                  <a *ngIf="!row.ConsentLetter.includes('.pdf') && row.ConsentLetterPath!='N/A'" data-fancybox="gallery" href="{{row.ConsentLetterPath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{row.ConsentLetterPath}}" alt="Consent Letter" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="row.ConsentLetterPath=='N/A'">{{row.ConsentLetterPath}}</label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ConsentLetter.includes('.pdf') && row.ConsentLetterPath!='N/A'" data-fancybox="gallery" href="{{row.ConsentLetterPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
                 <td>{{row.IsPrimary}}</td>
                 <td>{{row.IsAuthorized}}</td>

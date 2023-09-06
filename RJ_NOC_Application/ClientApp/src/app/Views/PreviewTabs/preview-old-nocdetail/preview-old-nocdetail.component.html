@@ -31,7 +31,7 @@
                     <td>{{item.NOCTypeName}}</td>
                     <td>{{item.FinancialYearName}}</td>
                     <td>{{item.NOCNumber}}</td>
-                    <td>{{item.NOCReceivedDate}}</td>
+                    <td>{{item.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
                     <td>
                       <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewOldNOCDetail(mymodal,item.OldNocID)"><i class="fa fa-eye"></i></button>
                     </td>
@@ -94,11 +94,11 @@
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label><b> NOC Received On :</b></label>
-            <input class="form-control disabled" disabled value="{{request.NOCReceivedDate}}" />
+            <input class="form-control disabled" disabled value="{{request.NOCReceivedDate | date:'dd-MM-yyyy'}}" />
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.NOCTypeName=='TNOC Holder'">
             <label><b>NOC Expire Date :</b></label>
-            <input class="form-control disabled" disabled value="{{request.NOCExpireDate}}" />
+            <input class="form-control disabled" disabled value="{{request.NOCExpireDate | date:'dd-MM-yyyy'}}" />
           </div>
 
           <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">

@@ -67,7 +67,8 @@
                 <label for="">Application Apply For</label>
                 <div class="clearfix"></div>
                 <div class="form-check form-check-inline" *ngFor="let item of ApplyNocParameterMasterList_ddl ;let idx=index;">
-                  <input class="form-check-input" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}"   id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}"  #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked" [ngModelOptions]="{standalone: true}">
+                  <input class="form-check-input" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}"   id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}"  #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked"
+                         [ngModelOptions]="{standalone: true}">
                   <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}">{{item.ApplyNocFor}}</label>
                 </div>
                 <div *ngIf="isSubmitted&&form.cbNocFor.errors" class="text-danger">
@@ -828,8 +829,7 @@
               </div>
             </div>
             <!--end-->
-
-           <!--Start Only Inspection Fee-->
+            <!--Start Only Inspection Fee-->
             <div class="card" *ngIf="isInspectionFee && DepartmentInspectionFee>0">
               <div class="card-header">
                 <b>Only Inspection Fee : {{DepartmentInspectionFee}}</b>
@@ -841,11 +841,84 @@
               </div>
               <div class="card-footer">
                 <!--SaveInspectionFee_click-->
-                <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()">Apply Noc</button>
+                <!--<button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()">Apply Noc</button>-->
 
               </div>
             </div>
-           <!--END Only Inspection Fee-->
+            <!--END Only Inspection Fee-->
+            <!--Start Late Fee-->
+            <div class="card" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
+              <div class="card-header">
+                <b>Application Late Fees Details :₹ {{TotalLateFees}}</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellatefee">
+                      <thead>
+                        <tr>
+                          <th>Sr. No</th>
+                          <th>Fee Type</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of request.ApplyNocLateFeeDetailList;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            {{row.FeesType}}
+                          </td>
+                          <td>{{row.FeesAmount}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!--END Late Fee-->
+
+            <!--Start Late Deatils-->
+            <div class="card" *ngIf="isShowPriceDetails">
+              <div class="card-header">
+                <b>Application Fees Details </b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+
+                    <div class="row" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
+                      <div class="col-lg-2"><b> Noc Application Fees</b></div>
+                      <div class="col-lg-6">{{request.TotalNocFee}}</div>
+                    </div>
+                    <div class="row" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
+                      <div class="col-lg-2"><b>Late Fees</b></div>
+                      <div class="col-lg-6">{{request.LateFee}}</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-2"><b>Total Application Fees</b></div>
+                      <div class="col-lg-6">{{request.TotalFeeAmount}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!--END Late Fee-->
+
+
+            <div class="row">
+              <div class="col-lg-12">
+                <span *ngIf="HasData()">
+                  <input type="checkbox" [(ngModel)]="IsTermsChecked" />&nbsp; I have accept terms & conditions.
+                </span>
+              </div>
+
+            </div>
+
+
+
 
           </div>
           <div class="card-footer">

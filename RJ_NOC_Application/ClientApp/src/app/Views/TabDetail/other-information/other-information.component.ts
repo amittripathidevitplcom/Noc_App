@@ -73,19 +73,25 @@ export class OtherInformationComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   public WidthMin: number = 0;
+  public AnnexurePath: string = '';
+  public AnnexurePath2: string = '';
   public LengthMin: number = 0;
   public CssClass_TextDangerWidth: string = 'text-danger';
   public CssClass_TextDangerLength: string = 'text-danger';
   public CssClass_TextDangerNoOfRooms: string = 'text-danger';
   public ShowHideBook: boolean = false;
+  public ShowHideComputers: boolean = false;
   public isBookRequired: boolean = false;
   public isNoofBookRequired: boolean = false;
+  public isNoofComputersRequired: boolean = false;
 
   isUploadImage: boolean = false;
   public isValidImageFilePath: boolean = false;
   public isValidBookImageFilePath: boolean = false;
   public showImageFilePath: boolean = false;
   public showBookImageFilePath: boolean = false;
+  public ReqNoofComputers: number = 10;
+  public Dis_ReqNoofComputers: number = 10;
 
   // ssologin model
   ssoLoginModel = new SSOLoginDataModel();
@@ -115,6 +121,7 @@ export class OtherInformationComponent implements OnInit {
         fileUploadImage: [''],
         fileUploadBookImage: [''],
         OtherInformation_Noofbooks: [''],
+        OtherInformation_NoofComputers: [''],
         txtsearchText: [''],
 
       })
@@ -156,12 +163,14 @@ export class OtherInformationComponent implements OnInit {
   }
 
 
-  ddlCourse_change($event: any, SeletedCourseID: any) {
+  async ddlCourse_change($event: any, SeletedCourseID: any) {
     this.request.CourseID = SeletedCourseID;
     this.request.Width = 0;
     this.request.Length = 0;
 
     this.WidthMin = 0;
+    this.AnnexurePath = '';
+    this.AnnexurePath2 = '';
     this.LengthMin = 0;
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
@@ -174,6 +183,13 @@ export class OtherInformationComponent implements OnInit {
       else {
         this.ShowHideBook = false;
       }
+      if (OtherName == 'Computer' || OtherName == 'Computer Room' || OtherName == ' Computer Room ') {
+        this.ShowHideComputers = true;
+      }
+      else {
+        this.ShowHideComputers = false;
+      }
+
       this.loaderService.requestStarted();
       this.commonMasterService.GetOtherInformationSize(this.request.CourseID)
         .then((data: any) => {
@@ -185,7 +201,41 @@ export class OtherInformationComponent implements OnInit {
           this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
           this.LengthMin_Dis = this.RoomSizeDataList[0]['LengthMin'];
           this.MinNoOfRooms = this.RoomSizeDataList[0]['NoOfRooms'];
+          this.AnnexurePath = this.RoomSizeDataList[0]['AnnexurePath'];
+          this.AnnexurePath2 = this.RoomSizeDataList[0]['AnnexurePath2'];
         }, error => console.error(error));
+
+      let NoofStudents = 0;
+      if ((OtherName == 'Library' || OtherName == 'Library Room' || OtherName == ' Library Room ') && this.SelectedDepartmentID == 2) {
+        try {
+          this.loaderService.requestStarted();
+          await this.commonMasterService.GetCourseLevelByCollegeIDAndDepartmentID(this.SelectedCollageID, this.SelectedDepartmentID)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              NoofStudents = data['Data'][0]['data'][0].SeatsValue;
+            }, error => console.error(error));
+          if (NoofStudents > 50) {
+            this.MinNoOfRooms = 2;
+          }
+          else {
+            this.MinNoOfRooms = 1;
+          }
+        }
+        catch (Ex) {
+          console.log(Ex);
+        }
+        finally {
+          setTimeout(() => {
+            this.loaderService.requestEnded();
+          }, 200);
+        }
+
+      }
+
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -299,7 +349,7 @@ export class OtherInformationComponent implements OnInit {
     }
     finally {
       setTimeout(() => {
-        
+
         this.loaderService.requestEnded();
       }, 200);
     }
@@ -338,6 +388,8 @@ export class OtherInformationComponent implements OnInit {
     this.isformvalid = true;
     this.isNoofBookRequired = false;
 
+    this.isNoofComputersRequired = false;
+
     this.isValidImageFilePath = false;
     this.isValidBookImageFilePath = false;
     this.isSubmitted = true;
@@ -355,7 +407,7 @@ export class OtherInformationComponent implements OnInit {
       this.isformvalid = false;
     }
     var OtherName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID).Name;
-    if (OtherName == 'Library') {
+    if (OtherName == 'Library' || OtherName == 'Library Room' || OtherName == ' Library Room ') {
       if (this.request.NoofBooks <= 0) {
         this.isNoofBookRequired = true;
         this.isformvalid = false;
@@ -366,6 +418,19 @@ export class OtherInformationComponent implements OnInit {
         this.isformvalid = false;
       }
     }
+    this.Dis_ReqNoofComputers = this.ReqNoofComputers;
+    debugger
+    if ((OtherName == 'Computer' || OtherName == 'Computer Room' || OtherName == ' Computer Room ') && (this.SelectedDepartmentID == 2)) {
+      if (Number(this.request.NoOfRooms) > 0) {
+        if (Number(this.request.NoofComputers) < (this.ReqNoofComputers * this.request.NoOfRooms)) {
+          this.isNoofComputersRequired = true;
+          this.isformvalid = false;
+          this.Dis_ReqNoofComputers = this.ReqNoofComputers * this.request.NoOfRooms;
+        }
+      }
+    }
+
+
     if (Number(this.request.NoOfRooms) < Number(this.MinNoOfRooms)) {
       this.CssClass_TextDangerNoOfRooms = 'text-danger';
       this.toastr.warning('Please Enter Min No. of Rooms : ' + this.MinNoOfRooms);
@@ -427,11 +492,15 @@ export class OtherInformationComponent implements OnInit {
       this.request.BookImageFilePath = '';
       this.request.BookImage_Dis_FileName = '';
       this.request.NoofBooks = 0;
+      this.request.NoofComputers = 0;
+      this.AnnexurePath = '';
+      this.AnnexurePath2 = '';
       this.request.UserID = 0;
       this.isDisabledGrid = false;
       this.showImageFilePath = false;
       this.showBookImageFilePath = false;
       this.ShowHideBook = false;
+      this.ShowHideComputers = false;
       this.GetOtherInformationAllList();
       const btnSave = document.getElementById('btnSave')
       if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
@@ -474,8 +543,31 @@ export class OtherInformationComponent implements OnInit {
     }
   }
 
+  async txtNoOfRooms_change(Val: any) {
+    try {
+      if (this.SelectedDepartmentID == 2) {
+        this.Dis_ReqNoofComputers = this.ReqNoofComputers;
+        var OtherName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID)?.Name;
+        if ((OtherName == 'Computer' || OtherName == 'Computer Room' || OtherName == ' Computer Room ') && (this.SelectedDepartmentID == 2)) {
+          if (Number(this.request.NoOfRooms) > 0) {
+            if (Number(this.request.NoofComputers) < (this.ReqNoofComputers * this.request.NoOfRooms)) {
+              this.isNoofComputersRequired = true;
+              this.isformvalid = false;
+              this.Dis_ReqNoofComputers = this.ReqNoofComputers * this.request.NoOfRooms;
+            }
+          }
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+
+  }
+
   async Edit_OnClick(CollegeWiseOtherInfoID: number) {
     this.ShowHideBook = false;
+    this.ShowHideComputers = false;
     this.showBookImageFilePath = false;
     this.isSubmitted = false;
     try {
@@ -500,6 +592,12 @@ export class OtherInformationComponent implements OnInit {
             this.request.BookImageFilePath = data['Data'][0]["BookImageFilePath"];
             this.request.BookImage_Dis_FileName = data['Data'][0]["BookImage_Dis_FileName"];
           }
+          
+          if (Number(data['Data'][0]["NoofComputers"]) > 0) {
+            this.ShowHideComputers = true;
+            this.request.NoofComputers = data['Data'][0]["NoofComputers"];
+          }
+
           this.showImageFilePath = true;
           this.isDisabledGrid = true;
 
