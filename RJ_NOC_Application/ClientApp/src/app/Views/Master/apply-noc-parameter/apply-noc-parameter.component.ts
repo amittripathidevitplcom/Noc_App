@@ -557,7 +557,7 @@ export class ApplyNocParameterComponent implements OnInit {
         isValid = false;
       }
       if (!this.IsTermsChecked) {
-        this.toastr.warning('Please accpect terms and condition');
+        this.toastr.warning('Please accept terms and condition');
         isValid = false;
       }
       // check all
