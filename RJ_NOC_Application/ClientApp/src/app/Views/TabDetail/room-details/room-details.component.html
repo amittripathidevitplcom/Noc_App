@@ -37,9 +37,9 @@
           </div>
 
 
-          <div class="col-md-3 mb-2">
-            <label>Width (In Feet)<span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="txtWidth_Room" name="txtWidth_Room" placeholder="Enter Width (In Feet)"
+          <div class="col-md-2 mb-2">
+            <label>Width (sq. ft)<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtWidth_Room" name="txtWidth_Room" placeholder="Enter Width (sq. ft)"
                    [(ngModel)]="request.Width" formControlName="txtWidth_Room" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtWidth_Room.errors" class="text-danger">
               <p *ngIf="form.txtWidth_Room.errors.required">This field is required .!</p>
@@ -49,9 +49,9 @@
               <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin_Dis ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin_Dis}} sq. ft</p>
             </div>
           </div>
-          <div class="col-md-3 mb-2">
-            <label>Length (In Feet)<span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="txtLength_Room" name="txtLength_Room" placeholder="Enter Length (In Feet)"
+          <div class="col-md-2 mb-2">
+            <label>Length (sq. ft)<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtLength_Room" name="txtLength_Room" placeholder="Enter Length (sq. ft)"
                    [(ngModel)]="request.Length" formControlName="txtLength_Room" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtLength_Room.errors" class="text-danger">
               <p *ngIf="form.txtLength_Room.errors.required">This field is required .!</p>
@@ -61,6 +61,13 @@
               <p *ngIf="LengthMin>0" class="{{request.Length >= LengthMin_Dis ? '' : CssClass_TextDangerLength}}">Please Enter Min size : {{LengthMin_Dis}} sq. ft</p>
             </div>
           </div>
+
+
+          <div class="col-md-2 mb-2">
+            <label>Room Size (sq. ft)<span style="color:red;">*</span></label>
+            <input type="text" class="form-control"  value="{{request.Length * request.Width}}"  disabled>
+          </div>
+
 
           <div class="col-md-3 mb-2">
             <label>Student Capacity<span style="color:red;">*</span></label>
@@ -134,8 +141,9 @@
                         <th>Sr. No.</th>
                         <th>Course</th>
                         <th>No. of Rooms</th>
-                        <th>Width (In Feet) Size</th>
-                        <th>Length (In Feet)</th>
+                        <th>Width (sq. ft) Size</th>
+                        <th>Length (sq. ft)</th>
+                        <th>Room Size (sq. ft)</th>
                         <th>Student Capacity</th>
                         <th>No of Lab</th>
                         <th>Upload Image</th>
@@ -149,6 +157,7 @@
                         <td>{{row.NoOfRooms}}</td>
                         <td>{{row.Width}}</td>
                         <td>{{row.Length}}</td>
+                        <td>{{row.Width*row.Length}}</td>
                         <td>{{row.StudentCapacity}}</td>
                         <td>{{row.NoOfLab}}</td>
                         <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
