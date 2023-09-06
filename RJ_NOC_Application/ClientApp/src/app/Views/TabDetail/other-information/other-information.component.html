@@ -83,6 +83,9 @@
             <div *ngIf="isValidImageFilePath" class="text-danger">
               <p *ngIf="isValidImageFilePath"> {{ImageValidationMessage}}</p>
             </div>
+
+            <a style="color: #3458c8;" *ngIf="AnnexurePath !=''" target="_blank" href="{{AnnexurePath}}">(Download Annexure)</a>
+
           </div>
         </div>
         <div class="row">
@@ -111,6 +114,9 @@
             <div *ngIf="isValidBookImageFilePath" class="text-danger">
               <p *ngIf="isValidBookImageFilePath"> {{ImageValidationMessage}}</p>
             </div>
+
+            <a style="color: #3458c8;" *ngIf="AnnexurePath2 !=''" target="_blank" href="{{AnnexurePath2}}">(Download Annexure)</a>
+
           </div>
           <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
             <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-plus"></i> Add &amp; Save </button>

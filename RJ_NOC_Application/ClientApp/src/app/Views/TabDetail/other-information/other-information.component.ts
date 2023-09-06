@@ -73,6 +73,8 @@ export class OtherInformationComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   public WidthMin: number = 0;
+  public AnnexurePath: string = '';
+  public AnnexurePath2: string = '';
   public LengthMin: number = 0;
   public CssClass_TextDangerWidth: string = 'text-danger';
   public CssClass_TextDangerLength: string = 'text-danger';
@@ -162,6 +164,8 @@ export class OtherInformationComponent implements OnInit {
     this.request.Length = 0;
 
     this.WidthMin = 0;
+    this.AnnexurePath = '';
+    this.AnnexurePath2 = '';
     this.LengthMin = 0;
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
@@ -186,7 +190,15 @@ export class OtherInformationComponent implements OnInit {
           this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
           this.LengthMin_Dis = this.RoomSizeDataList[0]['LengthMin'];
           this.MinNoOfRooms = this.RoomSizeDataList[0]['NoOfRooms'];
+          this.AnnexurePath = this.RoomSizeDataList[0]['AnnexurePath'];
+          this.AnnexurePath2 = this.RoomSizeDataList[0]['AnnexurePath2'];
         }, error => console.error(error));
+
+
+      if ((OtherName == 'Library' || OtherName == 'Library Room' || OtherName == ' Library Room ') && this.SelectedDepartmentID==2) {
+      }
+      
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -428,6 +440,8 @@ export class OtherInformationComponent implements OnInit {
       this.request.BookImageFilePath = '';
       this.request.BookImage_Dis_FileName = '';
       this.request.NoofBooks = 0;
+      this.AnnexurePath = '';
+      this.AnnexurePath2 = '';
       this.request.UserID = 0;
       this.isDisabledGrid = false;
       this.showImageFilePath = false;
