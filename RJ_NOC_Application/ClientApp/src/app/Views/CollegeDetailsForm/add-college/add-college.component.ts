@@ -215,7 +215,7 @@ export class AddCollegeComponent implements OnInit {
             setTimeout(() => {
               this.routers.navigate(['/legalentity']);
             }, 500);
-           
+
           }
         }, (error: any) => console.error(error));
     }
@@ -317,7 +317,7 @@ export class AddCollegeComponent implements OnInit {
 
   async DeleteImage(Type: string, file: string) {
     try {
-    
+
       if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
         // delete from server folder
@@ -795,7 +795,7 @@ export class AddCollegeComponent implements OnInit {
 
   AddContectDetail() {
     try {
-      
+
       this.isSubmitted_ContactDetails = true;
       if (this.CollegeDetailsForm_ContactDetails.invalid) {
         return
@@ -980,7 +980,15 @@ export class AddCollegeComponent implements OnInit {
       this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.clearValidators();
     }
     this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
-    
+
+
+    if (this.request.DepartmentID == 3) {
+      this.CollegeDetailsForm.get('AISHECodeStatus')?.setValidators([Validators.required]);
+    }
+    else {
+      this.CollegeDetailsForm.get('AISHECodeStatus')?.clearValidators();
+    }
+    this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
 
 
 
@@ -1042,7 +1050,7 @@ export class AddCollegeComponent implements OnInit {
       return;
     }
 
-   
+
 
     //Show Loading
     this.loaderService.requestStarted();
