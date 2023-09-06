@@ -14,6 +14,7 @@ export class OtherInformationDataModel {
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
   public NoofBooks: number = 0;
+  public NoofComputers: number = 0;
   public UserID: number = 0;
   public Action: string = '';
   public Remark: string = '';

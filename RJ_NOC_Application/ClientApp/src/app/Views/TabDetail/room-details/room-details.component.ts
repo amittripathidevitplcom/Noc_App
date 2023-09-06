@@ -108,7 +108,7 @@ export class RoomDetailsComponent implements OnInit {
         txtWidth_Room: ['', [Validators.required, Validators.min(1)]],
         txtLength_Room: ['', [Validators.required, Validators.min(1)]],
         txtStudentCapacity_Room: ['', [Validators.required, Validators.min(1)]],
-        txtNoOfLab:['',Validators.required],
+        txtNoOfLab: ['', Validators.required],
         fileUploadImage: [''],
         txtsearchText: [''],
       })
@@ -148,7 +148,7 @@ export class RoomDetailsComponent implements OnInit {
   }
 
 
-  ddlCourse_change($event: any, SeletedCourseID: any) {
+  async ddlCourse_change($event: any, SeletedCourseID: any) {
     this.request.CourseID = SeletedCourseID;
     this.request.Width = 0;
     this.request.Length = 0;
@@ -164,7 +164,7 @@ export class RoomDetailsComponent implements OnInit {
     console.log(SeletedCourseID);
     try {
       this.loaderService.requestStarted();
-      this.commonMasterService.GetCourseRoomSize(this.request.CourseID, this.SelectedCollageID)
+      await this.commonMasterService.GetCourseRoomSize(this.request.CourseID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.RoomSizeDataList = data['Data'];
@@ -177,6 +177,25 @@ export class RoomDetailsComponent implements OnInit {
           this.NoofPredicalRooms = this.RoomSizeDataList[0]['NoofPredicalRooms'];
           console.log(this.RoomSizeDataList);
         }, error => console.error(error));
+      debugger;
+      let NoofStudents = 0;
+      if (this.SelectedDepartmentID == 2) {
+        await this.commonMasterService.GetCourseLevelByCollegeIDAndDepartmentID(this.SelectedCollageID, this.SelectedDepartmentID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            NoofStudents = data['Data'][0]['data'][0].SeatsValue;
+          }, error => console.error(error));
+        if (NoofStudents > 50) {
+          this.MinNoOfRooms = 4;
+        }
+        else {
+          this.MinNoOfRooms = 2;
+        }
+      }
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -333,6 +352,25 @@ export class RoomDetailsComponent implements OnInit {
       this.isformvalid = false;
     }
 
+    if (this.SelectedDepartmentID == 2) {
+      let NoofStudents = 50;
+      let ReqSize = 800;
+      await this.commonMasterService.GetCourseLevelByCollegeIDAndDepartmentID(this.SelectedCollageID, this.SelectedDepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          NoofStudents = data['Data'][0]['data'][0].SeatsValue;
+        }, error => console.error(error));
+
+
+
+      if ((this.request.Length * this.request.Width) < 800) {
+        this.toastr.error('Minimum Room Size Required : 800 Sq.Feet');
+      }
+    }
+
     if (this.request.ImageFilePath == '') {
       this.ImageValidate = 'This field is required .!';
       this.isformvalid = false;
@@ -387,7 +425,7 @@ export class RoomDetailsComponent implements OnInit {
       this.request.CollegeWiseRoomID = 0;
       this.request.CourseID = 0;
       this.request.NoOfRooms = 1;
-     
+
       this.request.Width = 0;
       this.request.Length = 0;
       this.request.StudentCapacity = 0;
@@ -414,105 +452,105 @@ export class RoomDetailsComponent implements OnInit {
   }
 
   async GetRoomDetailAllList() {
-      try {
-        this.loaderService.requestStarted();
-        await this.roomDetailsService.GetRoomDetailAllList(this.UserID, this.SelectedCollageID)
-          .then((data: any) => {
+    try {
+      this.loaderService.requestStarted();
+      await this.roomDetailsService.GetRoomDetailAllList(this.UserID, this.SelectedCollageID)
+        .then((data: any) => {
 
-            data = JSON.parse(JSON.stringify(data));
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.RoomDetails = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async Edit_OnClick(CollegeWiseRoomID: number) {
+    this.isSubmitted = false;
+    try {
+      this.loaderService.requestStarted();
+      await this.roomDetailsService.GetRoomDetailsByID(CollegeWiseRoomID, this.UserID)
+        .then(async (data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.request.CollegeID = data['Data'][0]["CollegeID"];
+          this.request.CourseID = data['Data'][0]["CourseID"];
+          await this.ddlCourse_change(this, this.request.CourseID);
+          this.request.CollegeWiseRoomID = data['Data'][0]["CollegeWiseRoomID"];
+          this.request.NoOfRooms = data['Data'][0]["NoOfRooms"];
+          this.request.Width = data['Data'][0]["Width"];
+          this.request.Length = data['Data'][0]["Length"];
+          this.request.StudentCapacity = data['Data'][0]["StudentCapacity"];
+          this.request.NoOfLab = data['Data'][0]["NoOfLab"];
+          this.request.ImageFilePath = data['Data'][0]["ImageFilePath"];
+          this.request.ImageFileName = data['Data'][0]["ImageFileName"];
+          this.request.Image_Dis_FileName = data['Data'][0]["Image_Dis_FileName"];
+          this.showImageFilePath = true;
+          this.isDisabledGrid = true;
+
+          const btnSave = document.getElementById('btnSave')
+          if (btnSave) btnSave.innerHTML = "Update";
+          const btnReset = document.getElementById('btnReset')
+          if (btnReset) btnReset.innerHTML = "Cancel";
+
+        }, error => console.error(error));
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
+
+  async Delete_OnClick(CollegeWiseRoomID: number) {
+    this.isSubmitted = false;
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        await this.roomDetailsService.DeleteData(CollegeWiseRoomID, this.UserID)
+          .then((data: any) => {
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
-            this.RoomDetails = data['Data'][0]['data'];
-          }, error => console.error(error));
-      }
-      catch (Ex) {
-        console.log(Ex);
-      }
-      finally {
-        setTimeout(() => {
-          this.loaderService.requestEnded();
-        }, 200);
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage)
+              this.GetRoomDetailAllList();
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
       }
     }
-
-  async Edit_OnClick(CollegeWiseRoomID: number) {
-      this.isSubmitted = false;
-      try {
-        this.loaderService.requestStarted();
-        await this.roomDetailsService.GetRoomDetailsByID(CollegeWiseRoomID, this.UserID)
-          .then(async (data: any) => {
-
-            data = JSON.parse(JSON.stringify(data));
-            this.request.CollegeID = data['Data'][0]["CollegeID"];
-            this.request.CourseID = data['Data'][0]["CourseID"];
-            await this.ddlCourse_change(this, this.request.CourseID);
-            this.request.CollegeWiseRoomID = data['Data'][0]["CollegeWiseRoomID"];
-            this.request.NoOfRooms = data['Data'][0]["NoOfRooms"];
-            this.request.Width = data['Data'][0]["Width"];
-            this.request.Length = data['Data'][0]["Length"];
-            this.request.StudentCapacity = data['Data'][0]["StudentCapacity"];
-            this.request.NoOfLab = data['Data'][0]["NoOfLab"];
-            this.request.ImageFilePath = data['Data'][0]["ImageFilePath"];
-            this.request.ImageFileName = data['Data'][0]["ImageFileName"];
-            this.request.Image_Dis_FileName = data['Data'][0]["Image_Dis_FileName"];
-            this.showImageFilePath = true;
-            this.isDisabledGrid = true;
-
-            const btnSave = document.getElementById('btnSave')
-            if (btnSave) btnSave.innerHTML = "Update";
-            const btnReset = document.getElementById('btnReset')
-            if (btnReset) btnReset.innerHTML = "Cancel";
-
-          }, error => console.error(error));
-      }
-      catch (ex) { console.log(ex) }
-      finally {
-        setTimeout(() => {
-          this.loaderService.requestEnded();
-        }, 200);
-      }
-
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
+  }
 
-  async Delete_OnClick(CollegeWiseRoomID: number) {
-      this.isSubmitted = false;
-      try {
-        if (confirm("Are you sure you want to delete this ?")) {
-          this.loaderService.requestStarted();
-          await this.roomDetailsService.DeleteData(CollegeWiseRoomID, this.UserID)
-            .then((data: any) => {
-              this.State = data['State'];
-              this.SuccessMessage = data['SuccessMessage'];
-              this.ErrorMessage = data['ErrorMessage'];
-              if (this.State == 0) {
-                this.toastr.success(this.SuccessMessage)
-                this.GetRoomDetailAllList();
-              }
-              else {
-                this.toastr.error(this.ErrorMessage)
-              }
-            })
-        }
-      }
-      catch (ex) { }
-      finally {
-        setTimeout(() => {
-          this.loaderService.requestEnded();
-        }, 200);
-      }
+  btnCopyTable_Click() {
+    const tabellist = document.getElementById('tabellist')
+    if (tabellist) {
+
+      this.clipboard.copy(tabellist.innerText);
     }
-
-    btnCopyTable_Click() {
-      const tabellist = document.getElementById('tabellist')
-      if (tabellist) {
-
-        this.clipboard.copy(tabellist.innerText);
-      }
-    }
-    btnExportTable_Click(): void {
-      this.loaderService.requestStarted();
-      if(this.RoomDetails.length > 0) {
+  }
+  btnExportTable_Click(): void {
+    this.loaderService.requestStarted();
+    if (this.RoomDetails.length > 0) {
       try {
         this.isLoadingExport = true;
         /* table id is passed over here */

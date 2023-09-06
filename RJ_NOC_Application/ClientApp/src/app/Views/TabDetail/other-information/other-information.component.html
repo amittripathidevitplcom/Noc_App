@@ -27,7 +27,7 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>No. of Rooms<span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="request.NoOfRooms" formControlName="txtNoOfRooms_Room" min="1" maxlength="7"
+            <input type="text" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="request.NoOfRooms" (input)="txtNoOfRooms_change($event)" formControlName="txtNoOfRooms_Room" min="1" maxlength="7"
                    (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtNoOfRooms_Room.errors" class="text-danger">
               <p *ngIf="form.txtNoOfRooms_Room.errors.required">This field is required .!</p>
@@ -89,6 +89,17 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-md-3 mb-2" *ngIf="ShowHideComputers">
+            <label>No of Computers<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="OtherInformation_NoofComputers" [(ngModel)]="request.NoofComputers" name="OtherInformation_NoofComputers"
+                   formControlName="OtherInformation_NoofComputers" (keypress)="numberOnly($event)">
+           
+            <div *ngIf="isNoofComputersRequired" class="text-danger">
+              <p *ngIf="isNoofComputersRequired">Minimum {{Dis_ReqNoofComputers}} Computers is required .!</p>
+            </div>
+          </div>
+
+
           <div class="col-md-3 mb-2" *ngIf="ShowHideBook">
             <label>No of books<span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="OtherInformation_Noofbooks" [(ngModel)]="request.NoofBooks" name="OtherInformation_Noofbooks"
@@ -153,6 +164,7 @@
                         <th>Minimum Size (Sq. Feet)</th>
                         <!--<th>Length (In Feet)</th>-->
                         <th>Number Of Books</th>
+                        <th>Number Of Computers</th>
                         <th>Upload Image</th>
                         <!--<th>Upload Book Image</th>-->
                         <th>Action</th>
@@ -166,6 +178,7 @@
                         <td>{{row.Width}}</td>
                         <!--<td>{{row.Length}}</td>-->
                         <td>{{row.NoofBooks}}</td>
+                        <td>{{row.NoofComputers}}</td>
                         <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                         <!--<td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>-->
                         <td>
