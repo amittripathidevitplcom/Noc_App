@@ -87,14 +87,14 @@
             <label><b>Total Building Area (in {{UnitOfLand}}) :</b></label>
             <input class="form-control disabled" disabled value="{{request.BuildingHostelQuartersRoadArea}}" />
           </div>-->
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
+          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
             <label><b> Land Conversion Order Date(DD/MM/YYYY) :</b></label>
             <input class="form-control disabled" disabled value="{{request.LandConversionOrderDate | date:'dd-MM-yyyy'}}" />
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
+          </div>-->
+          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
             <label><b>Land Conversion Order No :</b></label>
             <input class="form-control disabled" disabled value="{{request.LandConversionOrderNo}}" />
-          </div>
+          </div>-->
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')">
             <label><b>Affidavit Date(DD/MM/YYYY) :</b></label>
             <input class="form-control disabled" disabled value="{{request.AffidavitDate | date:'dd-MM-yyyy'}}" />
@@ -165,6 +165,39 @@
               </div>
             </div>
           </div>
+
+          <div class="row" *ngIf="CollegeLandConverstion.length>0">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i>&nbsp;Detail of the Land Converstion:  </b>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>Land Conversion Order No</th>
+                          <th>Land Conversion Order Date</th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of CollegeLandConverstion; let indexOfelement=index;">
+                          <td> {{indexOfelement+1}}</td>
+                          <td>{{row.LandConversionOrderNo}}</td>
+                          <td>{{row.LandConversionOrderDate}}</td>
+
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </ng-template>
