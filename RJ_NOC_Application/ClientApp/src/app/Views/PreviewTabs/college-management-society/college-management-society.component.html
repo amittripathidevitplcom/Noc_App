@@ -74,7 +74,11 @@
                   <label> <b>Occupation:</b></label>
                   <input class="form-control disabled" disabled value="{{request.OccupationName}}" />
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.OccupationName=='Others'">
+                  <label> <b>Other Occupation:</b></label>
+                  <input class="form-control disabled" disabled value="{{request.OtherOccupation}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID!=2">
                   <label> <b>Management Committee Should have at least two educationists : </b> </label>
                   <input class="form-control disabled" disabled value="{{request.Educationists}}" />
                 </div>

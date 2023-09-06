@@ -89,7 +89,7 @@
           </div>-->
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
             <label><b> Land Conversion Order Date(DD/MM/YYYY) :</b></label>
-            <input class="form-control disabled" disabled value="{{request.LandConversionOrderDate}}" />
+            <input class="form-control disabled" disabled value="{{request.LandConversionOrderDate | date:'dd-MM-yyyy'}}" />
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
             <label><b>Land Conversion Order No :</b></label>
@@ -97,7 +97,7 @@
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')">
             <label><b>Affidavit Date(DD/MM/YYYY) :</b></label>
-            <input class="form-control disabled" disabled value="{{request.AffidavitDate}}" />
+            <input class="form-control disabled" disabled value="{{request.AffidavitDate | date:'dd-MM-yyyy'}}" />
           </div>
         </div>
         <div class="card-body">
