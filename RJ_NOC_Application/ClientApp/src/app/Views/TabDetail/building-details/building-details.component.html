@@ -140,7 +140,7 @@
                 <label>
                   Total Constructed Building Area (in Sq. Ft) <span style="color:red;">*</span>
                 </label>
-                <input type="text" id="txtBuildingHostelQuartersRoadArea" class="form-control" [(ngModel)]="buildingdetails.BuildingHostelQuartersRoadArea" formControlName="txtBuildingHostelQuartersRoadArea" (keypress)="numbersOnly($event)" />
+                <input type="text" id="txtBuildingHostelQuartersRoadArea" class="form-control" [(ngModel)]="buildingdetails.BuildingHostelQuartersRoadArea" formControlName="txtBuildingHostelQuartersRoadArea" (keypress)="numbersOnly($event)" maxlength="5" />
                 <p *ngIf="IstxtBuildingHostel" class="text-danger"><i aria-hidden="true"></i>Enter the Building/Hostel/Quarters/Road Area(A1) .!</p>
                 <div *ngIf="isSubmitted&&form.txtBuildingHostelQuartersRoadArea.errors" class="text-danger">
                   <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.required">This field is required .!</p>
@@ -222,6 +222,14 @@
               </div>
               <div class="card-body">
                 <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label for="txtFireNOCOrderNumber" class="form-label">Order No<span style="color:red;">*</span> </label>
+                    <input type="text" autocomplete="off" class="form-control" id="txtFireNOCOrderNumber" name="txtFireNOCOrderNumber" [(ngModel)]="buildingdetails.FireNOCOrderNumber" formControlName="txtFireNOCOrderNumber">
+
+                    <div *ngIf="isSubmitted&&form.txtFireNOCOrderNumber.errors" class="text-danger">
+                      <p *ngIf="form.txtFireNOCOrderNumber.errors.required"> This field is required .!</p>
+                    </div>
+                  </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label for="">From Date</label>
                     <input class="form-control" type="date" id="txtFromDate" placeholder="Enter From Date" [(ngModel)]="buildingdetails.FromDate" formControlName="txtFromDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
@@ -546,6 +554,7 @@
                     <th>Pincode</th>
                     <th>ContactNo</th>
                     <th>Constructed Building Area</th>
+                    <th>Fire NOC Order No</th>
                     <th>From Date</th>
                     <th>To Date</th>
                     <th>Order No</th>
@@ -586,6 +595,7 @@
                     <td>{{item.Pincode}}</td>
                     <td>{{item.ContactNo}}</td>
                     <td>{{item.BuildingHostelQuartersRoadArea}}</td>
+                    <td>{{item.FireNOCOrderNumber}}</td>
                     <td>{{item.FromDate}}</td>
                     <td>{{item.ToDate}}</td>
                     <td>{{item.OrderNo}}</td>

@@ -49,9 +49,7 @@ export class RequiredDocumentComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request.DocumentDetails = data['Data'][0]['data'];
-          console.log("rishi")
           console.log(this.request.DocumentDetails)
-          console.log("kapoor")
 
         }, error => console.error(error));
     }

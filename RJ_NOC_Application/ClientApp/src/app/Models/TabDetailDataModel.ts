@@ -240,6 +240,7 @@ export class BuildingDetailsDataModel {
   public BuildingTypeID: number = null;
   public BuildingTypeName: string = '';
   public FromDate: string = '';
+  public FireNOCOrderNumber: string = '';
   public ToDate: string = '';
   public FireNOCFileUpload: string = '';
   public Dis_FireNOCFileUpload: string = '';

@@ -143,6 +143,7 @@ export class BuildingDetailsComponent implements OnInit {
         txtContactNo_Owner: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
         txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
         txtFromDate: ['', Validators.required],
+        txtFireNOCOrderNumber: ['', Validators.required],
         txtToDate: ['', Validators.required],
         txtFireNOCUpload: [''],
         txtOrderNo: ['', Validators.required],
@@ -445,6 +446,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.Dis_RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["Dis_RentAgreementFileUpload"];
           this.buildingdetails.RentAgreementFileUploadPath = data['Data'][0]['data']['Table'][0]["RentAgreementFileUploadPath"];
 
+          this.buildingdetails.FireNOCOrderNumber = data['Data'][0]['data']['Table'][0]["FireNOCOrderNumber"];
           this.buildingdetails.FromDate = data['Data'][0]['data']['Table'][0]["FromDate"];
           this.buildingdetails.ToDate = data['Data'][0]['data']['Table'][0]["ToDate"];
           this.buildingdetails.FireNOCFileUpload = data['Data'][0]['data']['Table'][0]["FireNOCFileUpload"];
@@ -600,6 +602,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.BuildingHostelQuartersRoadArea = 0;
     this.buildingdetails.OrderNo = '';
     this.buildingdetails.OrderDate = '';
+    this.buildingdetails.FireNOCOrderNumber = '';
     this.buildingdetails.FromDate = '';
     this.buildingdetails.ToDate = '';
     this.buildingdetails.FireNOCFileUpload = '';
