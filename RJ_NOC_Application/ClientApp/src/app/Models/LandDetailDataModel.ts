@@ -39,7 +39,9 @@ export class LandDetailDataModel {
   public S_Action: string = '';
   public S_Remark: string = '';
   public AreaType: string = '';
-  public CollegeLandTypeDetails: CollegeLandTypeDetailsDataModel[]=[];
+  public CollegeLandTypeDetails: CollegeLandTypeDetailsDataModel[] = [];
+  public CollegeLandConversionDetails: CollegeLandConversionDetailsDataModel[] = [];
+
 }
 
 export class LandDetailDocumentDataModel extends RequiredDocumentsDataModel_Documents {
@@ -53,4 +55,11 @@ export class CollegeLandTypeDetailsDataModel {
   public LandArea: number = 0;
   public KhasraNo: string = '';
   public IsLandSelected: boolean = true;
+}
+export class CollegeLandConversionDetailsDataModel
+{
+  public LandDetailID: number = 0;
+  public LandConversionID: number = 0;
+  public LandConversionOrderDate: string = '';
+  public LandConversionOrderNo: string = '';
 }

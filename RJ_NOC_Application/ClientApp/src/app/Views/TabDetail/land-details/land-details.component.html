@@ -155,7 +155,7 @@
           <label>
             Land Area (in {{LandUnitType !=''?LandUnitType:UnitOfLand}}) <span style="color:red;">*</span>
           </label>
-          <input type="text" id="txtLandArea" class="form-control" [(ngModel)]="request.LandArea" formControlName="txtLandArea" (keypress)="numbersOnly($event)" />
+          <input type="text" id="txtLandArea" maxlength="4" class="form-control" [(ngModel)]="request.LandArea" formControlName="txtLandArea" (keypress)="numbersOnly($event)" />
           <!--<p *ngIf="IsRequiredLandArea" class="text-danger"><i aria-hidden="true"></i>Land area must be at least : {{RequiredLandAreaMsg}}</p>-->
 
           <div *ngIf="isSubmitted&&form.txtLandArea.errors" class="text-danger">
@@ -176,10 +176,12 @@
             <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.min">This field is required .!</p>
           </div>
         </div>-->
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowConversionOrderNo">
+
+        <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowConversionOrderNo">
+
           <label>
-            Land Conversion Order Date(DD/MM/YYYY) <!--<span style="color:red;">*</span>-->
-          </label>
+            Land Conversion Order Date(DD/MM/YYYY)--> <!--<span style="color:red;">*</span>-->
+          <!--</label>
           <input type="date" id="dtLandConversionOrderDate" name="dtLandConversionOrderDate" class="form-control" [(ngModel)]="request.LandConversionOrderDate" formControlName="dtLandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
           <p *ngIf="isSubmitted&&request.LandConversionOrderDate ==''" class="text-danger"><i aria-hidden="true"></i> {{LandConversionDateValidate}}</p>
         </div>
@@ -189,7 +191,48 @@
           </label>
           <input type="text" id="txtLandConversionOrderNo" class="form-control" [(ngModel)]="request.LandConversionOrderNo" formControlName="txtLandConversionOrderNo" />
           <p *ngIf="isSubmitted&&request.LandConversionOrderNo ==''" class="text-danger"><i aria-hidden="true"></i> {{LandConversionOrderNoValidate}}</p>
+        </div>-->
+
+        <div class="col-lg-6" *ngIf="ShowConversionOrderNo">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr.No.</th>
+                  <th> Conversion Order No</th>
+                  <th>Land Conversion Order Date(DD/MM/YYYY)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of  request.CollegeLandConversionDetails; let idx1 =index">
+                  <td>{{idx1+1}}</td>
+                  <td>
+                    <input type="text" id="txtLandConversionOrderNo{{idx1}}" maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
+                    <div class="text-danger">
+                      <p *ngIf="item.LandConversionOrderNo==''"> This field is required .!</p>
+                    </div>
+                  </td>
+                  <td>
+                    <input type="date" id="dtLandConversionOrderDate{{idx1}}" [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx1}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <div class="text-danger">
+                      <p *ngIf="item.LandConversionOrderDate==''"> This field is required .!</p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex">
+                      <button type="button" *ngIf="idx1!=0" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteConverstionDetail(idx1)"><i class="fa fa-trash"></i></button>
+                      <button type="button" *ngIf="idx1==0" class="btn btn-sm btn-success" title="Add More" (click)="AddMoreLandConverstionData()"><i class="fa fa-plus"></i>Add More</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
+
+
+
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowAffidavitDate">
           <label>
             Affidavit Date(DD/MM/YYYY) <span style="color:red;">*</span>

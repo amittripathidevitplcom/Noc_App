@@ -441,8 +441,8 @@ export class LandDetailsComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
+          ////this.SuccessMessage = data['SuccessMessage'];
+          ////this.ErrorMessage = data['ErrorMessage'];
           if (data.Data.length > 0) {
             this.RequiredLandArea = data['Data'][0]["RequiredSquareMeter"];
             this.RequiredLandAreaMsg = data['Data'][0]["RequiredSquareMeter"].toString() + ' ' + data['Data'][0]["AreaType"].toString();
@@ -575,17 +575,20 @@ export class LandDetailsComponent implements OnInit {
         return
       }
     }
-    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted') {
-      if (this.request.LandConversionOrderDate == '' || this.request.LandConversionOrderDate == null) {
-        this.LandConversionDateValidate = 'This field is required .!';
-        return
-      }
+
+    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted')
+    {
+      //if (this.request.LandConversionOrderDate == '' || this.request.LandConversionOrderDate == null) {
+      //  this.LandConversionDateValidate = 'This field is required .!';
+      //  return
+      //}
+
     }
     if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted') {
-      if (this.request.LandConversionOrderNo == '' || this.request.LandConversionOrderNo == null) {
-        this.LandConversionOrderNoValidate = 'This field is required .!';
-        return
-      }
+      //if (this.request.LandConversionOrderNo == '' || this.request.LandConversionOrderNo == null) {
+      //  this.LandConversionOrderNoValidate = 'This field is required .!';
+      //  return
+      //}
     }
 
     //Temp Comment Ravi added by naresh
@@ -617,6 +620,18 @@ export class LandDetailsComponent implements OnInit {
         return;
       }
     }
+
+    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted')
+    {
+      if (!this.ValidateConversionDetails()) {
+        return
+      }
+     
+
+    }
+
+
+
     if (message.length > 5) {
       this.toastr.warning(message);
       return
@@ -862,9 +877,14 @@ export class LandDetailsComponent implements OnInit {
       this.ShowAffidavitDate = false;
       Type = 'LandDetail';
     }
-
+ 
     await this.GetLandTypeMasterList_DepartmentAndLandConvertWise(this.SelectedDepartmentID, Code);
     await this.GetLandTypeDetails_CollegeWise(this.SelectedDepartmentID, Code, this.request.LandDetailID);
+
+    if (Code == 'PCON' || Code == 'FCON')
+    {
+      await this.GetCollegeLandConversionDetail(this.SelectedDepartmentID, this.request.LandDetailID, Code);
+    }
 
     if (IsEdit != 'Yes') {
       await this.GetLandDocument(this.SelectedDepartmentID, Type);
@@ -893,5 +913,92 @@ export class LandDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+  async GetLandConverstionData() {
+
+  }
+
+  async AddMoreLandConverstionData()
+  {
+    this.request.CollegeLandConversionDetails.push({
+      LandDetailID: 0,
+      LandConversionID: 0,
+      LandConversionOrderDate: '',
+      LandConversionOrderNo: ''
+    }
+    )
+  }
+
+
+  async GetCollegeLandConversionDetail(DepartmentID: number, LandTypeID: number, Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeLandConversionDetail(DepartmentID, LandTypeID, Type )
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.CollegeLandConversionDetails = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+  async DeleteConverstionDetail(i: number) {
+    this.isSubmitted = false;
+    try
+    {
+      if (confirm("Are you sure you want to delete this ?"))
+      {
+        this.loaderService.requestStarted();
+        this.request.CollegeLandConversionDetails.splice(i, 1);
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  ValidateConversionDetails(): boolean
+  {
+    var message = 'Please validate following\n';
+    var WorkFlowDetailLength = this.request.CollegeLandConversionDetails.length;
+    var validateerrorcount = 0;
+    if (WorkFlowDetailLength > 0) {
+      for (var i = 0; i < this.request.CollegeLandConversionDetails.length; i++)
+      {
+        if (this.request.CollegeLandConversionDetails[i].LandConversionOrderNo == '') {
+          message += 'Please Enter  Land ConversionOrderNo \n';
+        }
+        if (this.request.CollegeLandConversionDetails[i].LandConversionOrderDate == '') {
+          message += 'Please select land conversion date \n';
+          }
+        
+        else {
+          validateerrorcount++;
+        }
+      }
+    }
+    if (message.length > 30)
+    {
+     
+      return false;
+    }
+    return true
+  }
+
+
 
 }
