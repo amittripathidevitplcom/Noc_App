@@ -45,6 +45,7 @@ export class SocietyComponent implements OnInit {
   public OccupationList: any = [];
   public SocietyList: any = [];
   public SocietyAllList: any = [];
+  public FilterSocietyAllList: any = [];
   public SocietyList_dummy: SocietyDataModel[] = [];
 
   public isDisabledGrid: boolean = false;
@@ -64,6 +65,10 @@ export class SocietyComponent implements OnInit {
   public Femalepre: number = 0;
   searchText: string = '';
   GetIsPrimary: string = '';
+  GetMobileNo: string = '';
+  GetEmail: string = '';
+  GetAadhaarNo: string = '';
+  GetPANNo: string = '';
   public dropdownList: any = [];
   public dropdownSettings: IDropdownSettings = {};
 
@@ -74,6 +79,7 @@ export class SocietyComponent implements OnInit {
 
   public ImageValidationMessage: string = '';
   public CollegeName: string = '';
+  public DepartmentID: number = 0;
   public OccupationsName: string = '';
   public IsEducationists: boolean = false;
   public isValidProfilePhoto: boolean = false;
@@ -84,12 +90,15 @@ export class SocietyComponent implements OnInit {
   public isValidEducationProof: boolean = false;
   public isValidConsentLetter: boolean = false;
   public IsValidEducationist: string = '';
+  public IsValidEducationists: string = '';
 
   public showProfilePhoto: boolean = false;
   public showSignatureDoc: boolean = false;
   public showPANCard: boolean = false;
   public showAuthorizedDocument: boolean = false;
   public showAadhaarCard: boolean = false;
+  public IsOtherOccupation: boolean = false;
+  public IsValidOtherOccupation: string = '';
   public file: any = '';
   constructor(private societyService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
   async ngOnInit() {
@@ -100,7 +109,7 @@ export class SocietyComponent implements OnInit {
         fProfilePhoto: [''],
         ddlDesignationID: ['', [DropdownValidators]],
         ddlOccupationID: ['', [DropdownValidators]],
-        Educationists: ['', Validators.required],
+        Educationists: [''],
         txtMobileNo: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$"), Validators.minLength(10), Validators.maxLength(10)]],
         txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         ddlGender: ['', Validators.required],
@@ -117,6 +126,7 @@ export class SocietyComponent implements OnInit {
         fEducationProof: [''],
         fConsentLetter: [''],
         txtsearchText: [''],
+        txtOtherOccupation: [''],
       });
     const ddlCollegeID = document.getElementById('ddlCollegeID')
     if (ddlCollegeID) ddlCollegeID.focus();
@@ -169,13 +179,13 @@ export class SocietyComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.societyService.GetSocietyAllList(this.UserID, CollegeID)
         .then((data: any) => {
-
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.SocietyAllList = data['Data'][0]['data'];
           this.CollegeName = this.CollegeList.find((x: { CollegeID: number; }) => x.CollegeID == this.request.CollegeID).CollegeName;
+          this.DepartmentID = this.CollegeList.find((x: { CollegeID: number; }) => x.CollegeID == CollegeID).DepartmentID;
           this.GetIsPrimary = this.SocietyAllList.find((x: { S_IsPrimary: string; }) => x.S_IsPrimary.replace(/^\r\n\s+|\s+$/g, '') == 'Yes')?.S_IsPrimary;
           if (this.GetIsPrimary == 'Yes') {
             this.isDisabledPrimary = true;
@@ -322,12 +332,68 @@ export class SocietyComponent implements OnInit {
         return
       }
     }
-    debugger;
+    if (this.OccupationsName == 'Others') {
+      if (this.request.OtherOccupation == '') {
+        this.IsValidOtherOccupation = 'This field is required .!';
+        return
+      }
+    }
+    if (this.DepartmentID != 2) {
+      if (this.request.Educationists == '') {
+        this.IsValidEducationists = 'This field is required .!';
+        return
+      }
+    }
+    if (this.request.SocietyID == 0) {
+      this.GetMobileNo = this.SocietyAllList.find((x: { MobileNo: string; }) => x.MobileNo.replace(/^\r\n\s+|\s+$/g, '') == this.request.MobileNo)?.MobileNo;
+      this.GetEmail = this.SocietyAllList.find((x: { Email: string; }) => x.Email.replace(/^\r\n\s+|\s+$/g, '') == this.request.Email)?.Email;
+      this.GetAadhaarNo = this.SocietyAllList.find((x: { AadhaarNo: string; }) => x.AadhaarNo.replace(/^\r\n\s+|\s+$/g, '') == this.request.AadhaarNo)?.AadhaarNo;
+      this.GetPANNo = this.SocietyAllList.find((x: { PANNo: string; }) => x.PANNo.replace(/^\r\n\s+|\s+$/g, '') == this.request.PANNo)?.PANNo;
+
+      if (this.GetMobileNo == this.request.MobileNo) {
+        this.toastr.warning(this.request.MobileNo + " Mobile number is already exist ");
+        return
+      }
+      if (this.GetEmail == this.request.Email) {
+        this.toastr.warning(this.request.Email + " Email address is already exist");
+        return
+      }
+      if (this.GetAadhaarNo == this.request.AadhaarNo) {
+        this.toastr.warning(this.request.AadhaarNo + " Aadhaar No is already exist");
+        return
+      }
+      if (this.GetPANNo == this.request.PANNo) {
+        this.toastr.warning(this.request.PANNo + " PAN No is already exist");
+        return
+      }
+    }
+    else {
+      this.FilterSocietyAllList = this.SocietyAllList.filter((x: { SocietyID: number }) => x.SocietyID != this.request.SocietyID);
+      this.GetMobileNo = this.FilterSocietyAllList.find((x: { MobileNo: string; }) => x.MobileNo.replace(/^\r\n\s+|\s+$/g, '') == this.request.MobileNo)?.MobileNo;
+      this.GetEmail = this.FilterSocietyAllList.find((x: { Email: string; }) => x.Email.replace(/^\r\n\s+|\s+$/g, '') == this.request.Email)?.Email;
+      this.GetAadhaarNo = this.FilterSocietyAllList.find((x: { AadhaarNo: string; }) => x.AadhaarNo.replace(/^\r\n\s+|\s+$/g, '') == this.request.AadhaarNo)?.AadhaarNo;
+      this.GetPANNo = this.FilterSocietyAllList.find((x: { PANNo: string; }) => x.PANNo.replace(/^\r\n\s+|\s+$/g, '') == this.request.PANNo)?.PANNo;
+
+      if (this.GetMobileNo == this.request.MobileNo) {
+        this.toastr.warning(this.request.MobileNo + " Mobile number is already exist ");
+        return
+      }
+      if (this.GetEmail == this.request.Email) {
+        this.toastr.warning(this.request.Email + " Email address is already exist");
+        return
+      }
+      if (this.GetAadhaarNo == this.request.AadhaarNo) {
+        this.toastr.warning(this.request.AadhaarNo + " Aadhaar No is already exist");
+        return
+      }
+      if (this.GetPANNo == this.request.PANNo) {
+        this.toastr.warning(this.request.PANNo + " PAN No is already exist");
+        return
+      }
+    }
+   
     this.GetIsPrimary = this.SocietyAllList.find((x: { S_IsPrimary: string; }) => x.S_IsPrimary.replace(/^\r\n\s+|\s+$/g, '') == 'Yes')?.S_IsPrimary;
-    //if (GetIsPrimary == undefined || GetIsPrimary == '' || GetIsPrimary == null ) {
-    //  this.toastr.warning("Add IsPrimary in College Management Society");
-    //  return
-    //}
+   
     var Is_Primary = this.request.IsPrimary == true ? 'Yes' : 'No';
     console.log(this.request.SocietyID);
     if (this.request.SocietyID == 0) {
@@ -817,6 +883,7 @@ export class SocietyComponent implements OnInit {
       this.request.ConsentLetter = '';
       this.request.Dis_ConsentLetter = '';
       this.request.ConsentLetterPath = '';
+      this.request.OtherOccupation = '';
       this.IsEducationists = false;
       this.showAuthorizedDocument = false;
       this.showPANCard = false;
@@ -826,6 +893,7 @@ export class SocietyComponent implements OnInit {
       this.isAuthorizedOrNot = false;
       this.request.UserID = 0;
       this.isDisabledGrid = false;
+      this.IsOtherOccupation = false;
 
       const btnSave = document.getElementById('btnSave')
       if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
@@ -865,6 +933,14 @@ export class SocietyComponent implements OnInit {
           else {
             this.request.Educationists = data['Data'][0]["Educationists"];
             this.IsEducationists = false;
+          }
+
+          if (this.OccupationsName == 'Others') {
+            this.request.OtherOccupation = data['Data'][0]["OtherOccupation"];
+            this.IsOtherOccupation = true;
+          }
+          else {
+            this.IsOtherOccupation = false;
           }
           this.request.MobileNo = data['Data'][0]["MobileNo"];
           this.request.Email = data['Data'][0]["Email"];
@@ -966,9 +1042,15 @@ export class SocietyComponent implements OnInit {
       this.request.ConsentLetter = '';
       this.request.Dis_ConsentLetter = '';
       this.request.ConsentLetterPath = '';
-      this.IsEducationists = false;
-
+      this.IsEducationists = false;      
     }
+    if (this.OccupationsName == 'Others') {
+      this.IsOtherOccupation = true;
+    }
+    else {
+      this.IsOtherOccupation = false;
+    }
+    
   }
 
   btnCopyTable_Click() {
