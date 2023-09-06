@@ -20,6 +20,7 @@ export class PreviewLandDetailComponent implements OnInit {
   public UnitOfLand: string = '';
 
   public DetailoftheLand: any = [];
+  public CollegeLandConverstion: any = [];
 
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
@@ -87,6 +88,7 @@ export class PreviewLandDetailComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.request = data['Data'][0];
           this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
+          this.CollegeLandConverstion = data['Data'][0]["CollegeLandConversionDetails"];
         }, error => console.error(error));
     }
     catch (Ex) {
