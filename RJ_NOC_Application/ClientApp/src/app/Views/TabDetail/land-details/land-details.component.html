@@ -293,8 +293,8 @@
                 <th>Land Situated</th>
                 <th>Land Doc Type</th>
                 <th>Is Convereted</th>
-                <th>Order No.</th>
-                <th>Order Date</th>
+                <!--<th>Order No.</th>
+                <th>Order Date</th>-->
                 <!--<th>Land Type</th>
                 <th>Khasra No.</th>-->
                 <th>Owner Name</th>
@@ -310,8 +310,8 @@
                 <td>{{item.LandAreaSituatedName}}</td>
                 <td>{{item.LandDocumentTypeName}}</td>
                 <td>{{item.IsConvereted}}</td>
-                <td>{{item.LandConversionOrderNo}}</td>
-                <td>{{item.LandConversionOrderDate | date:'dd-MM-yyyy'}}</td>
+                <!--<td>{{item.LandConversionOrderNo}}</td>
+                <td>{{item.LandConversionOrderDate | date:'dd-MM-yyyy'}}</td>-->
                 <!--<td>{{item.LandTypeName}}</td>
                 <td>{{item.KhasraNumber}}</td>-->
                 <td>{{item.LandOwnerName}}</td>
@@ -408,6 +408,38 @@
                         <td>{{row.LandTypeName}}</td>
                         <td>{{row.LandArea}}</td>
                         <td>{{row.KhasraNo}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="CollegeLandConverstion.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i>&nbsp;Detail of the Land Converstion:  </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr.No.</th>
+                        <th>LandConversion OrderNo</th>
+                        <th>LandConversionOrderDate</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of CollegeLandConverstion; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td>{{row.LandConversionOrderNo}}</td>
+                        <td>{{row.LandConversionOrderDate}}</td>
+                        
                       </tr>
                     </tbody>
                   </table>

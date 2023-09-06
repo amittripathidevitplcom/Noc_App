@@ -38,6 +38,7 @@ export class LandDetailsComponent implements OnInit {
   public LandDetailsDocumentList: any = [];
   public LandDetailsDocumentListByID: any = [];
   public DetailoftheLand: any = [];
+  public CollegeLandConverstion: any = [];
   public isDisabledGrid: boolean = false;
   public LandConversionData: any = [];
   public LandTypeData: any = [];
@@ -741,6 +742,11 @@ export class LandDetailsComponent implements OnInit {
           //this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
           this.LandDetailsDocumentListByID = data['Data'][0]["LandDetailDocument"];
           this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
+          this.CollegeLandConverstion = data['Data'][0]["CollegeLandConversionDetails"];
+
+          console.log(this.CollegeLandConverstion);
+
+          
           console.log(this.request.LandDetailDocument);
         }, error => console.error(error));
     }
