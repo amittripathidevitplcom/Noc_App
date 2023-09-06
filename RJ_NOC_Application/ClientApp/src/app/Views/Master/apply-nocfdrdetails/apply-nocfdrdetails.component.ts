@@ -149,6 +149,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   }
 
   async SaveData() {
+
     //
     this.isSubmitted = true;
     //
