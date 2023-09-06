@@ -1868,8 +1868,6 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.TotalFeeAmount += this.TotalLateFees;
       this.request.LateFee = this.TotalLateFees;
     }
-
-    
   }
 
 

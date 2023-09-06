@@ -1155,4 +1155,13 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetCollegeLandConversionDetail(DepartmentID: number, LandDetailsID: number, Type: string) {
+    
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeLandConversionDetail/" + DepartmentID + "/" + LandDetailsID + "/" + Type)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }
