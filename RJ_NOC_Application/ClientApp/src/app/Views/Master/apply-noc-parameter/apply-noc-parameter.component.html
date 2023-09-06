@@ -841,7 +841,7 @@
               </div>
               <div class="card-footer">
                 <!--SaveInspectionFee_click-->
-                <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()">Apply Noc</button>
+                <!--<button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()">Apply Noc</button>-->
 
               </div>
             </div>
@@ -908,7 +908,14 @@
             <!--END Late Fee-->
 
 
+            <div class="row">
+              <div class="col-lg-12">
+                <span *ngIf="HasData()">
+                  <input type="checkbox" [(ngModel)]="IsTermsChecked"  />&nbsp; I have accpected all the terms and condtions.
+                </span>
+              </div>
 
+            </div>
 
 
 

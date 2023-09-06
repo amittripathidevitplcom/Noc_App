@@ -156,6 +156,8 @@ export class ApplyNocParameterComponent implements OnInit {
   public TotalLateFees: number = 0;
 
   public isShowPriceDetails: boolean = false;
+  public IsTermsChecked: boolean = false;
+
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
     private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal, private cdref: ChangeDetectorRef) {
 
@@ -537,7 +539,7 @@ export class ApplyNocParameterComponent implements OnInit {
     let HasData = false;
     if (this.ApplyNocParameterMasterList_TNOCExtension != null || this.ApplyNocParameterMasterList_AdditionOfNewSeats60 != null || this.ApplyNocParameterMasterList_ChangeInNameOfCollege != null ||
       this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null || this.ApplyNocParameterMasterList_ChangeInGirlstoCoed != null || this.ApplyNocParameterMasterList_ChangeInCollegeManagement != null || this.ApplyNocParameterMasterList_MergerCollege != null || this.ApplyNocParameterMasterList_ChangeInCoedtoGirls != null || this.ApplyNocParameterMasterList_NewCourse != null
-      || this.ApplyNocParameterMasterList_NewCourseSubject != null || this.ApplyNocParameterMasterList_TNOCExtOfSubject != null || this.ApplyNocParameterMasterList_PNOCOfSubject != null) {
+      || this.ApplyNocParameterMasterList_NewCourseSubject != null || this.ApplyNocParameterMasterList_TNOCExtOfSubject != null || this.ApplyNocParameterMasterList_PNOCOfSubject != null || (this.isInspectionFee && this.DepartmentInspectionFee > 0)) {
       HasData = true;
     }
     return HasData;
@@ -554,7 +556,10 @@ export class ApplyNocParameterComponent implements OnInit {
       if (this.ApplyNocParameterForm.invalid) {
         isValid = false;
       }
-
+      if (!this.IsTermsChecked) {
+        this.toastr.warning('Please accpect terms and condition');
+        isValid = false;
+      }
       // check all
       if (!isValid) {
         return;
@@ -777,7 +782,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
     this.isShowPriceDetails = false;
 
-
+    this.IsTermsChecked = false;
 
 
   }
@@ -1756,6 +1761,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   async ApplyNocFor_rbChange(event: any, selectedvalue: any, item: any) {
     debugger;
+    this.IsTermsChecked = false;
     if (item.Code == 'InspectionFee')
     {
       this.isInspectionFee = true;
