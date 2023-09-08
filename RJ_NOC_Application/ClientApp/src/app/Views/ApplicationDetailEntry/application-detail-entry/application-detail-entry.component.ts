@@ -157,7 +157,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     this.isCheck30Female = false;
     try {
       //Check 30 Female Member Exit or Not
-     
+
       await this.commonMasterService.Check30Female(this.SelectedCollageID)
         .then((data: any) => {
           this.State = data['State'];
@@ -174,11 +174,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
               return;
             }
 
-            if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID==3 ) {
+            if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID == 3) {
               this.toastr.error("Add Minimum 2 Educationist College Management Committee Members.")
               this.isCheck30Female = true;
               return;
-            } 
+            }
             Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
             if (Femalepre < 30) {
               //this.toastr.error("Society in Female Member is not valid (30%)")
@@ -187,12 +187,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
               return;
             }
 
-            if (data['Data'][0]['data'][0]['PendingFacilities']>0) {
+            if (data['Data'][0]['data'][0]['PendingFacilities'] > 0) {
               this.toastr.error("Enter All Facilities Details.")
               this.isCheck30Female = true;
               return;
             }
-            if (data['Data'][0]['data'][0]['PendingOtherInformation']>0) {
+            if (data['Data'][0]['data'][0]['PendingOtherInformation'] > 0) {
               this.toastr.error("Enter All Other Information Details.")
               this.isCheck30Female = true;
               return;
@@ -205,12 +205,63 @@ export class ApplicationDetailEntryComponent implements OnInit {
             }
 
             if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
-              this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] +' Sq. Feet')
+              this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
               this.isCheck30Female = true;
               return;
             }
 
+            if (this.SelectedDepartmentID == 2) {
+              if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
+                this.toastr.error('Please Add One Principal in Staff details.')
+                this.isCheck30Female = true;
+                return;
+              }
+              if (data['Data'][0]['data'][0]['PendingTrainingOfficer'] == 0) {
+                this.toastr.error('Please Add Training Officer in Staff details.')
+                this.isCheck30Female = true;
+                return;
+              }
+              if (data['Data'][0]['data'][0]['PendingVeterinaryOfficer'] == 0) {
+                this.toastr.error('Please Add Veterinary Officer in Staff details.')
+                this.isCheck30Female = true;
+                return;
+              }
+              if (data['Data'][0]['data'][0]['PendingFarmSupervisor'] == 0) {
+                this.toastr.error('Please Add One Farm Supervisor in Staff details.')
+                this.isCheck30Female = true;
+                return;
+              }
+              if (data['Data'][0]['data'][0]['PendingLaboratoryAssistant'] == 0) {
+                this.toastr.error('Please Add Laboratory Assistant in Staff details.')
+                this.isCheck30Female = true;
+                return;
 
+              }
+
+              if (data['Data'][0]['data'][0]['PendingComputerOperator'] == 0) {
+                this.toastr.error('Please Add One Computer Operator in Staff details.')
+                this.isCheck30Female = true;
+                return;
+
+              }
+              if (data['Data'][0]['data'][0]['PendingClerk'] == 0) {
+                this.toastr.error('Please Add Clerk in Staff details.')
+                this.isCheck30Female = true;
+                return;
+
+              }
+              if (data['Data'][0]['data'][0]['PendingAttendantSweeper'] == 0) {
+                this.toastr.error('Please Add Attendant Sweeper in Staff details.')
+                this.isCheck30Female = true;
+                return;
+
+              }
+              if (data['Data'][0]['data'][0]['PendingBusDriver'] == 0) {
+                this.toastr.error('Please Add One Bus Driver in Staff details.')
+                this.isCheck30Female = true;
+                return;
+              }
+            }
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -254,7 +305,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     //Medical Group 3
     if (this.SelectedDepartmentID == 6) {
       if (this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 &&  this.CheckTabsEntryData['HospitalDetails'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
@@ -267,12 +318,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
     // ParaMedical Medical Group 
     if (this.SelectedDepartmentID == 9) {
       if (this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 &&  this.CheckTabsEntryData['ParamedicalHospitalDetails'] > 0 ) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['ParamedicalHospitalDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 &&  this.CheckTabsEntryData['ParamedicalHospitalDetails'] > 0 ) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['ParamedicalHospitalDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
@@ -292,12 +343,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
     else if (this.SelectedDepartmentID == 1) {
       if (this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 &&  this.CheckTabsEntryData['FarmLandDetails'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['FarmLandDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 &&  this.CheckTabsEntryData['FarmLandDetails'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['FarmLandDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
@@ -305,13 +356,13 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
     if (this.SelectedDepartmentID == 3) {
       if (this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 &&  this.CheckTabsEntryData['ClassWiseStatistics'] > 0 && this.CheckTabsEntryData['SubjectWiseStatistics'] > 0
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['ClassWiseStatistics'] > 0 && this.CheckTabsEntryData['SubjectWiseStatistics'] > 0
           && this.CheckTabsEntryData['HostelDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 &&  this.CheckTabsEntryData['HostelDetails'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
           // && this.CheckTabsEntryData['ClassWiseStatistics'] > 0
           this.IsShowDraftFinalSubmit = false;
         }
