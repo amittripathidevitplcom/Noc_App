@@ -305,6 +305,13 @@ export class BuildingDetailsComponent implements OnInit {
       this.IstxtBuildingHostel = true;
       return;
     }
+    if (this.SelectedDepartmentID == 2) {
+      if (this.buildingdetails.BuildingHostelQuartersRoadArea < 1200) {
+        this.toastr.warning("Total building area should be equal to or more than 1200.");
+        return;
+      }
+    }
+
     if (this.RentAggrementDocShow) {
       if (this.buildingdetails.RentAgreementFileUpload == '') {
         this.ImageValidate = 'This field is required .!';
