@@ -1155,6 +1155,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetCourseLevelByCollegeIDAndDepartmentID_CourseWise(CollegeID: number, DepartmentID: number, CourseID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetCourseLevelByCollegeIDAndDepartmentID_CourseWise/" + CollegeID + "/" + DepartmentID + "/" + CourseID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async GetCollegeLandConversionDetail(DepartmentID: number, LandDetailsID: number, Type: string) {
     
