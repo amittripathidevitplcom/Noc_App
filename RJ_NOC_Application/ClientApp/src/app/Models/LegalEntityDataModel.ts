@@ -34,6 +34,11 @@ export class LegalEntityDataModel {
   public DeleteStatus: boolean = false;
   public AadharNo: string = '';
   public PresidentAadhaarNumber: string = '';
+
+  public Dis_RegistrationDocName: string = '';
+  public RegistrationDocPath: string = '';
+  public RegistrationDoc: string = '';
+
   public MemberDetails: LegalEntityMemberDetailsDataModel[] = [];
   public InstituteDetails: LegalEntityInstituteDetailsDataModel[] = [];
 }
