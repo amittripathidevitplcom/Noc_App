@@ -572,16 +572,16 @@ export class VeterinaryHospitalComponent implements OnInit {
 
   async GetTotalAnimalCount() {
     try {
-      this.loaderService.requestStarted();
+      //this.loaderService.requestStarted();
       this.requestAnimal.AnimalCount = Number(this.requestAnimal.MaleAnimalCount) + Number(this.requestAnimal.FemaleAnimalCount);
     }
     catch (Ex) {
       console.log(Ex);
     }
     finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
+      //setTimeout(() => {
+      //  this.loaderService.requestEnded();
+      //}, 200);
     }
   }
 
