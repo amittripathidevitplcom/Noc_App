@@ -578,7 +578,7 @@ export class StaffDetailsComponent implements OnInit {
           this.FormValid = false;
         }
       }
-      if (this.request.TeachingType == 'Teaching' && this.IsCourseLevel=='Yes') {
+      if (this.request.TeachingType == 'Teaching' && this.IsCourseLevel == 'Yes') {
         if (this.request.SubjectID == 0) {
           //this.toastr.warning('Subject is required');
           this.isSubject = true;
@@ -599,24 +599,6 @@ export class StaffDetailsComponent implements OnInit {
           this.FormValid = false;
         }
       }
-      if (this.request.TeachingType == 'NonTeaching') {
-        //if (this.request.RoleMapping == '') {
-        //  //this.toastr.warning('Role Mapping is required');
-        //  this.isRoleMapping = true;
-        //  this.FormValid = false;
-        //}
-      }
-
-
-      //if (this.request.EducationalQualificationDetails.length > 0) {
-      //  var DocRequried = this.ProfessionalQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.ProfessionalQualificationID).IsDocCompulsory;
-      //  if (DocRequried == 1) {
-      //    if (this.request.UploadDocument == '') {
-      //      this.isUploadDocRequried = true;
-      //      this.FormValid = false;
-      //    }
-      //  }
-      //}
       if (this.StaffDetailForm.invalid) {
         this.FormValid = false;
       }
@@ -627,6 +609,35 @@ export class StaffDetailsComponent implements OnInit {
         this.toastr.warning('Add atlest one row in Educational Qualification');
         return;
       }
+
+      if (this.SelectedDepartmentID = 2) {
+        if (this.request.PFDeduction == 'No') {
+          this.toastr.warning('PF Deduction is Mandatory');
+          return;
+        }
+        if (this.request.TeachingType == 'Teaching') {
+          if (this.request.RoleID == 16)// for Princple
+          {
+            if (this.request.EducationalQualificationDetails.length > 0) {
+              for (var i = 0; i < this.request.EducationalQualificationDetails.length; i++) {
+                if (this.request.EducationalQualificationDetails[i].ProfessionalQualification == 'Graduation') {
+                  if (Number(this.request.NumberofExperience) < 20) {
+                    this.toastr.warning('It is mandatory for the Principal to have at least 20 years of experience in Graduation.');
+                    return;
+                  }
+                }
+                else if (this.request.EducationalQualificationDetails[i].ProfessionalQualification == 'Post Graduation' || this.request.EducationalQualificationDetails[i].ProfessionalQualification == 'PHD') {
+                  if (Number(this.request.NumberofExperience) < 5) {
+                    this.toastr.warning('It is mandatory for the Principal to have at least 5 years of experience in Post Graduation or PHD.');
+                    return;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
       // owner
       if (this.request.StaffDetailID > 0) {
         this.request.ModifyBy = 1;
@@ -986,7 +997,8 @@ export class StaffDetailsComponent implements OnInit {
 
   setPassingYear() {
     const DOB = new Date(this.request.DateOfBirth);
-    this.StartYear = DOB.getFullYear()
+    DOB.setFullYear(DOB.getFullYear() + 14);
+    this.StartYear = DOB.getFullYear();
     //const DDAppointment = new Date(this.request.DateOfAppointment);
     const DDAppointment = new Date();
     // Set for Passing Year
