@@ -9,6 +9,7 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
+import { AcademicInformationComponent } from '../../TabDetail/academic-information/academic-information.component';
 import { StaffDetailsComponent } from '../../TabDetail/staff-details/staff-details.component';
 
 @Component({
@@ -42,6 +43,10 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   @ViewChild(StaffDetailsComponent)
   private staffDetailsComponent!: StaffDetailsComponent;
+
+  @ViewChild(AcademicInformationComponent)
+  private academicInformationComponent!: AcademicInformationComponent;
+
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService) { }
 
@@ -81,6 +86,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     this.selectedIndex = event.index;
     this.ShowDraftFinalSubmitBtn();
     this.staffDetailsComponent.GetCollegeWiseSubjectList(this.SelectedCollageID);
+    this.academicInformationComponent.GetCourseList_CollegeWise(this.SelectedCollageID);
 
   }
 
