@@ -88,7 +88,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">Area:</span>
                     </div>
-                    <input type="text" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numberOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
+                    <input type="text" maxlength="4" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numberOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
                   </div>
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandArea==0"> This field is required .!</p>
@@ -193,43 +193,46 @@
           <p *ngIf="isSubmitted&&request.LandConversionOrderNo ==''" class="text-danger"><i aria-hidden="true"></i> {{LandConversionOrderNoValidate}}</p>
         </div>-->
 
-        <div class="col-lg-6" *ngIf="ShowConversionOrderNo">
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped">
-              <thead>
-                <tr>
-                  <th>Sr.No.</th>
-                  <th> Conversion Order No</th>
-                  <th>Land Conversion Order Date(DD/MM/YYYY)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of  request.CollegeLandConversionDetails; let idx1 =index">
-                  <td>{{idx1+1}}</td>
-                  <td>
-                    <input type="text" id="txtLandConversionOrderNo{{idx1}}" maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
-                    <div class="text-danger">
-                      <p *ngIf="item.LandConversionOrderNo==''"> This field is required .!</p>
-                    </div>
-                  </td>
-                  <td>
-                    <input type="date" id="dtLandConversionOrderDate{{idx1}}" [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx1}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
-                    <div class="text-danger">
-                      <p *ngIf="item.LandConversionOrderDate==''"> This field is required .!</p>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="d-flex">
-                      <button type="button" *ngIf="idx1!=0" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteConverstionDetail(idx1)"><i class="fa fa-trash"></i></button>
-                      <button type="button" *ngIf="idx1==0" class="btn btn-sm btn-success" title="Add More" (click)="AddMoreLandConverstionData()"><i class="fa fa-plus"></i>Add More</button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
+      <div class="col-lg-6" *ngIf="ShowConversionOrderNo">
+        <label>
+          Land Conversion Order No. & Order Date: 
+        </label>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th> Conversion Order No</th>
+                <th>Land Conversion Order Date(DD/MM/YYYY)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of  request.CollegeLandConversionDetails; let idx1 =index">
+                <td>{{idx1+1}}</td>
+                <td>
+                  <input type="text" id="txtLandConversionOrderNo{{idx1}}" maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
+                  <div class="text-danger">
+                    <p *ngIf="item.LandConversionOrderNo==''"> This field is required .!</p>
+                  </div>
+                </td>
+                <td>
+                  <input type="date" id="dtLandConversionOrderDate{{idx1}}" [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx1}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                  <div class="text-danger">
+                    <p *ngIf="item.LandConversionOrderDate==''"> This field is required .!</p>
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex">
+                    <button type="button" *ngIf="idx1!=0" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteConverstionDetail(idx1)"><i class="fa fa-trash"></i></button>
+                    <button type="button" *ngIf="idx1==0" class="btn btn-sm btn-success" title="Add More" (click)="AddMoreLandConverstionData()"><i class="fa fa-plus"></i>Add More</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+
+      </div>
 
 
 
