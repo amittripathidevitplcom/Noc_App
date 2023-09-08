@@ -439,7 +439,7 @@ export class VeterinaryHospitalComponent implements OnInit {
           }
         }
       }
-      else if (this.Seats == '100') {
+      else if (this.Seats == '100' || Number(this.Seats) >= 100) {
         if (this.GetAnimalName == 'Cow') {
           if (this.requestAnimal.AnimalCount < 20 || this.requestAnimal.AnimalCount == 0) {
             this.isValidAnimalCount = true;

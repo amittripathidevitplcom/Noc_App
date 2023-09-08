@@ -252,8 +252,7 @@ export class OtherInformationComponent implements OnInit {
       this.isValidImageFilePath = false;
       this.isValidBookImageFilePath = false;
       if (event.target.files && event.target.files[0]) {
-        if (event.target.files[0].type === 'image/jpeg' ||
-          event.target.files[0].type === 'image/jpg') {
+        if (event.target.files[0].type === 'image/jpeg' || event.target.files[0].type === 'image/jpg') {
           if (event.target.files[0].size > 2000000) {
             this.ImageValidationMessage = 'Select less then 2MB File';
             if (Type == 'ImageFile') {
