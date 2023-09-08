@@ -233,7 +233,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       this.nocPaymentComponent.request.ApplyNocApplicationID = item.ApplyNocApplicationID;
       this.nocPaymentComponent.request.AMOUNT = item.TotalFeeAmount;
       this.nocPaymentComponent.request.USEREMAIL = item.CollegeEmail;
-      this.nocPaymentComponent.request.USERNAME = item.CollegeName.substring(0, 49).str.replace(/[^a-zA-Z ]/g, "");
+      this.nocPaymentComponent.request.USERNAME = item.CollegeName.substring(0, 49).replace(/[^a-zA-Z ]/g, "");
       this.nocPaymentComponent.request.USERMOBILE = item.CollegeMobileNo;
       this.nocPaymentComponent.request.PURPOSE = "Noc Payment";
       // post
@@ -258,7 +258,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       this.nocPaymentComponent.emitraRequest.Amount = item.ApplicationFeeAmount;
       this.nocPaymentComponent.emitraRequest.AppRequestID = item.ApplyNocApplicationID;
       this.nocPaymentComponent.emitraRequest.ServiceID = item.ServiceId
-      this.nocPaymentComponent.emitraRequest.UserName = item.CollegeName.substring(0, 49).str.replace(/[^a-zA-Z ]/g, "");
+      this.nocPaymentComponent.emitraRequest.UserName = item.CollegeName.substring(0, 49).replace(/[^a-zA-Z ]/g, "");
       this.nocPaymentComponent.emitraRequest.MobileNo = item.CollegeMobileNo;;
       this.nocPaymentComponent.emitraRequest.SsoID = "";
       this.nocPaymentComponent.emitraRequest.ApplicationIdEnc = item.ApplyNocApplicationID;

@@ -73,7 +73,7 @@
                   <!---->
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
                     <label for="ddlPresentCollegeStatus" class="form-label">Present Status of College <span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus" [(ngModel)]="request.PresentCollegeStatusID" formControlName="ddlPresentCollegeStatus">
+                    <select class="form-select" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus" [(ngModel)]="request.PresentCollegeStatusID" formControlName="ddlPresentCollegeStatus"  #SelectedPresentCollegeStatusID (change)="ddlPresentCollegeStatus_TextChange($event,SelectedPresentCollegeStatusID.value)">
                       <option value="0">--Select--</option>
                       <option *ngFor="let item of PresentCollegeStatusList_FilterData" value="{{item.ID}}">{{item.Name}}</option>
                     </select>
