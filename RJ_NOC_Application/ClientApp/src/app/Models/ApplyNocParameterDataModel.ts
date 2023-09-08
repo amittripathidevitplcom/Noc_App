@@ -96,6 +96,7 @@ export class ApplyNocFDRDetailsDataModel {
   public FDRDocument: string = '';
   public FDRDocumentPath: string = '';
   public FDRDocument_Dis_FileName: string = '';
+  public FDRExpriyDate: string = '';
 
 }
 

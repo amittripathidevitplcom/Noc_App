@@ -50,7 +50,7 @@
             <th>Full Address</th>
             <th>Creation Date</th>
             <th>Geo Tagging</th>
-            <th>Application No.</th>
+            <!--<th>Application No.</th>-->
             <th>Application Type</th>
             <th>Total Fee Amount</th>
 
@@ -92,7 +92,7 @@
                       Payment History
                     </a>
                   </li>
-                  <li>
+                  <li *ngIf="item.DepartmentID!=2">
                     <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" *ngIf="item.IsMakePayment_ApplicationFee==false"
                        (click)="EmitraPaymentApplyNocApplication_click(mymodalemitrapayment,item.ApplyNocApplicationID)">
                       Emitra  Payment
@@ -129,10 +129,10 @@
             <td>{{item.CollegeEmail}}</td>
             <td>{{item.FullAddress}}</td>
             <td>{{item.CreateDate}}</td>
-            <td>{{item.GeoTagging}}</td>
-            <td>
-              {{item.ApplicationNo}}
-            </td>
+            <td>{{item.GeoTagging}} </td>
+
+            <!--<td>{{item.ApplicationNo}}</td>-->
+
             <td>
               {{item.ApplicationTypeName}}
             </td>

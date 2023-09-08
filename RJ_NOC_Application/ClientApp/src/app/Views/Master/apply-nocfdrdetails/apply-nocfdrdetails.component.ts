@@ -48,7 +48,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   @Input() public ApplicationNo: string = '';
   @Input() public RefModal: any;
   public MaxDate: Date = new Date();
-
+  public MaxExpDate: Date = new Date();
   //@ViewChild(ApplyNocParameterDetailsComponent) child: ApplyNocParameterDetailsComponent | undefined; 
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService,
@@ -67,6 +67,8 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
         txtFDRDate: ['', Validators.required],
         ddlPeriodOfFDR: ['0', [DropdownValidators]],
         FDRDocument: [''],
+        txtFDRExpriyDate: ['', Validators.required]
+        
       })
 
     const txtBankName = document.getElementById('txtBankName')
@@ -347,5 +349,30 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   CloseModelPopUp() {
     //debugger
     this.RefModal._removeModalElements();
+  }
+
+ SetFDRExpriyDate()
+  {
+    try
+    {
+      if (this.request.FDRDate != '') {
+        this.request.FDRExpriyDate = '';
+        this.loaderService.requestStarted();
+        const FDRDate = new Date(this.request.FDRDate);
+        FDRDate.setFullYear(FDRDate.getFullYear() + Number(this.request.PeriodOfFDR));
+        this.MaxExpDate = new Date(FDRDate.getFullYear(), FDRDate.getMonth(), FDRDate.getDate());
+      }
+      else
+      {
+        this.toastr.warning('Plese Select Fdr Date')
+      }
+      }
+      catch (ex) { }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+    
   }
 }
