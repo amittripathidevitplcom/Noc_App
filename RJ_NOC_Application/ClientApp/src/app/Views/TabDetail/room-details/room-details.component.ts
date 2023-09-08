@@ -180,7 +180,7 @@ export class RoomDetailsComponent implements OnInit {
      
       let NoofStudents = 0;
       if (this.SelectedDepartmentID == 2) {
-        await this.commonMasterService.GetCourseLevelByCollegeIDAndDepartmentID(this.SelectedCollageID, this.SelectedDepartmentID)
+        await this.commonMasterService.GetCourseLevelByCollegeIDAndDepartmentID_CourseWise(this.SelectedCollageID, this.SelectedDepartmentID, this.request.CourseID)
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
             this.State = data['State'];
@@ -353,21 +353,20 @@ export class RoomDetailsComponent implements OnInit {
     }
 
     if (this.SelectedDepartmentID == 2) {
-      let NoofStudents = 50;
+      //let NoofStudents = 50;
       let ReqSize = 800;
-      await this.commonMasterService.GetCourseLevelByCollegeIDAndDepartmentID(this.SelectedCollageID, this.SelectedDepartmentID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          NoofStudents = data['Data'][0]['data'][0].SeatsValue;
-        }, error => console.error(error));
-
-
-
+      //await this.commonMasterService.GetCourseLevelByCollegeIDAndDepartmentID(this.SelectedCollageID, this.SelectedDepartmentID)
+      //  .then((data: any) => {
+      //    data = JSON.parse(JSON.stringify(data));
+      //    this.State = data['State'];
+      //    this.SuccessMessage = data['SuccessMessage'];
+      //    this.ErrorMessage = data['ErrorMessage'];
+      //    NoofStudents = data['Data'][0]['data'][0].SeatsValue;
+      //  }, error => console.error(error));
+       
       if ((this.request.Length * this.request.Width) < 800) {
         this.toastr.error('Minimum Room Size Required : 800 Sq.Feet');
+        this.isformvalid = false;
       }
     }
 
