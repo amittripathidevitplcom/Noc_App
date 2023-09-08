@@ -355,11 +355,17 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
   {
     try
     {
+      if (this.request.FDRDate != '') {
         this.request.FDRExpriyDate = '';
         this.loaderService.requestStarted();
         const FDRDate = new Date(this.request.FDRDate);
-        FDRDate.setFullYear(FDRDate.getFullYear() +Number(this.request.PeriodOfFDR));
+        FDRDate.setFullYear(FDRDate.getFullYear() + Number(this.request.PeriodOfFDR));
         this.MaxExpDate = new Date(FDRDate.getFullYear(), FDRDate.getMonth(), FDRDate.getDate());
+      }
+      else
+      {
+        this.toastr.warning('Plese Select Fdr Date')
+      }
       }
       catch (ex) { }
       finally {
