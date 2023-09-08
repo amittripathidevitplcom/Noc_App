@@ -92,13 +92,15 @@
           </div>
         </div>
 
+
+
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label for="ddlPeriodOfFDR" class="form-label">Period of FDR (Years)<span style="color:red;">*</span></label>
           <div *ngIf="request.IsFDRSubmited == true">
             <input class="form-control disabled" disabled value="{{request.PeriodOfFDR}}" />
           </div>
           <div *ngIf="request.IsFDRSubmited != true">
-            <select class="form-select" id="ddlPeriodOfFDR" name="ddlPeriodOfFDR" [(ngModel)]="request.PeriodOfFDR" formControlName="ddlPeriodOfFDR">
+            <select class="form-select" id="ddlPeriodOfFDR" (change)="SetFDRExpriyDate()" name="ddlPeriodOfFDR" [(ngModel)]="request.PeriodOfFDR" formControlName="ddlPeriodOfFDR">
               <option value="0" selected>--Select--</option>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -118,13 +120,29 @@
         </div>
 
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label for="txtFDRExpriyDate" class="form-label"> FDR Expriy Date <span style="color:red;">*</span></label>
+          <div *ngIf="request.IsFDRSubmited == true">
+            <input class="form-control disabled" disabled value="{{request.FDRExpriyDate | date:'yyyy-MM-dd'}}" />
+          </div>
+          <div *ngIf="request.IsFDRSubmited != true">
+            <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtFDRExpriyDate" [(ngModel)]="request.FDRExpriyDate" formControlName="txtFDRExpriyDate" min="{{MaxExpDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+          </div>
+          <div *ngIf="isSubmitted&&form.txtFDRExpriyDate.errors" class="text-danger">
+            <p *ngIf="form.txtFDRExpriyDate.errors.required"> This field is required .!</p>
+          </div>
+        </div>
+
+
+
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
             FDR Document (Only pdf file) Min Size 100(KB) Max Size 2(MB) <span style="color:red;">*</span>
           </label>
           <div *ngIf="request.IsFDRSubmited == true">
             <!--<a data-fancybox="gallery" href="{{request.FDRDocumentPath}}" data-caption="Image 10" title="click here to zoom">
-              <img src="{{request.FDRDocumentPath}}" alt="FDR Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-            </a>-->
+        <img src="{{request.FDRDocumentPath}}" alt="FDR Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+      </a>-->
             <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.FDRDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{request.FDRDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
           </div>
           <div *ngIf="request.IsFDRSubmited != true">
