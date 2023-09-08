@@ -210,7 +210,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
               return;
             }
 
-            if (this.SelectedDepartmentID == 2) {
+            if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true) {
               if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
                 this.toastr.error('Please Add One Principal in Staff details.')
                 this.isCheck30Female = true;

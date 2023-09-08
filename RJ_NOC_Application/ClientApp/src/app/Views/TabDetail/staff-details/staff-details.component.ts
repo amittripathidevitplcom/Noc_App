@@ -63,6 +63,7 @@ export class StaffDetailsComponent implements OnInit {
   public isAddMore: boolean = false;
   public isUploadDocRequried: boolean = false;
   public FormValid: boolean = true;
+  public QualificationDataValid: boolean = false;
 
   public showProfilePhoto: boolean = false;
   public showAadhaarCard: boolean = false;
@@ -545,6 +546,7 @@ export class StaffDetailsComponent implements OnInit {
       this.FormValid = true;
       this.isUploadDocRequried = false;
       this.isSubmitted = true;
+      this.QualificationDataValid = false;
 
       if (this.request.AadhaarCard == '') {
         this.isAadhaarCard = true;
@@ -632,12 +634,24 @@ export class StaffDetailsComponent implements OnInit {
                     return;
                   }
                 }
+
               }
             }
           }
         }
       }
-      
+
+      let HighestQualificationName = this.HighestQualificationData.find((x: { QualificationID: number; }) => x.QualificationID == this.request.HighestQualification).QualificationName;
+      for (var i = 0; i < this.request.EducationalQualificationDetails.length; i++) {
+        if (this.request.EducationalQualificationDetails[i].ProfessionalQualification == HighestQualificationName) {
+          this.QualificationDataValid = true;
+        }
+      }
+      if (!this.QualificationDataValid) {
+        this.QualificationDataValid = false;
+        this.toastr.warning('Highest Qualification Document is Required.');
+        return;
+      }
       // owner
       if (this.request.StaffDetailID > 0) {
         this.request.ModifyBy = 1;
@@ -692,6 +706,7 @@ export class StaffDetailsComponent implements OnInit {
       this.showAadhaarCard = false;
       this.showProfilePhoto = false;
       this.showExperienceCertificate = false;
+      this.QualificationDataValid = false;
       this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
       this.request.ProfessionalQualificationID = 0;
       const btnAdd = document.getElementById('btnAdd')
