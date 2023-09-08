@@ -91,6 +91,7 @@ export class BuildingDetailsComponent implements OnInit {
   public isValidGATEYearBalanceSecretFileUpload: boolean = false;
   public isValidOtherFinancialResourcesFileUpload: boolean = false;
   public SampleDocument: string = '';
+  public RangeType: string = '';
 
   @ViewChild('fileUploadImage')
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
@@ -182,10 +183,20 @@ export class BuildingDetailsComponent implements OnInit {
 
     this.buildingdetails.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    if (this.SelectedDepartmentID == 3)
+    if (this.SelectedDepartmentID == 3) {
       this.SampleDocument = GlobalConstants.ImagePathURL + "BuildingDetailsAnn13.pdf";
-    else
+      this.RangeType = 'in Sq. Ft'
+    }
+
+    else if (this.SelectedDepartmentID == 2) {
       this.SampleDocument = '';
+      this.RangeType = 'in Sq. Meter'
+    }
+    else {
+      this.SampleDocument = '';
+      this.RangeType = 'in Sq. Ft'
+    }
+
 
     this.buildingdetails.lstBuildingDocDetails = [];
     this.GetBuildingTypeCheck();
@@ -307,7 +318,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
     if (this.SelectedDepartmentID == 2) {
       if (this.buildingdetails.BuildingHostelQuartersRoadArea < 1200) {
-        this.toastr.warning("Total building area should be equal to or more than 1200.");
+        this.toastr.warning("Total building area should be equal to or more than 1200 Sq. Meter.");
         return;
       }
     }
