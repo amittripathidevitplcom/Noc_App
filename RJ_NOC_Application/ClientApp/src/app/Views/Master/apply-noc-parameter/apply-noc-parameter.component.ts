@@ -519,7 +519,13 @@ export class ApplyNocParameterComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request.ApplyNocLateFeeDetailList = data['Data'][0]['data'];
-          this.TotalLateFees = this.request.ApplyNocLateFeeDetailList.map(t => t.FeesAmount).reduce((acc, value) => acc + value, 0);
+
+          if (this.request.ApplyNocLateFeeDetailList != null)
+          {
+            if (this.request.ApplyNocLateFeeDetailList.length > 0) {
+              this.TotalLateFees = this.request.ApplyNocLateFeeDetailList.map(t => t.FeesAmount).reduce((acc, value) => acc + value, 0);
+            }
+          }
          
         }, error => console.error(error));
     }
@@ -1840,39 +1846,45 @@ export class ApplyNocParameterComponent implements OnInit {
 
   async CalculateAllAmount()
   {
-    this.request.ApplyNocParameterMasterListDataModel = this.ApplyNocParameterMasterList_ddl;
+    try {
+      this.request.ApplyNocParameterMasterListDataModel = this.ApplyNocParameterMasterList_ddl;
 
-    let totalFeeList = this.request.ApplyNocParameterMasterListDataModel?.filter((element: any) => { return element.IsChecked == true; });
-    // and total fee
-    this.request.TotalFeeAmount = 0;
-    for (let i = 0; i < totalFeeList.length; i++) {
-      this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
-    }
-    //for Dec New Subject
-    if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
+      let totalFeeList = this.request.ApplyNocParameterMasterListDataModel?.filter((element: any) => { return element.IsChecked == true; });
+      // and total fee
+      this.request.TotalFeeAmount = 0;
+      for (let i = 0; i < totalFeeList.length; i++) {
+        this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
+      }
       //for Dec New Subject
-      this.request.TotalFeeAmount += this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
-    }
-    //for Dec New Subject
-    if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
+      if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
+        //for Dec New Subject
+        this.request.TotalFeeAmount += this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
+      }
+      //for Dec New Subject
+      if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
 
-      this.request.TotalFeeAmount += this.calcuateSumofNewSubject();
-    }
-    //DEC TNOC
-    if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
+        this.request.TotalFeeAmount += this.calcuateSumofNewSubject();
+      }
+      //DEC TNOC
+      if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
 
-      this.request.TotalFeeAmount += this.calcuateTNOCSubjectFees();
-    }
-    //DEC NOC
-    if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
+        this.request.TotalFeeAmount += this.calcuateTNOCSubjectFees();
+      }
+      //DEC NOC
+      if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
 
-      this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
-    }
+        this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
+      }
 
-    this.request.TotalNocFee = this.request.TotalFeeAmount;
-    if (this.request.ApplyNocLateFeeDetailList.length > 0) {
-      this.request.TotalFeeAmount += this.TotalLateFees;
-      this.request.LateFee = this.TotalLateFees;
+      this.request.TotalNocFee = this.request.TotalFeeAmount;
+      if (this.request.ApplyNocLateFeeDetailList != null) {
+        if (this.request.ApplyNocLateFeeDetailList.length > 0) {
+          this.request.TotalFeeAmount += this.TotalLateFees;
+          this.request.LateFee = this.TotalLateFees;
+        }
+      }
+    } catch (error) {
+
     }
   }
 
