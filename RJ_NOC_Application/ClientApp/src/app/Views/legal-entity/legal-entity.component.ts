@@ -188,6 +188,7 @@ export class LegalEntityComponent implements OnInit {
           txtManagementCommitteecertified: ['', [Validators.required, Validators.pattern('^[a-zA-Z \-\']+')]],
           txtSocietyPANNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern("^[A-Za-z]{5}[0-9]{4}[A-Za-z]$")]],
           txtSocietyPanProofDoc: [''],
+          fRegistrationDocument: [''],
           txtRegisteredActName: ['']
 
         });
@@ -326,6 +327,10 @@ export class LegalEntityComponent implements OnInit {
           }
           this.request.SocietyPanProofDocPath = data['Data'][0]['data']['Table']['0']['SocietyPanProofDocPath'];
           this.request.Dis_SocietyPanProofDocName = data['Data'][0]['data']['Table']['0']['Dis_SocietyPanProofDocName'];
+
+          this.request.RegistrationDoc = data['Data'][0]['data']['Table']['0']['RegistrationDoc'];
+          this.request.Dis_RegistrationDocName = data['Data'][0]['data']['Table']['0']['Dis_RegistrationDocName'];
+          this.request.RegistrationDocPath = data['Data'][0]['data']['Table']['0']['RegistrationDocPath'];
 
           //legalentityAddMember
           this.request.MemberDetails = JSON.parse(JSON.stringify(data['Data'][0]['data']['Table2']));
@@ -537,8 +542,7 @@ export class LegalEntityComponent implements OnInit {
 
   async SaveData() {
     try {
-      debugger;
-      this.loaderService.requestStarted();
+
       this.isValidMemberPhoto = false;
       this.isValidMemberSignature = false;
       this.isValidTrustLogoDoc = false;
@@ -559,15 +563,15 @@ export class LegalEntityComponent implements OnInit {
         this.IsSocietyPanProofDoc = 'This field is required .!';
         isValid = false;
       }
-/*      var GetPresidentStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'President')?.IsDeleted;*/
+      /*      var GetPresidentStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'President')?.IsDeleted;*/
       var GetPresident = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'President')?.MembersPostName;
-/*      var GetSecretaryStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary')?.IsDeleted;*/
+      /*      var GetSecretaryStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary')?.IsDeleted;*/
       var GetSecretary = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary')?.MembersPostName;
-/*      var GetTreasurerStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer')?.IsDeleted;*/
+      /*      var GetTreasurerStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer')?.IsDeleted;*/
       var GetTreasurer = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer')?.MembersPostName;
-      if (GetPresident == undefined || GetPresident == '' || GetPresident == null || 
-        GetSecretary == undefined || GetSecretary == '' || GetSecretary == null || 
-        GetTreasurer == undefined || GetTreasurer == '' || GetTreasurer == null ) {
+      if (GetPresident == undefined || GetPresident == '' || GetPresident == null ||
+        GetSecretary == undefined || GetSecretary == '' || GetSecretary == null ||
+        GetTreasurer == undefined || GetTreasurer == '' || GetTreasurer == null) {
         this.toastr.warning("Add President, Secretary and Treasurer in Society member");
         isValid = false;
       }
@@ -586,11 +590,15 @@ export class LegalEntityComponent implements OnInit {
           isValid = false;
         }
       }
+      if (this.request.RegistrationDoc == '') {
+        isValid = false;
+      }
 
       //check all
       if (!isValid) {
         return;
       }
+      this.loaderService.requestStarted();
       //post
       this.request.SSOID = this.sSOLoginDataModel.SSOID;
       await this.legalEntityService.SaveData(this.request)
@@ -1400,7 +1408,8 @@ export class LegalEntityComponent implements OnInit {
     }
   }
 
-
+  public isValidRegistrationDoc: boolean = true;
+  public ImageValidationMessage_RegistrationDoc: string = '';
   async ValidateDocument(event: any, Type: string) {
     try {
       this.loaderService.requestStarted();
@@ -1443,6 +1452,15 @@ export class LegalEntityComponent implements OnInit {
               this.file = document.getElementById('txtSocietyPanProofDoc');
               this.file.value = '';
             }
+            else if (Type == 'RegistrationDoc') {
+              this.isValidRegistrationDoc = true;
+              this.request.Dis_RegistrationDocName = '';
+              this.request.RegistrationDocPath = '';
+              this.request.RegistrationDoc = '';
+              this.ImageValidationMessage_RegistrationDoc = 'Select less then 2MB File';
+              this.file = document.getElementById('fRegistrationDocument');
+              this.file.value = '';
+            }
             return
           }
           if (event.target.files[0].size < 100000) {
@@ -1473,6 +1491,15 @@ export class LegalEntityComponent implements OnInit {
               this.request.SocietyPanProofDoc = '';
               this.ImageValidationMessage_SocietyPanProofDoc = 'Select more then 100kb File';
               this.file = document.getElementById('txtSocietyPanProofDoc');
+              this.file.value = '';
+            }
+            else if (Type == 'RegistrationDoc') {
+              this.isValidRegistrationDoc = true;
+              this.request.Dis_RegistrationDocName = '';
+              this.request.RegistrationDocPath = '';
+              this.request.RegistrationDoc = '';
+              this.ImageValidationMessage_RegistrationDoc = 'Select more then 100kb File';
+              this.file = document.getElementById('fRegistrationDocument');
               this.file.value = '';
             }
             return
@@ -1506,6 +1533,15 @@ export class LegalEntityComponent implements OnInit {
             this.request.SocietyPanProofDoc = '';
             this.ImageValidationMessage_SocietyPanProofDoc = 'Select Only pdf file';
             this.file = document.getElementById('txtSocietyPanProofDoc');
+            this.file.value = '';
+          }
+          else if (Type == 'RegistrationDoc') {
+            this.isValidRegistrationDoc = true;
+            this.request.Dis_RegistrationDocName = '';
+            this.request.RegistrationDocPath = '';
+            this.request.RegistrationDoc = '';
+            this.ImageValidationMessage_RegistrationDoc = 'Select Only pdf file';
+            this.file = document.getElementById('fRegistrationDocument');
             this.file.value = '';
           }
           return
@@ -1542,6 +1578,14 @@ export class LegalEntityComponent implements OnInit {
               this.request.SocietyPanProofDoc = data['Data'][0]["FileName"];
               this.ImageValidationMessage_SocietyPanProofDoc = '';
               this.file = document.getElementById('txtSocietyPanProofDoc');
+              this.file.value = '';
+            }
+            else if (Type == 'RegistrationDoc') {
+              this.request.Dis_RegistrationDocName = data['Data'][0]["Dis_FileName"];
+              this.request.RegistrationDocPath = data['Data'][0]["FilePath"];
+              this.request.RegistrationDoc = data['Data'][0]["FileName"];
+              this.ImageValidationMessage_RegistrationDoc = '';
+              this.file = document.getElementById('fRegistrationDocument');
               this.file.value = '';
             }
           }
@@ -1776,6 +1820,14 @@ export class LegalEntityComponent implements OnInit {
             this.request.SocietyPanProofDocPath = '';
             this.request.SocietyPanProofDoc = '';
             this.ImageValidationMessage_SocietyPanProofDoc = '';
+          }
+          else if (Type == 'RegistrationDoc') {
+            this.request.Dis_RegistrationDocName = '';
+            this.request.RegistrationDocPath = '';
+            this.request.RegistrationDoc = '';
+            this.ImageValidationMessage_RegistrationDoc = '';
+            this.file = document.getElementById('fRegistrationDocument');
+            this.file.value = '';
           }
         }
         if (this.State == 1) {

@@ -109,6 +109,7 @@
                     <th>Trust Logo</th>
                     <th>Trustee Member Proof</th>
                     <th>Pan Proof</th>
+                    <th>Registration Document</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -124,12 +125,18 @@
                         <img src="{{legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trustee Member Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                       </a>
                       <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                    </td>                    
+                    </td>
                     <td>
                       <a *ngIf="!legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom">
                         <img src="{{legalEntityListData1.SocietyPanProofDocPath}}" alt="Society Pan Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                       </a>
                       <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </td>
+                    <td>
+                      <a *ngIf="!legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{legalEntityListData1.RegistrationDocPath}}" alt="Registration Doc" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                     </td>
                   </tr>
                 </tbody>

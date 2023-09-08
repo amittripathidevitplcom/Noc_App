@@ -301,7 +301,7 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="IsActOther">
                 <label for="">Act (Which Act You Registered)  <span style="color:red">*</span></label>
-                <input class="form-control" id="txtRegisteredAct" [(ngModel)]="request.RegisteredActName" formControlName="txtRegisteredActName" (keypress)="alphanumbersSpaceOnly($event)" maxlength="200"/>
+                <input class="form-control" id="txtRegisteredAct" [(ngModel)]="request.RegisteredActName" formControlName="txtRegisteredActName" (keypress)="alphanumbersSpaceOnly($event)" maxlength="200" />
                 <p *ngIf="isSubmitted&&IsActOther&&request.RegisteredActName==''" class="text-danger">This field is required .!</p>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -465,7 +465,24 @@
                   <p *ngIf="isValidSocietyPanProofDoc"> {{ImageValidationMessage_SocietyPanProofDoc}}</p>
                 </div>
               </div>
-
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="fRegistrationDocument"> Registration Document<span style="color:red">*</span></label>
+                <div class="d-flex">
+                  <input class="form-control d-none" type="file" id="fRegistrationDocument" formControlName="fRegistrationDocument" (change)="ValidateDocument($event,'RegistrationDoc')" />
+                  <label class="btn upload" for="fRegistrationDocument">
+                    <span class="filename">Choose file</span>
+                    {{request.RegistrationDoc === '' ? 'No File Choosen' : request.Dis_RegistrationDocName}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.RegistrationDoc!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.RegistrationDocPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('RegistrationDoc', request.RegistrationDoc)"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&request.RegistrationDoc ==''" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+                <div *ngIf="isValidRegistrationDoc" class="text-danger">
+                  <p *ngIf="isValidRegistrationDoc"> {{ImageValidationMessage_RegistrationDoc}}</p>
+                </div>
+              </div>
             </div>
 
           </form>
