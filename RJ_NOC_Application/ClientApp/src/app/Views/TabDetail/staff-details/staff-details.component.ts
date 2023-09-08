@@ -612,7 +612,7 @@ export class StaffDetailsComponent implements OnInit {
         return;
       }
 
-      if (this.SelectedDepartmentID = 2) {
+      if (this.SelectedDepartmentID == 2) {
         if (this.request.PFDeduction == 'No') {
           this.toastr.warning('PF Deduction is Mandatory');
           return;
