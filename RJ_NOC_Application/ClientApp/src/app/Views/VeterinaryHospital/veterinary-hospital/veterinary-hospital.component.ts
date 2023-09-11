@@ -398,6 +398,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       if (this.animalForm.invalid) {
         return;
       }
+      debugger;
       this.GetAnimalName = this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.requestAnimal.AnimalMasterID).AnimalName;
       if (this.Seats == '50') {
         if (this.GetAnimalName == 'Cow') {
