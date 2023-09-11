@@ -4,7 +4,7 @@
   <div class="card">
     <div class="card-header">
       <b>
-        <i class="bi bi-building-add"></i>&nbsp; Other Information
+        <i class="bi bi-building-add"></i>&nbsp; Other Information 
         <span style="margin-left:100px">Note : Upload only webp/jpg/jpeg/pdf files (Min.Size 100KB to Max.Size 2MB)</span>
       </b>
     </div>
@@ -67,7 +67,7 @@
             </div>
           </div>-->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="fileUploadImage" class="form-label">Upload Image<span style="color:red;">*</span></label>
+            <label for="fileUploadImage" class="form-label">Upload (PDF/Image)<span style="color:red;">*</span></label>
             <div class="d-flex">
               <input type="file" class="form-control" style="display:none" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage" (change)="ValidateUploadImage($event,'ImageFile')" #fileUploadImage />
               <label class="btn upload" for="fileUploadImage">
@@ -165,8 +165,8 @@
                         <!--<th>Length (In Feet)</th>-->
                         <th>Number Of Books</th>
                         <th>Number Of Computers</th>
-                        <th>Upload Image</th>
-                        <!--<th>Upload Book Image</th>-->
+                        <th>View Document</th>
+                        <th>View Library Document</th> 
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -180,7 +180,7 @@
                         <td>{{row.NoofBooks}}</td>
                         <td>{{row.NoofComputers}}</td>
                         <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
-                        <!--<td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>-->
+                         <td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td> 
                         <td>
                           <div class="d-flex">
                             <button type="button" (click)="Edit_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
