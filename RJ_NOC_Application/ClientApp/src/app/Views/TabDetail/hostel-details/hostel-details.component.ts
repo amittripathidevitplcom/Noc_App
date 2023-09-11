@@ -22,6 +22,7 @@ import { GlobalConstants } from '../../../Common/GlobalConstants'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { style } from '@angular/animations';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 
 @Injectable()
@@ -136,10 +137,10 @@ export class HostelDetailsComponent implements OnInit {
 
 
   readonly imageUrlPath = GlobalConstants.ImagePathURL;
-
+  public IsDisabledAddress: boolean = false;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
-    private clipboard: Clipboard, private fileUploadService: FileUploadService, private hostelDetailService: HostelDetailService, private modalService: NgbModal) {
+    private clipboard: Clipboard, private fileUploadService: FileUploadService, private hostelDetailService: HostelDetailService, private modalService: NgbModal, private collegeService: CollegeService) {
 
   }
 
@@ -246,6 +247,7 @@ export class HostelDetailsComponent implements OnInit {
   }
 
   async FillDivisionRelatedDDL() {
+    this.DistrictList = [];
     try {
       this.loaderService.requestStarted();
       // college status
@@ -555,7 +557,7 @@ export class HostelDetailsComponent implements OnInit {
         this.isFormValid = false;
         console.log(this.HostelForm);
       }
-      
+
       if (!this.isFormValid) {
         return;
       }
@@ -903,12 +905,28 @@ export class HostelDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       if (this.request.IsHostelCampus == 'No') {
+        this.IsDisabledAddress = false;
         this.HostelForm.get('txtCollegeDistance')?.setValidators(Validators.required);
         this.HostelForm.get('rdHostelType')?.setValidators(Validators.required);
+        this.request.AddressLine1 = '';
+        this.request.AddressLine2 = '';
+        this.request.IsRuralUrban = '';
+        this.request.DivisionID = 0;
+        this.request.DistrictID = 0;
+        this.request.TehsilID = 0;
+        this.request.PanchayatSamitiID = 0;
+        this.request.CityTownVillage = '';
+        this.request.Pincode = null;
+        this.DistrictList = [];
+        this.SuvdivisionList = [];
+        this.TehsilList = [];
+        this.PanchyatSamitiList = [];
       }
       else {
+        this.IsDisabledAddress = true;
         this.HostelForm.get('txtCollegeDistance')?.clearValidators();
         this.HostelForm.get('rdHostelType')?.clearValidators();
+        this.GetCollageDetails();
       }
       this.HostelForm.get('txtCollegeDistance')?.updateValueAndValidity();
       this.HostelForm.get('rdHostelType')?.updateValueAndValidity();
@@ -997,7 +1015,42 @@ export class HostelDetailsComponent implements OnInit {
   }
 
 
-
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeDataList = data['Data'];
+          this.request.AddressLine1 = this.collegeDataList['AddressLine1'];
+          this.request.AddressLine2 = this.collegeDataList['AddressLine2'];
+          this.request.IsRuralUrban = this.collegeDataList['RuralUrban'] == 1 ? 'Rural' : 'Urban';
+          await this.IsRuralOrUrban(null);
+          this.request.DivisionID = this.collegeDataList['DivisionID'];
+          await this.FillDivisionRelatedDDL();
+          this.request.DistrictID = this.collegeDataList['DistrictID'];
+          if (this.request.IsRuralUrban == 'Rural') {
+            await this.FillDistrictRelatedDDL();
+            this.request.TehsilID = this.collegeDataList['TehsilID'];
+            this.request.PanchayatSamitiID = this.collegeDataList['PanchayatSamitiID'];
+          }
+          else {
+            this.request.TehsilID = 0;
+            this.request.PanchayatSamitiID = 0;
+          }
+          this.request.CityTownVillage = this.collegeDataList['CityTownVillage'];
+          this.request.Pincode = this.collegeDataList['Pincode'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
 
 
