@@ -588,9 +588,7 @@ export class AddCollegeComponent implements OnInit {
         this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
         this.CollegeLevelList_FilterData = this.CollegeLevelList;
       }
-
-
-
+       
     }
     catch (ex) {
       console.log(ex)
@@ -603,10 +601,41 @@ export class AddCollegeComponent implements OnInit {
     }
   }
 
+
+  async ddlPresentCollegeStatus_TextChange(event: any, SelectedPresentCollegeStatusID: string) {
+    if (this.request.DepartmentID == 3) {
+      try {
+        this.loaderService.requestStarted();
+        const SelectedPresentCollegeStatusID1 = Number(SelectedPresentCollegeStatusID);
+        let SelectdNOCStatus = this.PresentCollegeStatusList_FilterData.find((x: { ID: number; }) => x.ID == SelectedPresentCollegeStatusID1).Name;
+        if (SelectdNOCStatus == "TNOC Holder") {
+          this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
+            return element.Name == "UG";
+          });
+        }
+        else {
+          this.CollegeLevelList_FilterData = this.CollegeLevelList;
+        }
+      }
+      catch (ex) {
+        console.log(ex)
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+          this.isLoading = false;
+        }, 200);
+      }
+    }
+  }
+
+
+
   async FillDepartmentRelatedDDL(event: any, SeletedDepartmentID: string) {
     try {
       this.loaderService.requestStarted();
       const departmentId = Number(SeletedDepartmentID);
+      this.request.PresentCollegeStatusID = 0;
       if (departmentId <= 0) {
         return;
       }
@@ -1142,6 +1171,8 @@ export class AddCollegeComponent implements OnInit {
           await this.ResetFileAndValidation('NAACAccreditedCertificate', '', this.request.NAACAccreditedCertificate, this.request.NAACAccreditedCertificatePath, this.request.NAACAccreditedCertificate_Dis_FileName, true);
           // college status
           await this.ddlCollegeStatus_TextChange(null, this.request.CollegeStatusID.toString())
+
+          await this.ddlPresentCollegeStatus_TextChange(null, this.request.PresentCollegeStatusID.toString())
           // division dll
           await this.FillDivisionRelatedDDL(null, this.request.DivisionID.toString(), null);
           // district status

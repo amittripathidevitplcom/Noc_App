@@ -869,6 +869,7 @@ export class LegalEntityComponent implements OnInit {
 
       this.loaderService.requestStarted();
       this.MaskedMobileNo = ''
+      debugger;
       await this.commonMasterService.GetSocietyDetailByRegistrationNo(this.OldRegistrationNo, this.RegistrationDistrict)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));

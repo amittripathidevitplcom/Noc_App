@@ -440,7 +440,7 @@ export class VeterinaryHospitalComponent implements OnInit {
           }
         }
       }
-      else if (this.Seats == '100') {
+      else if (this.Seats == '100' || Number(this.Seats) >= 100) {
         if (this.GetAnimalName == 'Cow') {
           if (this.requestAnimal.AnimalCount < 20 || this.requestAnimal.AnimalCount == 0) {
             this.isValidAnimalCount = true;
@@ -573,16 +573,16 @@ export class VeterinaryHospitalComponent implements OnInit {
 
   async GetTotalAnimalCount() {
     try {
-      this.loaderService.requestStarted();
+      //this.loaderService.requestStarted();
       this.requestAnimal.AnimalCount = Number(this.requestAnimal.MaleAnimalCount) + Number(this.requestAnimal.FemaleAnimalCount);
     }
     catch (Ex) {
       console.log(Ex);
     }
     finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
+      //setTimeout(() => {
+      //  this.loaderService.requestEnded();
+      //}, 200);
     }
   }
 
