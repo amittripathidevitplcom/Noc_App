@@ -76,6 +76,9 @@ export class FacilityDetailsComponent implements OnInit {
   public ImageValidate: string = '';
   public file: any = '';
 
+
+  public isInputOptionType: boolean = false;
+
   request = new FacilityDetailsDataModel();
   @ViewChild('fileUploadImage')
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
@@ -90,6 +93,7 @@ export class FacilityDetailsComponent implements OnInit {
       {
         ddlFacilitiesId: ['', [DropdownValidators]],
         txtNoOf: ['', [Validators.required, Validators.min(1)]],
+        ddlIsAvailable: ['', [Validators.required]],
         fileUploadImage: [''],
         //fileUploadImage: ['', Validators.required],
         txtMinSize: ['', [Validators.required, Validators.min(0), Validators.max(100000000)]],
@@ -144,29 +148,41 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   async ddlFacilities_change($event: any, SeletedFacilitiesID: any) {
-    this.request.FacilitiesID = SeletedFacilitiesID;
-    this.request.NoOf = null;
-    this.request.MinSize = 0;
-    this.request.Unit = '';
-
-    this.WidthMin = 0;
-    this.Unit = '';
-    this.CssClass_TextDangerWidth = '';
-    this.CssClass_TextDangerLength = '';
-
-
-    console.log(SeletedFacilitiesID);
     try {
-      this.loaderService.requestStarted();
-      await this.commonMasterService.GetFacilitesMinSize(this.request.FacilitiesID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.FacilitesMinSizeDataList = data['Data'];
+      this.request.FacilitiesID = SeletedFacilitiesID;
+      var IsYesNoOption = this.FacilitiesData.find((x: { FID: number; }) => x.FID == this.request.FacilitiesID).IsYesNoOption;
+      if (IsYesNoOption == "No") {
+        this.isInputOptionType = true;
+        this.request.IsAvailable = '';
+        this.request.NoOf = null;
+        this.request.MinSize = 0;
+        this.request.Unit = '';
 
-          this.WidthMin = this.FacilitesMinSizeDataList[0]['MinSize'];
-          this.Unit = this.FacilitesMinSizeDataList[0]['Unit'];
-          console.log(this.FacilitesMinSizeDataList);
-        }, error => console.error(error));
+        this.WidthMin = 0;
+        this.Unit = '';
+        this.CssClass_TextDangerWidth = '';
+        this.CssClass_TextDangerLength = '';
+
+        this.loaderService.requestStarted();
+        await this.commonMasterService.GetFacilitesMinSize(this.request.FacilitiesID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.FacilitesMinSizeDataList = data['Data'];
+            this.WidthMin = this.FacilitesMinSizeDataList[0]['MinSize'];
+            this.Unit = this.FacilitesMinSizeDataList[0]['Unit'];
+            console.log(this.FacilitesMinSizeDataList);
+          }, error => console.error(error));
+      }
+      else {
+        this.request.NoOf = 0;
+        this.request.MinSize = 0;
+        this.request.Unit = '';
+        this.WidthMin = 0;
+        this.Unit = '';
+        this.CssClass_TextDangerWidth = '';
+        this.CssClass_TextDangerLength = '';
+        this.isInputOptionType = false;
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -180,7 +196,7 @@ export class FacilityDetailsComponent implements OnInit {
 
   async ValidateUploadImage(event: any) {
     try {
-     
+
       this.loaderService.requestStarted();
       this.isValidFacilitiesUrl = true;
       if (event.target.files && event.target.files[0]) {
@@ -289,11 +305,38 @@ export class FacilityDetailsComponent implements OnInit {
     this.isFormValid = true;
     this.request.CollegeID = this.SelectedCollageID;
 
+    var IsYesNoOptionSave = this.FacilitiesData.find((x: { FID: number; }) => x.FID == this.request.FacilitiesID).IsYesNoOption;
+    var IsExit = this.FacilitiesDataAllList.find((x: { FacilitiesID: number; }) => x.FacilitiesID == this.request.FacilitiesID);
+    if (IsExit != undefined || IsExit != null) {
+      //console.log(IsExit);
+      //console.log(IsExit['FacilitiesName']);
+      if (IsYesNoOptionSave == "Yes" && IsExit.FacilityDetailID != this.request.FacilityDetailID) {
+        this.toastr.error(IsExit['FacilitiesName'] + " is Already Exist, It Can't Not Be Duplicate.!")
+        return;
+      }
+    }
+
     this.isSubmitted = true;
     if ((this.request.MinSize).toString() == "") {
       this.toastr.warning("Please Select Min Size.!");
       return;
     }
+
+    if (this.isInputOptionType == true) {
+      this.FacilitiesForm.get('ddlIsAvailable')?.clearValidators();
+
+      this.FacilitiesForm.get('txtNoOf')?.setValidators([Validators.required, Validators.min(1)]);
+      this.FacilitiesForm.get('txtMinSize')?.setValidators([Validators.required, Validators.min(0), Validators.max(100000000)]);
+    }
+    else {
+      this.FacilitiesForm.get('ddlIsAvailable')?.setValidators([Validators.required]);
+      this.FacilitiesForm.get('txtNoOf')?.clearValidators();
+      this.FacilitiesForm.get('txtMinSize')?.clearValidators();
+    }
+    this.FacilitiesForm.get('ddlIsAvailable')?.updateValueAndValidity();
+    this.FacilitiesForm.get('txtNoOf')?.updateValueAndValidity();
+    this.FacilitiesForm.get('txtMinSize')?.updateValueAndValidity();
+
 
     if (this.FacilitiesForm.invalid) {
       this.isFormValid = false;
@@ -311,6 +354,10 @@ export class FacilityDetailsComponent implements OnInit {
       this.ImageValidate = 'This field is required .!';
       this.isFormValid = false;
     }
+
+
+
+
     if (!this.isFormValid) {
       return;
     }
@@ -336,8 +383,6 @@ export class FacilityDetailsComponent implements OnInit {
             this.toastr.success(this.SuccessMessage)
             // get saved society
             await this.ResetControl();
-            await this.GetFacilities(this.SelectedDepartmentID, 'Facilities');
-            await this.GetFacilityDetailAllList();
 
           }
           else {
@@ -358,12 +403,17 @@ export class FacilityDetailsComponent implements OnInit {
   async ResetControl() {
     try {
       this.loaderService.requestStarted();
+
+      
+
       const ddlFacilitiesId = document.getElementById('ddlFacilitiesId')
       if (ddlFacilitiesId) ddlFacilitiesId.focus();
       this.isValidFacilitiesUrl = true;
       this.showFacilitiesUrl = false;
+      this.isInputOptionType = false;
       this.isSubmitted = false;
       this.request.FacilityDetailID = 0;
+      this.request.IsAvailable = '';
       this.request.FacilitiesID = 0;
       this.request.NoOf = null;
       this.request.MinSize = 0;
@@ -375,7 +425,7 @@ export class FacilityDetailsComponent implements OnInit {
       await this.GetFacilityDetailAllList();
       const btnSave = document.getElementById('btnSave')
       if (btnSave) btnSave.innerHTML = " Save";
-      const btnReset = document.getElementById('')
+      const btnReset = document.getElementById('btnReset')
       if (btnReset) btnReset.innerHTML = "Reset";
     }
     catch (Ex) {
@@ -419,18 +469,21 @@ export class FacilityDetailsComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.FacilityDetailID = data['Data'][0]["FacilityDetailID"];
+
           this.request.FacilitiesID = data['Data'][0]["FacilitiesID"];
+          this.ddlFacilities_change(null, this.request.FacilitiesID);
           this.request.NoOf = data['Data'][0]["NoOf"];
           this.request.FacilitiesUrl = data['Data'][0]["FacilitiesUrl"];
           this.ResetFile((data['Data'][0]["FacilitiesUrl"] != '' ? true : false), data['Data'][0]["FacilitiesUrl"], data['Data'][0]["FacilitiesUrlPath"], data['Data'][0]["FacilitiesUrl_Dis_FileName"]);
           this.request.MinSize = data['Data'][0]["MinSize"];
+          this.request.IsAvailable = data['Data'][0]["IsAvailable"];
 
           this.isDisabledGrid = true;
           this.isValidFacilitiesUrl = true;
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
           const btnReset = document.getElementById('btnReset')
-          if (btnReset) btnReset.innerHTML = "Reset";
+          if (btnReset) btnReset.innerHTML = "Cancel";
 
         }, error => console.error(error));
     }
@@ -564,5 +617,8 @@ export class FacilityDetailsComponent implements OnInit {
       }, 200);
     }
 
+  }
+
+  async ddlIsAvailable_change(SeletedIsAvailable: any) {
   }
 }

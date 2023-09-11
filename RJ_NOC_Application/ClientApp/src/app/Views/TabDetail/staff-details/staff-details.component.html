@@ -52,8 +52,8 @@
             <p *ngIf="!form.ddlRoleId.errors.DropdownValidators"> This field is required .!</p>
           </div>
           <!--<div *ngIf="isRole" class="text-danger">
-          <p *ngIf="isRole"> This field is required .!</p>
-        </div>-->
+            <p *ngIf="isRole"> This field is required .!</p>
+          </div>-->
         </div>
         <div class="col-md-4 mb-3">
           <label>Mobile No. <span style="color:red;">*</span></label>
@@ -219,13 +219,13 @@
             <p *ngIf="isSpecializationSubject"> This field is required .!</p>
           </div>
         </div>
-        <!--<div class="col-md-4 mb-3" *ngIf="request.TeachingType=='NonTeaching'">
-        <label>Designation <span style="color:red;">*</span></label>
-        <input type="text" id="txtRoleMapping" name="txtRoleMapping" class="form-control" formControlName="txtRoleMapping" [(ngModel)]="request.RoleMapping" (keypress)="alphaOnly($event)" />
-        <div *ngIf="isRoleMapping" class="text-danger">
-          <p *ngIf="isRoleMapping"> This field is required .!</p>
+        <div class="col-md-4 mb-3" *ngIf="ESIStaffShowHide">
+          <label>ESI Number <span style="color:red;">*</span></label>
+          <input type="text" id="txtESIDetails" name="txtESINumber" class="form-control" formControlName="txtESINumber" [(ngModel)]="request.ESINumber" (keypress)="alphaNumricOnly($event)" />
+          <div *ngIf="IsESIDetails" class="text-danger">
+            <p *ngIf="IsESIDetails"> This field is required .!</p>
+          </div>
         </div>
-      </div>-->
         <div class="col-md-4 mb-3">
           <label>Salary <span style="color:red;">*</span></label>
           <input type="text" id="txtSalary" name="txtSalary" class="form-control" formControlName="txtSalary" [(ngModel)]="request.Salary" maxlength="10" (keypress)="numbersOnly($event)" />
@@ -411,9 +411,9 @@
         </div>
       </div>
       <!--<div class="card-footer text-end">
-      <button class="btn btn-primary" type="button" (click)="AddData()"><i class="fa fa-plus"></i>&nbsp;Add</button>
-      <button class="btn btn-success" type="button">Save & Next</button>
-    </div>-->
+        <button class="btn btn-primary" type="button" (click)="AddData()"><i class="fa fa-plus"></i>&nbsp;Add</button>
+        <button class="btn btn-success" type="button">Save & Next</button>
+      </div>-->
     </div>
     <div class="clearfix"></div>
     <div class="row">
@@ -494,6 +494,7 @@
                       <p class="m-0"><b>Research Guide : </b>{{item.ResearchGuide}}</p>
                       <p class="m-0"><b>PF Deduction : </b>{{item.PFDeduction}}</p>
                       <p class="m-0"><b>PF Number : </b>{{item.UANNumber}}</p>
+                      <p class="m-0"><b>ESI Number : </b>{{item.ESINumber}}</p>
                       <p class="m-0" *ngIf="item.TeachingType=='Teaching'"><b>Specialization : </b>{{item.SpecializationSubject}}</p>
 
                     </td>
@@ -517,7 +518,7 @@
           <i class="fa fa-close"></i>
         </button>
       </div>
-      <div class="modal-body">       
+      <div class="modal-body">
         <div class="card">
           <!--<div class="card-header">
             <b>Educational Qualification Details</b>

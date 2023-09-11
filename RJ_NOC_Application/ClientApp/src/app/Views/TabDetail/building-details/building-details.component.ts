@@ -40,6 +40,7 @@ export class BuildingDetailsComponent implements OnInit {
   public lstBuildingTypeChk: any = [];
   public lstBuildingDetails: any = [];
   public lstBuildingDetailsDocument: any = [];
+  public BuildingCollegeAddress: any = [];
   public isDeleteButton: boolean = true;
   //public lstBuildingDocDetails: any = [];
   public isLoadingExport: boolean = false;
@@ -203,8 +204,9 @@ export class BuildingDetailsComponent implements OnInit {
     this.GetBuildingUploadDetails(this.SelectedDepartmentID);
     this.GetDivisionList();
     this.GetAllBuildingDetailsList();
+    //this.CollegeAddressOnAutoPopulateOnPageload();
     this.ActiveStatus = true;
-
+    
   }
   get form() { return this.buildingdetailsForm.controls; }
 
@@ -406,8 +408,9 @@ export class BuildingDetailsComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.ResetControl();
-            this.GetBuildingUploadDetails(this.SelectedDepartmentID);
-            this.GetAllBuildingDetailsList();
+            //this.GetBuildingUploadDetails(this.SelectedDepartmentID);
+            //this.GetAllBuildingDetailsList();
+            //this.CollegeAddressOnAutoPopulateOnPageload();
             this.lstBuildingDetails = [];
           }
           else {
@@ -420,6 +423,37 @@ export class BuildingDetailsComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
 
+      }, 200);
+    }
+  }
+
+  async CollegeAddressOnAutoPopulateOnPageload() {
+    try {
+      this.loaderService.requestStarted();
+      this.buildingdetails.AddressLine1 = this.BuildingCollegeAddress[0]["AddressLine1"];
+      this.buildingdetails.AddressLine2 = this.BuildingCollegeAddress[0]["AddressLine2"];
+      this.buildingdetails.RuralUrban = this.BuildingCollegeAddress[0]["RuralUrban"];
+      this.buildingdetails.DivisionID = this.BuildingCollegeAddress[0]["DivisionID"];
+      this.FillDivisionRelatedDDL(null, this.buildingdetails.DivisionID);
+      this.buildingdetails.DistrictID = this.BuildingCollegeAddress[0]["DistrictID"];
+
+      if (this.buildingdetails.RuralUrban == 'Rural') {
+        this.IsRural = true;
+        this.FillDistrictRelatedDDL(null, this.buildingdetails.DistrictID);
+        this.buildingdetails.TehsilID = this.BuildingCollegeAddress[0]["TehsilID"];
+        this.buildingdetails.PanchayatSamitiID = this.BuildingCollegeAddress[0]["PanchayatSamitiID"];
+      }
+      else {
+        this.IsRural = false;
+      }
+      this.buildingdetails.CityTownVillage = this.BuildingCollegeAddress[0]["CityTownVillage"];
+      this.buildingdetails.ContactNo = this.BuildingCollegeAddress[0]["MobileNumber"];
+      this.buildingdetails.Pincode = this.BuildingCollegeAddress[0]["Pincode"];
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
       }, 200);
     }
   }
@@ -534,6 +568,7 @@ export class BuildingDetailsComponent implements OnInit {
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage)
               this.GetAllBuildingDetailsList();
+             // this.CollegeAddressOnAutoPopulateOnPageload();
             }
             else {
               this.toastr.error(this.ErrorMessage)
@@ -588,6 +623,8 @@ export class BuildingDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.lstBuildingDetails = data['Data'][0]['data']['Table'];
           this.lstBuildingDetailsDocument = data['Data'][0]['data']['Table1'];
+          this.BuildingCollegeAddress = data['Data'][0]['data']['Table2'];
+          this.CollegeAddressOnAutoPopulateOnPageload();
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -668,6 +705,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.lstBuildingDocDetails = [];
     this.GetBuildingUploadDetails(this.SelectedDepartmentID);
     this.GetAllBuildingDetailsList();
+    //this.CollegeAddressOnAutoPopulateOnPageload();
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";
     const btnReset = document.getElementById('')
