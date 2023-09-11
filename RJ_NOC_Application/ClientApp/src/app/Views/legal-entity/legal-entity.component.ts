@@ -362,7 +362,7 @@ export class LegalEntityComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 2) {
-            //this.routers.navigate(['/totallegalentitypreview']);
+            this.routers.navigate(['/totallegalentitypreview']);
           }
         }, error => console.error(error));
     }
