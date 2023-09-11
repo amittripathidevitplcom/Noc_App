@@ -53,7 +53,6 @@ export class LegalEntityComponent implements OnInit {
   request = new LegalEntityDataModel();
   institutedetails = new LegalEntityInstituteDetailsDataModel();
   memberdetails = new LegalEntityMemberDetailsDataModel();
-  currentmemberdetails = new LegalEntityMemberDetailsDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -2055,11 +2054,31 @@ export class LegalEntityComponent implements OnInit {
   async EditMemberDetail(idx: number) {
     this.CurrentIndex = idx;
 
-    this.isDisabledGrid = true;
-    let ashdjk = this.request.MemberDetails[idx];
-    this.currentmemberdetails = ashdjk;
-    this.memberdetails = this.currentmemberdetails;
+    //this.isDisabledGrid = true;
+    ////this.memberdetails = this.request.MemberDetails[idx];
 
+    //this.memberdetails.MemberMobileNo = this.request.MemberDetails[idx].MemberMobileNo;
+
+    this.memberdetails.MemberID = this.request.MemberDetails[idx].MemberID;
+    this.memberdetails.MemberName = this.request.MemberDetails[idx].MemberName;
+    this.memberdetails.MemberFatherName = this.request.MemberDetails[idx].MemberFatherName;
+    this.memberdetails.MemberDOB = this.request.MemberDetails[idx].MemberDOB;
+    this.memberdetails.MemberMobileNo = this.request.MemberDetails[idx].MemberMobileNo;
+    this.memberdetails.MemberPostID = this.request.MemberDetails[idx].MemberPostID;
+    this.memberdetails.MembersPostName = this.request.MemberDetails[idx].MembersPostName;
+    this.memberdetails.Dis_MemberPhotoName = this.request.MemberDetails[idx].Dis_MemberPhotoName;
+    this.memberdetails.MemberPhoto = this.request.MemberDetails[idx].MemberPhoto;
+    this.memberdetails.MemberPhotoPath = this.request.MemberDetails[idx].MemberPhotoPath;
+    this.memberdetails.MemberSignature = this.request.MemberDetails[idx].MemberSignature;
+    this.memberdetails.Dis_MemberSignatureName = this.request.MemberDetails[idx].Dis_MemberSignatureName;
+    this.memberdetails.MemberSignaturePath = this.request.MemberDetails[idx].MemberSignaturePath;
+    this.memberdetails.PresidentAadhaarNumber = this.request.MemberDetails[idx].PresidentAadhaarNumber;
+    this.memberdetails.Dis_PresidentAadhaarProofDocName = this.request.MemberDetails[idx].Dis_PresidentAadhaarProofDocName;
+    this.memberdetails.PresidentAadhaarProofDocPath = this.request.MemberDetails[idx].PresidentAadhaarProofDocPath;
+    this.memberdetails.PresidentAadhaarProofDoc = this.request.MemberDetails[idx].PresidentAadhaarProofDoc;
+    this.memberdetails.Dis_AadhaarNumber = this.request.MemberDetails[idx].Dis_AadhaarNumber;
+
+    
     this.showMemberPhoto = this.memberdetails.MemberPhoto != '' ? true : false;
     this.showMemberSign = this.memberdetails.MemberSignature != '' ? true : false;
     this.showPresidentAadhaarProofDoc = this.memberdetails.PresidentAadhaarProofDoc != '' ? true : false;
