@@ -75,8 +75,8 @@
               <tr *ngFor="let item of request.CollegeLandTypeDetails let idx=index;">
                 <td>
 
-                  <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{item.LandTypeID}}"
-                         id="cbSubject_TNOCExtension_{{idx+1}}_{{item.LandTypeID}}" value="{{item.LandTypeID}}"
+                  <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbLand_{{idx+1}}_{{item.LandTypeID}}"
+                         id="cbLand_{{idx+1}}_{{item.LandTypeID}}" value="{{item.LandTypeID}}"
                          (change)="ApplyNocFor_cbChange($event,item)"
                          [(ngModel)]="item.IsLandSelected">
                 </td>
