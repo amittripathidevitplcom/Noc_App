@@ -48,12 +48,14 @@ export class StaffDetailsComponent implements OnInit {
 
   public isSubject: boolean = false;
   public CourseLevelName: string = '';
+  public IsESIDetails: boolean = false;
   public isRole: boolean = false;
   public isSpecializationSubject: boolean = false;
   public isRoleMapping: boolean = false;
   public isUANNumber: boolean = false;
   public isDisabledResearchGuide: boolean = false;
   public isDisabled: boolean = false;
+  public ESIStaffShowHide: boolean = false;
 
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
@@ -118,6 +120,7 @@ export class StaffDetailsComponent implements OnInit {
         rdPFDeduction: [''],
         txtUANNo: [''],
         rdResearchGuide: [''],
+        txtESINumber: [''],
       });
     this.StaffEducationDetailForm = this.formBuilder.group(
       {
@@ -324,6 +327,16 @@ export class StaffDetailsComponent implements OnInit {
 
   alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
     var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
+  alphaNumricOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z0-9]+$");
     var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
     if (regex.test(str)) {
       return true;
@@ -547,6 +560,8 @@ export class StaffDetailsComponent implements OnInit {
       this.isUploadDocRequried = false;
       this.isSubmitted = true;
       this.QualificationDataValid = false;
+      this.ESIStaffShowHide = false;
+      this.IsESIDetails = false;
 
       if (this.request.AadhaarCard == '') {
         this.isAadhaarCard = true;
@@ -652,6 +667,15 @@ export class StaffDetailsComponent implements OnInit {
         this.toastr.warning('Highest Qualification Document is Required.');
         return;
       }
+      if (this.TotalStaffDetail > 10) {
+        if (this.request.ESINumber == '') {
+          this.ESIStaffShowHide = true;
+          this.IsESIDetails = true;
+          this.toastr.warning('If Staff details(Teaching or NoN Teaching) are Greater than 10 is mandatory to give ESI No.');
+          return;
+        }
+
+      }
       // owner
       if (this.request.StaffDetailID > 0) {
         this.request.ModifyBy = 1;
@@ -707,6 +731,8 @@ export class StaffDetailsComponent implements OnInit {
       this.showProfilePhoto = false;
       this.showExperienceCertificate = false;
       this.QualificationDataValid = false;
+      this.ESIStaffShowHide = false;
+      this.IsESIDetails = false;
       this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
       this.request.ProfessionalQualificationID = 0;
       const btnAdd = document.getElementById('btnAdd')
@@ -931,6 +957,11 @@ export class StaffDetailsComponent implements OnInit {
           this.ResetFiles('ExperienceCertificate', this.showExperienceCertificate, this.request.ExperienceCertificate, this.request.ExperienceCertificatePath, this.request.ExperienceCertificate_Dis_FileName);
           //profile
           //this.ResetFiles('UploadDocument', true, this.request.UploadDocument, this.request.UploadDocumentPath, this.request.UploadDocument_Dis_FileName);
+
+          if (this.request.ESINumber != '') {
+            this.ESIStaffShowHide = true;
+            //this.IsESIDetails = true;
+          }
 
           this.isDisabled = true;
           this.SetDateofAppointment();
