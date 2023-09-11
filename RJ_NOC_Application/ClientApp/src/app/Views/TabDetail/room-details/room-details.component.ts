@@ -339,12 +339,12 @@ export class RoomDetailsComponent implements OnInit {
       this.isformvalid = false;
     }
 
-    if (Number(this.request.NoOfRooms) < Number(this.MinNoOfRooms)) {
-      this.CssClass_TextDangerNoOfRooms = 'text-danger';
-      this.toastr.warning('Please Enter Min No. of Rooms : ' + this.MinNoOfRooms);
-      //this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
-      this.isformvalid = false;
-    }
+    //if (Number(this.request.NoOfRooms) < Number(this.MinNoOfRooms)) {
+    //  this.CssClass_TextDangerNoOfRooms = 'text-danger';
+    //  this.toastr.warning('Please Enter Min No. of Rooms : ' + this.MinNoOfRooms);
+    //  //this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
+    //  this.isformvalid = false;
+    //}
     if (Number(this.request.NoOfLab) < Number(this.NoofPredicalRooms)) {
       this.CssClass_TextDangerNoOfLab = 'text-danger';
       this.toastr.warning('Please Enter Min No. of Lab : ' + this.NoofPredicalRooms);
