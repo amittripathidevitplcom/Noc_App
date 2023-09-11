@@ -581,8 +581,7 @@ export class LandDetailsComponent implements OnInit {
       }
     }
 
-    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted')
-    {
+    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted') {
       //if (this.request.LandConversionOrderDate == '' || this.request.LandConversionOrderDate == null) {
       //  this.LandConversionDateValidate = 'This field is required .!';
       //  return
@@ -626,12 +625,11 @@ export class LandDetailsComponent implements OnInit {
       }
     }
 
-    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted')
-    {
+    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted') {
       if (!this.ValidateConversionDetails()) {
         return
       }
-     
+
 
     }
 
@@ -750,7 +748,7 @@ export class LandDetailsComponent implements OnInit {
 
           console.log(this.CollegeLandConverstion);
 
-          
+
           console.log(this.request.LandDetailDocument);
         }, error => console.error(error));
     }
@@ -887,12 +885,11 @@ export class LandDetailsComponent implements OnInit {
       this.ShowAffidavitDate = false;
       Type = 'LandDetail';
     }
- 
+
     await this.GetLandTypeMasterList_DepartmentAndLandConvertWise(this.SelectedDepartmentID, Code);
     await this.GetLandTypeDetails_CollegeWise(this.SelectedDepartmentID, Code, this.request.LandDetailID);
 
-    if (Code == 'PCON' || Code == 'FCON')
-    {
+    if (Code == 'PCON' || Code == 'FCON') {
       await this.GetCollegeLandConversionDetail(this.SelectedDepartmentID, this.request.LandDetailID, Code);
     }
 
@@ -902,25 +899,42 @@ export class LandDetailsComponent implements OnInit {
     await this.GetAnnexureDataList_DepartmentWise(this.SelectedDepartmentID, this.request.LandDocumentTypeID, this.request.LandConvertedID);
   }
 
-  async ApplyNocFor_cbChange(event: any, item: any) {
+  async LandType_cbChange(event: any, item: any, id: number) {
     try {
+     
       this.loaderService.requestStarted();
-      if (this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected).length > 0)
-      {
-        await this.request.CollegeLandTypeDetails.forEach(rowitem => {
-          if (item.LandTypeID != rowitem.LandTypeID) {
-            rowitem.IsLandSelected = false;
+      if (this.LandConversionData.find((x: { ID: number; }) => x.ID == this.request.LandConvertedID).Name == 'Fully Converted') {
+
+        let selectname = item.LandTypeName;
+        if (this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected).length > 0) {
+          await this.request.CollegeLandTypeDetails.forEach(rowitem => {
+            if (item.LandTypeID != rowitem.LandTypeID && item.LandTypeName != rowitem.LandTypeName) {
+              rowitem.IsLandSelected = false;
+              rowitem.LandArea = 0;
+              rowitem.KhasraNo = '';
+              rowitem.LandConversionOrderNo = '';
+              rowitem.LandConversionOrderDate = '';
+              rowitem.FileName = '';
+              rowitem.Dis_FileName = '';
+              rowitem.FilePath = '';
+              this.file = document.getElementById('fileLandDocument_' + id);
+              if (this.file! = null)
+                this.file.value = '';
+
+              rowitem.FileOtherName = '';
+              rowitem.FileOtherPath = '';
+              rowitem.Dis_OtherFileName = '';
+              this.file = document.getElementById('fileLandDocumentOther_' + id);
+              if (this.file! = null)
+                this.file.value = '';
+              if (selectname == rowitem.LandTypeName && rowitem.IsLandSelected)
+                this.request.CollegeLandTypeDetails = this.request.CollegeLandTypeDetails.filter(f => f.IsOtherDocument == false);
             }
             else {
-            rowitem.IsLandSelected = true;
+              rowitem.IsLandSelected = true;
             }
           });
         }
-      //unchecked
-      if (!event.target.checked) {
-        item.LandArea = 0;
-        item.KhasraNo = '';
-        return;
       }
     }
     catch (ex) {
@@ -937,8 +951,7 @@ export class LandDetailsComponent implements OnInit {
 
   }
 
-  async AddMoreLandConverstionData()
-  {
+  async AddMoreLandConverstionData() {
     this.request.CollegeLandConversionDetails.push({
       LandDetailID: 0,
       LandConversionID: 0,
@@ -952,7 +965,7 @@ export class LandDetailsComponent implements OnInit {
   async GetCollegeLandConversionDetail(DepartmentID: number, LandTypeID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCollegeLandConversionDetail(DepartmentID, LandTypeID, Type )
+      await this.commonMasterService.GetCollegeLandConversionDetail(DepartmentID, LandTypeID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.CollegeLandConversionDetails = data['Data'];
@@ -974,10 +987,8 @@ export class LandDetailsComponent implements OnInit {
 
   async DeleteConverstionDetail(i: number) {
     this.isSubmitted = false;
-    try
-    {
-      if (confirm("Are you sure you want to delete this ?"))
-      {
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
         this.request.CollegeLandConversionDetails.splice(i, 1);
       }
@@ -990,14 +1001,12 @@ export class LandDetailsComponent implements OnInit {
     }
   }
 
-  ValidateConversionDetails(): boolean
-  {
+  ValidateConversionDetails(): boolean {
     var message = 'Please validate following\n';
     var WorkFlowDetailLength = this.request.CollegeLandTypeDetails.length;
     var validateerrorcount = 0;
     debugger;
-    if (WorkFlowDetailLength > 0)
-    {
+    if (WorkFlowDetailLength > 0) {
       for (var i = 0; i < this.request.CollegeLandTypeDetails.length; i++) {
         if (this.request.CollegeLandTypeDetails[i].IsLandSelected) {
           if (this.request.CollegeLandTypeDetails[i].LandConversionOrderNo == '') {
@@ -1025,37 +1034,34 @@ export class LandDetailsComponent implements OnInit {
         }
       }
     }
-    if (message.length > 30)
-    {
-     
+    if (message.length > 30) {
+
       return false;
     }
     return true
   }
 
 
-  AddMoreLandDetails(item: any)
-  {
+  AddMoreLandDetails(item: any) {
     this.request.CollegeLandTypeDetails.push({
       LandTypeID: item.LandTypeID,
       LandTypeName: item.LandTypeName,
-       LandArea:  0,
-       KhasraNo:  '',
-       IsLandSelected:  false,
-       LandConversionOrderDate: '',
-       LandConversionOrderNo:  '',
-       LandConverstionDocument:'',
-       OtherDocument: '',
+      LandArea: 0,
+      KhasraNo: '',
+      IsLandSelected: false,
+      LandConversionOrderDate: '',
+      LandConversionOrderNo: '',
+      LandConverstionDocument: '',
+      OtherDocument: '',
       IsOtherDocument: true,
 
-      Dis_FileName : '',
-      FileName:  '',
-      FilePath:   '',
+      Dis_FileName: '',
+      FileName: '',
+      FilePath: '',
 
-      Dis_OtherFileName:  '',
+      Dis_OtherFileName: '',
       FileOtherName: '',
-      FileOtherPath:  '',
-
+      FileOtherPath: '',
     }
     )
     this.request.CollegeLandTypeDetails = this.request.CollegeLandTypeDetails.sort((a, b) => a.LandTypeID - b.LandTypeID);
@@ -1108,8 +1114,7 @@ export class LandDetailsComponent implements OnInit {
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
-            if (this.State == 0)
-            {
+            if (this.State == 0) {
               item.Dis_FileName = data['Data'][0]["Dis_FileName"];
               item.FileName = data['Data'][0]["FileName"];
               item.FilePath = data['Data'][0]["FilePath"];
@@ -1165,12 +1170,11 @@ export class LandDetailsComponent implements OnInit {
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
-            if (this.State == 0)
-            {
+            if (this.State == 0) {
 
               item.Dis_OtherFileName = data['Data'][0]["Dis_FileName"];
-        item.FileOtherName = data['Data'][0]["FileName"];
-        item.FileOtherPath = data['Data'][0]["FilePath"];
+              item.FileOtherName = data['Data'][0]["FileName"];
+              item.FileOtherPath = data['Data'][0]["FilePath"];
               event.target.value = null;
             }
             if (this.State == 1) {

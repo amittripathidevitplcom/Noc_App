@@ -77,7 +77,7 @@
 
                   <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbLand_{{idx+1}}_{{item.LandTypeID}}"
                          id="cbLand_{{idx+1}}_{{item.LandTypeID}}" value="{{item.LandTypeID}}"
-                         (change)="ApplyNocFor_cbChange($event,item)"
+                         (change)="LandType_cbChange($event,item,idx)"
                          [(ngModel)]="item.IsLandSelected">
                 </td>
                 <td>
