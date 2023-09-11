@@ -210,6 +210,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
               return;
             }
 
+            if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0) {
+              this.toastr.error("Enter Class Wise No of Room Details.")
+              this.isCheck30Female = true;
+              return;
+            }
+
             if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
               this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
               this.isCheck30Female = true;

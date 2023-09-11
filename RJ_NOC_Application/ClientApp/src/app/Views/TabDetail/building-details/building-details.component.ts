@@ -206,7 +206,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.GetAllBuildingDetailsList();
     //this.CollegeAddressOnAutoPopulateOnPageload();
     this.ActiveStatus = true;
-    s
+    
   }
   get form() { return this.buildingdetailsForm.controls; }
 
