@@ -67,6 +67,8 @@ export class LegalEntityMemberDetailsDataModel {
   public Dis_PresidentAadhaarProofDocName: string = '';
   public PresidentAadhaarProofDocPath: string = '';
   public PresidentAadhaarProofDoc: string = '';
+
+  public Dis_AadhaarNumber: string = '';
 }
 export class LegalEntityInstituteDetailsDataModel {
   public InstituteID: number = 0;
