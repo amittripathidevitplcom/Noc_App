@@ -251,7 +251,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
       this.request.ApplyNocLateFeeDetailList = [];
       this.isShowPriceDetails = false;
-     
+
 
 
       this.isInspectionFee = false;
@@ -302,7 +302,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   async GetApplyNocParameterMaster() {
-  
+
     await this.applyNocParameterService.GetApplyNocParameterMaster(this.request.CollegeID)
       .then((data: any) => {
         data = JSON.parse(JSON.stringify(data));
@@ -325,8 +325,7 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.ApplyNocCode = item.ApplyNocCode;
 
       debugger;
-      if (this.CollegeDepartmentID == 2)
-      {
+      if (this.CollegeDepartmentID == 2) {
         if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length > 0) {
           await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
             if (item.ApplyNocID != rowitem.ApplyNocID) {
@@ -338,7 +337,7 @@ export class ApplyNocParameterComponent implements OnInit {
           });
         }
       }
-     
+
 
       // await  this.SetPrimaryMember(item, index)
 
@@ -452,8 +451,7 @@ export class ApplyNocParameterComponent implements OnInit {
         }
 
 
-        if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length == 0)
-        {
+        if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length == 0) {
           this.isShowPriceDetails = false;
           this.request.ApplyNocLateFeeDetailList = [];
         }
@@ -520,13 +518,12 @@ export class ApplyNocParameterComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.request.ApplyNocLateFeeDetailList = data['Data'][0]['data'];
 
-          if (this.request.ApplyNocLateFeeDetailList != null)
-          {
+          if (this.request.ApplyNocLateFeeDetailList != null) {
             if (this.request.ApplyNocLateFeeDetailList.length > 0) {
               this.TotalLateFees = this.request.ApplyNocLateFeeDetailList.map(t => t.FeesAmount).reduce((acc, value) => acc + value, 0);
             }
           }
-         
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -553,7 +550,7 @@ export class ApplyNocParameterComponent implements OnInit {
   public isSave: boolean = true;
   async SaveApplyNoc_click() {
 
-   
+
 
     debugger;
     //this.isSave = false; 
@@ -613,17 +610,15 @@ export class ApplyNocParameterComponent implements OnInit {
       }
 
       this.request.TotalNocFee = this.request.TotalFeeAmount;
-      if (this.request.ApplyNocLateFeeDetailList.length > 0)
-      {
+      if (this.request.ApplyNocLateFeeDetailList.length > 0) {
         this.request.TotalFeeAmount += this.TotalLateFees;
         this.request.LateFee = this.TotalLateFees;
       }
 
-      if (this.isInspectionFee)
-      {
+      if (this.isInspectionFee) {
         this.request.TotalFeeAmount = this.DepartmentInspectionFee;
       }
-  
+
       // TNOC Extension      
       this.request.ApplyNocParameterMasterList_TNOCExtension = this.ApplyNocParameterMasterList_TNOCExtension;
       // filter and validation
@@ -639,7 +634,10 @@ export class ApplyNocParameterComponent implements OnInit {
       if (this.ApplyNocParameterMasterList_AdditionOfNewSeats60?.ApplyNocParameterCourseList != null) {
         let selectedCourselist = this.ApplyNocParameterMasterList_AdditionOfNewSeats60?.ApplyNocParameterCourseList?.filter((element: any) => { return element.IsChecked == true; });
         if (selectedCourselist.length == 0) {
-          this.toastr.error("Choose any subject from 'Addition of New Seats(60)'");
+          if (this.CollegeDepartmentID == EnumDepartment.Animal_Husbandry)
+            this.toastr.error("Choose any Course from 'Addition of New Seats(50)'");
+          else
+            this.toastr.error("Choose any subject from 'Addition of New Seats(60)'");
           return;
         }
       }
@@ -647,7 +645,10 @@ export class ApplyNocParameterComponent implements OnInit {
       else if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
         let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList;
         if (SelectedCourselist.length == 0) {
-          this.toastr.error("Choose any subject from 'NOC For New Course'");
+          if (this.CollegeDepartmentID == EnumDepartment.Animal_Husbandry)
+            this.toastr.error("Choose any Course from 'NOC For New Course'");
+          else
+            this.toastr.error("Choose any subject from 'NOC For New Course'");
           return;
         }
       }
@@ -656,8 +657,13 @@ export class ApplyNocParameterComponent implements OnInit {
       else if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
         let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList;
         if (SelectedCourselist.length == 0) {
-          this.toastr.error("Choose any subject from 'NOC For New Subject'");
+          if (this.CollegeDepartmentID == EnumDepartment.Animal_Husbandry)
+            this.toastr.error("Choose any Course from 'NOC For New Course'");
+          else
+            this.toastr.error("Choose any subject from 'NOC For New Subject'");
           return;
+          
+         
         }
       }
 
@@ -709,7 +715,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
       this.request.ApplyNocParameterMasterList_PNOCOfSubject = this.ApplyNocParameterMasterList_PNOCOfSubject;
 
-     
+
       //validation
       this.isFormValid = this.ValidateApplyNOCForm();
       if (!this.isFormValid) {
@@ -1768,8 +1774,7 @@ export class ApplyNocParameterComponent implements OnInit {
   async ApplyNocFor_rbChange(event: any, selectedvalue: any, item: any) {
     debugger;
     this.IsTermsChecked = false;
-    if (item.Code == 'InspectionFee')
-    {
+    if (item.Code == 'InspectionFee') {
       this.isInspectionFee = true;
       this.GetCollegeInspectionFee();
       this.request.ApplyNocLateFeeDetailList = [];
@@ -1779,7 +1784,7 @@ export class ApplyNocParameterComponent implements OnInit {
     else {
       this.GetApplyNocParameterMaster();
       this.isInspectionFee = false;
-     // this.isShowPriceDetails = true;
+      // this.isShowPriceDetails = true;
     }
 
     this.ApplyNocParameterMasterList_TNOCExtension = null;
@@ -1796,7 +1801,7 @@ export class ApplyNocParameterComponent implements OnInit {
     this.ApplyNocParameterMasterList_PNOCOfSubject = null;
 
     this.ApplyNocParameterMasterList_ChangeInCoedtoGirls = null
-  
+
 
 
   }
@@ -1844,8 +1849,7 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-  async CalculateAllAmount()
-  {
+  async CalculateAllAmount() {
     try {
       this.request.ApplyNocParameterMasterListDataModel = this.ApplyNocParameterMasterList_ddl;
 
