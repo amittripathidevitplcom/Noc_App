@@ -915,7 +915,11 @@ export class LandDetailsComponent implements OnInit {
             rowitem.IsLandSelected = true;
             }
           });
-        }
+      }
+
+      
+  
+
       //unchecked
       if (!event.target.checked) {
         item.LandArea = 0;
