@@ -274,6 +274,10 @@ export class ApplicationDetailEntryComponent implements OnInit {
                 return;
               }
             }
+
+            //if (this.SelectedDepartmentID == 3 && this.CollegeType_IsExisting == true) {
+
+            //}
           }
           else {
             this.toastr.error(this.ErrorMessage)

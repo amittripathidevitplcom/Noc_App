@@ -50,14 +50,14 @@
             <!-- address -->
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
-              <input type="text" class="form-control" id="txtAddressLine1" name="txtAddressLine1" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1" (keypress)="alphanumbersOnly($event)">
+              <input type="text" class="form-control" id="txtAddressLine1" name="txtAddressLine1" [attr.disabled]="IsDisabledAddress ? true : null" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1" (keypress)="alphanumbersOnly($event)">
               <div *ngIf="isSubmitted&&Hform.txtAddressLine1.errors" class="text-danger">
                 <p *ngIf="Hform.txtAddressLine1.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
               </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
-              <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphanumbersOnly($event)">
+              <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [attr.disabled]="IsDisabledAddress ? true : null" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphanumbersOnly($event)">
               <!--<div *ngIf="isSubmitted&&Hform.txtAddressLine2.errors" class="text-danger">
                 <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
               </div>-->
@@ -66,11 +66,11 @@
               <label class="form-label">Select Area <span style="color:red;">*</span></label>
               <div class="clearfix"></div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="rbRural_Nearest" name="RuralUrban" [(ngModel)]="request.IsRuralUrban" value="Rural" formControlName="RuralUrban" (change)="IsRuralOrUrban(null)">
+                <input class="form-check-input" type="radio" id="rbRural_Nearest" name="RuralUrban" [attr.disabled]="IsDisabledAddress ? true : null" [(ngModel)]="request.IsRuralUrban" value="Rural" formControlName="RuralUrban" (change)="IsRuralOrUrban(null)">
                 <label class="form-check-label" for="rbRural_Nearest">Rural</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="rbUrban_Nearest" name="RuralUrban" [(ngModel)]="request.IsRuralUrban" value="Urban" formControlName="RuralUrban" (change)="IsRuralOrUrban(null)">
+                <input class="form-check-input" type="radio" id="rbUrban_Nearest" name="RuralUrban" [attr.disabled]="IsDisabledAddress ? true : null" [(ngModel)]="request.IsRuralUrban" value="Urban" formControlName="RuralUrban" (change)="IsRuralOrUrban(null)">
                 <label class="form-check-label" for="rbUrban_Nearest">Urban</label>
               </div>
               <div *ngIf="isSubmitted&&Hform.RuralUrban.errors" class="text-danger">
@@ -79,7 +79,7 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Division <span style="color:red;">*</span></label>
-              <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" (change)="FillDivisionRelatedDDL()">
+              <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" (change)="FillDivisionRelatedDDL()" [attr.disabled]="IsDisabledAddress ? true : null">
                 <option value="0">--Select--</option>
                 <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
               </select>
@@ -89,7 +89,7 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">District <span style="color:red;">*</span></label>
-              <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" (change)="FillDistrictRelatedDDL()">
+              <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" formControlName="ddlDistrictID" (change)="FillDistrictRelatedDDL()" [attr.disabled]="IsDisabledAddress ? true : null">
                 <option value="0">--Select--</option>
                 <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
               </select>
@@ -99,7 +99,7 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.IsRuralUrban =='Rural'">
               <label class="form-label">Tehsil <span style="color:red;">*</span></label>
-              <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
+              <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID" [attr.disabled]="IsDisabledAddress ? true : null">
                 <option value="0">--Select--</option>
                 <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
               </select>
@@ -109,7 +109,7 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.IsRuralUrban =='Rural'">
               <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
-              <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID">
+              <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID" [attr.disabled]="IsDisabledAddress ? true : null">
                 <option value="0">--Select--</option>
                 <option *ngFor="let item of PanchyatSamitiList" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
               </select>
@@ -119,14 +119,14 @@
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
-              <input type="text" class="form-control" id="txtCityTownVillage" name="txtCityTownVillage" [(ngModel)]="request.CityTownVillage" formControlName="txtCityTownVillage">
+              <input type="text" class="form-control" id="txtCityTownVillage" name="txtCityTownVillage" [(ngModel)]="request.CityTownVillage" formControlName="txtCityTownVillage" [attr.disabled]="IsDisabledAddress ? true : null">
               <div *ngIf="isSubmitted&&Hform.txtCityTownVillage.errors" class="text-danger">
                 <p *ngIf="Hform.txtCityTownVillage.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
               </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Pincode <span style="color:red;">*</span></label>
-              <input type="text" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" (keypress)="numberOnly($event)" maxlength="6">
+              <input type="text" class="form-control" id="txtPincode" name="txtPincode" [(ngModel)]="request.Pincode" formControlName="txtPincode" (keypress)="numberOnly($event)" maxlength="6" [attr.disabled]="IsDisabledAddress ? true : null">
               <div *ngIf="isSubmitted&&Hform.txtPincode.errors" class="text-danger">
                 <p *ngIf="Hform.txtPincode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 <p *ngIf="Hform.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
