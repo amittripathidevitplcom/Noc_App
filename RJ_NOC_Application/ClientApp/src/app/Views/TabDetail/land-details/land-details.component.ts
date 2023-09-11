@@ -935,11 +935,12 @@ export class LandDetailsComponent implements OnInit {
             }
           });
         }
-      //unchecked
-      if (!event.target.checked) {
-        item.LandArea = 0;
-        item.KhasraNo = '';
-        return;
+        //unchecked
+        if (!event.target.checked) {
+          item.LandArea = 0;
+          item.KhasraNo = '';
+          return;
+        }
       }
     }
     catch (ex) {
