@@ -472,6 +472,11 @@
                         <th>Land Type</th>
                         <th>Area</th>
                         <th>Khasra No</th>
+                        <th>Land Conversion Order No</th>
+                        <th>Land Conversion Order Date</th>
+                        <th>Land Conversion Document</th>
+                        <th>Other Document</th>
+
                       </tr>
                     </thead>
                     <tbody>
@@ -480,6 +485,18 @@
                         <td>{{row.LandTypeName}}</td>
                         <td>{{row.LandArea}}</td>
                         <td>{{row.KhasraNo}}</td>
+                        <td>{{row.LandConversionOrderNo}}</td>
+                        <td>{{row.LandConversionOrderDate}}</td>
+
+                        <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+                      
+
+                        <td>
+
+                          <a *ngIf="row.FileOtherName!=''" class="btn-outline-primary" target="_blank" href="{{row.FileOtherPath}}" title="View Document"><i class="fa fa-eye"></i></a>
+
+                        </td>
+                      
                       </tr>
                     </tbody>
                   </table>
@@ -489,37 +506,6 @@
           </div>
         </div>
 
-        <div class="row" *ngIf="CollegeLandConverstion.length>0">
-          <div class="col-md-12">
-            <div class="card mb-0">
-              <div class="card-header">
-                <b><i class="bi bi-table"></i>&nbsp;Detail of the Land Converstion:  </b>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="table-responsive">
-                  <table class="table table-bordered table-hover table-striped">
-                    <thead>
-                      <tr>
-                        <th>Sr.No.</th>
-                        <th>Land Conversion Order No</th>
-                        <th>Land Conversion Order Date</th>
-                        
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let row of CollegeLandConverstion; let indexOfelement=index;">
-                        <td> {{indexOfelement+1}}</td>
-                        <td>{{row.LandConversionOrderNo}}</td>
-                        <td>{{row.LandConversionOrderDate}}</td>
-                        
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>

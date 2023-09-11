@@ -600,7 +600,7 @@ export class LegalEntityComponent implements OnInit {
       else {
         if (this.request.IsLegalEntity == '1') {
           if (this.request.StateID != this.RegistrationState || this.request.DistrictID != this.RegistrationDistrict) {
-            this.toastr.warning("Please select Registration State and District");
+            this.toastr.warning("Please select State and District same as Society");
             isValid = false;
           }
         }

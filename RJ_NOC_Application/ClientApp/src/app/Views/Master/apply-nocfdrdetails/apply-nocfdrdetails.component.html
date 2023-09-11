@@ -85,7 +85,7 @@
             <input class="form-control disabled" disabled value="{{request.FDRDate | date:'yyyy-MM-dd'}}" />
           </div>
           <div *ngIf="request.IsFDRSubmited != true">
-            <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtFDRDate" [(ngModel)]="request.FDRDate" formControlName="txtFDRDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+            <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtFDRDate" [(ngModel)]="request.FDRDate" formControlName="txtFDRDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" (change)="SetFDRExpriyDate()" />
           </div>
           <div *ngIf="isSubmitted&&form.txtFDRDate.errors" class="text-danger">
             <p *ngIf="form.txtFDRDate.errors.required"> This field is required .!</p>
@@ -100,7 +100,7 @@
             <input class="form-control disabled" disabled value="{{request.PeriodOfFDR}}" />
           </div>
           <div *ngIf="request.IsFDRSubmited != true">
-            <select class="form-select" id="ddlPeriodOfFDR" (change)="SetFDRExpriyDate()" name="ddlPeriodOfFDR" [(ngModel)]="request.PeriodOfFDR" formControlName="ddlPeriodOfFDR">
+            <select class="form-select" id="ddlPeriodOfFDR" [attr.disabled]="DisabledPeriodofFDR ? true : null" name="ddlPeriodOfFDR" [(ngModel)]="request.PeriodOfFDR" formControlName="ddlPeriodOfFDR">
               <option value="0" selected>--Select--</option>
               <option value="1">1</option>
               <option value="2">2</option>
