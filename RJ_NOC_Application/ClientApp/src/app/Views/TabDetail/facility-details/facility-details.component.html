@@ -13,26 +13,41 @@
                     value="{{item.FID}}">
               {{item.FacilitiesName}}
             </option>
-          </select>
-
-
+          </select> 
           <div *ngIf="isSubmitted&&form.ddlFacilitiesId.errors" class="text-danger">
             <p *ngIf="!form.ddlFacilitiesId.errors.DropdownValidators" text-danger> This field is required .!</p>
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3"  *ngIf="!isInputOptionType">
+          <label>Is Available<span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlIsAvailable" name="ddlIsAvailable" formControlName="ddlIsAvailable" [(ngModel)]="request.IsAvailable"
+                   #SeletedIsAvailable (change)="ddlIsAvailable_change(SeletedIsAvailable.value)">
+            <option value="">--Select--</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select> 
+          <div *ngIf="isSubmitted&&form.ddlIsAvailable.errors" class="text-danger">
+            <p *ngIf="!form.ddlIsAvailable.errors.DropdownValidators" text-danger> This field is required .!</p>
+          </div>
+        </div>
+         
+
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType">
           <label>No. of <span style="color:red;">*</span></label>
-          <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="request.NoOf" formControlName="txtNoOf" min="1" (keypress)="numberOnly($event)">
+          <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" maxlength="3" [(ngModel)]="request.NoOf" formControlName="txtNoOf" min="1" (keypress)="numberOnly($event)">
           <div *ngIf="isSubmitted&&form.txtNoOf.errors" class="text-danger">
             <p *ngIf="form.txtNoOf.errors.required">This field is required .!</p>
             <p *ngIf="form.txtNoOf.errors.min">No of greater than zero .!</p>
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType">
           <label>Minimum Size ({{Unit}})<span style="color:red;">*</span></label>
-          <input type="text" class="form-control" id="txtMinSize" name="txtMinSize" [(ngModel)]="request.MinSize" formControlName="txtMinSize" (keypress)="numberOnly($event)" placeholder="Enter Minimum Size In ({{Unit}})" autocomplete="off" />
+          <input type="text" class="form-control" id="txtMinSize" name="txtMinSize" maxlength="5" [(ngModel)]="request.MinSize" formControlName="txtMinSize" (keypress)="numberOnly($event)" placeholder="Enter Minimum Size In ({{Unit}})" autocomplete="off" />
           <p *ngIf="WidthMin>0 && request.FacilitiesID>0" class="{{request.MinSize >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} {{Unit}}</p>
           <div *ngIf="isSubmitted&&form.txtMinSize.errors" class="text-danger">
             <p *ngIf="form.txtMinSize.errors.min">Minimum size must be greater then -1 .!</p>
@@ -93,6 +108,7 @@
                       <tr>
                         <th>Sr. No.</th>
                         <th>Facilities</th>
+                        <th>Is Available</th>
                         <th>No of </th>
                         <th>Minimum Size</th>
                         <th>Image</th>
@@ -103,6 +119,7 @@
                       <tr *ngFor="let row of FacilitiesDataAllList | tableSearchFilter:searchText;let idx=index;">
                         <td>{{idx+1}}</td>
                         <td>{{row.FacilitiesName}}</td>
+                        <td>{{row.IsAvailable}}</td>
                         <td>{{row.NoOf}}</td>
                         <td>{{row.MinSize}}</td>
                         <td><a *ngIf="row.FacilitiesUrl!=''" target="_blank" href="{{row.FacilitiesUrlPath}}"><i class="fa fa-eye"></i></a></td>

@@ -18,6 +18,11 @@
             <div *ngIf="isSubmitted&&form.ddlCourse_Room.errors" class="text-danger">
               <p *ngIf="!form.ddlCourse_Room.errors.DropdownValidators">This field is required .!</p>
             </div>
+
+            <div *ngIf="request.CourseID>0">
+              <p *ngIf="MinNoOfRooms>0" class="{{request.NoOfRooms >= MinNoOfRooms ? '' : CssClass_TextDangerNoOfRooms}}">Enter Min {{MinNoOfRooms}} Rooms Details</p>
+            </div>
+
           </div>
 
 
@@ -30,9 +35,7 @@
               <p *ngIf="form.txtNoOfRooms_Room.errors.min">Room will be greater than zero .!</p>
             </div>
 
-            <div *ngIf="request.CourseID>0">
-              <p *ngIf="MinNoOfRooms>0" class="{{request.NoOfRooms >= MinNoOfRooms ? '' : CssClass_TextDangerNoOfRooms}}">Please Enter Min No. of Rooms : {{MinNoOfRooms}}</p>
-            </div>
+            
 
           </div>
 

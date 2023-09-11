@@ -104,11 +104,12 @@
                   </div>
 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtCollegeCode" class="form-label">College Code <span style="color:red;">*</span></label>
+                    <!--<span style="color:red;">*</span>-->
+                    <label for="txtCollegeCode" class="form-label">College Code </label>
                     <input type="text" maxlength="15" class="form-control" id="txtCollegeCode" name="txtCollegeCode" [(ngModel)]="request.CollegeCode" formControlName="txtCollegeCode">
-                    <div *ngIf="isSubmitted&&form.txtCollegeCode.errors" class="text-danger">
-                      <p *ngIf="form.txtCollegeCode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>
+                    <!--<div *ngIf="isSubmitted&&form.txtCollegeCode.errors" class="text-danger">
+    <p *ngIf="form.txtCollegeCode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+  </div>-->
                   </div>
 
 
