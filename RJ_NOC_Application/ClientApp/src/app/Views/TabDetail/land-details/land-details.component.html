@@ -81,6 +81,7 @@
                          [(ngModel)]="item.IsLandSelected">
                 </td>
                 <td>
+                
                   {{item.LandTypeName}}
                 </td>
                 <td>
@@ -105,7 +106,75 @@
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.KhasraNo==''"> This field is required .!</p>
                   </div>
+                </td>
+                <td *ngIf="ShowConversionOrderNo">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">LandConversionOrderNo:</span>
+                    </div>
+                    <input type="text" id="txtLandConversionOrderNo{{idx}}" maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
+                  </div>
+                  <div class="text-danger">
+                    <p *ngIf="item.IsLandSelected && item.LandConversionOrderNo=='' "> This field is required .!</p>
+                  </div>
+                </td>
 
+
+                <td *ngIf="ShowConversionOrderNo">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">Order Date:</span>
+                    </div>
+                    <input type="date" id="dtLandConversionOrderDate{{idx}}" [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+
+                  </div>
+                  <div class="text-danger">
+                    <p *ngIf="item.IsLandSelected && item.LandConversionOrderDate==''"> This field is required .!</p>
+                  </div>
+                </td>
+                <td *ngIf="ShowConversionOrderNo">
+                  <div class="d-flex">
+                    <input type="file" [(ngModel)]="item.LandConverstionDocument" [ngModelOptions]="{standalone: true}"  [disabled]="!item.IsLandSelected" id="fileLandDocument_{{idx}}" (input)="onFilechangeItem($event,item)" class="form-control d-none" />
+                    <label class="btn upload" for="fileLandDocument_{{idx}}">
+                      <span class="filename">Choose file</span>
+                      {{item.FileName === '' ? 'No File Choosen' : item.Dis_FileName}}
+                    </label>
+                    <div class="btn-group" *ngIf="item.FileName !== ''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImageItem(item)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+
+                  </div>
+                  <div class="text-danger">
+                    <p *ngIf="item.IsLandSelected && item.FileName==''"> This field is required .!</p>
+                  </div>
+
+                  <br />
+                  <div *ngIf="item.IsOtherDocument==true">
+                    <div class="d-flex">
+                      <input type="file" [(ngModel)]="item.OtherDocument" [ngModelOptions]="{standalone: true}"   id="fileLandDocumentOther_{{idx}}" (input)="onFilechangeItemOther($event,item)" class="form-control d-none" />
+                      <label class="btn upload" for="fileLandDocumentOther_{{idx}}">
+                        <span class="filename">Choose file</span>
+                        {{item.FileOtherName === '' ? 'No File Choosen' : item.Dis_OtherFileName}}
+                      </label>
+
+                      <div class="btn-group" *ngIf="item.FileOtherName !== ''">
+                        <a class="btn btn-outline-primary" target="_blank" href="{{item.FileOtherPath}}"><i class="fa fa-eye"></i></a>
+                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImageOther(item)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </div>
+                    <div class="text-danger">
+                      <p *ngIf="item.IsLandSelected && item.FileOtherName==''"> This field is required .!</p>
+                    </div>
+
+                  </div>
+
+                </td>
+                <td *ngIf="ShowConversionOrderNo">
+                  <div class="d-flex">
+                    <button type="button" *ngIf="item.IsOtherDocument==true" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteLandDetails(idx)"><i class="fa fa-trash"></i></button>
+                    <button type="button" *ngIf="item.IsOtherDocument==false" [disabled]="!item.IsLandSelected" class="btn btn-sm btn-success" title="Add More" (click)="AddMoreLandDetails(item)"><i class="fa fa-plus"></i>Add More</button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -193,7 +262,7 @@
           <p *ngIf="isSubmitted&&request.LandConversionOrderNo ==''" class="text-danger"><i aria-hidden="true"></i> {{LandConversionOrderNoValidate}}</p>
         </div>-->
 
-      <div class="col-lg-6" *ngIf="ShowConversionOrderNo">
+      <!--<div class="col-lg-6" *ngIf="ShowConversionOrderNo">
         <label>
           Land Conversion Order No. & Order Date: 
         </label>
@@ -232,7 +301,7 @@
           </table>
         </div>
 
-      </div>
+      </div>-->
 
 
 
