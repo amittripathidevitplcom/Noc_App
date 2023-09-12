@@ -277,7 +277,7 @@
                     </div>
                   </div> 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
-                    <label for="txtDistanceFromCity" class="form-label">Distance from City(km) <span style="color:red;">*</span></label>
+                    <label for="txtDistanceFromCity" class="form-label">{{DistancefromCity}} <span style="color:red;">*</span></label>
                     <input class="form-control" maxlength="4" id="txtDistanceFromCity" name="txtDistanceFromCity" [(ngModel)]="request.DistanceFromCity" formControlName="txtDistanceFromCity" (keypress)="numberOnly($event)">
                     <div *ngIf="isSubmitted&&IsRural&&form.txtDistanceFromCity.errors" class="text-danger">
                       <p *ngIf="form.txtDistanceFromCity.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
