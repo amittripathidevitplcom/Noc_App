@@ -251,6 +251,7 @@ import { EnterTabDirective } from './Common/enter-tab.directive';
 import { AhPhysicalFinalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-physical-final-verification/ah-physical-final-verification.component';
 import { AhFinalVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-verification-done-list/ah-final-verification-done-list.component';
 import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-noc-application-list/ah-final-noc-application-list.component';
+import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-apply-noc-detail/preview-apply-noc-detail.component';
 
 
 
@@ -497,6 +498,7 @@ import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_
 
     EnableControlDirective,
     EnterTabDirective,
+    PreviewApplyNocDetailComponent,
   ],
   imports: [
     CommonModule,

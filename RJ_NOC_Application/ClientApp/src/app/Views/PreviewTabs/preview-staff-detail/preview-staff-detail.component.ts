@@ -95,6 +95,12 @@ export class PreviewStaffDetailComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request = data['Data'][0];
+          if (this.request.AadhaarNo.length > 0) {
+            const visibleDigits = 4;
+            let maskedSection = this.request.AadhaarNo.slice(0, -visibleDigits);
+            let visibleSection = this.request.AadhaarNo.slice(-visibleDigits);
+            this.request.MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {

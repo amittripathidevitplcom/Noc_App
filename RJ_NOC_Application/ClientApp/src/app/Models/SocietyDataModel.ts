@@ -43,6 +43,7 @@ export class SocietyDataModel {
   public OtherOccupation: string = '';
   //public FileName: string = '';
   //public FilePath: string = '';
+  public MaskedAadhaarNo: string = '';
 
 }
 
