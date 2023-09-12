@@ -227,7 +227,7 @@
           </div>
         </div>
         <div class="col-md-4 mb-3">
-          <label>Salary <span style="color:red;">*</span></label>
+          <label>Annual Salary <span style="color:red;">*</span></label>
           <input type="text" id="txtSalary" name="txtSalary" class="form-control" formControlName="txtSalary" [(ngModel)]="request.Salary" maxlength="10" (keypress)="numbersOnly($event)" />
           <div *ngIf="isSubmitted&&form.txtSalary.errors" class="text-danger">
             <p *ngIf="form.txtSalary.errors.required">This field is required .!</p>
