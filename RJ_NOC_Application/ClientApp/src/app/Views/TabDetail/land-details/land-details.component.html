@@ -89,7 +89,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">Area:</span>
                     </div>
-                    <input type="text" maxlength="4" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numberOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
+                    <input type="text" maxlength="4"  (keyup)="CalculateTotalArea(item,idx)" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numberOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
                   </div>
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandArea==0"> This field is required .!</p>
@@ -112,7 +112,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">LandConversionOrderNo:</span>
                     </div>
-                    <input type="text" id="txtLandConversionOrderNo{{idx}}" maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
+                    <input type="text" id="txtLandConversionOrderNo{{idx}}" [disabled]="!item.IsLandSelected"  maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
                   </div>
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandConversionOrderNo=='' "> This field is required .!</p>
@@ -125,7 +125,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1">Order Date:</span>
                     </div>
-                    <input type="date" id="dtLandConversionOrderDate{{idx}}" [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <input type="date" id="dtLandConversionOrderDate{{idx}}" [disabled]="!item.IsLandSelected"  [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
 
                   </div>
                   <div class="text-danger">
@@ -152,7 +152,7 @@
 
                  
                   <div *ngIf="item.IsOtherDocument==true" class="mt-1">
-                    <label>Other Document  </label>
+                    <label>Combine Document  </label>
                     <div class="d-flex">
                       <input type="file" [(ngModel)]="item.OtherDocument" [ngModelOptions]="{standalone: true}" id="fileLandDocumentOther_{{idx}}" (input)="onFilechangeItemOther($event,item)" class="form-control d-none" />
                       <label class="btn upload" for="fileLandDocumentOther_{{idx}}">
@@ -226,8 +226,8 @@
           <label>
             Land Area (in {{LandUnitType !=''?LandUnitType:UnitOfLand}}) <span style="color:red;">*</span>
           </label>
-          <input type="text" id="txtLandArea" maxlength="4" class="form-control" [(ngModel)]="request.LandArea" formControlName="txtLandArea" (keypress)="numbersOnly($event)" />
-          <!--<p *ngIf="IsRequiredLandArea" class="text-danger"><i aria-hidden="true"></i>Land area must be at least : {{RequiredLandAreaMsg}}</p>-->
+          <input type="text" id="txtLandArea"  class="form-control"  [(ngModel)]="request.LandArea" formControlName="txtLandArea" (keypress)="numbersOnly($event)" />
+          <p style="color:#3458c8;"><i aria-hidden="true"></i>Land area must be at least : {{RequiredLandAreaMsg}}</p>
 
           <div *ngIf="isSubmitted&&form.txtLandArea.errors" class="text-danger">
             <p *ngIf="form.txtLandArea.errors.required">This field is required .!</p>

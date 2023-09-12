@@ -81,6 +81,7 @@ export class AddCollegeComponent implements OnInit {
   public HospitalDocumentValidationMessage: string = '';
   public QueryStringCollageID: number = 0;
   public MinDate: Date = new Date;
+  public DistancefromCity: string = "Distance from City(km)";
 
   // login model
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -574,9 +575,16 @@ export class AddCollegeComponent implements OnInit {
           this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
         }
 
-        this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
-          return element.Name == "UG";
-        });
+        if (this.request.DepartmentID == 2) {
+          this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
+            return element.Name != "PG";
+          });
+        }
+        else {
+          this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
+            return element.Name == "UG";
+          });
+        }
 
       }
       else {
@@ -636,6 +644,12 @@ export class AddCollegeComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       const departmentId = Number(SeletedDepartmentID);
+      if (SeletedDepartmentID == "2") {
+        this.DistancefromCity = "Distance from District Headquater"
+      }
+      else {
+        this.DistancefromCity = "Distance from City(km)"
+      }
       this.request.PresentCollegeStatusID = 0;
       if (departmentId <= 0) {
         return;
