@@ -97,7 +97,7 @@
                 <p *ngIf="!Hform.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.IsRuralUrban =='Rural'">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="this.request.IsRuralUrban !='Rural'">
               <label class="form-label">Tehsil <span style="color:red;">*</span></label>
               <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID" [attr.disabled]="IsDisabledAddress ? true : null">
                 <option value="0">--Select--</option>
@@ -107,7 +107,7 @@
                 <p *ngIf="!Hform.ddlTehsilID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.IsRuralUrban =='Rural'">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="this.request.IsRuralUrban !='Rural'">
               <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
               <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID" [attr.disabled]="IsDisabledAddress ? true : null">
                 <option value="0">--Select--</option>

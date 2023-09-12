@@ -88,7 +88,7 @@ export class OldNOCDetailsComponent implements OnInit {
         dtNOCReceivedDate: ['', Validators.required],
         dtNOCExpireDate: [''],
         UploadNOCDoc: [''],
-        txtRemark: ['', Validators.required],
+        txtRemark: [''],
       });
   }
 
@@ -242,7 +242,7 @@ export class OldNOCDetailsComponent implements OnInit {
   async GetSessionYear() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetAllFinancialYear()
+      await this.commonMasterService.GetAllFinancialYear_OldNOC(this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
