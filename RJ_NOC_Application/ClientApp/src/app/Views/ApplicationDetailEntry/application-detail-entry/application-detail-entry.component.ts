@@ -210,6 +210,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
               return;
             }
 
+            if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0) {
+              this.toastr.error("Enter Class Wise No of Room Details.")
+              this.isCheck30Female = true;
+              return;
+            }
+
             if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
               this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
               this.isCheck30Female = true;
@@ -264,6 +270,14 @@ export class ApplicationDetailEntryComponent implements OnInit {
               }
               if (data['Data'][0]['data'][0]['PendingBusDriver'] == 0) {
                 this.toastr.error('Please Add One Bus Driver in Staff details.')
+                this.isCheck30Female = true;
+                return;
+              }
+            }
+
+            if (this.SelectedDepartmentID == 3 && this.CollegeType_IsExisting == true) {
+              if (data['Data'][0]['data'][0]['PendingSubjectStaff'] > 0) {
+                this.toastr.error('In the case of teaching, it is Mandatory to have teachers of all the subjects.')
                 this.isCheck30Female = true;
                 return;
               }

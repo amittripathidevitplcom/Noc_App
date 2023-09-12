@@ -251,8 +251,10 @@ export class OtherInformationComponent implements OnInit {
       this.loaderService.requestStarted();
       this.isValidImageFilePath = false;
       this.isValidBookImageFilePath = false;
+      debugger;
       if (event.target.files && event.target.files[0]) {
-        if (event.target.files[0].type === 'image/jpeg' || event.target.files[0].type === 'image/jpg') {
+        if (event.target.files[0].type === 'image/jpeg' || event.target.files[0].type === 'image/jpg' || event.target.files[0].type === 'application/pdf'
+          || event.target.files[0].type === 'application/Pdf' || event.target.files[0].type === 'application/PDF') {
           if (event.target.files[0].size > 2000000) {
             this.ImageValidationMessage = 'Select less then 2MB File';
             if (Type == 'ImageFile') {
@@ -287,7 +289,7 @@ export class OtherInformationComponent implements OnInit {
           }
         }
         else {
-          this.ImageValidationMessage = 'Select Only jpg/jpeg file';
+          this.ImageValidationMessage = 'Select Only jpg/jpeg/PDF file';
           if (Type == 'ImageFile') {
             this.isValidImageFilePath = true;
             this.request.ImageFileName = '';

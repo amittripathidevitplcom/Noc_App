@@ -563,11 +563,8 @@ export class LegalEntityComponent implements OnInit {
         this.IsSocietyPanProofDoc = 'This field is required .!';
         isValid = false;
       }
-      /*      var GetPresidentStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'President')?.IsDeleted;*/
       var GetPresident = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'President')?.MembersPostName;
-      /*      var GetSecretaryStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary')?.IsDeleted;*/
       var GetSecretary = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary')?.MembersPostName;
-      /*      var GetTreasurerStatus = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer')?.IsDeleted;*/
       var GetTreasurer = this.request.MemberDetails.find((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer')?.MembersPostName;
       if (GetPresident == undefined || GetPresident == '' || GetPresident == null ||
         GetSecretary == undefined || GetSecretary == '' || GetSecretary == null ||
@@ -575,14 +572,37 @@ export class LegalEntityComponent implements OnInit {
         this.toastr.warning("Add President, Secretary and Treasurer in Society member");
         isValid = false;
       }
-      //if (this.request.MemberDetails.length < 3 ) {
-      //  this.toastr.warning("Add Atleast three member details");
-      //  isValid = false;
-      //}
+
+      var Presidentlength = this.request.MemberDetails.filter((x: { MembersPostName: string; }) => x.MembersPostName == 'President');
+      var Secretarylength = this.request.MemberDetails.filter((x: { MembersPostName: string; }) => x.MembersPostName == 'Secretary');
+      var Treasurerlength = this.request.MemberDetails.filter((x: { MembersPostName: string; }) => x.MembersPostName == 'Treasurer');
+      if (Presidentlength.length > 1) {
+        this.toastr.warning("Add Only One President");
+        isValid = false;
+      }
+      if (Secretarylength.length > 1) {
+        this.toastr.warning("Add Only One Secretary");
+        isValid = false;
+      }
+      if (Treasurerlength.length > 1) {
+        this.toastr.warning("Add Only One Treasurer");
+        isValid = false;
+      }
       if (this.request.IsOtherInstitution == 'Yes') {
         if (this.request.InstituteDetails.length <= 0) {
           this.toastr.warning("Add atleast one institute details");
           isValid = false;
+        }
+      }
+      if (this.QueryStringLegalEntityID > 0) {
+
+      }
+      else {
+        if (this.request.IsLegalEntity == '1') {
+          if (this.request.StateID != this.RegistrationState || this.request.DistrictID != this.RegistrationDistrict) {
+            this.toastr.warning("Please select State and District same as Society");
+            isValid = false;
+          }
         }
       }
       if (this.IsActOther) {
@@ -638,22 +658,26 @@ export class LegalEntityComponent implements OnInit {
 
   async AddMember() {
     try {
-      debugger;
+      this.CurrentIndex;
       this.loaderService.requestStarted();
       this.isMemberSignature = false;
       this.isMemberPhoto = false;
       this.isPresidentAadhaarProofDoc = false;
-
       this.isMemberAdded = true;
       if (this.legalentityAddMemberForm.invalid) {
         return;
       }
-      var GetAadhaarNo = this.request.MemberDetails.find((x: { PresidentAadhaarNumber: string; }) => x.PresidentAadhaarNumber == this.memberdetails.PresidentAadhaarNumber)?.PresidentAadhaarNumber;
-
+      var GetAadhaarNo = this.request.MemberDetails.find((x: { PresidentAadhaarNumber: string; }, index) => x.PresidentAadhaarNumber == this.memberdetails.PresidentAadhaarNumber && index != this.CurrentIndex)?.PresidentAadhaarNumber;
       if (GetAadhaarNo != undefined && GetAadhaarNo != '') {
         this.toastr.warning(GetAadhaarNo + " aadhaar no. already exist in member list");
         return;
       }
+      var GetMobileNo = this.request.MemberDetails.find((x: { MemberMobileNo: string; }, index) => x.MemberMobileNo == this.memberdetails.MemberMobileNo && index != this.CurrentIndex)?.MemberMobileNo;
+      if (GetMobileNo != undefined && GetMobileNo != '') {
+        this.toastr.warning(GetMobileNo + " mobile no. already exist in member list");
+        return;
+      }
+
       var GetPostName = this.lstMemberPost.find((x: { RoleID: number; }) => x.RoleID == this.memberdetails.MemberPostID).RoleName;
       if (GetPostName != 'Member') {
         if (this.memberdetails.MemberPhoto == '' || this.memberdetails.MemberSignature == '' || this.memberdetails.PresidentAadhaarProofDoc == '') {
@@ -663,9 +687,7 @@ export class LegalEntityComponent implements OnInit {
           return;
         }
         if (this.request.MemberDetails.length > 0) {
-          var result = this.request.MemberDetails.filter(obj => {
-            return obj.MemberPostID === this.memberdetails.MemberPostID
-          });
+          var result = this.request.MemberDetails.filter((x: { MemberPostID: number; }, index) => x.MemberPostID == this.memberdetails.MemberPostID && index != this.CurrentIndex);
           if (result.length > 0) {
             this.toastr.warning(GetPostName + " not duplicate");
             return;
@@ -683,30 +705,47 @@ export class LegalEntityComponent implements OnInit {
         this.isMemberSignature = false;
         this.isPresidentAadhaarProofDoc = false;
       }
-      this.request.MemberDetails.push({
-        MemberID: 0,
-        MemberName: this.memberdetails.MemberName,
-        MemberFatherName: this.memberdetails.MemberFatherName,
-        MemberDOB: this.memberdetails.MemberDOB,
-        MemberMobileNo: this.memberdetails.MemberMobileNo,
-        MemberPostID: this.memberdetails.MemberPostID,
-        MembersPostName: this.lstMemberPost.find((x: { RoleID: number; }) => x.RoleID == this.memberdetails.MemberPostID).RoleName,
-        MemberPhoto: this.memberdetails.MemberPhoto,
-        MemberPhotoPath: this.memberdetails.MemberPhotoPath == '' ? 'N/A' : this.memberdetails.MemberPhotoPath,
-        Dis_MemberPhotoName: this.memberdetails.Dis_MemberPhotoName,
-        MemberSignature: this.memberdetails.MemberSignature,
-        MemberSignaturePath: this.memberdetails.MemberSignaturePath == '' ? 'N/A' : this.memberdetails.MemberSignaturePath,
-        Dis_MemberSignatureName: this.memberdetails.Dis_MemberSignatureName,
-        PresidentAadhaarNumber: this.memberdetails.PresidentAadhaarNumber,
-        PresidentAadhaarProofDoc: this.memberdetails.PresidentAadhaarProofDoc,
-        Dis_PresidentAadhaarProofDocName: this.memberdetails.Dis_PresidentAadhaarProofDocName,
-        PresidentAadhaarProofDocPath: this.memberdetails.PresidentAadhaarProofDocPath == '' ? 'N/A' : this.memberdetails.PresidentAadhaarProofDocPath
-      });
+      if (this.memberdetails.PresidentAadhaarNumber.length > 0) {
+        const visibleDigits = 4;
+        let maskedSection = this.memberdetails.PresidentAadhaarNumber.slice(0, -visibleDigits);
+        let visibleSection = this.memberdetails.PresidentAadhaarNumber.slice(-visibleDigits);
+        this.memberdetails.Dis_AadhaarNumber = maskedSection.replace(/./g, 'X') + visibleSection;
+      }
+
+      if (this.CurrentIndex != -1) {
+        this.request.MemberDetails.splice(this.CurrentIndex, 1, this.memberdetails);
+      }
+      else {
+        this.request.MemberDetails.push({
+          MemberID: 0,
+          MemberName: this.memberdetails.MemberName,
+          MemberFatherName: this.memberdetails.MemberFatherName,
+          MemberDOB: this.memberdetails.MemberDOB,
+          MemberMobileNo: this.memberdetails.MemberMobileNo,
+          MemberPostID: this.memberdetails.MemberPostID,
+          MembersPostName: this.lstMemberPost.find((x: { RoleID: number; }) => x.RoleID == this.memberdetails.MemberPostID).RoleName,
+          MemberPhoto: this.memberdetails.MemberPhoto,
+          MemberPhotoPath: this.memberdetails.MemberPhotoPath == '' ? 'N/A' : this.memberdetails.MemberPhotoPath,
+          Dis_MemberPhotoName: this.memberdetails.Dis_MemberPhotoName,
+          MemberSignature: this.memberdetails.MemberSignature,
+          MemberSignaturePath: this.memberdetails.MemberSignaturePath == '' ? 'N/A' : this.memberdetails.MemberSignaturePath,
+          Dis_MemberSignatureName: this.memberdetails.Dis_MemberSignatureName,
+          PresidentAadhaarNumber: this.memberdetails.PresidentAadhaarNumber,
+          PresidentAadhaarProofDoc: this.memberdetails.PresidentAadhaarProofDoc,
+          Dis_PresidentAadhaarProofDocName: this.memberdetails.Dis_PresidentAadhaarProofDocName,
+          PresidentAadhaarProofDocPath: this.memberdetails.PresidentAadhaarProofDocPath == '' ? 'N/A' : this.memberdetails.PresidentAadhaarProofDocPath,
+          Dis_AadhaarNumber: this.memberdetails.Dis_AadhaarNumber
+        });
+      }
       this.memberdetails = new LegalEntityMemberDetailsDataModel();
       this.isMemberAdded = false;
       this.showMemberPhoto = false;
       this.showMemberSign = false;
       this.showPresidentAadhaarProofDoc = false;
+      this.CurrentIndex = -1;
+      this.isDisabledGrid = false;
+      const btnAdd = document.getElementById('btnAddmember')
+      if (btnAdd) { btnAdd.innerHTML = "Add"; }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -715,32 +754,18 @@ export class LegalEntityComponent implements OnInit {
       }, 200);
     }
   }
-  //async DeleteMember(item: LegalEntityMemberDetailsDataModel) {
-  //  const index: number = this.request.MemberDetails.indexOf(item);
-  //  this.isSubmitted = false;
-  //  try {
-  //    if (confirm("Are you sure you want to delete this ?")) {
-  //      this.loaderService.requestStarted();
 
-  //      //if (this.request.MemberDetails[index].MemberID > 0) {
-  //      //  this.request.MemberDetails[index].DeleteStatus = true;
-  //      //  this.request.MemberDetails[index].ActiveStatus = false;
-  //      //  this.request.MemberDetails[index].IsDeleted = true;
-  //      //}
-  //      //else {
-  //        this.request.MemberDetails.splice(index, 1)
-  //      //}
-  //    }
-  //  }
-  //  catch (ex) { }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-
-  //}
-
+  ResetmemberDetails() {
+    this.memberdetails = new LegalEntityMemberDetailsDataModel();
+    this.isMemberAdded = false;
+    this.showMemberPhoto = false;
+    this.showMemberSign = false;
+    this.showPresidentAadhaarProofDoc = false;
+    this.CurrentIndex = -1;
+    this.isDisabledGrid = false;
+    const btnAdd = document.getElementById('btnAddmember')
+    if (btnAdd) { btnAdd.innerHTML = "Add"; }
+  }
   async DeleteMember(Index: number) {
     try {
       if (confirm("Are you sure you want to delete this ?")) {
@@ -1007,7 +1032,7 @@ export class LegalEntityComponent implements OnInit {
   NewRegistration() {
     try {
       this.loaderService.requestStarted();
-      this.RegistrationDistrict = 0;
+      //this.RegistrationDistrict = 0;
       this.RegistrationState = 6;
       this.OldRegistrationNo = '';
       this.isRegisterNoBox = false;
@@ -1166,7 +1191,7 @@ export class LegalEntityComponent implements OnInit {
 
       if (this.VerifiedOTP || this.CustomOTP == this.UserOTP) {
         if (this.OldRegistrationNo != '') {
-          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo)
+          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo, 'A')
             .then((data: any) => {
               this.State = data['State'];
               this.SuccessMessage = data['SuccessMessage'];
@@ -1184,7 +1209,7 @@ export class LegalEntityComponent implements OnInit {
           if (display) display.style.display = 'none';
         }
         else {
-          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.request.RegistrationNo)
+          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.request.RegistrationNo, this.request.PresidentAadhaarNumber)
             .then((data: any) => {
               this.State = data['State'];
               this.SuccessMessage = data['SuccessMessage'];
@@ -1209,7 +1234,6 @@ export class LegalEntityComponent implements OnInit {
           if (ModelWarning) ModelWarning.style.display = 'none';
           this.isFormsFill = true;
           this.issaveCancelBtn = true;
-
           if (this.RegistrationState > 0) {
             this.request.StateID = this.RegistrationState;
             this.GetDistrictListByStateID(this.request.StateID);
@@ -1218,6 +1242,7 @@ export class LegalEntityComponent implements OnInit {
           else {
             this.request.StateID = 6;
             this.GetDistrictListByStateID(this.request.StateID);
+            //this.request.DistrictID = this.RegistrationDistrict;
           }
 
           this.isDisabledNewRegistration = true;
@@ -1267,7 +1292,7 @@ export class LegalEntityComponent implements OnInit {
 
       if (this.UserOTP == this.OTP || this.CustomOTP == this.UserOTP) {
         if (this.OldRegistrationNo != '') {
-          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo)
+          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.OldRegistrationNo, 'A')
             .then((data: any) => {
               this.State = data['State'];
               this.SuccessMessage = data['SuccessMessage'];
@@ -1285,7 +1310,7 @@ export class LegalEntityComponent implements OnInit {
           if (display) display.style.display = 'none';
         }
         else {
-          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.request.RegistrationNo)
+          this.legalEntityService.CheckDuplicateRegNo(this.request.LegalEntityID, this.request.RegistrationNo, this.request.PresidentAadhaarNumber)
             .then((data: any) => {
               this.State = data['State'];
               this.SuccessMessage = data['SuccessMessage'];
@@ -2022,5 +2047,37 @@ export class LegalEntityComponent implements OnInit {
     }
     event.preventDefault();
     return false;
+  }
+
+  public CurrentIndex: number = -1;
+  public isDisabledGrid: boolean = false;
+  async EditMemberDetail(idx: number) {
+    this.CurrentIndex = idx;
+    this.isDisabledGrid = true;
+    this.memberdetails.MemberID = this.request.MemberDetails[idx].MemberID;
+    this.memberdetails.MemberName = this.request.MemberDetails[idx].MemberName;
+    this.memberdetails.MemberFatherName = this.request.MemberDetails[idx].MemberFatherName;
+    this.memberdetails.MemberDOB = this.request.MemberDetails[idx].MemberDOB;
+    this.memberdetails.MemberMobileNo = this.request.MemberDetails[idx].MemberMobileNo;
+    this.memberdetails.MemberPostID = this.request.MemberDetails[idx].MemberPostID;
+    this.memberdetails.MembersPostName = this.request.MemberDetails[idx].MembersPostName;
+    this.memberdetails.Dis_MemberPhotoName = this.request.MemberDetails[idx].Dis_MemberPhotoName;
+    this.memberdetails.MemberPhoto = this.request.MemberDetails[idx].MemberPhoto;
+    this.memberdetails.MemberPhotoPath = this.request.MemberDetails[idx].MemberPhotoPath;
+    this.memberdetails.MemberSignature = this.request.MemberDetails[idx].MemberSignature;
+    this.memberdetails.Dis_MemberSignatureName = this.request.MemberDetails[idx].Dis_MemberSignatureName;
+    this.memberdetails.MemberSignaturePath = this.request.MemberDetails[idx].MemberSignaturePath;
+    this.memberdetails.PresidentAadhaarNumber = this.request.MemberDetails[idx].PresidentAadhaarNumber;
+    this.memberdetails.Dis_PresidentAadhaarProofDocName = this.request.MemberDetails[idx].Dis_PresidentAadhaarProofDocName;
+    this.memberdetails.PresidentAadhaarProofDocPath = this.request.MemberDetails[idx].PresidentAadhaarProofDocPath;
+    this.memberdetails.PresidentAadhaarProofDoc = this.request.MemberDetails[idx].PresidentAadhaarProofDoc;
+    this.memberdetails.Dis_AadhaarNumber = this.request.MemberDetails[idx].Dis_AadhaarNumber;
+
+
+    this.showMemberPhoto = this.memberdetails.MemberPhoto != '' ? true : false;
+    this.showMemberSign = this.memberdetails.MemberSignature != '' ? true : false;
+    this.showPresidentAadhaarProofDoc = this.memberdetails.PresidentAadhaarProofDoc != '' ? true : false;
+    const btnAdd = document.getElementById('btnAddmember')
+    if (btnAdd) { btnAdd.innerHTML = "Update"; }
   }
 }

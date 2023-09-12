@@ -109,11 +109,12 @@ export class StaffDetailDataModel {
   public ExperienceCertificate: string = '';
   public ExperienceCertificatePath: string = '';
   public ExperienceCertificate_Dis_FileName: string = '';
-  public UploadDocument: string = '';
+  public UploadDocument: string = ''; 
   public UploadDocumentPath: string = '';
   public UploadDocument_Dis_FileName: string = '';
   public DepartmentID: number = 0;
   public CollegeID: number = 0;
+  public ESINumber: string = '';
 
   public CreatedBy: number = 0;
   public ModifyBy: number = 0;

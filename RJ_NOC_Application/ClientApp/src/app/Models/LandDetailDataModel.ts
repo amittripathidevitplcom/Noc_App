@@ -49,12 +49,29 @@ export class LandDetailDocumentDataModel extends RequiredDocumentsDataModel_Docu
 }
 
 
-export class CollegeLandTypeDetailsDataModel {
+export class CollegeLandTypeDetailsDataModel
+{
   public LandTypeID: number = 0;
   public LandTypeName: string = '';
   public LandArea: number = 0;
   public KhasraNo: string = '';
   public IsLandSelected: boolean = true;
+  public LandConversionOrderDate?: string = '';
+  public LandConversionOrderNo?: string = '';
+  public LandConverstionDocument?: string = '';
+  public OtherDocument?: string = '';
+  public IsOtherDocument?: boolean = false;
+
+
+  public Dis_FileName?: string = '';
+  public FileName?: string = '';
+  public FilePath?: string = '';
+
+
+  public Dis_OtherFileName?: string = '';
+  public  FileOtherName?: string = '';
+  public FileOtherPath?: string = '';
+
 }
 export class CollegeLandConversionDetailsDataModel
 {

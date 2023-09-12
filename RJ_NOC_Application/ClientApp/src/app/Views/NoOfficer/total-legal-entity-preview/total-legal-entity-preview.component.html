@@ -230,10 +230,10 @@
                           <td> {{indexOfelement+1}}</td>
                           <td>{{row.MemberName}}</td>
                           <td>{{row.MemberFatherName}}</td>
-                          <td>{{row.MemberDOB}}</td>
+                          <td>{{row.MemberDOB | date:'dd-MM-yyyy'}}</td>
                           <td>{{row.MemberMobileNo}}</td>
                           <td>{{row.MemberPostName}}</td>
-                          <td>{{row.PresidentAadhaarNumber}}</td>
+                          <td>{{row.Dis_AadhaarNumber}}</td>
                           <td>
                             <a *ngIf="!row.MemberPhotoPath.includes('.pdf') && row.MemberPhoto!='' && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom">
                               <img src="{{row.MemberPhotoPath}}" alt="Member Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />

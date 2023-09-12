@@ -1,6 +1,7 @@
 export class FacilityDetailsDataModel {
   public CollegeID: number = 0;
   public FacilityDetailID: number = 0;
+  public IsAvailable: string = "";
   public FacilitiesID: number = 0;
   public FacilitiesUrl: string = '';
   public FacilitiesUrlPath: string = '';
