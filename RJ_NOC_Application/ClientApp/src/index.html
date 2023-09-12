@@ -45,6 +45,10 @@
       }
     }
 
+
+  </script>
+  <script>
+    window['base-url'] = window.location.pathname;
   </script>
 
   <script src="https://fellowtuts.com/tryit/uploads/js/gtransapi.js"></script>
@@ -60,7 +64,7 @@
         shortcutKey: "ctrl+g",
         transliterationEnabled: true
       },
-      control = new google.elements.transliteration.TransliterationControl(options);
+        control = new google.elements.transliteration.TransliterationControl(options);
       const element = document.getElementById("txtCollegeNameHi");
       const element1 = document.getElementById("CollegeNewName_Hi");
       if (element != null) {
@@ -71,12 +75,11 @@
       }
     }
     google.setOnLoadCallback(onLoad);
-     
+
   </script>
 
   <script>
-    function LoadData()
-    { 
+    function LoadData() {
       var options = {
         //Source Language
         sourceLanguage: google.elements.transliteration.LanguageCode.ENGLISH,
@@ -94,7 +97,7 @@
       }
       if (element1 != null) {
         control.makeTransliteratable(["CollegeNewName_Hi"]);
-      } 
+      }
     }
   </script>
 

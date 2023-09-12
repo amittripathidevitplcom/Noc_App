@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
+import { APP_BASE_HREF } from '@angular/common';
 
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
@@ -260,7 +261,7 @@ import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-appl
 
 @NgModule({
   declarations: [
-   
+
     AppComponent,
     MasterPageComponent,
 
@@ -547,8 +548,11 @@ import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-appl
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false },
-       
+
     },
+    {
+      provide: APP_BASE_HREF, useValue: '/' 
+    }
   ],
   bootstrap: [AppComponent]
 })
