@@ -1040,6 +1040,7 @@ export class HostelDetailsComponent implements OnInit {
           }
           this.request.CityTownVillage = this.collegeDataList['CityTownVillage'];
           this.request.Pincode = this.collegeDataList['Pincode'];
+
         }, error => console.error(error));
     }
     catch (Ex) {

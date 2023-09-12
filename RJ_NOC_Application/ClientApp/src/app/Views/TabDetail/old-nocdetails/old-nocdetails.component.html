@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-          <label> Session Year <span style="color:red;">*</span></label>
+          <label>NOC Issue on Session Year <span style="color:red;">*</span></label>
           <select class="form-select" id="ddlSessionYear" [(ngModel)]="request.SessionYear" formControlName="ddlSessionYear">
             <option value="0" disabled>--Select Session Year--</option>
             <option *ngFor="let item of lstSessionYear"
@@ -121,7 +121,7 @@
 
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-          <label>Remark <span style="color:red;">*</span></label>
+          <label>Remark </label>
           <textarea class="form-control" id="txtRemark" [(ngModel)]="request.Remark" formControlName="txtRemark"></textarea>
           <div *ngIf="isSubmitted&&form.txtRemark.errors" class="text-danger">
             <p *ngIf="form.txtRemark.errors.required"><i aria-hidden="true"></i>  This field is required .!</p>
@@ -201,7 +201,7 @@
                     <th>Course</th>
                     <th>Subject</th>
                     <th>NOC Type</th>
-                    <th>Session Year</th>
+                    <th>NOC Issue on Session Year</th>
                     <th>Issued for Year</th>
                     <th>NOC No.</th>
                     <th>NOC Received On</th>
