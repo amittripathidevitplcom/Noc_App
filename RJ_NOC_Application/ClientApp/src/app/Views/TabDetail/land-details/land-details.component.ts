@@ -96,7 +96,7 @@ export class LandDetailsComponent implements OnInit {
         /*     ddlLandTypeId: ['', [DropdownValidators]],*/
         /*   txtKhasraNumber: ['', Validators.required],*/
         txtLandOwnerName: ['', Validators.required],
-        txtLandArea: ['', [Validators.required, Validators.min(1)]],
+        txtLandArea: [{ value: '', disabled: true }, [Validators.required, Validators.min(1)]],
         //txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
         //txtGroundCycleStandArea: ['', Validators.required],
         txtTotalLandArea: [{ value: '', disabled: true }, Validators.required],
@@ -442,28 +442,28 @@ export class LandDetailsComponent implements OnInit {
   async GetLandSqureMeterMappingDetails(LandAreaId: number) {
     try {
       this.loaderService.requestStarted();
-      //await this.commonMasterService.GetLandSqureMeterMappingDetails_DepartmentWise(this.SelectedDepartmentID, this.SelectedCollageID, LandAreaId)
-      //  .then((data: any) => {
-      //    data = JSON.parse(JSON.stringify(data));
-      //    this.State = data['State'];
-      //    ////this.SuccessMessage = data['SuccessMessage'];
-      //    ////this.ErrorMessage = data['ErrorMessage'];
-      //    if (data.Data.length > 0) {
-      //      this.RequiredLandArea = data['Data'][0]["RequiredSquareMeter"];
-      //      this.RequiredLandAreaMsg = data['Data'][0]["RequiredSquareMeter"].toString() + ' ' + data['Data'][0]["AreaType"].toString();
-      //      this.LandUnitType = data['Data'][0]["AreaType"];
-      //      this.IsRequiredLandArea = true;
+      await this.commonMasterService.GetLandSqureMeterMappingDetails_DepartmentWise(this.SelectedDepartmentID, this.SelectedCollageID, LandAreaId)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          ////this.SuccessMessage = data['SuccessMessage'];
+          ////this.ErrorMessage = data['ErrorMessage'];
+          if (data.Data.length > 0) {
+            this.RequiredLandArea = data['Data'][0]["RequiredSquareMeter"];
+            this.RequiredLandAreaMsg = data['Data'][0]["RequiredSquareMeter"].toString() + ' ' + data['Data'][0]["AreaType"].toString();
+            this.LandUnitType = data['Data'][0]["AreaType"];
+            this.IsRequiredLandArea = true;
 
-      //    }
-      //    else {
-      //      this.RequiredLandArea = 0;
-      //      this.RequiredLandAreaMsg = '';
-      //      this.LandUnitType = '';
-      //      this.IsRequiredLandArea = false;
-      //      //this.toastr.warning("Land Area  mapping record not found. ")
-      //    }
+          }
+          else {
+            this.RequiredLandArea = 0;
+            this.RequiredLandAreaMsg = '';
+            this.LandUnitType = '';
+            this.IsRequiredLandArea = false;
+            //this.toastr.warning("Land Area  mapping record not found. ")
+          }
 
-      //  }, error => console.error(error));
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -903,11 +903,30 @@ export class LandDetailsComponent implements OnInit {
     try {
      
       this.loaderService.requestStarted();
-      if (this.LandConversionData.find((x: { ID: number; }) => x.ID == this.request.LandConvertedID).Name == 'Fully Converted') {
 
-        let selectname = item.LandTypeName;
-        if (this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected).length > 0) {
-          await this.request.CollegeLandTypeDetails.forEach(rowitem => {
+      debugger;
+      //if (this.LandConversionData.find((x: { ID: number; }) => x.ID == this.request.LandConvertedID).Name == 'Fully Converted')
+      //{
+
+      let selectname = item.LandTypeName;
+
+  
+
+
+      if (this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected).length > 0) {
+
+        let filterText = ''
+        if (selectname == 'Instituional') {
+          filterText = 'Educational';
+        }
+
+        else if (selectname == 'Educational') {
+          filterText = 'Instituional';
+        }
+
+        if (selectname == 'Instituional' || selectname == 'Educational')
+        {
+          await this.request.CollegeLandTypeDetails.filter(f => f.LandTypeName ==filterText).forEach(rowitem => {
             if (item.LandTypeID != rowitem.LandTypeID && item.LandTypeName != rowitem.LandTypeName) {
               rowitem.IsLandSelected = false;
               rowitem.LandArea = 0;
@@ -935,13 +954,24 @@ export class LandDetailsComponent implements OnInit {
             }
           });
         }
-        //unchecked
-        if (!event.target.checked) {
-          item.LandArea = 0;
-          item.KhasraNo = '';
-          return;
+
+
+
         }
+      
+     
+
+     // }
+
+      if (!event.target.checked) {
+       
+        item.LandArea = 0;
+        item.KhasraNo = '';
+        item.IsLandSelected = false;
+
       }
+      this.CalculateTotalArea(item, id);
+ 
     }
     catch (ex) {
       console.log(ex);
@@ -1266,4 +1296,16 @@ export class LandDetailsComponent implements OnInit {
     }
   }
 
+
+async  CalculateTotalArea(item: any, index: any)
+  {
+    try
+    {
+      this.request.LandArea = this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected == true).map(t => t.LandArea).reduce((acc, value) =>  acc + Number( value), 0)
+    }
+    catch (ex)
+    {
+      console.log(ex);
+    }
+  }
 }
