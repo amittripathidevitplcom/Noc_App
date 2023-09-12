@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
+import { APP_BASE_HREF } from '@angular/common';
 
 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
@@ -259,7 +260,7 @@ import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_
 
 @NgModule({
   declarations: [
-   
+
     AppComponent,
     MasterPageComponent,
 
@@ -545,8 +546,11 @@ import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false },
-       
+
     },
+    {
+      provide: APP_BASE_HREF, useValue: '/' 
+    }
   ],
   bootstrap: [AppComponent]
 })
