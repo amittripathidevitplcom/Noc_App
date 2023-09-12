@@ -160,6 +160,9 @@ export class AcademicInformationComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.FinancialYearData = data['Data'];
+          if (this.FinancialYearData.length > 0) {
+            this.request.YearID = this.FinancialYearData[0]['FinancialYearID'];
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -183,7 +186,6 @@ export class AcademicInformationComponent implements OnInit {
 
     try {
       this.loaderService.requestStarted();
-      debugger
       var SelectedResult = this.ResultData.find((x: { ID: number; }) => x.ID == SeletedResultId)?.Name;
       if (SelectedResult == 'Declared') {
         this.isselectresult = false;
