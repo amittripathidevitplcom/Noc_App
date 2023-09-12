@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormA
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LandDetailDataModel, LandDetailDocumentDataModel } from '../../../Models/LandDetailDataModel';
+import { CollegeLandTypeDetailsDataModel, LandDetailDataModel, LandDetailDocumentDataModel } from '../../../Models/LandDetailDataModel';
 import { DropdownValidators, createPasswordStrengthValidator, MustMatch } from '../../../Services/CustomValidators/custom-validators.service';
 import { LandDetailsService } from '../../../Services/Tabs/LandDetails/land-details.service'
 import { ToastrService } from 'ngx-toastr';
@@ -219,6 +219,9 @@ export class LandDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request.CollegeLandTypeDetails = data['Data'];
+          console.log(this.request.CollegeLandTypeDetails);
+          console.log(data['Data']);
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -282,6 +285,7 @@ export class LandDetailsComponent implements OnInit {
   async GetUnitOfLandArea(DepartmentID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
+      //this.UnitOfLand = 'Sq. Meter';
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -297,7 +301,7 @@ export class LandDetailsComponent implements OnInit {
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
-      }, 200);
+      }, 10);
     }
   }
 
@@ -438,28 +442,28 @@ export class LandDetailsComponent implements OnInit {
   async GetLandSqureMeterMappingDetails(LandAreaId: number) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetLandSqureMeterMappingDetails_DepartmentWise(this.SelectedDepartmentID, this.SelectedCollageID, LandAreaId)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          ////this.SuccessMessage = data['SuccessMessage'];
-          ////this.ErrorMessage = data['ErrorMessage'];
-          if (data.Data.length > 0) {
-            this.RequiredLandArea = data['Data'][0]["RequiredSquareMeter"];
-            this.RequiredLandAreaMsg = data['Data'][0]["RequiredSquareMeter"].toString() + ' ' + data['Data'][0]["AreaType"].toString();
-            this.LandUnitType = data['Data'][0]["AreaType"];
-            this.IsRequiredLandArea = true;
+      //await this.commonMasterService.GetLandSqureMeterMappingDetails_DepartmentWise(this.SelectedDepartmentID, this.SelectedCollageID, LandAreaId)
+      //  .then((data: any) => {
+      //    data = JSON.parse(JSON.stringify(data));
+      //    this.State = data['State'];
+      //    ////this.SuccessMessage = data['SuccessMessage'];
+      //    ////this.ErrorMessage = data['ErrorMessage'];
+      //    if (data.Data.length > 0) {
+      //      this.RequiredLandArea = data['Data'][0]["RequiredSquareMeter"];
+      //      this.RequiredLandAreaMsg = data['Data'][0]["RequiredSquareMeter"].toString() + ' ' + data['Data'][0]["AreaType"].toString();
+      //      this.LandUnitType = data['Data'][0]["AreaType"];
+      //      this.IsRequiredLandArea = true;
 
-          }
-          else {
-            this.RequiredLandArea = 0;
-            this.RequiredLandAreaMsg = '';
-            this.LandUnitType = '';
-            this.IsRequiredLandArea = false;
-            //this.toastr.warning("Land Area  mapping record not found. ")
-          }
+      //    }
+      //    else {
+      //      this.RequiredLandArea = 0;
+      //      this.RequiredLandAreaMsg = '';
+      //      this.LandUnitType = '';
+      //      this.IsRequiredLandArea = false;
+      //      //this.toastr.warning("Land Area  mapping record not found. ")
+      //    }
 
-        }, error => console.error(error));
+      //  }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -467,7 +471,7 @@ export class LandDetailsComponent implements OnInit {
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
-      }, 200);
+      }, 10);
     }
   }
   async onFilechange(event: any, item: LandDetailDocumentDataModel) {
@@ -577,8 +581,7 @@ export class LandDetailsComponent implements OnInit {
       }
     }
 
-    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted')
-    {
+    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted') {
       //if (this.request.LandConversionOrderDate == '' || this.request.LandConversionOrderDate == null) {
       //  this.LandConversionDateValidate = 'This field is required .!';
       //  return
@@ -622,12 +625,11 @@ export class LandDetailsComponent implements OnInit {
       }
     }
 
-    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted')
-    {
+    if (LandConversionName == 'Fully Converted' || LandConversionName == 'Partially Converted') {
       if (!this.ValidateConversionDetails()) {
         return
       }
-     
+
 
     }
 
@@ -742,11 +744,11 @@ export class LandDetailsComponent implements OnInit {
           //this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
           this.LandDetailsDocumentListByID = data['Data'][0]["LandDetailDocument"];
           this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
-          this.CollegeLandConverstion = data['Data'][0]["CollegeLandConversionDetails"];
+         // this.CollegeLandConverstion = data['Data'][0]["CollegeLandConversionDetails"];
 
-          console.log(this.CollegeLandConverstion);
+          console.log(this.DetailoftheLand);
 
-          
+
           console.log(this.request.LandDetailDocument);
         }, error => console.error(error));
     }
@@ -883,12 +885,11 @@ export class LandDetailsComponent implements OnInit {
       this.ShowAffidavitDate = false;
       Type = 'LandDetail';
     }
- 
+
     await this.GetLandTypeMasterList_DepartmentAndLandConvertWise(this.SelectedDepartmentID, Code);
     await this.GetLandTypeDetails_CollegeWise(this.SelectedDepartmentID, Code, this.request.LandDetailID);
 
-    if (Code == 'PCON' || Code == 'FCON')
-    {
+    if (Code == 'PCON' || Code == 'FCON') {
       await this.GetCollegeLandConversionDetail(this.SelectedDepartmentID, this.request.LandDetailID, Code);
     }
 
@@ -898,17 +899,49 @@ export class LandDetailsComponent implements OnInit {
     await this.GetAnnexureDataList_DepartmentWise(this.SelectedDepartmentID, this.request.LandDocumentTypeID, this.request.LandConvertedID);
   }
 
-  async ApplyNocFor_cbChange(event: any, item: any) {
+  async LandType_cbChange(event: any, item: any, id: number) {
     try {
-      debugger
+     
       this.loaderService.requestStarted();
-      //unchecked
-      if (!event.target.checked) {
-        item.LandArea = 0;
-        item.KhasraNo = '';
-        return;
-      }
+      if (this.LandConversionData.find((x: { ID: number; }) => x.ID == this.request.LandConvertedID).Name == 'Fully Converted') {
 
+        let selectname = item.LandTypeName;
+        if (this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected).length > 0) {
+          await this.request.CollegeLandTypeDetails.forEach(rowitem => {
+            if (item.LandTypeID != rowitem.LandTypeID && item.LandTypeName != rowitem.LandTypeName) {
+              rowitem.IsLandSelected = false;
+              rowitem.LandArea = 0;
+              rowitem.KhasraNo = '';
+              rowitem.LandConversionOrderNo = '';
+              rowitem.LandConversionOrderDate = '';
+              rowitem.FileName = '';
+              rowitem.Dis_FileName = '';
+              rowitem.FilePath = '';
+              this.file = document.getElementById('fileLandDocument_' + id);
+              if (this.file! = null)
+                this.file.value = '';
+
+              rowitem.FileOtherName = '';
+              rowitem.FileOtherPath = '';
+              rowitem.Dis_OtherFileName = '';
+              this.file = document.getElementById('fileLandDocumentOther_' + id);
+              if (this.file! = null)
+                this.file.value = '';
+              if (selectname == rowitem.LandTypeName && rowitem.IsLandSelected)
+                this.request.CollegeLandTypeDetails = this.request.CollegeLandTypeDetails.filter(f => f.IsOtherDocument == false);
+            }
+            else {
+              rowitem.IsLandSelected = true;
+            }
+          });
+        }
+        //unchecked
+        if (!event.target.checked) {
+          item.LandArea = 0;
+          item.KhasraNo = '';
+          return;
+        }
+      }
     }
     catch (ex) {
       console.log(ex);
@@ -924,8 +957,7 @@ export class LandDetailsComponent implements OnInit {
 
   }
 
-  async AddMoreLandConverstionData()
-  {
+  async AddMoreLandConverstionData() {
     this.request.CollegeLandConversionDetails.push({
       LandDetailID: 0,
       LandConversionID: 0,
@@ -939,7 +971,7 @@ export class LandDetailsComponent implements OnInit {
   async GetCollegeLandConversionDetail(DepartmentID: number, LandTypeID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCollegeLandConversionDetail(DepartmentID, LandTypeID, Type )
+      await this.commonMasterService.GetCollegeLandConversionDetail(DepartmentID, LandTypeID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.CollegeLandConversionDetails = data['Data'];
@@ -961,10 +993,8 @@ export class LandDetailsComponent implements OnInit {
 
   async DeleteConverstionDetail(i: number) {
     this.isSubmitted = false;
-    try
-    {
-      if (confirm("Are you sure you want to delete this ?"))
-      {
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
         this.request.CollegeLandConversionDetails.splice(i, 1);
       }
@@ -977,34 +1007,263 @@ export class LandDetailsComponent implements OnInit {
     }
   }
 
-  ValidateConversionDetails(): boolean
-  {
+  ValidateConversionDetails(): boolean {
     var message = 'Please validate following\n';
-    var WorkFlowDetailLength = this.request.CollegeLandConversionDetails.length;
+    var WorkFlowDetailLength = this.request.CollegeLandTypeDetails.length;
     var validateerrorcount = 0;
+    debugger;
     if (WorkFlowDetailLength > 0) {
-      for (var i = 0; i < this.request.CollegeLandConversionDetails.length; i++)
-      {
-        if (this.request.CollegeLandConversionDetails[i].LandConversionOrderNo == '') {
-          message += 'Please Enter  Land ConversionOrderNo \n';
-        }
-        if (this.request.CollegeLandConversionDetails[i].LandConversionOrderDate == '') {
-          message += 'Please select land conversion date \n';
+      for (var i = 0; i < this.request.CollegeLandTypeDetails.length; i++) {
+        if (this.request.CollegeLandTypeDetails[i].IsLandSelected) {
+          if (this.request.CollegeLandTypeDetails[i].LandConversionOrderNo == '') {
+            message += 'Please Enter  Land ConversionOrderNo \n';
+            this.request.CollegeLandTypeDetails[i].LandConversionOrderNo = '';
           }
-        
-        else {
-          validateerrorcount++;
+          if (this.request.CollegeLandTypeDetails[i].LandConversionOrderDate == '') {
+            message += 'Please select land conversion date \n';
+            this.request.CollegeLandTypeDetails[i].LandConversionOrderDate = '';
+
+          }
+          if (this.request.CollegeLandTypeDetails[i].FileName == '' || this.request.CollegeLandTypeDetails[i].FileName == null) {
+            message += 'Please Upload ConvertDocumet   \n';
+            this.request.CollegeLandTypeDetails[i].FileName = '';
+          }
+          if (this.request.CollegeLandTypeDetails[i].IsOtherDocument) {
+            if (this.request.CollegeLandTypeDetails[i].FileOtherName == '' || this.request.CollegeLandTypeDetails[i].FileOtherName == null) {
+              message += 'Please Upload FileOtherName   \n';
+              this.request.CollegeLandTypeDetails[i].FileOtherName = '';
+            }
+          }
+          else {
+            validateerrorcount++;
+          }
         }
       }
     }
-    if (message.length > 30)
-    {
-     
+    if (message.length > 30) {
+
       return false;
     }
     return true
   }
 
 
+  AddMoreLandDetails(item: any) {
+    this.request.CollegeLandTypeDetails.push({
+      LandTypeID: item.LandTypeID,
+      LandTypeName: item.LandTypeName,
+      LandArea: 0,
+      KhasraNo: '',
+      IsLandSelected: false,
+      LandConversionOrderDate: '',
+      LandConversionOrderNo: '',
+      LandConverstionDocument: '',
+      OtherDocument: '',
+      IsOtherDocument: true,
+
+      Dis_FileName: '',
+      FileName: '',
+      FilePath: '',
+
+      Dis_OtherFileName: '',
+      FileOtherName: '',
+      FileOtherPath: '',
+    }
+    )
+    this.request.CollegeLandTypeDetails = this.request.CollegeLandTypeDetails.sort((a, b) => a.LandTypeID - b.LandTypeID);
+  }
+
+
+  async DeleteLandDetails(i: number) {
+    this.isSubmitted = false;
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        this.request.CollegeLandTypeDetails.splice(i, 1);
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async onFilechangeItem(event: any, item: any) {
+    try {
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type === 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.toastr.error('Select less then 2MB File')
+            return
+          }
+          if (this.file.size < 100000) {
+            this.toastr.error('Select more then 100kb File')
+            return
+          }
+        }
+        else {// type validation
+          this.toastr.error('Select Only pdf file')
+          return
+        }
+        // upload to server folder
+        this.loaderService.requestStarted();
+
+        await this.fileUploadService.UploadDocument(this.file)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              item.Dis_FileName = data['Data'][0]["Dis_FileName"];
+              item.FileName = data['Data'][0]["FileName"];
+              item.FilePath = data['Data'][0]["FilePath"];
+              event.target.value = null;
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      /*setTimeout(() => {*/
+      this.loaderService.requestEnded();
+      /*  }, 200);*/
+    }
+  }
+
+
+
+  async onFilechangeItemOther(event: any, item: any) {
+    try {
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type === 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.toastr.error('Select less then 2MB File')
+            return
+          }
+          if (this.file.size < 100000) {
+            this.toastr.error('Select more then 100kb File')
+            return
+          }
+        }
+        else {// type validation
+          this.toastr.error('Select Only pdf file')
+          return
+        }
+        // upload to server folder
+        this.loaderService.requestStarted();
+
+        await this.fileUploadService.UploadDocument(this.file)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+
+              item.Dis_OtherFileName = data['Data'][0]["Dis_FileName"];
+              item.FileOtherName = data['Data'][0]["FileName"];
+              item.FileOtherPath = data['Data'][0]["FilePath"];
+              event.target.value = null;
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      /*setTimeout(() => {*/
+      this.loaderService.requestEnded();
+      /*  }, 200);*/
+    }
+  }
+
+
+  async DeleteImageItem(item: CollegeLandTypeDetailsDataModel) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(item.FileName).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          item.FileName = '';
+          item.FilePath = '';
+          item.Dis_FileName = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async DeleteImageOther(item: CollegeLandTypeDetailsDataModel) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(item.FileOtherName).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          item.FileOtherName = '';
+          item.FileOtherPath = '';
+          item.Dis_OtherFileName = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
 }

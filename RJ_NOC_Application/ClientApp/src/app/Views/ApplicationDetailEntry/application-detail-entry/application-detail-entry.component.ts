@@ -275,9 +275,13 @@ export class ApplicationDetailEntryComponent implements OnInit {
               }
             }
 
-            //if (this.SelectedDepartmentID == 3 && this.CollegeType_IsExisting == true) {
-
-            //}
+            if (this.SelectedDepartmentID == 3 && this.CollegeType_IsExisting == true) {
+              if (data['Data'][0]['data'][0]['PendingSubjectStaff'] > 0) {
+                this.toastr.error('In the case of teaching, it is Mandatory to have teachers of all the subjects.')
+                this.isCheck30Female = true;
+                return;
+              }
+            }
           }
           else {
             this.toastr.error(this.ErrorMessage)

@@ -1174,5 +1174,15 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
+  public async GetCommonMasterList_DepartmentAndTypeWises(DepartmentID: number, CollageID: number, Type: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCommonMasterList_DepartmentAndTypeWises/" + DepartmentID + "/" + CollageID + "/" + Type)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

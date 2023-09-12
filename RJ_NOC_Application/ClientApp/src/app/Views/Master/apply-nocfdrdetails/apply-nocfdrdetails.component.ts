@@ -350,16 +350,18 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
     //debugger
     this.RefModal._removeModalElements();
   }
-
+  public DisabledPeriodofFDR: boolean = false;
  SetFDRExpriyDate()
   {
     try
     {
       if (this.request.FDRDate != '') {
+        this.request.PeriodOfFDR = '5';
+        this.DisabledPeriodofFDR = true;
         this.request.FDRExpriyDate = '';
         this.loaderService.requestStarted();
         const FDRDate = new Date(this.request.FDRDate);
-        FDRDate.setFullYear(FDRDate.getFullYear() + Number(this.request.PeriodOfFDR));
+        FDRDate.setFullYear(FDRDate.getFullYear() + 5);
         this.MaxExpDate = new Date(FDRDate.getFullYear(), FDRDate.getMonth(), FDRDate.getDate());
       }
       else

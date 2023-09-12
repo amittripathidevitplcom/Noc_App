@@ -600,7 +600,7 @@ export class LegalEntityComponent implements OnInit {
       else {
         if (this.request.IsLegalEntity == '1') {
           if (this.request.StateID != this.RegistrationState || this.request.DistrictID != this.RegistrationDistrict) {
-            this.toastr.warning("Please select Registration State and District");
+            this.toastr.warning("Please select State and District same as Society");
             isValid = false;
           }
         }
@@ -673,7 +673,7 @@ export class LegalEntityComponent implements OnInit {
         return;
       }
       var GetMobileNo = this.request.MemberDetails.find((x: { MemberMobileNo: string; }, index) => x.MemberMobileNo == this.memberdetails.MemberMobileNo && index != this.CurrentIndex)?.MemberMobileNo;
-      if (GetMobileNo != undefined && GetMobileNo != '' ) {
+      if (GetMobileNo != undefined && GetMobileNo != '') {
         this.toastr.warning(GetMobileNo + " mobile no. already exist in member list");
         return;
       }
@@ -688,7 +688,7 @@ export class LegalEntityComponent implements OnInit {
         }
         if (this.request.MemberDetails.length > 0) {
           var result = this.request.MemberDetails.filter((x: { MemberPostID: number; }, index) => x.MemberPostID == this.memberdetails.MemberPostID && index != this.CurrentIndex);
-          if (result.length > 0 ) {
+          if (result.length > 0) {
             this.toastr.warning(GetPostName + " not duplicate");
             return;
           }
@@ -2053,12 +2053,7 @@ export class LegalEntityComponent implements OnInit {
   public isDisabledGrid: boolean = false;
   async EditMemberDetail(idx: number) {
     this.CurrentIndex = idx;
-
-    //this.isDisabledGrid = true;
-    ////this.memberdetails = this.request.MemberDetails[idx];
-
-    //this.memberdetails.MemberMobileNo = this.request.MemberDetails[idx].MemberMobileNo;
-
+    this.isDisabledGrid = true;
     this.memberdetails.MemberID = this.request.MemberDetails[idx].MemberID;
     this.memberdetails.MemberName = this.request.MemberDetails[idx].MemberName;
     this.memberdetails.MemberFatherName = this.request.MemberDetails[idx].MemberFatherName;
@@ -2078,7 +2073,7 @@ export class LegalEntityComponent implements OnInit {
     this.memberdetails.PresidentAadhaarProofDoc = this.request.MemberDetails[idx].PresidentAadhaarProofDoc;
     this.memberdetails.Dis_AadhaarNumber = this.request.MemberDetails[idx].Dis_AadhaarNumber;
 
-    
+
     this.showMemberPhoto = this.memberdetails.MemberPhoto != '' ? true : false;
     this.showMemberSign = this.memberdetails.MemberSignature != '' ? true : false;
     this.showPresidentAadhaarProofDoc = this.memberdetails.PresidentAadhaarProofDoc != '' ? true : false;

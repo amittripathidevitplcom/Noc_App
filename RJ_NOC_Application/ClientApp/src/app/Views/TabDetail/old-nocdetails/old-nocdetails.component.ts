@@ -189,14 +189,16 @@ export class OldNOCDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.subjectDataList = data['Data'][0];
           debugger;
-          if (this.SelectedDepartmentID != 3) {
-            this.SelectedSubjectDetails = data['Data'][0];
-            this.isToDisable = true;
-          }
-          else {
-            //this.SelectedSubjectDetails = [];
-            this.isToDisable = false;
-          }
+          //if (this.SelectedDepartmentID != 3) {
+          //  this.SelectedSubjectDetails = data['Data'][0];
+          //  this.isToDisable = true;
+          //}
+          //else {
+          //  //this.SelectedSubjectDetails = [];
+          //  this.isToDisable = false;
+          //}
+          this.SelectedSubjectDetails = data['Data'][0];
+          this.isToDisable = true;
           this.dropdownSettings = Object.assign({}, this.dropdownSettings);
         }, error => console.error(error));
     }
@@ -213,7 +215,7 @@ export class OldNOCDetailsComponent implements OnInit {
   async getNOCType() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.SelectedDepartmentID, "OLDNOCStatus")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWises(this.SelectedDepartmentID, this.SelectedCollageID, "OLDNOCStatus")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
