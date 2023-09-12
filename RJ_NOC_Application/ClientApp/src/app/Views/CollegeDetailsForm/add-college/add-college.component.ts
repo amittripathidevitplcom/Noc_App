@@ -1170,6 +1170,7 @@ export class AddCollegeComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // data
           this.request = JSON.parse(JSON.stringify(data['Data']));
+          
           // manage some data
           if (this.request.GCD_MobileNumber.length == 0) {
             this.request.GCD_MobileNumber = null;
@@ -1186,7 +1187,7 @@ export class AddCollegeComponent implements OnInit {
           await this.ResetFileAndValidation('NAACAccreditedCertificate', '', this.request.NAACAccreditedCertificate, this.request.NAACAccreditedCertificatePath, this.request.NAACAccreditedCertificate_Dis_FileName, true);
           // college status
           await this.ddlCollegeStatus_TextChange(null, this.request.CollegeStatusID.toString())
-
+          this.request.PresentCollegeStatusID = data['Data']['PresentCollegeStatusID'];
           await this.ddlPresentCollegeStatus_TextChange(null, this.request.PresentCollegeStatusID.toString())
           // division dll
           await this.FillDivisionRelatedDDL(null, this.request.DivisionID.toString(), null);
