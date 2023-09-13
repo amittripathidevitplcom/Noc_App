@@ -273,7 +273,16 @@ export class BuildingDetailsDataModel {
   public RentAgreementFileUpload: string = '';
   public Dis_RentAgreementFileUpload: string = '';
   public RentAgreementFileUploadPath: string = '';
-  public UserID: number = 0;
+
+  public buildingOtherDoc2FileUpload: string = '';
+  public Dis_buildingOtherDoc2FileUpload: string = '';
+  public buildingOtherDoc2FileUploadPath: string = '';
+
+  public buildingOtherDoc1FileUpload: string = '';
+  public Dis_buildingOtherDoc1FileUpload: string = '';
+  public buildingOtherDoc1FileUploadPath: string = '';
+
+   public UserID: number = 0;
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
   public Action: string = '';

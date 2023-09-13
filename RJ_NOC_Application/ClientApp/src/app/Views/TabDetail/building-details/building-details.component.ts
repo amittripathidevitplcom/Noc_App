@@ -77,6 +77,8 @@ export class BuildingDetailsComponent implements OnInit {
   public IstxtBuildingHostel: boolean = false;
   public isValidOwnBuildingFileUpload: boolean = false;
   public isValidRentAgreementFileUpload: boolean = false;
+  public isValidbuildingOtherDoc2FileUpload: boolean = false;
+  public isValidbuildingOtherDoc1FileUpload: boolean = false;
   public RentAggrementDocShow: boolean = false;
   public isValidFireNOCFileUpload: boolean = false;
   public isValidPWDNOCFileUpload: boolean = false;
@@ -115,6 +117,7 @@ export class BuildingDetailsComponent implements OnInit {
   isUploadImage: boolean = false;
   public MaxDate: Date = new Date();
   public Owin_RentDocTitle: any = '';
+  public buildAddressShowHide: boolean = true;
 
 
   constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
@@ -132,7 +135,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetailsForm = this.formBuilder.group(
       {
         rdBuildingType: ['', Validators.required],
-        txtOwnerName: ['', Validators.required],
+        txtOwnerName: [''],
         txtAddressLine1_Owner: ['', Validators.required],
         txtAddressLine2_Owner: [''],
         rbRuralUrban_Owner: ['', Validators.required],
@@ -153,6 +156,8 @@ export class BuildingDetailsComponent implements OnInit {
         txtExpiringOn: ['', Validators.required],
         txtPWDNOCFileUpload: [''],
         txtRentAgreementFileUpload: [''],
+        txtbuildingOtherDoc2FileUpload: [''],
+        txtbuildingOtherDoc1FileUpload: [''],
 
         txtOwnBuildingOrderNo: ['', [Validators.required]],
         txtOwnBuildingOrderDate: ['', [Validators.required]],
@@ -206,7 +211,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.GetAllBuildingDetailsList();
     //this.CollegeAddressOnAutoPopulateOnPageload();
     this.ActiveStatus = true;
-    
+
   }
   get form() { return this.buildingdetailsForm.controls; }
 
@@ -228,10 +233,14 @@ export class BuildingDetailsComponent implements OnInit {
   changeBuildingType(BuildingType: any) {
     if (BuildingType == 'Owned') {
       this.RentAggrementDocShow = false;
+      this.buildAddressShowHide = true;
+      this.IsRural = false;
       this.Owin_RentDocTitle = 'Certificate of Own Building in own land in same campus Order No. & Order Date :'
     }
     else {
       this.RentAggrementDocShow = true;
+      this.buildAddressShowHide = false;
+     
       this.Owin_RentDocTitle = 'Certificate of Land & Rented Building in same "Tehsil" Order No. & Order Date : '
     }
   }
@@ -287,6 +296,8 @@ export class BuildingDetailsComponent implements OnInit {
     this.IstxtBuildingHostel = false;
     this.isValidOwnBuildingFileUpload = false;
     this.isValidRentAgreementFileUpload = false;
+    this.isValidbuildingOtherDoc1FileUpload = false;
+    this.isValidbuildingOtherDoc2FileUpload = false;
     this.isValidFireNOCFileUpload = false;
     this.isValidPWDNOCFileUpload = false;
 
@@ -333,6 +344,15 @@ export class BuildingDetailsComponent implements OnInit {
       if (this.buildingdetails.Rentvaliditydate == '') {
         return;
       }
+    }
+    if (this.buildingdetails.buildingOtherDoc1FileUpload == '') {
+      this.ImageValidate = 'This field is required .!';
+      return
+    }
+
+    if (this.buildingdetails.buildingOtherDoc2FileUpload == '') {
+      this.ImageValidate = 'This field is required .!';
+      return
     }
 
     if (this.buildingdetails.FireNOCFileUpload == '') {
@@ -498,6 +518,15 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.Dis_RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["Dis_RentAgreementFileUpload"];
           this.buildingdetails.RentAgreementFileUploadPath = data['Data'][0]['data']['Table'][0]["RentAgreementFileUploadPath"];
 
+
+          this.buildingdetails.buildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["OtherDoc1FileUpload"];
+          this.buildingdetails.Dis_buildingOtherDoc1FileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherDoc1FileUpload"];
+          this.buildingdetails.buildingOtherDoc1FileUploadPath = data['Data'][0]['data']['Table'][0]["OtherDoc1FileUploadPath"];
+
+          this.buildingdetails.buildingOtherDoc2FileUpload = data['Data'][0]['data']['Table'][0]["OtherDoc2FileUpload"];
+          this.buildingdetails.Dis_buildingOtherDoc2FileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherDoc2FileUpload"];
+          this.buildingdetails.buildingOtherDoc2FileUploadPath = data['Data'][0]['data']['Table'][0]["OtherDoc2FileUploadPath"];
+
           this.buildingdetails.FireNOCOrderNumber = data['Data'][0]['data']['Table'][0]["FireNOCOrderNumber"];
           this.buildingdetails.FromDate = data['Data'][0]['data']['Table'][0]["FromDate"];
           this.buildingdetails.ToDate = data['Data'][0]['data']['Table'][0]["ToDate"];
@@ -568,7 +597,7 @@ export class BuildingDetailsComponent implements OnInit {
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage)
               this.GetAllBuildingDetailsList();
-             // this.CollegeAddressOnAutoPopulateOnPageload();
+              // this.CollegeAddressOnAutoPopulateOnPageload();
             }
             else {
               this.toastr.error(this.ErrorMessage)
@@ -654,6 +683,12 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.OwnBuildingOrderDate = '';
     this.buildingdetails.OwnBuildingFileUpload = '';
     this.buildingdetails.RentAgreementFileUpload = '';
+    this.buildingdetails.buildingOtherDoc1FileUpload = '';
+    this.buildingdetails.Dis_buildingOtherDoc1FileUpload = '';
+    this.buildingdetails.buildingOtherDoc1FileUploadPath = '';
+    this.buildingdetails.buildingOtherDoc2FileUpload = '';
+    this.buildingdetails.Dis_buildingOtherDoc2FileUpload = '';
+    this.buildingdetails.buildingOtherDoc2FileUploadPath = '';
     this.buildingdetails.BuildingHostelQuartersRoadArea = 0;
     this.buildingdetails.OrderNo = '';
     this.buildingdetails.OrderDate = '';
@@ -1070,6 +1105,23 @@ export class BuildingDetailsComponent implements OnInit {
         this.file = document.getElementById('txtPWDNOCFileUpload');
         this.file.value = '';
       }
+      else if (Type == 'buildingOtherDoc1FileUpload' || Type == 'All') {
+        //this.isValidbuildingOtherDoc1FileUpload = isShow;
+        this.buildingdetails.buildingOtherDoc1FileUpload = '';
+        this.buildingdetails.Dis_buildingOtherDoc1FileUpload = '';
+        this.buildingdetails.buildingOtherDoc1FileUploadPath = '';
+        this.file = document.getElementById('txtbuildingOtherDoc1');
+        this.file.value = '';
+      }
+
+      else if (Type == 'buildingOtherDoc2FileUpload' || Type == 'All') {
+       // this.isValidbuildingOtherDoc1FileUpload = isShow;
+        this.buildingdetails.buildingOtherDoc2FileUpload = '';
+        this.buildingdetails.Dis_buildingOtherDoc2FileUpload = '';
+        this.buildingdetails.buildingOtherDoc2FileUploadPath = '';
+        this.file = document.getElementById('txtbuildingOtherDoc2');
+        this.file.value = '';
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -1105,6 +1157,20 @@ export class BuildingDetailsComponent implements OnInit {
       this.buildingdetails.PWDNOCFileUpload = fileName;
       this.buildingdetails.Dis_PWDNOCFileUpload = dis_Name;
       this.buildingdetails.PWDNOCFileUploadPath = filePath;
+    }
+
+    else if (Type == 'buildingOtherDoc1FileUpload') {
+      this.isValidbuildingOtherDoc1FileUpload = isShow;
+      this.buildingdetails.buildingOtherDoc1FileUpload = fileName;
+      this.buildingdetails.Dis_buildingOtherDoc1FileUpload = dis_Name;
+      this.buildingdetails.buildingOtherDoc1FileUploadPath = filePath;
+    }
+
+    else if (Type == 'buildingOtherDoc2FileUpload') {
+      this.isValidbuildingOtherDoc1FileUpload = isShow;
+      this.buildingdetails.buildingOtherDoc2FileUpload = fileName;
+      this.buildingdetails.Dis_buildingOtherDoc2FileUpload = dis_Name;
+      this.buildingdetails.buildingOtherDoc2FileUploadPath = filePath;
     }
   }
 
