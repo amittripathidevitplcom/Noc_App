@@ -302,7 +302,7 @@
               </div>
             </div>
           </div>
-          <div class="card mb-0" >
+          <div class="card mb-0"  *ngIf="CourseLevelName=='Diploma'">
             <div class="card-header d-flex justify-content-between align-items-center">
               <b>
                 <i class="fa fa-filter"></i>&nbsp;Sanstha Bhavan (animal Hospital (Diploma Institute By operated))
@@ -525,7 +525,7 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="table-responsive" *ngIf="ViewAnimalDetails.length>0">
+                <div class="table-responsive" *ngIf="ViewSansthaBhavanDetails.length>0">
                   <table class="table table-hover table-striped-columns">
                     <thead>
                       <tr>

@@ -200,10 +200,6 @@ export class VeterinaryHospitalComponent implements OnInit {
           this.CourseWiseSeatInformationList = data['Data'][0]['data'];
           this.Seats = this.CourseWiseSeatInformationList[0].SeatsValue;
           this.CourseLevelName = this.CourseWiseSeatInformationList[0].CourseLevelName;
-
-          console.log('Deepak')
-          console.log(this.CourseLevelName)
-          console.log('Deepak')
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -804,6 +800,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.request.UserID = 0;
       this.isAnimalAdded = false;
       this.request.AnimalDetails = [];
+      this.request.SansthaBhavanDetails = [];
 
       this.isValidFileUpload = false;
       this.request.ActiveStatus = true;
@@ -930,7 +927,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.veterinaryHospitalService.GetVeterinaryHospitalByID(VeterinaryHospitalID, this.UserID)
         .then((data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
