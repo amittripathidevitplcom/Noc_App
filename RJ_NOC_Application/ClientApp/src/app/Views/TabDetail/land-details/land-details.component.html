@@ -73,47 +73,45 @@
 
             <tbody>
               <tr *ngFor="let item of request.CollegeLandTypeDetails let idx=index;">
-                <td width="1%">
+                <td width="1%" valign="top">
 
                   <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbLand_{{idx+1}}_{{item.LandTypeID}}"
                          id="cbLand_{{idx+1}}_{{item.LandTypeID}}" value="{{item.LandTypeID}}"
                          (change)="LandType_cbChange($event,item,idx)"
                          [(ngModel)]="item.IsLandSelected">
                 </td>
-                <td width="5%">
-                
+                <td width="5%" valign="top">                
                   {{item.LandTypeName}}
                 </td>
-                <td width="10%">
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">Area:</span>
-                    </div>
+                <td width="10%">                 
+                   
+                      <label class="d-block" id="basic-addon1">Area:</label>
+                    
                     <input type="text" maxlength="4"  (keyup)="CalculateTotalArea(item,idx)" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numberOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
-                  </div>
+                 
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandArea==0"> This field is required .!</p>
                   </div>
 
                 </td>
                 <td width="18%">
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">Khasra No:</span>
-                    </div>
+                 
+                    
+                     <label class="d-block" id="basic-addon1">Khasra No:</label>
+                   
                     <input type="text" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" placeholder="Enter Khasra No" id="txtKhasraNo{{idx}}" name="txtKhasraNo{{idx}}" [(ngModel)]="item.KhasraNo" autocomplete="off">
-                  </div>
+                 
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.KhasraNo==''"> This field is required .!</p>
                   </div>
                 </td>
                 <td *ngIf="ShowConversionOrderNo" >
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">LandConversionOrderNo:</span>
-                    </div>
+                 
+                   
+                      <label class="d-block" id="basic-addon1">Land Conversion Order No:</label>
+                    
                     <input type="text" id="txtLandConversionOrderNo{{idx}}" [disabled]="!item.IsLandSelected"  maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
-                  </div>
+                 
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandConversionOrderNo=='' "> This field is required .!</p>
                   </div>
@@ -121,13 +119,13 @@
 
 
                 <td *ngIf="ShowConversionOrderNo" width="13%">
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">Order Date:</span>
-                    </div>
+                 
+                   
+                      <label class="d-block" id="basic-addon1">Order Date:</label>
+                   
                     <input type="date" id="dtLandConversionOrderDate{{idx}}" [disabled]="!item.IsLandSelected"  [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
 
-                  </div>
+                
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandConversionOrderDate==''"> This field is required .!</p>
                   </div>
@@ -172,7 +170,7 @@
                   </div>
 
                 </td>
-                <td *ngIf="ShowConversionOrderNo">
+                <td *ngIf="ShowConversionOrderNo" valign="middle">
                   <div class="d-flex">
                     <button type="button" *ngIf="item.IsOtherDocument==true" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteLandDetails(idx)"><i class="fa fa-trash"></i></button>
                     <button type="button" *ngIf="item.IsOtherDocument==false" [disabled]="!item.IsLandSelected" class="btn btn-sm btn-success" title="Add More" (click)="AddMoreLandDetails(item)"><i class="fa fa-plus"></i>Add More</button>
