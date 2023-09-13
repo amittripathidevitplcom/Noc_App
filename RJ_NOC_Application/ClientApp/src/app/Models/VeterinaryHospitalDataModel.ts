@@ -40,6 +40,8 @@ export class VeterinaryHospitalDataModel {
   public C_Remark: string = '';
   public S_Action: string = '';
   public S_Remark: string = '';
+
+  public SansthaBhavanDetails: SansthaBhavanDataModel[] = [];
 }
 
 export class AnimalDataModel {
@@ -53,3 +55,13 @@ export class AnimalDataModel {
   public DeleteStatus: boolean = false;
 }
 
+export class SansthaBhavanDataModel {
+
+  public SansthaDetailsID: number = 0;
+  public SansthaRoomID: number = 0;
+  public VeterinaryHospitalID: number = 0;
+  public RoomName: string = '';
+  public Width: number = null;
+  public Length: number = null;
+  public NoOfRooms: number = null;
+}
