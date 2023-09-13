@@ -623,7 +623,17 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.ImageValidate = 'This field is required .!';
       return
     }
-
+    //if (this.CourseLevelName == 'Diploma') {
+      if (this.SansthaBhavanRoomList.length > 0) {
+        for (var i = 0; i < this.SansthaBhavanRoomList.length; i++) {
+          var SansthaRoomID = this.request.SansthaBhavanDetails.find((x: { SansthaRoomID: number; }) => x.SansthaRoomID == this.SansthaBhavanRoomList[i].ID)?.SansthaRoomID;
+          if (SansthaRoomID == undefined || SansthaRoomID == null || SansthaRoomID.toString() == '') {
+            this.toastr.warning('Please add all room details');
+            return;
+          }
+        }
+      }
+    //}
     if (!this.isFormValid) {
       return;
     }
@@ -1042,6 +1052,13 @@ export class VeterinaryHospitalComponent implements OnInit {
       }
       if (!this.isSansthaFormValid) {
         return;
+      }
+      if (this.request.SansthaBhavanDetails.length > 0) {
+        var SansthaRoomID = this.request.SansthaBhavanDetails.find((x: { SansthaRoomID: number; }) => x.SansthaRoomID == this.SansthaBhavanDetails.SansthaRoomID)?.SansthaRoomID;
+        if (SansthaRoomID != undefined || SansthaRoomID != null) {
+          this.toastr.warning('this room details already exists');
+          return;
+        }
       }
       //Show Loading
       this.loaderService.requestStarted();
