@@ -2,6 +2,7 @@
   <div class="card">
     <div class="card-header">
       <b><i class="bi bi-building-add"></i>&nbsp; Class Room Details</b>
+      <span style="color: red; text-align: right; float: right;">Upload File(Only JPEG,JPG)(Min size 100(KB))(Max size 2(MB))</span>
     </div>
     <form [formGroup]="RoomDetailsForm" class="form-horizontal">
       <div class="card-body">
@@ -27,7 +28,7 @@
 
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label>No. of Rooms<span style="color:red;">*</span></label>
+            <label>Room No.<span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="request.NoOfRooms" formControlName="txtNoOfRooms_Room" min="1" maxlength="7"
                    (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtNoOfRooms_Room.errors" class="text-danger">
@@ -81,7 +82,7 @@
               <p *ngIf="form.txtStudentCapacity_Room.errors.min">Student capacity will be greater than zero .!</p>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>No. of Lab<span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="txtNoOfLab" name="txtNoOfLab" [(ngModel)]="request.NoOfLab" formControlName="txtNoOfLab" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtNoOfLab.errors" class="text-danger">
@@ -92,12 +93,12 @@
               <p *ngIf="NoofPredicalRooms>0" class="{{request.NoOfRooms >= NoofPredicalRooms ? '' : CssClass_TextDangerNoOfLab}}">Please Enter Min No. of Lab : {{NoofPredicalRooms}}</p>
             </div>
 
-          </div>
+          </div>-->
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="fileUploadImage" class="form-label">Upload Image<span style="color:red;">*</span></label>
+            <label for="fileUploadImage" class="form-label">Upload Room Image<span style="color:red;">*</span></label>
             <div class="d-flex">
-              <input type="file" class="form-control" style="display:none" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage" (change)="ValidateUploadImage($event)" #fileUploadImage />
+              <input type="file" class="form-control" style="display:none" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage" (change)="ValidateUploadImage($event)" #fileUploadImage accept="image/jpg, image/jpeg" />
               <label class="btn upload" for="fileUploadImage">
                 <span class="filename">Choose file</span>
                 {{request.ImageFileName === '' ? 'No File Choosen' : request.Image_Dis_FileName}}
@@ -143,13 +144,13 @@
                       <tr>
                         <th>Sr. No.</th>
                         <th>Course</th>
-                        <th>No. of Rooms</th>
+                        <th>Room No.</th>
                         <th>Width (sq. ft) Size</th>
                         <th>Length (sq. ft)</th>
                         <th>Room Size (sq. ft)</th>
                         <th>Student Capacity</th>
-                        <th>No of Lab</th>
-                        <th>Upload Image</th>
+                        <!--<th>No of Lab</th>-->
+                        <th>Room Image</th>
                         <th align="center">Action</th>
                       </tr>
                     </thead>
@@ -162,7 +163,7 @@
                         <td>{{row.Length}}</td>
                         <td>{{row.Width*row.Length}}</td>
                         <td>{{row.StudentCapacity}}</td>
-                        <td>{{row.NoOfLab}}</td>
+                        <!--<td>{{row.NoOfLab}}</td>-->
                         <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                         <td align="center">
                           <div class="d-flex">

@@ -157,17 +157,18 @@ export class AddCoursesComponent implements OnInit {
   async ddlDepartment_change(SeletedDepartmentID: any) {
     this.request.DepartmentID = SeletedDepartmentID;
     this.request.SelectedSubjectDetails = [];
+    this.courseDataList = [];
     this.subjectDataList = [];
     try {
       this.loaderService.requestStarted();
 
-      if (this.request.DepartmentID != EnumDepartment.CollegeEducation) {
-        await this.commonMasterService.GetCourseList_DepartmentIDWise(this.request.DepartmentID)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            this.courseDataList = data['Data'];
-          }, error => console.error(error));
-      }
+      //if (this.request.DepartmentID != EnumDepartment.CollegeEducation) {
+      //  await this.commonMasterService.GetCourseList_DepartmentIDWise(this.request.DepartmentID)
+      //    .then((data: any) => {
+      //      data = JSON.parse(JSON.stringify(data));
+      //      this.courseDataList = data['Data'];
+      //    }, error => console.error(error));
+      //}
 
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.request.DepartmentID, "CourseType")
         .then((data: any) => {
@@ -440,7 +441,7 @@ export class AddCoursesComponent implements OnInit {
           }
 
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
-          if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
+          if (this.request.DepartmentID == EnumDepartment.CollegeEducation || this.request.DepartmentID == EnumDepartment.Animal_Husbandry) {
             await this.ddlCourseLevel_change(this.request.CourseLevelID);
           }
 
