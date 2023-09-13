@@ -302,11 +302,13 @@ export class AddCoursesComponent implements OnInit {
       this.isFormValid = false;
       return
     }
-    if (this.request.DepartmentID != EnumDepartment.CollegeEducation) {
+    if (this.request.DepartmentID != EnumDepartment.CollegeEducation && this.CollegeStatus !='New') {
       if (this.request.Seats <= 0) {
         this.isFormValid = false;
       }
     }
+ 
+
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
         if (this.request.NoOfEnrolledStudents == null || this.request.NoOfEnrolledStudents.toString() == '')
           this.isFormValid = false;
@@ -335,7 +337,7 @@ export class AddCoursesComponent implements OnInit {
         }
       }
 
-      if ((CourseName == 'Bachelor of Arts' || CourseName == 'Bachelor of Commerce' || CourseName == 'Bachelor of Science')) {
+      if ((CourseName.toLowerCase() == 'bachelor of arts' || CourseName.toLowerCase() == 'bachelor of commerce' || CourseName.toLowerCase() == 'bachelor of science')) {
         if (this.request.SelectedSubjectDetails.length < 3) {
           this.toastr.error("Minimum 3 Subject Required for UG.");
           return;
