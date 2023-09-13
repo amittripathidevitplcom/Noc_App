@@ -437,7 +437,9 @@
                     <a class="btn btn-outline-primary" target="_blank" href="{{request.TrusteeMemberProofDocPath}}"><i class="fa fa-eye"></i></a>
                     <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('TrusteeMember', request.TrusteeMemberProofDoc)"><i class="fa fa-trash-o"></i></button>
                   </div>
+
                 </div>
+                <a *ngIf="AnnexureDocumentPath!=''" style="color: #3458c8;" target="_blank" href="{{AnnexureDocumentPath}}">({{AnnexureName}})</a>
                 <p *ngIf="isSubmitted&&request.TrusteeMemberProofDoc ==''" class="text-danger">
                   <i aria-hidden="true">
                   </i> {{IsTrusteeMemberProofDoc}}

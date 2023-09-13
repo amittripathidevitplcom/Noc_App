@@ -38,28 +38,28 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
                 <label class="form-label">Name <span style="color:red;">*</span></label>
                 <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" [(ngModel)]="buildingdetails.OwnerName" formControlName="txtOwnerName" (keypress)="alphaOnly($event)" />
                 <div *ngIf="isSubmitted&&form.txtOwnerName.errors" class="text-danger">
                   <p *ngIf="form.txtOwnerName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
                 <label class="form-label">Address Line 1 <span style="color:red;">*</span></label>
                 <input type="text" class="form-control" id="txtAddressLine1_Owner" name="txtAddressLine1_Owner" [(ngModel)]="buildingdetails.AddressLine1" formControlName="txtAddressLine1_Owner">
                 <div *ngIf="isSubmitted&&form.txtAddressLine1_Owner.errors" class="text-danger">
                   <p *ngIf="form.txtAddressLine1_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
                 <label class="form-label">Address Line 2 </label>
                 <input type="text" class="form-control" id="txtAddressLine2_Owner" name="txtAddressLine2_Owner" [(ngModel)]="buildingdetails.AddressLine2" formControlName="txtAddressLine2_Owner">
                 <div *ngIf="isSubmitted&&form.txtAddressLine2_Owner.errors" class="text-danger">
                   <p *ngIf="form.txtAddressLine2_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
                 <label class="form-label" style="margin-right:15px"></label>
                 <div class="clearfix"></div>
                 <div class="form-check form-check-inline">
@@ -74,7 +74,7 @@
                   <p *ngIf="form.rbRuralUrban_Owner.errors.required"> This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
                 <label class="form-label">Division <span style="color:red;">*</span></label>
                 <select class="form-select" id="ddlDivisionID_Owner" name="ddlDivisionID_Owner" [(ngModel)]="buildingdetails.DivisionID" formControlName="ddlDivisionID_Owner" #SeletedValueDivision (change)="FillDivisionRelatedDDL($event,SeletedValueDivision.value)">
                   <option value="0">--Select Division--</option>
@@ -84,7 +84,7 @@
                   <p *ngIf="!form.ddlDivisionID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
                 <label class="form-label">District <span style="color:red;">*</span></label>
                 <select class="form-select" id="ddlDistrictID_Owner" name="ddlDistrictID_Owner" [(ngModel)]="buildingdetails.DistrictID" formControlName="ddlDistrictID_Owner" #SeletedValueDistrict (change)="FillDistrictRelatedDDL($event,SeletedValueDistrict.value)">
                   <option value="0">--Select District--</option>
@@ -95,33 +95,37 @@
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
-                <label class="form-label">Tehsil <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="buildingdetails.TehsilID" formControlName="ddlTehsilID_Owner">
-                  <option value="0">--Select Tehsil--</option>
-                  <option *ngFor="let item of TehsilList_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
-                </select>
-                <div *ngIf="isSubmitted&&IsTehsilrequired" class="text-danger">
-                  <p *ngIf="isSubmitted&&IsTehsilrequired"><i aria-hidden="true"></i>This field is required .!</p>
+                <div [hidden]="buildAddressShowHide">
+                  <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="buildingdetails.TehsilID" formControlName="ddlTehsilID_Owner">
+                    <option value="0">--Select Tehsil--</option>
+                    <option *ngFor="let item of TehsilList_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&IsTehsilrequired" class="text-danger">
+                    <p *ngIf="isSubmitted&&IsTehsilrequired"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
-                <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlPanchayatSamitiID_Owner" name="ddlPanchayatSamitiID_Owner" [(ngModel)]="buildingdetails.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID_Owner">
-                  <option value="0">--Select Panchayat Samiti--</option>
-                  <option *ngFor="let item of PanchyatSamitiList_Owner" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
-                </select>
-                <div *ngIf="isSubmitted&&IsPanchayatSamitirequried" class="text-danger">
-                  <p *ngIf="isSubmitted&&IsPanchayatSamitirequried"><i aria-hidden="true"></i>This field is required .!</p>
+                <div [hidden]="buildAddressShowHide">
+                  <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlPanchayatSamitiID_Owner" name="ddlPanchayatSamitiID_Owner" [(ngModel)]="buildingdetails.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID_Owner">
+                    <option value="0">--Select Panchayat Samiti--</option>
+                    <option *ngFor="let item of PanchyatSamitiList_Owner" value="{{item.PanchyatSamitiID}}">{{item.PanchyatSamitiName}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&IsPanchayatSamitirequried" class="text-danger">
+                    <p *ngIf="isSubmitted&&IsPanchayatSamitirequried"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
                 <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
                 <input type="text" class="form-control" id="txtCityTownVillage_Owner" name="txtCityTownVillage_Owner" [(ngModel)]="buildingdetails.CityTownVillage" formControlName="txtCityTownVillage_Owner">
                 <div *ngIf="isSubmitted&&form.txtCityTownVillage_Owner.errors" class="text-danger">
                   <p *ngIf="form.txtCityTownVillage_Owner.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
                 <label class="form-label">Contact No <span style="color:red;">*</span></label>
                 <input type="text" class="form-control" id="txtContactNo_Owner" name="txtContactNo_Owner" [(ngModel)]="buildingdetails.ContactNo" formControlName="txtContactNo_Owner" maxlength="10" (keypress)="numberOnly($event)">
                 <div *ngIf="isSubmitted&&form.txtContactNo_Owner.errors" class="text-danger">
@@ -129,7 +133,7 @@
                   <p *ngIf="form.txtContactNo_Owner.errors.pattern || form.txtContactNo_Owner.errors.maxlength || form.txtContactNo_Owner.errors.minlength">Invalid Mobile number</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
                 <label class="form-label">Pincode <span style="color:red;">*</span></label>
                 <input type="text" class="form-control" id="txtPincode_Owner" name="txtPincode_Owner" [(ngModel)]="buildingdetails.Pincode" formControlName="txtPincode_Owner" maxlength="6" (keypress)="numberOnly($event)">
                 <div *ngIf="isSubmitted&&form.txtPincode_Owner.errors" class="text-danger">
@@ -145,6 +149,45 @@
                 <div *ngIf="isSubmitted&&form.txtBuildingHostelQuartersRoadArea.errors" class="text-danger">
                   <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.required">This field is required .!</p>
                   <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.min">This field is required .!</p>
+                </div>
+              </div>
+
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtbuildingOtherDoc1FileUpload" class="form-label">Upload Land Title Certificate(Upload Only pdf.) (Min.Size 100KB) (Max.Size 2MB) <span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="txtbuildingOtherDoc1" style="display:none" formControlName="txtbuildingOtherDoc1FileUpload" (change)="ValidateUploadImage($event,'buildingOtherDoc1FileUpload')" buildingOtherDoc1FileUpload />
+                  <label class="btn upload" for="txtbuildingOtherDoc1">
+                    <span class="filename">Choose file</span>
+                    {{buildingdetails.buildingOtherDoc1FileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_buildingOtherDoc1FileUpload}}
+                  </label>
+                  <div class="btn-group" *ngIf="buildingdetails.buildingOtherDoc1FileUpload !=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.buildingOtherDoc1FileUploadPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('buildingOtherDoc1FileUpload')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&buildingdetails.buildingOtherDoc1FileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                <div *ngIf="isValidbuildingOtherDoc1FileUpload" class="text-danger">
+                  <p *ngIf="isValidbuildingOtherDoc1FileUpload"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtbuildingOtherDoc2FileUpload" class="form-label">Upload Land Document(Upload Only pdf.) (Min.Size 100KB) (Max.Size 2MB) <span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="txtbuildingOtherDoc2" style="display:none" formControlName="txtbuildingOtherDoc2FileUpload" (change)="ValidateUploadImage($event,'buildingOtherDoc2FileUpload')" buildingOtherDoc2FileUpload />
+                  <label class="btn upload" for="txtbuildingOtherDoc2">
+                    <span class="filename">Choose file</span>
+                    {{buildingdetails.buildingOtherDoc2FileUpload === '' ? 'No File Choosen' : buildingdetails.Dis_buildingOtherDoc2FileUpload}}
+                  </label>
+                  <div class="btn-group" *ngIf="buildingdetails.buildingOtherDoc2FileUpload !=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{buildingdetails.buildingOtherDoc2FileUploadPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('buildingOtherDoc2FileUpload')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&buildingdetails.buildingOtherDoc2FileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                <div *ngIf="isValidbuildingOtherDoc2FileUpload" class="text-danger">
+                  <p *ngIf="isValidbuildingOtherDoc2FileUpload"> {{ImageValidationMessage}}</p>
                 </div>
               </div>
 
@@ -230,7 +273,7 @@
                       <p *ngIf="form.txtFireNOCOrderNumber.errors.required"> This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="">From Date</label>
                     <input class="form-control" type="date" id="txtFromDate" placeholder="Enter From Date" [(ngModel)]="buildingdetails.FromDate" formControlName="txtFromDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
                     <div *ngIf="isSubmitted&&form.txtFromDate.errors" class="text-danger">
@@ -238,7 +281,7 @@
                     </div>
                   </div>
 
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="">To Date</label>
                     <input class="form-control" type="date" id="txtToDate" placeholder="Enter To Date" [(ngModel)]="buildingdetails.ToDate" formControlName="txtToDate" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
                     <div *ngIf="isSubmitted&&form.txtToDate.errors" class="text-danger">
@@ -543,21 +586,24 @@
                     <th>Sr. No</th>
                     <th>Building Type</th>
                     <th>Owner Name</th>
-                    <th>Address Line1</th>
-                    <th>Address Line2</th>
-                    <th>Rural Urban</th>
-                    <th>DivisionName</th>
-                    <th>DistrictName</th>
-                    <th>TehsilName</th>
-                    <th>PanchyatSamitiName</th>
-                    <th>CityTownVillage</th>
-                    <th>Pincode</th>
+                    <th>Full Address</th>
+                    <!--<th>Address Line1</th>
+  <th>Address Line2</th>
+  <th>Rural Urban</th>
+  <th>DivisionName</th>
+  <th>DistrictName</th>
+  <th>TehsilName</th>
+  <th>PanchyatSamitiName</th>
+  <th>CityTownVillage</th>
+  <th>Pincode</th>-->
                     <th>ContactNo</th>
                     <th>Constructed Building Area</th>
+                    <th>Own/Rented Order No</th>
+                    <th>Own/Rented Order Date</th>
                     <th>Fire NOC Order No</th>
                     <th>From Date</th>
                     <th>To Date</th>
-                    <th>Order No</th>
+                    <th>Building Safety Certificate Order No</th>
                     <th>Order Date</th>
                     <th>Expiring On</th>
                     <th *ngIf="SelectedDepartmentID ==6">Total Project Cost</th>
@@ -566,10 +612,13 @@
                     <th *ngIf="SelectedDepartmentID ==6">Other Fixed Assets/Securities</th>
                     <th *ngIf="SelectedDepartmentID ==6">GATE Year Balance Secret</th>
                     <th *ngIf="SelectedDepartmentID ==6">Other Financial Resources</th>
+                    <th>Rent Valid Up To</th>
                     <th>Rent Agreement/Lease File</th>
                     <th>Own/Land & Rented Building File</th>
                     <th>Fire NOC File</th>
                     <th>PWD NOC File</th>
+                    <th>Land Title Certificate</th>
+                    <th>Land Document</th>
                     <th *ngIf="SelectedDepartmentID ==6">Total Project Cost File</th>
                     <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount File</th>
                     <th *ngIf="SelectedDepartmentID ==6">Amount Deposited File</th>
@@ -583,18 +632,22 @@
                   <tr *ngFor="let item of lstBuildingDetails | tableSearchFilter:searchText;let idx=index;">
                     <td>{{idx+1}}</td>
                     <td>{{item.BuildingTypeName}}</td>
-                    <td>{{item.OwnerName}}</td>
-                    <td>{{item.AddressLine1}}</td>
-                    <td>{{item.AddressLine2}}</td>
-                    <td>{{item.RuralUrban}}</td>
-                    <td>{{item.Division_English}}</td>
-                    <td>{{item.District_Eng}}</td>
-                    <td>{{item.TehsilName}}</td>
-                    <td>{{item.PanchyatSamitiName}}</td>
-                    <td>{{item.CityTownVillage}}</td>
-                    <td>{{item.Pincode}}</td>
+                    <td *ngIf="item.BuildingTypeName == 'Rented'">{{item.OwnerName}}</td>
+                    <td *ngIf="item.BuildingTypeName == 'Owned'">N/A</td>
+                    <td>{{item.FullAddress}}</td>
+                    <!--<td>{{item.AddressLine1}}</td>
+  <td>{{item.AddressLine2}}</td>
+  <td>{{item.RuralUrban}}</td>
+  <td>{{item.Division_English}}</td>
+  <td>{{item.District_Eng}}</td>
+  <td>{{item.TehsilName}}</td>
+  <td>{{item.PanchyatSamitiName}}</td>
+  <td>{{item.CityTownVillage}}</td>
+  <td>{{item.Pincode}}</td>-->
                     <td>{{item.ContactNo}}</td>
                     <td>{{item.BuildingHostelQuartersRoadArea}}</td>
+                    <td>{{item.OwnBuildingOrderNo}}</td>
+                    <td>{{item.OwnBuildingOrderDate}}</td>
                     <td>{{item.FireNOCOrderNumber}}</td>
                     <td>{{item.FromDate}}</td>
                     <td>{{item.ToDate}}</td>
@@ -608,6 +661,12 @@
                     <td *ngIf="SelectedDepartmentID ==6">{{item.GATEYearBalanceSecret}}</td>
                     <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFinancialResources}}</td>
                     <td *ngIf="item.BuildingTypeName == 'Rented'">
+                      {{item.Rentvaliditydate}}
+                    </td>
+                    <td *ngIf="item.BuildingTypeName == 'Owned'">
+                      N/A
+                    </td>
+                    <td *ngIf="item.BuildingTypeName == 'Rented'">
                       <a target="_blank" href="{{item.RentAgreementFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
                     </td>
                     <td *ngIf="item.BuildingTypeName == 'Owned'">
@@ -616,6 +675,8 @@
                     <td><a target="_blank" href="{{item.OwnBuildingFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td><a target="_blank" href="{{item.FireNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td><a target="_blank" href="{{item.PWDNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.OtherDoc1FileUploadPath}}" title="View Land Title Certificate "><i class="fa fa-eye"></i></a></td>
+                    <td><a target="_blank" href="{{item.OtherDoc2FileUploadPath}}" title="View Land Document"><i class="fa fa-eye"></i></a></td>
                     <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.TotalProjectCostFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.SourceCostAmountFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                     <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.AmountDepositedFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>

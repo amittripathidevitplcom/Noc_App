@@ -44,7 +44,7 @@ export class RequiredDocumentsDataModel {
   public DocumentDetails: RequiredDocumentsDataModel_Documents[] = [];
 }
 
- 
+
 
 export class RequiredDocumentsDataModel_Documents {
   public DID: number = 0;
@@ -109,12 +109,13 @@ export class StaffDetailDataModel {
   public ExperienceCertificate: string = '';
   public ExperienceCertificatePath: string = '';
   public ExperienceCertificate_Dis_FileName: string = '';
-  public UploadDocument: string = ''; 
+  public UploadDocument: string = '';
   public UploadDocumentPath: string = '';
   public UploadDocument_Dis_FileName: string = '';
   public DepartmentID: number = 0;
   public CollegeID: number = 0;
   public ESINumber: string = '';
+  public PANNo: string = '';
 
   public CreatedBy: number = 0;
   public ModifyBy: number = 0;
@@ -176,7 +177,7 @@ export class EducationalQualificationDetails_StaffDetail {
 //  //public MemberDetails: LegalEntityMemberDetailsDataModel[] = [];
 //}
 
- 
+
 
 export class OldNocDataModel {
   public OldNocDetails: OldNocDetailsDataModel[] = [];
@@ -231,7 +232,7 @@ export class AcademicInformationDetailsDataModel {
 }
 export class OtherDocumentDataModel {
   public OtherDocUrl: string = '';
-} 
+}
 
 
 
@@ -272,7 +273,16 @@ export class BuildingDetailsDataModel {
   public RentAgreementFileUpload: string = '';
   public Dis_RentAgreementFileUpload: string = '';
   public RentAgreementFileUploadPath: string = '';
-  public UserID: number = 0;
+
+  public buildingOtherDoc2FileUpload: string = '';
+  public Dis_buildingOtherDoc2FileUpload: string = '';
+  public buildingOtherDoc2FileUploadPath: string = '';
+
+  public buildingOtherDoc1FileUpload: string = '';
+  public Dis_buildingOtherDoc1FileUpload: string = '';
+  public buildingOtherDoc1FileUploadPath: string = '';
+
+   public UserID: number = 0;
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
   public Action: string = '';

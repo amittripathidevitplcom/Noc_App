@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, Input, Injectable, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { VeterinaryHospitalDataModel, AnimalDataModel } from '../../../Models/VeterinaryHospitalDataModel';
+import { VeterinaryHospitalDataModel, AnimalDataModel, SansthaBhavanDataModel } from '../../../Models/VeterinaryHospitalDataModel';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { VeterinaryHospitalService } from '../../../Services/VeterinaryHospital/veterinary-hospital.service';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
@@ -27,6 +27,7 @@ export class VeterinaryHospitalComponent implements OnInit {
   veterinaryHospitalForm!: FormGroup;
   animalForm!: FormGroup;
   request = new VeterinaryHospitalDataModel();
+  SansthaBhavanDetails = new SansthaBhavanDataModel();
   requestAnimal = new AnimalDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -57,8 +58,8 @@ export class VeterinaryHospitalComponent implements OnInit {
   public isFormValid: boolean = false;
 
   public ImageValidate: string = '';
-  public CssClass_TextDangerWidth: string = '';
-  public CssClass_TextDangerLength: string = '';
+  public CssClass_TextDangerWidth: string = 'text-danger';
+  public CssClass_TextDangerLength: string = 'text-danger';
 
   public isValidFileUpload: boolean = false;
   public isValidAnimalCount: boolean = false;
@@ -101,6 +102,9 @@ export class VeterinaryHospitalComponent implements OnInit {
 
   closeResult: string | undefined;
   public ViewAnimalDetails: any = [];
+  public ViewSansthaBhavanDetails: any = [];
+  public SansthaBhavanRoomList: any = [];
+  public CourseLevelName: string = '';
 
   constructor(private veterinaryHospitalService: VeterinaryHospitalService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute,
@@ -155,6 +159,7 @@ export class VeterinaryHospitalComponent implements OnInit {
     this.GetAllVeterinaryHospitalList();
     this.ActiveStatus = true;
     this.GetSeatInformationByCourse();
+    this.GetSansthaBhawanRoomList();
   }
   get form() { return this.veterinaryHospitalForm.controls; }
   get animalform() { return this.animalForm.controls; }
@@ -194,6 +199,7 @@ export class VeterinaryHospitalComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.CourseWiseSeatInformationList = data['Data'][0]['data'];
           this.Seats = this.CourseWiseSeatInformationList[0].SeatsValue;
+          this.CourseLevelName = this.CourseWiseSeatInformationList[0].CourseLevelName;
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -588,7 +594,6 @@ export class VeterinaryHospitalComponent implements OnInit {
 
   async SaveData() {
     this.isValidFileUpload = false;
-    debugger;
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
     this.isSubmitted = true;
@@ -614,7 +619,17 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.ImageValidate = 'This field is required .!';
       return
     }
-
+    //if (this.CourseLevelName == 'Diploma') {
+      if (this.SansthaBhavanRoomList.length > 0) {
+        for (var i = 0; i < this.SansthaBhavanRoomList.length; i++) {
+          var SansthaRoomID = this.request.SansthaBhavanDetails.find((x: { SansthaRoomID: number; }) => x.SansthaRoomID == this.SansthaBhavanRoomList[i].ID)?.SansthaRoomID;
+          if (SansthaRoomID == undefined || SansthaRoomID == null || SansthaRoomID.toString() == '') {
+            this.toastr.warning('Please add all room details');
+            return;
+          }
+        }
+      }
+    //}
     if (!this.isFormValid) {
       return;
     }
@@ -710,7 +725,7 @@ export class VeterinaryHospitalComponent implements OnInit {
           this.request.Dis_FileUpload = data['Data']["Dis_FileUpload"];
           this.request.AuthorizedPerson = data['Data']["AuthorizedPerson"];
           this.request.AnimalDetails = data['Data']["AnimalDetails"];
-
+          this.request.SansthaBhavanDetails = data['Data']["SansthaBhavanDetails"];
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')
           if (btnSave) btnSave.innerHTML = "Update";
@@ -785,6 +800,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.request.UserID = 0;
       this.isAnimalAdded = false;
       this.request.AnimalDetails = [];
+      this.request.SansthaBhavanDetails = [];
 
       this.isValidFileUpload = false;
       this.request.ActiveStatus = true;
@@ -911,12 +927,13 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.veterinaryHospitalService.GetVeterinaryHospitalByID(VeterinaryHospitalID, this.UserID)
         .then((data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ViewAnimalDetails = data['Data']["AnimalDetails"];
+          this.ViewSansthaBhavanDetails = data['Data']["SansthaBhavanDetails"];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -935,6 +952,161 @@ export class VeterinaryHospitalComponent implements OnInit {
       return 'by clicking on a backdrop';
     } else {
       return `with: ${reason}`;
+    }
+  }
+
+  async GetSansthaBhawanRoomList() {
+    try {
+      this.loaderService.requestStarted();
+      this.commonMasterService.OtherInformationList_DepartmentAndTypeWise(this.SelectedDepartmentID, "SansthaBhavan")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.SansthaBhavanRoomList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public LengthMin: number = 0;
+  public WidthMin: number = 0;
+  public CssClass_TextDangerNoOfRooms: string = 'text-danger';
+  public RoomSizeDataList: any = [];
+  public MinNoOfRooms: number = 0;
+  public LengthMin_Dis: number = 0;
+  public WidthMin_Dis: number = 0;
+  public ShowHideWidthLength: boolean = true;
+  public isSubmittedSanstha: boolean = false;
+  async ddlSansthaBhavanRoom_chnage($event: any, SeletedSansthaBhavanRoomID: any) {
+    this.SansthaBhavanDetails.SansthaRoomID = SeletedSansthaBhavanRoomID;
+    this.SansthaBhavanDetails.Width = null;
+    this.SansthaBhavanDetails.Length = null;
+    this.WidthMin = 0;
+    this.LengthMin = 0;
+    this.CssClass_TextDangerWidth = '';
+    this.CssClass_TextDangerLength = '';
+    this.CssClass_TextDangerNoOfRooms = '';
+    try {
+      var OtherName = this.SansthaBhavanRoomList.find((x: { ID: number; }) => x.ID == this.SansthaBhavanDetails.SansthaRoomID)?.Name;
+      if (OtherName == 'Provision Room') {
+        this.ShowHideWidthLength = false;
+      }
+      else {
+        this.ShowHideWidthLength = true;
+      }
+
+      this.loaderService.requestStarted();
+      this.commonMasterService.GetOtherInformationSize(this.SansthaBhavanDetails.SansthaRoomID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.RoomSizeDataList = data['Data'];
+
+          this.WidthMin = this.RoomSizeDataList[0]['WidthMin'];
+          this.WidthMin_Dis = this.RoomSizeDataList[0]['WidthMin'];
+          this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
+          this.LengthMin_Dis = this.RoomSizeDataList[0]['LengthMin'];
+          this.MinNoOfRooms = this.RoomSizeDataList[0]['NoOfRooms'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public isSansthaFormValid: boolean = true;
+  async btnSansthaBhavanAdd_Click() {
+    try {
+      this.isSubmittedSanstha = true;
+      this.isSansthaFormValid = true;
+      if (this.SansthaBhavanDetails.SansthaRoomID == null || this.SansthaBhavanDetails.SansthaRoomID <= 0) {
+        this.isSansthaFormValid = false;
+      }
+      var OtherName = this.SansthaBhavanRoomList.find((x: { ID: number; }) => x.ID == this.SansthaBhavanDetails.SansthaRoomID)?.Name;
+      if (OtherName != 'Provision Room') {
+        if (this.SansthaBhavanDetails.Width <= this.WidthMin) {
+          this.CssClass_TextDangerWidth = 'text-danger';
+          this.isSansthaFormValid = false;
+        }
+        if (this.SansthaBhavanDetails.Length <= this.LengthMin) {
+          this.CssClass_TextDangerLength = 'text-danger';
+          this.isSansthaFormValid = false;
+        }
+      }
+      if (this.SansthaBhavanDetails.NoOfRooms < this.MinNoOfRooms) {
+        this.CssClass_TextDangerNoOfRooms = 'text-danger';
+        this.isSansthaFormValid = false;
+      }
+      if (!this.isSansthaFormValid) {
+        return;
+      }
+      if (this.request.SansthaBhavanDetails.length > 0) {
+        var SansthaRoomID = this.request.SansthaBhavanDetails.find((x: { SansthaRoomID: number; }) => x.SansthaRoomID == this.SansthaBhavanDetails.SansthaRoomID)?.SansthaRoomID;
+        if (SansthaRoomID != undefined || SansthaRoomID != null) {
+          this.toastr.warning('this room details already exists');
+          return;
+        }
+      }
+      //Show Loading
+      this.loaderService.requestStarted();
+      //if (this.CurrentIndex != -1) {
+      //  this.request.HostelDetails.splice(this.CurrentIndex, 1, this.hosteldetail);
+      //}
+      //else {
+      this.request.SansthaBhavanDetails.push({
+        SansthaDetailsID:0,
+        SansthaRoomID: this.SansthaBhavanDetails.SansthaRoomID,
+        VeterinaryHospitalID: 0,
+        RoomName: OtherName,
+        Width: this.SansthaBhavanDetails.Width,
+        Length: this.SansthaBhavanDetails.Length,
+        NoOfRooms: this.SansthaBhavanDetails.NoOfRooms
+      });
+      //}
+      //console.log(this.request.HostelDetails);
+      this.ResetSansthaBhavanDetails();
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ResetSansthaBhavanDetails() {
+    this.SansthaBhavanDetails = new SansthaBhavanDataModel();
+    this.CssClass_TextDangerLength = '';
+    this.CssClass_TextDangerWidth = '';
+    this.CssClass_TextDangerNoOfRooms = '';
+    this.ShowHideWidthLength = true;
+    this.isSubmittedSanstha = false;
+    this.isSansthaFormValid = true;
+  }
+
+  async DeleteSansthaBhavan(Index: number) {
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        this.request.SansthaBhavanDetails.splice(Index, 1);
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 }

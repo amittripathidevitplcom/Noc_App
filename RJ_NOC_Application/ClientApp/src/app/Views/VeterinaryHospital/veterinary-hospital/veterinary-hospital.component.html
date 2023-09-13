@@ -298,6 +298,106 @@
                     </div>
                   </div>
                 </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="card mb-0"  *ngIf="CourseLevelName=='Diploma'">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <b>
+                <i class="fa fa-filter"></i>&nbsp;Sanstha Bhavan (animal Hospital (Diploma Institute By operated))
+              </b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Select Room Type <span style="color:red;">*</span></label>
+                  <select [ngModelOptions]="{standalone: true}" class="form-select" id="ddlSansthaBhavanRoomID" name="ddlSansthaBhavanRoomID" [(ngModel)]="SansthaBhavanDetails.SansthaRoomID" #SeletedValueSansthaBhavanRoomID (change)="ddlSansthaBhavanRoom_chnage($event, SeletedValueSansthaBhavanRoomID.value)">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of SansthaBhavanRoomList" value="{{item.ID}}">{{item.Name}}</option>
+                  </select>
+                  <div *ngIf="isSubmittedSanstha&&SansthaBhavanDetails.SansthaRoomID<=0" class="text-danger">
+                    <p><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label>No. of Rooms<span style="color:red;">*</span></label>
+                  <input [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="txtSansthaBhavanNoOf" name="txtNoOf" [(ngModel)]="SansthaBhavanDetails.NoOfRooms" maxlength="4"
+                         (keypress)="numberOnly($event)">
+
+                  <p class="text-danger" *ngIf="isSubmittedSanstha&&(SansthaBhavanDetails.NoOfRooms==null||SansthaBhavanDetails.NoOfRooms.toString()=='')">This field is required .!</p>
+                  <p class="text-danger" *ngIf="isSubmittedSanstha&&SansthaBhavanDetails.NoOfRooms==0">Room will be greater than zero .!</p>
+
+
+                  <div *ngIf="SansthaBhavanDetails.SansthaRoomID>0">
+                    <p *ngIf="MinNoOfRooms>0" class="{{SansthaBhavanDetails.NoOfRooms >= MinNoOfRooms ? '' : CssClass_TextDangerNoOfRooms}}">Please Enter Min No. of Rooms : {{MinNoOfRooms}}</p>
+                  </div>
+
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideWidthLength">
+                  <label>Width (In Feet)<span style="color:red;">*</span></label>
+                  <input [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="SansthaBhavan_txtWidth" name="SansthaBhavan_txtWidth" maxlength="7"
+                         [(ngModel)]="SansthaBhavanDetails.Width" (keypress)="numberOnly($event)">
+                  <p class="text-danger" *ngIf="isSubmittedSanstha&&(SansthaBhavanDetails.Width==null||SansthaBhavanDetails.Width.toString()=='')">This field is required .!</p>
+                  <p class="text-danger" *ngIf="isSubmittedSanstha&&SansthaBhavanDetails.Width==0">Width will be greater than zero .!</p>
+                  <div *ngIf="SansthaBhavanDetails.SansthaRoomID>0">
+                    <p *ngIf="WidthMin>0" class="{{SansthaBhavanDetails.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min Width : {{WidthMin}} feet</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideWidthLength">
+                  <label>Length (In Feet)<span style="color:red;">*</span></label>
+                  <input [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="SansthaBhavan_txtLength" name="SansthaBhavan_txtLength"
+                         [(ngModel)]="SansthaBhavanDetails.Length" (keypress)="numberOnly($event)" maxlength="7">
+                  <p class="text-danger" *ngIf="isSubmittedSanstha&&(SansthaBhavanDetails.Length==null||SansthaBhavanDetails.Length.toString()=='')">This field is required .!</p>
+                  <p class="text-danger" *ngIf="isSubmittedSanstha&&SansthaBhavanDetails.Length==0">Length will be greater than zero .!</p>
+                  <div *ngIf="SansthaBhavanDetails.SansthaRoomID>0">
+                    <p *ngIf="LengthMin>0" class="{{SansthaBhavanDetails.Length >= LengthMin ? '' : CssClass_TextDangerLength}}">Please Enter Min length : {{LengthMin}} feet</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3 text-end">
+                    <button class="btn btn-primary" style="margin-top:22px" (click)="btnSansthaBhavanAdd_Click()"><i class="fa fa-plus"></i> Add</button>
+                  </div>
+                </div>
+
+                <div class="card mb-0" *ngIf="request.SansthaBhavanDetails.length>0">
+                  <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+                    <b><i class="bi bi-table"></i> Sanstha Bhavan Details </b>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                        <thead>
+                          <tr>
+                            <th>Sr. No</th>
+                            <th>Name</th>
+                            <th>No Of</th>
+                            <th>Width(In Feet)</th>
+                            <th>Length(In Feet)</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of request.SansthaBhavanDetails let indexOfelement=index;">
+                            <td>{{indexOfelement+1}}</td>
+                            <td>{{item.RoomName}}</td>
+                            <td>{{item.NoOfRooms}}</td>
+                            <td>{{item.Width}}</td>
+                            <td>{{item.Length}}</td>
+                            <td>
+                              <button class="btn btn-danger" type="button" (click)="DeleteSansthaBhavan(indexOfelement)"><i class="fa fa-trash-o"></i></button>
+                            </td>
+                          </tr>
+                          <tr *ngIf="request.SansthaBhavanDetails.length<=0">
+                            <td colspan="12" style="color:red">No Data Found.!</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -307,6 +407,9 @@
           </div>
 
         </form>
+
+
+
         <div class="card mb-0" *ngIf="lstVeterinaryHospital.length>0">
           <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
             <b><i class="bi bi-table"></i> Veterinary Hospital Data List </b>
@@ -330,15 +433,8 @@
                     <th>Sr. No</th>
                     <th>Hospital Name</th>
                     <th>Distance From Institute</th>
-                    <th>Address Line1</th>
-                    <th>Address Line2</th>
                     <th>Rural Urban</th>
-                    <th>Division</th>
-                    <th>District</th>
-                    <th>Tehsil</th>
-                    <th>PanchyatSamiti</th>
-                    <th>CityTownVillage</th>
-                    <th>Pincode</th>
+                    <th>Address</th>
                     <th>ContactNo</th>
                     <th>Email</th>
                     <th>Person Field</th>
@@ -346,7 +442,7 @@
                     <th>Remark</th>
                     <th>Authorized Person</th>
                     <th>File Upload</th>
-                    <!--<th>Action</th>-->
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -354,15 +450,8 @@
                     <td>{{idx+1}}</td>
                     <td>{{item.HospitalName}}</td>
                     <td>{{item.DistanceFromInstitute}}</td>
-                    <td>{{item.AddressLine1}}</td>
-                    <td>{{item.AddressLine2}}</td>
                     <td>{{item.RuralUrban}}</td>
-                    <td>{{item.Division_English}}</td>
-                    <td>{{item.District_Eng}}</td>
-                    <td>{{item.TehsilName}}</td>
-                    <td>{{item.PanchyatSamitiName}}</td>
-                    <td>{{item.CityTownVillage}}</td>
-                    <td>{{item.Pincode}}</td>
+                    <td>{{item.AddressLine1}}, {{item.AddressLine2}}, {{item.CityTownVillage}}{{item.RuralUrban=='Rural'?','+item.PanchyatSamitiName:''}}{{item.RuralUrban=='Rural'?','+item.TehsilName:''}},  {{item.District_Eng}}, {{item.Division_English}}, {{item.Pincode}}</td>
                     <td>{{item.MobileNo}}</td>
                     <td>{{item.EmailAddress}}</td>
                     <td>{{item.PersonField}}</td>
@@ -391,7 +480,7 @@
   </div>
   <ng-template #mymodal let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Animal Details</h4>
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Details</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <i class="fa fa-close"></i>
       </button>
@@ -399,28 +488,66 @@
     <div class="modal-body">
       <div class="card">
         <div class="card-body">
-          <div class="row">
-            <div class="table-responsive" *ngIf="ViewAnimalDetails.length>0">
-              <table class="table table-hover table-striped-columns">
-                <thead>
-                  <tr>
-                    <th>Sr. No</th>
-                    <th>Animal Name</th>
-                    <th>Male Animal Count</th>
-                    <th>Female Animal Count</th>
-                    <th>Total Animal Count</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of ViewAnimalDetails | tableSearchFilter:searchText;let indexOfelement=index;">
-                    <td>{{indexOfelement+1}}</td>
-                    <td>{{item.AnimalName}}</td>
-                    <td>{{item.MaleAnimalCount}}</td>
-                    <td>{{item.FemaleAnimalCount}}</td>
-                    <td>{{item.AnimalCount}}</td>
-                  </tr>
-                </tbody>
-              </table>
+          <div class="card mb-0">
+            <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+              <b><i class="bi bi-table"></i> Animal Details </b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="table-responsive" *ngIf="ViewAnimalDetails.length>0">
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>Sr. No</th>
+                        <th>Animal Name</th>
+                        <th>Male Animal Count</th>
+                        <th>Female Animal Count</th>
+                        <th>Total Animal Count</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of ViewAnimalDetails | tableSearchFilter:searchText;let indexOfelement=index;">
+                        <td>{{indexOfelement+1}}</td>
+                        <td>{{item.AnimalName}}</td>
+                        <td>{{item.MaleAnimalCount}}</td>
+                        <td>{{item.FemaleAnimalCount}}</td>
+                        <td>{{item.AnimalCount}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-0" *ngIf="CourseLevelName=='Diploma'">
+            <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+              <b><i class="bi bi-table"></i> Sanstha Bhavan Details </b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="table-responsive" *ngIf="ViewSansthaBhavanDetails.length>0">
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>Sr. No</th>
+                        <th> Name</th>
+                        <th>No Of</th>
+                        <th>Width</th>
+                        <th>Length</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of ViewSansthaBhavanDetails | tableSearchFilter:searchText;let indexOfelement=index;">
+                        <td>{{indexOfelement+1}}</td>
+                        <td>{{item.RoomName}}</td>
+                        <td>{{item.NoOfRooms}}</td>
+                        <td>{{item.Width}}</td>
+                        <td>{{item.Length}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
