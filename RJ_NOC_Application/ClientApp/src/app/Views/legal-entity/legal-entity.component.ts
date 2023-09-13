@@ -14,6 +14,7 @@ import { AadharServiceDetails } from '../../Services/AadharServiceDetails/aadhar
 import { Console, log } from 'console';
 import { AadharServiceDataModel } from '../../Models/AadharServiceDataModel';
 import { isBoolean } from 'util';
+import { GlobalConstants } from '../../Common/GlobalConstants';
 @Component({
   selector: 'app-legal-entity',
   templateUrl: './legal-entity.component.html',
@@ -131,6 +132,9 @@ export class LegalEntityComponent implements OnInit {
   public QueryStringLegalEntityID: number = 0;
   public UserID: number = 0;
 
+  public AnnexureDocumentPath: string = '';
+  public AnnexureName: string = '';
+
   constructor(private rightClickDisable: DisableRightClickService, private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService, private aadharServiceDetails: AadharServiceDetails) {
 
   }
@@ -237,7 +241,8 @@ export class LegalEntityComponent implements OnInit {
       else {
         await this.CheckExistsLegalEntity(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.RoleID);
       }
-
+      this.AnnexureDocumentPath = GlobalConstants.ImagePathURL + 'DCECMCAnn6.pdf';
+      this.AnnexureName = 'Download Annexure-6';
     }
     catch (Ex) {
       console.log(Ex);
