@@ -215,12 +215,26 @@ export class ApplicationDetailEntryComponent implements OnInit {
               this.isCheck30Female = true;
               return;
             }
-
-            if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
-              this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
-              this.isCheck30Female = true;
-              return;
+            if (this.SelectedDepartmentID == 2) {
+              if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
+                this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Acre')
+                this.isCheck30Female = true;
+                return;
+              }
+              if (data['Data'][0]['data'][0]['FullyConvertedLand'] > 0) {
+                this.toastr.error('Please enter minimum building land area of 1200 square meters or 0.2966 acres and that too must be fully converted land type.')
+                this.isCheck30Female = true;
+                return;
+              }
             }
+            else {
+              if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
+                this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
+                this.isCheck30Female = true;
+                return;
+              }
+            }
+            
 
             if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true) {
               if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
