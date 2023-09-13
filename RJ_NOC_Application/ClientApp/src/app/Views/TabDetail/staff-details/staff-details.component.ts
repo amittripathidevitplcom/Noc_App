@@ -101,6 +101,7 @@ export class StaffDetailsComponent implements OnInit {
         txtNameOfPerson: ['', Validators.required],
         txtMobileNo: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$"), Validators.minLength(10), Validators.maxLength(10)]],
         txtEmail: ['', [Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
+        txtPANNo: ['', [Validators.maxLength(10), Validators.pattern("^[A-Za-z]{5}[0-9]{4}[A-Za-z]$")]],
         ddlHighestQualificationId: ['', [DropdownValidators]],
         txtNoOfYearExperience: ['', Validators.required],
         ProfilePhoto: [''],
@@ -560,7 +561,7 @@ export class StaffDetailsComponent implements OnInit {
       this.isUploadDocRequried = false;
       this.isSubmitted = true;
       this.QualificationDataValid = false;
-      this.ESIStaffShowHide = false;
+      // this.ESIStaffShowHide = false;
       this.IsESIDetails = false;
 
       if (this.request.AadhaarCard == '') {
@@ -597,10 +598,11 @@ export class StaffDetailsComponent implements OnInit {
       }
       if (this.request.TeachingType == 'Teaching' && this.IsCourseLevel == 'Yes') {
         if (this.request.SubjectID == 0) {
-          //this.toastr.warning('Subject is required');
           this.isSubject = true;
           this.FormValid = false;
         }
+      }
+      if (this.request.TeachingType == 'Teaching') {
         if (this.request.Email == '' || this.request.Email == null) {
           this.FormValid = false;
         }
@@ -610,6 +612,9 @@ export class StaffDetailsComponent implements OnInit {
         }
         if (this.request.PANCard == '') {
           this.isPANCard = true;
+          this.FormValid = false;
+        }
+        if (this.request.PANNo == '') {
           this.FormValid = false;
         }
         if (this.request.ResearchGuide == '' || this.request.ResearchGuide == null) {
@@ -674,7 +679,6 @@ export class StaffDetailsComponent implements OnInit {
           this.toastr.warning('If Staff details(Teaching or NoN Teaching) are Greater than 10 is mandatory to give ESI No.');
           return;
         }
-
       }
       // owner
       if (this.request.StaffDetailID > 0) {
@@ -880,6 +884,9 @@ export class StaffDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.StaffDetailModel = data['Data'];
           this.TotalStaffDetail = this.StaffDetailModel.length;
+          if (this.TotalStaffDetail > 10) {
+            this.ESIStaffShowHide = true;
+          }
           this.TotalTeachingStaffDetail = 0;
           this.TotalNonTeachingStaffDetail = 0;
           for (var i = 0; i < this.StaffDetailModel.length; i++) {
@@ -931,10 +938,11 @@ export class StaffDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request = data['Data'][0];
+          //this.request.SubjectID = 1588;
           this.request.ProfessionalQualificationID = 0;
           this.request.PassingYearID = 0;
           this.request.Marks = '';
-          this.GetCollegeWiseSubjectList(this.SelectedCollageID);
+          await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
           await this.GetStaffDesignation(this.request.TeachingType == 'Teaching' ? 1 : 0);
           await this.GetHighestQualificationList_DepartmentAndTypeWise(this.SelectedDepartmentID, this.request.TeachingType == 'Teaching' ? 1 : 0);
 

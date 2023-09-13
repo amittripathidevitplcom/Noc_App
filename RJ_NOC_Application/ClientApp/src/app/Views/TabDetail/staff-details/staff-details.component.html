@@ -52,8 +52,8 @@
             <p *ngIf="!form.ddlRoleId.errors.DropdownValidators"> This field is required .!</p>
           </div>
           <!--<div *ngIf="isRole" class="text-danger">
-            <p *ngIf="isRole"> This field is required .!</p>
-          </div>-->
+      <p *ngIf="isRole"> This field is required .!</p>
+    </div>-->
         </div>
         <div class="col-md-4 mb-3">
           <label>Mobile No. <span style="color:red;">*</span></label>
@@ -147,6 +147,14 @@
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label for="txtPANNo" class="form-label">PAN Number <span style="color:red;" *ngIf="request.TeachingType=='Teaching'">*</span></label>
+          <input type="text" class="form-control" id="txtPANNo" name="txtPANNo" [(ngModel)]="request.PANNo" formControlName="txtPANNo" maxlength="10" (ngModelChange)="request.PANNo = $event.toUpperCase()">
+          <div *ngIf="isSubmitted&&form.txtPANNo.errors" class="text-danger">
+            <p *ngIf="form.txtPANNo.errors.pattern || form.txtPANNo.errors.maxlength"> Invalid PAN No.</p>
+          </div>
+          <p class="text-danger" *ngIf="isSubmitted&&request.TeachingType=='Teaching'&&(request.PANNo=='' || request.PANNo==null)"> This field is required .!</p>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
           <label>
             PAN Card <span style="color:red;" *ngIf="request.TeachingType=='Teaching'">*</span>
           </label>
@@ -212,18 +220,32 @@
             <p *ngIf="isExperianceCertificate"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
+        <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes'">
+          <label>Specialization Subject <span style="color:red;">*</span></label>
+          <select id="txtSpecializationSubject" name="txtSpecializationSubject" class="form-control" formControlName="txtSpecializationSubject" [(ngModel)]="request.SpecializationSubject">
+            <option value="0" disabled>--Select--</option>
+            <option *ngFor="let item of SubjectData"
+                    value="{{item.SubjectName}}">
+              {{item.SubjectName}}
+            </option>
+          </select>
+          <div *ngIf="isSpecializationSubject" class="text-danger">
+            <p *ngIf="isSpecializationSubject"> This field is required .!</p>
+          </div>
+        </div>
+
+        <!--<div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
           <label>Specialization Subject <span style="color:red;">*</span></label>
           <input type="text" id="txtSpecializationSubject" name="txtSpecializationSubject" [(ngModel)]="request.SpecializationSubject" class="form-control" formControlName="txtSpecializationSubject" (keypress)="alphaOnly($event)" />
           <div *ngIf="isSpecializationSubject" class="text-danger">
             <p *ngIf="isSpecializationSubject"> This field is required .!</p>
           </div>
-        </div>
+        </div>-->
         <div class="col-md-4 mb-3" *ngIf="ESIStaffShowHide">
           <label>ESI Number <span style="color:red;">*</span></label>
           <input type="text" id="txtESIDetails" name="txtESINumber" class="form-control" formControlName="txtESINumber" [(ngModel)]="request.ESINumber" (keypress)="alphaNumricOnly($event)" />
-          <div *ngIf="IsESIDetails" class="text-danger">
-            <p *ngIf="IsESIDetails"> This field is required .!</p>
+          <div *ngIf="isSubmitted&&TotalStaffDetail > 10&&(request.ESINumber=='' ||request.ESINumber==null)" class="text-danger">
+            <p *ngIf="isSubmitted&&TotalStaffDetail > 10&&(request.ESINumber=='' ||request.ESINumber==null)"> This field is required .!</p>
           </div>
         </div>
         <div class="col-md-4 mb-3">
@@ -490,7 +512,7 @@
                     <td>
 
                       <p class="m-0"><b>Aadhaar No. :</b> {{item.MaskedAadhaarNo}}&nbsp; <a *ngIf="item.AadhaarCard" href="{{item.AadhaarCardPath}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
-                      <p class="m-0 text-uppercase"><b>PAN Card : </b>  <a [hidden]="item.PANCard==''" href="{{item.PANCardPath}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
+                      <p class="m-0 text-uppercase"><b>PAN Card : </b> {{item.PANNo}}  <a [hidden]="item.PANCard==''" href="{{item.PANCardPath}}" target="_blank" alt="Red dot"><i class="fa fa-eye"></i></a></p>
                       <p class="m-0"><b>Research Guide : </b>{{item.ResearchGuide}}</p>
                       <p class="m-0"><b>PF Deduction : </b>{{item.PFDeduction}}</p>
                       <p class="m-0"><b>PF Number : </b>{{item.UANNumber}}</p>
