@@ -339,7 +339,7 @@ export class AddCoursesComponent implements OnInit {
 
       if ((CourseName.toLowerCase() == 'bachelor of arts' || CourseName.toLowerCase() == 'bachelor of commerce' || CourseName.toLowerCase() == 'bachelor of science')) {
         if (this.request.SelectedSubjectDetails.length < 3) {
-          this.toastr.error("Minimum 3 Subject Required for UG.");
+          this.toastr.error("Minimum 3 Subject Required.");
           return;
         }
       }
