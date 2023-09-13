@@ -200,10 +200,6 @@ export class VeterinaryHospitalComponent implements OnInit {
           this.CourseWiseSeatInformationList = data['Data'][0]['data'];
           this.Seats = this.CourseWiseSeatInformationList[0].SeatsValue;
           this.CourseLevelName = this.CourseWiseSeatInformationList[0].CourseLevelName;
-
-          console.log('Deepak')
-          console.log(this.CourseLevelName)
-          console.log('Deepak')
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -623,7 +619,17 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.ImageValidate = 'This field is required .!';
       return
     }
-
+    //if (this.CourseLevelName == 'Diploma') {
+      if (this.SansthaBhavanRoomList.length > 0) {
+        for (var i = 0; i < this.SansthaBhavanRoomList.length; i++) {
+          var SansthaRoomID = this.request.SansthaBhavanDetails.find((x: { SansthaRoomID: number; }) => x.SansthaRoomID == this.SansthaBhavanRoomList[i].ID)?.SansthaRoomID;
+          if (SansthaRoomID == undefined || SansthaRoomID == null || SansthaRoomID.toString() == '') {
+            this.toastr.warning('Please add all room details');
+            return;
+          }
+        }
+      }
+    //}
     if (!this.isFormValid) {
       return;
     }
@@ -794,6 +800,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.request.UserID = 0;
       this.isAnimalAdded = false;
       this.request.AnimalDetails = [];
+      this.request.SansthaBhavanDetails = [];
 
       this.isValidFileUpload = false;
       this.request.ActiveStatus = true;
@@ -920,7 +927,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.veterinaryHospitalService.GetVeterinaryHospitalByID(VeterinaryHospitalID, this.UserID)
         .then((data: any) => {
-
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -1042,6 +1049,13 @@ export class VeterinaryHospitalComponent implements OnInit {
       }
       if (!this.isSansthaFormValid) {
         return;
+      }
+      if (this.request.SansthaBhavanDetails.length > 0) {
+        var SansthaRoomID = this.request.SansthaBhavanDetails.find((x: { SansthaRoomID: number; }) => x.SansthaRoomID == this.SansthaBhavanDetails.SansthaRoomID)?.SansthaRoomID;
+        if (SansthaRoomID != undefined || SansthaRoomID != null) {
+          this.toastr.warning('this room details already exists');
+          return;
+        }
       }
       //Show Loading
       this.loaderService.requestStarted();
