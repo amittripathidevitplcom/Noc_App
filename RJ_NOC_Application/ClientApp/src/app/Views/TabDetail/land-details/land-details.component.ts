@@ -50,7 +50,7 @@ export class LandDetailsComponent implements OnInit {
   public LandDetailList: LandDetailDataModel[] = [];
   public LandDetailDocument: LandDetailDocumentDataModel[] = [];
   public TotalArea: number = 0;
-  public RequiredLandArea: number = 0;
+  public RequiredLandArea: string = '';
   public IsRequiredLandArea: boolean = false;
   public RequiredLandAreaMsg: string = '';
   public LandUnitType: string = '';
@@ -261,7 +261,7 @@ export class LandDetailsComponent implements OnInit {
   async GetLandconverted(DepartmentID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, Type)
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWises(DepartmentID, this.SelectedCollageID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -450,13 +450,19 @@ export class LandDetailsComponent implements OnInit {
           ////this.ErrorMessage = data['ErrorMessage'];
           if (data.Data.length > 0) {
             this.RequiredLandArea = data['Data'][0]["RequiredSquareMeter"];
-            this.RequiredLandAreaMsg = data['Data'][0]["RequiredSquareMeter"].toString() + ' ' + data['Data'][0]["AreaType"].toString();
+            if (this.SelectedDepartmentID == 2) {
+              this.RequiredLandAreaMsg = data['Data'][0]["RequiredSquareMeter"].toString();
+            }
+            else {
+              this.RequiredLandAreaMsg = data['Data'][0]["RequiredSquareMeter"].toString() + ' ' + data['Data'][0]["AreaType"].toString();
+            }
+
             this.LandUnitType = data['Data'][0]["AreaType"];
             this.IsRequiredLandArea = true;
 
           }
           else {
-            this.RequiredLandArea = 0;
+            this.RequiredLandArea = '';
             this.RequiredLandAreaMsg = '';
             this.LandUnitType = '';
             this.IsRequiredLandArea = false;
@@ -632,9 +638,6 @@ export class LandDetailsComponent implements OnInit {
 
 
     }
-
-
-
     if (message.length > 5) {
       this.toastr.warning(message);
       return
@@ -744,7 +747,7 @@ export class LandDetailsComponent implements OnInit {
           //this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
           this.LandDetailsDocumentListByID = data['Data'][0]["LandDetailDocument"];
           this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
-         // this.CollegeLandConverstion = data['Data'][0]["CollegeLandConversionDetails"];
+          // this.CollegeLandConverstion = data['Data'][0]["CollegeLandConversionDetails"];
 
           console.log(this.DetailoftheLand);
 
@@ -783,7 +786,7 @@ export class LandDetailsComponent implements OnInit {
       this.request.LandDocumentTypeName = '';
       this.request.IsConvereted = '';
       this.request.LandTypeName = '';
-      this.RequiredLandArea = 0;
+      this.RequiredLandArea = '';
       this.IsRequiredLandArea = false;
       this.RequiredLandAreaMsg = '';
       this.LandUnitType = '';
@@ -901,18 +904,9 @@ export class LandDetailsComponent implements OnInit {
 
   async LandType_cbChange(event: any, item: any, id: number) {
     try {
-     
+
       this.loaderService.requestStarted();
-
-      debugger;
-      //if (this.LandConversionData.find((x: { ID: number; }) => x.ID == this.request.LandConvertedID).Name == 'Fully Converted')
-      //{
-
       let selectname = item.LandTypeName;
-
-  
-
-
       if (this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected).length > 0) {
 
         let filterText = ''
@@ -924,9 +918,8 @@ export class LandDetailsComponent implements OnInit {
           filterText = 'Instituional';
         }
 
-        if (selectname == 'Instituional' || selectname == 'Educational')
-        {
-          await this.request.CollegeLandTypeDetails.filter(f => f.LandTypeName ==filterText).forEach(rowitem => {
+        if (selectname == 'Instituional' || selectname == 'Educational') {
+          await this.request.CollegeLandTypeDetails.filter(f => f.LandTypeName == filterText).forEach(rowitem => {
             if (item.LandTypeID != rowitem.LandTypeID && item.LandTypeName != rowitem.LandTypeName) {
               rowitem.IsLandSelected = false;
               rowitem.LandArea = 0;
@@ -954,24 +947,16 @@ export class LandDetailsComponent implements OnInit {
             }
           });
         }
-
-
-
-        }
-      
-     
-
-     // }
-
+      }
       if (!event.target.checked) {
-       
+
         item.LandArea = 0;
         item.KhasraNo = '';
         item.IsLandSelected = false;
 
       }
       this.CalculateTotalArea(item, id);
- 
+
     }
     catch (ex) {
       console.log(ex);
@@ -997,7 +982,6 @@ export class LandDetailsComponent implements OnInit {
     )
   }
 
-
   async GetCollegeLandConversionDetail(DepartmentID: number, LandTypeID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
@@ -1017,9 +1001,6 @@ export class LandDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
-
-
 
   async DeleteConverstionDetail(i: number) {
     this.isSubmitted = false;
@@ -1077,7 +1058,6 @@ export class LandDetailsComponent implements OnInit {
     return true
   }
 
-
   AddMoreLandDetails(item: any) {
     this.request.CollegeLandTypeDetails.push({
       LandTypeID: item.LandTypeID,
@@ -1103,7 +1083,6 @@ export class LandDetailsComponent implements OnInit {
     this.request.CollegeLandTypeDetails = this.request.CollegeLandTypeDetails.sort((a, b) => a.LandTypeID - b.LandTypeID);
   }
 
-
   async DeleteLandDetails(i: number) {
     this.isSubmitted = false;
     try {
@@ -1119,7 +1098,6 @@ export class LandDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
 
   async onFilechangeItem(event: any, item: any) {
     try {
@@ -1174,8 +1152,6 @@ export class LandDetailsComponent implements OnInit {
       /*  }, 200);*/
     }
   }
-
-
 
   async onFilechangeItemOther(event: any, item: any) {
     try {
@@ -1232,7 +1208,6 @@ export class LandDetailsComponent implements OnInit {
     }
   }
 
-
   async DeleteImageItem(item: CollegeLandTypeDetailsDataModel) {
     try {
       // delete from server folder
@@ -1263,7 +1238,6 @@ export class LandDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
 
   async DeleteImageOther(item: CollegeLandTypeDetailsDataModel) {
     try {
@@ -1296,15 +1270,11 @@ export class LandDetailsComponent implements OnInit {
     }
   }
 
-
-async  CalculateTotalArea(item: any, index: any)
-  {
-    try
-    {
-      this.request.LandArea = this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected == true).map(t => t.LandArea).reduce((acc, value) =>  acc + Number( value), 0)
+  async CalculateTotalArea(item: any, index: any) {
+    try {
+      this.request.LandArea = this.request.CollegeLandTypeDetails.filter(f => f.IsLandSelected == true).map(t => t.LandArea).reduce((acc, value) => acc + Number(value), 0)
     }
-    catch (ex)
-    {
+    catch (ex) {
       console.log(ex);
     }
   }
