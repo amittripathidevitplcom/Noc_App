@@ -229,7 +229,7 @@ export class LegalEntityComponent implements OnInit {
       this.GetRegistrationDistrictListByRegistrationStateID(this.RegistrationState)
       this.GetStateList();
       this.GetMemberPost();
-      this.GetRegisteredActList();
+      await this.GetRegisteredActList();
       this.SetDOBmindate();
       //this.SetElectionPresentManagementCommitteeDatemindate();
 
@@ -263,7 +263,8 @@ export class LegalEntityComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       await this.legalEntityService.ViewlegalEntityDataByID(LegalEntityID, this.UserID, this.sSOLoginDataModel.SSOID)
-        .then((data: any) => {
+        .then(async (data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.isRegisterNoBox = false;
           this.isDisabled = true;
@@ -294,7 +295,7 @@ export class LegalEntityComponent implements OnInit {
 
           //this.GetRegisteredActList();
           this.request.RegisteredActID = data['Data'][0]['data']['Table']['0']['RegisteredActID'];
-          this.SelectRegistredAct(this.request.RegisteredActID);
+          await this.SelectRegistredAct(this.request.RegisteredActID);
           this.request.RegisteredActName = data['Data'][0]['data']['Table']['0']['RegisteredActName'];
           this.request.SocietyRegistrationDate = data['Data'][0]['data']['Table']['0']['SocietyRegistrationDate'];
           this.request.ElectionPresentManagementCommitteeDate = data['Data'][0]['data']['Table']['0']['ElectionPresentManagementCommitteeDate'];
@@ -840,7 +841,7 @@ export class LegalEntityComponent implements OnInit {
 
 
   SelectRegistredAct(Id: number) {
-    if (this.lstRegisteredAct.find((x: { ID: number; }) => x.ID == Id).Name == 'Other') {
+    if (this.lstRegisteredAct.find((x: { ID: number; }) => x.ID == Id)?.Name == 'Other') {
       this.IsActOther = true;
     }
     else {
