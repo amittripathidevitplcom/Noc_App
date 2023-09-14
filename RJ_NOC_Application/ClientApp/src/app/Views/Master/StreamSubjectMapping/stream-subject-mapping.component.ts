@@ -43,11 +43,14 @@ export class StreamSubjectMappingComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   searchText: string = '';
   public ActiveStatus: boolean = true;
+  public is_disableDepartment: boolean = false;
 
   public isShowGrid: boolean = false;
   constructor(private steramSubjectMappingService: SteramSubjectMappingService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard) { }
   async ngOnInit() {
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+
     this.StreamMasterForm = this.formBuilder.group(
       {
         ddlDepartmentID: ['', [DropdownValidators]],
@@ -58,7 +61,14 @@ export class StreamSubjectMappingComponent implements OnInit {
     )
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
+
     await this.GetDepartmentList();
+
+    if (this.sSOLoginDataModel.DepartmentID != 0) {
+      this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      this.is_disableDepartment = true;
+    }
+    await this.FillCourselevel((this.request.DepartmentID).toString());
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetAllStreamList();
@@ -128,7 +138,7 @@ export class StreamSubjectMappingComponent implements OnInit {
     }
   }
 
-  async FillCourselevel(event: any, SeletedDepartmentID: string) {
+  async FillCourselevel(SeletedDepartmentID: string) {
 
 
 
@@ -226,7 +236,7 @@ export class StreamSubjectMappingComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
      
-      await this.steramSubjectMappingService.GetAllStreamList(this.UserID)
+      await this.steramSubjectMappingService.GetAllStreamList(this.request.DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
         
@@ -303,7 +313,7 @@ export class StreamSubjectMappingComponent implements OnInit {
     this.GetDepartmentList();
     this.CourseDataList = [];
     this.CourseLevelList = [];
-    this.request.DepartmentID = 0;
+    //this.request.DepartmentID = 0;
     this.request.CourseLevelID = 0;
     this.request.CourseID = 0;
     this.request.StreamID = 0;
@@ -331,7 +341,7 @@ export class StreamSubjectMappingComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
           this.request.StreamMappingID = data['Data'][0]["StreamMappingID"];
           this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-          this.FillCourselevel('', (this.request.DepartmentID).toString());
+          this.FillCourselevel((this.request.DepartmentID).toString());
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
         //this.FillCourses('', (this.request.CourseLevelID).toString());
           this.request.CourseID = data['Data'][0]["CourseID"];

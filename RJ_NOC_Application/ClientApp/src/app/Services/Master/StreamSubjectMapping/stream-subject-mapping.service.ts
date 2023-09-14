@@ -19,14 +19,14 @@ export class SteramSubjectMappingService {
     return throwError(error);
   }
   //Get 
-  public async GetAllStreamList(UserID: number) {
+  public async GetAllStreamList(DepartmentID: number) {
     
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + UserID)
+    return await this.http.get(this.APIUrl + "/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

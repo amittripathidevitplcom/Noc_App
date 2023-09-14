@@ -478,6 +478,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async Edit_OnClick(SchoolBuildingDetailsID: number) {
+    debugger;
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
