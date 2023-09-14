@@ -106,6 +106,12 @@ export class LoginComponent implements OnInit {
       if (this.sSOLoginDataModel.RoleID == 0) {
         this.sSOLoginDataModel.RoleID = 0;
       }
+      if (this.sSOLoginDataModel.SSOID == "" || this.sSOLoginDataModel.SSOID == undefined || this.sSOLoginDataModel.SSOID == null) {
+        this.toastr.error("Unable to service request.!");
+        this.loaderService.requestEnded();
+        return;
+      }
+
 
       localStorage.setItem('SSOLoginUser', JSON.stringify(this.sSOLoginDataModel))
 
