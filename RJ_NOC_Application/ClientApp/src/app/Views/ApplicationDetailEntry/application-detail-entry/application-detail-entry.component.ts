@@ -155,7 +155,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   isCheck30Female: boolean = false;
   async DraftFinalSubmit(IsDraftSubmited: any) {
-
+    debugger;
     let Femalepre = 0;
     this.isSubmitted = true;
     this.loaderService.requestStarted();
@@ -234,7 +234,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                 return;
               }
             }
-            
+             
 
             if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true) {
               if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
