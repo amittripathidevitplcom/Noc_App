@@ -190,7 +190,7 @@ export class BuildingDetailsComponent implements OnInit {
     this.buildingdetails.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     if (this.SelectedDepartmentID == 3) {
-      this.SampleDocument = GlobalConstants.ImagePathURL + "BuildingDetailsAnn13.pdf";
+      this.SampleDocument = GlobalConstants.ImagePathURL + "LandTitleCertificateAnn13.pdf";
       this.RangeType = 'in Sq. Ft'
     }
 
