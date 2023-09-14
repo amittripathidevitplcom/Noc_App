@@ -405,7 +405,7 @@ export class AddCollegeComponent implements OnInit {
           if (isResetValue) {
             this.request.DistanceFromCity = null;
             //this.request.TehsilID = 0;
-            this.request.CityID = -1;
+            this.request.CityID = 1;
             this.request.PanchayatSamitiID = 0;
           }
         }
