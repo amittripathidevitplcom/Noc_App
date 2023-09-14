@@ -332,6 +332,18 @@ export class CommonMasterService {
       ).toPromise();
   }
 
+  public async GetCityByDistrict(DistrictID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCityByDistrict/" + DistrictID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetDistrictByDivsionId(divisionId: number) {
 
     const httpOptions = {

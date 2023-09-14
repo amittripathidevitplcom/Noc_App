@@ -810,9 +810,6 @@ export class NodalOfficerApplicationListComponent implements OnInit
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.PVApplicationDetailsList = data['Data'][0]['data'];
-
-          console.log
-            (this.PVApplicationDetailsList);
         }, error => console.error(error));
     }
     catch (Ex) {

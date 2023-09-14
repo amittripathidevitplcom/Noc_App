@@ -30,8 +30,8 @@ export class DceDocumentScrutinyCompletedReportComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    await this.GetDocumentScrutinyCompletedReportUserWise(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    await this.GetDocumentScrutinyCompletedReportUserWise(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
   }
 
   async GetDocumentScrutinyCompletedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {

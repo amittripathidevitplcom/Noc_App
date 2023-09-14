@@ -91,6 +91,9 @@ export class AddCollegeComponent implements OnInit {
   request_ContactDetailsDataModel = new ContactDetailsDataModel();
   request_NearestGovernmentHospitals = new NearestGovernmentHospitalsDataModel();
 
+  public CityList_Nearest: any = [];
+  public CityList: any = [];
+
   constructor(private legalEntityListService: LegalEntityService, private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
   }
 
@@ -144,6 +147,7 @@ export class AddCollegeComponent implements OnInit {
         fCollegeLogo: [''],
         NAACAccreditedCertificate: [''],
         txtNACCValidityDate: [''],
+        ddlCityID: ['', [DropdownValidators]],
       })
 
     this.CollegeDetailsForm_ContactDetails = this.formBuilder.group(
@@ -400,7 +404,8 @@ export class AddCollegeComponent implements OnInit {
           this.IsRural = isRural;
           if (isResetValue) {
             this.request.DistanceFromCity = null;
-            this.request.TehsilID = 0;
+            //this.request.TehsilID = 0;
+            this.request.CityID = 1;
             this.request.PanchayatSamitiID = 0;
           }
         }
@@ -417,7 +422,8 @@ export class AddCollegeComponent implements OnInit {
           this.IsRural = isRural;
           if (isResetValue) {
             this.request.DistanceFromCity = 0;
-            this.request.TehsilID = 1;
+            //this.request.TehsilID = 1;
+            this.request.CityID = 0;
             this.request.PanchayatSamitiID = 1;
           }
         }
@@ -597,7 +603,7 @@ export class AddCollegeComponent implements OnInit {
         this.PresentCollegeStatusList_FilterData = this.PresentCollegeStatusList;
         this.CollegeLevelList_FilterData = this.CollegeLevelList;
       }
-       
+
     }
     catch (ex) {
       console.log(ex)
@@ -824,6 +830,19 @@ export class AddCollegeComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (section != 'nearest') {
             this.AssembelyAreaList = data['Data'];
+          }
+        }, error => console.error(error));
+      await this.commonMasterService.GetCityByDistrict(districtId)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (section == 'nearest') {
+            this.CityList_Nearest = data['Data'];
+          }
+          else {
+            this.CityList = data['Data'][0]['data'];
           }
         }, error => console.error(error));
     }
@@ -1170,7 +1189,7 @@ export class AddCollegeComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // data
           this.request = JSON.parse(JSON.stringify(data['Data']));
-          
+
           // manage some data
           if (this.request.GCD_MobileNumber.length == 0) {
             this.request.GCD_MobileNumber = null;
@@ -1274,4 +1293,36 @@ export class AddCollegeComponent implements OnInit {
 
   }
 
+
+  async GetCityByDistrict(SelectedDistrictID: string, section: string,) {
+    try {
+      this.loaderService.requestStarted();
+      const DistrictID = Number(SelectedDistrictID);
+      if (DistrictID <= 0) {
+        return;
+      }
+      // college status
+      await this.commonMasterService.GetCityByDistrict(DistrictID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (section == 'nearest') {
+            this.CityList_Nearest = data['Data'];
+          }
+          else {
+            this.CityList = data['Data'];
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

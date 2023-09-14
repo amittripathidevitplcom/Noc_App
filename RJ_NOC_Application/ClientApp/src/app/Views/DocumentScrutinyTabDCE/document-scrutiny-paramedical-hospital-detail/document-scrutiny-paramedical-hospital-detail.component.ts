@@ -211,7 +211,7 @@ export class DocumentScrutinyParamedicalHospitalDetailComponentDce implements On
       }
     }
 
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }

@@ -133,7 +133,7 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
       }
     }
 
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }

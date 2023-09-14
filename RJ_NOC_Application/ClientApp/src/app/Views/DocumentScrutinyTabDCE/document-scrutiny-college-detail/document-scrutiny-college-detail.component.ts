@@ -109,6 +109,7 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
   }
 
   async SubmitCollegeDetail_Onclick() {
+    debugger;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -131,7 +132,7 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
       }
     }
 
-    if (this.dsrequest.FinalRemark == '') {
+    if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
     }
