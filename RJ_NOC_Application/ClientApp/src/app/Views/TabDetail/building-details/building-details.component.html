@@ -687,7 +687,7 @@
                       <div class="d-flex">
                         <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                         <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
-                        <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewBuildingDocument" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></a>
+                        <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewBuildingDocument" (click)="ViewBuildingDocument(item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></a>
                       </div>
                     </td>
                   </tr>
@@ -706,7 +706,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewBuildingDocument"><i class="fa fa-close"></i></button>
           </div>
           <div class="modal-body py-4">
-            <div class="row" *ngIf="buildingdetails.lstBuildingDocDetails.length>0">
+            <div class="row" *ngIf="lstBuildingDocDetails.length>0">
               <div class="col-md-12">
                 <div class="card mb-0">
                   <div class="card-header">
@@ -723,7 +723,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let row of buildingdetails.lstBuildingDocDetails; let indexOfelement=index;">
+                          <tr *ngFor="let row of lstBuildingDocDetails; let indexOfelement=index;">
                             <td> {{indexOfelement+1}}</td>
                             <td>{{row.DocumentName}}</td>
                             <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>

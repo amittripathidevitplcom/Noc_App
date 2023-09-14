@@ -172,6 +172,38 @@
           </div>
         </div>
       </div>
+      <div class="card mb-0" *ngIf="request.SansthaBhavanDetails.length>0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Sanstha Bhavan Details </b>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Name</th>
+                  <th>No Of</th>
+                  <th>Width(In Feet)</th>
+                  <th>Length(In Feet)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of request.SansthaBhavanDetails let indexOfelement=index;">
+                  <td>{{indexOfelement+1}}</td>
+                  <td>{{item.RoomName}}</td>
+                  <td>{{item.NoOfRooms}}</td>
+                  <td>{{item.Width}}</td>
+                  <td>{{item.Length}}</td>
+                </tr>
+                <tr *ngIf="request.SansthaBhavanDetails.length<=0">
+                  <td colspan="12" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </ng-template>
   </div>
 </div>

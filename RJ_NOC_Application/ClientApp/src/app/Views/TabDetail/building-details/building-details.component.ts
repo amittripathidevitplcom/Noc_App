@@ -477,8 +477,24 @@ export class BuildingDetailsComponent implements OnInit {
       }, 200);
     }
   }
+  async ViewBuildingDocument(SchoolBuildingDetailsID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.buildingDetailsMasterService.GetByID(SchoolBuildingDetailsID, this.UserID)
+        .then((data: any) => {
+          //data = JSON.parse(JSON.stringify(data));
+          this.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
+
+        }, error => console.error(error));
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async Edit_OnClick(SchoolBuildingDetailsID: number) {
-    debugger;
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
