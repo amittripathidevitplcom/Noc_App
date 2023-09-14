@@ -73,7 +73,7 @@
                   <!---->
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
                     <label for="ddlPresentCollegeStatus" class="form-label">Present Status of College <span style="color:red;">*</span></label>
-                    <select class="form-select" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus" [(ngModel)]="request.PresentCollegeStatusID" formControlName="ddlPresentCollegeStatus"  #SelectedPresentCollegeStatusID (change)="ddlPresentCollegeStatus_TextChange($event,SelectedPresentCollegeStatusID.value)">
+                    <select class="form-select" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus" [(ngModel)]="request.PresentCollegeStatusID" formControlName="ddlPresentCollegeStatus" #SelectedPresentCollegeStatusID (change)="ddlPresentCollegeStatus_TextChange($event,SelectedPresentCollegeStatusID.value)">
                       <option value="0">--Select--</option>
                       <option *ngFor="let item of PresentCollegeStatusList_FilterData" value="{{item.ID}}">{{item.Name}}</option>
                     </select>
@@ -108,8 +108,8 @@
                     <label for="txtCollegeCode" class="form-label">College Code </label>
                     <input type="text" maxlength="15" class="form-control" id="txtCollegeCode" name="txtCollegeCode" [(ngModel)]="request.CollegeCode" formControlName="txtCollegeCode">
                     <!--<div *ngIf="isSubmitted&&form.txtCollegeCode.errors" class="text-danger">
-    <p *ngIf="form.txtCollegeCode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-  </div>-->
+                      <p *ngIf="form.txtCollegeCode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>-->
                   </div>
 
 
@@ -169,7 +169,7 @@
                   </div>
                   <!---->
 
-                  
+
 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.DepartmentID==3">
                     <label class="form-label" style="margin-right:15px">AISHE Code Status : <span style="color:red;">*</span></label>
@@ -245,44 +245,6 @@
               </div>
               <div class="card-body">
                 <div class="row">
-
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtAddressLine1" class="form-label">Address Line 1 <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" maxlength="200" id="txtAddressLine1" name="txtAddressLine1" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1">
-                    <div *ngIf="isSubmitted&&form.txtAddressLine1.errors" class="text-danger">
-                      <p *ngIf="form.txtAddressLine1.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <!--<label for="txtAddressLine2" class="form-label">Address Line 2 <span style="color:red;">*</span></label>-->
-                    <label for="txtAddressLine2" class="form-label">Address Line 2 </label>
-                    <input type="text" class="form-control" maxlength="200"  id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2">
-                    <!--<div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
-      <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-    </div>-->
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label class="form-label">Select Area <span style="color:red;">*</span></label>
-                    <div class="clearfix"></div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="rbRural" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="1" [value]="1" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(true,null,true)">
-                      <label class="form-check-label" for="rbRural">Rural</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="rbUrban" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="2" [value]="2" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(false,null,true)">
-                      <label class="form-check-label" for="rbUrban">Urban</label>
-                    </div>
-                    <div *ngIf="isSubmitted&&form.rbRuralUrban.errors" class="text-danger">
-                      <p *ngIf="form.rbRuralUrban.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>
-                  </div> 
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
-                    <label for="txtDistanceFromCity" class="form-label">{{DistancefromCity}} <span style="color:red;">*</span></label>
-                    <input class="form-control" maxlength="4" id="txtDistanceFromCity" name="txtDistanceFromCity" [(ngModel)]="request.DistanceFromCity" formControlName="txtDistanceFromCity" (keypress)="numberOnly($event)">
-                    <div *ngIf="isSubmitted&&IsRural&&form.txtDistanceFromCity.errors" class="text-danger">
-                      <p *ngIf="form.txtDistanceFromCity.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>
-                  </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="ddlDivisionID" class="form-label">Division <span style="color:red;">*</span></label>
                     <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" formControlName="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL($event,SelectedDivisionID.value,null)">
@@ -313,7 +275,7 @@
                       <p *ngIf="!form.ddlSubdivisionID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="ddlTehsilID" class="form-label">Tehsil <span style="color:red;">*</span></label>
                     <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
                       <option value="0">--Select--</option>
@@ -321,6 +283,31 @@
                     </select>
                     <div *ngIf="isSubmitted&&IsRural&&form.ddlTehsilID.errors" class="text-danger">
                       <p *ngIf="!form.ddlTehsilID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label class="form-label">Select Area <span style="color:red;">*</span></label>
+                    <div class="clearfix"></div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="rbRural" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="1" [value]="1" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(true,null,true)">
+                      <label class="form-check-label" for="rbRural">Rural</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="rbUrban" name="rbRuralUrban" [(ngModel)]="request.RuralUrban" value="2" [value]="2" formControlName="rbRuralUrban" (change)="IsRuralOrUrban(false,null,true)">
+                      <label class="form-check-label" for="rbUrban">Urban</label>
+                    </div>
+                    <div *ngIf="isSubmitted&&form.rbRuralUrban.errors" class="text-danger">
+                      <p *ngIf="form.rbRuralUrban.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural">
+                    <label for="ddlCityID" class="form-label">City<span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlCityID" name="ddlCityID" [(ngModel)]="request.CityID" formControlName="ddlCityID">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of CityList" value="{{item.CityID}}">{{item.City_English}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted&&!IsRural&&form.ddlCityID.errors" class="text-danger">
+                      <p *ngIf="!form.ddlCityID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
@@ -355,7 +342,7 @@
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtCityTownVillage" class="form-label">City/Town/Village <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control"  maxlength="100"  id="txtCityTownVillage" name="txtCityTownVillage" [(ngModel)]="request.CityTownVillage" formControlName="txtCityTownVillage">
+                    <input type="text" class="form-control" maxlength="100" id="txtCityTownVillage" name="txtCityTownVillage" [(ngModel)]="request.CityTownVillage" formControlName="txtCityTownVillage">
                     <div *ngIf="isSubmitted&&form.txtCityTownVillage.errors" class="text-danger">
                       <p *ngIf="form.txtCityTownVillage.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                     </div>
@@ -369,9 +356,35 @@
                       <p *ngIf="form.txtPincode.errors.pattern"><i aria-hidden="true"></i> Pin code is not valid .!</p>
                     </div>
                   </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <label for="txtAddressLine1" class="form-label">Address Line 1 <span style="color:red;">*</span></label>
+                    <input type="text" class="form-control" maxlength="200" id="txtAddressLine1" name="txtAddressLine1" [(ngModel)]="request.AddressLine1" formControlName="txtAddressLine1">
+                    <div *ngIf="isSubmitted&&form.txtAddressLine1.errors" class="text-danger">
+                      <p *ngIf="form.txtAddressLine1.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                    <!--<label for="txtAddressLine2" class="form-label">Address Line 2 <span style="color:red;">*</span></label>-->
+                    <label for="txtAddressLine2" class="form-label">Address Line 2 </label>
+                    <input type="text" class="form-control" maxlength="200" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2">
+                    <!--<div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
+      <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+    </div>-->
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+                    <label for="txtDistanceFromCity" class="form-label">{{DistancefromCity}} <span style="color:red;">*</span></label>
+                    <input class="form-control" maxlength="4" id="txtDistanceFromCity" name="txtDistanceFromCity" [(ngModel)]="request.DistanceFromCity" formControlName="txtDistanceFromCity" (keypress)="numberOnly($event)">
+                    <div *ngIf="isSubmitted&&IsRural&&form.txtDistanceFromCity.errors" class="text-danger">
+                      <p *ngIf="form.txtDistanceFromCity.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    </div>
+                  </div>
+
+
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtWebsiteLink" class="form-label">Website Link </label>
-                    <input type="text" class="form-control" maxlength="100"  id="txtWebsiteLink" name="txtWebsiteLink" [(ngModel)]="request.WebsiteLink" formControlName="txtWebsiteLink">
+                    <input type="text" class="form-control" maxlength="100" id="txtWebsiteLink" name="txtWebsiteLink" [(ngModel)]="request.WebsiteLink" formControlName="txtWebsiteLink">
                   </div>
 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -395,7 +408,7 @@
 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="txtEmail" class="form-label">Email <span style="color:red;">*</span></label>
-                    <input type="email" class="form-control" id="txtEmail" name="txtEmail" maxlength="50"  [(ngModel)]="request.Email" formControlName="txtEmail">
+                    <input type="email" class="form-control" id="txtEmail" name="txtEmail" maxlength="50" [(ngModel)]="request.Email" formControlName="txtEmail">
                     <div *ngIf="isSubmitted&&form.txtEmail.errors" class="text-danger">
                       <p *ngIf="form.txtEmail.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                       <!--<p *ngIf="form.txtEmail.errors.email"><i aria-hidden="true"></i> Invalid Email .!</p>-->
@@ -415,7 +428,7 @@
               <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label for="txtCDNameOfPerson" class="form-label">Name Of Person <span style="color:red;">*</span></label>
-                  <input type="text" class="form-control" id="txtCDNameOfPerson" maxlength="50"  name="txtCDNameOfPerson" [(ngModel)]="request_ContactDetailsDataModel.NameOfPerson" formControlName="txtCDNameOfPerson" (keypress)="alphaOnly($event)">
+                  <input type="text" class="form-control" id="txtCDNameOfPerson" maxlength="50" name="txtCDNameOfPerson" [(ngModel)]="request_ContactDetailsDataModel.NameOfPerson" formControlName="txtCDNameOfPerson" (keypress)="alphaOnly($event)">
                   <div *ngIf="isSubmitted_ContactDetails&&form_ContactDetails.txtCDNameOfPerson.errors" class="text-danger">
                     <p *ngIf="form_ContactDetails.txtCDNameOfPerson.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
