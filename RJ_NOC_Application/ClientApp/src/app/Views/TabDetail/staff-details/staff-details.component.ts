@@ -554,6 +554,7 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   async SaveData() {
+    debugger;
     try {
       this.isRoleMapping = false;
       this.isSpecializationSubject = false;
@@ -601,15 +602,15 @@ export class StaffDetailsComponent implements OnInit {
           this.isSubject = true;
           this.FormValid = false;
         }
-      }
-      if (this.request.TeachingType == 'Teaching') {
-        if (this.request.Email == '' || this.request.Email == null) {
-          this.FormValid = false;
-        }
         if (this.request.SpecializationSubject == '') {
           this.isSpecializationSubject = true;
           this.FormValid = false;
         }
+      }
+      if (this.request.TeachingType == 'Teaching') {
+        if (this.request.Email == '' || this.request.Email == null) {
+          this.FormValid = false;
+        }        
         if (this.request.PANCard == '') {
           this.isPANCard = true;
           this.FormValid = false;

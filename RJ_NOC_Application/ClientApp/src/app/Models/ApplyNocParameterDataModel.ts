@@ -129,6 +129,8 @@ export class ApplyNocApplicationDataModel {
   public IsFinalSubmit: boolean = false;
   public IsSaveFDR: boolean = false;
   public IsMakePayment: boolean = false;
+  public IsNOCIssued: boolean = false;
+  public NOCFilePath: string = '';
   public ApplicationFeeAmount: number = 0;
   public ServiceId: number = 0;
   public ApplyNocApplicationParameterList: ApplyNocApplicationParameterDataModel[] = [];
