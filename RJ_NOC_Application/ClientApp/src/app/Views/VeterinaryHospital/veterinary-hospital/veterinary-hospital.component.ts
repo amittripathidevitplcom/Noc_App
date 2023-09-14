@@ -1026,6 +1026,7 @@ export class VeterinaryHospitalComponent implements OnInit {
 
   public isSansthaFormValid: boolean = true;
   async btnSansthaBhavanAdd_Click() {
+    debugger;
     try {
       this.isSubmittedSanstha = true;
       this.isSansthaFormValid = true;
@@ -1034,16 +1035,16 @@ export class VeterinaryHospitalComponent implements OnInit {
       }
       var OtherName = this.SansthaBhavanRoomList.find((x: { ID: number; }) => x.ID == this.SansthaBhavanDetails.SansthaRoomID)?.Name;
       if (OtherName != 'Provision Room') {
-        if (this.SansthaBhavanDetails.Width <= this.WidthMin) {
+        if (this.SansthaBhavanDetails.Width < this.WidthMin) {
           this.CssClass_TextDangerWidth = 'text-danger';
           this.isSansthaFormValid = false;
         }
-        if (this.SansthaBhavanDetails.Length <= this.LengthMin) {
+        if (this.SansthaBhavanDetails.Length < this.LengthMin) {
           this.CssClass_TextDangerLength = 'text-danger';
           this.isSansthaFormValid = false;
         }
       }
-      if (this.SansthaBhavanDetails.NoOfRooms < this.MinNoOfRooms) {
+      if (Number(this.SansthaBhavanDetails.NoOfRooms) < this.MinNoOfRooms) {
         this.CssClass_TextDangerNoOfRooms = 'text-danger';
         this.isSansthaFormValid = false;
       }

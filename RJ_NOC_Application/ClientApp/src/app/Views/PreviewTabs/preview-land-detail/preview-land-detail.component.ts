@@ -18,6 +18,7 @@ export class PreviewLandDetailComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   public LandDetailList: LandDetailDataModel[] = [];
   public UnitOfLand: string = '';
+  public LandDetailsDocumentListByID: any = [];
 
   public DetailoftheLand: any = [];
   public CollegeLandConverstion: any = [];
@@ -75,6 +76,7 @@ export class PreviewLandDetailComponent implements OnInit {
   }
 
   async ViewLandDetail(content: any, LandDetailID: number) {
+    debugger;
     this.request = new LandDetailDataModel();
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -82,13 +84,16 @@ export class PreviewLandDetailComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
     try {
+      this.LandDetailsDocumentListByID = [];
       this.loaderService.requestStarted();
       await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request = data['Data'][0];
+          //this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
+          this.LandDetailsDocumentListByID = data['Data'][0]["LandDetailDocument"];
           this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
-          this.CollegeLandConverstion = data['Data'][0]["CollegeLandConversionDetails"];
+          //this.CollegeLandConverstion = data['Data'][0]["CollegeLandConversionDetails"];
         }, error => console.error(error));
     }
     catch (Ex) {

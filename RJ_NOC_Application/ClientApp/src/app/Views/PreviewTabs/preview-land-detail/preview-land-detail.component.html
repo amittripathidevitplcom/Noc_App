@@ -101,7 +101,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="row" *ngIf="request.LandDetailDocument.length>0">
+          <div class="row" *ngIf="LandDetailsDocumentListByID.length>0">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
               <div class="table-responsive">
                 <table class="table table-bordered table-hover table-striped">
@@ -109,23 +109,16 @@
                     <tr>
                       <th>Sr. No.</th>
                       <th>Document Name</th>
-                      <th>File</th>
+                      <th>Document Type</th>
+                      <th>Show Document</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let item of request.LandDetailDocument ; let indexOfelement=index;">
+                    <tr *ngFor="let item of LandDetailsDocumentListByID ; let indexOfelement=index;">
                       <td> {{indexOfelement+1}}</td>
-                      <td>
-                        <label>
-                          <b>{{item.DocumentName}} :</b>&nbsp;&nbsp;
-                        </label>
-                      </td>
-                      <td>
-                        <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{item.FilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                        </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                      </td>
+                      <td>{{item.DocumentName}}</td>
+                      <td>{{item.DocumentType}}</td>
+                      <td><a class="btn-outline-primary" target="_blank" href="{{item.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
                     </tr>
                   </tbody>
                 </table>
@@ -149,6 +142,10 @@
                           <th>Land Type</th>
                           <th>Area</th>
                           <th>Khasra No</th>
+                          <th>Land Conversion Order No</th>
+                          <th>Land Conversion Order Date</th>
+                          <th>Land Conversion Document</th>
+                          <th>Other Document</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -157,6 +154,17 @@
                           <td>{{row.LandTypeName}}</td>
                           <td>{{row.LandArea}}</td>
                           <td>{{row.KhasraNo}}</td>
+                          <td>{{row.LandConversionOrderNo}}</td>
+                          <td>{{row.LandConversionOrderDate}}</td>
+
+                          <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+
+
+                          <td>
+
+                            <a *ngIf="row.FileOtherName!=''" class="btn-outline-primary" target="_blank" href="{{row.FileOtherPath}}" title="View Document"><i class="fa fa-eye"></i></a>
+
+                          </td>
                         </tr>
                       </tbody>
                     </table>

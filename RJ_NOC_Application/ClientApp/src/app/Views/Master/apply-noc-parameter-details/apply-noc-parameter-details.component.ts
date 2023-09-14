@@ -51,10 +51,9 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   public StartTimer: any;
   public DisplayTimer: string = '';
   public searchText: string = '';
-
   public PaymentHistoryDetails: any = [];
-
   public ApplicationPaymentHistoryDetails: any = [];
+  public ApplicationTrailList: any = [];
 
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private nocPaymentComponent: NocPaymentComponent) {
@@ -171,8 +170,6 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }
   }
 
-
-
   async EmitraPaymentApplyNocApplication_click(content: any, applyNocApplicationID: number) {
     try {
       this.loaderService.requestStarted();
@@ -208,13 +205,6 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }
   }
 
-
-
-
-
-
-
-
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -249,8 +239,6 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }
   }
 
-
-
   async MakeEmitraPayment_click(item: any) {
     try {
 
@@ -274,13 +262,6 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
-
-
-
-
-
-
 
   async DeleteApplyNocApplication_click(item: any) {
     try {
@@ -505,8 +486,6 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
 
   }
 
-
-
   async PaymentHistoryNocApplication_click(content: any, applyNocApplicationID: number) {
     try {
       this.loaderService.requestStarted();
@@ -545,8 +524,6 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
 
   }
 
-
-
   async AddFDR_click(item: any) {
     try {
       this.loaderService.requestStarted();
@@ -575,5 +552,33 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  async GetApplicationTrail(content: any, ApplyNOCID: number) {
+    this.ApplicationTrailList = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetApplicationTrail_DepartmentApplicationWise(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationTrailList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

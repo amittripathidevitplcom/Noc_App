@@ -57,6 +57,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   totalTNOCSubjectFees: number = 0;
   totalPNOCSubjectFees: number = 0;
+  TNOCParameterFees: number = 0;
 
   public ApplyNocParameterMasterList_TNOCExtension: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_AdditionOfNewSeats60: ApplyNocParameterMaster_AdditionOfNewSeats60DataModel = null;
@@ -406,7 +407,9 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_TNOCExtOfSubject = new ApplyNocParameterMaster_TNOCExtensionDataModel();
         this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocID = Number(SelectedApplyNocForID);
         this.ApplyNocParameterMasterList_TNOCExtOfSubject.FeeAmount = item.FeeAmount;
+        this.TNOCParameterFees = item.FeeAmount;
       }
+      
       if (this.request.ApplyNocCode == 'DEC_PNOCSubject') {
         this.ApplyNocParameterMasterList_PNOCOfSubject = new ApplyNocParameterMaster_TNOCExtensionDataModel();
         this.ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocID = Number(SelectedApplyNocForID);
@@ -444,6 +447,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
         else if (this.request.ApplyNocCode == 'DEC_TNOCExtOfSubject') {
           this.ApplyNocParameterMasterList_TNOCExtOfSubject = null;
+          this.TNOCParameterFees = 0;
         }
 
         else if (this.request.ApplyNocCode == 'DEC_PNOCSubject') {
@@ -596,13 +600,13 @@ export class ApplyNocParameterComponent implements OnInit {
       //for Dec New Subject
       if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
 
-        this.request.TotalFeeAmount += this.calcuateSumofNewSubject();
+        this.request.TotalFeeAmount += await this.calcuateSumofNewSubject();
       }
       //DEC TNOC
-      if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
+      //if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
 
-        this.request.TotalFeeAmount += this.calcuateTNOCSubjectFees();
-      }
+      //  this.request.TotalFeeAmount += this.calcuateTNOCSubjectFees();
+      //}
       //DEC NOC
       if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
 
@@ -1392,13 +1396,14 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
 
-    if (CourseName == 'Bachelor of Arts' || CourseName == 'Bachelor of Commerce' || CourseName == 'Bachelor of Science') {
+    if ((CourseName.toLowerCase() == 'bachelor of arts' || CourseName.toLowerCase() == 'bachelor of commerce' || CourseName.toLowerCase() == 'bachelor of science')) {
       if (this.SubjectDetails.filter(f => f.IsChecked == true).length < 3) {
-        this.toastr.error("Minimum 3 Subject Required for UG.");
+        this.toastr.error("Minimum 3 Subject Required.");
         return;
       }
     }
 
+     
     var data: ApplyNocParameterCourseDataModel = new ApplyNocParameterCourseDataModel();
     data.CourseID = this.ddlCourse;
     data.CourseName = CourseName;
@@ -1450,7 +1455,7 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
-  btn_AddCourseSubject() {
+  async btn_AddCourseSubject() {
     this.isAddNOCCourseSubject = true;
     if (this.ddlCourseSubject == undefined || this.ddlCourseSubject <= 0 || this.ddlCourseSubject == null) {
       return;
@@ -1481,7 +1486,7 @@ export class ApplyNocParameterComponent implements OnInit {
     data.ApplyNocParameterSubjectList = this.NewSubjectDetails.filter(f => f.IsChecked == true);
     this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.push(data);
     //close data
-    this.ApplyNocParameterMasterList_NewCourseSubject.FeeAmount = this.calcuateSumofNewSubject();
+    this.ApplyNocParameterMasterList_NewCourseSubject.FeeAmount = await this.calcuateSumofNewSubject();
 
     //calc
     this.CalculateAllAmount();
@@ -1588,29 +1593,54 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-  calcuateSumofNewSubject(): number {
+  async calcuateSumofNewSubject(): Promise<number> {
+     
     if (this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList != null) {
       this.totalNewSubjectFees = 0;
-      this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.forEach(element => {
+
+      await this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.forEach(element => {
         element.ApplyNocParameterSubjectList.forEach(e2 => {
-          this.totalNewSubjectFees += Number(element.CourseFeesAmount);
+          if (element.CollegeLevel == 'UG') {
+            this.totalNewSubjectFees = Number(element.CourseFeesAmount);
+          }
         })
       });
+
+      await this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.forEach(element => {
+         element.ApplyNocParameterSubjectList.forEach(e2 => {
+          if (element.CollegeLevel == 'PG') {
+            this.totalNewSubjectFees += Number(element.CourseFeesAmount);
+          }
+        })
+      });
+
     }
     return this.totalNewSubjectFees;
   }
 
 
   calcuateTNOCSubjectFees(): number {
-    if (this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList != null) {
-      this.totalTNOCSubjectFees = 0;
-      this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList.forEach(element => {
-        element.ApplyNocParameterSubjectList.forEach(e2 => {
-          this.totalTNOCSubjectFees += Number(element.CourseFeesAmount);
-        })
-      });
-    }
-    return this.totalTNOCSubjectFees;
+    //if (this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList != null) {
+    //  this.totalTNOCSubjectFees = 0;
+    //  this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList.forEach(element => {
+    //    element.ApplyNocParameterSubjectList.forEach(e2 => {
+    //      if (element.CollegeLevel == 'UG') {
+    //        this.totalTNOCSubjectFees = Number(element.CourseFeesAmount);
+    //      }
+    //    })
+    //  });
+
+    //  this.ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList.forEach(element => {
+    //    element.ApplyNocParameterSubjectList.forEach(e2 => {
+    //      if (element.CollegeLevel == 'PG') {
+    //        this.totalTNOCSubjectFees += Number(element.CourseFeesAmount);
+    //      }
+    //    })
+    //  });
+
+    //}
+    //return this.totalTNOCSubjectFees + this.TNOCParameterFees;
+    return this.TNOCParameterFees;
   }
 
   calcuatePNOCSubjectFees(): number {
@@ -1639,13 +1669,13 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
   //delete items
-  btn_DeleteCourseSubject(CourseID: number) {
+  async btn_DeleteCourseSubject(CourseID: number) {
     if (confirm("Are you sure you want to delete this ?")) {
 
       const indexToRemove = this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.findIndex((pl) => pl.CourseID === CourseID);
       this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.splice(indexToRemove, 1);
       this.CalculateAllAmount();
-      this.ApplyNocParameterMasterList_NewCourseSubject.FeeAmount = this.calcuateSumofNewSubject();
+      this.ApplyNocParameterMasterList_NewCourseSubject.FeeAmount = await this.calcuateSumofNewSubject();
     }
   }
 
@@ -1867,13 +1897,13 @@ export class ApplyNocParameterComponent implements OnInit {
       //for Dec New Subject
       if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
 
-        this.request.TotalFeeAmount += this.calcuateSumofNewSubject();
+        this.request.TotalFeeAmount += await this.calcuateSumofNewSubject();
       }
       //DEC TNOC
-      if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
+      //if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
 
-        this.request.TotalFeeAmount += this.calcuateTNOCSubjectFees();
-      }
+      //  this.request.TotalFeeAmount += this.calcuateTNOCSubjectFees();
+      //}
       //DEC NOC
       if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
 

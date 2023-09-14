@@ -48,6 +48,7 @@ export class CreateUserComponent implements OnInit {
   public isDisabledGrid: boolean = false;
   public isLoadingExport: boolean = false;
   public is_disableDepartment: boolean = false;
+  public IsDeptAnimlaHusbandry: boolean = true;
 
   request = new UserMasterDataModel();
   constructor(private clipboard: Clipboard, private createUserService: CreateUserService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
@@ -82,6 +83,12 @@ export class CreateUserComponent implements OnInit {
     if (this.sSOLoginDataModel.DepartmentID != 0)
     {
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
+      if (this.request.DepartmentID == 2) {
+        this.IsDeptAnimlaHusbandry = false;
+      }
+      else {
+        this.IsDeptAnimlaHusbandry = true;
+      }
       this.is_disableDepartment = true;
     }
 
@@ -172,6 +179,7 @@ export class CreateUserComponent implements OnInit {
     }
   }
   async GetUsersList() {
+    debugger;
     try {
       this.loaderService.requestStarted();
       await this.createUserService.GetUserList(this.request.DepartmentID)
@@ -302,7 +310,7 @@ export class CreateUserComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.ResetControl();
-            this.GetDepartmentList();
+            //this.GetDepartmentList();
             this.GetUsersList();
           }
           else {

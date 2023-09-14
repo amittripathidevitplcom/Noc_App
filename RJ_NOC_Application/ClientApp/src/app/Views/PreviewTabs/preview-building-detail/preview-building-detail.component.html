@@ -73,27 +73,27 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Owner Name :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.OwnerName}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Address Line 1 :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.AddressLine1}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Address Line 2 :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.AddressLine2}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"> <b>Rural / Urban :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.RuralUrban}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Division :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.Division_English}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>District :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.District_Eng}}" />
               </div>
@@ -105,15 +105,15 @@
                 <label class="form-label"><b>Panchayat Samiti :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.PanchyatSamitiName}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>City/Town/Village :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.CityTownVillage}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Contact No :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.ContactNo}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Pincode :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.Pincode}}" />
               </div>
@@ -121,6 +121,22 @@
                 <label class="form-label"><b>Total Constructed Building Area (in Sq. Ft) :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.BuildingHostelQuartersRoadArea}}" />
               </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Upload Land Title Certificate :</b></label>
+                <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.buildingOtherDoc1FileUpload}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{buildingdetails.buildingOtherDoc1FileUpload}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.buildingOtherDoc1FileUpload}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label><b>Upload Land Document :</b></label>
+                <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{buildingdetails.OwnBuildingFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label><b>Upload Registered Rent Agreement/Lease Deed :</b></label>
                 <a *ngIf="!buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.RentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.RentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom">

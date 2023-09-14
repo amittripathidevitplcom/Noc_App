@@ -84,7 +84,7 @@
                     </div>
                   </div>
 
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="!IsDeptAnimlaHusbandry">
                     <label for="ddlCommitteeID" class="form-label">Select Committee</label>
                     <select class="form-select" id="ddlCommitteeID" name="ddlCommitteeID" [(ngModel)]="request.CommitteeID" formControlName="ddlCommitteeID">
                       <option value="0">--None--</option>

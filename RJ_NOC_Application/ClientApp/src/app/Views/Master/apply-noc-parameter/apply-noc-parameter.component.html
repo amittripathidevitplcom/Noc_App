@@ -63,7 +63,7 @@
         <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
       </div>-->
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" *ngIf="ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">
                 <label for="">Application Apply For</label>
                 <div class="clearfix"></div>
                 <div class="form-check form-check-inline" *ngFor="let item of ApplyNocParameterMasterList_ddl ;let idx=index;">
@@ -160,7 +160,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Challan New Name in English <span style="color:red;"> *</span> </label>
+                    <label>New Name in English <span style="color:red;"> *</span> </label>
                     <input name="CollegeNewName_Eng" id="CollegeNewName_Eng" class="form-control disabled mt-1" (keypress)="alphaOnly($event)" maxlength="50" [(ngModel)]="ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameEnglish" />
                     <div *ngIf="isValidCollegeNewName_Eng" class="text-danger">
                       <p *ngIf="isValidCollegeNewName_Eng"> This field is required .!</p>
@@ -500,9 +500,9 @@
                 </div>
               </div>
 
-              <div class="card-header">
+             
                 <b>Merger Details-Other College Information</b>
-              </div>
+             
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -652,7 +652,7 @@
             <!--New Course-->
             <div class="card" *ngIf="ApplyNocParameterMasterList_NewCourse != null">
               <div class="card-header">
-                <b>Add New Course :{{ApplyNocParameterMasterList_NewCourse.FeeAmount}}</b>
+                <b>Add New Course :₹ {{ApplyNocParameterMasterList_NewCourse.FeeAmount}}</b>
                 <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddCourse_click(mymodalAddCourse)">Add Course</button>
               </div>
               <div class="card-body">
@@ -697,7 +697,7 @@
             <!--New Subject-->
             <div class="card" *ngIf="ApplyNocParameterMasterList_NewCourseSubject != null">
               <div class="card-header">
-                <b>Add New Subject :{{ApplyNocParameterMasterList_NewCourseSubject.FeeAmount}} </b>
+                <b>Add New Subject  :₹ {{ApplyNocParameterMasterList_NewCourseSubject.FeeAmount}} </b>
                 <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddCourseSubject_click(mymodalAddCourseSubject)">Add Subject</button>
               </div>
               <div class="card-body">
@@ -868,7 +868,7 @@
                           <td>
                             {{row.FeesType}}
                           </td>
-                          <td>{{row.FeesAmount}}</td>
+                          <td>:₹ <b>{{row.FeesAmount}}</b></td>
                         </tr>
                       </tbody>
                     </table>
@@ -890,15 +890,15 @@
 
                     <div class="row" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
                       <div class="col-lg-2"><b> Noc Application Fees</b></div>
-                      <div class="col-lg-6">{{request.TotalNocFee}}</div>
+                      <div class="col-lg-6">:₹ <b>{{request.TotalNocFee}}</b></div>
                     </div>
                     <div class="row" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
                       <div class="col-lg-2"><b>Late Fees</b></div>
-                      <div class="col-lg-6">{{request.LateFee}}</div>
+                      <div class="col-lg-6">:₹ <b>{{request.LateFee}}</b></div>
                     </div>
                     <div class="row">
                       <div class="col-lg-2"><b>Total Application Fees</b></div>
-                      <div class="col-lg-6">{{request.TotalFeeAmount}}</div>
+                      <div class="col-lg-6">:₹ <b>{{request.TotalFeeAmount}}</b></div>
                     </div>
                   </div>
                 </div>
