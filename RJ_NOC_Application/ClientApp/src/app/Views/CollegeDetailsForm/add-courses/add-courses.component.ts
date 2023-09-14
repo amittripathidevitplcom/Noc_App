@@ -157,17 +157,18 @@ export class AddCoursesComponent implements OnInit {
   async ddlDepartment_change(SeletedDepartmentID: any) {
     this.request.DepartmentID = SeletedDepartmentID;
     this.request.SelectedSubjectDetails = [];
+    this.courseDataList = [];
     this.subjectDataList = [];
     try {
       this.loaderService.requestStarted();
 
-      if (this.request.DepartmentID != EnumDepartment.CollegeEducation) {
-        await this.commonMasterService.GetCourseList_DepartmentIDWise(this.request.DepartmentID)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            this.courseDataList = data['Data'];
-          }, error => console.error(error));
-      }
+      //if (this.request.DepartmentID != EnumDepartment.CollegeEducation) {
+      //  await this.commonMasterService.GetCourseList_DepartmentIDWise(this.request.DepartmentID)
+      //    .then((data: any) => {
+      //      data = JSON.parse(JSON.stringify(data));
+      //      this.courseDataList = data['Data'];
+      //    }, error => console.error(error));
+      //}
 
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(this.request.DepartmentID, "CourseType")
         .then((data: any) => {
@@ -301,11 +302,13 @@ export class AddCoursesComponent implements OnInit {
       this.isFormValid = false;
       return
     }
-    if (this.request.DepartmentID != EnumDepartment.CollegeEducation) {
+    if (this.request.DepartmentID != EnumDepartment.CollegeEducation && this.CollegeStatus !='New') {
       if (this.request.Seats <= 0) {
         this.isFormValid = false;
       }
     }
+ 
+
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
         if (this.request.NoOfEnrolledStudents == null || this.request.NoOfEnrolledStudents.toString() == '')
           this.isFormValid = false;
@@ -334,9 +337,9 @@ export class AddCoursesComponent implements OnInit {
         }
       }
 
-      if ((CourseName == 'Bachelor of Arts' || CourseName == 'Bachelor of Commerce' || CourseName == 'Bachelor of Science')) {
+      if ((CourseName.toLowerCase() == 'bachelor of arts' || CourseName.toLowerCase() == 'bachelor of commerce' || CourseName.toLowerCase() == 'bachelor of science')) {
         if (this.request.SelectedSubjectDetails.length < 3) {
-          this.toastr.error("Minimum 3 Subject Required for UG.");
+          this.toastr.error("Minimum 3 Subject Required.");
           return;
         }
       }
@@ -440,7 +443,7 @@ export class AddCoursesComponent implements OnInit {
           }
 
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
-          if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
+          if (this.request.DepartmentID == EnumDepartment.CollegeEducation || this.request.DepartmentID == EnumDepartment.Animal_Husbandry) {
             await this.ddlCourseLevel_change(this.request.CourseLevelID);
           }
 

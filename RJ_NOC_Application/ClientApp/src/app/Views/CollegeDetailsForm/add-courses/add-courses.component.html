@@ -107,7 +107,7 @@
                 </div>
               </div>
               
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID !=3">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'" >
                 <label for="ddlSeatInformation" class="form-label">Seat Information  <span style="color:red">*</span></label>
                 <select formControlName="ddlSeatInformation" id="ddlSeatInformation" [(ngModel)]="request.Seats" class="form-control">
                   <option value="0">--Select Seat--</option>
@@ -117,7 +117,7 @@
                   </option>
                 </select>
                 <div *ngIf="isSubmitted&&this.request.DepartmentID !=3" class="text-danger">
-                  <p *ngIf="isSubmitted&&this.request.DepartmentID !=3&&request.Seats==0">This field is required .!</p>
+                  <p *ngIf="isSubmitted&&this.request.DepartmentID !=3 && request.Seats==0">This field is required .!</p>
                 </div>
               </div>
 

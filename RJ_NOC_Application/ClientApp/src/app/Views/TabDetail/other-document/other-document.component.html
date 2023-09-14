@@ -16,7 +16,7 @@
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
           <label for="txtFileName_OtherDocument" class="form-label">Select Document<span style="color:red;">*</span></label>
           <div class="d-flex">
-            <input type="file" class="form-control" id="txtFileName_OtherDocument" style="display:none" formControlName="txtFileName_OtherDocument" (change)="ValidateUploadImage($event,'FileUpload')" #txtFileName_OtherDocument />
+            <input type="file" class="form-control" id="txtFileName_OtherDocument" accept="application/pdf" style="display:none" formControlName="txtFileName_OtherDocument" (change)="ValidateUploadImage($event,'FileUpload')" #txtFileName_OtherDocument />
             <label class="btn upload" for="txtFileName_OtherDocument">
               <span class="filename">Choose file</span>
               {{requestDoc.FileName === '' ? 'No File Choosen' : requestDoc.Dis_FileName}}

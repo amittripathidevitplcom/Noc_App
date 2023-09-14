@@ -108,7 +108,7 @@ export class RoomDetailsComponent implements OnInit {
         txtWidth_Room: ['', [Validators.required, Validators.min(1)]],
         txtLength_Room: ['', [Validators.required, Validators.min(1)]],
         txtStudentCapacity_Room: ['', [Validators.required, Validators.min(1)]],
-        txtNoOfLab: ['', Validators.required],
+       // txtNoOfLab: ['', Validators.required],
         fileUploadImage: [''],
         txtsearchText: [''],
       })
@@ -345,12 +345,12 @@ export class RoomDetailsComponent implements OnInit {
     //  //this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
     //  this.isformvalid = false;
     //}
-    if (Number(this.request.NoOfLab) < Number(this.NoofPredicalRooms)) {
-      this.CssClass_TextDangerNoOfLab = 'text-danger';
-      this.toastr.warning('Please Enter Min No. of Lab : ' + this.NoofPredicalRooms);
-      //this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
-      this.isformvalid = false;
-    }
+    //if (Number(this.request.NoOfLab) < Number(this.NoofPredicalRooms)) {
+    //  this.CssClass_TextDangerNoOfLab = 'text-danger';
+    //  this.toastr.warning('Please Enter Min No. of Lab : ' + this.NoofPredicalRooms);
+    //  //this.toastr.warning('Please Enter Min size : ' + this.WidthMin + ' sq.ft');
+    //  this.isformvalid = false;
+    //}
 
     if (this.SelectedDepartmentID == 2) {
       //let NoofStudents = 50;
