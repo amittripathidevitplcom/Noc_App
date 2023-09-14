@@ -603,10 +603,10 @@ export class ApplyNocParameterComponent implements OnInit {
         this.request.TotalFeeAmount += await this.calcuateSumofNewSubject();
       }
       //DEC TNOC
-      if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
+      //if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
 
-        this.request.TotalFeeAmount += this.calcuateTNOCSubjectFees();
-      }
+      //  this.request.TotalFeeAmount += this.calcuateTNOCSubjectFees();
+      //}
       //DEC NOC
       if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
 
