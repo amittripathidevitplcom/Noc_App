@@ -9,9 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
-import { APP_BASE_HREF } from '@angular/common';
-
-
+import { APP_BASE_HREF } from '@angular/common'; 
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -253,6 +251,7 @@ import { AhPhysicalFinalVerificationComponent } from './Views/DocumentScrutinyTa
 import { AhFinalVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-verification-done-list/ah-final-verification-done-list.component';
 import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-noc-application-list/ah-final-noc-application-list.component';
 import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-apply-noc-detail/preview-apply-noc-detail.component';
+import { RedirectGuard } from './Common/auth.guard.ts';
 
 
 
@@ -496,7 +495,7 @@ import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-appl
     AhPhysicalFinalVerificationComponent,
     AhFinalVerificationDoneListComponent,
     AhFinalNocApplicationListComponent,
-
+    
     EnableControlDirective,
     EnterTabDirective,
     PreviewApplyNocDetailComponent,
@@ -522,6 +521,7 @@ import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-appl
     MatButtonModule,
     MatIconModule,
     RouterModule,
+  
     NgMultiSelectDropDownModule.forRoot(),
     //NgIdleModule.forRoot(),
     //NgIdleKeepaliveModule.forRoot(),
@@ -546,7 +546,7 @@ import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-appl
   //providers: [],
   providers: [
     {
-      provide: STEPPER_GLOBAL_OPTIONS,
+      provide: [STEPPER_GLOBAL_OPTIONS, RedirectGuard],
       useValue: { displayDefaultIndicatorType: false },
 
     },

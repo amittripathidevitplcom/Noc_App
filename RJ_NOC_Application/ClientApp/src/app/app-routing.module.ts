@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RedirectGuard } from './Common/auth.guard.ts';
 import { RouterModule, Routes } from '@angular/router';
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
 import { ApplicationDetailEntryComponent } from './Views/ApplicationDetailEntry/application-detail-entry/application-detail-entry.component';
@@ -133,6 +134,7 @@ import { AhPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab
 import { AhPhysicalFinalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-physical-final-verification/ah-physical-final-verification.component';
 import { AhFinalVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-verification-done-list/ah-final-verification-done-list.component';
 import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-noc-application-list/ah-final-noc-application-list.component';
+
 
 
 const routes: Routes = [
@@ -298,6 +300,7 @@ const routes: Routes = [
       },
       {
         path: 'applicationdetailentry/:DepartmentID/:CollegeID', component: ApplicationDetailEntryComponent
+        , canActivate: [RedirectGuard]
       },
       {
         path: 'applynoc', component: ApplyNOCComponent
