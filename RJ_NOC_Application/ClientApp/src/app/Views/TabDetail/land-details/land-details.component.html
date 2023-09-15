@@ -87,7 +87,7 @@
                    
                       <label class="d-block" id="basic-addon1">Area:</label>
                     
-                    <input type="text" maxlength="4"  (keyup)="CalculateTotalArea(item,idx)" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numberOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
+                    <input type="text" maxlength="5"  (keyup)="CalculateTotalArea(item,idx)" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numbersOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
                  
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandArea==0"> This field is required .!</p>
