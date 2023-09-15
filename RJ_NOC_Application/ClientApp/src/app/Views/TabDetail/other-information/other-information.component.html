@@ -186,7 +186,7 @@
 
                       <td>
                         <div class="d-flex">
-                          <input type="file" [(ngModel)]="row.LabImage" [ngModelOptions]="{standalone: true}" id="fileLandDocument_{{idx}}" (input)="onFilechangeItem($event,row)" class="form-control d-none" />
+                          <input type="file" [(ngModel)]="row.LabImage" [ngModelOptions]="{standalone: true}" id="fileLandDocument_{{idx}}"  accept="image/jpg, image/jpeg" (input)="onFilechangeItem($event,row)" class="form-control d-none" />
                           <label class="btn upload" for="fileLandDocument_{{idx}}">
                             <span class="filename">Choose file</span>
                             {{row.FileName === '' ? 'No File Choosen' : row.Dis_FileName}}
@@ -203,7 +203,7 @@
                       </td>
                       <td>
                         <div class="d-flex">
-                          <input type="file" [(ngModel)]="row.ToolImage" [ngModelOptions]="{standalone: true}" id="fileLandDocumentOther_{{idx}}" (input)="onFilechangeItemOther($event,row)" class="form-control d-none" />
+                          <input type="file" [(ngModel)]="row.ToolImage" [ngModelOptions]="{standalone: true}"  accept="application/pdf" id="fileLandDocumentOther_{{idx}}" (input)="onFilechangeItemOther($event,row)" class="form-control d-none" />
                           <label class="btn upload" for="fileLandDocumentOther_{{idx}}">
                             <span class="filename">Choose file</span>
                             {{row.FileOtherName === '' ? 'No File Choosen' : row.Dis_OtherFileName}}
@@ -288,10 +288,15 @@
                           <td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                           <td>
                             <div class="d-flex">
+
+                              <a href="javascript:void(0)" *ngIf="row.DepartmentID==3 && row.CourseName=='Laboratory'" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewLandDetailDocument" (click)="ViewLabDetails()"><i class="fa fa-eye"></i></a>
+
                               <button type="button" (click)="Edit_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                               <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
 
-                              <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewLandDetailDocument" (click)="ViewLabDetails()"><i class="fa fa-eye"></i></a>
+
+
+
                             </div>
                           </td>
                         </tr>
@@ -336,7 +341,7 @@
                         <th>Width</th>
                         <th>Length</th>
                         <th>Lab Images</th>
-                        <th>Lab Equipment Images</th>
+                        <th>Lab Equipment Document</th>
                       </tr>
                     </thead>
                     <tbody>
