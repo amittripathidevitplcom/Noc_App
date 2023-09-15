@@ -6,8 +6,9 @@
   <div class="card-body">
     <div class="clearfix"></div>
     <div class="card">
-      <div class="card-header">
+      <div class="card-header d-flex justify-content-between align-items-center">
         <b>Final NOC Application List</b>
+        <a href="/dashboard" class="btn btn-sm btn-primary">Back to Dashboard</a>
       </div>
       <div class="card-body">
         <div class="row">
@@ -31,14 +32,15 @@
                     <td>{{item.CollegeName}}</td>
                     <td>{{item.ApplicationNo}}</td>
                     <td>
-                      <a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'No')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <!--<a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>-->
                       <button type="button" class="btn btn-sm btn-info" title="Trails" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
-                      <a *ngIf="item.NOCFilePath !=''" class="btn btn-outline-primary" title="View NOC PDF" target="_blank" href="{{item.NOCFilePath}}"><i class="fa fa-eye"></i></a>
+                      <a *ngIf="item.NOCFilePath !=''" class="btn btn-primary" title="View NOC PDF" target="_blank" href="{{item.NOCFilePath}}"><i class="fa fa-eye"></i></a>
                     </td>
                     <td>
-                      <button *ngIf="item.NOCFilePath==''" type="button" id="btnGenratePDF" class="btn btn-primary" (click)="GenratePDF(item.ApplyNOCID,item.CollegeID)" title="Submit">Genrate PDF</button>
-                      <button *ngIf="IsBtnShowHide && item.NOCFilePath !=''" type="button" class="btn btn-sm btn-info" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved')"><i class="fa fa-check"></i></button>
-                      <button *ngIf="IsBtnShowHide && item.NOCFilePath !=''" type="button" class="btn btn-sm btn-info" title="NOC Reject" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Reject')"><i class="fa fa-times"></i></button>
+                      <button *ngIf="item.NOCFilePath==''" type="button" id="btnGenratePDF" class="btn btn-primary" (click)="GenratePDF(item.ApplyNOCID,item.CollegeID)" title="Genrate Darft PDF">Genrate PDF</button>
+                      <button *ngIf="IsBtnShowHide && item.NOCFilePath !=''" type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved')"><i class="fa fa-check"></i></button>
+                      <button *ngIf="item.NOCFilePath ==''" type="button" class="btn btn-danger" title="NOC Reject" style="margin-left:10px;" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Reject')"><i class="fa fa-times"></i></button>
                     </td>
                   </tr>
                   <tr>

@@ -126,6 +126,43 @@ export class AhPhysicalPostVerificationComponent {
     }
   }
 
+  public CheckTabsEntryData: any = [];
+  async CheckTabsEntry(SelectedApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.animalDocumentScrutinyService.CheckDocumentScrutinyTabsData(SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
+          if (this.SelectedDepartmentID == 2) {
+            if (this.CollegeType_IsExisting) {
+              if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+                || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+                || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
+                || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0) {
+                this.isFormvalid = false;
+              }
+            }
+            else {
+              if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+                || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+                || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0
+              ) {
+                this.isFormvalid = false;
+              }
+            }
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
   async GetRNCCheckListByTypeDepartment(ApplyNOCID: number) {
     try {
@@ -156,8 +193,15 @@ export class AhPhysicalPostVerificationComponent {
     this.SelectedCollageID = CollegeID;
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
-    this.ShowHideApplicationAction = true;
-    this.GetRNCCheckListByTypeDepartment(ApplyNOCID);
+    await this.CheckTabsEntry(ApplyNOCID);
+    if (this.isFormvalid) {
+      this.ShowHideApplicationAction = true;
+      this.GetRNCCheckListByTypeDepartment(ApplyNOCID);
+    }
+    else {
+      this.toastr.warning('First of all, check and complete all the tabs of document scrutiny and then complete the check list.');
+      this.ShowHideApplicationAction = false;
+    }
   }
   async SaveData() {
     this.isSubmit = true;
@@ -517,6 +561,12 @@ export class AhPhysicalPostVerificationComponent {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
+    if (DepartmentID = 2) {
+      this.routers.navigate(['/animalhusbandryappnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
     }
   }
 }

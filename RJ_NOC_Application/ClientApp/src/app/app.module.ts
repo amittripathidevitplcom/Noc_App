@@ -253,6 +253,7 @@ import { AhPhysicalFinalVerificationComponent } from './Views/DocumentScrutinyTa
 import { AhFinalVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-verification-done-list/ah-final-verification-done-list.component';
 import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-noc-application-list/ah-final-noc-application-list.component';
 import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-apply-noc-detail/preview-apply-noc-detail.component';
+import { AhDocumentScrutinyNodalOfficerComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-nodal-officer/ah-document-scrutiny-nodal-officer.component';
 
 
 
@@ -500,6 +501,7 @@ import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-appl
     EnableControlDirective,
     EnterTabDirective,
     PreviewApplyNocDetailComponent,
+    AhDocumentScrutinyNodalOfficerComponent,
   ],
   imports: [
     CommonModule,

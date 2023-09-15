@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { LandDetailDataModel } from '../../../Models/LandDetailDataModel';
@@ -25,28 +25,28 @@ import { VeterinaryHospitalDataModel, AnimalDataModel } from '../../../Models/Ve
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
-
 @Injectable({
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-ah-document-scrutiny-check-list-details',
-  templateUrl: './ah-document-scrutiny-check-list-details.component.html',
-  styleUrls: ['./ah-document-scrutiny-check-list-details.component.css']
+  selector: 'app-ah-document-scrutiny-nodal-officer',
+  templateUrl: './ah-document-scrutiny-nodal-officer.component.html',
+  styleUrls: ['./ah-document-scrutiny-nodal-officer.component.css']
 })
-export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
+export class AhDocumentScrutinyNodalOfficerComponent {
 
+  @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  //public dropdownSettings: IDropdownSettings = {};
 
-  //@ViewChild('tabs') tabGroup!: MatTabGroup;
   public collegeDataList: any = [];
+  public lstTarils: any = [];
   sSOLoginDataModel = new SSOLoginDataModel();
 
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
+  public ApplicationNo: string = '';
   public SelectedApplyNOCID: number = 0;
   public CollegeID: number = 0;
   public LandClass: string = 'tabs-Link LandInformation';
@@ -155,6 +155,7 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
   public NextUserID: number = 0;
   public ActionID: number = 0;
   public NextActionID: number = 0;
+  public PageStatus: string = '';
 
   public IsShowSuperSpecialtyHospital: boolean = false;
   LegalEntityDataModel = new LegalEntityDataModel();
@@ -165,10 +166,14 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
   async ngOnInit() {
+
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
-    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
+    this.PageStatus = (this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('Status')?.toString()));
+    this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.GetCollageDetails();
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
     this.ViewlegalEntityDataByID();
@@ -188,7 +193,6 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetCollageDetails();
     this.GetVeterinaryHospitalList_DepartmentCollegeWise();
     this.GetLegalEntityData();
-    this.CheckTabsEntry();
   }
   // Start Land Details
   async GetLandDetailsDataList() {
@@ -613,83 +617,55 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
-      //if (this.ActionID <= 0) {
-      //  this.isActionTypeValid = true;
-      //  this.isFormvalid = false;
-      //}
-      //if (this.CheckFinalRemark == '') {
-      //  this.isRemarkValid = true;
-      //  this.isFormvalid = false;
-      //}
+      if (this.ActionID <= 0) {
+        this.isActionTypeValid = true;
+        this.isFormvalid = false;
+      }
+      if (this.CheckFinalRemark == '') {
+        this.isRemarkValid = true;
+        this.isFormvalid = false;
+      }
 
-      //if (this.ShowHideNextRoleNextUser) {
-      //  if (this.NextRoleID <= 0) {
-      //    this.isNextRoleIDValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //  if (this.NextActionID <= 0) {
-      //    this.isNextActionValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //  if (this.NextUserID <= 0) {
-      //    this.isNextUserIdValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //}
-      //else {
-      //  this.NextRoleID = 1;
-      //  this.NextUserID = 0;
-      //  this.NextActionID = 0;
-      //}
-
-      if (this.SelectedDepartmentID == 2) {
-        if (this.CollegeType_IsExisting) {
-          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0) {
-            this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
-          }
+      if (this.ShowHideNextRoleNextUser) {
+        if (this.NextRoleID <= 0) {
+          this.isNextRoleIDValid = true;
+          this.isFormvalid = false;
         }
-        else {
-          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0
-          ) {
-            this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
-          }
+        if (this.NextActionID <= 0) {
+          this.isNextActionValid = true;
+          this.isFormvalid = false;
         }
+        if (this.NextUserID <= 0) {
+          this.isNextUserIdValid = true;
+          this.isFormvalid = false;
+        }
+      }
+      else {
+        this.NextRoleID = 1;
+        this.NextUserID = 0;
+        this.NextActionID = 0;
       }
       if (!this.isFormvalid) {
         return;
       }
       this.loaderService.requestStarted();
-      this.toastr.success('Document check tab label is complete now the next process is to check list');
-      if (this.sSOLoginDataModel.RoleID == 18)
-        this.routers.navigate(['/AHinspectioncommitteephysicalverification/Pending']);
-      else if (this.sSOLoginDataModel.RoleID == 21)
-        this.routers.navigate(['/AHinspectioncommitteepostverification/Pending']);
-      else if (this.sSOLoginDataModel.RoleID == 22)
-        this.routers.navigate(['/AHinspectioncommitteefinalverification/Pending']);
-      //await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-      //  .then((data: any) => {
-      //    data = JSON.parse(JSON.stringify(data));
-      //    this.State = data['State'];
-      //    this.SuccessMessage = data['SuccessMessage'];
-      //    this.ErrorMessage = data['ErrorMessage'];
-      //    if (this.State == 0) {
-      //      this.toastr.success(this.SuccessMessage);
-      //      this.routers.navigate(['/applynocapplicationlist']);
-      //    }
-      //    else if (this.State == 2) {
-      //      this.toastr.warning(this.ErrorMessage)
-      //    }
-      //    else {
-      //      this.toastr.error(this.ErrorMessage)
-      //    }
-      //  }, error => console.error(error));
+      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.toastr.success(this.SuccessMessage);
+            this.routers.navigate(['/applynocapplicationlistAH']);
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -813,9 +789,8 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
-          if (this.collegeDataList['CollegeStatusID'] == 3) {
+          if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
-            //this.isAcademicInformation = false;
           }
         }, error => console.error(error));
     }
@@ -838,14 +813,19 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
     }
   }
 
-  public CheckTabsEntryData: any = [];
-  async CheckTabsEntry() {
+  
+  ViewTaril(ID: number, ActionType: string) {
+    this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
     try {
       this.loaderService.requestStarted();
-      await this.animalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+      this.commonMasterService.GetDocumentScritintyTaril(ID, this.SelectedApplyNOCID, this.SelectedCollageID, this.SelectedDepartmentID, ActionType)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.CheckTabsEntryData = data['Data'][0]['data'][0];
+          this.lstTarils = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -856,8 +836,5 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  }
-  ViewTaril(ID: number, ActionType: string) {
-    this.applyNocpreviewAnimalhusbandryComponent.ViewTarilCommon(ID, ActionType);
   }
 }

@@ -29,7 +29,8 @@
                     <td>{{item.CollegeName}}</td>
                     <td>{{item.ApplicationNo}}</td>
                     <td>
-                      <a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'No')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <!-- <a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>-->
                       <button type="button" class="btn btn-sm btn-info" title="View" (click)="OpenActionPopUP(PreVerificationChecklist,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-bars"></i></button>
                     </td>
                   </tr>
