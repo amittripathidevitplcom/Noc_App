@@ -208,7 +208,7 @@ export class OtherInformationComponent implements OnInit {
 
 
       if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
-        if (OtherName == 'Laboratory') {
+        if (OtherName == 'CHN') {
           this.ShowHideLabData = true;
           this.GetCollegeLabInformationList("GetData");
         }
@@ -1014,9 +1014,9 @@ export class OtherInformationComponent implements OnInit {
       this.isLoading = true;
       this.requestSaveLab.CollegeID = this.SelectedCollageID;
       this.requestSaveLab.UserID = this.sSOLoginDataModel.UserID;
+      this.requestSaveLab.OtherID = this.request.CourseID;
+      this.requestSaveLab.DepartmentID = this.request.DepartmentID;
       this.requestSaveLab.CollegeLabInformationList = this.CollegeWiseLabSubject;
-
-
       try {
         await this.otherInformationService.SaveLabData(this.requestSaveLab)
           .then((data: any) => {
@@ -1025,9 +1025,11 @@ export class OtherInformationComponent implements OnInit {
             this.ErrorMessage = data['ErrorMessage'];
 
             console.log(this.State);
-            if (!this.State) {
+            if (!this.State)
+            {
               this.toastr.success(this.SuccessMessage)
-              // this.GetCollegeWiseStudenetDetails(this.SelectedCollageID);
+              this.GetOtherInformationAllList();
+              //this.GetCollegeWiseStudenetDetails(this.SelectedCollageID);
             }
             else {
               this.toastr.error(this.ErrorMessage)
