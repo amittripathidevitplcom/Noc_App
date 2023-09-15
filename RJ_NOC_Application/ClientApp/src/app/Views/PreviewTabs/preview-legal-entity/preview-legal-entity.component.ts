@@ -96,7 +96,7 @@ export class PreviewLegalEntityComponent implements OnInit {
   }
 
   async GetDataList() {
-    
+
     //Show Loading
     this.loaderService.requestStarted();
     try {
@@ -127,7 +127,6 @@ export class PreviewLegalEntityComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.legalEntityListService.GetLegalEntityBySSOID(SSOID, this.UserID)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -136,7 +135,6 @@ export class PreviewLegalEntityComponent implements OnInit {
           this.legalEntityListData1 = data['Data'][0]['data']['Table'][0];
           this.legalEntityInstituteDetailData = data['Data'][0]['data']['Table1'];
           this.legalEntityMemberDetailData = data['Data'][0]['data']['Table2'];
-          //console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));
     }
     catch (Ex) {

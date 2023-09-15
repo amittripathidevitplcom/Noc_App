@@ -63,11 +63,11 @@
               <div class="clearfix"></div>
               <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.NAACAccreditedCertificatePath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.NAACAccreditedCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID!=2">
               <label>AISHE Code Status :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECodeStatus}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.AISHECodeStatus =='Yes'">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.AISHECodeStatus =='Yes' && collegeListData.DepartmentID !=2">
               <label>AISHE Code :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECode}}" />
             </div>
