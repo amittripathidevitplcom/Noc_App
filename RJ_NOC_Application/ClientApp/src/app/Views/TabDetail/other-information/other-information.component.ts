@@ -65,7 +65,7 @@ export class OtherInformationComponent implements OnInit {
   public OtherInformation: any = [];
 
   public CollegeWiseLabSubject: any = [];
-
+  public CollegeWiseLabViewDetails: any = [];
 
   searchText: string = '';
   public LoginSSOID: string = '';
@@ -532,6 +532,7 @@ export class OtherInformationComponent implements OnInit {
       this.ShowHideBook = false;
       this.ShowHideComputers = false;
       this.ShowHideLabData = false;
+      this.CollegeWiseLabSubject = [];
 
       this.GetOtherInformationAllList();
       const btnSave = document.getElementById('btnSave')
@@ -600,6 +601,32 @@ export class OtherInformationComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+  async ViewLabDetails()
+  {
+    try
+    {
+      this.loaderService.requestStarted();
+      await this.otherInformationService.GetCollegeLabInformationList(this.SelectedCollageID, "GetDataBYID")
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CollegeWiseLabViewDetails = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  
   }
 
   async txtNoOfRooms_change(Val: any) {

@@ -138,9 +138,9 @@
 
 
         <div class="card-body" *ngIf="ShowHideLabData">
-          <div class="row">
+          <div class="row" *ngIf="CollegeWiseLabSubject.length>0">
             <div class="col-md-12">
-              <div class="table-responsive">
+              <div class="table-responsive" >
                 <table class="table table-hover table-striped-columns" id="tabellistLLab" #content>
                   <thead>
                     <tr>
