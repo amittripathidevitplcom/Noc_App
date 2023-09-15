@@ -24,6 +24,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
+  public SeatValue: number = 50;
   public CollegeID: number = 0;
   public LandClass: string = 'tabs-Link LandInformation';
   public CollegeName: string = '';
@@ -234,21 +235,29 @@ export class ApplicationDetailEntryComponent implements OnInit {
                 return;
               }
             }
-             
+
 
             if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true) {
+              this.SeatValue = Number(data['Data'][0]['data'][0]['SeatsValue'])
               if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
                 this.toastr.error('Please Add One Principal in Staff details.')
                 this.isCheck30Female = true;
                 return;
               }
               if (data['Data'][0]['data'][0]['PendingTrainingOfficer'] == 0) {
-                this.toastr.error('Please Add Training Officer in Staff details.')
+                if (this.SeatValue == 50)
+                  this.toastr.error('Please Add two Training Officer in Staff details.')
+                else
+                  this.toastr.error('Please Add Four Training Officer in Staff details.')
                 this.isCheck30Female = true;
                 return;
               }
               if (data['Data'][0]['data'][0]['PendingVeterinaryOfficer'] == 0) {
-                this.toastr.error('Please Add Veterinary Officer in Staff details.')
+                if (this.SeatValue == 50)
+                  this.toastr.error('Please Add two Veterinary Officer in Staff details.')
+                else
+                  this.toastr.error('Please Add Four Veterinary Officer in Staff details.')
+               
                 this.isCheck30Female = true;
                 return;
               }
@@ -258,7 +267,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
                 return;
               }
               if (data['Data'][0]['data'][0]['PendingLaboratoryAssistant'] == 0) {
-                this.toastr.error('Please Add Laboratory Assistant in Staff details.')
+                if (this.SeatValue == 50)
+                  this.toastr.error('Please Add one Laboratory Assistant in Staff details.')
+                else
+                  this.toastr.error('Please Add two Laboratory Assistant in Staff details.')
+
                 this.isCheck30Female = true;
                 return;
 
@@ -271,13 +284,20 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
               }
               if (data['Data'][0]['data'][0]['PendingClerk'] == 0) {
-                this.toastr.error('Please Add Clerk in Staff details.')
+                if (this.SeatValue == 50)
+                  this.toastr.error('Please Add one Clerk in Staff details.')
+                else
+                  this.toastr.error('Please Add two Clerk in Staff details.')
                 this.isCheck30Female = true;
                 return;
 
               }
               if (data['Data'][0]['data'][0]['PendingAttendantSweeper'] == 0) {
-                this.toastr.error('Please Add Attendant Sweeper in Staff details.')
+                if (this.SeatValue == 50)
+                  this.toastr.error('Please Add three Attendant Sweeper in Staff details.')
+                else
+                  this.toastr.error('Please Add Five Attendant Sweeper in Staff details.')
+               
                 this.isCheck30Female = true;
                 return;
 
