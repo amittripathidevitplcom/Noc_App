@@ -164,7 +164,7 @@ const routes: Routes = [
 
 
   {
-    path: '',component: MasterPageComponent,
+    path: '', component: MasterPageComponent,
     children: [
       {
         path: 'dashboard', component: DashboardComponent
@@ -286,7 +286,7 @@ const routes: Routes = [
       {
         path: 'landdetails', component: LandDetailsComponent
       },
-      
+
       {
         path: 'facilitydetails', component: FacilityDetailsComponent
       },
@@ -301,7 +301,10 @@ const routes: Routes = [
       },
       {
         path: 'applicationdetailentry/:DepartmentID/:CollegeID', component: ApplicationDetailEntryComponent
-        , canActivate: [RedirectGuard]
+        //, canActivate: [RedirectGuard],
+        //data: {
+        //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
+        //}
       },
       {
         path: 'applynoc', component: ApplyNOCComponent
@@ -466,7 +469,7 @@ const routes: Routes = [
       {
         path: 'streamsubjectmapping', component: StreamSubjectMappingComponent
       },
-      
+
 
       {
         path: 'jointsecretarycompletedreport', component: JointSecretaryCompletedReportComponent
@@ -529,7 +532,7 @@ const routes: Routes = [
         path: 'agricultureappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAgricultureComponent
       },
       {
-         path: 'subjectwisestudentstatistics', component: SubjectWiseStudentStatisticsComponent
+        path: 'subjectwisestudentstatistics', component: SubjectWiseStudentStatisticsComponent
       }
       ,
       {

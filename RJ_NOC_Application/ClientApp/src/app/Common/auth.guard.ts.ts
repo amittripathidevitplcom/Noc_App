@@ -13,8 +13,10 @@ export class RedirectGuard implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-   // debugger;
-   // window.location.href = route.data['externalUrl'];
+ //   debugger
+ //   console.log('externalUrl');
+ //   console.log(route.data['externalUrl']);
+ //window.location.href = route.data['externalUrl'];
      return true;
   }
 }
