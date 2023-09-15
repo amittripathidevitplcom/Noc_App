@@ -214,9 +214,16 @@ export class OtherInformationComponent implements OnInit {
         }
         else
         {
-          this.ShowHideLabData = true;
+          this.CollegeWiseLabSubject = [];
+          this.ShowHideLabData = false;
         }
+
       }
+      else {
+        this.CollegeWiseLabSubject = [];
+        this.ShowHideLabData = false;
+      }
+      
 
 
       this.loaderService.requestStarted();
