@@ -53,7 +53,8 @@
             <th>Application No.</th>
             <th>Application Type</th>
             <th>Total Fee Amount</th>
-            <th>Trails</th> 
+            <th>View NOC PDF</th>
+            <th>Trails</th>
 
           </tr>
         </thead>
@@ -109,12 +110,12 @@
                     </a>
                   </li>
 
-                  <li>
+                  <!--<li>
                     <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger"
                        *ngIf="item.IsNOCIssued==true && item.NOCFilePath !=''" title="View NOC PDF" target="_blank" href="{{item.NOCFilePath}}">
                       View NOC PDF
                     </a>
-                  </li>
+                  </li>-->
 
                 </ul>
               </div>
@@ -146,6 +147,10 @@
             </td>
             <td>
               {{item.TotalFeeAmount}}
+            </td>
+            <td>
+            <a *ngIf="item.IsNOCIssued==true && item.NOCFilePath !=''" class="btn btn-primary" title="View NOC PDF" target="_blank" href="{{item.NOCFilePath}}"><i class="fa fa-eye"></i></a>
+              <span *ngIf="item.IsNOCIssued==false || item.NOCFilePath ==''"><b>Under Process..</b> </span>
             </td>
             <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(Trailsmodal,item.ApplyNocApplicationID)"><i class="fa fa-bars"></i></button></td>
 
