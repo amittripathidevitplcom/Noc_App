@@ -214,9 +214,16 @@ export class OtherInformationComponent implements OnInit {
         }
         else
         {
-          this.ShowHideLabData = true;
+          this.CollegeWiseLabSubject = [];
+          this.ShowHideLabData = false;
         }
+
       }
+      else {
+        this.CollegeWiseLabSubject = [];
+        this.ShowHideLabData = false;
+      }
+      
 
 
       this.loaderService.requestStarted();
@@ -1007,9 +1014,9 @@ export class OtherInformationComponent implements OnInit {
       this.isLoading = true;
       this.requestSaveLab.CollegeID = this.SelectedCollageID;
       this.requestSaveLab.UserID = this.sSOLoginDataModel.UserID;
+      this.requestSaveLab.OtherID = this.request.CourseID;
+      this.requestSaveLab.DepartmentID = this.request.DepartmentID;
       this.requestSaveLab.CollegeLabInformationList = this.CollegeWiseLabSubject;
-
-
       try {
         await this.otherInformationService.SaveLabData(this.requestSaveLab)
           .then((data: any) => {
@@ -1018,9 +1025,12 @@ export class OtherInformationComponent implements OnInit {
             this.ErrorMessage = data['ErrorMessage'];
 
             console.log(this.State);
-            if (!this.State) {
+            if (!this.State)
+            {
               this.toastr.success(this.SuccessMessage)
-              // this.GetCollegeWiseStudenetDetails(this.SelectedCollageID);
+              this.ResetControl();
+              this.GetOtherInformationAllList();
+              //this.GetCollegeWiseStudenetDetails(this.SelectedCollageID);
             }
             else {
               this.toastr.error(this.ErrorMessage)
@@ -1046,10 +1056,7 @@ export class OtherInformationComponent implements OnInit {
     if (WorkFlowDetailLength > 0) {
       for (var i = 0; i < this.CollegeWiseLabSubject.length; i++) {
 
-        if (this.CollegeWiseLabSubject[i].RoomNo == '') {
-          message += 'Please Enter  Land ConversionOrderNo \n';
-          this.CollegeWiseLabSubject[i].RoomNo = '';
-        }
+       
         if (this.CollegeWiseLabSubject[i].Width == '' || this.CollegeWiseLabSubject[i].Width == '0') {
           message += 'Please Enter  Land Width \n';
           this.CollegeWiseLabSubject[i].Width = '';
