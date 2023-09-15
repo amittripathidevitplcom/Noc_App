@@ -14,11 +14,11 @@
             <label for="rbHostelCampus" class="form-label" style="margin-right:15px">Is Hostel In Campus <span style="color:red;">*</span> </label>
             <div class="clearfix"></div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusYes" value="Yes" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus" (change)="IsHostelCampusOrNot()">
+              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusYes" value="Yes" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus" (change)="IsHostelCampusOrNot(true)">
               <label class="form-check-label" for="YesHostelCampus">Yes</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusNo" value="No" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus" (change)="IsHostelCampusOrNot()">
+              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusNo" value="No" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus" (change)="IsHostelCampusOrNot(true)">
               <label class="form-check-label" for="NoHostelCampus">No</label>
             </div>
             <div *ngIf="isSubmitted&&Hform.rbHostelCampus.errors" class="text-danger">
@@ -59,8 +59,8 @@
               <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
               <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [attr.disabled]="IsDisabledAddress ? true : null" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphanumbersOnly($event)">
               <!--<div *ngIf="isSubmitted&&Hform.txtAddressLine2.errors" class="text-danger">
-                <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              </div>-->
+      <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+    </div>-->
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -97,7 +97,7 @@
                 <p *ngIf="!Hform.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="this.request.IsRuralUrban !='Rural'">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Tehsil <span style="color:red;">*</span></label>
               <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID" [attr.disabled]="IsDisabledAddress ? true : null">
                 <option value="0">--Select--</option>
@@ -107,7 +107,17 @@
                 <p *ngIf="!Hform.ddlTehsilID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="this.request.IsRuralUrban !='Rural'">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban !='Urban'">
+              <label for="ddlCityID" class="form-label">City<span style="color:red;">*</span></label>
+              <select class="form-select" id="ddlCityID" name="ddlCityID" [(ngModel)]="request.CityID" formControlName="ddlCityID" [attr.disabled]="IsDisabledAddress ? true : null">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of CityList" value="{{item.CityID}}">{{item.City_English}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&Hform.ddlCityID.errors" class="text-danger">
+                <p *ngIf="!Hform.ddlCityID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.IsRuralUrban !='Rural'">
               <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
               <select class="form-select" id="ddlPanchayatSamitiID" name="ddlPanchayatSamitiID" [(ngModel)]="request.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID" [attr.disabled]="IsDisabledAddress ? true : null">
                 <option value="0">--Select--</option>
@@ -149,7 +159,7 @@
                 <p *ngIf="Hform.txtContactPersonNo.errors.required"> This field is required .!</p>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.request.IsHostelCampus =='No'">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="request.IsHostelCampus =='No'">
               <label>Distance of College (KM) <span style="color:red;">*</span></label>
               <input type="text" class="form-control" id="txtCollegeDistance" name="txtCollegeDistance" maxlength="3" [(ngModel)]="request.DistanceOfCollege" (keypress)="numberOnly($event)" autocomplete="off"
                      formControlName="txtCollegeDistance">
@@ -164,7 +174,7 @@
 
 
           <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" *ngIf="this.request.IsHostelCampus =='No'">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" *ngIf="request.IsHostelCampus =='No'">
               <label class="form-label" style="margin-right:15px">Select Type <span style="color:red;">*</span> :</label>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="rdHostelType" id="rdHostelTypeSelf" value="Self" formControlName="rdHostelType" [(ngModel)]="request.HostelType">
@@ -180,7 +190,7 @@
             </div>
 
           </div>
-          <div class="row" *ngIf="this.request.IsHostelCampus =='No' && request.HostelType=='Rent'">
+          <div class="row" *ngIf="request.IsHostelCampus =='No' && request.HostelType=='Rent'">
             <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
               <label>Owner Name <span style="color:red;">*</span></label>
               <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" (keypress)="alphaOnly($event)" [(ngModel)]="request.OwnerName" autocomplete="off"
@@ -475,9 +485,13 @@
         <label><b>District</b>:&nbsp;&nbsp;</label>
         <input class="form-control disabled" disabled value="{{viewhostel.DistrictName}}" />
       </div>
-      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="viewhostel.IsRuralUrban!='Rural'">
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3">
         <label><b>Tehsil</b>:&nbsp;&nbsp; </label>
         <input class="form-control disabled" disabled value="{{viewhostel.TehsilName}}" />
+      </div>
+      <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="viewhostel.IsRuralUrban!='Urban'">
+        <label><b>City Name</b>:&nbsp;&nbsp;</label>
+        <input class="form-control disabled" disabled value="{{viewhostel.CityName}}" />
       </div>
       <div class="col-lg-4 col-md-3 col-sm-6 col-12 mb-3" [hidden]="viewhostel.IsRuralUrban!='Rural'">
         <label><b>Panchayat Samiti</b>:&nbsp;&nbsp;</label>

@@ -318,6 +318,8 @@ export class BuildingDetailsDataModel {
   public C_Remark: string = '';
   public S_Action: string = '';
   public S_Remark: string = '';
+  public CityID: number = 0;
+  public CityName: string = '';
 }
 
 export class DocuemntBuildingDetailsDataModel {

@@ -317,13 +317,13 @@ export class SubjectMasterComponent implements OnInit {
             "DepartmentName": this.SubjectMasterData[i]['DepartmentName'],
             //"CourseName": this.SubjectMasterData[i]['CourseName'],
             "SubjectName": this.SubjectMasterData[i]['SubjectName'],
-            "IsPredical": this.SubjectMasterData[i]['Predical'],
+            "RequiredLab": this.SubjectMasterData[i]['Predical'],
             "Status": this.SubjectMasterData[i]['ActiveDeactive']
           })
         }
 
         let values: any;
-        let privados = ['S.No.', "DepartmentName", "SubjectName","IsPredical", "Status"];
+        let privados = ['S.No.', "DepartmentName", "SubjectName","RequiredLab", "Status"];
         let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
         values = pDFData.map((elemento: any) => Object.values(elemento));
 

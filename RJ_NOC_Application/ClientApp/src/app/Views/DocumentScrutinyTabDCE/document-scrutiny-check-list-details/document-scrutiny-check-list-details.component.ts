@@ -23,6 +23,7 @@ import { HostelDataModel } from '../../../Models/HostelDetailsDataModel';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
+import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 
 
 @Injectable({
@@ -213,7 +214,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
 
 
 
-  constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private dcedocumentScrutinyService: DCEDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
@@ -225,28 +226,29 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.GetLandDetailsDataList();
-    this.GetFacilityDetailAllList();
-    this.ViewlegalEntityDataByID();
-    this.GetSocietyAllList();
-    this.ViewTotalCollegeDataByID();
-    this.GetRoomDetailAllList();
-    this.GetAllBuildingDetailsList();
-    this.GetStaffDetailList_DepartmentCollegeWise();
-    this.GetOldNOCDetailList_DepartmentCollegeWise();
-    this.GetRequiredDocuments('Required Document');
-    this.GetOtherInformationAllList();
-    this.GetAcademicInformationDetailAllList();
-    this.GetOtherDocuments('Other Document');
-    this.GetHostelDetailList_DepartmentCollegeWise();
-    this.GetRoleListForApporval();
-    this.GetWorkFlowActionListByRole();
-    this.NextGetWorkFlowActionListByRole();
-    this.GetCollageDetails();
-    this.GetCollegeWiseStudenetDetails();
-    this.GetSubjectWiseStudenetDetails();
+     this.GetLandDetailsDataList();
+     this.GetFacilityDetailAllList();
+     this.ViewlegalEntityDataByID();
+     this.GetSocietyAllList();
+     this.ViewTotalCollegeDataByID();
+     this.GetRoomDetailAllList();
+     this.GetAllBuildingDetailsList();
+     this.GetStaffDetailList_DepartmentCollegeWise();
+     this.GetOldNOCDetailList_DepartmentCollegeWise();
+     this.GetRequiredDocuments('Required Document');
+     this.GetOtherInformationAllList();
+     this.GetAcademicInformationDetailAllList();
+     this.GetOtherDocuments('Other Document');
+     this.GetHostelDetailList_DepartmentCollegeWise();
+     this.GetRoleListForApporval();
+     this.GetWorkFlowActionListByRole();
+     this.NextGetWorkFlowActionListByRole();
+     this.GetCollageDetails();
+     this.GetCollegeWiseStudenetDetails();
+     this.GetSubjectWiseStudenetDetails();
     //this.CheckDocumentScrutinyTabsData();
     this.CheckTabsEntry();
+     this.GetPVStageStatusOfApplication(this.SelectedApplyNOCID);
   }
 
 
@@ -855,7 +857,10 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
           }
         }
       }
-
+      if (this.IsPVStageDone != 1) {
+        this.toastr.warning('Physical Verification not done yet');
+        this.isFormvalid = false;
+      }
       if (!this.isFormvalid) {
         return;
       }
@@ -868,7 +873,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/applynocapplicationlist/Pending']);
+            this.routers.navigate(['/dceapplicationlist/Pending']);
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -1063,6 +1068,30 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public IsPVStageDone: number = null;
+  async GetPVStageStatusOfApplication(applyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.IsPVStageDone = data['Data']['PVStage'];
         }, error => console.error(error));
     }
     catch (Ex) {

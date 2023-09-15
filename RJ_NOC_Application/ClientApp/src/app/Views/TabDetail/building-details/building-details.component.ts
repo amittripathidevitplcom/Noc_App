@@ -118,7 +118,9 @@ export class BuildingDetailsComponent implements OnInit {
   public MaxDate: Date = new Date();
   public Owin_RentDocTitle: any = '';
   public buildAddressShowHide: boolean = true;
-
+  public CityID: number = 0;
+  public CityName: string = '';
+  public CityList: any = [];
 
   constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute,
@@ -141,7 +143,8 @@ export class BuildingDetailsComponent implements OnInit {
         rbRuralUrban_Owner: ['', Validators.required],
         ddlDivisionID_Owner: ['', [DropdownValidators]],
         ddlDistrictID_Owner: ['', [DropdownValidators]],
-        ddlTehsilID_Owner: [''],
+        ddlTehsilID_Owner: ['', [DropdownValidators]],
+        ddlCityID: [''],
         ddlPanchayatSamitiID_Owner: [''],
         txtCityTownVillage_Owner: ['', Validators.required],
         txtPincode_Owner: ['', [Validators.required]],
@@ -240,7 +243,7 @@ export class BuildingDetailsComponent implements OnInit {
     else {
       this.RentAggrementDocShow = true;
       this.buildAddressShowHide = false;
-     
+
       this.Owin_RentDocTitle = 'Certificate of Land & Rented Building in same "Tehsil" Order No. & Order Date : '
     }
   }
@@ -320,8 +323,9 @@ export class BuildingDetailsComponent implements OnInit {
         this.IsPanchayatSamitirequried = true;
         this.isFormValid = false;
       }
-      if (this.buildingdetails.TehsilID == 0) {
-        this.IsTehsilrequired = true;
+    }
+    else {
+      if (this.buildingdetails.CityID == 0) {
         this.isFormValid = false;
       }
     }
@@ -454,21 +458,38 @@ export class BuildingDetailsComponent implements OnInit {
       this.buildingdetails.AddressLine2 = this.BuildingCollegeAddress[0]["AddressLine2"];
       this.buildingdetails.RuralUrban = this.BuildingCollegeAddress[0]["RuralUrban"];
       this.buildingdetails.DivisionID = this.BuildingCollegeAddress[0]["DivisionID"];
-      this.FillDivisionRelatedDDL(null, this.buildingdetails.DivisionID);
+      await this.FillDivisionRelatedDDL(null, this.buildingdetails.DivisionID);
       this.buildingdetails.DistrictID = this.BuildingCollegeAddress[0]["DistrictID"];
-
+      await this.FillDistrictRelatedDDL(null, this.buildingdetails.DistrictID);
+      this.buildingdetails.TehsilID = this.BuildingCollegeAddress[0]["TehsilID"];
       if (this.buildingdetails.RuralUrban == 'Rural') {
         this.IsRural = true;
-        this.FillDistrictRelatedDDL(null, this.buildingdetails.DistrictID);
-        this.buildingdetails.TehsilID = this.BuildingCollegeAddress[0]["TehsilID"];
         this.buildingdetails.PanchayatSamitiID = this.BuildingCollegeAddress[0]["PanchayatSamitiID"];
       }
       else {
         this.IsRural = false;
+        this.buildingdetails.CityID = this.BuildingCollegeAddress[0]["CityID"];
       }
       this.buildingdetails.CityTownVillage = this.BuildingCollegeAddress[0]["CityTownVillage"];
       this.buildingdetails.ContactNo = this.BuildingCollegeAddress[0]["MobileNumber"];
       this.buildingdetails.Pincode = this.BuildingCollegeAddress[0]["Pincode"];
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ViewBuildingDocument(SchoolBuildingDetailsID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.buildingDetailsMasterService.GetByID(SchoolBuildingDetailsID, this.UserID)
+        .then((data: any) => {
+          //data = JSON.parse(JSON.stringify(data));
+          this.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
+
+        }, error => console.error(error));
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -482,7 +503,7 @@ export class BuildingDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       await this.buildingDetailsMasterService.GetByID(SchoolBuildingDetailsID, this.UserID)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.buildingdetails.SchoolBuildingDetailsID = data['Data'][0]['data']['Table'][0]["SchoolBuildingDetailsID"];
           this.GetBuildingTypeCheck();
@@ -493,17 +514,17 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
           this.buildingdetails.RuralUrban = data['Data'][0]['data']['Table'][0]["RuralUrban"];
           this.buildingdetails.DivisionID = data['Data'][0]['data']['Table'][0]["DivisionID"];
-          this.FillDivisionRelatedDDL(null, this.buildingdetails.DivisionID);
+          await this.FillDivisionRelatedDDL(null, this.buildingdetails.DivisionID);
           this.buildingdetails.DistrictID = data['Data'][0]['data']['Table'][0]["DistrictID"];
-
+          await this.FillDistrictRelatedDDL(null, this.buildingdetails.DistrictID);
+          this.buildingdetails.TehsilID = data['Data'][0]['data']['Table'][0]["TehsilID"];
           if (this.buildingdetails.RuralUrban == 'Rural') {
             this.IsRural = true;
-            this.FillDistrictRelatedDDL(null, this.buildingdetails.DistrictID);
-            this.buildingdetails.TehsilID = data['Data'][0]['data']['Table'][0]["TehsilID"];
             this.buildingdetails.PanchayatSamitiID = data['Data'][0]['data']['Table'][0]["PanchayatSamitiID"];
           }
           else {
             this.IsRural = false;
+            this.buildingdetails.CityID = data['Data'][0]['data']['Table'][0]["CityID"];
           }
           this.buildingdetails.CityTownVillage = data['Data'][0]['data']['Table'][0]["CityTownVillage"];
           this.buildingdetails.ContactNo = data['Data'][0]['data']['Table'][0]["ContactNo"];
@@ -776,7 +797,7 @@ export class BuildingDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.IsRural = isRural;
-      this.buildingdetails.TehsilID = 0;
+      this.buildingdetails.CityID = 0;
       this.buildingdetails.PanchayatSamitiID = 0;
     }
     catch (Ex) {
@@ -789,6 +810,14 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async FillDivisionRelatedDDL(event: any, SeletedValueDivision: any) {
+    this.DistrictList = [];
+    this.buildingdetails.DistrictID = 0;
+    this.TehsilList = [];
+    this.buildingdetails.TehsilID = 0;
+    this.CityList = [];
+    this.buildingdetails.CityID = 0;
+    this.PanchyatSamitiList = [];
+    this.buildingdetails.PanchayatSamitiID = 0;
     this.buildingdetails.DivisionID = SeletedValueDivision;
     try {
       this.loaderService.requestStarted();
@@ -843,6 +872,15 @@ export class BuildingDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.PanchyatSamitiList_Owner = data['Data'];
 
+        }, error => console.error(error));
+      //city list
+      await this.commonMasterService.GetCityByDistrict(SeletedValueDistrict)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CityList = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -1115,7 +1153,7 @@ export class BuildingDetailsComponent implements OnInit {
       }
 
       else if (Type == 'buildingOtherDoc2FileUpload' || Type == 'All') {
-       // this.isValidbuildingOtherDoc1FileUpload = isShow;
+        // this.isValidbuildingOtherDoc1FileUpload = isShow;
         this.buildingdetails.buildingOtherDoc2FileUpload = '';
         this.buildingdetails.Dis_buildingOtherDoc2FileUpload = '';
         this.buildingdetails.buildingOtherDoc2FileUploadPath = '';

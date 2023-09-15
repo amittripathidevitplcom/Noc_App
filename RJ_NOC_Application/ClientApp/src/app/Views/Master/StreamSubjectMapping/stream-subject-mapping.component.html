@@ -25,10 +25,20 @@
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlDepartmentID" class="form-label">Select Department Name  <span style="color:red;">*</span></label>
                 <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (input)="FillCourselevel($event,SeletedDepartmentID.value)">
                   <option value="0" disabled>--Select Department--</option>
+                  <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>-->
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlDepartmentID" class="form-label">Select Department Name <span style="color:red;">*</span></label>
+                <select class="form-select" [attr.disabled]="is_disableDepartment ? '' : null" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID">
+                  <option value="0">--Select Department--</option>
                   <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
                 </select>
                 <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
@@ -56,7 +66,7 @@
                   <p *ngIf="!form.ddlCourseLevelID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-             
+
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="chkActiveStatus" class="form-label">Status</label>
                 <div class="form-check form-switch d-flex align-items-center">
@@ -65,7 +75,7 @@
               </div>
             </div>
 
-            <table  *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
+            <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
               <thead>
                 <tr>
                   <th>Sr. No</th>
