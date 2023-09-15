@@ -60,7 +60,7 @@ export class OtherInformationComponent implements OnInit {
   public CurrentPageName: any = "";
 
   public UserID: number = 0;
-  public courseDataList: any = [];
+  public courseDataList: any[] = [];
   public RoomSizeDataList: any = [];
   public OtherInformation: any = [];
 
@@ -97,6 +97,9 @@ export class OtherInformationComponent implements OnInit {
   public showBookImageFilePath: boolean = false;
   public ReqNoofComputers: number = 10;
   public Dis_ReqNoofComputers: number = 10;
+
+
+  public ShowHideLabData: boolean = false;
 
   // ssologin model
   ssoLoginModel = new SSOLoginDataModel();
@@ -173,10 +176,9 @@ export class OtherInformationComponent implements OnInit {
   async ddlCourse_change($event: any, SeletedCourseID: any) {
 
 
-    if (this.request.DepartmentID == EnumDepartment.CollegeEducation)
-    {
-      this.GetCollegeLabInformationList("GetData");
-    }
+
+
+    
 
     this.request.CourseID = SeletedCourseID;
     this.request.Width = 0;
@@ -203,6 +205,19 @@ export class OtherInformationComponent implements OnInit {
       else {
         this.ShowHideComputers = false;
       }
+
+
+      if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
+        if (OtherName == 'Laboratory') {
+          this.ShowHideLabData = true;
+          this.GetCollegeLabInformationList("GetData");
+        }
+        else
+        {
+          this.ShowHideLabData = true;
+        }
+      }
+
 
       this.loaderService.requestStarted();
       this.commonMasterService.GetOtherInformationSize(this.request.CourseID)
@@ -516,6 +531,8 @@ export class OtherInformationComponent implements OnInit {
       this.showBookImageFilePath = false;
       this.ShowHideBook = false;
       this.ShowHideComputers = false;
+      this.ShowHideLabData = false;
+
       this.GetOtherInformationAllList();
       const btnSave = document.getElementById('btnSave')
       if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
