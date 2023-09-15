@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { OtherInformationDataModel } from '../../Models/OtherInformationDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
+import { PostCollegeLabInformation } from '../../Models/CollegeLabInformationDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -48,4 +49,23 @@ export class OtherInformationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetCollegeLabInformationList(CollegeID: number, Key: String) {
+
+    return await this.http.get(this.APIUrl + "/GetCollegeLabInformationList/" + CollegeID + "/" + Key)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async SaveLabData(request: PostCollegeLabInformation) {
+
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/SaveLabData", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

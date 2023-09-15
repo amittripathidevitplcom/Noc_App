@@ -94,15 +94,27 @@
                   <p *ngIf="!form.ddlDistrictID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
+
+                <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="buildingdetails.TehsilID" formControlName="ddlTehsilID_Owner">
+                  <option value="0">--Select Tehsil--</option>
+                  <option *ngFor="let item of TehsilList_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlTehsilID_Owner.errors" class="text-danger">
+                  <p *ngIf="!form.ddlTehsilID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural">
                 <div [hidden]="buildAddressShowHide">
-                  <label class="form-label">Tehsil <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="buildingdetails.TehsilID" formControlName="ddlTehsilID_Owner">
-                    <option value="0">--Select Tehsil--</option>
-                    <option *ngFor="let item of TehsilList_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                  <label for="ddlCityID" class="form-label">City<span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlCityID" name="ddlCityID" [(ngModel)]="buildingdetails.CityID" formControlName="ddlCityID">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of CityList" value="{{item.CityID}}">{{item.City_English}}</option>
                   </select>
-                  <div *ngIf="isSubmitted&&IsTehsilrequired" class="text-danger">
-                    <p *ngIf="isSubmitted&&IsTehsilrequired"><i aria-hidden="true"></i>This field is required .!</p>
+                  <div *ngIf="isSubmitted&&!IsRural&&buildingdetails.CityID<=0" class="text-danger">
+                    <p *ngIf="isSubmitted&&!IsRural&&buildingdetails.CityID<=0"><i aria-hidden="true"></i>This field is required .!</p>
                   </div>
                 </div>
               </div>
@@ -588,14 +600,14 @@
                     <th>Owner Name</th>
                     <th>Full Address</th>
                     <!--<th>Address Line1</th>
-                  <th>Address Line2</th>
-                  <th>Rural Urban</th>
-                  <th>DivisionName</th>
-                  <th>DistrictName</th>
-                  <th>TehsilName</th>
-                  <th>PanchyatSamitiName</th>
-                  <th>CityTownVillage</th>
-                  <th>Pincode</th>-->
+                    <th>Address Line2</th>
+                    <th>Rural Urban</th>
+                    <th>DivisionName</th>
+                    <th>DistrictName</th>
+                    <th>TehsilName</th>
+                    <th>PanchyatSamitiName</th>
+                    <th>CityTownVillage</th>
+                    <th>Pincode</th>-->
                     <th>ContactNo</th>
                     <th>Constructed Building Area</th>
                     <th>Own/Rented Order No</th>
@@ -636,14 +648,14 @@
                     <td *ngIf="item.BuildingTypeName == 'Owned'">N/A</td>
                     <td>{{item.FullAddress}}</td>
                     <!--<td>{{item.AddressLine1}}</td>
-                  <td>{{item.AddressLine2}}</td>
-                  <td>{{item.RuralUrban}}</td>
-                  <td>{{item.Division_English}}</td>
-                  <td>{{item.District_Eng}}</td>
-                  <td>{{item.TehsilName}}</td>
-                  <td>{{item.PanchyatSamitiName}}</td>
-                  <td>{{item.CityTownVillage}}</td>
-                  <td>{{item.Pincode}}</td>-->
+                    <td>{{item.AddressLine2}}</td>
+                    <td>{{item.RuralUrban}}</td>
+                    <td>{{item.Division_English}}</td>
+                    <td>{{item.District_Eng}}</td>
+                    <td>{{item.TehsilName}}</td>
+                    <td>{{item.PanchyatSamitiName}}</td>
+                    <td>{{item.CityTownVillage}}</td>
+                    <td>{{item.Pincode}}</td>-->
                     <td>{{item.ContactNo}}</td>
                     <td>{{item.BuildingHostelQuartersRoadArea}}</td>
                     <td>{{item.OwnBuildingOrderNo}}</td>
@@ -687,7 +699,7 @@
                       <div class="d-flex">
                         <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                         <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
-                        <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewBuildingDocument" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></a>
+                        <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewBuildingDocument" (click)="ViewBuildingDocument(item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></a>
                       </div>
                     </td>
                   </tr>
@@ -706,7 +718,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewBuildingDocument"><i class="fa fa-close"></i></button>
           </div>
           <div class="modal-body py-4">
-            <div class="row" *ngIf="buildingdetails.lstBuildingDocDetails.length>0">
+            <div class="row" *ngIf="lstBuildingDocDetails.length>0">
               <div class="col-md-12">
                 <div class="card mb-0">
                   <div class="card-header">
@@ -723,7 +735,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor="let row of buildingdetails.lstBuildingDocDetails; let indexOfelement=index;">
+                          <tr *ngFor="let row of lstBuildingDocDetails; let indexOfelement=index;">
                             <td> {{indexOfelement+1}}</td>
                             <td>{{row.DocumentName}}</td>
                             <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
@@ -743,7 +755,7 @@
       </div>
     </div>
   </div>
-  
+
 </div>
 
 

@@ -97,11 +97,11 @@
                 <label class="form-label"><b>District :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.District_Eng}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildingdetails.RuralUrban != 'Rural'">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Rural' && buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Tehsil :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.TehsilName}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildingdetails.RuralUrban != 'Rural'">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Rural' && buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Panchayat Samiti :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.PanchyatSamitiName}}" />
               </div>
@@ -186,12 +186,12 @@
                     <label class="form-label"><b>Order No :</b></label>
                     <input class="form-control disabled" disabled value="{{buildingdetails.FireNOCOrderNumber}}" />
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
                     <label class="form-label"><b>From Date :</b></label>
                     <input class="form-control disabled" disabled value="{{buildingdetails.FromDate | date:'dd-MM-yyyy'}}" />
                   </div>
 
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
                     <label class="form-label"><b>To Date :</b></label>
                     <input class="form-control disabled" disabled value="{{buildingdetails.ToDate | date:'dd-MM-yyyy'}}" />
                   </div>
