@@ -133,6 +133,7 @@ import { AhPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab
 import { AhPhysicalFinalVerificationComponent } from './Views/DocumentScrutinyTab_AH/ah-physical-final-verification/ah-physical-final-verification.component';
 import { AhFinalVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-verification-done-list/ah-final-verification-done-list.component';
 import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-noc-application-list/ah-final-noc-application-list.component';
+import { AhDocumentScrutinyNodalOfficerComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-nodal-officer/ah-document-scrutiny-nodal-officer.component';
 
 
 const routes: Routes = [
@@ -578,7 +579,10 @@ const routes: Routes = [
 
       {
         path: 'AhFinalNocApplicationList/:Status', component: AhFinalNocApplicationListComponent
-      }
+      },
+      {
+        path: 'animalhusbandryappnocviewByNodal/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: AhDocumentScrutinyNodalOfficerComponent
+      },
     ]
   },
 

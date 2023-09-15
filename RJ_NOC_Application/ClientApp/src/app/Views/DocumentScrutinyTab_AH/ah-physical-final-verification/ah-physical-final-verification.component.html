@@ -5,8 +5,9 @@
   <div class="card-body">
     <div class="clearfix"></div>
     <div class="card">
-      <div class="card-header">
+      <div class="card-header  d-flex justify-content-between align-items-center">
         <b>Committee Inspection Application List</b>
+        <a href="/dashboard" class="btn btn-sm btn-primary">Back to Dashboard</a>
       </div>
       <div class="card-body">
         <div class="row">
@@ -29,9 +30,10 @@
                     <td>{{item.CollegeName}}</td>
                     <td>{{item.ApplicationNo}}</td>
                     <td>
-                      <a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                      <button type="button" class="btn btn-sm btn-success" title="Action" (click)="OpenActionPopUP(item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-tasks"></i></button>
-                      <button *ngIf="item.ISRNCData==1" type="button" class="btn btn-sm btn-success" title="Final Submit" (click)="OpenApplicationCommitteeMember(item.ApplyNOCID,item.ApplicationNo)"><i class="fa fa-gear"></i></button>
+                      <a href="javascript:void(0)" title="Document Scrutiny Tab" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <!--<a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>-->
+                      <button type="button" class="btn btn-sm btn-success" title="Check List Submit" (click)="OpenActionPopUP(item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-tasks"></i></button>
+                      <button *ngIf="item.ISRNCData==1" type="button" class="btn btn-sm btn-success" title="Final Check List Submit" (click)="OpenApplicationCommitteeMember(item.ApplyNOCID,item.ApplicationNo)"><i class="fa fa-gear"></i></button>
                     </td>
                   </tr>
                   <tr>

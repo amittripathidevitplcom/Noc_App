@@ -139,6 +139,7 @@ export class HostelDetailsComponent implements OnInit {
 
   readonly imageUrlPath = GlobalConstants.ImagePathURL;
   public IsDisabledAddress: boolean = false;
+  public CityList: any = [];
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
     private clipboard: Clipboard, private fileUploadService: FileUploadService, private hostelDetailService: HostelDetailService, private modalService: NgbModal, private collegeService: CollegeService) {
@@ -169,6 +170,7 @@ export class HostelDetailsComponent implements OnInit {
         ddlDistrictID: ['', [DropdownValidators]],
         ddlTehsilID: ['', [DropdownValidators]],
         ddlPanchayatSamitiID: ['', [DropdownValidators]],
+        ddlCityID: ['', [DropdownValidators]],
         txtCityTownVillage: ['', Validators.required],
         txtPincode: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
 
@@ -274,15 +276,7 @@ export class HostelDetailsComponent implements OnInit {
   async FillDistrictRelatedDDL() {
     try {
       this.loaderService.requestStarted();
-      // subdivision list
-      await this.commonMasterService.GetSuvdivisionByDistrictId(this.request.DistrictID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.SuvdivisionList = data['Data'];
-        }, error => console.error(error));
+
       // Tehsil list
       await this.commonMasterService.GetTehsilByDistrictId(this.request.DistrictID)
         .then((data: any) => {
@@ -301,6 +295,15 @@ export class HostelDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.PanchyatSamitiList = data['Data'];
 
+        }, error => console.error(error));
+      //city list
+      await this.commonMasterService.GetCityByDistrict(this.request.DistrictID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CityList = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -551,7 +554,6 @@ export class HostelDetailsComponent implements OnInit {
     }
   }
   async SaveData() {
-    debugger
     try {
       this.isFormValid = this.ValidateForm();
       if (this.HostelForm.invalid) {
@@ -576,7 +578,6 @@ export class HostelDetailsComponent implements OnInit {
         this.request.CreatedBy = 1;
         this.request.ModifyBy = 1;
       }
-      this.request.DepartmentID = this.SelectedDepartmentID;
       this.request.DepartmentID = this.SelectedDepartmentID;
       this.request.CollegeID = this.SelectedCollageID;
       //post
@@ -795,27 +796,30 @@ export class HostelDetailsComponent implements OnInit {
           this.holddata.DivisionID = data['Data'][0]['DivisionID'];
           this.holddata.DistrictID = data['Data'][0]['DistrictID'];
           this.holddata.TehsilID = data['Data'][0]['TehsilID'];
+          this.holddata.CityID = data['Data'][0]['CityID'];
           this.holddata.PanchayatSamitiID = data['Data'][0]['PanchayatSamitiID'];
           this.holddata.CityTownVillage = data['Data'][0]['CityTownVillage'];
           this.holddata.Pincode = data['Data'][0]['Pincode'];
-          await this.IsHostelCampusOrNot();
+          await this.IsHostelCampusOrNot(false);
           this.request.HostelCategory = data['Data'][0]['HostelCategory'];
           this.request.HostelCategoryID = data['Data'][0]['HostelCategoryID'];
           this.request.HostelName = data['Data'][0]['HostelName'];
-          this.request.AddressLine1 = data['Data'][0]['AddressLine1'];
-          this.request.AddressLine2 = data['Data'][0]['AddressLine2'];
-          this.request.IsRuralUrban = data['Data'][0]['IsRuralUrban'];
-          await this.IsRuralOrUrban(null);
-          this.request.DivisionID = data['Data'][0]['DivisionID'];
-          this.request.DivisionName = data['Data'][0]['DivisionName'];
-          await this.FillDivisionRelatedDDL();
-          this.request.DistrictID = data['Data'][0]['DistrictID'];
-          this.request.DistrictName = data['Data'][0]['DistrictName'];
-          await this.FillDistrictRelatedDDL();
-          this.request.TehsilID = data['Data'][0]['TehsilID'];
-          this.request.TehsilName = data['Data'][0]['TehsilName'];
-          this.request.PanchayatSamitiID = data['Data'][0]['PanchayatSamitiID'];
-          this.request.PanchyatSamitiName = data['Data'][0]['PanchyatSamitiName'];
+          //this.request.AddressLine1 = data['Data'][0]['AddressLine1'];
+          //this.request.AddressLine2 = data['Data'][0]['AddressLine2'];
+          //this.request.IsRuralUrban = data['Data'][0]['IsRuralUrban'];
+          //await this.IsRuralOrUrban(null);
+          //this.request.DivisionID = data['Data'][0]['DivisionID'];
+          //this.request.DivisionName = data['Data'][0]['DivisionName'];
+          //await this.FillDivisionRelatedDDL();
+          //this.request.DistrictID = data['Data'][0]['DistrictID'];
+          //this.request.DistrictName = data['Data'][0]['DistrictName'];
+          ///await this.FillDistrictRelatedDDL();
+          //this.request.TehsilID = data['Data'][0]['TehsilID'];
+          //this.request.TehsilName = data['Data'][0]['TehsilName'];
+          //this.request.CityID = data['Data'][0]['CityID'];
+          //this.request.CityName = data['Data'][0]['CityName'];
+          //this.request.PanchayatSamitiID = data['Data'][0]['PanchayatSamitiID'];
+          //this.request.PanchyatSamitiName = data['Data'][0]['PanchyatSamitiName'];
           this.request.CityTownVillage = data['Data'][0]['CityTownVillage'];
           this.request.Pincode = data['Data'][0]['Pincode'];
           this.request.ContactPersonName = data['Data'][0]['ContactPersonName'];
@@ -878,7 +882,6 @@ export class HostelDetailsComponent implements OnInit {
   ResetControl() {
     try {
       this.loaderService.requestStarted();
-      this.request = new HostelDataModel();
       this.holddata = new HostelDataModel();
       this.isSubmitted = false;
       this.WidthMin = 0;
@@ -893,6 +896,51 @@ export class HostelDetailsComponent implements OnInit {
       this.showRentDocument = false;
       this.isHostelSubmitted = false;
       this.isDisabled = false;
+      this.IsDisabledAddress = false;
+
+      this.request.HostelCategoryID = 0;
+      this.request.HostelDetailID = 0;
+      this.request.IsHostelCampus = '';
+      this.request.HostelName = '';
+      this.request.HostelAddress = '';
+      this.request.ContactPersonName = '';
+      this.request.DistanceOfCollege = '';
+      this.request.HostelType = '';
+      this.request.OwnerName = '';
+      this.request.OwnerContactNo = '';
+      this.request.RentDocument = '';
+      this.request.RentDocumentPath = '';
+      this.request.RentDocument_Dis_FileName = '';
+      this.request.ContactPersonNo = '';
+      this.request.FromDate = '';
+      this.request.ToDate = '';
+      this.request.HostelDetails = [];
+      this.request.AddressLine1 = '';
+      this.request.AddressLine2 = '';
+      this.request.IsRuralUrban = '';
+      this.request.DivisionID = 0;
+      this.request.DistrictID = 0;
+      this.request.TehsilID = 0;
+      this.request.PanchayatSamitiID = 0;
+      this.request.CityTownVillage = '';
+      this.request.Pincode = null;
+      this.request.DepartmentID = 0;
+      this.request.CollegeID = 0;
+      this.request.DivisionName = '';
+      this.request.DistrictName = '';
+      this.request.TehsilName = '';
+      this.request.PanchyatSamitiName = '';
+      this.request.CreatedBy = 0;
+      this.request.ModifyBy = 0;
+      this.request.HostelCategory = '';
+      this.request.CityID = 0;
+      this.request.CityName = '';
+      this.DistrictList = [];
+      this.TehsilList = [];
+      this.CityList = [];
+      this.PanchyatSamitiList = [];
+
+
       const btnAdd = document.getElementById('btnSave')
       if (btnAdd) {
         btnAdd.innerHTML = "Save";
@@ -909,25 +957,20 @@ export class HostelDetailsComponent implements OnInit {
   }
 
   async IsRuralOrUrban(section: string) {
-    //debugger
+    debugger
     try {
       this.loaderService.requestStarted();
-      if (section == 'nearest') {
-
+      if (this.request.IsRuralUrban == 'Rural') {
+        this.HostelForm.get('ddlCityID')?.clearValidators();
+        this.HostelForm.get('ddlPanchayatSamitiID')?.setValidators([DropdownValidators]);
       }
       else {
-        if (this.request.IsRuralUrban == 'Rural') {
-          this.HostelForm.get('ddlTehsilID')?.setValidators([DropdownValidators]);
-          this.HostelForm.get('ddlPanchayatSamitiID')?.setValidators([DropdownValidators]);
-        }
-        else {
-          this.HostelForm.get('ddlTehsilID')?.clearValidators();
-          this.HostelForm.get('ddlPanchayatSamitiID')?.clearValidators();
-        }
-        // update
-        this.HostelForm.get('ddlTehsilID')?.updateValueAndValidity();
-        this.HostelForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
+        this.HostelForm.get('ddlCityID')?.setValidators([DropdownValidators]);
+        this.HostelForm.get('ddlPanchayatSamitiID')?.clearValidators();
       }
+      // update
+      this.HostelForm.get('ddlCityID')?.updateValueAndValidity();
+      this.HostelForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
     }
     catch (Ex) {
       console.log(Ex);
@@ -939,7 +982,7 @@ export class HostelDetailsComponent implements OnInit {
     }
   }
 
-  async IsHostelCampusOrNot() {
+  async IsHostelCampusOrNot(IsChanged: boolean) {
     //debugger
     try {
       this.loaderService.requestStarted();
@@ -947,42 +990,54 @@ export class HostelDetailsComponent implements OnInit {
         this.IsDisabledAddress = false;
         this.HostelForm.get('txtCollegeDistance')?.setValidators(Validators.required);
         this.HostelForm.get('rdHostelType')?.setValidators(Validators.required);
-        this.request.AddressLine1 = '';
-        this.request.AddressLine2 = '';
-        this.request.IsRuralUrban = '';
-        this.request.DivisionID = 0;
-        this.request.DistrictID = 0;
-        this.request.TehsilID = 0;
-        this.request.PanchayatSamitiID = 0;
-        this.request.CityTownVillage = '';
-        this.request.Pincode = null;
-        this.DistrictList = [];
-        this.SuvdivisionList = [];
-        this.TehsilList = [];
-        this.PanchyatSamitiList = [];
+        if (this.request.HostelDetailID > 0 && !IsChanged) {
+          this.request.AddressLine1 = this.holddata.AddressLine1;
+          this.request.AddressLine2 = this.holddata.AddressLine2;
+          this.request.IsRuralUrban = this.holddata.IsRuralUrban;
+          await this.IsRuralOrUrban(null);
+          this.request.DivisionID = this.holddata.DivisionID;
+          await this.FillDivisionRelatedDDL();
+          this.request.DistrictID = this.holddata.DistrictID;
+          await this.FillDistrictRelatedDDL();
+          this.request.TehsilID = this.holddata.TehsilID;
+          this.request.CityID = this.holddata.CityID;
+          this.request.PanchayatSamitiID = this.holddata.PanchayatSamitiID;
+          this.request.CityTownVillage = this.holddata.CityTownVillage;
+          this.request.Pincode = this.holddata.Pincode;
+        }
+        else {
+          this.request.AddressLine1 = '';
+          this.request.AddressLine2 = '';
+          this.request.IsRuralUrban = '';
+          this.request.DivisionID = 0;
+          this.request.DistrictID = 0;
+          this.request.TehsilID = 0;
+          this.request.CityID = 0;
+          this.request.PanchayatSamitiID = 0;
+          this.request.CityTownVillage = '';
+          this.request.Pincode = null;
+          this.DistrictList = [];
+          this.SuvdivisionList = [];
+          this.TehsilList = [];
+          this.PanchyatSamitiList = [];
+        }
       }
       else {
         this.IsDisabledAddress = true;
         this.HostelForm.get('txtCollegeDistance')?.clearValidators();
         this.HostelForm.get('rdHostelType')?.clearValidators();
-        debugger;
-        if (this.request.HostelDetailID > 0) {
+        if (this.request.HostelDetailID > 0 && !IsChanged) {
           this.request.AddressLine1 = this.holddata.AddressLine1;
           this.request.AddressLine2 = this.holddata.AddressLine2;
-          this.request.IsRuralUrban = this.holddata.IsRuralUrban == '1' ? 'Rural' : 'Urban';
+          this.request.IsRuralUrban = this.holddata.IsRuralUrban;
           await this.IsRuralOrUrban(null);
           this.request.DivisionID = this.holddata.DivisionID;
           await this.FillDivisionRelatedDDL();
           this.request.DistrictID = this.holddata.DistrictID;
-          if (this.request.IsRuralUrban == 'Rural') {
-            await this.FillDistrictRelatedDDL();
-            this.request.TehsilID = this.holddata.TehsilID;
-            this.request.PanchayatSamitiID = this.holddata.PanchayatSamitiID;
-          }
-          else {
-            this.request.TehsilID = 0;
-            this.request.PanchayatSamitiID = 0;
-          }
+          await this.FillDistrictRelatedDDL();
+          this.request.TehsilID = this.holddata.TehsilID;
+          this.request.CityID = this.holddata.CityID;
+          this.request.PanchayatSamitiID = this.holddata.PanchayatSamitiID;
           this.request.CityTownVillage = this.holddata.CityTownVillage;
           this.request.Pincode = this.holddata.Pincode;
         }
@@ -1086,20 +1141,16 @@ export class HostelDetailsComponent implements OnInit {
           this.collegeDataList = data['Data'];
           this.request.AddressLine1 = this.collegeDataList['AddressLine1'];
           this.request.AddressLine2 = this.collegeDataList['AddressLine2'];
-          this.request.IsRuralUrban = this.collegeDataList['RuralUrban'] == 1 ? 'Rural' : 'Urban';
+          this.request.IsRuralUrban = this.collegeDataList['RuralUrban']==1?'Rural':'Urban';
           await this.IsRuralOrUrban(null);
           this.request.DivisionID = this.collegeDataList['DivisionID'];
           await this.FillDivisionRelatedDDL();
           this.request.DistrictID = this.collegeDataList['DistrictID'];
-          if (this.request.IsRuralUrban == 'Rural') {
-            await this.FillDistrictRelatedDDL();
-            this.request.TehsilID = this.collegeDataList['TehsilID'];
-            this.request.PanchayatSamitiID = this.collegeDataList['PanchayatSamitiID'];
-          }
-          else {
-            this.request.TehsilID = 0;
-            this.request.PanchayatSamitiID = 0;
-          }
+          await this.FillDistrictRelatedDDL();
+          this.request.TehsilID = this.collegeDataList['TehsilID'];
+          this.request.CityID = this.collegeDataList['CityID'];
+          this.request.PanchayatSamitiID = this.collegeDataList['PanchayatSamitiID'];
+
           this.request.CityTownVillage = this.collegeDataList['CityTownVillage'];
           this.request.Pincode = this.collegeDataList['Pincode'];
 
