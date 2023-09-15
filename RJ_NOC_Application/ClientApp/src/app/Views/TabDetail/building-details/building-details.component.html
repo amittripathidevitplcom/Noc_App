@@ -94,15 +94,27 @@
                   <p *ngIf="!form.ddlDistrictID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
+
+                <label class="form-label">Tehsil <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="buildingdetails.TehsilID" formControlName="ddlTehsilID_Owner">
+                  <option value="0">--Select Tehsil--</option>
+                  <option *ngFor="let item of TehsilList_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlTehsilID_Owner.errors" class="text-danger">
+                  <p *ngIf="!form.ddlTehsilID_Owner.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural">
                 <div [hidden]="buildAddressShowHide">
-                  <label class="form-label">Tehsil <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlTehsilID_Owner" name="ddlTehsilID_Owner" [(ngModel)]="buildingdetails.TehsilID" formControlName="ddlTehsilID_Owner">
-                    <option value="0">--Select Tehsil--</option>
-                    <option *ngFor="let item of TehsilList_Owner" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+                  <label for="ddlCityID" class="form-label">City<span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlCityID" name="ddlCityID" [(ngModel)]="buildingdetails.CityID" formControlName="ddlCityID">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of CityList" value="{{item.CityID}}">{{item.City_English}}</option>
                   </select>
-                  <div *ngIf="isSubmitted&&IsTehsilrequired" class="text-danger">
-                    <p *ngIf="isSubmitted&&IsTehsilrequired"><i aria-hidden="true"></i>This field is required .!</p>
+                  <div *ngIf="isSubmitted&&!IsRural&&buildingdetails.CityID<=0" class="text-danger">
+                    <p *ngIf="isSubmitted&&!IsRural&&buildingdetails.CityID<=0"><i aria-hidden="true"></i>This field is required .!</p>
                   </div>
                 </div>
               </div>
@@ -588,14 +600,14 @@
                     <th>Owner Name</th>
                     <th>Full Address</th>
                     <!--<th>Address Line1</th>
-                  <th>Address Line2</th>
-                  <th>Rural Urban</th>
-                  <th>DivisionName</th>
-                  <th>DistrictName</th>
-                  <th>TehsilName</th>
-                  <th>PanchyatSamitiName</th>
-                  <th>CityTownVillage</th>
-                  <th>Pincode</th>-->
+                    <th>Address Line2</th>
+                    <th>Rural Urban</th>
+                    <th>DivisionName</th>
+                    <th>DistrictName</th>
+                    <th>TehsilName</th>
+                    <th>PanchyatSamitiName</th>
+                    <th>CityTownVillage</th>
+                    <th>Pincode</th>-->
                     <th>ContactNo</th>
                     <th>Constructed Building Area</th>
                     <th>Own/Rented Order No</th>
@@ -636,14 +648,14 @@
                     <td *ngIf="item.BuildingTypeName == 'Owned'">N/A</td>
                     <td>{{item.FullAddress}}</td>
                     <!--<td>{{item.AddressLine1}}</td>
-                  <td>{{item.AddressLine2}}</td>
-                  <td>{{item.RuralUrban}}</td>
-                  <td>{{item.Division_English}}</td>
-                  <td>{{item.District_Eng}}</td>
-                  <td>{{item.TehsilName}}</td>
-                  <td>{{item.PanchyatSamitiName}}</td>
-                  <td>{{item.CityTownVillage}}</td>
-                  <td>{{item.Pincode}}</td>-->
+                    <td>{{item.AddressLine2}}</td>
+                    <td>{{item.RuralUrban}}</td>
+                    <td>{{item.Division_English}}</td>
+                    <td>{{item.District_Eng}}</td>
+                    <td>{{item.TehsilName}}</td>
+                    <td>{{item.PanchyatSamitiName}}</td>
+                    <td>{{item.CityTownVillage}}</td>
+                    <td>{{item.Pincode}}</td>-->
                     <td>{{item.ContactNo}}</td>
                     <td>{{item.BuildingHostelQuartersRoadArea}}</td>
                     <td>{{item.OwnBuildingOrderNo}}</td>
@@ -743,7 +755,7 @@
       </div>
     </div>
   </div>
-  
+
 </div>
 
 
