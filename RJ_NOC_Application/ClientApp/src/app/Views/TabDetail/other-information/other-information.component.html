@@ -56,16 +56,16 @@
             </div>
           </div>
           <!--<div class="col-md-3 mb-2">
-            <label>Length (In Feet)<span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="OtherInformation_txtLength" name="OtherInformation_txtLength"
-                   placeholder="Enter Length (In Feet)"
-                   [(ngModel)]="request.Length" formControlName="OtherInformation_txtLength" (keypress)="numberOnly($event)">
-            <div *ngIf="isSubmitted&&form.OtherInformation_txtLength.errors" class="text-danger">
-              <p *ngIf="form.OtherInformation_txtLength.errors.required">This field is required .!</p>
-              <p *ngIf="form.OtherInformation_txtLength.errors.min">Length will be greater than zero .!</p>
-              <p *ngIf="form.OtherInformation_txtLength.errors.max">Length will be less than 500000 .!</p>
-            </div>
-          </div>-->
+      <label>Length (In Feet)<span style="color:red;">*</span></label>
+      <input type="text" class="form-control" id="OtherInformation_txtLength" name="OtherInformation_txtLength"
+             placeholder="Enter Length (In Feet)"
+             [(ngModel)]="request.Length" formControlName="OtherInformation_txtLength" (keypress)="numberOnly($event)">
+      <div *ngIf="isSubmitted&&form.OtherInformation_txtLength.errors" class="text-danger">
+        <p *ngIf="form.OtherInformation_txtLength.errors.required">This field is required .!</p>
+        <p *ngIf="form.OtherInformation_txtLength.errors.min">Length will be greater than zero .!</p>
+        <p *ngIf="form.OtherInformation_txtLength.errors.max">Length will be less than 500000 .!</p>
+      </div>
+    </div>-->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="fileUploadImage" class="form-label">Upload (PDF/Image)<span style="color:red;">*</span></label>
             <div class="d-flex">
@@ -93,7 +93,7 @@
             <label>No of Computers<span style="color:red;">*</span></label>
             <input type="text" class="form-control" id="OtherInformation_NoofComputers" [(ngModel)]="request.NoofComputers" name="OtherInformation_NoofComputers"
                    formControlName="OtherInformation_NoofComputers" (keypress)="numberOnly($event)">
-           
+
             <div *ngIf="isNoofComputersRequired" class="text-danger">
               <p *ngIf="isNoofComputersRequired">Minimum {{Dis_ReqNoofComputers}} Computers is required .!</p>
             </div>
@@ -134,6 +134,100 @@
             <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
           </div>
         </div>
+
+
+
+        <div class="card-body" *ngIf="ShowHideLabData">
+          <div class="row" *ngIf="CollegeWiseLabSubject.length>0">
+            <div class="col-md-12">
+              <div class="table-responsive" >
+                <table class="table table-hover table-striped-columns" id="tabellistLLab" #content>
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Course</th>
+                      <th>SubjectName</th>
+                      <th>RoomNo</th>
+                      <th>Width</th>
+                      <th>Length</th>
+                      <th>Lab Images</th>
+                      <th>Lab Equipment Images</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of CollegeWiseLabSubject;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.CourseName}}</td>
+                      <td>{{row.SubjectName}}</td>
+                      <td>
+                        <input type="text" class="form-control" id="txRoomNo{{idx}}" [ngModelOptions]="{standalone: true}" name="txRoomNo{{idx}}" [(ngModel)]="row.RoomNo" autocomplete="off">
+                        <div class="text-danger">
+                          <p *ngIf="row.RoomNo==''"> This field is required .!</p>
+                        </div>
+                      </td>
+
+                      <td>
+                        <input type="text" class="form-control" id="txtWidth{{idx}}" maxlength="4" [ngModelOptions]="{standalone: true}" name="txtWidth{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="row.Width" autocomplete="off">
+                        <div class="text-danger">
+                          <p *ngIf="row.Width==''"> This field is required .!</p>
+                        </div>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" id="txtLength{{idx}}" maxlength="4"  [ngModelOptions]="{standalone: true}" name="txtLength{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="row.Length" autocomplete="off">
+                        <div class="text-danger">
+                          <p *ngIf="row.Length==''"> This field is required .!</p>
+                        </div>
+                      </td>
+
+                      <td>
+                        <div class="d-flex">
+                          <input type="file" [(ngModel)]="row.LabImage" [ngModelOptions]="{standalone: true}" id="fileLandDocument_{{idx}}" (input)="onFilechangeItem($event,row)" class="form-control d-none" />
+                          <label class="btn upload" for="fileLandDocument_{{idx}}">
+                            <span class="filename">Choose file</span>
+                            {{row.FileName === '' ? 'No File Choosen' : row.Dis_FileName}}
+                          </label>
+                          <div class="btn-group" *ngIf="row.FileName !== ''">
+                            <a class="btn btn-outline-primary" target="_blank" href="{{row.FilePath}}"><i class="fa fa-eye"></i></a>
+                            <button type="button" class="btn btn-outline-danger" (click)="DeleteImageItem(row)"><i class="fa fa-trash-o"></i></button>
+                          </div>
+
+                        </div>
+                        <div class="text-danger">
+                          <p *ngIf="row.FileName==''"> This field is required .!</p>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex">
+                          <input type="file" [(ngModel)]="row.ToolImage" [ngModelOptions]="{standalone: true}" id="fileLandDocumentOther_{{idx}}" (input)="onFilechangeItemOther($event,row)" class="form-control d-none" />
+                          <label class="btn upload" for="fileLandDocumentOther_{{idx}}">
+                            <span class="filename">Choose file</span>
+                            {{row.FileOtherName === '' ? 'No File Choosen' : row.Dis_OtherFileName}}
+                          </label>
+                          <div class="btn-group" *ngIf="row.FileOtherName !== ''">
+                            <a class="btn btn-outline-primary" target="_blank" href="{{row.FileOtherPath}}"><i class="fa fa-eye"></i></a>
+                            <button type="button" class="btn btn-outline-danger" (click)="DeleteImageOther(row)"><i class="fa fa-trash-o"></i></button>
+                          </div>
+                        </div>
+                        <div class="text-danger">
+                          <p *ngIf="row.FileOtherName==''"> This field is required .!</p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
+              <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveDataLab()"><i class="fa fa-plus"></i> Add &amp; Save </button>
+              <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
         <div class="row" *ngIf="OtherInformation.length>0">
           <div class="card mb-0">
             <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
@@ -151,6 +245,12 @@
               </div>
             </div>
           </div>
+
+
+
+
+
+
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
@@ -166,7 +266,7 @@
                         <th>Number Of Books</th>
                         <th>Number Of Computers</th>
                         <th>View Document</th>
-                        <th>View Library Document</th> 
+                        <th>View Library Document</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -180,7 +280,7 @@
                         <td>{{row.NoofBooks}}</td>
                         <td>{{row.NoofComputers}}</td>
                         <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
-                         <td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td> 
+                        <td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                         <td>
                           <div class="d-flex">
                             <button type="button" (click)="Edit_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
@@ -193,7 +293,7 @@
                 </div>
               </div>
             </div>
-          </div>          
+          </div>
         </div>
       </div>
     </form>
