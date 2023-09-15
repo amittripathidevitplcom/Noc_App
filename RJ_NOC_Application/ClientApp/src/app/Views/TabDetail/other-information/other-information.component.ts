@@ -208,7 +208,7 @@ export class OtherInformationComponent implements OnInit {
 
 
       if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
-        if (OtherName == 'CHN') {
+        if (OtherName == 'Laboratory') {
           this.ShowHideLabData = true;
           this.GetCollegeLabInformationList("GetData");
         }
@@ -1028,6 +1028,7 @@ export class OtherInformationComponent implements OnInit {
             if (!this.State)
             {
               this.toastr.success(this.SuccessMessage)
+              this.ResetControl();
               this.GetOtherInformationAllList();
               //this.GetCollegeWiseStudenetDetails(this.SelectedCollageID);
             }
@@ -1055,10 +1056,7 @@ export class OtherInformationComponent implements OnInit {
     if (WorkFlowDetailLength > 0) {
       for (var i = 0; i < this.CollegeWiseLabSubject.length; i++) {
 
-        if (this.CollegeWiseLabSubject[i].RoomNo == '') {
-          message += 'Please Enter  Land ConversionOrderNo \n';
-          this.CollegeWiseLabSubject[i].RoomNo = '';
-        }
+       
         if (this.CollegeWiseLabSubject[i].Width == '' || this.CollegeWiseLabSubject[i].Width == '0') {
           message += 'Please Enter  Land Width \n';
           this.CollegeWiseLabSubject[i].Width = '';

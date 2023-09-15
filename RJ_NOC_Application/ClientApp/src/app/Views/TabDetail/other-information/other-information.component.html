@@ -152,7 +152,7 @@
                       <th>Sr. No.</th>
                       <th>Course</th>
                       <th>Subject Name</th>
-                      <th>Room No.</th>
+                      <!--<th>Room No.</th>-->
                       <th>Width</th>
                       <th>Length</th>
                       <th>Lab Images</th>
@@ -164,12 +164,12 @@
                       <td>{{idx+1}}</td>
                       <td>{{row.CourseName}}</td>
                       <td>{{row.SubjectName}}</td>
-                      <td>
+                      <!--<td>
                         <input type="text" class="form-control" id="txRoomNo{{idx}}" [ngModelOptions]="{standalone: true}" name="txRoomNo{{idx}}" [(ngModel)]="row.RoomNo" autocomplete="off">
                         <div class="text-danger">
                           <p *ngIf="row.RoomNo==''"> This field is required .!</p>
                         </div>
-                      </td>
+                      </td>-->
 
                       <td>
                         <input type="text" class="form-control" id="txtWidth{{idx}}" maxlength="4" [ngModelOptions]="{standalone: true}" name="txtWidth{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="row.Width" autocomplete="off">
@@ -290,6 +290,8 @@
                             <div class="d-flex">
                               <button type="button" (click)="Edit_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                               <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+
+                              <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewLandDetailDocument" (click)="ViewLabDetails()"><i class="fa fa-eye"></i></a>
                             </div>
                           </td>
                         </tr>
@@ -305,4 +307,69 @@
       
     </form>
   </div>
-</div> 
+</div>
+
+<div class="modal fade" id="ViewLandDetailDocument" tabindex="-1" aria-labelledby="ViewLandDetailDocument" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Land Details Document</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewLandDetailDocument"><i class="fa fa-close"></i></button>
+      </div>
+      <div class="modal-body py-4">
+   
+
+        <div class="row" *ngIf="CollegeWiseLabViewDetails.length>0">
+          <div class="col-md-12">
+            <div class="card mb-0">
+              <div class="card-header">
+                <b><i class="bi bi-table"></i>&nbsp;Lab Details  </b>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped-columns" id="tabellistLLab" #content>
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Course</th>
+                        <th>Subject Name</th>
+                        <th>Width</th>
+                        <th>Length</th>
+                        <th>Lab Images</th>
+                        <th>Lab Equipment Images</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of CollegeWiseLabViewDetails;let idx=index;">
+                        <td>{{idx+1}}</td>
+                        <td>{{row.CourseName}}</td>
+                        <td>{{row.SubjectName}}</td>
+                        <td>
+                          {{row.Width}}
+                        </td>
+                        <td>
+                          {{row.Length}}
+                        </td>
+                        <td>
+                          <a class="btn btn-outline-primary" target="_blank" href="{{row.FilePath}}"><i class="fa fa-eye"></i></a>
+                        </td>
+                        <td>
+                          <a class="btn btn-outline-primary" target="_blank" href="{{row.FileOtherPath}}"><i class="fa fa-eye"></i></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
