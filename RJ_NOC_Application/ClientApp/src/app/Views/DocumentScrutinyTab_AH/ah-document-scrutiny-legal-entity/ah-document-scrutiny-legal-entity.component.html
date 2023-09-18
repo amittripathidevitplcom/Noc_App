@@ -12,6 +12,10 @@
               <label>Legal Entity :</label>
               <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.IsLegalEntity}}" />
             </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>SSOID :</label>
+              <input class="form-control disabled mt-1" disabled value="{{legalEntityListData1.SSOID}}" />
+            </div>
           </div>
           <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -103,6 +107,7 @@
                       <th>Trustee Member Proof</th>
                       <!--<th>Aadhaar Proof of President</th>-->
                       <th>Pan Proof</th>
+                      <!--<th>Registration Document</th>-->
                     </tr>
                   </thead>
                   <tbody>
@@ -125,6 +130,12 @@
                         </a>
                         <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                       </td>
+                      <!--<td>
+                        <a *ngIf="!legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{legalEntityListData1.RegistrationDocPath}}" alt="Registration Doc" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </td>-->
                     </tr>
                   </tbody>
                 </table>

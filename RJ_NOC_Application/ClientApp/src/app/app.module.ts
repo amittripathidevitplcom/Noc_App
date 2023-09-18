@@ -254,7 +254,7 @@ import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-appl
 import { RedirectGuard } from './Common/auth.guard.ts';
 import { AhDocumentScrutinyNodalOfficerComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-nodal-officer/ah-document-scrutiny-nodal-officer.component';
 
-
+import { PreviewFDRDetailComponent } from './Views/PreviewTabs/preview-fdr-detail/preview-fdr-detail.component';
 
 
 
@@ -501,6 +501,7 @@ import { AhDocumentScrutinyNodalOfficerComponent } from './Views/DocumentScrutin
     EnterTabDirective,
     PreviewApplyNocDetailComponent,
     AhDocumentScrutinyNodalOfficerComponent,
+    PreviewFDRDetailComponent,
   ],
   imports: [
     CommonModule,
