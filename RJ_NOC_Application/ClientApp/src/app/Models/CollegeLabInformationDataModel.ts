@@ -25,5 +25,6 @@ export class PostCollegeLabInformation
   public CollegeID: number = 0
   public UserID: number = 0
   public DepartmentID: number = 0
+  public OtherID: number = 0
   public CollegeLabInformationList: CollegeLabInformationDataModel[] = [];
 }

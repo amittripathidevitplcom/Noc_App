@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RedirectGuard } from './Common/auth.guard.ts';
 import { RouterModule, Routes } from '@angular/router';
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
 import { ApplicationDetailEntryComponent } from './Views/ApplicationDetailEntry/application-detail-entry/application-detail-entry.component';
@@ -136,6 +137,7 @@ import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_
 import { AhDocumentScrutinyNodalOfficerComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-nodal-officer/ah-document-scrutiny-nodal-officer.component';
 
 
+
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -162,7 +164,7 @@ const routes: Routes = [
 
 
   {
-    path: '',component: MasterPageComponent,
+    path: '', component: MasterPageComponent,
     children: [
       {
         path: 'dashboard', component: DashboardComponent
@@ -284,7 +286,7 @@ const routes: Routes = [
       {
         path: 'landdetails', component: LandDetailsComponent
       },
-      
+
       {
         path: 'facilitydetails', component: FacilityDetailsComponent
       },
@@ -299,6 +301,10 @@ const routes: Routes = [
       },
       {
         path: 'applicationdetailentry/:DepartmentID/:CollegeID', component: ApplicationDetailEntryComponent
+        //, canActivate: [RedirectGuard],
+        //data: {
+        //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
+        //}
       },
       {
         path: 'applynoc', component: ApplyNOCComponent
@@ -463,7 +469,7 @@ const routes: Routes = [
       {
         path: 'streamsubjectmapping', component: StreamSubjectMappingComponent
       },
-      
+
 
       {
         path: 'jointsecretarycompletedreport', component: JointSecretaryCompletedReportComponent
@@ -526,7 +532,7 @@ const routes: Routes = [
         path: 'agricultureappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAgricultureComponent
       },
       {
-         path: 'subjectwisestudentstatistics', component: SubjectWiseStudentStatisticsComponent
+        path: 'subjectwisestudentstatistics', component: SubjectWiseStudentStatisticsComponent
       }
       ,
       {
