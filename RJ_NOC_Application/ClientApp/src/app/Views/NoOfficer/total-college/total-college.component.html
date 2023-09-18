@@ -383,7 +383,8 @@
                         <th>Hospital Name</th>
                         <th>Hospital RegNo.</th>
                         <th>Distance From Institute(KM)</th>
-                        <th>Address Line1</th>
+                        <th>Area</th>
+                        <!--<th>Address Line1</th>
                         <th>Address Line2</th>
                         <th>Area</th>
                         <th>Division</th>
@@ -391,7 +392,8 @@
                         <th>Tehsil</th>
                         <th>Panchyat Samiti</th>
                         <th>City/Town/Village</th>
-                        <th>Pincode</th>
+                        <th>Pincode</th>-->
+                        <th>Address</th>
                         <th>Hospital Document</th>
                       </tr>
                     </thead>
@@ -401,7 +403,8 @@
                         <td>{{row.HospitalName}}</td>
                         <td>{{row.HospitalRegNo}}</td>
                         <td>{{row.HospitalDistance}}</td>
-                        <td>{{row.AddressLine1}}</td>
+                        <td>{{row.RuralUrbanArea}}</td>
+                        <!--<td>{{row.AddressLine1}}</td>
                         <td>{{row.AddressLine2}}</td>
                         <td>{{row.RuralUrbanArea}}</td>
                         <td>{{row.Division_English}}</td>
@@ -409,7 +412,11 @@
                         <td>{{row.TehsilName}}</td>
                         <td>{{row.PanchyatSamitiName}}</td>
                         <td>{{row.CityTownVillage}}</td>
-                        <td>{{row.Pincode}}</td>
+                        <td>{{row.Pincode}}</td>-->
+                        <td>
+                          {{row.AddressLine1}}, {{row.AddressLine2}}, {{row.CityTownVillage}}, {{row.RuralUrbanArea=='Rural'?row.PanchyatSamitiName:row.CityName}}, {{row.TehsilName}},
+                          {{row.District_Eng}},  {{row.Division_English}},   {{row.Pincode}}
+                        </td>
                         <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocumentPath}}" title="View Hospital Document"><i class="fa fa-eye"></i></a></td>
                       </tr>
                     </tbody>

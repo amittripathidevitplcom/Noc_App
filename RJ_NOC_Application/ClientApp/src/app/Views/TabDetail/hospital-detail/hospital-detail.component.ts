@@ -116,6 +116,16 @@ export class HospitalDetailComponent implements OnInit {
   LegalEntityDataModel = new LegalEntityDataModel();
   public isHospitalrequried: boolean = false;
   public isFormValid: boolean = true;
+  public CityList: any = [];
+  public CityList_ManageBy: any = [];
+  public CityList_Owner: any = [];
+  public CityList_Other: any = [];
+
+
+  public CityList_ParentNot: any = [];
+  public CityList_ParentNot_ManageBy: any = [];
+  public CityList_ParentNot_Owner: any = [];
+
   constructor(private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private modalService: NgbModal, private hospitalDetailService: HospitalDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private fileUploadService: FileUploadService) {
   }
 
@@ -205,6 +215,7 @@ export class HospitalDetailComponent implements OnInit {
         ddlDivisionID: ['', [DropdownValidators]],
         ddlDistrictID: ['', [DropdownValidators]],
         ddlTehsilID: ['', [DropdownValidators]],
+        ddlCityID: ['', [DropdownValidators]],
         ddlPanchayatSamitiID: ['', [DropdownValidators]],
         txtCityTownVillage: ['', Validators.required],
         txtPincode: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
@@ -215,6 +226,7 @@ export class HospitalDetailComponent implements OnInit {
         ddlDivisionID_ManageBy: ['', [DropdownValidators]],
         ddlDistrictID_ManageBy: ['', [DropdownValidators]],
         ddlTehsilID_ManageBy: ['', [DropdownValidators]],
+        ddlCityID_ManageBy: ['', [DropdownValidators]],
         ddlPanchayatSamitiID_ManageBy: ['', [DropdownValidators]],
         txtCityTownVillage_ManageBy: ['', Validators.required],
         txtPincode_ManageBy: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
@@ -225,6 +237,7 @@ export class HospitalDetailComponent implements OnInit {
         ddlDivisionID_Owner: ['', [DropdownValidators]],
         ddlDistrictID_Owner: ['', [DropdownValidators]],
         ddlTehsilID_Owner: ['', [DropdownValidators]],
+        ddlCityID_Owner: ['', [DropdownValidators]],
         ddlPanchayatSamitiID_Owner: ['', [DropdownValidators]],
         txtCityTownVillage_Owner: ['', Validators.required],
         txtPincode_Owner: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
@@ -235,6 +248,7 @@ export class HospitalDetailComponent implements OnInit {
         ddlDivisionID_Other: ['', [DropdownValidators]],
         ddlDistrictID_Other: ['', [DropdownValidators]],
         ddlTehsilID_Other: ['', [DropdownValidators]],
+        ddlCityID_Other: ['', [DropdownValidators]],
         ddlPanchayatSamitiID_Other: ['', [DropdownValidators]],
         txtCityTownVillage_Other: ['', Validators.required],
         txtPincode_Other: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
@@ -272,6 +286,7 @@ export class HospitalDetailComponent implements OnInit {
         ddlDivisionID: ['', [DropdownValidators]],
         ddlDistrictID: ['', [DropdownValidators]],
         ddlTehsilID: ['', [DropdownValidators]],
+        ddlCityID: ['', [DropdownValidators]],
         ddlPanchayatSamitiID: ['', [DropdownValidators]],
         txtCityTownVillage: ['', Validators.required],
         txtPincode: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
@@ -282,6 +297,7 @@ export class HospitalDetailComponent implements OnInit {
         ddlDivisionID_ManageBy: ['', [DropdownValidators]],
         ddlDistrictID_ManageBy: ['', [DropdownValidators]],
         ddlTehsilID_ManageBy: ['', [DropdownValidators]],
+        ddlCityID_ManageBy: ['', [DropdownValidators]],
         ddlPanchayatSamitiID_ManageBy: ['', [DropdownValidators]],
         txtCityTownVillage_ManageBy: ['', Validators.required],
         txtPincode_ManageBy: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
@@ -292,6 +308,7 @@ export class HospitalDetailComponent implements OnInit {
         ddlDivisionID_Owner: ['', [DropdownValidators]],
         ddlDistrictID_Owner: ['', [DropdownValidators]],
         ddlTehsilID_Owner: ['', [DropdownValidators]],
+        ddlCityID_Owner: ['', [DropdownValidators]],
         ddlPanchayatSamitiID_Owner: ['', [DropdownValidators]],
         txtCityTownVillage_Owner: ['', Validators.required],
         txtPincode_Owner: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]],
@@ -317,6 +334,7 @@ export class HospitalDetailComponent implements OnInit {
     this.request.PanchayatSamitiID_Other = 1;
     this.request.CityTownVillage_Other = 'NA';
     this.request.Pincode_Other = 111111;
+    this.request.CityID_Other = 1;
 
     // get all hospital area validation
     await this.GetHospitalAreaValidationList();
@@ -451,6 +469,7 @@ export class HospitalDetailComponent implements OnInit {
         this.request.PanchayatSamitiID_Other = 0;
         this.request.CityTownVillage_Other = '';
         this.request.Pincode_Other = null;
+        this.request.CityID_Other = 0;
 
       }
       else {
@@ -465,6 +484,7 @@ export class HospitalDetailComponent implements OnInit {
         this.request.PanchayatSamitiID_Other = 1;
         this.request.CityTownVillage_Other = 'NA';
         this.request.Pincode_Other = 111111;
+        this.request.CityID_Other = 1;
 
       }
     }
@@ -572,29 +592,33 @@ export class HospitalDetailComponent implements OnInit {
         if (section == 'ManageBy') {
           this.IsRural_ManageBy = isRural;
           if (isResetValue) {
-            this.request.TehsilID_ManageBy = 0;
+            //this.request.TehsilID_ManageBy = 0;
             this.request.PanchayatSamitiID_ManageBy = 0;
+            this.request.CityID_ManageBy = 1;
           }
         }
         else if (section == 'Owner') {
           this.IsRural_Owner = isRural;
           if (isResetValue) {
-            this.request.TehsilID_Owner = 0;
+            //this.request.TehsilID_Owner = 0;
             this.request.PanchayatSamitiID_Owner = 0;
+            this.request.CityID_Owner = 1;
           }
         }
         else if (section == 'Other') {
           this.IsRural_Other = isRural;
           if (isResetValue) {
-            this.request.TehsilID_Other = 0;
+            //this.request.TehsilID_Other = 0;
             this.request.PanchayatSamitiID_Other = 0;
+            this.request.CityID_Other = 1;
           }
         }
         else {
           this.IsRural = isRural;
           if (isResetValue) {
-            this.request.TehsilID = 0;
+            //this.request.TehsilID = 0;
             this.request.PanchayatSamitiID = 0;
+            this.request.CityID = 1;
           }
         }
       }
@@ -602,29 +626,33 @@ export class HospitalDetailComponent implements OnInit {
         if (section == 'ManageBy') {
           this.IsRural_ManageBy = isRural;
           if (isResetValue) {
-            this.request.TehsilID_ManageBy = 1;
+            //this.request.TehsilID_ManageBy = 1;
             this.request.PanchayatSamitiID_ManageBy = 1;
+            this.request.CityID_ManageBy = 0;
           }
         }
         else if (section == 'Owner') {
           this.IsRural_Owner = isRural;
           if (isResetValue) {
-            this.request.TehsilID_Owner = 1;
+            //this.request.TehsilID_Owner = 1;
             this.request.PanchayatSamitiID_Owner = 1;
+            this.request.CityID_Owner = 0;
           }
         }
         else if (section == 'Other') {
           this.IsRural_Other = isRural;
           if (isResetValue) {
-            this.request.TehsilID_Other = 1;
+            //this.request.TehsilID_Other = 1;
             this.request.PanchayatSamitiID_Other = 1;
+            this.request.CityID_Other = 0;
           }
         }
         else {
           this.IsRural = isRural;
           if (isResetValue) {
-            this.request.TehsilID = 1;
+            //this.request.TehsilID = 1;
             this.request.PanchayatSamitiID = 1;
+            this.request.CityID = 0;
           }
         }
       }
@@ -646,22 +674,22 @@ export class HospitalDetailComponent implements OnInit {
         if (section == 'ManageBy') {
           this.IsRural_ParentNot_ManageBy = isRural;
           if (isResetValue) {
-            this.requestNot.TehsilID_ManageBy = 0;
             this.requestNot.PanchayatSamitiID_ManageBy = 0;
+            this.requestNot.CityID_ManageBy = 1;
           }
         }
         else if (section == 'Owner') {
           this.IsRural_ParentNot_Owner = isRural;
           if (isResetValue) {
-            this.requestNot.TehsilID_Owner = 0;
             this.requestNot.PanchayatSamitiID_Owner = 0;
+            this.requestNot.CityID_Owner = 1;
           }
         }
         else {
           this.IsRural_ParentNot = isRural;
           if (isResetValue) {
-            this.requestNot.TehsilID = 0;
             this.requestNot.PanchayatSamitiID = 0;
+            this.requestNot.CityID = 1;
           }
         }
       }
@@ -669,22 +697,22 @@ export class HospitalDetailComponent implements OnInit {
         if (section == 'ManageBy') {
           this.IsRural_ParentNot_ManageBy = isRural;
           if (isResetValue) {
-            this.requestNot.TehsilID_ManageBy = 1;
             this.requestNot.PanchayatSamitiID_ManageBy = 1;
+            this.requestNot.CityID_ManageBy = 0;
           }
         }
         else if (section == 'Owner') {
           this.IsRural_ParentNot_Owner = isRural;
           if (isResetValue) {
-            this.requestNot.TehsilID_Owner = 1;
             this.requestNot.PanchayatSamitiID_Owner = 1;
+            this.requestNot.CityID_Owner = 0;
           }
         }
         else {
           this.IsRural_ParentNot = isRural;
           if (isResetValue) {
-            this.requestNot.TehsilID = 1;
             this.requestNot.PanchayatSamitiID = 1;
+            this.requestNot.CityID = 0;
           }
         }
       }
@@ -776,6 +804,40 @@ export class HospitalDetailComponent implements OnInit {
 
   async FillDistrictRelatedDDL(event: any, SelectedDistrictID: string, section: string,) {
     try {
+
+      if (section == 'ManageBy') {
+        //this.request.TehsilID_ManageBy = 0;
+        //this.request.PanchayatSamitiID_ManageBy = 0;
+        //this.request.CityID_ManageBy = 0;
+        this.TehsilList_ManageBy = [];
+        this.PanchyatSamitiList_ManageBy = [];
+        this.CityList_ManageBy = [];
+      }
+      else if (section == 'Owner') {
+        //this.request.TehsilID_Owner = 0;
+        //this.request.PanchayatSamitiID_Owner = 0;
+        //this.request.CityID_Owner = 0;
+        this.TehsilList_Owner = [];
+        this.PanchyatSamitiList_Owner = [];
+        this.CityList_Owner = [];
+      }
+      else if (section == 'Other') {
+        //this.request.TehsilID_Other = 0;
+        //this.request.PanchayatSamitiID_Other = 0;
+        //this.request.CityID_Other = 0;
+        this.TehsilList_Other = [];
+        this.PanchyatSamitiList_Other = [];
+        this.CityList_Other = [];
+      }
+      else {
+        //this.request.TehsilID = 0;
+        //this.request.PanchayatSamitiID = 0;
+        //this.request.CityID = 0;
+        this.TehsilList = [];
+        this.PanchyatSamitiList = [];
+        this.CityList = [];
+      }
+
       this.loaderService.requestStarted();
       const districtId = Number(SelectedDistrictID);
       if (districtId <= 0) {
@@ -823,6 +885,28 @@ export class HospitalDetailComponent implements OnInit {
             this.PanchyatSamitiList = data['Data'];
           }
         }, error => console.error(error));
+      //city list
+      await this.commonMasterService.GetCityByDistrict(districtId)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          if (section == 'ManageBy') {
+            this.CityList_ManageBy = data['Data'][0]['data'];
+          }
+          else if (section == 'Owner') {
+            this.CityList_Owner = data['Data'][0]['data'];
+          }
+          else if (section == 'Other') {
+            this.CityList_Other = data['Data'][0]['data'];
+          }
+          else {
+            this.CityList = data['Data'][0]['data'];
+          }
+
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -840,6 +924,22 @@ export class HospitalDetailComponent implements OnInit {
       const districtId = Number(SelectedDistrictID);
       if (districtId <= 0) {
         return;
+      }
+
+      if (section == 'ManageBy') {
+        this.TehsilList_ParentNot_ManageBy = [];
+        this.PanchyatSamitiList_ParentNot_ManageBy = [];
+        this.CityList_ParentNot_ManageBy = [];
+      }
+      else if (section == 'Owner') {
+        this.TehsilList_ParentNot_Owner = [];
+        this.PanchyatSamitiList_ParentNot_Owner = [];
+        this.CityList_ParentNot_Owner = [];
+      }
+      else {
+        this.TehsilList_ParentNot = [];
+        this.PanchyatSamitiList_ParentNot = [];
+        this.CityList_ParentNot = [];
       }
       // Tehsil list
       await this.commonMasterService.GetTehsilByDistrictId(districtId)
@@ -876,6 +976,25 @@ export class HospitalDetailComponent implements OnInit {
           else {
             this.PanchyatSamitiList_ParentNot = data['Data'];
           }
+        }, error => console.error(error));
+      //city list
+      await this.commonMasterService.GetCityByDistrict(districtId)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          if (section == 'ManageBy') {
+            this.CityList_ParentNot_ManageBy = data['Data'][0]['data'];
+          }
+          else if (section == 'Owner') {
+            this.CityList_ParentNot_Owner = data['Data'][0]['data'];
+          }
+          else {
+            this.CityList_ParentNot = data['Data'][0]['data'];
+          }
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -1056,6 +1175,30 @@ export class HospitalDetailComponent implements OnInit {
       this.request.Pincode_Other = null;
       this.request.HospitalStatus = '';
       this.ResetFileAndValidation('All', '', '', '', '', false);
+
+
+      this.DistrictList_ManageBy = [];
+      this.DistrictList_Owner = [];
+      this.DistrictList_Other = [];
+      this.DistrictList = [];
+
+      this.TehsilList_ManageBy = [];
+      this.PanchyatSamitiList_ManageBy = [];
+      this.CityList_ManageBy = [];
+
+      this.TehsilList_Owner = [];
+      this.PanchyatSamitiList_Owner = [];
+      this.CityList_Owner = [];
+
+      this.TehsilList_Other = [];
+      this.PanchyatSamitiList_Other = [];
+      this.CityList_Other = [];
+
+      this.TehsilList = [];
+      this.PanchyatSamitiList = [];
+      this.CityList = [];
+
+
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -1228,6 +1371,23 @@ export class HospitalDetailComponent implements OnInit {
       this.requestNot.CityTownVillage_Owner = '';
       this.requestNot.Pincode_Owner = null;
 
+      this.DistrictList_ParentNot_ManageBy = [];
+      this.DistrictList_ParentNot_Owner = [];
+      this.DistrictList_ParentNot = [];
+
+      this.TehsilList_ParentNot_ManageBy = [];
+      this.PanchyatSamitiList_ParentNot_ManageBy = [];
+      this.CityList_ParentNot_ManageBy = [];
+
+      this.TehsilList_ParentNot_Owner = [];
+      this.PanchyatSamitiList_ParentNot_Owner = [];
+      this.CityList_ParentNot_Owner = [];
+
+
+      this.TehsilList_ParentNot = [];
+      this.PanchyatSamitiList_ParentNot = [];
+      this.CityList_ParentNot = [];
+
       const txtHospitalName = document.getElementById('txtHospitalRegNo')
       if (txtHospitalName) txtHospitalName.focus();
       this.ResetFileAndValidation('All', '', '', '', '', false);
@@ -1399,10 +1559,10 @@ export class HospitalDetailComponent implements OnInit {
               this.IsHospitalOwned = false;
             }
             // rural/urban          
-            await this.IsRuralOrUrban(this.request.RuralUrban == 1 ? true : false, null, false);
             await this.IsRuralOrUrban(this.request.RuralUrban_ManageBy == 1 ? true : false, 'ManageBy', false);
             await this.IsRuralOrUrban(this.request.RuralUrban_Owner == 1 ? true : false, 'Owner', false);
             await this.IsRuralOrUrban(this.request.RuralUrban_Other == 1 ? true : false, 'Other', false);
+            await this.IsRuralOrUrban(this.request.RuralUrban == 1 ? true : false, null, false);
             // division dll
             await this.FillDivisionRelatedDDL(null, this.request.DivisionID.toString(), null);
             await this.FillDivisionRelatedDDL(null, this.request.DivisionID_ManageBy.toString(), 'ManageBy');
@@ -1415,6 +1575,12 @@ export class HospitalDetailComponent implements OnInit {
             await this.FillDistrictRelatedDDL(null, this.request.DistrictID_Other.toString(), 'Other');
             // Whether the parent hospital is related to any other institution in the past or not
             this.IsParentHospitalRelatedToOther = this.request.ParentHospitalRelatedToOtherID == 1 ? true : false;
+            if (!this.IsParentHospitalRelatedToOther) {
+              this.request.CityID_Other = 1;
+            }
+            if (this.IsRural_Other) {
+              this.request.CityID_Other = 1;
+            }
           }
           else if (data['Data']['ParentHospitalID'] == 2) {
             this.requestNot = JSON.parse(JSON.stringify(data['Data']));
