@@ -84,5 +84,7 @@ export class NearestGovernmentHospitalsDataModel {
   public PanchayatSamitiName: string = '';
   public CityTownVillage: string = '';
   public Pincode: number = null;
+  public CityID: number = 0;
+  public CityName: string  = '';
 }
 

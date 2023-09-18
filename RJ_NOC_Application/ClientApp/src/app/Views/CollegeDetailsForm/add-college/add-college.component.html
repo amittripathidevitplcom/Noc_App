@@ -593,8 +593,8 @@
                     <label class="form-label">Address Line 2 </label>
                     <input type="text" class="form-control" maxlength="200" id="txtAddressLine2_Nearest" name="txtAddressLine2_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.AddressLine2" formControlName="txtAddressLine2_Nearest">
                     <!--<div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtAddressLine2_Nearest.errors" class="text-danger">
-                      <p *ngIf="form_NearestGovernmentHospitals.txtAddressLine2_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                    </div>-->
+      <p *ngIf="form_NearestGovernmentHospitals.txtAddressLine2_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+    </div>-->
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -631,7 +631,7 @@
                       <p *ngIf="!form_NearestGovernmentHospitals.ddlDistrictID_Nearest.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                     </div>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Nearest">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label">Tehsil <span style="color:red;">*</span></label>
                     <select class="form-select" id="ddlTehsilID_Nearest" name="ddlTehsilID_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.TehsilID" formControlName="ddlTehsilID_Nearest">
                       <option value="0">--Select--</option>
@@ -639,6 +639,16 @@
                     </select>
                     <div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.ddlTehsilID_Nearest.errors" class="text-danger">
                       <p *ngIf="!form_NearestGovernmentHospitals.ddlTehsilID_Nearest.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural_Nearest">
+                    <label for="ddlCityID_Nearest" class="form-label">City<span style="color:red;">*</span></label>
+                    <select class="form-select" id="ddlCityID_Nearest" name="ddlCityID_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.CityID" formControlName="ddlCityID_Nearest">
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let item of CityList_Nearest" value="{{item.CityID}}">{{item.City_English}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted_NearestGovernmentHospitals&&!IsRural_Nearest&&form_NearestGovernmentHospitals.ddlCityID_Nearest.errors" class="text-danger">
+                      <p *ngIf="!form_NearestGovernmentHospitals.ddlCityID_Nearest.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural_Nearest">
@@ -723,8 +733,9 @@
                               <p class="m-0"><b>Address Line 2 : </b>{{row.AddressLine2}}</p>
                               <p class="m-0"><b>Division : </b> {{row.DivisionName}}</p>
                               <p class="m-0"><b>District : </b> {{row.DistrictName}}</p>
-                              <p *ngIf="row.RuralUrban==1" class="m-0"><b>Tehsil : </b>{{row.TehsilName}}</p>
+                              <p class="m-0"><b>Tehsil : </b>{{row.TehsilName}}</p>
                               <p *ngIf="row.RuralUrban==1" class="m-0"><b>PanchayatSamiti : </b>{{row.PanchayatSamitiName}}</p>
+                              <p *ngIf="row.RuralUrban==2" class="m-0"><b>City : </b>{{row.CityName}}</p>
                               <p class="m-0"><b>City/Town/Village : </b>{{row.CityTownVillage}}</p>
                               <p class="m-0"><b>Pincode : </b>{{row.Pincode}}</p>
                             </td>
