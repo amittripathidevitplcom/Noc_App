@@ -628,7 +628,20 @@ export class VeterinaryHospitalComponent implements OnInit {
             return;
           }
         }
+    }
+    //Animal Details
+    if (this.AnimalMasterList.length > 0) {
+
+      for (var i = 0; i < this.AnimalMasterList.length; i++) {
+        var AnimalMasterID = this.request.AnimalDetails.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.AnimalMasterList[i].AnimalMasterID)?.AnimalMasterID;
+        if (AnimalMasterID == undefined || AnimalMasterID == null || AnimalMasterID.toString() == '') {
+          this.toastr.warning('Please add all animal details');
+          return;
+        }
       }
+
+    }
+
     //}
     if (!this.isFormValid) {
       return;

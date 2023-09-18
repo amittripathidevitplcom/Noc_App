@@ -91,7 +91,7 @@
                         <tr>
                           <th>Sr. No.</th>
                           <th>Course</th>
-                          <th>Subject</th>
+                          <th *ngIf="request.DepartmentID !=2">Subject</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -104,7 +104,7 @@
                               <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
                             </div>
                           </td>
-                          <td>
+                          <td *ngIf="request.DepartmentID !=2">
                             <div class="form-check form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
                               <input class="form-check-input" type="checkbox" name="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}"
                                      id="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}" value="{{item1.SubjectID}}"

@@ -9,14 +9,27 @@ import { catchError, map, tap } from 'rxjs/operators';
 })
 
 @Injectable()
-export class RedirectGuard implements CanActivate {
-  constructor(private router: Router) { }
+//export class RedirectGuard implements CanActivate {
+//  constructor(private router: Router) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
- //   debugger
- //   console.log('externalUrl');
- //   console.log(route.data['externalUrl']);
- //window.location.href = route.data['externalUrl'];
-     return true;
+//  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+// //   debugger
+// //   console.log('externalUrl');
+// //   console.log(route.data['externalUrl']);
+// //window.location.href = route.data['externalUrl'];
+//     //return true;
+//    route: ActivatedRouteSnapshot,
+//      state: RouterStateSnapshot
+//  ): Observable<boolean> | Promise<boolean> | boolean {
+//      return false; // never allow activation
+//    }
+//  }
+//}
+export class RedirectGuard implements CanActivate {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    return false; // never allow activation
   }
 }

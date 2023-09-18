@@ -300,8 +300,8 @@ const routes: Routes = [
         path: 'buildingdetails', component: BuildingDetailsComponent
       },
       {
-        path: 'applicationdetailentry/:DepartmentID/:CollegeID', component: ApplicationDetailEntryComponent
-        //, canActivate: [RedirectGuard],
+        path: 'applicationdetailentry/:DepartmentID/:CollegeID', component: ApplicationDetailEntryComponent,
+       //  canActivate: [RedirectGuard],
         //data: {
         //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
         //}
@@ -609,7 +609,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, )],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
