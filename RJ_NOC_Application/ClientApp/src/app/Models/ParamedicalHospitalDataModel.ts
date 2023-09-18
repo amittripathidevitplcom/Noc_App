@@ -121,6 +121,18 @@ export class ParamedicalHospitalDataModel {
   public HospitalStatus: string = '';
 
   public ParamedicalHospitalBedValidation: ParamedicalHospitalBedValidation[] = [];
+
+  public CityID: number = 0;
+  public CityName: string = '';
+
+  public CityID_ManageBy: number = 0;
+  public CityName_ManageBy: string = '';
+
+  public CityID_Owner: number = 0;
+  public CityName_Owner: string = '';
+
+  public CityID_Other: number = 0;
+  public CityName_Other: string = '';
 }
 export class ParamedicalHospitalParentNotDataModel {// not have parent
   public ParentHospitalID: number = 0;
@@ -185,6 +197,15 @@ export class ParamedicalHospitalParentNotDataModel {// not have parent
   public HospitalStatus: string = '';
 
   public ParamedicalHospitalBedValidation: ParamedicalHospitalBedValidation[] = [];
+
+  public CityID: number = 0;
+  public CityName: string = '';
+
+  public CityID_ManageBy: number = 0;
+  public CityName_ManageBy: string = '';
+
+  public CityID_Owner: number = 0;
+  public CityName_Owner: string = '';
 
 }
 

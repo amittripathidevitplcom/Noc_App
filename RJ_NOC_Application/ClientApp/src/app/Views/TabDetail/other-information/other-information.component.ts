@@ -19,6 +19,8 @@ import { style } from '@angular/animations';
 import { debug } from 'console';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
+import { PostCollegeLabInformation } from '../../../Models/CollegeLabInformationDataModel';
+import { EnumDepartment } from '../../../Common/enum-noc';
 
 
 
@@ -58,9 +60,12 @@ export class OtherInformationComponent implements OnInit {
   public CurrentPageName: any = "";
 
   public UserID: number = 0;
-  public courseDataList: any = [];
+  public courseDataList: any[] = [];
   public RoomSizeDataList: any = [];
   public OtherInformation: any = [];
+
+  public CollegeWiseLabSubject: any = [];
+  public CollegeWiseLabViewDetails: any = [];
 
   searchText: string = '';
   public LoginSSOID: string = '';
@@ -93,8 +98,12 @@ export class OtherInformationComponent implements OnInit {
   public ReqNoofComputers: number = 10;
   public Dis_ReqNoofComputers: number = 10;
 
+
+  public ShowHideLabData: boolean = false;
+
   // ssologin model
   ssoLoginModel = new SSOLoginDataModel();
+  requestSaveLab = new PostCollegeLabInformation();
 
 
   public ImageValidationMessage: string = '';
@@ -105,6 +114,10 @@ export class OtherInformationComponent implements OnInit {
   public MinNoOfRooms: number = 0;
   public LengthMin_Dis: number = 0;
   public WidthMin_Dis: number = 0;
+
+  public MinWidth_Lab: number = 20;
+  public MinLength_Lab: number = 30;
+
 
   constructor(private otherInformationService: OtherInformationService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute,
@@ -139,6 +152,7 @@ export class OtherInformationComponent implements OnInit {
     this.GetOtherInformationAllList();
 
 
+
   }
   get form() { return this.OtherInformationForm.controls; }
 
@@ -164,6 +178,12 @@ export class OtherInformationComponent implements OnInit {
 
 
   async ddlCourse_change($event: any, SeletedCourseID: any) {
+
+
+
+
+    
+
     this.request.CourseID = SeletedCourseID;
     this.request.Width = 0;
     this.request.Length = 0;
@@ -189,6 +209,32 @@ export class OtherInformationComponent implements OnInit {
       else {
         this.ShowHideComputers = false;
       }
+
+
+      if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
+        if (OtherName == 'Laboratory') {
+         
+          await this.GetCollegeLabInformationList("GetData");
+          if (this.CollegeWiseLabSubject.length == null || this.CollegeWiseLabSubject.length == undefined || this.CollegeWiseLabSubject.length == 0) {
+            this.ShowHideLabData = false;
+          }
+          else {
+            this.ShowHideLabData = true;
+          }
+        }
+        else
+        {
+          this.CollegeWiseLabSubject = [];
+          this.ShowHideLabData = false;
+        }
+
+      }
+      else {
+        this.CollegeWiseLabSubject = [];
+        this.ShowHideLabData = false;
+      }
+      
+
 
       this.loaderService.requestStarted();
       this.commonMasterService.GetOtherInformationSize(this.request.CourseID)
@@ -502,6 +548,9 @@ export class OtherInformationComponent implements OnInit {
       this.showBookImageFilePath = false;
       this.ShowHideBook = false;
       this.ShowHideComputers = false;
+      this.ShowHideLabData = false;
+      this.CollegeWiseLabSubject = [];
+
       this.GetOtherInformationAllList();
       const btnSave = document.getElementById('btnSave')
       if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
@@ -544,6 +593,59 @@ export class OtherInformationComponent implements OnInit {
     }
   }
 
+  async GetCollegeLabInformationList(key: String) {
+    try {
+
+
+      this.loaderService.requestStarted();
+      await this.otherInformationService.GetCollegeLabInformationList(this.SelectedCollageID, key)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          debugger;
+          this.CollegeWiseLabSubject = data['Data'];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async ViewLabDetails()
+  {
+    try
+    {
+      this.loaderService.requestStarted();
+      await this.otherInformationService.GetCollegeLabInformationList(this.SelectedCollageID, "GetDataBYID")
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CollegeWiseLabViewDetails = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  
+  }
+
   async txtNoOfRooms_change(Val: any) {
     try {
       if (this.SelectedDepartmentID == 2) {
@@ -574,11 +676,36 @@ export class OtherInformationComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       await this.otherInformationService.GetOtherInformationByID(CollegeWiseOtherInfoID, this.UserID, this.SelectedCollageID)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.CollegeWiseOtherInfoID = data['Data'][0]["CollegeWiseOtherInfoID"];
           this.request.CollegeID = data['Data'][0]["CollegeID"];
           this.request.CourseID = data['Data'][0]["CourseID"];
+
+          if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
+            var OtherName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID)?.Name;
+            if (OtherName == 'Laboratory') {
+          
+              await this.GetCollegeLabInformationList("GetData");
+              if (this.CollegeWiseLabSubject.length == null || this.CollegeWiseLabSubject.length == undefined || this.CollegeWiseLabSubject.length == 0) {
+                this.ShowHideLabData = false;
+              }
+              else {
+                this.ShowHideLabData = true;
+              }
+            }
+            else {
+              this.CollegeWiseLabSubject = [];
+              this.ShowHideLabData = false;
+            }
+
+          }
+          else {
+            this.CollegeWiseLabSubject = [];
+            this.ShowHideLabData = false;
+          }
+
+
           this.request.NoOfRooms = data['Data'][0]["NoOfRooms"];
           this.request.Width = data['Data'][0]["Width"];
           this.request.Length = data['Data'][0]["Length"];
@@ -593,7 +720,7 @@ export class OtherInformationComponent implements OnInit {
             this.request.BookImageFilePath = data['Data'][0]["BookImageFilePath"];
             this.request.BookImage_Dis_FileName = data['Data'][0]["BookImage_Dis_FileName"];
           }
-          
+
           if (Number(data['Data'][0]["NoofComputers"]) > 0) {
             this.ShowHideComputers = true;
             this.request.NoofComputers = data['Data'][0]["NoofComputers"];
@@ -740,6 +867,270 @@ export class OtherInformationComponent implements OnInit {
     }
 
   }
+
+
+  async onFilechangeItem(event: any, item: any) {
+    try {
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type === 'image/jpeg') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.toastr.error('Select less then 2MB File')
+            return
+          }
+          if (this.file.size < 100000) {
+            this.toastr.error('Select more then 100kb File')
+            return
+          }
+        }
+        else {// type validation
+          this.toastr.error('Select Only jpeg/jpg file')
+          return
+        }
+        // upload to server folder
+        this.loaderService.requestStarted();
+
+        await this.fileUploadService.UploadDocument(this.file)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              item.Dis_FileName = data['Data'][0]["Dis_FileName"];
+              item.FileName = data['Data'][0]["FileName"];
+              item.FilePath = data['Data'][0]["FilePath"];
+              event.target.value = null;
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      /*setTimeout(() => {*/
+      this.loaderService.requestEnded();
+      /*  }, 200);*/
+    }
+  }
+
+  async onFilechangeItemOther(event: any, item: any) {
+    try {
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type === 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.toastr.error('Select less then 2MB File')
+            return
+          }
+          if (this.file.size < 100000) {
+            this.toastr.error('Select more then 100kb File')
+            return
+          }
+        }
+        else {// type validation
+          this.toastr.error('Select Only pdf file')
+          return
+        }
+        // upload to server folder
+        this.loaderService.requestStarted();
+
+        await this.fileUploadService.UploadDocument(this.file)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+
+              item.Dis_OtherFileName = data['Data'][0]["Dis_FileName"];
+              item.FileOtherName = data['Data'][0]["FileName"];
+              item.FileOtherPath = data['Data'][0]["FilePath"];
+              event.target.value = null;
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      /*setTimeout(() => {*/
+      this.loaderService.requestEnded();
+      /*  }, 200);*/
+    }
+  }
+
+  async DeleteImageItem(item: any) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(item.FileName).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          item.FileName = '';
+          item.FilePath = '';
+          item.Dis_FileName = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async DeleteImageOther(item: any) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(item.FileOtherName).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          item.FileOtherName = '';
+          item.FileOtherPath = '';
+          item.Dis_OtherFileName = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async SaveDataLab() {
+
+    if (this.ValidateLabDetails()) {
+
+      this.loaderService.requestStarted();
+      this.isLoading = true;
+      this.requestSaveLab.CollegeID = this.SelectedCollageID;
+      this.requestSaveLab.UserID = this.sSOLoginDataModel.UserID;
+      this.requestSaveLab.OtherID = this.request.CourseID;
+      this.requestSaveLab.DepartmentID = this.request.DepartmentID;
+      this.requestSaveLab.CollegeLabInformationList = this.CollegeWiseLabSubject;
+      try {
+        await this.otherInformationService.SaveLabData(this.requestSaveLab)
+          .then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+
+            console.log(this.State);
+            if (!this.State)
+            {
+              this.toastr.success(this.SuccessMessage)
+              this.ResetControl();
+              this.GetOtherInformationAllList();
+              //this.GetCollegeWiseStudenetDetails(this.SelectedCollageID);
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
+      catch (ex) { console.log(ex) }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+          this.isLoading = false;
+
+        }, 200);
+      }
+    }
+  }
+
+  ValidateLabDetails(): boolean {
+    var message = 'Please validate following\n';
+    var WorkFlowDetailLength = this.CollegeWiseLabSubject.length;
+    var validateerrorcount = 0;
+    debugger;
+    if (WorkFlowDetailLength > 0) {
+      for (var i = 0; i < this.CollegeWiseLabSubject.length; i++) {
+
+
+        if (this.CollegeWiseLabSubject[i].Width == '' || this.CollegeWiseLabSubject[i].Width == '0' || this.CollegeWiseLabSubject[i].Width < this.WidthMin)
+        {
+
+          message += 'Please Enter  Land Width \n';
+          //this.CollegeWiseLabSubject[i].Width = '';
+
+        }
+
+        if (this.CollegeWiseLabSubject[i].Length == '' || this.CollegeWiseLabSubject[i].Length == '0' || this.CollegeWiseLabSubject[i].Length < this.LengthMin) {
+
+         // this.CollegeWiseLabSubject[i].Length = '';
+        }
+
+        if (this.CollegeWiseLabSubject[i].FileName == '' || this.CollegeWiseLabSubject[i].FileName == null) {
+          message += 'Please Upload ConvertDocumet   \n';
+          this.CollegeWiseLabSubject[i].FileName = '';
+        }
+
+        if (this.CollegeWiseLabSubject[i].FileOtherName == '' || this.CollegeWiseLabSubject[i].FileOtherName == null)
+        {
+          message += 'Please Upload FileOtherName   \n';
+          this.CollegeWiseLabSubject[i].FileOtherName = '';
+        }
+
+        else {
+          validateerrorcount++;
+        }
+      }
+    }
+    if (message.length > 30) {
+
+      return false;
+    }
+    return true
+  }
+
+
+
+
   numberOnly(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {

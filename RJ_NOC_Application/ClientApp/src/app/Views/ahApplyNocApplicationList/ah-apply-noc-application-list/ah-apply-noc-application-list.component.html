@@ -1,7 +1,7 @@
 <div class="card tabCard1 mb-0">
   <div class="card-header d-flex justify-content-between align-items-center">
     <b><i class="bi bi-table"></i>&nbsp;Application List</b>
-   
+
   </div>
   <div class="card-body">
     <div class="clearfix"></div>
@@ -33,6 +33,7 @@
                     <td>
                       <a href="javascript:void(0)" *ngIf="item.IsCommittee=='Yes'" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'Yes')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                       &nbsp;<button type="button" *ngIf="(item.PVStage=='0' || item.PVStage=='2' || item.PVStage=='4') && IsCommitteType" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
+                      &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
                     </td>
                   </tr>
                   <tr>
@@ -141,6 +142,46 @@
       <div class="row  m-2">
         <div class="col-md-12">
           <button type="button" class="btn btn-primary" (click)="SaveData()" title="Submit">Submit</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #mymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-header">
+          <b>Application Trail</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns">
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>User Name</th>
+                    <th>Action</th>
+                    <th>Action Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of ApplicationTrailList let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.ActionUser}}</td>
+                    <td>{{item.ActionName}}</td>
+                    <td>{{item.ActionDate}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
