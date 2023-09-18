@@ -170,6 +170,7 @@ export class AddCollegeComponent implements OnInit {
         ddlDivisionID_Nearest: ['', [DropdownValidators]],
         ddlDistrictID_Nearest: ['', [DropdownValidators]],
         ddlTehsilID_Nearest: ['', [DropdownValidators]],
+        ddlCityID_Nearest: ['', [DropdownValidators]],
         ddlPanchayatSamitiID_Nearest: ['', [DropdownValidators]],
         txtCityTownVillage_Nearest: ['', Validators.required],
         txtPincode_Nearest: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]]
@@ -352,7 +353,7 @@ export class AddCollegeComponent implements OnInit {
       }, 200);
     }
   }
-
+  public files : any = '';
   ResetFileAndValidation(type: string, msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean) {
     //event.target.value = '';
     try {
@@ -370,6 +371,8 @@ export class AddCollegeComponent implements OnInit {
         this.request_NearestGovernmentHospitals.HospitalDocument = name;
         this.request_NearestGovernmentHospitals.HospitalDocumentPath = path;
         this.request_NearestGovernmentHospitals.HospitalDocument_Dis_FileName = dis_Name;
+        this.files = document.getElementById('fHospitalDocument');
+        this.files.value = '';
       }
       else if (type == 'NAACAccreditedCertificate') {
         this.showNAACAccreditedCertificate = isShowFile;
@@ -396,7 +399,8 @@ export class AddCollegeComponent implements OnInit {
         if (section == 'nearest') {
           this.IsRural_Nearest = isRural;
           if (isResetValue) {
-            this.request_NearestGovernmentHospitals.TehsilID = 0;
+            //this.request_NearestGovernmentHospitals.TehsilID = 0;
+            this.request_NearestGovernmentHospitals.CityID = 1;
             this.request_NearestGovernmentHospitals.PanchayatSamitiID = 0;
           }
         }
@@ -414,7 +418,8 @@ export class AddCollegeComponent implements OnInit {
         if (section == 'nearest') {
           this.IsRural_Nearest = isRural;
           if (isResetValue) {
-            this.request_NearestGovernmentHospitals.TehsilID = 1;
+            //this.request_NearestGovernmentHospitals.TehsilID = 1;
+            this.request_NearestGovernmentHospitals.CityID = 0;
             this.request_NearestGovernmentHospitals.PanchayatSamitiID = 1;
           }
         }
@@ -839,7 +844,7 @@ export class AddCollegeComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (section == 'nearest') {
-            this.CityList_Nearest = data['Data'];
+            this.CityList_Nearest = data['Data'][0]['data'];
           }
           else {
             this.CityList = data['Data'][0]['data'];
@@ -921,9 +926,13 @@ export class AddCollegeComponent implements OnInit {
       this.request_NearestGovernmentHospitals.DistrictName = this.DistrictList_Nearest.find((x: { DistrictID: number }) => x.DistrictID == this.request_NearestGovernmentHospitals.DistrictID)?.DistrictName;
       // rural/urban
       this.request_NearestGovernmentHospitals.RuralUrbanName = this.request_NearestGovernmentHospitals.RuralUrban == 1 ? 'Rural' : 'Urban';
+      this.request_NearestGovernmentHospitals.TehsilName = this.TehsilList_Nearest.find((x: { TehsilID: number }) => x.TehsilID == this.request_NearestGovernmentHospitals.TehsilID)?.TehsilName;
       if (this.request_NearestGovernmentHospitals.RuralUrban == 1) {
-        this.request_NearestGovernmentHospitals.TehsilName = this.TehsilList_Nearest.find((x: { TehsilID: number }) => x.TehsilID == this.request_NearestGovernmentHospitals.TehsilID)?.TehsilName;
+
         this.request_NearestGovernmentHospitals.PanchayatSamitiName = this.PanchyatSamitiList_Nearest.find((x: { PanchyatSamitiID: number }) => x.PanchyatSamitiID == this.request_NearestGovernmentHospitals.PanchayatSamitiID)?.PanchyatSamitiName;
+      }
+      else {
+        this.request_NearestGovernmentHospitals.CityName = this.CityList_Nearest.find((x: { CityID: number }) => x.CityID == this.request_NearestGovernmentHospitals.CityID)?.City_English;
       }
       // add
       this.request.NearestGovernmentHospitalsList.push(this.request_NearestGovernmentHospitals);
