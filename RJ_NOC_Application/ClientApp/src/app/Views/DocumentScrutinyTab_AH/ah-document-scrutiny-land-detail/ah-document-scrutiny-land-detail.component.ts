@@ -29,6 +29,9 @@ export class AhDocumentScrutinyLandDetailComponent implements OnInit {
   public LandDetailList: LandDetailDataModel[] = [];
   public FinalRemarks: any = [];
   public UnitOfLand: string = '';
+  public LandDetailsDocumentListByID: any = [];
+
+  public DetailoftheLand: any = [];
 
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
@@ -105,6 +108,8 @@ export class AhDocumentScrutinyLandDetailComponent implements OnInit {
       await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
+          this.LandDetailsDocumentListByID = data['Data'][0]["LandDetailDocument"];
+          this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
           this.request = data['Data'][0];
         }, error => console.error(error));
     }

@@ -1,0 +1,49 @@
+<div class="card">
+  <div class="card-header">
+    <b>FDR Details</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Bank Name</th>
+                <th>Branch Name</th>
+                <th>IFSC Code</th>
+                <th>FDR Number</th>
+                <th>FDR Amount</th>
+                <th>FDR Date</th>
+                <th>Period Of FDR</th>
+                <th>FDR Expriy Date</th>
+                <th>FDR Document</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of FDRResponseDataModel; let idx=index;">
+                <td>{{idx+1}}</td>
+                <td>{{row.BankName}}</td>
+                <td>{{row.BranchName}}</td>
+                <td>{{row.IFSCCode}}</td>
+                <td>{{row.FDRNumber}}</td>
+                <td>{{row.FDRAmount}}</td>
+                <td>{{row.FDRDate}}</td>
+                <td>{{row.PeriodOfFDR}}</td>
+                <td>{{row.FDRExpriyDate}}</td>
+                <td>
+                  <a *ngIf="row.FDRDocument!=''" class="btn-outline-primary" target="_blank" href="{{row.FDRDocumentPath}}" title="View Document"><i class="fa fa-eye"></i></a>
+                </td>
+              </tr>
+              <tr *ngIf="FDRResponseDataModel.length<=0">
+                <td colspan="10" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
