@@ -46,6 +46,7 @@ export class FarmLandDetailsComponent implements OnInit {
   public TehsilList: any = [];
   public PanchyatSamitiList: any = [];
   public QueryStringCollegeID: any = 0;
+  public CityList: any = [];
 
   @ViewChild('fileUploadImage')
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
@@ -75,11 +76,12 @@ export class FarmLandDetailsComponent implements OnInit {
         txtCertificatefOfTehsildar: [''],
         txtLandTitleCertificate: [''],
         txtAddressLine1_Owner: ['', Validators.required],
-        txtAddressLine2_Owner: ['', Validators.required],
+        txtAddressLine2_Owner: [''],
         rbRuralUrban_Owner: ['', Validators.required],
         ddlDivisionID_Owner: ['', [DropdownValidators]],
         ddlDistrictID_Owner: ['', [DropdownValidators]],
-        ddlTehsilID_Owner: [''],
+        ddlTehsilID_Owner: ['', [DropdownValidators]],
+        ddlCityID: [''],
         ddlPanchayatSamitiID_Owner: [''],
         txtCityTownVillage_Owner: ['', Validators.required],
         txtPincode_Owner: ['', [Validators.required]],
@@ -116,8 +118,9 @@ export class FarmLandDetailsComponent implements OnInit {
 
   async IsRuralOrUrban(isRural: boolean, section?: string) {
     this.IsRural = isRural;
-    this.request.TehsilID = 0;
+    //this.request.TehsilID = 0;
     this.request.PanchayatSamitiID = 0;
+    this.request.CityID = 0;
   }
   async GetDivisionList() {
     try {
@@ -188,6 +191,15 @@ export class FarmLandDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.PanchyatSamitiList = data['Data'];
 
+        }, error => console.error(error));
+      //city list
+      await this.commonMasterService.GetCityByDistrict(SeletedValueDistrict)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CityList = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -297,7 +309,7 @@ export class FarmLandDetailsComponent implements OnInit {
     });
   }
   async SaveData() {
-    debugger;
+    
     this.isFarmTotalLandArea = false;
     this.isTotalLandArea = false;
     this.isSubmitted = true;
@@ -318,8 +330,9 @@ export class FarmLandDetailsComponent implements OnInit {
         this.IsPanchayatSamitirequried = true;
         this.isFormValid = false;
       }
-      if (this.request.TehsilID == 0) {
-        this.IsTehsilrequired = true;
+    }
+    else {
+      if (this.request.CityID == 0) {
         this.isFormValid = false;
       }
     }
@@ -377,6 +390,7 @@ export class FarmLandDetailsComponent implements OnInit {
     this.request.RuralUrban = '';
     this.request.Pincode = '';
     this.request.PanchayatSamitiID = 0;
+    this.request.CityID = 0;
     this.request.KhasraNumber = '';
     this.request.LandOwnerName = '';
     this.request.LandTitleCertificateName = '';
@@ -407,9 +421,12 @@ export class FarmLandDetailsComponent implements OnInit {
     this.DistrictList = [];
     this.TehsilList = [];
     this.PanchyatSamitiList = [];
+    this.CityList = [];
     this.request.ActiveStatus = false;
     this.isFarmTotalLandArea = false;
     this.isTotalLandArea = false;
+    const btnSave = document.getElementById('btnSave')
+    if (btnSave) btnSave.innerHTML = "Save";
   }
   btnCancel_Click() {
     this.routers.navigate(['/dashboard']);
@@ -417,7 +434,7 @@ export class FarmLandDetailsComponent implements OnInit {
   }
 
   async GetAllFarmLandDetalsList(CollegeID: number) {
-    debugger;
+    
     try {
       this.loaderService.requestStarted();
       await this.farmLandDetailServiceService.GetAllFarmLandDetalsListByCollegeID(CollegeID)
@@ -441,7 +458,7 @@ export class FarmLandDetailsComponent implements OnInit {
   }
 
   async Edit_OnClick(FarmLandDetailsID: number) {
-    debugger;
+    
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
@@ -458,15 +475,16 @@ export class FarmLandDetailsComponent implements OnInit {
           this.request.DivisionID = data['Data']["DivisionID"];
           this.FillDivisionRelatedDDL(null, this.request.DivisionID);
           this.request.DistrictID = data['Data']["DistrictID"];
-
+          this.FillDistrictRelatedDDL(null, this.request.DistrictID);
+          this.request.TehsilID = data['Data']["TehsilID"];
           if (this.request.RuralUrban == 'Rural') {
             this.IsRural = true;
-            this.FillDistrictRelatedDDL(null, this.request.DistrictID);
-            this.request.TehsilID = data['Data']["TehsilID"];
             this.request.PanchayatSamitiID = data['Data']["PanchayatSamitiID"];
           }
           else {
             this.IsRural = false;
+            this.request.CityID = data['Data']["CityID"];
+
           }
           this.request.CityTownVillage = data['Data']["CityTownVillage"];
           this.request.LandType = data['Data']["LandType"];
@@ -497,7 +515,7 @@ export class FarmLandDetailsComponent implements OnInit {
     }
   }
   async Delete_OnClick(FarmLandDetailsID: number) {
-    debugger;
+    
     this.isSubmitted = false;
     try {
       if (confirm("Are you sure you want to delete this ?")) {
