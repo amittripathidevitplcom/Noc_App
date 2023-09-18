@@ -171,18 +171,24 @@
                         </div>
                       </td>-->
 
-                      <td>
-                        <input type="text" class="form-control" id="txtWidth{{idx}}" maxlength="4" [ngModelOptions]="{standalone: true}" name="txtWidth{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="row.Width" autocomplete="off">
-                        <div class="text-danger">
-                          <p *ngIf="row.Width==''"> This field is required .!</p>
-                        </div>
-                      </td>
-                      <td>
-                        <input type="text" class="form-control" id="txtLength{{idx}}" maxlength="4"  [ngModelOptions]="{standalone: true}" name="txtLength{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="row.Length" autocomplete="off">
-                        <div class="text-danger">
-                          <p *ngIf="row.Length==''"> This field is required .!</p>
-                        </div>
-                      </td>
+                    <td>
+                      <input type="text" class="form-control" id="txtWidth{{idx}}" maxlength="4" [ngModelOptions]="{standalone: true}" name="txtWidth{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="row.Width" autocomplete="off">
+                      <div class="text-danger">
+                        <p *ngIf="row.Width==''"> This field is required!</p>
+                      </div>
+                      <div *ngIf="request.CourseID>0">
+                        <p *ngIf="row.Width>0 && row.Width< WidthMin" class="text-danger"s>Please Enter Min size : {{WidthMin}} sq. ft</p>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" id="txtLength{{idx}}" maxlength="4" [ngModelOptions]="{standalone: true}" name="txtLength{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="row.Length" autocomplete="off">
+                      <div class="text-danger">
+                        <p *ngIf="row.Length==''"> This field is required!</p>
+                      </div>
+                      <div *ngIf="request.CourseID>0">
+                        <p *ngIf="row.Length>0 && row.Length< LengthMin" class="text-danger">Please Enter Min size : {{LengthMin}} sq. ft</p>
+                      </div>
+                    </td>
 
                       <td>
                         <div class="d-flex">
@@ -289,13 +295,10 @@
                           <td>
                             <div class="d-flex">
 
-                              <a href="javascript:void(0)" *ngIf="row.DepartmentID==3 && row.CourseName=='Laboratory'" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewLandDetailDocument" (click)="ViewLabDetails()"><i class="fa fa-eye"></i></a>
+                              <a [attr.disabled]="isDisabledGrid ? true : null" href="javascript:void(0)" *ngIf="row.DepartmentID==3 && row.CourseName=='Laboratory'" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewLandDetailDocument" (click)="ViewLabDetails()"><i class="fa fa-eye"></i></a>
 
                               <button type="button" (click)="Edit_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                               <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseOtherInfoID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
-
-
-
 
                             </div>
                           </td>

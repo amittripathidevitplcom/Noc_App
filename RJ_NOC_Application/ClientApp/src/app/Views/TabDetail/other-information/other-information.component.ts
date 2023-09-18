@@ -115,6 +115,10 @@ export class OtherInformationComponent implements OnInit {
   public LengthMin_Dis: number = 0;
   public WidthMin_Dis: number = 0;
 
+  public MinWidth_Lab: number = 20;
+  public MinLength_Lab: number = 30;
+
+
   constructor(private otherInformationService: OtherInformationService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute,
     private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
@@ -1087,15 +1091,18 @@ export class OtherInformationComponent implements OnInit {
     if (WorkFlowDetailLength > 0) {
       for (var i = 0; i < this.CollegeWiseLabSubject.length; i++) {
 
-       
-        if (this.CollegeWiseLabSubject[i].Width == '' || this.CollegeWiseLabSubject[i].Width == '0') {
+
+        if (this.CollegeWiseLabSubject[i].Width == '' || this.CollegeWiseLabSubject[i].Width == '0' || this.CollegeWiseLabSubject[i].Width < this.WidthMin)
+        {
+
           message += 'Please Enter  Land Width \n';
-          this.CollegeWiseLabSubject[i].Width = '';
+          //this.CollegeWiseLabSubject[i].Width = '';
+
         }
 
-        if (this.CollegeWiseLabSubject[i].Length == '' || this.CollegeWiseLabSubject[i].Length == '0') {
+        if (this.CollegeWiseLabSubject[i].Length == '' || this.CollegeWiseLabSubject[i].Length == '0' || this.CollegeWiseLabSubject[i].Length < this.LengthMin) {
 
-          this.CollegeWiseLabSubject[i].Length = '';
+         // this.CollegeWiseLabSubject[i].Length = '';
         }
 
         if (this.CollegeWiseLabSubject[i].FileName == '' || this.CollegeWiseLabSubject[i].FileName == null) {
