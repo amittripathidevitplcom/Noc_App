@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RedirectGuard } from './Common/auth.guard.ts';
-import { RouterModule, Routes } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Route, RouterModule, RouterStateSnapshot, Routes, withDisabledInitialNavigation, withEnabledBlockingInitialNavigation } from '@angular/router';
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
 import { ApplicationDetailEntryComponent } from './Views/ApplicationDetailEntry/application-detail-entry/application-detail-entry.component';
 import { CollegeDetailsComponent } from './Views/college-details/college-details.component';
@@ -135,6 +134,8 @@ import { AhPhysicalFinalVerificationComponent } from './Views/DocumentScrutinyTa
 import { AhFinalVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-verification-done-list/ah-final-verification-done-list.component';
 import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-noc-application-list/ah-final-noc-application-list.component';
 import { AhDocumentScrutinyNodalOfficerComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-nodal-officer/ah-document-scrutiny-nodal-officer.component';
+import { Observable } from 'rxjs';
+import { SkipLocationChangeGuard } from './Common/auth.guard.ts';
 
 
 
@@ -160,14 +161,12 @@ const routes: Routes = [
   {
     path: 'paymentstatus/:TransID', component: EmitraPaymentResponseComponent
   },
-
-
-
   {
-    path: '', component: MasterPageComponent,
+    path: '', component: MasterPageComponent ,
     children: [
       {
-        path: 'dashboard', component: DashboardComponent
+        path: 'dashboard', component: DashboardComponent,
+         
       },
       {
         path: 'projectmaster', component: ProjectMasterComponent
@@ -253,12 +252,17 @@ const routes: Routes = [
 
       },
       {
-        path: 'addcollege', component: AddCollegeComponent
-
+        path: 'addcollege', component: AddCollegeComponent,
+        //canActivate: [RedirectGuard]
       },
       {
-        path: 'addcollege/:CollegeID', component: AddCollegeComponent
-
+        //path: 'addcollege/:CollegeID', component: AddCollegeComponent,
+        
+        //data: { redirectTo: '/adc' }
+        path: 'addcollege/:CollegeID', component: AddCollegeComponent,
+        //data: {
+        //  redirectTo: "/people" // <--- absolute redirect to PEOPLE route.
+        //}
       },
       {
         path: 'basicbscnursing', component: BasicBscNursingComponent
@@ -301,7 +305,9 @@ const routes: Routes = [
       },
       {
         path: 'applicationdetailentry/:DepartmentID/:CollegeID', component: ApplicationDetailEntryComponent,
-       //  canActivate: [RedirectGuard],
+        pathMatch: 'full'
+       // canActivate: [NeverActivate]
+      //canActivate: [RedirectGuard],
         //data: {
         //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
         //}
@@ -588,8 +594,9 @@ const routes: Routes = [
       },
       {
         path: 'animalhusbandryappnocviewByNodal/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: AhDocumentScrutinyNodalOfficerComponent
-      },
-    ]
+      }, 
+    ] 
+   // ,canActivate: [SkipLocationChangeGuard],
   },
 
 
@@ -607,9 +614,28 @@ const routes: Routes = [
     path: '**', component: PageNotFoundComponent
   },
 ];
+//const addLocationGuard = (r: Route): Route => r.redirectTo ? r : { ...r, canActivate: [SkipLocationChangeGuard] };
+//const addLocationGuard = (r: ActivatedRoute): ActivatedRoute => (r.redirectTo: any) ?r: { ...r, canActivate: [SkipLocationChangeGuard] };
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, )],
+  imports: [RouterModule.forRoot(routes)],
+  //imports: [
+  //  RouterModule.forRoot(routes.map(addLocationGuard)),
+  // // RouterModule.forRoot(routes.),
+  // // RouterModule.bind(routes.map(addLocationGuard)),
+  //],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+
+
+//class NeverActivate implements CanActivate {
+
+//  canActivate(
+//    route: ActivatedRouteSnapshot,
+//    state: RouterStateSnapshot
+//  ): Observable<boolean> | Promise<boolean> | boolean {
+//    return false; // never allow activation
+//  }
+//}
