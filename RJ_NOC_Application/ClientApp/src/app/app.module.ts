@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
+/*import { NgShortcutModule, NgShortcutConfig } from 'ng-shortcut';*/
 
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
 import { CollegeDetailsComponent } from './Views/college-details/college-details.component';
@@ -251,7 +252,6 @@ import { AhPhysicalFinalVerificationComponent } from './Views/DocumentScrutinyTa
 import { AhFinalVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-verification-done-list/ah-final-verification-done-list.component';
 import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-noc-application-list/ah-final-noc-application-list.component';
 import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-apply-noc-detail/preview-apply-noc-detail.component';
-import { RedirectGuard } from './Common/auth.guard.ts';
 import { AhDocumentScrutinyNodalOfficerComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-nodal-officer/ah-document-scrutiny-nodal-officer.component';
 
 import { PreviewFDRDetailComponent } from './Views/PreviewTabs/preview-fdr-detail/preview-fdr-detail.component';
@@ -530,6 +530,7 @@ import { PreviewFDRDetailComponent } from './Views/PreviewTabs/preview-fdr-detai
     //NgIdleKeepaliveModule.forRoot(),
 
     NgIdleModule.forRoot(),
+    //NgShortcutModule.forRoot()  ,
 
 
     //NgSelect2Module,
@@ -549,7 +550,7 @@ import { PreviewFDRDetailComponent } from './Views/PreviewTabs/preview-fdr-detai
   //providers: [],
   providers: [
     {
-      provide: [STEPPER_GLOBAL_OPTIONS, RedirectGuard],
+      provide: [STEPPER_GLOBAL_OPTIONS],
       useValue: { displayDefaultIndicatorType: false },
 
     },

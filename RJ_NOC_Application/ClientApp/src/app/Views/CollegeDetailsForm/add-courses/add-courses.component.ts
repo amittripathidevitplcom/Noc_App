@@ -14,7 +14,9 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { EnumDepartment } from '../../../Common/enum-noc';
-import { Console } from 'console'; 
+import { Console } from 'console';
+ 
+
 @Injectable()
 
 @Component({
@@ -752,7 +754,9 @@ export class AddCoursesComponent implements OnInit {
 
   }
 
-   
+  shiftFHandler() {
+    alert('Shift+F pressed!');
+  }
 }
 
 

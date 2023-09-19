@@ -105,6 +105,7 @@ export class VeterinaryHospitalComponent implements OnInit {
   public ViewSansthaBhavanDetails: any = [];
   public SansthaBhavanRoomList: any = [];
   public CourseLevelName: string = '';
+  public CityList: any = [];
 
   constructor(private veterinaryHospitalService: VeterinaryHospitalService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute,
@@ -129,8 +130,9 @@ export class VeterinaryHospitalComponent implements OnInit {
         rbYesNo: ['', Validators.required],
         ddlDivisionID: ['', [DropdownValidators]],
         ddlDistrictID: ['', [DropdownValidators]],
-        ddlTehsilID: [''],
+        ddlTehsilID: ['', [DropdownValidators]],
         ddlPanchayatSamitiID: [''],
+        ddlCityID: [''],
         txtCityTownVillage: ['', Validators.required],
         txtPincode: ['', [Validators.required]],
         txtMobileNo: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
@@ -236,8 +238,9 @@ export class VeterinaryHospitalComponent implements OnInit {
   }
   async IsRuralOrUrban(isRural: boolean, section?: string) {
     this.IsRural = isRural;
-    this.request.TehsilID = 0;
+    //this.request.TehsilID = 0;
     this.request.PanchayatSamitiID = 0;
+    this.request.CityID = 0;
   }
   async FillDivisionRelatedDDL(event: any, SeletedValueDivision: any) {
     this.request.DivisionID = SeletedValueDivision;
@@ -295,6 +298,15 @@ export class VeterinaryHospitalComponent implements OnInit {
           this.PanchyatSamitiList = data['Data'];
 
         }, error => console.error(error));
+      //city list
+      await this.commonMasterService.GetCityByDistrict(SeletedValueDistrict)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CityList = data['Data'][0]['data'];
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -307,7 +319,7 @@ export class VeterinaryHospitalComponent implements OnInit {
   }
   async ValidateUploadImage(event: any, Type: string) {
     try {
-      debugger;
+      
       this.loaderService.requestStarted();
       this.isValidFileUpload = false;
       if (event.target.files && event.target.files[0]) {
@@ -404,7 +416,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       if (this.animalForm.invalid) {
         return;
       }
-      debugger;
+      
       this.GetAnimalName = this.AnimalMasterList.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.requestAnimal.AnimalMasterID).AnimalName;
       if (this.Seats == '50') {
         if (this.GetAnimalName == 'Cow') {
@@ -610,8 +622,9 @@ export class VeterinaryHospitalComponent implements OnInit {
         this.IsPanchayatSamitirequried = true;
         this.isFormValid = false;
       }
-      if (this.request.TehsilID == 0) {
-        this.IsTehsilrequired = true;
+    }
+    else {
+      if (this.request.CityID == 0) {
         this.isFormValid = false;
       }
     }
@@ -619,7 +632,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.ImageValidate = 'This field is required .!';
       return
     }
-    //if (this.CourseLevelName == 'Diploma') {
+    if (this.CourseLevelName == 'Diploma') {
       if (this.SansthaBhavanRoomList.length > 0) {
         for (var i = 0; i < this.SansthaBhavanRoomList.length; i++) {
           var SansthaRoomID = this.request.SansthaBhavanDetails.find((x: { SansthaRoomID: number; }) => x.SansthaRoomID == this.SansthaBhavanRoomList[i].ID)?.SansthaRoomID;
@@ -628,51 +641,50 @@ export class VeterinaryHospitalComponent implements OnInit {
             return;
           }
         }
-    }
-    //Animal Details
-    if (this.AnimalMasterList.length > 0) {
-
-      for (var i = 0; i < this.AnimalMasterList.length; i++) {
-        var AnimalMasterID = this.request.AnimalDetails.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.AnimalMasterList[i].AnimalMasterID)?.AnimalMasterID;
-        if (AnimalMasterID == undefined || AnimalMasterID == null || AnimalMasterID.toString() == '') {
-          this.toastr.warning('Please add all animal details');
-          return;
-        }
       }
+      //Animal Details
+      if (this.AnimalMasterList.length > 0) {
 
-    }
-
-    //}
-    if (!this.isFormValid) {
-      return;
-    }
-    this.loaderService.requestStarted();
-    try {
-      console.log(this.request);
-      await this.veterinaryHospitalService.SaveData(this.request)
-        .then((data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
-          if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
-            this.ResetControl();
-            this.GetDivisionList();
-            this.GetAnimalMasterList();
-            //this.GetAllVeterinaryHospitalList();
+        for (var i = 0; i < this.AnimalMasterList.length; i++) {
+          var AnimalMasterID = this.request.AnimalDetails.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.AnimalMasterList[i].AnimalMasterID)?.AnimalMasterID;
+          if (AnimalMasterID == undefined || AnimalMasterID == null || AnimalMasterID.toString() == '') {
+            this.toastr.warning('Please add all animal details');
+            return;
           }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
+        }
 
-      }, 200);
+      }
+      if (!this.isFormValid) {
+        return;
+      }
+      this.loaderService.requestStarted();
+      try {
+        console.log(this.request);
+        await this.veterinaryHospitalService.SaveData(this.request)
+          .then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            console.log(this.State);
+            if (!this.State) {
+              this.toastr.success(this.SuccessMessage)
+              this.ResetControl();
+              this.GetDivisionList();
+              this.GetAnimalMasterList();
+              //this.GetAllVeterinaryHospitalList();
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
+      catch (ex) { console.log(ex) }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+
+        }, 200);
+      }
     }
   }
   async GetAllVeterinaryHospitalList() {
@@ -716,15 +728,15 @@ export class VeterinaryHospitalComponent implements OnInit {
           this.request.DivisionID = data['Data']["DivisionID"];
           this.FillDivisionRelatedDDL(null, this.request.DivisionID);
           this.request.DistrictID = data['Data']["DistrictID"];
-
+          this.FillDistrictRelatedDDL(null, this.request.DistrictID);
+          this.request.TehsilID = data['Data']["TehsilID"];
           if (this.request.RuralUrban == 'Rural') {
             this.IsRural = true;
-            this.FillDistrictRelatedDDL(null, this.request.DistrictID);
-            this.request.TehsilID = data['Data']["TehsilID"];
             this.request.PanchayatSamitiID = data['Data']["PanchayatSamitiID"];
           }
           else {
             this.IsRural = false;
+            this.request.CityID = data['Data']["CityID"];
           }
           this.request.CityTownVillage = data['Data']["CityTownVillage"];
           this.request.MobileNo = data['Data']["MobileNo"];
@@ -781,7 +793,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       }, 200);
     }
   }
-  async ResetControl() {
+  async ResetControl() { 
     try {
       this.loaderService.requestStarted();
       const txtHospitalName = document.getElementById('txtHospitalName')
@@ -795,6 +807,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.request.RuralUrban = '';
       this.request.Pincode = '';
       this.request.PanchayatSamitiID = 0;
+      this.request.CityID = 0;
       this.request.FileUpload = '';
       this.request.Dis_FileUpload = '';
       this.request.FileUploadPath = '';
@@ -823,6 +836,10 @@ export class VeterinaryHospitalComponent implements OnInit {
       if (btnSave) btnSave.innerHTML = "Save";
       const btnReset = document.getElementById('')
       if (btnReset) btnReset.innerHTML = "Reset";
+      this.DistrictList = [];
+      this.TehsilList = [];
+      this.PanchyatSamitiList = [];
+      this.CityList = [];
     }
     catch (ex) { }
     finally {
@@ -940,7 +957,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.veterinaryHospitalService.GetVeterinaryHospitalByID(VeterinaryHospitalID, this.UserID)
         .then((data: any) => {
-          debugger;
+          
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -1039,7 +1056,7 @@ export class VeterinaryHospitalComponent implements OnInit {
 
   public isSansthaFormValid: boolean = true;
   async btnSansthaBhavanAdd_Click() {
-    debugger;
+    
     try {
       this.isSubmittedSanstha = true;
       this.isSansthaFormValid = true;
