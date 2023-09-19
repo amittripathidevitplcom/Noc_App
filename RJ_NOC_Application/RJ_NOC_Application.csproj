@@ -16,17 +16,84 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\modal\**" />
+    <Compile Remove="ClientApp\src\app\Models\**" />
     <Compile Remove="ClientApp\src\app\Services\Reports\**" />
     <Compile Remove="ClientApp\src\app\Views\Master\FacilitiesMaster\facilities\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\modal\**" />
+    <Content Remove="ClientApp\src\app\Models\**" />
     <Content Remove="ClientApp\src\app\Services\Reports\**" />
     <Content Remove="ClientApp\src\app\Views\Master\FacilitiesMaster\facilities\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\modal\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\Models\**" />
     <EmbeddedResource Remove="ClientApp\src\app\Services\Reports\**" />
     <EmbeddedResource Remove="ClientApp\src\app\Views\Master\FacilitiesMaster\facilities\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\modal\**" />
+    <None Remove="ClientApp\src\app\Models\**" />
     <None Remove="ClientApp\src\app\Services\Reports\**" />
     <None Remove="ClientApp\src\app\Views\Master\FacilitiesMaster\facilities\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\modal\modal-container.ts" />
+    <None Remove="ClientApp\src\app\modal\modal-container\modal-container.component.css" />
+    <None Remove="ClientApp\src\app\modal\modal-container\modal-container.component.html" />
+    <None Remove="ClientApp\src\app\modal\modal-container\modal-container.component.ts" />
+    <None Remove="ClientApp\src\app\modal\modal-context.ts" />
+    <None Remove="ClientApp\src\app\modal\modal-holder.directive.ts" />
+    <None Remove="ClientApp\src\app\modal\modal.module.ts" />
+    <None Remove="ClientApp\src\app\modal\modal.service.ts" />
+    <None Remove="ClientApp\src\app\Models\AadharServiceDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\AcademicInformationDetailsDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\AddRoleMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\AnimalMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\ApplicationCommitteeMemberdataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\ApplyNOCApplicationDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\ApplyNocParameterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\AssemblyAreaDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\ClassWiseStudentDetailsDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\CollegeDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\CollegeLabInformationDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\CommitteeMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\CommonMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\CourseMasterAddDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\CourseMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\DashboardDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\DocumentDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\DocumentScrutinyDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\FacilitiesMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\FacilityDetailsDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\FarmLandDetailDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\HospitalDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\HostelDetailsDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\LandAreaSituatedMasterDataModel .ts" />
+    <None Remove="ClientApp\src\app\Models\LandDetailDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\LegalEntityDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\MenuDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\OtherInformationDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\ParamedicalHospitalDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\ParliamentAreaDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\PaymentDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\ProjectMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\QualificationMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\RNCCheckListMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\RoomDetailsDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\ScurtenyComitteeDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\SocietyDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\SSOLoginDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\StreamSubjectMappingDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\StreamSubjectMappingDetailDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\SubjectMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\SubjectWiseStatisticsDetailsDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\TabDetailDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\TrusteeGeneralInfoDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\UniversityMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\UserMasterDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\VeterinaryHospitalDataModel.ts" />
+    <None Remove="ClientApp\src\app\Models\WorkFlowMasterDataModel.ts" />
   </ItemGroup>
 
   <ItemGroup>
