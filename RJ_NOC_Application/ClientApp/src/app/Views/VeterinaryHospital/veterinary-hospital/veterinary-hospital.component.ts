@@ -641,53 +641,50 @@ export class VeterinaryHospitalComponent implements OnInit {
             return;
           }
         }
-    }
-    //Animal Details
-    if (this.AnimalMasterList.length > 0) {
+      }
+      //Animal Details
+      if (this.AnimalMasterList.length > 0) {
 
-      for (var i = 0; i < this.AnimalMasterList.length; i++) {
-        var AnimalMasterID = this.request.AnimalDetails.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.AnimalMasterList[i].AnimalMasterID)?.AnimalMasterID;
-        if (AnimalMasterID == undefined || AnimalMasterID == null || AnimalMasterID.toString() == '') {
-          this.toastr.warning('Please add all animal details');
-          return;
+        for (var i = 0; i < this.AnimalMasterList.length; i++) {
+          var AnimalMasterID = this.request.AnimalDetails.find((x: { AnimalMasterID: number; }) => x.AnimalMasterID == this.AnimalMasterList[i].AnimalMasterID)?.AnimalMasterID;
+          if (AnimalMasterID == undefined || AnimalMasterID == null || AnimalMasterID.toString() == '') {
+            this.toastr.warning('Please add all animal details');
+            return;
+          }
         }
+
       }
-
-    }
-
-    //}
+      if (!this.isFormValid) {
+        return;
       }
-    }
-    if (!this.isFormValid) {
-      return;
-    }
-    this.loaderService.requestStarted();
-    try {
-      console.log(this.request);
-      await this.veterinaryHospitalService.SaveData(this.request)
-        .then((data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
-          if (!this.State) {
-            this.toastr.success(this.SuccessMessage)
-            this.ResetControl();
-            this.GetDivisionList();
-            this.GetAnimalMasterList();
-            //this.GetAllVeterinaryHospitalList();
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
+      this.loaderService.requestStarted();
+      try {
+        console.log(this.request);
+        await this.veterinaryHospitalService.SaveData(this.request)
+          .then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            console.log(this.State);
+            if (!this.State) {
+              this.toastr.success(this.SuccessMessage)
+              this.ResetControl();
+              this.GetDivisionList();
+              this.GetAnimalMasterList();
+              //this.GetAllVeterinaryHospitalList();
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          })
+      }
+      catch (ex) { console.log(ex) }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
 
-      }, 200);
+        }, 200);
+      }
     }
   }
   async GetAllVeterinaryHospitalList() {
@@ -796,7 +793,7 @@ export class VeterinaryHospitalComponent implements OnInit {
       }, 200);
     }
   }
-  async ResetControl() {
+  async ResetControl() { 
     try {
       this.loaderService.requestStarted();
       const txtHospitalName = document.getElementById('txtHospitalName')
