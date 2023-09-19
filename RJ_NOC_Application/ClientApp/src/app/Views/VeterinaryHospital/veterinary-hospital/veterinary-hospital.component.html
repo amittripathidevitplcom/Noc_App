@@ -1,21 +1,21 @@
-<div class="container-fluid breadcrumbBox py-2">
+<!--<div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
       <h3>Veterinary Hospital.</h3>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb">-->
           <!--<li class="breadcrumb-item"><a href="#">Details</a></li>-->
-          <li class="breadcrumb-item active" aria-current="page">Veterinary Hospital</li>
+          <!--<li class="breadcrumb-item active" aria-current="page">Veterinary Hospital</li>
         </ol>
       </nav>
     </div>
   </div>
-</div>
-<div class="container-fluid mainContents">
-  <div class="row">
-    <div class="col-md-12">
+</div>-->
+<!--<div class="container-fluid mainContents">-->
+  <!--<div class="row">
+    <div class="col-md-12">-->
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <b><i class="fa fa-filter"></i>&nbsp;Veterinary Hospital</b>
@@ -106,14 +106,24 @@
                   <p *ngIf="!form.ddlDistrictID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label class="form-label">Tehsil <span style="color:red;">*</span></label>
                 <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID" formControlName="ddlTehsilID">
                   <option value="0">--Select Tehsil--</option>
                   <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
                 </select>
-                <div *ngIf="isSubmitted&&IsTehsilrequired" class="text-danger">
-                  <p *ngIf="isSubmitted&&IsTehsilrequired"><i aria-hidden="true"></i>This field is required .!</p>
+                <div *ngIf="isSubmitted&&form.ddlTehsilID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlTehsilID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural">
+                <label for="ddlCityID" class="form-label">City<span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCityID" name="ddlCityID" [(ngModel)]="request.CityID" formControlName="ddlCityID">
+                  <option value="0">--Select--</option>
+                  <option *ngFor="let item of CityList" value="{{item.CityID}}">{{item.City_English}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&!IsRural&&request.CityID==0" class="text-danger">
+                  <p *ngIf="isSubmitted&&!IsRural&&request.CityID==0"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
@@ -421,7 +431,7 @@
               </div>
               <div class="d-flex align-items-center table-filter mr-15">
                 <i class="fa fa-search"></i>
-                <input type="text" class="form-control" placeholder="Search Here" />
+                <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText"/>
               </div>
             </div>
           </div>
@@ -451,7 +461,8 @@
                     <td>{{item.HospitalName}}</td>
                     <td>{{item.DistanceFromInstitute}}</td>
                     <td>{{item.RuralUrban}}</td>
-                    <td>{{item.AddressLine1}}, {{item.AddressLine2}}, {{item.CityTownVillage}}{{item.RuralUrban=='Rural'?','+item.PanchyatSamitiName:''}}{{item.RuralUrban=='Rural'?','+item.TehsilName:''}},  {{item.District_Eng}}, {{item.Division_English}}, {{item.Pincode}}</td>
+                    <td>{{item.AddressLine1}}, {{item.AddressLine2}}, {{item.CityTownVillage}}, {{item.RuralUrban=='Rural'?item.PanchyatSamitiName:item.CityName}},<br />
+                    {{item.TehsilName}},  {{item.District_Eng}}, {{item.Division_English}}, {{item.Pincode}}</td>
                     <td>{{item.MobileNo}}</td>
                     <td>{{item.EmailAddress}}</td>
                     <td>{{item.PersonField}}</td>
@@ -476,8 +487,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    <!--</div>
+  </div>-->
   <ng-template #mymodal let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Details</h4>
@@ -554,6 +565,6 @@
       </div>
     </div>
   </ng-template>
-</div>
+<!--</div>-->
 
 

@@ -42,6 +42,9 @@ export class VeterinaryHospitalDataModel {
   public S_Remark: string = '';
 
   public SansthaBhavanDetails: SansthaBhavanDataModel[] = [];
+
+  public CityID: number = 0;
+  public CityName: string = '';
 }
 
 export class AnimalDataModel {

@@ -237,7 +237,7 @@ export class BuildingDetailsComponent implements OnInit {
     if (BuildingType == 'Owned') {
       this.RentAggrementDocShow = false;
       this.buildAddressShowHide = true;
-      this.IsRural = false;
+      //this.IsRural = false;
       this.Owin_RentDocTitle = 'Certificate of Own Building in own land in same campus Order No. & Order Date :'
     }
     else {
