@@ -242,7 +242,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
      this.GetHostelDetailList_DepartmentCollegeWise();
      this.GetRoleListForApporval();
      this.GetWorkFlowActionListByRole();
-     this.NextGetWorkFlowActionListByRole();
+     //this.NextGetWorkFlowActionListByRole();
      this.GetCollageDetails();
      this.GetCollegeWiseStudenetDetails();
      this.GetSubjectWiseStudenetDetails();

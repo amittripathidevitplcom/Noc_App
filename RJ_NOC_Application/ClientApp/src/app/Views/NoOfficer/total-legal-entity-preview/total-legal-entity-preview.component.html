@@ -64,7 +64,7 @@
                   <td>
                     <div class="d-flex" style="width:10%">
                       <a href="javascript:void(0)" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#ViewLegalEntity" (click)="ViewlegalEntityDataByID(row.LegalEntityID)"><i class="fa fa-eye"></i></a>
-                      <a href="/legalentity/{{row.LegalEntityID}}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                      <a href="javascript:void(0)" (click)="LegalEntityEdit_OnClick(row.LegalEntityID)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
                       <!--<a target="_blank" href="{{row.MemberPhoto}}" title="View Member Photo"><i class="fa fa-eye"></i></a>-->
                     </div>
                   </td>

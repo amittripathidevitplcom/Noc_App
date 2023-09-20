@@ -581,4 +581,8 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+  async GetApplicationSummary(DepartmentID: number, CollegeID: number) {
+    this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))], { skipLocationChange: true });
+  }
 }

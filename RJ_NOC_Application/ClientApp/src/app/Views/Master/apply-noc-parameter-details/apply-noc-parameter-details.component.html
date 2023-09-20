@@ -73,7 +73,7 @@
                        (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)">View Apply Details</a>
                   </li>
                   <li>
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" aria-label="Preview Application">Preview Application</a>
+                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" aria-label="Preview Application" (click)="GetApplicationSummary(item.DepartmentID,item.CollegeID)">Preview Application</a>
                   </li>
 
                   <li *ngIf="item.IsMakePayment==false">
