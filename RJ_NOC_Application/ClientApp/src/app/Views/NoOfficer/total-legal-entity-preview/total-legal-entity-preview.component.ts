@@ -252,8 +252,8 @@ export class TotalLegalEntityPreviewComponent implements OnInit {
     this.sSOVerifyDataModel = new SSOLoginDataModel();
   }
 
-  async DraftEdit_OnClick(CollegeID: number) {
-    this.routers.navigate(['/addcollege' + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+  async LegalEntityEdit_OnClick(LegalEntityID: number) {
+    this.routers.navigate(['/legalentity' + "/" + encodeURI(this.commonMasterService.Encrypt(LegalEntityID.toString()))], { skipLocationChange: true });
   }
 
 }

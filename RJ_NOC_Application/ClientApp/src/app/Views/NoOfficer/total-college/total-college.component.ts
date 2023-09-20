@@ -261,4 +261,7 @@ export class TotalCollegeComponent implements OnInit {
     }
   }
 
+  async EditCollegeData(CollegeID: number) {
+    this.routers.navigate(['/addcollege' + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))], { skipLocationChange: true });
+  }
 }
