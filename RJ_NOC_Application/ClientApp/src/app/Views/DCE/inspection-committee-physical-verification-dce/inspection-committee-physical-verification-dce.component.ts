@@ -14,6 +14,7 @@ import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutin
 import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Component({
   selector: 'app-inspection-committee-physical-verification-dce',
@@ -84,7 +85,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private committeeMasterService: CommitteeMasterService,
-    private aadharServiceDetails: AadharServiceDetails
+    private aadharServiceDetails: AadharServiceDetails, private collegeService: CollegeService
   ) { }
 
   async ngOnInit() {
@@ -123,11 +124,19 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
       }, 200);
     }
   }
-
-  async GetRNCCheckListByTypeDepartment(ApplyNOCID: number) {
+  async GetRNCCheckListByTypeDepartment(ApplyNOCID: number, CollegeID: number) {
     try {
+      this.CollegeType_IsExisting = true;
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetRNCCheckListByTypeDepartment('PV', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
+      await this.collegeService.GetData(CollegeID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data']['CollegeStatus'] == 'New') {
+            this.CollegeType_IsExisting = false;
+            //this.isAcademicInformation = false;
+          }
+        }, error => console.error(error));
+      await this.commonMasterService.GetRNCCheckListByTypeDepartment(this.CollegeType_IsExisting ? 'PV' :'NewCollegePV', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -161,7 +170,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
     this.ShowHideApplicationAction = true;
-    this.GetRNCCheckListByTypeDepartment(ApplyNOCID);
+    this.GetRNCCheckListByTypeDepartment(ApplyNOCID, CollegeID);
   }
   async SaveData() {
     this.isSubmit = true;
@@ -428,12 +437,12 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   }
 
   public FinalSubmitApplyNOCID: number = 0;
-  async OpenApplicationCommitteeMember(ApplyNOCID: number, ApplicationNo: string) {
+  async OpenApplicationCommitteeMember(ApplyNOCID: number, ApplicationNo: string, CollegeID: number) {
     this.CommitteeApplicationNo = ApplicationNo;
     this.ShowHideCommittee = true;
     this.FinalSubmitApplyNOCID = ApplyNOCID;
     await this.GetApplicationCommitteeList(ApplyNOCID);
-    await this.GetRNCCheckListByTypeDepartment(ApplyNOCID);
+    await this.GetRNCCheckListByTypeDepartment(ApplyNOCID, CollegeID);
   }
   CloseCommittee_Click() {
     this.CommitteeApplicationNo = '';
