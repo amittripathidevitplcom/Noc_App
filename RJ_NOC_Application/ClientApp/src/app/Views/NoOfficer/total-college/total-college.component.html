@@ -14,98 +14,98 @@
   </div>
 </div>
 <div class="container-fluid mainContents">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i> Total College List </b>
-        </div>
-        <div class="card-body">
+ 
+ 
+  <div class="card mb-0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i> Total College List </b>
+    </div>
+    <div class="card-body">
 
 
-          <div class="d-flex align-items-center table-filter mr-15">
-            <i class="fa fa-search"></i>
-            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" id="txtsearchText" name="txtsearchText" />
-          </div>
-
-          <div class="table-responsive" style="height: calc(100vh - 268px) !important;">
-            <table class="table table-hover table-striped-columns">
-              <thead>
-                <tr>
-                  <th>Action</th>
-                  <th>Sr. No.</th>
-                  <th>Society Name</th>
-                  <th>College Application No.</th>
-                  <th>College Code</th>
-                  <th>College Name</th>
-                  <th>Department Name</th>
-                  <th>College Status</th>
-                  <th>College Type</th>
-                  <th>College Medium</th>
-                  <th>University Name</th>
-                  <th>College Mobile No.</th>
-                  <th>College Landline No.</th>
-                  <th>College Email</th>
-                  <th>Full Address</th>
-                  <th>Creation Date</th>
-                  <th>Geo Tagging</th>
-
-                </tr>
-              </thead>
-              <tbody *ngIf="draftApplicatoinListData !=null && draftApplicatoinListData.length>0">
-
-                <tr *ngFor="let row of draftApplicatoinListData  | tableSearchFilter:searchText; let idx=index;">
-                  <td style="width:12%">
-
-                    <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                              style="background-color: #132649;">
-                        Action
-                      </button>
-                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-
-                        <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)">View</a></li>
-                        <li> <a href="/addcollege/{{row.CollegeID}}" class="dropdown-item list-group-item list-group-item-action list-group-item-danger">Edit</a></li>
-                        <li><a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="DeleteData(row)">Delete</a></li>
-                        <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>
-                      </ul>
-                    </div>
-
-
-                    <!--<div class="d-flex">
-                      <a href="/addcollege/{{row.CollegeID}}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-
-
-                      <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
-                      <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
-                      <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)"><i class="fa fa-eye"></i></a>
-                    </div>-->
-                  </td>
-                  <td>{{idx+1}}</td>
-                  <td>{{row.SocietyName}}</td>
-                  <td>{{row.CollegeRegistrationNo}}</td>
-                  <td>{{row.CollegeCode}}</td>
-                  <td>{{row.CollegeName}}</td>
-                  <td>{{row.DepartmentName}}</td>
-                  <td>{{row.CollegeStatus}}</td>
-                  <td>{{row.CollegeType}}</td>
-                  <td>{{row.CollegeMedium}}</td>
-                  <td>{{row.UniversityName}}</td>
-                  <td>{{row.CollegeMobileNumber}}</td>
-                  <td>{{row.CollegeLandlineNumber}}</td>
-                  <td>{{row.CollegeEmail}}</td>
-                  <td>{{row.FullAddress}}</td>
-                  <td>{{row.CreateDate}}</td>
-                  <td>{{row.GeoTagging}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div class="d-flex align-items-center table-filter mr-15">
+        <i class="fa fa-search"></i>
+        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" id="txtsearchText" name="txtsearchText" />
       </div>
 
+
+    </div>
+    <div class="table-responsive" style="height: calc(100vh - 250px) !important;">
+      <table class="table table-hover table-striped-columns">
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>Sr. No.</th>
+            <th>Society Name</th>
+            <th>College Application No.</th>
+            <th>College Code</th>
+            <th>College Name</th>
+            <th>Department Name</th>
+            <th>College Status</th>
+            <th>College Type</th>
+            <th>College Medium</th>
+            <th>University Name</th>
+            <th>College Mobile No.</th>
+            <th>College Landline No.</th>
+            <th>College Email</th>
+            <th>Full Address</th>
+            <th>Creation Date</th>
+            <th>Geo Tagging</th>
+
+          </tr>
+        </thead>
+        <tbody *ngIf="draftApplicatoinListData !=null && draftApplicatoinListData.length>0">
+
+          <tr *ngFor="let row of draftApplicatoinListData  | tableSearchFilter:searchText; let idx=index;">
+            <td style="width:12%">
+
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                        style="background-color: #132649;">
+                  Action
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                  <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)">View</a></li>
+                  <li> <a href="/addcollege/{{row.CollegeID}}" class="dropdown-item list-group-item list-group-item-action list-group-item-danger">Edit</a></li>
+                  <li><a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="DeleteData(row)">Delete</a></li>
+                  <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>
+                </ul>
+              </div>
+
+
+              <!--<div class="d-flex">
+              <a href="/addcollege/{{row.CollegeID}}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+
+
+              <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
+              <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
+              <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)"><i class="fa fa-eye"></i></a>
+            </div>-->
+            </td>
+            <td>{{idx+1}}</td>
+            <td>{{row.SocietyName}}</td>
+            <td>{{row.CollegeRegistrationNo}}</td>
+            <td>{{row.CollegeCode}}</td>
+            <td>{{row.CollegeName}}</td>
+            <td>{{row.DepartmentName}}</td>
+            <td>{{row.CollegeStatus}}</td>
+            <td>{{row.CollegeType}}</td>
+            <td>{{row.CollegeMedium}}</td>
+            <td>{{row.UniversityName}}</td>
+            <td>{{row.CollegeMobileNumber}}</td>
+            <td>{{row.CollegeLandlineNumber}}</td>
+            <td>{{row.CollegeEmail}}</td>
+            <td>{{row.FullAddress}}</td>
+            <td>{{row.CreateDate}}</td>
+            <td>{{row.GeoTagging}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+
+    
 </div>
 <div class="modal fade" id="SSOIDMapping" tabindex="-1" aria-labelledby="SSOIDMapping" aria-hidden="true">
   <div class="modal-dialog">
