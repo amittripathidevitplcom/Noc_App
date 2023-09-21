@@ -45,7 +45,8 @@
                       <td>{{item.CollegeName}}</td>
                       <td>{{item.ApplicationNo}}</td>
                       <td>
-                        <a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank"  class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                        <a href="javascript:void(0)" title="Document Scrutiny Tab" (click)="DocumentScrutiny(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                        <!--<a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>-->                 <!--<a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>-->
                         <button type="button" class="btn btn-sm btn-success" title="Action" (click)="OpenActionPopUP(item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-tasks"></i></button>
                         <button *ngIf="item.ISRNCData==1" type="button" class="btn btn-sm btn-success" title="Final Submit" (click)="OpenApplicationCommitteeMember(item.ApplyNOCID,item.ApplicationNo,item.CollegeID)"><i class="fa fa-gear"></i></button>
                       </td>
@@ -113,13 +114,13 @@
                             </div>
                           </td>
                           <!--<td><input type="checkbox" class="checkboxSelect" [checked]="item.IsChecked" [(ngModel)]="item.IsChecked" id="IsChecked{{idx+1}}" name="IsChecked{{idx+1}}"></td>-->
-                          
 
 
-                          
+
+
 
                           <td>
-                            
+
                             <div class="d-flex" *ngIf="item.FileUpload">
                               <input [disabled]="IsDisabled" type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)" />
                               <label class="btn upload" for="fileUpload{{idx+1}}">
@@ -195,22 +196,20 @@
                             </div>
                           </td>
                           <!--<td><input type="checkbox" class="checkboxSelect" [checked]="item.IsChecked" [(ngModel)]="item.IsChecked" id="IsChecked{{idx+1}}" name="IsChecked{{idx+1}}"></td>-->
-                          
-
                           <!--<td>
-                            <div class="d-flex" *ngIf="item.FileUpload">
-                              <input type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)" />
-                              <label class="btn upload" for="fileUpload{{idx+1}}">
-                                <span class="filename">Choose file</span>
-                                {{item.FileUploadName === '' || item.FileUploadName == undefined ? 'No File Choosen' : item.FileUploadName_Dis_FileName}}
-                              </label>
-                              <div class="btn-group" *ngIf="item.FileUploadName!=undefined &&item.FileUploadName!=''">
-                                <a class="btn btn-outline-primary" target="_blank" href="{{item.FileUploadNamePath}}"><i class="fa fa-eye"></i></a>
-                                <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(idx)"><i class="fa fa-trash-o"></i></button>
-                              </div>
-                            </div>
+                <div class="d-flex" *ngIf="item.FileUpload">
+                  <input type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)" />
+                  <label class="btn upload" for="fileUpload{{idx+1}}">
+                    <span class="filename">Choose file</span>
+                    {{item.FileUploadName === '' || item.FileUploadName == undefined ? 'No File Choosen' : item.FileUploadName_Dis_FileName}}
+                  </label>
+                  <div class="btn-group" *ngIf="item.FileUploadName!=undefined &&item.FileUploadName!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{item.FileUploadNamePath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(idx)"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
 
-                          </td>-->
+              </td>-->
 
                         </tr>
                       </tbody>
@@ -218,125 +217,176 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="table-responsive">
-                    <table class="table table-hover table-striped">
-                      <thead>
-                        <tr>
-                          <th>S.No.</th>
-                          <th>
-                            SSOID
-                          </th>
-                          <th>Name</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of ApplicationCommitteeList let idx =index">
-                          <td>{{idx+1}}</td>
-                          <td>{{item.SSOID}}</td>
-                          <td>{{item.NameOfPerson}}</td>
-                          <td>
-                            <button *ngIf="(item.SendOTP==undefined || item.SendOTP==0)&& IsBtnShowHide" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTP(item.AadhaarNo,idx)">Send OTP</button>
-                            <div class="row" *ngIf="IsBtnShowHide">
-                              <div class="col-sm-9 col-md-9">
-                                <input *ngIf="item.SendOTP==1" type="text" id="txtUserOTP{{idx}}" placeholder="OTP*" name="txtUserOTP{{idx}}" class="form-control" [(ngModel)]="item.UserOTP" (keypress)="numbersOnly($event)" maxlength="6" />
-                              </div>
-                              <div class="col-sm-3 col-md-3">
-                                <button *ngIf="item.SendOTP==1" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="VerifyOTP(item.UserOTP,idx)">Verify</button>
-                              </div>
-                            </div>
-                            <span *ngIf="item.SendOTP==2 || IsDisabled"><i class="fa fa-check text-success"></i></span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+              <div class="card tabCard1 mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i>Committee Member List</b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th>S.No.</th>
+                              <th>
+                                SSOID
+                              </th>
+                              <th>Name</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of ApplicationCommitteeList let idx =index">
+                              <td>{{idx+1}}</td>
+                              <td>{{item.SSOID}}</td>
+                              <td>{{item.NameOfPerson}}</td>
+                              <td>
+                                <button *ngIf="(item.SendOTP==undefined || item.SendOTP==0)&& IsBtnShowHide" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTP(item.AadhaarNo,idx)">Send OTP</button>
+                                <div class="row" *ngIf="IsBtnShowHide">
+                                  <div class="col-sm-9 col-md-9">
+                                    <input *ngIf="item.SendOTP==1" type="text" id="txtUserOTP{{idx}}" placeholder="OTP*" name="txtUserOTP{{idx}}" class="form-control" [(ngModel)]="item.UserOTP" (keypress)="numbersOnly($event)" maxlength="6" />
+                                  </div>
+                                  <div class="col-sm-3 col-md-3">
+                                    <button *ngIf="item.SendOTP==1" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="VerifyOTP(item.UserOTP,idx)">Verify</button>
+                                  </div>
+                                </div>
+                                <span *ngIf="item.SendOTP==2 || IsDisabled"><i class="fa fa-check text-success"></i></span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-12 text-danger">
-                  <p>1. हम सभी निरीक्षण अधिकारियों ने ऑनलाइन आवेदन पत्र के सभी बिंदुओं की जांच कर ली है तथा आवेदन पत्र में दी गई सभी सूचनाओं का उनसे संबंधित मूल दस्तावेज से मिलान कर लिया है तथा भौतिक निरीक्षण कर लिया है</p>
-                  <p>2. हम सभी निरीक्षण अधिकारियों ने सभी दस्तावेजों का(एफ.डी.आर सहित) मूल एवं भौतिक रूप से मिलान कर लिया है|</p>
-                  <p>3. संलग्न किए गए सभी दस्तावेजों को हमारे द्वारा मोहर सहित प्रमाणित कर दिया गया है|</p>
-                  <p>4. महाविद्यालय की एवं महाविद्यालय भूमि की संलग्न पत्र के अनुसार फोटो लगाकर रिपोर्ट के साथ प्रस्तुत कर दिया गया है|</p>
-                  <p>5. भवन एवं भूमि के छाया चित्रों में कंप्यूटराइज्ड छेड़छाड़ नहीं की गई है तथा वे वास्तविक हैं|</p>
+              <div class="card tabCard1 mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i>Nodel Officer Detail</b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th>S.No.</th>
+                              <th>
+                                SSOID
+                              </th>
+                              <th>Nodel Officer Name</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>1</td>
+                              <td>{{NodelOffierDetails.SSOID}}</td>
+                              <td>{{NodelOffierDetails.Name}}</td>
+                              <td>
+                                <button type="button" *ngIf="!IsSendotpnodelofficer&& !IsDisabled" class="btn btn-sm btn-primary" title="Send OTP" (click)="SendOTPNodelOfficer(NodelOffierDetails.SSOID)">Send OTP to Nodel Officer</button>
+                                <div class="row" *ngIf="IsSendotpnodelofficer && !NodelOfficerOTPVerfied">
+                                  <div class="col-sm-9 col-md-9">
+                                    <input type="text" id="txtNodelOfficerOTP" placeholder="OTP*" name="txtNodelOfficerOTP" class="form-control" [(ngModel)]="NodelOfficerOTP" (keypress)="numbersOnly($event)" maxlength="6" />
+                                  </div>
+                                  <div class="col-sm-3 col-md-3">
+                                    <button type="button" class="btn btn-sm btn-primary" title="Verify" (click)="NodelOfficerVerifyOTP(NodelOfficerOTP)">Verify</button>
+                                  </div>
+                                </div>
+                                <span *ngIf="NodelOfficerOTPVerfied || IsDisabled"><i class="fa fa-check text-success"></i></span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="row  m-2">
-                <div class="col-md-12">
-                  <button *ngIf="ApplicationCommitteeList.length>0 && IsBtnShowHide" type="button" class="btn btn-primary" (click)="SubmitPhysicalVerification()" title="Submit">Submit</button>
+                  <div class="row">
+                    <div class="col-md-12 text-danger">
+                      <p>1. हम सभी निरीक्षण अधिकारियों ने ऑनलाइन आवेदन पत्र के सभी बिंदुओं की जांच कर ली है तथा आवेदन पत्र में दी गई सभी सूचनाओं का उनसे संबंधित मूल दस्तावेज से मिलान कर लिया है तथा भौतिक निरीक्षण कर लिया है</p>
+                      <p>2. हम सभी निरीक्षण अधिकारियों ने सभी दस्तावेजों का(एफ.डी.आर सहित) मूल एवं भौतिक रूप से मिलान कर लिया है|</p>
+                      <p>3. संलग्न किए गए सभी दस्तावेजों को हमारे द्वारा मोहर सहित प्रमाणित कर दिया गया है|</p>
+                      <p>4. महाविद्यालय की एवं महाविद्यालय भूमि की संलग्न पत्र के अनुसार फोटो लगाकर रिपोर्ट के साथ प्रस्तुत कर दिया गया है|</p>
+                      <p>5. भवन एवं भूमि के छाया चित्रों में कंप्यूटराइज्ड छेड़छाड़ नहीं की गई है तथा वे वास्तविक हैं|</p>
+                    </div>
+                  </div>
+                  <div class="row  m-2">
+                    <div class="col-md-12">
+                      <button *ngIf="ApplicationCommitteeList.length>0 && IsBtnShowHide" type="button" class="btn btn-primary" (click)="SubmitPhysicalVerification()" title="Submit">Submit</button>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <!-- <div class="modal-body">
+
+  <div class="row m-2">
+
+     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+       <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
+       <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
+         <option value="0" disabled selected>--Select Action--</option>
+         <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+       </select>
+       <div *ngIf="isActionTypeValid" class="text-danger">
+         <p *ngIf="isActionTypeValid"> This field is required .!</p>
+       </div>
+     </div>
+
+     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+       <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
+
+       <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
+         <option value="0" selected>--Select Role--</option>
+         <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+       </select>
+
+
+       <div *ngIf="isNextRoleIDValid" class="text-danger">
+         <p *ngIf="isNextRoleIDValid"> This field is required .!</p>
+       </div>
+     </div>
+
+     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+       <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
+       <select class="form-select" [(ngModel)]="NextActionID">
+         <option value="0" disabled selected>--Select Action--</option>
+         <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+       </select>
+       <div *ngIf="isNextActionValid" class="text-danger">
+         <p *ngIf="isNextActionValid"> This field is required .!</p>
+       </div>
+     </div>
+
+     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+       <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
+       <select class="form-select" [(ngModel)]="NextUserID">
+         <option value="0" selected>--Select User--</option>
+         <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
+       </select>
+       <div *ngIf="isNextUserIdValid" class="text-danger">
+         <p *ngIf="isNextUserIdValid"> This field is required .!</p>
+       </div>
+     </div>
+   </div>
+   <div class="row  m-2">
+     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+       <label>Remarks  <span style="color:red;">*</span></label>
+       <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
+       <div *ngIf="isRemarkValid" class="text-danger">
+         <p *ngIf="isRemarkValid"> This field is required .!</p>
+       </div>
+     </div>
+
+   </div>
+
+
+     </div>-->
             </div>
-          </div>
-          <!-- <div class="modal-body">
-
-          <div class="row m-2">
-
-             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-               <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
-               <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
-                 <option value="0" disabled selected>--Select Action--</option>
-                 <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-               </select>
-               <div *ngIf="isActionTypeValid" class="text-danger">
-                 <p *ngIf="isActionTypeValid"> This field is required .!</p>
-               </div>
-             </div>
-
-             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
-               <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
-
-               <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
-                 <option value="0" selected>--Select Role--</option>
-                 <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
-               </select>
-
-
-               <div *ngIf="isNextRoleIDValid" class="text-danger">
-                 <p *ngIf="isNextRoleIDValid"> This field is required .!</p>
-               </div>
-             </div>
-
-             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
-               <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
-               <select class="form-select" [(ngModel)]="NextActionID">
-                 <option value="0" disabled selected>--Select Action--</option>
-                 <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-               </select>
-               <div *ngIf="isNextActionValid" class="text-danger">
-                 <p *ngIf="isNextActionValid"> This field is required .!</p>
-               </div>
-             </div>
-
-             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
-               <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
-               <select class="form-select" [(ngModel)]="NextUserID">
-                 <option value="0" selected>--Select User--</option>
-                 <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
-               </select>
-               <div *ngIf="isNextUserIdValid" class="text-danger">
-                 <p *ngIf="isNextUserIdValid"> This field is required .!</p>
-               </div>
-             </div>
-           </div>
-           <div class="row  m-2">
-             <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-               <label>Remarks  <span style="color:red;">*</span></label>
-               <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
-               <div *ngIf="isRemarkValid" class="text-danger">
-                 <p *ngIf="isRemarkValid"> This field is required .!</p>
-               </div>
-             </div>
-
-           </div>
-
-
-             </div>-->
-        </div>
       </div>
     </div>
   </div>
-  </div>
+</div>

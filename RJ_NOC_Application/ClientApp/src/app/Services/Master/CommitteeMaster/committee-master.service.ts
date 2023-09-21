@@ -78,5 +78,14 @@ export class CommitteeMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+
+  public async GetApplicationNodelOfficer(ApplyNocApplicationID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GetApplicationNodelOfficer/' + ApplyNocApplicationID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
 

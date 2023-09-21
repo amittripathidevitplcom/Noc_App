@@ -200,6 +200,7 @@ export class HostelDetailsComponent implements OnInit {
     this.LoadMaster();
 
     // load
+    await this.GetCollageDetails();
     await this.GetHostelCategory();
     await this.GetDivisionList();
     await this.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0)
@@ -862,7 +863,17 @@ export class HostelDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // data
-          this.HostelCategoryList = data['Data'];
+          if (this.SelectedDepartmentID == 3) {
+            if (this.collegeDataList['CollegeTypeID'] == 60 || this.collegeDataList['CollegeTypeID'] == 140) {
+              this.HostelCategoryList = data['Data'].filter((x: { Name: string; }) => x.Name.toLowerCase().includes('girls'));
+            }
+            else {
+              this.HostelCategoryList = data['Data'];
+            }
+          }
+          else {
+            this.HostelCategoryList = data['Data'];
+          }
           //msg
           if (this.State != 0) {
             this.toastr.error(this.ErrorMessage);
@@ -1141,7 +1152,7 @@ export class HostelDetailsComponent implements OnInit {
           this.collegeDataList = data['Data'];
           this.request.AddressLine1 = this.collegeDataList['AddressLine1'];
           this.request.AddressLine2 = this.collegeDataList['AddressLine2'];
-          this.request.IsRuralUrban = this.collegeDataList['RuralUrban']==1?'Rural':'Urban';
+          this.request.IsRuralUrban = this.collegeDataList['RuralUrban'] == 1 ? 'Rural' : 'Urban';
           await this.IsRuralOrUrban(null);
           this.request.DivisionID = this.collegeDataList['DivisionID'];
           await this.FillDivisionRelatedDDL();

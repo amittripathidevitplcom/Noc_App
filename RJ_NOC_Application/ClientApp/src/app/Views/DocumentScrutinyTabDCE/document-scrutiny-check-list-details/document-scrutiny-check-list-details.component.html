@@ -1964,7 +1964,7 @@
 
   <!--end subject wise data-->
 
-  <div class="row m-2">
+  <div class="row m-2" [hidden]="sSOLoginDataModel.RoleID==16">
     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
       <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
       <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
@@ -2012,7 +2012,7 @@
       </div>
     </div>
   </div>
-  <div class="row  m-2">
+  <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16">
     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
       <label>Remarks  <span style="color:red;">*</span></label>
       <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
@@ -2022,7 +2022,7 @@
     </div>
 
   </div>
-  <div class="row  m-2">
+  <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16">
     <div class="col-md-12">
       <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
     </div>

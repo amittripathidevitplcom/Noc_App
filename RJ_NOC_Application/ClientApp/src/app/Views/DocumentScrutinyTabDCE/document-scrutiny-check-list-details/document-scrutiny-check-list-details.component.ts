@@ -226,29 +226,29 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-     this.GetLandDetailsDataList();
-     this.GetFacilityDetailAllList();
-     this.ViewlegalEntityDataByID();
-     this.GetSocietyAllList();
-     this.ViewTotalCollegeDataByID();
-     this.GetRoomDetailAllList();
-     this.GetAllBuildingDetailsList();
-     this.GetStaffDetailList_DepartmentCollegeWise();
-     this.GetOldNOCDetailList_DepartmentCollegeWise();
-     this.GetRequiredDocuments('Required Document');
-     this.GetOtherInformationAllList();
-     this.GetAcademicInformationDetailAllList();
-     this.GetOtherDocuments('Other Document');
-     this.GetHostelDetailList_DepartmentCollegeWise();
-     this.GetRoleListForApporval();
-     this.GetWorkFlowActionListByRole();
-     //this.NextGetWorkFlowActionListByRole();
-     this.GetCollageDetails();
-     this.GetCollegeWiseStudenetDetails();
-     this.GetSubjectWiseStudenetDetails();
+    this.GetLandDetailsDataList();
+    this.GetFacilityDetailAllList();
+    this.ViewlegalEntityDataByID();
+    this.GetSocietyAllList();
+    this.ViewTotalCollegeDataByID();
+    this.GetRoomDetailAllList();
+    this.GetAllBuildingDetailsList();
+    this.GetStaffDetailList_DepartmentCollegeWise();
+    this.GetOldNOCDetailList_DepartmentCollegeWise();
+    this.GetRequiredDocuments('Required Document');
+    this.GetOtherInformationAllList();
+    this.GetAcademicInformationDetailAllList();
+    this.GetOtherDocuments('Other Document');
+    this.GetHostelDetailList_DepartmentCollegeWise();
+    this.GetRoleListForApporval();
+    this.GetWorkFlowActionListByRole();
+    //this.NextGetWorkFlowActionListByRole();
+    this.GetCollageDetails();
+    this.GetCollegeWiseStudenetDetails();
+    this.GetSubjectWiseStudenetDetails();
     //this.CheckDocumentScrutinyTabsData();
     this.CheckTabsEntry();
-     this.GetPVStageStatusOfApplication(this.SelectedApplyNOCID);
+    this.GetPVStageStatusOfApplication(this.SelectedApplyNOCID);
   }
 
 
@@ -791,12 +791,14 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
-      if (this.ActionID <= 0) {
-        this.isActionTypeValid = true;
-        this.isFormvalid = false;
-      }
+
       if (this.CheckFinalRemark == '') {
         this.isRemarkValid = true;
+        this.isFormvalid = false;
+      }
+
+      if (this.ActionID <= 0) {
+        this.isActionTypeValid = true;
         this.isFormvalid = false;
       }
       if (this.ShowHideNextRole && this.ShowHideNextAction && this.ShowHideNextUser) {
@@ -837,6 +839,11 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
         this.NextUserID = 0;
         this.NextActionID = 0;
       }
+      if (this.IsPVStageDone != 1) {
+        this.toastr.warning('Physical Verification not done yet');
+        this.isFormvalid = false;
+      }
+
       if (this.SelectedDepartmentID == 3) {
         if (this.CollegeType_IsExisting) {
           if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
@@ -857,31 +864,33 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
           }
         }
       }
-      if (this.IsPVStageDone != 1) {
-        this.toastr.warning('Physical Verification not done yet');
-        this.isFormvalid = false;
-      }
+
       if (!this.isFormvalid) {
         return;
       }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/dceapplicationlist/Pending']);
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        }, error => console.error(error));
+      //if (this.sSOLoginDataModel.RoleID == 16) {
+      //  this.routers.navigate(['/inspectioncommitteephysicalverification/Pending']);
+      //}
+      //else {
+        await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              this.routers.navigate(['/dceapplicationlist/Pending']);
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          }, error => console.error(error));
+      //}
     }
     catch (Ex) {
       console.log(Ex);

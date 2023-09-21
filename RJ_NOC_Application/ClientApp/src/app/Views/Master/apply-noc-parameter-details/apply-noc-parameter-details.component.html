@@ -94,7 +94,7 @@
                       Payment History
                     </a>
                   </li>
-                  <li *ngIf="item.DepartmentID!=2">
+                  <li *ngIf="item.DepartmentID==6 || item.DepartmentID==9">
                     <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" *ngIf="item.IsMakePayment_ApplicationFee==false"
                        (click)="EmitraPaymentApplyNocApplication_click(mymodalemitrapayment,item.ApplyNocApplicationID)">
                       Emitra  Payment
