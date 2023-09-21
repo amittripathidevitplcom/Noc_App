@@ -27,7 +27,7 @@ export class CourseMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + UserID +"/"+ LoginSSOID)
+    return await this.http.get(this.APIUrl + "/" + UserID + "/" + LoginSSOID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -68,5 +68,17 @@ export class CourseMasterService {
       ).toPromise();
 
   }
-    
+
+  //Get 
+  public async GetCoursesByCollegeID(CollegeID: number, UserID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + '/GetCoursesByCollegeID/' + CollegeID + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

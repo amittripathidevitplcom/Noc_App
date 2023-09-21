@@ -93,13 +93,17 @@
             <label> <b>District</b></label>
             <input class="form-control disabled" disabled value="{{request.District_Eng}}" />
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.RuralUrban=='Rural'">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label> <b>Tehsil</b></label>
             <input class="form-control disabled" disabled value="{{request.TehsilName}}" />
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.RuralUrban=='Rural'">
             <label> <b>Panchayat Samiti</b></label>
             <input class="form-control disabled" disabled value="{{request.PanchyatSamitiName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.RuralUrban=='Urban'">
+            <label> <b>City </b></label>
+            <input class="form-control disabled" disabled value="{{request.CityName}}" />
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label> <b>City/Town/Village</b></label>

@@ -85,10 +85,7 @@
               <label>Year of Establishment :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.FinancialYearName}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label>Mobile Number :</label>
-              <input class="form-control disabled mt-1" disabled value="{{collegeListData.MobileNumber}}" />
-            </div>
+
           </div>
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -108,13 +105,21 @@
                   <label>Subdivision :</label>
                   <input class="form-control disabled mt-1" disabled value="{{collegeListData.SubdivisionName}}" />
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label>Tehsil :</label>
                   <input class="form-control disabled mt-1" disabled value="{{collegeListData.TehsilName}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Area :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{collegeListData.RuralUrbanArea}}" />
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
                   <label>Panchayat Samiti :</label>
                   <input class="form-control disabled mt-1" disabled value="{{collegeListData.PanchyatSamitiName}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Urban'">
+                  <label>City :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{collegeListData.CityName}}" />
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label>Parliament Area :</label>
@@ -141,10 +146,7 @@
                   <label>Address Line 2 :</label>
                   <input class="form-control disabled mt-1" disabled value="{{collegeListData.AddressLine2}}" />
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Area :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{collegeListData.RuralUrbanArea}}" />
-                </div>
+
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
                   <label>Distance from City(km) :</label>
                   <input class="form-control disabled mt-1" disabled value="{{collegeListData.DistanceFromCity}}" />
@@ -152,6 +154,10 @@
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label>Website Link :</label>
                   <input class="form-control disabled mt-1" disabled value="{{collegeListData.WebsiteLink}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Mobile Number :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{collegeListData.MobileNumber}}" />
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label>Landline Number :</label>
