@@ -821,10 +821,10 @@ export class AhDocumentScrutinyNodalOfficerComponent {
           this.isNextRoleIDValid = true;
           this.isFormvalid = false;
         }
-        if (this.NextActionID <= 0) {
-          this.isNextActionValid = true;
-          this.isFormvalid = false;
-        }
+        //if (this.NextActionID <= 0) {
+        //  this.isNextActionValid = true;
+        //  this.isFormvalid = false;
+        //}
         if (this.NextUserID <= 0) {
           this.isNextUserIdValid = true;
           this.isFormvalid = false;
