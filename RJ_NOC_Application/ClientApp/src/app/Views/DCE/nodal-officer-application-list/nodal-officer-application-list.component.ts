@@ -612,7 +612,10 @@ export class NodalOfficerApplicationListComponent implements OnInit {
       this.toastr.error("Please add Member Details");
       isValid = false;
     }
-
+    if (this.request_MemberList.ApplicationCommitteeList.length <= 3) {
+      this.toastr.error("Please add three Member Details");
+      isValid = false;
+    }
     let ifPrimaryExits = this.request_MemberList.ApplicationCommitteeList.find(f => f.IsPrimaryMember == true);
     if (ifPrimaryExits?.IsPrimaryMember == undefined) {
       this.toastr.error("Atleast one primary member required");
