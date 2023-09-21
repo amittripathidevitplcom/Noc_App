@@ -165,6 +165,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
   public CheckTabsEntryData: any = [];
+  public isTabCheckValid: boolean = true;
   async CheckTabsEntry(ApplyNOCID: number) {
     try {
       this.loaderService.requestStarted();
@@ -177,7 +178,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
               || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
               || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
               || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0) {
-              this.isFormvalid = false;
+              this.isTabCheckValid = false;
             }
           }
           else {
@@ -185,7 +186,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
               || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
               || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
               || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0) {
-              this.isFormvalid = false;
+              this.isTabCheckValid = false;
             }
           }
         }, error => console.error(error));
@@ -201,13 +202,14 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   }
 
   async OpenActionPopUP(ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
+    this.isTabCheckValid = true;
     this.ApplicationNo = ApplicationNo;
     this.SelectedCollageID = CollegeID;
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
     await this.GetRNCCheckListByTypeDepartment(ApplyNOCID, CollegeID);
     await this.CheckTabsEntry(ApplyNOCID);
-    if (this.isFormvalid) {
+    if (this.isTabCheckValid) {
       this.ShowHideApplicationAction = true;
     }
     else {
