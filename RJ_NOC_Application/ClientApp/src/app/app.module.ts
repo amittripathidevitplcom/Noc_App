@@ -504,6 +504,8 @@ import { OneStepRevertBackComponent } from './Views/one-step-revert-back/one-ste
     PreviewApplyNocDetailComponent,
     AhDocumentScrutinyNodalOfficerComponent,
     PreviewFDRDetailComponent,
+    PreviewCourseDetailComponent,
+    OneStepRevertBackComponent
   ],
   imports: [
     CommonModule,
