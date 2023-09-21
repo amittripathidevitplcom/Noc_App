@@ -65,11 +65,11 @@
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}" />
               </div>
 
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID!=2">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==3">
                 <label>AISHE Code Status :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECodeStatus}}" />
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.AISHECodeStatus =='Yes' && collegeListData.DepartmentID !=2">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.AISHECodeStatus =='Yes' && collegeListData.DepartmentID==3">
                 <label>AISHE Code :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECode}}" />
               </div>
@@ -253,20 +253,12 @@
                           </div>
                         </th>
                         <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+                        <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                         <th>Sr. No.</th>
                         <th>Hospital Name</th>
                         <th>Hospital RegNo.</th>
+                        <th>Hospital Address</th>
                         <th>Distance From Institute(KM)</th>
-                        <th>Address Line1</th>
-                        <th>Address Line2</th>
-                        <th>Area</th>
-                        <th>Division</th>
-                        <th>District</th>
-                        <th>Tehsil</th>
-                        <th>Panchyat Samiti</th>
-                        <th>City/Town/Village</th>
-                        <th>Pincode</th>
                         <th>Hospital Document</th>
                         <th>Tarils</th>
                       </tr>
@@ -293,26 +285,29 @@
 
                         </td>
                         <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-    Compliance: {{row.C_Action}}<br />
-    <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-  </td>
-  <td *ngIf="sSOLoginDataModel.RoleID==5">
-    Compliance: {{row.S_Action}}<br />
-    <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-  </td>-->
+                          Compliance: {{row.C_Action}}<br />
+                          <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                        </td>
+                        <td *ngIf="sSOLoginDataModel.RoleID==5">
+                          Compliance: {{row.S_Action}}<br />
+                          <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
+                        </td>-->
                         <td> {{indexOfelement+1}}</td>
                         <td>{{row.HospitalName}}</td>
                         <td>{{row.HospitalRegNo}}</td>
+                        <td>
+                          <p class="m-0"><b>Area : </b> {{row.RuralUrbanArea}}</p>
+                          <p class="m-0"><b>Address Line 1 : </b> {{row.AddressLine1}}</p>
+                          <p class="m-0"><b>Address Line 2 : </b>{{row.AddressLine2}}</p>
+                          <p class="m-0"><b>Division : </b> {{row.Division_English}}</p>
+                          <p class="m-0"><b>District : </b> {{row.District_Eng}}</p>
+                          <p class="m-0"><b>Tehsil : </b>{{row.TehsilName}}</p>
+                          <p *ngIf="row.RuralUrban==1" class="m-0"><b>PanchayatSamiti : </b>{{row.PanchyatSamitiName}}</p>
+                          <p *ngIf="row.RuralUrban==2" class="m-0"><b>City : </b>{{row.CityName}}</p>
+                          <p class="m-0"><b>City/Town/Village : </b>{{row.CityTownVillage}}</p>
+                          <p class="m-0"><b>Pincode : </b>{{row.Pincode}}</p>
+                        </td>
                         <td>{{row.HospitalDistance}}</td>
-                        <td>{{row.AddressLine1}}</td>
-                        <td>{{row.AddressLine2}}</td>
-                        <td>{{row.RuralUrbanArea}}</td>
-                        <td>{{row.Division_English}}</td>
-                        <td>{{row.District_Eng}}</td>
-                        <td>{{row.TehsilName}}</td>
-                        <td>{{row.PanchyatSamitiName}}</td>
-                        <td>{{row.CityTownVillage}}</td>
-                        <td>{{row.Pincode}}</td>
                         <td>
                           <a *ngIf="!row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom">
                             <img src="{{row.HospitalDocumentPath}}" alt="Hospital Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />

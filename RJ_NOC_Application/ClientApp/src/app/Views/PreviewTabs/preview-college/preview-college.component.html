@@ -64,11 +64,11 @@
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}" />
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID!=2">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==3">
               <label>AISHE Code Status :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECodeStatus}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.AISHECodeStatus =='Yes' && collegeListData.DepartmentID !=2">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.AISHECodeStatus =='Yes' && collegeListData.DepartmentID==3">
               <label>AISHE Code :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECode}}" />
             </div>
