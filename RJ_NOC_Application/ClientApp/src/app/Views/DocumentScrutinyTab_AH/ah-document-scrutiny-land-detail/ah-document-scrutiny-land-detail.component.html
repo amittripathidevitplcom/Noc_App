@@ -154,26 +154,6 @@
 
           </div>
 
-          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label>
-              <b>
-                Land Type
-                :
-              </b>
-            </label>
-            <input class="form-control disabled" disabled value="{{request.LandTypeName}}" />
-          </div>-->
-
-          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label>
-              <b>
-                Khasra Number
-                :
-              </b>
-            </label>
-            <input class="form-control disabled" disabled value="{{request.KhasraNumber}}" />
-          </div>-->
-
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label>
               <b>
@@ -183,21 +163,12 @@
             </label>
             <input class="form-control disabled" disabled value="{{request.LandOwnerName}}" />
           </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Land Area (in {{request.AreaType !=''?request.AreaType:UnitOfLand}}) :</b></label>
+            <input class="form-control disabled" disabled value="{{request.LandArea}}" />
+          </div>
 
-          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label>
-              <b>
-                Total Building Area (in {{UnitOfLand}})
-                :
-              </b>
-            </label>
-            <input class="form-control disabled" disabled value="{{request.BuildingHostelQuartersRoadArea}}" />
-          </div>-->
-
-
-
-
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
+          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
             <label>
               <b>
                 Land Conversion Order Date(DD/MM/YYYY)
@@ -217,7 +188,7 @@
               </b>
             </label>
             <input class="form-control disabled" disabled value="{{request.LandConversionOrderNo}}" />
-          </div>
+          </div>-->
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')">
             <label>
               <b>
