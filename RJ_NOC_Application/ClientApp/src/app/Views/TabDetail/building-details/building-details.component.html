@@ -13,9 +13,7 @@
     </div>
   </div>
 </div>-->
-<div class="card-body">
-  <div class="row">
-    <div class="col-md-12">
+
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <b><i class="fa fa-filter"></i>&nbsp;Building Documents</b>
@@ -25,8 +23,8 @@
           <div class="card-body">
 
             <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-                <label for="buildingdeatilstype" class="form-label" style="margin-right:15px">Building Category <span style="color:red;">*</span> : </label>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="buildingdeatilstype" class="form-label d-block" style="margin-right:15px">Building Category <span style="color:red;">*</span> : </label>
                 <div class="form-check form-check-inline" *ngFor="let item of lstBuildingTypeChk">
 
                   <input class="form-check-input" type="radio" name="rdBuildingType" formControlName="rdBuildingType" id="rdBuildingType_{{item.BuildingTypeID}}" value="{{item.BuildingTypeID}}" [value]="item.BuildingTypeID" [(ngModel)]="buildingdetails.BuildingTypeID" (change)="changeBuildingType(item.BuildingTypeName)">
@@ -36,8 +34,8 @@
                   <p *ngIf="form.rdBuildingType.errors.required"> This field is required .!</p>
                 </div>
               </div>
-            </div>
-            <div class="row">
+            
+
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
                 <label class="form-label">Name <span style="color:red;">*</span></label>
                 <input type="text" class="form-control" id="txtOwnerName" name="txtOwnerName" [(ngModel)]="buildingdetails.OwnerName" formControlName="txtOwnerName" (keypress)="alphaOnly($event)" />
@@ -106,8 +104,8 @@
                 </div>
 
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural">
-                <div [hidden]="buildAddressShowHide">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="IsRural||buildAddressShowHide">
+               
                   <label for="ddlCityID" class="form-label">City<span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlCityID" name="ddlCityID" [(ngModel)]="buildingdetails.CityID" formControlName="ddlCityID">
                     <option value="0">--Select--</option>
@@ -116,10 +114,10 @@
                   <div *ngIf="isSubmitted&&!IsRural&&buildingdetails.CityID<=0" class="text-danger">
                     <p *ngIf="isSubmitted&&!IsRural&&buildingdetails.CityID<=0"><i aria-hidden="true"></i>This field is required .!</p>
                   </div>
-                </div>
+               
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
-                <div [hidden]="buildAddressShowHide">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural|| buildAddressShowHide">
+              
                   <label class="form-label">Panchayat Samiti <span style="color:red;">*</span></label>
                   <select class="form-select" id="ddlPanchayatSamitiID_Owner" name="ddlPanchayatSamitiID_Owner" [(ngModel)]="buildingdetails.PanchayatSamitiID" formControlName="ddlPanchayatSamitiID_Owner">
                     <option value="0">--Select Panchayat Samiti--</option>
@@ -128,7 +126,7 @@
                   <div *ngIf="isSubmitted&&IsPanchayatSamitirequried" class="text-danger">
                     <p *ngIf="isSubmitted&&IsPanchayatSamitirequried"><i aria-hidden="true"></i>This field is required .!</p>
                   </div>
-                </div>
+                
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildAddressShowHide">
                 <label class="form-label">City/Town/Village <span style="color:red;">*</span></label>
@@ -166,7 +164,7 @@
 
 
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label for="txtbuildingOtherDoc1FileUpload" class="form-label">Upload Land Title Certificate(Upload Only pdf.) (Min.Size 100KB) (Max.Size 2MB) <span style="color:red;">*</span></label>
+                <label for="txtbuildingOtherDoc1FileUpload" class="form-label">Upload Land Title Certificate <span style="font-size:10px;">(Upload Only pdf.) (Min.Size 100KB) (Max.Size 2MB)</span> <span style="color:red;">*</span></label>
                 <div class="d-flex">
                   <input type="file" class="form-control" id="txtbuildingOtherDoc1" style="display:none" formControlName="txtbuildingOtherDoc1FileUpload" (change)="ValidateUploadImage($event,'buildingOtherDoc1FileUpload')" buildingOtherDoc1FileUpload />
                   <label class="btn upload" for="txtbuildingOtherDoc1">
@@ -185,7 +183,7 @@
               </div>
 
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                <label for="txtbuildingOtherDoc2FileUpload" class="form-label">Upload Land Document(Upload Only pdf.) (Min.Size 100KB) (Max.Size 2MB) <span style="color:red;">*</span></label>
+                <label for="txtbuildingOtherDoc2FileUpload" class="form-label">Upload Land Document  <span style="font-size:11px;">(Upload Only pdf.) (Min.Size 100KB) (Max.Size 2MB)</span> <span style="color:red;">*</span></label>
                 <div class="d-flex">
                   <input type="file" class="form-control" id="txtbuildingOtherDoc2" style="display:none" formControlName="txtbuildingOtherDoc2FileUpload" (change)="ValidateUploadImage($event,'buildingOtherDoc2FileUpload')" buildingOtherDoc2FileUpload />
                   <label class="btn upload" for="txtbuildingOtherDoc2">
@@ -226,9 +224,10 @@
                 <input class="form-control" type="date" id="txtToDate" [(ngModel)]="buildingdetails.Rentvaliditydate" formControlName="Rentvaliditydate" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
                 <p *ngIf="isSubmitted&&RentAggrementDocShow&&buildingdetails.Rentvaliditydate==''" class="text-danger"> This field is required .!</p>
               </div>
+            
             </div>
-            <div class="card">
-              <div class="card-header d-flex justify-content-between align-items-center">
+           </div>
+              <div class="card-header border-top d-flex justify-content-between align-items-center">
                 <b><i class="fa fa-filter"></i>{{Owin_RentDocTitle}}</b>
               </div>
               <div class="card-body">
@@ -270,9 +269,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="card">
-              <div class="card-header d-flex justify-content-between align-items-center">
+           
+              <div class="card-header border-top d-flex justify-content-between align-items-center">
                 <b><i class="fa fa-filter"></i>&nbsp;Fire NOC Validity</b>
               </div>
               <div class="card-body">
@@ -320,9 +318,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="card">
-              <div class="card-header d-flex justify-content-between align-items-center">
+           
+              <div class="card-header border-top d-flex justify-content-between align-items-center">
                 <b><i class="fa fa-filter"></i>&nbsp;Current Year Building Safety Certificate Order No. & Order Date: </b>
               </div>
               <div class="card-body">
@@ -369,10 +366,10 @@
                   </div>
                 </div>
               </div>
-            </div>
+            
 
-            <div class="card" *ngIf="SelectedDepartmentID ==6">
-              <div class="card-header d-flex justify-content-between align-items-center">
+            <div *ngIf="SelectedDepartmentID ==6">
+              <div class="card-header border-top d-flex justify-content-between align-items-center">
                 <b><i class="fa fa-filter"></i>&nbsp;Description: </b>
               </div>
               <div class="card-body">
@@ -540,11 +537,11 @@
                 </div>
               </div>
             </div>
-          </div>
+         
         </form>
 
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
+       
+          <div class="card-header border-top d-flex justify-content-between align-items-center">
             <b><i class="fa fa-filter"></i>&nbsp;Building Photos</b>
           </div>
           <div class="card-body">
@@ -570,13 +567,14 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="card-footer text-end saveCancelBtn">
+        
+        <div class="card-footer border-bottom text-end saveCancelBtn">
           <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
           <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
         </div>
-        <div class="card mb-0" *ngIf="lstBuildingDetails.length>0">
-          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+
+        <div *ngIf="lstBuildingDetails.length>0">
+          <div class="card-header border-top d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
             <b><i class="bi bi-table"></i> Building Details List </b>
             <div class="d-flex align-items-center">
               <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
@@ -590,126 +588,124 @@
               </div>
             </div>
           </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-hover table-striped-columns" id="tabellist" #content>
-                <thead>
-                  <tr>
-                    <th>Sr. No</th>
-                    <th>Building Type</th>
-                    <th>Owner Name</th>
-                    <th>Full Address</th>
-                    <!--<th>Address Line1</th>
-                    <th>Address Line2</th>
-                    <th>Rural Urban</th>
-                    <th>DivisionName</th>
-                    <th>DistrictName</th>
-                    <th>TehsilName</th>
-                    <th>PanchyatSamitiName</th>
-                    <th>CityTownVillage</th>
-                    <th>Pincode</th>-->
-                    <th>ContactNo</th>
-                    <th>Constructed Building Area</th>
-                    <th>Own/Rented Order No</th>
-                    <th>Own/Rented Order Date</th>
-                    <th>Fire NOC Order No</th>
-                    <th>From Date</th>
-                    <th>To Date</th>
-                    <th>Building Safety Certificate Order No</th>
-                    <th>Order Date</th>
-                    <th>Expiring On</th>
-                    <th *ngIf="SelectedDepartmentID ==6">Total Project Cost</th>
-                    <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount</th>
-                    <th *ngIf="SelectedDepartmentID ==6">Amount Deposited</th>
-                    <th *ngIf="SelectedDepartmentID ==6">Other Fixed Assets/Securities</th>
-                    <th *ngIf="SelectedDepartmentID ==6">GATE Year Balance Secret</th>
-                    <th *ngIf="SelectedDepartmentID ==6">Other Financial Resources</th>
-                    <th>Rent Valid Up To</th>
-                    <th>Rent Agreement/Lease File</th>
-                    <th>Own/Land & Rented Building File</th>
-                    <th>Fire NOC File</th>
-                    <th>PWD NOC File</th>
-                    <th>Land Title Certificate</th>
-                    <th>Land Document</th>
-                    <th *ngIf="SelectedDepartmentID ==6">Total Project Cost File</th>
-                    <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount File</th>
-                    <th *ngIf="SelectedDepartmentID ==6">Amount Deposited File</th>
-                    <th *ngIf="SelectedDepartmentID ==6">Other Fixed Assets/Securities File</th>
-                    <th *ngIf="SelectedDepartmentID ==6">GATE Year Balance Secret File</th>
-                    <th *ngIf="SelectedDepartmentID ==6">Other Financial Resources File</th>
-                    <th *ngIf="!downloadingPDF">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of lstBuildingDetails | tableSearchFilter:searchText;let idx=index;">
-                    <td>{{idx+1}}</td>
-                    <td>{{item.BuildingTypeName}}</td>
-                    <td *ngIf="item.BuildingTypeName == 'Rented'">{{item.OwnerName}}</td>
-                    <td *ngIf="item.BuildingTypeName == 'Owned'">N/A</td>
-                    <td>{{item.FullAddress}}</td>
-                    <!--<td>{{item.AddressLine1}}</td>
-                    <td>{{item.AddressLine2}}</td>
-                    <td>{{item.RuralUrban}}</td>
-                    <td>{{item.Division_English}}</td>
-                    <td>{{item.District_Eng}}</td>
-                    <td>{{item.TehsilName}}</td>
-                    <td>{{item.PanchyatSamitiName}}</td>
-                    <td>{{item.CityTownVillage}}</td>
-                    <td>{{item.Pincode}}</td>-->
-                    <td>{{item.ContactNo}}</td>
-                    <td>{{item.BuildingHostelQuartersRoadArea}}</td>
-                    <td>{{item.OwnBuildingOrderNo}}</td>
-                    <td>{{item.OwnBuildingOrderDate}}</td>
-                    <td>{{item.FireNOCOrderNumber}}</td>
-                    <td>{{item.FromDate}}</td>
-                    <td>{{item.ToDate}}</td>
-                    <td>{{item.OrderNo}}</td>
-                    <td>{{item.OrderDate}}</td>
-                    <td>{{item.ExpiringOn}}</td>
-                    <td *ngIf="SelectedDepartmentID ==6">{{item.TotalProjectCost}}</td>
-                    <td *ngIf="SelectedDepartmentID ==6">{{item.SourceCostAmount}}</td>
-                    <td *ngIf="SelectedDepartmentID ==6">{{item.AmountDeposited}}</td>
-                    <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFixedAssetsAndSecurities}}</td>
-                    <td *ngIf="SelectedDepartmentID ==6">{{item.GATEYearBalanceSecret}}</td>
-                    <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFinancialResources}}</td>
-                    <td *ngIf="item.BuildingTypeName == 'Rented'">
-                      {{item.Rentvaliditydate}}
-                    </td>
-                    <td *ngIf="item.BuildingTypeName == 'Owned'">
-                      N/A
-                    </td>
-                    <td *ngIf="item.BuildingTypeName == 'Rented'">
-                      <a target="_blank" href="{{item.RentAgreementFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
-                    </td>
-                    <td *ngIf="item.BuildingTypeName == 'Owned'">
-                      N/A
-                    </td>
-                    <td><a target="_blank" href="{{item.OwnBuildingFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.FireNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.PWDNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.OtherDoc1FileUploadPath}}" title="View Land Title Certificate "><i class="fa fa-eye"></i></a></td>
-                    <td><a target="_blank" href="{{item.OtherDoc2FileUploadPath}}" title="View Land Document"><i class="fa fa-eye"></i></a></td>
-                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.TotalProjectCostFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.SourceCostAmountFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.AmountDepositedFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFixedAssetsAndSecuritiesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.GATEYearBalanceSecretFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFinancialResourcesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                    <td>
-                      <div class="d-flex">
-                        <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                        <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
-                        <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewBuildingDocument" (click)="ViewBuildingDocument(item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></a>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Building Type</th>
+                  <th>Owner Name</th>
+                  <th>Full Address</th>
+                  <!--<th>Address Line1</th>
+        <th>Address Line2</th>
+        <th>Rural Urban</th>
+        <th>DivisionName</th>
+        <th>DistrictName</th>
+        <th>TehsilName</th>
+        <th>PanchyatSamitiName</th>
+        <th>CityTownVillage</th>
+        <th>Pincode</th>-->
+                  <th>ContactNo</th>
+                  <th>Constructed Building Area</th>
+                  <th>Own/Rented Order No</th>
+                  <th>Own/Rented Order Date</th>
+                  <th>Fire NOC Order No</th>
+                  <th>From Date</th>
+                  <th>To Date</th>
+                  <th>Building Safety Certificate Order No</th>
+                  <th>Order Date</th>
+                  <th>Expiring On</th>
+                  <th *ngIf="SelectedDepartmentID ==6">Total Project Cost</th>
+                  <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount</th>
+                  <th *ngIf="SelectedDepartmentID ==6">Amount Deposited</th>
+                  <th *ngIf="SelectedDepartmentID ==6">Other Fixed Assets/Securities</th>
+                  <th *ngIf="SelectedDepartmentID ==6">GATE Year Balance Secret</th>
+                  <th *ngIf="SelectedDepartmentID ==6">Other Financial Resources</th>
+                  <th>Rent Valid Up To</th>
+                  <th>Rent Agreement/Lease File</th>
+                  <th>Own/Land & Rented Building File</th>
+                  <th>Fire NOC File</th>
+                  <th>PWD NOC File</th>
+                  <th>Land Title Certificate</th>
+                  <th>Land Document</th>
+                  <th *ngIf="SelectedDepartmentID ==6">Total Project Cost File</th>
+                  <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount File</th>
+                  <th *ngIf="SelectedDepartmentID ==6">Amount Deposited File</th>
+                  <th *ngIf="SelectedDepartmentID ==6">Other Fixed Assets/Securities File</th>
+                  <th *ngIf="SelectedDepartmentID ==6">GATE Year Balance Secret File</th>
+                  <th *ngIf="SelectedDepartmentID ==6">Other Financial Resources File</th>
+                  <th *ngIf="!downloadingPDF">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of lstBuildingDetails | tableSearchFilter:searchText;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{item.BuildingTypeName}}</td>
+                  <td *ngIf="item.BuildingTypeName == 'Rented'">{{item.OwnerName}}</td>
+                  <td *ngIf="item.BuildingTypeName == 'Owned'">N/A</td>
+                  <td>{{item.FullAddress}}</td>
+                  <!--<td>{{item.AddressLine1}}</td>
+        <td>{{item.AddressLine2}}</td>
+        <td>{{item.RuralUrban}}</td>
+        <td>{{item.Division_English}}</td>
+        <td>{{item.District_Eng}}</td>
+        <td>{{item.TehsilName}}</td>
+        <td>{{item.PanchyatSamitiName}}</td>
+        <td>{{item.CityTownVillage}}</td>
+        <td>{{item.Pincode}}</td>-->
+                  <td>{{item.ContactNo}}</td>
+                  <td>{{item.BuildingHostelQuartersRoadArea}}</td>
+                  <td>{{item.OwnBuildingOrderNo}}</td>
+                  <td>{{item.OwnBuildingOrderDate}}</td>
+                  <td>{{item.FireNOCOrderNumber}}</td>
+                  <td>{{item.FromDate}}</td>
+                  <td>{{item.ToDate}}</td>
+                  <td>{{item.OrderNo}}</td>
+                  <td>{{item.OrderDate}}</td>
+                  <td>{{item.ExpiringOn}}</td>
+                  <td *ngIf="SelectedDepartmentID ==6">{{item.TotalProjectCost}}</td>
+                  <td *ngIf="SelectedDepartmentID ==6">{{item.SourceCostAmount}}</td>
+                  <td *ngIf="SelectedDepartmentID ==6">{{item.AmountDeposited}}</td>
+                  <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFixedAssetsAndSecurities}}</td>
+                  <td *ngIf="SelectedDepartmentID ==6">{{item.GATEYearBalanceSecret}}</td>
+                  <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFinancialResources}}</td>
+                  <td *ngIf="item.BuildingTypeName == 'Rented'">
+                    {{item.Rentvaliditydate}}
+                  </td>
+                  <td *ngIf="item.BuildingTypeName == 'Owned'">
+                    N/A
+                  </td>
+                  <td *ngIf="item.BuildingTypeName == 'Rented'">
+                    <a target="_blank" href="{{item.RentAgreementFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
+                  </td>
+                  <td *ngIf="item.BuildingTypeName == 'Owned'">
+                    N/A
+                  </td>
+                  <td><a target="_blank" href="{{item.OwnBuildingFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                  <td><a target="_blank" href="{{item.FireNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                  <td><a target="_blank" href="{{item.PWDNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                  <td><a target="_blank" href="{{item.OtherDoc1FileUploadPath}}" title="View Land Title Certificate "><i class="fa fa-eye"></i></a></td>
+                  <td><a target="_blank" href="{{item.OtherDoc2FileUploadPath}}" title="View Land Document"><i class="fa fa-eye"></i></a></td>
+                  <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.TotalProjectCostFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                  <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.SourceCostAmountFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                  <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.AmountDepositedFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                  <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFixedAssetsAndSecuritiesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                  <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.GATEYearBalanceSecretFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                  <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFinancialResourcesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
+                  <td>
+                    <div class="d-flex">
+                      <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                      <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                      <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewBuildingDocument" (click)="ViewBuildingDocument(item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-    </div>
+    
     <div class="modal fade" id="ViewBuildingDocument" tabindex="-1" aria-labelledby="ViewBuildingDocument" aria-hidden="true" data-bs-backdrop="false">
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -754,9 +750,7 @@
         </div>
       </div>
     </div>
-  </div>
-
-</div>
+ 
 
 
 

@@ -15,937 +15,902 @@
   </div>
 </div>
 <div class="container-fluid mainContents">
-  <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-      <div class="card">
-        <div class="card-body">
-       
-          <form [formGroup]="ApplyNocParameterForm" class="form-horizontal">
-            <div class="row">
-              <div class="col-lg-12">
-                <span id="blinker" style="color:red">
-                  TNOC/ PNOC प्राप्त वे संस्थाएं ही जिन्हे किसी भी प्रकरण हेतु NOC की आवश्यकता नहीं है
-                  केवल वे ही INSPECTION FEE मद पर क्लिक करें। केवल INSPECTION FEE मद पर आवेदन करने पर संस्था के किसी भी NOC प्रकरण को
-                  प्रक्रियाधीन नहीं किया जा सकेगा। जिसके लिए संस्था स्वयं जिम्मेदार होगी।
-                </span>
-              </div>
-            </div>
 
-            <div class="row mt-1" >
-              <div class="row" *ngIf="TotalAppliedNOC>0">
-                <span style="color:red">You have already applied for NOC and NOC not issued yet</span>
-              </div>
-              <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label for="ddlCollege" class="form-label">College <span style="color:red">*</span></label>
-                  <select class="form-select" id="ddlCollege" name="ddlCollege" (change)="College_ddlChange($event)" formControlName="ddlCollege" [(ngModel)]="request.CollegeID">
-                    <option value="0">--Select--</option>
-                    <option *ngFor="let item of CollegeList_ddl" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
-                  </select>
-                  <div *ngIf="isSubmitted&&form.ddlCollege.errors" class="text-danger">
-                    <p *ngIf="!form.ddlCollege.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.CollegeID>0">
-                  <label for="rbApplicationType" style="margin-top:15px;">Application Type <span style="color:red">*</span></label>
-                  <div class="clearfix"></div>
-                  <div class="form-check form-check-inline" *ngFor="let item of ApplicationTypeList">
-                    <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID" #SelectedApplicationTypeID (change)="ApplyNocFor_rbChange($event,SelectedApplicationTypeID.value,item)">
-                    <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
-                  </div>
-                  <div *ngIf="isSubmitted&&form.rbApplicationType.errors" class="text-danger">
-                    <p *ngIf="form.rbApplicationType.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
-                  </div>
-                </div>
-                <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.CollegeID>0">
+  <div class="card">
+    <div class="card-body">
 
-        <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID">
-        <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
-      </div>-->
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" *ngIf="ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">
-                <label for="">Application Apply For</label>
-                <div class="clearfix"></div>
-                <div class="form-check form-check-inline" *ngFor="let item of ApplyNocParameterMasterList_ddl ;let idx=index;">
-                  <input class="form-check-input" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}"   id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}"  #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked"
-                         [ngModelOptions]="{standalone: true}">
-                  <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}">{{item.ApplyNocFor}}</label>
-                </div>
-                <div *ngIf="isSubmitted&&form.cbNocFor.errors" class="text-danger">
-                  <p *ngIf="form.cbNocFor.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
-                </div>
-              </div>
-            </div>
-          </form>
-          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-            <!--TNOC Extension-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtension != null">
-              <div class="card-header">
-                <b>{{ApplyNocParameterMasterList_TNOCExtension.ApplyNocFor}} :₹ {{ApplyNocParameterMasterList_TNOCExtension.FeeAmount}}</b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="table-responsive">
-                    <table class="table table-hover table-striped-columns">
-                      <thead>
-                        <tr>
-                          <th>Sr. No.</th>
-                          <th>Course</th>
-                          <th *ngIf="request.DepartmentID !=2">Subject</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList;let idx=index;">
-                          <td>{{idx+1}}</td>
-                          <td>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="cbCourse_TNOCExtension_{{idx+1}}" id="cbCourse_TNOCExtension_{{idx+1}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked"
-                                     #SelectedcbCourseID_TNOCExtension (change)="cbCourse_TNOCExtension_change($event,SelectedcbCourseID_TNOCExtension.value,item)">
-                              <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
-                            </div>
-                          </td>
-                          <td *ngIf="request.DepartmentID !=2">
-                            <div class="form-check form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
-                              <input class="form-check-input" type="checkbox" name="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}"
-                                     id="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}" value="{{item1.SubjectID}}"
-                                     [attr.disabled]="true" [(ngModel)]="item1.IsChecked">
-                              <label class="form-check-label" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--end-->
-            <!--Addition of New Seats(60)-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_AdditionOfNewSeats60 != null">
-              <div class="card-header">
-                <b>{{ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocFor}} :₹ {{ApplyNocParameterMasterList_AdditionOfNewSeats60.FeeAmount}}</b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="table-responsive">
-                    <table class="table table-hover table-striped-columns">
-                      <thead>
-                        <tr>
-                          <th>Sr. No.</th>
-                          <th>Course</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocParameterCourseList;let idx=index;">
-                          <td>{{idx+1}}</td>
-                          <td>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" name="cbCourse_AdditionOfNewSeats60" id="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked">
-                              <label class="form-check-label" for="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}">{{item.CourseName}}</label>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--end-->
-            <!--change in name of college-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInNameOfCollege != null">
-              <div class="card-header">
-                <b>Change in Name of College :₹ {{ApplyNocParameterMasterList_ChangeInNameOfCollege.FeeAmount}}</b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>New Name in English <span style="color:red;"> *</span> </label>
-                    <input name="CollegeNewName_Eng" id="CollegeNewName_Eng" class="form-control disabled mt-1" (keypress)="alphaOnly($event)" maxlength="50" [(ngModel)]="ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameEnglish" />
-                    <div *ngIf="isValidCollegeNewName_Eng" class="text-danger">
-                      <p *ngIf="isValidCollegeNewName_Eng"> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>New Name in Hindi <span style="color:red;"> *</span>  </label>
-                    <input name="CollegeNewName_Hi" id="CollegeNewName_Hi" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameHindi" />
-                    <div *ngIf="isValidCollegeNewName_Hi" class="text-danger">
-                      <p *ngIf="isValidCollegeNewName_Hi"> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>
-                      Document for Resolution of Management Committee <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="ChangeInNameOfCollege_Document" id="ChangeInNameOfCollege_Document" class="form-control" (change)="ValidateDocument($event,'ChangeInNameOfCollege','')" />
-                      <label class="btn upload" for="ChangeInNameOfCollege_Document">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentName === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInNameOfCollege.Dis_DocumentName}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentName != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentName,'ChangeInNameOfCollege','')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isChangeInNameOfCollege_Document" class="text-danger">
-                      <p *ngIf="isChangeInNameOfCollege_Document"> This field is required .!</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--end-->
-            <!--change in place-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null">
-              <div class="card-header">
-                <b>College Place Change:₹ {{ApplyNocParameterMasterList_ChangeInPlaceOfCollege.FeeAmount}}</b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>New Place Name and Address <span style="color:red;"> *</span> </label>
-                    <textarea name="ChangeInPlaceNewName" id="ChangeInPlaceNewName" (keypress)="alphaOnly($event)" maxlength="500" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceName"></textarea>
-                    <div *ngIf="isChangeInPlaceNewName" class="text-danger">
-                      <p *ngIf="isChangeInPlaceNewName"> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>
-                      Document for Resolution of Management Committee <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="ChangeInPlaceNameOfCollege_Document" id="ChangeInPlaceNameOfCollege_Document" class="form-control" (change)="ValidateDocument($event,'ChangeInPlaceNameOfCollege','Document')" />
-                      <label class="btn upload" for="ChangeInPlaceNameOfCollege_Document">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_ChangeInPlaceOfCollege.DocumentName === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInPlaceOfCollege.Dis_DocumentName}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInPlaceOfCollege.DocumentName != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInPlaceOfCollege.DocumentPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInPlaceOfCollege.DocumentName,'ChangeInPlaceNameOfCollege','Document')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isChangeInPlaceNameOfCollege_Document" class="text-danger">
-                      <p *ngIf="isChangeInPlaceNameOfCollege_Document"> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>
-                      Document for new place in same tehsil certified by Tehsildar <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="ChangeInPlaceNameOfCollege_PlaceDocument" id="ChangeInPlaceNameOfCollege_PlaceDocument" class="form-control" (change)="ValidateDocument($event,'ChangeInPlaceNameOfCollege','PlaceDocument')" />
-                      <label class="btn upload" for="ChangeInPlaceNameOfCollege_PlaceDocument">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceDocumentName === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInPlaceOfCollege.Dis_PlaceDocumentName}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceDocumentName != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceDocumentPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceDocumentName,'ChangeInPlaceNameOfCollege','PlaceDocument')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isChangeInPlaceNameOfCollege_PlaceDocument" class="text-danger">
-                      <p *ngIf="isChangeInPlaceNameOfCollege_PlaceDocument"> This field is required .!</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--end-->
-            <!--change Girls to Coed-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInCoedtoGirls != null">
-              <div class="card-header">
-                <b>Change in Co-Education to Girls:₹ {{ApplyNocParameterMasterList_ChangeInCoedtoGirls.FeeAmount}}</b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                    <label>
-                      Document for Consent of Management(Only pdf/image file)(min size 500KB) (max size 2MB) <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="ChangeInCoedtoGirls_ConsentManagementDocument" id="ChangeInCoedtoGirls_ConsentManagementDocument" class="form-control" (change)="ValidateDocument($event,'ChangeInCoedtoGirls','')" />
-                      <label class="btn upload" for="ChangeInCoedtoGirls_ConsentManagementDocument">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInCoedtoGirls.Dis_ConsentManagementDocument}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocumentPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument,'ChangeInCoedtoGirls','')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isCoedtoGConsentDocument" class="text-danger">
-                      <p *ngIf="isCoedtoGConsentDocument"> This field is required .!</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--end-->
-            <!--change Girls to Coed-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInGirlstoCoed != null">
-              <div class="card-header">
-                <b>Change in Girls to Co-Education:₹ {{ApplyNocParameterMasterList_ChangeInGirlstoCoed.FeeAmount}}</b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                    <label>
-                      Document for Consent of Management(Only pdf/image file)(min size 500KB) (max size 2MB) <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="ChangeInGirlstoCoed_ConsentManagementDocument" id="ChangeInGirlstoCoed_ConsentManagementDocument" class="form-control" (change)="ValidateDocument($event,'ChangeInGirlstoCoed','ConsentManagementDocument')" />
-                      <label class="btn upload" for="ChangeInGirlstoCoed_ConsentManagementDocument">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentManagementDocument === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInGirlstoCoed.Dis_ConsentManagementDocument}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentManagementDocument != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentManagementDocumentPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentManagementDocument,'ChangeInGirlstoCoed','ConsentManagementDocument')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isConsentManagementDocument" class="text-danger">
-                      <p *ngIf="isConsentManagementDocument"> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
-                    <label>
-                      Document for Consent of 25% parents of student (min 100 ) in this previous year (Only pdf/image file)(min size 500KB) (max size 2MB)<span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="ChangeInGirlstoCoed_ConsentStudentDocument" id="ChangeInGirlstoCoed_ConsentStudentDocument" class="form-control" (change)="ValidateDocument($event,'ChangeInGirlstoCoed','ConsentStudentDocument')" />
-                      <label class="btn upload" for="ChangeInGirlstoCoed_ConsentStudentDocument">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentStudentDocument === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInGirlstoCoed.Dis_ConsentStudentDocument}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentStudentDocument != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentStudentDocumentPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentStudentDocument,'ChangeInGirlstoCoed','ConsentStudentDocument')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isConsentStudentDocument" class="text-danger">
-                      <p *ngIf="isConsentStudentDocument"> This field is required .!</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--end-->
-            <!--change in college management-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_ChangeInCollegeManagement != null">
-              <div class="card-header">
-                <b>Change in College Management:₹ {{ApplyNocParameterMasterList_ChangeInCollegeManagement.FeeAmount}}</b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>Name of New Society <span style="color:red;"> *</span> </label>
-                    <input name="CollegeNewName_Eng" id="CollegeNewName_Eng" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInCollegeManagement.NewSocietyName" />
-
-                    <div *ngIf="isNewSocietyName" class="text-danger">
-                      <p *ngIf="isNewSocietyName"> This field is required .!</p>
-                    </div>
-
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>
-                      Document for Resolution of Management Committee <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="ChangeInCollegeManagement_Document" id="ChangeInCollegeManagement_Document" class="form-control" (change)="ValidateDocument($event,'ChangeInCollegeManagement','Document')" />
-                      <label class="btn upload" for="ChangeInCollegeManagement_Document">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInCollegeManagement.Dis_DocumentName}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName,'ChangeInCollegeManagement','Document')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isCmDocumentName" class="text-danger">
-                      <p *ngIf="isCmDocumentName"> This field is required .!</p>
-                    </div>
-
-                  </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                    <label>
-                      Document for Annexure 8 for Change Management <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="ChangeInCollegeManagement_AnnexureDocument" id="ChangeInCollegeManagement_AnnexureDocument" class="form-control" (change)="ValidateDocument($event,'ChangeInCollegeManagement','AnnexureDocument')" />
-                      <label class="btn upload" for="ChangeInCollegeManagement_AnnexureDocument">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInCollegeManagement.Dis_AnnexureDocument}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocumentPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument,'ChangeInCollegeManagement','AnnexureDocument')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isAnnexureDocument" class="text-danger">
-                      <p *ngIf="isAnnexureDocument"> This field is required .!</p>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--end-->
-            <!--Merger-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_MergerCollege != null">
-              <div class="card-header">
-                <b>Merger Details-Applicant College Information :₹ {{ApplyNocParameterMasterList_MergerCollege.FeeAmount}}</b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      Proposal of Society for merger <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_SocietyProposal" id="MergerCollege_SocietyProposal" class="form-control" (change)="ValidateDocument($event,'Merger','SocietyProposal')" />
-                      <label class="btn upload" for="MergerCollege_SocietyProposal">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.SocietyProposal === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_SocietyProposal}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.SocietyProposal != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.SocietyProposalPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.SocietyProposal,'Merger','SocietyProposal')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isSocietyProposal" class="text-danger">
-                      <p *ngIf="isSocietyProposal"> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      All NOC Issued in Single pdf File <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_AllNOC" id="MergerCollege_AllNOC" class="form-control" (change)="ValidateDocument($event,'Merger','AllNOC')" />
-                      <label class="btn upload" for="MergerCollege_AllNOC">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.AllNOC === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_AllNOC}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.AllNOC != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.AllNOCPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.AllNOC,'Merger','AllNOC')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isAllNOC" class="text-danger">
-                      <p *ngIf="isAllNOC"> This field is required .!</p>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      Latest University Affiliation of College <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_UniversityAffiliation" id="MergerCollege_UniversityAffiliation" class="form-control" (change)="ValidateDocument($event,'Merger','UniversityAffiliation')" />
-                      <label class="btn upload" for="MergerCollege_UniversityAffiliation">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.UniversityAffiliation === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_UniversityAffiliation}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.UniversityAffiliation != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.UniversityAffiliationPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.UniversityAffiliation,'Merger','UniversityAffiliation')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isUniversityAffiliation" class="text-danger">
-                      <p *ngIf="isUniversityAffiliation"> This field is required .!</p>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      NOC of the affiliating university of merger<span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_NOCAffiliationUniversity" id="MergerCollege_NOCAffiliationUniversity" class="form-control" (change)="ValidateDocument($event,'Merger','NOCAffiliationUniversity')" />
-                      <label class="btn upload" for="MergerCollege_NOCAffiliationUniversity">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversity === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_NOCAffiliationUniversity}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversity != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversityPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversity,'Merger','NOCAffiliationUniversity')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isNOCAffiliationUniversity" class="text-danger">
-                      <p *ngIf="isNOCAffiliationUniversity"> This field is required .!</p>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      Affidavit of consent of 100% Parents<span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_ConsentAffidavit" id="MergerCollege_ConsentAffidavit" class="form-control" (change)="ValidateDocument($event,'Merger','ConsentAffidavit')" />
-                      <label class="btn upload" for="MergerCollege_ConsentAffidavit">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.ConsentAffidavit === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_ConsentAffidavit}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.ConsentAffidavit != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.ConsentAffidavitPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.ConsentAffidavit,'Merger','ConsentAffidavit')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isConsentAffidavit" class="text-danger">
-                      <p *ngIf="isConsentAffidavit"> This field is required .!</p>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-
-             
-                <b>Merger Details-Other College Information</b>
-             
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      All NOC Issued in Single pdf File <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_OtherAllNOC" id="MergerCollege_OtherAllNOC" class="form-control" (change)="ValidateDocument($event,'Merger','OtherAllNOC')" />
-                      <label class="btn upload" for="MergerCollege_OtherAllNOC">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.OtherAllNOC === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_OtherAllNOC}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.OtherAllNOC != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.OtherAllNOCPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherAllNOC,'Merger','OtherAllNOC')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isOtherAllNOC" class="text-danger">
-                      <p *ngIf="isOtherAllNOC"> This field is required .!</p>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      Latest University Affiliation of College <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_OtherUniversityAffiliation" id="MergerCollege_OtherUniversityAffiliation" class="form-control" (change)="ValidateDocument($event,'Merger','OtherUniversityAffiliation')" />
-                      <label class="btn upload" for="MergerCollege_OtherUniversityAffiliation">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliation === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_OtherUniversityAffiliation}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliation != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliationPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliation,'Merger','OtherUniversityAffiliation')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isOtherUniversityAffiliation" class="text-danger">
-                      <p *ngIf="isOtherUniversityAffiliation"> This field is required .!</p>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      NOC of the affiliating university of merger<span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_OtherNOCAffiliationUniversity" id="MergerCollege_OtherNOCAffiliationUniversity" class="form-control" (change)="ValidateDocument($event,'Merger','OtherNOCAffiliationUniversity')" />
-                      <label class="btn upload" for="MergerCollege_OtherNOCAffiliationUniversity">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversity === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_OtherNOCAffiliationUniversity}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversity != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversityPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversity,'Merger','OtherNOCAffiliationUniversity')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isOtherNOCAffiliationUniversity" class="text-danger">
-                      <p *ngIf="isOtherNOCAffiliationUniversity"> This field is required .!</p>
-                    </div>
-
-                  </div>
-
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      Affidavit of consent of 100% Parents<span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_OtherConsentAffidavit" id="MergerCollege_OtherConsentAffidavit" class="form-control" (change)="ValidateDocument($event,'Merger','OtherConsentAffidavit')" />
-                      <label class="btn upload" for="MergerCollege_OtherConsentAffidavit">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavit === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_OtherConsentAffidavit}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavit != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavitPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavit,'Merger','OtherConsentAffidavit')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isOtherConsentAffidavit" class="text-danger">
-                      <p *ngIf="isOtherConsentAffidavit"> This field is required .!</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      Land Title Certificate <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_LandTitleCertificate" id="MergerCollege_LandTitleCertificate" class="form-control" (change)="ValidateDocument($event,'Merger','LandTitleCertificate')" />
-                      <label class="btn upload" for="MergerCollege_LandTitleCertificate">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.LandTitleCertificate === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_LandTitleCertificate}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.LandTitleCertificate != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.LandTitleCertificatePath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.LandTitleCertificate,'Merger','LandTitleCertificate')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isLandTitleCertificate" class="text-danger">
-                      <p *ngIf="isLandTitleCertificate"> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      Blue Print of Building <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_BuildingBluePrint" id="MergerCollege_BuildingBluePrint" class="form-control" (change)="ValidateDocument($event,'Merger','BuildingBluePrint')" />
-                      <label class="btn upload" for="MergerCollege_BuildingBluePrint">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.BuildingBluePrint === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_BuildingBluePrint}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.BuildingBluePrint != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.BuildingBluePrintPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.BuildingBluePrint,'Merger','BuildingBluePrint')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isBuildingBluePrint" class="text-danger">
-                      <p *ngIf="isBuildingBluePrint"> This field is required .!</p>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label>
-                      Staff Information (Teaching and Non Teaching) <span style="color:red;"> *</span>
-                    </label>
-                    <div class="d-flex">
-                      <input type="file" style="display:none" name="MergerCollege_StaffInformation" id="MergerCollege_StaffInformation" class="form-control" (change)="ValidateDocument($event,'Merger','StaffInformation')" />
-                      <label class="btn upload" for="MergerCollege_StaffInformation">
-                        <span class="filename">Choose file</span>
-                        {{ApplyNocParameterMasterList_MergerCollege.StaffInformation === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_StaffInformation}}
-                      </label>
-                      <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.StaffInformation != ''">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.StaffInformationPath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.StaffInformation,'Merger','StaffInformation')"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isStaffInformation" class="text-danger">
-                      <p *ngIf="isStaffInformation"> This field is required .!</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <!--New Course-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_NewCourse != null">
-              <div class="card-header">
-                <b>Add New Course :₹ {{ApplyNocParameterMasterList_NewCourse.FeeAmount}}</b>
-                <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddCourse_click(mymodalAddCourse)">Add Course</button>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="table-responsive">
-                    <table class="table table-hover table-striped-columns">
-                      <thead>
-                        <tr>
-                          <th>Sr. No.</th>
-                          <th>Course</th>
-                          <th>Subject</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of  ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList;let idx=index;">
-                          <td>{{idx+1}}</td>
-                          <td>
-                            <div class="form-check form-check-inline">
-                              <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
-                            </div>
-                          </td>
-                          <td>
-                            <div style="margin-right:0.5rem" class="form-check-inline " *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
-                              <label class="bg-primary text-white rounded px-2" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
-                            </div>
-                          </td>
-                          <td>
-                            <button class="btn btn-danger btn-sm" (click)="btn_DeleteCourse(item.CourseID)"> <span class="bi bi-trash-fill"></span>  </button>
-                          </td>
-                        </tr>
-                        <tr *ngIf="ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.length<=0">
-                          <td colspan="7" style="color:red">No course added.!</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--end-->
-            <!--New Subject-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_NewCourseSubject != null">
-              <div class="card-header">
-                <b>Add New Subject  :₹ {{ApplyNocParameterMasterList_NewCourseSubject.FeeAmount}} </b>
-                <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddCourseSubject_click(mymodalAddCourseSubject)">Add Subject</button>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="table-responsive">
-                    <table class="table table-hover table-striped-columns">
-                      <thead>
-                        <tr>
-                          <th>Sr. No.</th>
-                          <th>Course</th>
-                          <th>Subject</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of  ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList;let idx=index;">
-                          <td>{{idx+1}}</td>
-                          <td>
-                            <div class="form-check form-check-inline">
-                              <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
-                            </div>
-                          </td>
-                          <td>
-                            <div style="margin-right:0.5rem" class="form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
-                              <label class="bg-primary text-white rounded px-2" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
-                            </div>
-                          </td>
-                          <td>
-                            <button class="btn btn-danger btn-sm" (click)="btn_DeleteCourseSubject(item.CourseID)"> <span class="bi bi-trash-fill"></span>  </button>
-                          </td>
-                        </tr>
-                        <tr *ngIf="ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.length<=0">
-                          <td colspan="7" style="color:red">No Subject Added.!</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--end-->
-            <!--TNOC Subject-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_TNOCExtOfSubject != null">
-              <div class="card-header">
-                <b>TNOC Extension Of Subject :{{ApplyNocParameterMasterList_TNOCExtOfSubject.FeeAmount}} </b>
-                <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddTNOCSubject_click(mymodalTNOCExtOfSubject)">Add Subject</button>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="table-responsive">
-                    <table class="table table-hover table-striped-columns">
-                      <thead>
-                        <tr>
-                          <th>Sr. No.</th>
-                          <th>Course</th>
-                          <th>Subject</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of  ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList;let idx=index;">
-                          <td>{{idx+1}}</td>
-                          <td>
-                            <div class="form-check form-check-inline">
-                              <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
-                            </div>
-                          </td>
-                          <td>
-                            <div style="margin-right:0.5rem" class="form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
-                              <label class="bg-primary text-white rounded px-2" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
-                            </div>
-                          </td>
-                          <td>
-                            <button class="btn btn-danger btn-sm" (click)="btn_DeleteTNOCCourseSubject(item.CourseID)"> <span class="bi bi-trash-fill"></span>  </button>
-                          </td>
-                        </tr>
-                        <tr *ngIf="ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList.length<=0">
-                          <td colspan="7">No Subject Added.!</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--end-->
-            <!--PNOC Subject-->
-            <div class="card" *ngIf="ApplyNocParameterMasterList_PNOCOfSubject != null">
-              <div class="card-header">
-                <b>Permanent Noc For Subjects :{{ApplyNocParameterMasterList_PNOCOfSubject.FeeAmount}} </b>
-                <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddPNOCSubject_click(mymodalPNOCSubjectOfSubject)">Add Subject</button>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="table-responsive">
-                    <table class="table table-hover table-striped-columns">
-                      <thead>
-                        <tr>
-                          <th>Sr. No.</th>
-                          <th>Course</th>
-                          <th>Subject</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let item of  ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList;let idx=index;">
-                          <td>{{idx+1}}</td>
-                          <td>
-                            <div class="form-check form-check-inline">
-                              <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
-                            </div>
-                          </td>
-                          <td>
-                            <div style="margin-right:0.5rem" class="form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
-                              <label class="bg-primary text-white rounded px-2" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
-                            </div>
-                          </td>
-                          <td>
-                            <button class="btn btn-danger btn-sm" (click)="btn_DeletePNOCCourseSubject(item.CourseID)"> <span class="bi bi-trash-fill"></span>  </button>
-                          </td>
-                        </tr>
-                        <tr *ngIf="ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList.length<=0">
-                          <td colspan="7">No Subject Added.!</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--end-->
-            <!--Start Only Inspection Fee-->
-            <div class="card" *ngIf="isInspectionFee && DepartmentInspectionFee>0">
-              <div class="card-header">
-                <b>Only Inspection Fee : {{DepartmentInspectionFee}}</b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <b>Total Fee&nbsp;:&nbsp;{{DepartmentInspectionFee}} (Inspection Fee)</b>
-                </div>
-              </div>
-              <div class="card-footer">
-                <!--SaveInspectionFee_click-->
-                <!--<button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()">Apply Noc</button>-->
-
-              </div>
-            </div>
-            <!--END Only Inspection Fee-->
-            <!--Start Late Fee-->
-            <div class="card" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
-              <div class="card-header">
-                <b>Application Late Fees Details :₹ {{TotalLateFees}}</b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="table-responsive">
-                    <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellatefee">
-                      <thead>
-                        <tr>
-                          <th>Sr. No</th>
-                          <th>Fee Type</th>
-                          <th>Amount</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let row of request.ApplyNocLateFeeDetailList;let idx=index;">
-                          <td>{{idx+1}}</td>
-                          <td>
-                            {{row.FeesType}}
-                          </td>
-                          <td>:₹ <b>{{row.FeesAmount}}</b></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            <!--END Late Fee-->
-
-            <!--Start Late Deatils-->
-            <div class="card" *ngIf="isShowPriceDetails">
-              <div class="card-header">
-                <b>Application Fees Details </b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="table-responsive">
-
-                    <div class="row" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
-                      <div class="col-lg-2"><b> Noc Application Fees</b></div>
-                      <div class="col-lg-6">:₹ <b>{{request.TotalNocFee}}</b></div>
-                    </div>
-                    <div class="row" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
-                      <div class="col-lg-2"><b>Late Fees</b></div>
-                      <div class="col-lg-6">:₹ <b>{{request.LateFee}}</b></div>
-                    </div>
-                    <div class="row">
-                      <div class="col-lg-2"><b>Total Application Fees</b></div>
-                      <div class="col-lg-6">:₹ <b>{{request.TotalFeeAmount}}</b></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            <!--END Late Fee-->
-
-
-            <div class="row">
-              <div class="col-lg-12">
-                <span *ngIf="HasData()">
-                  <input type="checkbox" [(ngModel)]="IsTermsChecked" />&nbsp; I have accept terms & conditions.
-                </span>
-              </div>
-
-            </div>
-
-
-
-
-          </div>
-          <div class="card-footer">
-            <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()" [attr.disabled]="isSave ? null : true" *ngIf="HasData()">Apply Noc</button>
-            <button type="button" class="btn btn-danger" aria-label="Reset" (click)="ResetApplyNoc_click()" *ngIf="HasData()">Reset</button>
-            <a class="btn btn-info" href="/applicationsummary/{{CollegeDepartmentID}}/{{request.CollegeID}}" target="_blank" aria-label="Preview Application" *ngIf="request.CollegeID>0">Preview Application</a>
+      <form [formGroup]="ApplyNocParameterForm" class="form-horizontal">
+        <div class="row">
+          <div class="col-lg-12">
+            <span id="blinker" style="color:red">
+              TNOC/ PNOC प्राप्त वे संस्थाएं ही जिन्हे किसी भी प्रकरण हेतु NOC की आवश्यकता नहीं है
+              केवल वे ही INSPECTION FEE मद पर क्लिक करें। केवल INSPECTION FEE मद पर आवेदन करने पर संस्था के किसी भी NOC प्रकरण को
+              प्रक्रियाधीन नहीं किया जा सकेगा। जिसके लिए संस्था स्वयं जिम्मेदार होगी।
+            </span>
           </div>
         </div>
-        <div class="card-body">
+
+        <div class="row mt-1">
+          <div class="row" *ngIf="TotalAppliedNOC>0">
+            <span style="color:red">You have already applied for NOC and NOC not issued yet</span>
+          </div>
           <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
-              <h4 class="text-danger">Disclaimer:</h4>
-              <ol class="text-danger">
-                <li>Submit your application with appropriate option like- new course, new subject, tnoc, pnoc.</li>
-                <li>Once the application is submitted you have to print challan or download.</li>
-                <li>Once you did the payment you need to upload proof of payment (receipt) from applied noc, <a href="#"> Upload Reciept</a></li>
-                <li>Note: here only those subjects or courses will be visible for which draft is complete.</li>
-                <li>If NOC is for name change, location change, merger, coed to girl please fill details in <a href="#">College Amendment</a></li>
-              </ol>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label for="ddlCollege" class="form-label">College <span style="color:red">*</span></label>
+              <select class="form-select" id="ddlCollege" name="ddlCollege" (change)="College_ddlChange($event)" formControlName="ddlCollege" [(ngModel)]="request.CollegeID">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of CollegeList_ddl" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&form.ddlCollege.errors" class="text-danger">
+                <p *ngIf="!form.ddlCollege.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.CollegeID>0">
+              <label for="rbApplicationType" style="margin-top:15px;">Application Type <span style="color:red">*</span></label>
+              <div class="clearfix"></div>
+              <div class="form-check form-check-inline" *ngFor="let item of ApplicationTypeList">
+                <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID" #SelectedApplicationTypeID (change)="ApplyNocFor_rbChange($event,SelectedApplicationTypeID.value,item)">
+                <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
+              </div>
+              <div *ngIf="isSubmitted&&form.rbApplicationType.errors" class="text-danger">
+                <p *ngIf="form.rbApplicationType.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
+            <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.CollegeID>0">
+
+            <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID">
+            <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
+          </div>-->
+          </div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" *ngIf="ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">
+            <label for="">Application Apply For</label>
+            <div class="clearfix"></div>
+            <div class="form-check form-check-inline" *ngFor="let item of ApplyNocParameterMasterList_ddl ;let idx=index;">
+              <input class="form-check-input" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}" id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked"
+                     [ngModelOptions]="{standalone: true}">
+              <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}">{{item.ApplyNocFor}}</label>
+            </div>
+            <div *ngIf="isSubmitted&&form.cbNocFor.errors" class="text-danger">
+              <p *ngIf="form.cbNocFor.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!--TNOC Extension-->
+    <div *ngIf="ApplyNocParameterMasterList_TNOCExtension != null">
+      <div class="card-header border-top">
+        <b>{{ApplyNocParameterMasterList_TNOCExtension.ApplyNocFor}} :₹ {{ApplyNocParameterMasterList_TNOCExtension.FeeAmount}}</b>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns mb-0">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Course</th>
+              <th *ngIf="request.DepartmentID !=2">Subject</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of ApplyNocParameterMasterList_TNOCExtension.ApplyNocParameterCourseList;let idx=index;">
+              <td>{{idx+1}}</td>
+              <td>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" name="cbCourse_TNOCExtension_{{idx+1}}" id="cbCourse_TNOCExtension_{{idx+1}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked"
+                         #SelectedcbCourseID_TNOCExtension (change)="cbCourse_TNOCExtension_change($event,SelectedcbCourseID_TNOCExtension.value,item)">
+                  <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
+                </div>
+              </td>
+              <td *ngIf="request.DepartmentID !=2">
+                <div class="form-check form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
+                  <input class="form-check-input" type="checkbox" name="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}"
+                         id="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}" value="{{item1.SubjectID}}"
+                         [attr.disabled]="true" [(ngModel)]="item1.IsChecked">
+                  <label class="form-check-label" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--end-->
+    <!--Addition of New Seats(60)-->
+    <div  *ngIf="ApplyNocParameterMasterList_AdditionOfNewSeats60 != null">
+      <div class="card-header border-top">
+        <b>{{ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocFor}} :₹ {{ApplyNocParameterMasterList_AdditionOfNewSeats60.FeeAmount}}</b>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Course</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of ApplyNocParameterMasterList_AdditionOfNewSeats60.ApplyNocParameterCourseList;let idx=index;">
+              <td>{{idx+1}}</td>
+              <td>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" name="cbCourse_AdditionOfNewSeats60" id="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}" value="{{item.CourseID}}" [(ngModel)]="item.IsChecked">
+                  <label class="form-check-label" for="cbCourse_AdditionOfNewSeats60_{{item.CourseID}}">{{item.CourseName}}</label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--end-->
+    <!--change in name of college-->
+    <div  *ngIf="ApplyNocParameterMasterList_ChangeInNameOfCollege != null">
+      <div class="card-header border-top">
+        <b>Change in Name of College :₹ {{ApplyNocParameterMasterList_ChangeInNameOfCollege.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>New Name in English <span style="color:red;"> *</span> </label>
+            <input name="CollegeNewName_Eng" id="CollegeNewName_Eng" class="form-control disabled mt-1" (keypress)="alphaOnly($event)" maxlength="50" [(ngModel)]="ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameEnglish" />
+            <div *ngIf="isValidCollegeNewName_Eng" class="text-danger">
+              <p *ngIf="isValidCollegeNewName_Eng"> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>New Name in Hindi <span style="color:red;"> *</span>  </label>
+            <input name="CollegeNewName_Hi" id="CollegeNewName_Hi" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInNameOfCollege.NewNameHindi" />
+            <div *ngIf="isValidCollegeNewName_Hi" class="text-danger">
+              <p *ngIf="isValidCollegeNewName_Hi"> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>
+              Document for Resolution of Management Committee <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="ChangeInNameOfCollege_Document" id="ChangeInNameOfCollege_Document" class="form-control" (change)="ValidateDocument($event,'ChangeInNameOfCollege','')" />
+              <label class="btn upload" for="ChangeInNameOfCollege_Document">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentName === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInNameOfCollege.Dis_DocumentName}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentName != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInNameOfCollege.DocumentName,'ChangeInNameOfCollege','')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isChangeInNameOfCollege_Document" class="text-danger">
+              <p *ngIf="isChangeInNameOfCollege_Document"> This field is required .!</p>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!--end-->
+    <!--change in place-->
+    <div *ngIf="ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null">
+      <div class="card-header border-top">
+        <b>College Place Change:₹ {{ApplyNocParameterMasterList_ChangeInPlaceOfCollege.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>New Place Name and Address <span style="color:red;"> *</span> </label>
+            <textarea name="ChangeInPlaceNewName" id="ChangeInPlaceNewName" (keypress)="alphaOnly($event)" maxlength="500" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceName"></textarea>
+            <div *ngIf="isChangeInPlaceNewName" class="text-danger">
+              <p *ngIf="isChangeInPlaceNewName"> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>
+              Document for Resolution of Management Committee <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="ChangeInPlaceNameOfCollege_Document" id="ChangeInPlaceNameOfCollege_Document" class="form-control" (change)="ValidateDocument($event,'ChangeInPlaceNameOfCollege','Document')" />
+              <label class="btn upload" for="ChangeInPlaceNameOfCollege_Document">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_ChangeInPlaceOfCollege.DocumentName === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInPlaceOfCollege.Dis_DocumentName}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInPlaceOfCollege.DocumentName != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInPlaceOfCollege.DocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInPlaceOfCollege.DocumentName,'ChangeInPlaceNameOfCollege','Document')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isChangeInPlaceNameOfCollege_Document" class="text-danger">
+              <p *ngIf="isChangeInPlaceNameOfCollege_Document"> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>
+              Document for new place in same tehsil certified by Tehsildar <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="ChangeInPlaceNameOfCollege_PlaceDocument" id="ChangeInPlaceNameOfCollege_PlaceDocument" class="form-control" (change)="ValidateDocument($event,'ChangeInPlaceNameOfCollege','PlaceDocument')" />
+              <label class="btn upload" for="ChangeInPlaceNameOfCollege_PlaceDocument">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceDocumentName === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInPlaceOfCollege.Dis_PlaceDocumentName}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceDocumentName != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceDocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInPlaceOfCollege.PlaceDocumentName,'ChangeInPlaceNameOfCollege','PlaceDocument')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isChangeInPlaceNameOfCollege_PlaceDocument" class="text-danger">
+              <p *ngIf="isChangeInPlaceNameOfCollege_PlaceDocument"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end-->
+    <!--change Girls to Coed-->
+    <div *ngIf="ApplyNocParameterMasterList_ChangeInCoedtoGirls != null">
+      <div class="card-header border-top">
+        <b>Change in Co-Education to Girls:₹ {{ApplyNocParameterMasterList_ChangeInCoedtoGirls.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+            <label>
+              Document for Consent of Management(Only pdf/image file)(min size 500KB) (max size 2MB) <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="ChangeInCoedtoGirls_ConsentManagementDocument" id="ChangeInCoedtoGirls_ConsentManagementDocument" class="form-control" (change)="ValidateDocument($event,'ChangeInCoedtoGirls','')" />
+              <label class="btn upload" for="ChangeInCoedtoGirls_ConsentManagementDocument">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInCoedtoGirls.Dis_ConsentManagementDocument}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInCoedtoGirls.ConsentManagementDocument,'ChangeInCoedtoGirls','')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isCoedtoGConsentDocument" class="text-danger">
+              <p *ngIf="isCoedtoGConsentDocument"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end-->
+    <!--change Girls to Coed-->
+    <div *ngIf="ApplyNocParameterMasterList_ChangeInGirlstoCoed != null">
+      <div class="card-header border-top">
+        <b>Change in Girls to Co-Education:₹ {{ApplyNocParameterMasterList_ChangeInGirlstoCoed.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+            <label>
+              Document for Consent of Management(Only pdf/image file)(min size 500KB) (max size 2MB) <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="ChangeInGirlstoCoed_ConsentManagementDocument" id="ChangeInGirlstoCoed_ConsentManagementDocument" class="form-control" (change)="ValidateDocument($event,'ChangeInGirlstoCoed','ConsentManagementDocument')" />
+              <label class="btn upload" for="ChangeInGirlstoCoed_ConsentManagementDocument">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentManagementDocument === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInGirlstoCoed.Dis_ConsentManagementDocument}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentManagementDocument != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentManagementDocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentManagementDocument,'ChangeInGirlstoCoed','ConsentManagementDocument')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isConsentManagementDocument" class="text-danger">
+              <p *ngIf="isConsentManagementDocument"> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+            <label>
+              Document for Consent of 25% parents of student (min 100 ) in this previous year (Only pdf/image file)(min size 500KB) (max size 2MB)<span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="ChangeInGirlstoCoed_ConsentStudentDocument" id="ChangeInGirlstoCoed_ConsentStudentDocument" class="form-control" (change)="ValidateDocument($event,'ChangeInGirlstoCoed','ConsentStudentDocument')" />
+              <label class="btn upload" for="ChangeInGirlstoCoed_ConsentStudentDocument">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentStudentDocument === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInGirlstoCoed.Dis_ConsentStudentDocument}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentStudentDocument != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentStudentDocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInGirlstoCoed.ConsentStudentDocument,'ChangeInGirlstoCoed','ConsentStudentDocument')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isConsentStudentDocument" class="text-danger">
+              <p *ngIf="isConsentStudentDocument"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end-->
+    <!--change in college management-->
+    <div  *ngIf="ApplyNocParameterMasterList_ChangeInCollegeManagement != null">
+      <div class="card-header border-top">
+        <b>Change in College Management:₹ {{ApplyNocParameterMasterList_ChangeInCollegeManagement.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>Name of New Society <span style="color:red;"> *</span> </label>
+            <input name="CollegeNewName_Eng" id="CollegeNewName_Eng" class="form-control disabled mt-1" [(ngModel)]="ApplyNocParameterMasterList_ChangeInCollegeManagement.NewSocietyName" />
+
+            <div *ngIf="isNewSocietyName" class="text-danger">
+              <p *ngIf="isNewSocietyName"> This field is required .!</p>
+            </div>
+
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>
+              Document for Resolution of Management Committee <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="ChangeInCollegeManagement_Document" id="ChangeInCollegeManagement_Document" class="form-control" (change)="ValidateDocument($event,'ChangeInCollegeManagement','Document')" />
+              <label class="btn upload" for="ChangeInCollegeManagement_Document">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInCollegeManagement.Dis_DocumentName}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInCollegeManagement.DocumentName,'ChangeInCollegeManagement','Document')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isCmDocumentName" class="text-danger">
+              <p *ngIf="isCmDocumentName"> This field is required .!</p>
+            </div>
+
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label>
+              Document for Annexure 8 for Change Management <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="ChangeInCollegeManagement_AnnexureDocument" id="ChangeInCollegeManagement_AnnexureDocument" class="form-control" (change)="ValidateDocument($event,'ChangeInCollegeManagement','AnnexureDocument')" />
+              <label class="btn upload" for="ChangeInCollegeManagement_AnnexureDocument">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument === '' ? 'No File Choosen' : ApplyNocParameterMasterList_ChangeInCollegeManagement.Dis_AnnexureDocument}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_ChangeInCollegeManagement.AnnexureDocument,'ChangeInCollegeManagement','AnnexureDocument')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isAnnexureDocument" class="text-danger">
+              <p *ngIf="isAnnexureDocument"> This field is required .!</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end-->
+    <!--Merger-->
+    <div  *ngIf="ApplyNocParameterMasterList_MergerCollege != null">
+      <div class="card-header border-top">
+        <b>Merger Details-Applicant College Information :₹ {{ApplyNocParameterMasterList_MergerCollege.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Proposal of Society for merger <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_SocietyProposal" id="MergerCollege_SocietyProposal" class="form-control" (change)="ValidateDocument($event,'Merger','SocietyProposal')" />
+              <label class="btn upload" for="MergerCollege_SocietyProposal">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.SocietyProposal === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_SocietyProposal}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.SocietyProposal != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.SocietyProposalPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.SocietyProposal,'Merger','SocietyProposal')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isSocietyProposal" class="text-danger">
+              <p *ngIf="isSocietyProposal"> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              All NOC Issued in Single pdf File <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_AllNOC" id="MergerCollege_AllNOC" class="form-control" (change)="ValidateDocument($event,'Merger','AllNOC')" />
+              <label class="btn upload" for="MergerCollege_AllNOC">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.AllNOC === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_AllNOC}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.AllNOC != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.AllNOCPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.AllNOC,'Merger','AllNOC')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isAllNOC" class="text-danger">
+              <p *ngIf="isAllNOC"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Latest University Affiliation of College <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_UniversityAffiliation" id="MergerCollege_UniversityAffiliation" class="form-control" (change)="ValidateDocument($event,'Merger','UniversityAffiliation')" />
+              <label class="btn upload" for="MergerCollege_UniversityAffiliation">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.UniversityAffiliation === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_UniversityAffiliation}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.UniversityAffiliation != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.UniversityAffiliationPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.UniversityAffiliation,'Merger','UniversityAffiliation')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isUniversityAffiliation" class="text-danger">
+              <p *ngIf="isUniversityAffiliation"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              NOC of the affiliating university of merger<span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_NOCAffiliationUniversity" id="MergerCollege_NOCAffiliationUniversity" class="form-control" (change)="ValidateDocument($event,'Merger','NOCAffiliationUniversity')" />
+              <label class="btn upload" for="MergerCollege_NOCAffiliationUniversity">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversity === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_NOCAffiliationUniversity}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversity != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversityPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.NOCAffiliationUniversity,'Merger','NOCAffiliationUniversity')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isNOCAffiliationUniversity" class="text-danger">
+              <p *ngIf="isNOCAffiliationUniversity"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Affidavit of consent of 100% Parents<span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_ConsentAffidavit" id="MergerCollege_ConsentAffidavit" class="form-control" (change)="ValidateDocument($event,'Merger','ConsentAffidavit')" />
+              <label class="btn upload" for="MergerCollege_ConsentAffidavit">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.ConsentAffidavit === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_ConsentAffidavit}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.ConsentAffidavit != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.ConsentAffidavitPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.ConsentAffidavit,'Merger','ConsentAffidavit')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isConsentAffidavit" class="text-danger">
+              <p *ngIf="isConsentAffidavit"> This field is required .!</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="card-header border-top">
+        <b>Merger Details-Other College Information</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              All NOC Issued in Single pdf File <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_OtherAllNOC" id="MergerCollege_OtherAllNOC" class="form-control" (change)="ValidateDocument($event,'Merger','OtherAllNOC')" />
+              <label class="btn upload" for="MergerCollege_OtherAllNOC">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.OtherAllNOC === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_OtherAllNOC}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.OtherAllNOC != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.OtherAllNOCPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherAllNOC,'Merger','OtherAllNOC')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isOtherAllNOC" class="text-danger">
+              <p *ngIf="isOtherAllNOC"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Latest University Affiliation of College <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_OtherUniversityAffiliation" id="MergerCollege_OtherUniversityAffiliation" class="form-control" (change)="ValidateDocument($event,'Merger','OtherUniversityAffiliation')" />
+              <label class="btn upload" for="MergerCollege_OtherUniversityAffiliation">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliation === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_OtherUniversityAffiliation}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliation != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliationPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherUniversityAffiliation,'Merger','OtherUniversityAffiliation')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isOtherUniversityAffiliation" class="text-danger">
+              <p *ngIf="isOtherUniversityAffiliation"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              NOC of the affiliating university of merger<span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_OtherNOCAffiliationUniversity" id="MergerCollege_OtherNOCAffiliationUniversity" class="form-control" (change)="ValidateDocument($event,'Merger','OtherNOCAffiliationUniversity')" />
+              <label class="btn upload" for="MergerCollege_OtherNOCAffiliationUniversity">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversity === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_OtherNOCAffiliationUniversity}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversity != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversityPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherNOCAffiliationUniversity,'Merger','OtherNOCAffiliationUniversity')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isOtherNOCAffiliationUniversity" class="text-danger">
+              <p *ngIf="isOtherNOCAffiliationUniversity"> This field is required .!</p>
+            </div>
+
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Affidavit of consent of 100% Parents<span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_OtherConsentAffidavit" id="MergerCollege_OtherConsentAffidavit" class="form-control" (change)="ValidateDocument($event,'Merger','OtherConsentAffidavit')" />
+              <label class="btn upload" for="MergerCollege_OtherConsentAffidavit">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavit === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_OtherConsentAffidavit}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavit != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavitPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.OtherConsentAffidavit,'Merger','OtherConsentAffidavit')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isOtherConsentAffidavit" class="text-danger">
+              <p *ngIf="isOtherConsentAffidavit"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Land Title Certificate <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_LandTitleCertificate" id="MergerCollege_LandTitleCertificate" class="form-control" (change)="ValidateDocument($event,'Merger','LandTitleCertificate')" />
+              <label class="btn upload" for="MergerCollege_LandTitleCertificate">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.LandTitleCertificate === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_LandTitleCertificate}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.LandTitleCertificate != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.LandTitleCertificatePath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.LandTitleCertificate,'Merger','LandTitleCertificate')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isLandTitleCertificate" class="text-danger">
+              <p *ngIf="isLandTitleCertificate"> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Blue Print of Building <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_BuildingBluePrint" id="MergerCollege_BuildingBluePrint" class="form-control" (change)="ValidateDocument($event,'Merger','BuildingBluePrint')" />
+              <label class="btn upload" for="MergerCollege_BuildingBluePrint">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.BuildingBluePrint === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_BuildingBluePrint}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.BuildingBluePrint != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.BuildingBluePrintPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.BuildingBluePrint,'Merger','BuildingBluePrint')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isBuildingBluePrint" class="text-danger">
+              <p *ngIf="isBuildingBluePrint"> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Staff Information (Teaching and Non Teaching) <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="MergerCollege_StaffInformation" id="MergerCollege_StaffInformation" class="form-control" (change)="ValidateDocument($event,'Merger','StaffInformation')" />
+              <label class="btn upload" for="MergerCollege_StaffInformation">
+                <span class="filename">Choose file</span>
+                {{ApplyNocParameterMasterList_MergerCollege.StaffInformation === '' ? 'No File Choosen' : ApplyNocParameterMasterList_MergerCollege.Dis_StaffInformation}}
+              </label>
+              <div class="btn-group" *ngIf="ApplyNocParameterMasterList_MergerCollege.StaffInformation != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{ApplyNocParameterMasterList_MergerCollege.StaffInformationPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(ApplyNocParameterMasterList_MergerCollege.StaffInformation,'Merger','StaffInformation')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="isStaffInformation" class="text-danger">
+              <p *ngIf="isStaffInformation"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--New Course-->
+    <div *ngIf="ApplyNocParameterMasterList_NewCourse != null">
+      <div class="card-header border-top">
+        <b>Add New Course :₹ {{ApplyNocParameterMasterList_NewCourse.FeeAmount}}</b>
+        <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddCourse_click(mymodalAddCourse)">Add Course</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Course</th>
+              <th>Subject</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of  ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList;let idx=index;">
+              <td>{{idx+1}}</td>
+              <td>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
+                </div>
+              </td>
+              <td>
+                <div style="margin-right:0.5rem" class="form-check-inline " *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
+                  <label class="bg-primary text-white rounded px-2" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="btn_DeleteCourse(item.CourseID)"> <span class="bi bi-trash-fill"></span>  </button>
+              </td>
+            </tr>
+            <tr *ngIf="ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.length<=0">
+              <td colspan="7" style="color:red">No course added.!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--end-->
+    <!--New Subject-->
+    <div *ngIf="ApplyNocParameterMasterList_NewCourseSubject != null">
+      <div class="card-header border-top">
+        <b>Add New Subject  :₹ {{ApplyNocParameterMasterList_NewCourseSubject.FeeAmount}} </b>
+        <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddCourseSubject_click(mymodalAddCourseSubject)">Add Subject</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Course</th>
+              <th>Subject</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of  ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList;let idx=index;">
+              <td>{{idx+1}}</td>
+              <td>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
+                </div>
+              </td>
+              <td>
+                <div style="margin-right:0.5rem" class="form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
+                  <label class="bg-primary text-white rounded px-2" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="btn_DeleteCourseSubject(item.CourseID)"> <span class="bi bi-trash-fill"></span>  </button>
+              </td>
+            </tr>
+            <tr *ngIf="ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.length<=0">
+              <td colspan="7" style="color:red">No Subject Added.!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--end-->
+    <!--TNOC Subject-->
+    <div  *ngIf="ApplyNocParameterMasterList_TNOCExtOfSubject != null">
+      <div class="card-header border-top">
+        <b>TNOC Extension Of Subject :{{ApplyNocParameterMasterList_TNOCExtOfSubject.FeeAmount}} </b>
+        <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddTNOCSubject_click(mymodalTNOCExtOfSubject)">Add Subject</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Course</th>
+              <th>Subject</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of  ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList;let idx=index;">
+              <td>{{idx+1}}</td>
+              <td>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
+                </div>
+              </td>
+              <td>
+                <div style="margin-right:0.5rem" class="form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
+                  <label class="bg-primary text-white rounded px-2" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="btn_DeleteTNOCCourseSubject(item.CourseID)"> <span class="bi bi-trash-fill"></span>  </button>
+              </td>
+            </tr>
+            <tr *ngIf="ApplyNocParameterMasterList_TNOCExtOfSubject.ApplyNocParameterCourseList.length<=0">
+              <td colspan="7">No Subject Added.!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--end-->
+    <!--PNOC Subject-->
+    <div *ngIf="ApplyNocParameterMasterList_PNOCOfSubject != null">
+      <div class="card-header border-top">
+        <b>Permanent Noc For Subjects :{{ApplyNocParameterMasterList_PNOCOfSubject.FeeAmount}} </b>
+        <button class="btn btn-sm btn-primary pull-right" id="btn" (click)="AddPNOCSubject_click(mymodalPNOCSubjectOfSubject)">Add Subject</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns">
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>Course</th>
+              <th>Subject</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of  ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList;let idx=index;">
+              <td>{{idx+1}}</td>
+              <td>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="cbCourse_TNOCExtension_{{item.CourseID}}">{{item.CourseName}}</label>
+                </div>
+              </td>
+              <td>
+                <div style="margin-right:0.5rem" class="form-check-inline" *ngFor="let item1 of item.ApplyNocParameterSubjectList;let idx=index;">
+                  <label class="bg-primary text-white rounded px-2" for="cbSubject_TNOCExtension_{{idx+1}}_{{item1.SubjectID}}">{{item1.SubjectName}}</label>
+                </div>
+              </td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="btn_DeletePNOCCourseSubject(item.CourseID)"> <span class="bi bi-trash-fill"></span>  </button>
+              </td>
+            </tr>
+            <tr *ngIf="ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocParameterCourseList.length<=0">
+              <td colspan="7">No Subject Added.!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--end-->
+    <!--Start Only Inspection Fee-->
+    <div *ngIf="isInspectionFee && DepartmentInspectionFee>0">
+      <div class="card-header border-top">
+        <b>Only Inspection Fee : {{DepartmentInspectionFee}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <b>Total Fee&nbsp;:&nbsp;{{DepartmentInspectionFee}} (Inspection Fee)</b>
+        </div>
+      </div>
+
+    </div>
+    <!--END Only Inspection Fee-->
+    <!--Start Late Fee-->
+    <div *ngIf="request.ApplyNocLateFeeDetailList.length>0">
+      <div class="card-header border-top">
+        <b>Application Late Fees Details :₹ {{TotalLateFees}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="table-responsive">
+            <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellatefee">
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Fee Type</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of request.ApplyNocLateFeeDetailList;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>
+                    {{row.FeesType}}
+                  </td>
+                  <td>:₹ <b>{{row.FeesAmount}}</b></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--END Late Fee-->
+    <!--Start Late Deatils-->
+    <div  *ngIf="isShowPriceDetails">
+      <div class="card-header border-top">
+        <b>Application Fees Details </b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="table-responsive">
+
+            <div class="row" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
+              <div class="col-lg-2"><b> Noc Application Fees</b></div>
+              <div class="col-lg-6">:₹ <b>{{request.TotalNocFee}}</b></div>
+            </div>
+            <div class="row" *ngIf="request.ApplyNocLateFeeDetailList.length>0">
+              <div class="col-lg-2"><b>Late Fees</b></div>
+              <div class="col-lg-6">:₹ <b>{{request.LateFee}}</b></div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2"><b>Total Application Fees</b></div>
+              <div class="col-lg-6">:₹ <b>{{request.TotalFeeAmount}}</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!--END Late Fee-->
+
+
+
+
+    <div class="card-body" *ngIf="HasData()">
+      
+        <input type="checkbox" [(ngModel)]="IsTermsChecked" />&nbsp; I have accept terms & conditions.
+      
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+          <h4 class="text-danger">Disclaimer:</h4>
+          <ol class="text-danger">
+            <li>Submit your application with appropriate option like- new course, new subject, tnoc, pnoc.</li>
+            <li>Once the application is submitted you have to print challan or download.</li>
+            <li>Once you did the payment you need to upload proof of payment (receipt) from applied noc, <a href="#"> Upload Reciept</a></li>
+            <li>Note: here only those subjects or courses will be visible for which draft is complete.</li>
+            <li>If NOC is for name change, location change, merger, coed to girl please fill details in <a href="#">College Amendment</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-end">
+      <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()" [attr.disabled]="isSave ? null : true" *ngIf="HasData()">Apply Noc</button>
+      <button type="button" class="btn btn-danger" aria-label="Reset" (click)="ResetApplyNoc_click()" *ngIf="HasData()">Reset</button>
+      <a class="btn btn-info" href="/applicationsummary/{{CollegeDepartmentID}}/{{request.CollegeID}}" target="_blank" aria-label="Preview Application" *ngIf="request.CollegeID>0">Preview Application</a>
+    </div>
+
+
   </div>
 
 
+</div>
 
   <!--Modal Popup Add Course-->
   <ng-template #mymodalAddCourse let-modal>
@@ -1313,6 +1278,6 @@
 
 
 
-</div>
+
 
 

@@ -3,11 +3,12 @@
     <b><i class="bi bi-table"></i>&nbsp; Land Details </b>
   </div>
 
-  <div class="card-body">
 
-    <form [formGroup]="LandDetailForm" class="form-horizontal">
+
+  <form [formGroup]="LandDetailForm" class="form-horizontal">
+    <div class="card-body">
       <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 ">
           <label>Select College</label>
           <select class="form-select" [(ngModel)]="request.CollegeID" id="ddlCollegeId" name="ddlCollegeId" formControlName="ddlCollegeId">
             <!--<option value="0" disabled>--Select--</option>-->
@@ -18,7 +19,7 @@
           </select>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 ">
           <label>
             Land Area Situated In <span style="color:red;">*</span>
           </label>
@@ -29,12 +30,12 @@
               {{item.LandAreaName}}
             </option>
           </select>
-          <p style="color: #3458c8;">( Land should be in the name of Society/Trust only.)</p>
+          <p class="mb-0 text-danger">( Land should be in the name of Society/Trust only.)</p>
           <div *ngIf="isSubmitted&&form.ddlLandAreaId.errors" class="text-danger">
-            <p *ngIf="!form.ddlLandAreaId.errors.DropdownValidators"> This field is required .!</p>
+            <p *ngIf="!form.ddlLandAreaId.errors.DropdownValidators" class="mb-0"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 ">
           <label>
             Land Document Type <span style="color:red;">*</span>
           </label>
@@ -46,10 +47,10 @@
             </option>
           </select>
           <div *ngIf="isSubmitted&&form.ddlLandDocumentTypeId.errors" class="text-danger">
-            <p *ngIf="!form.ddlLandDocumentTypeId.errors.DropdownValidators"> This field is required .!</p>
+            <p *ngIf="!form.ddlLandDocumentTypeId.errors.DropdownValidators" class="mb-0"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 ">
           <label>
             Is Your Land converted to Institution/Education <span style="color:red;">*</span>
           </label>
@@ -62,14 +63,12 @@
             </option>
           </select>
           <div *ngIf="isSubmitted&&form.ddlLandconvertedId.errors" class="text-danger">
-            <p *ngIf="!form.ddlLandconvertedId.errors.DropdownValidators"> This field is required .!</p>
+            <p *ngIf="!form.ddlLandconvertedId.errors.DropdownValidators" class="mb-0"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-          <label>
-            Detail of the Land (With Khasra No.): *
-          </label>
-          <table class="table table-hover table-striped-columns" id="tabellist" #content>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 ">
+          <label><strong>Detail of the Land (With Khasra No.): * </strong> </label>
+          <table class="table table-bordered table-hover table-striped mb-4 mt-0" id="tabellist" #content>
 
             <tbody>
               <tr *ngFor="let item of request.CollegeLandTypeDetails let idx=index;">
@@ -80,38 +79,38 @@
                          (change)="LandType_cbChange($event,item,idx)"
                          [(ngModel)]="item.IsLandSelected">
                 </td>
-                <td width="5%" valign="top">                
+                <td width="5%" valign="top">
                   {{item.LandTypeName}}
                 </td>
-                <td width="10%">                 
-                   
-                      <label class="d-block" id="basic-addon1">Area:</label>
-                    
-                    <input type="text" maxlength="5"  (keyup)="CalculateTotalArea(item,idx)" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numbersOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
-                 
+                <td width="10%">
+
+                  <label class="d-block" id="basic-addon1">Area:</label>
+
+                  <input type="text" maxlength="5" (keyup)="CalculateTotalArea(item,idx)" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numbersOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
+
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandArea==0"> This field is required .!</p>
                   </div>
 
                 </td>
                 <td width="18%">
-                 
-                    
-                     <label class="d-block" id="basic-addon1">Khasra No:</label>
-                   
-                    <input type="text" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" placeholder="Enter Khasra No" id="txtKhasraNo{{idx}}" name="txtKhasraNo{{idx}}" [(ngModel)]="item.KhasraNo" autocomplete="off">
-                 
+
+
+                  <label class="d-block" id="basic-addon1">Khasra No:</label>
+
+                  <input type="text" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" placeholder="Enter Khasra No" id="txtKhasraNo{{idx}}" name="txtKhasraNo{{idx}}" [(ngModel)]="item.KhasraNo" autocomplete="off">
+
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.KhasraNo==''"> This field is required .!</p>
                   </div>
                 </td>
-                <td *ngIf="ShowConversionOrderNo" >
-                 
-                   
-                      <label class="d-block" id="basic-addon1">Land Conversion Order No:</label>
-                    
-                    <input type="text" id="txtLandConversionOrderNo{{idx}}" [disabled]="!item.IsLandSelected"  maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
-                 
+                <td *ngIf="ShowConversionOrderNo">
+
+
+                  <label class="d-block" id="basic-addon1">Land Conversion Order No:</label>
+
+                  <input type="text" id="txtLandConversionOrderNo{{idx}}" [disabled]="!item.IsLandSelected" maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
+
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandConversionOrderNo=='' "> This field is required .!</p>
                   </div>
@@ -119,13 +118,13 @@
 
 
                 <td *ngIf="ShowConversionOrderNo" width="13%">
-                 
-                   
-                      <label class="d-block" id="basic-addon1">Order Date:</label>
-                   
-                    <input type="date" id="dtLandConversionOrderDate{{idx}}" [disabled]="!item.IsLandSelected"  [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
 
-                
+
+                  <label class="d-block" id="basic-addon1">Order Date:</label>
+
+                  <input type="date" id="dtLandConversionOrderDate{{idx}}" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+
+
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandConversionOrderDate==''"> This field is required .!</p>
                   </div>
@@ -148,7 +147,7 @@
                     <p *ngIf="item.IsLandSelected && item.FileName==''"> This field is required .!</p>
                   </div>
 
-                 
+
                   <div *ngIf="item.IsOtherDocument==true" class="mt-1">
                     <label>Combine Document  </label>
                     <div class="d-flex">
@@ -181,7 +180,7 @@
           </table>
         </div>
 
-        <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 ">
           <label>
             Land Type <span style="color:red;">*</span>
           </label>
@@ -197,7 +196,7 @@
             <p *ngIf="!form.ddlLandTypeId.errors.DropdownValidators"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 ">
           <label>
             Khasra Number <span style="color:red;">*</span>
           </label>
@@ -209,32 +208,32 @@
         </div>-->
 
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 ">
           <label>
             Name of Owner of Land <span style="color:red;">*</span>
           </label>
           <input type="text" id="txtLandOwnerName" class="form-control" [(ngModel)]="request.LandOwnerName" formControlName="txtLandOwnerName" (keypress)="alphaOnly($event)" />
 
           <div *ngIf="isSubmitted&&form.txtLandOwnerName.errors" class="text-danger">
-            <p *ngIf="form.txtLandOwnerName.errors.required"> This field is required .!</p>
+            <p *ngIf="form.txtLandOwnerName.errors.required" class="mb-0"> This field is required .!</p>
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 ">
           <label>
             Land Area (in {{LandUnitType !=''?LandUnitType:UnitOfLand}}) <span style="color:red;">*</span>
           </label>
-          <input type="text" id="txtLandArea"  class="form-control"  [(ngModel)]="request.LandArea" formControlName="txtLandArea" (keypress)="numbersOnly($event)" />
-          <p style="color:#3458c8;"><i aria-hidden="true"></i>Land area must be at least : {{RequiredLandAreaMsg}}</p>
+          <input type="text" id="txtLandArea" class="form-control" [(ngModel)]="request.LandArea" formControlName="txtLandArea" (keypress)="numbersOnly($event)" />
+          <p class="text-primary"><i aria-hidden="true"></i>Land area must be at least : {{RequiredLandAreaMsg}}</p>
 
           <div *ngIf="isSubmitted&&form.txtLandArea.errors" class="text-danger">
-            <p *ngIf="form.txtLandArea.errors.required">This field is required .!</p>
-            <p *ngIf="form.txtLandArea.errors.min">This field is required .!</p>
+            <p *ngIf="form.txtLandArea.errors.required" class="mb-0">This field is required .!</p>
+            <p *ngIf="form.txtLandArea.errors.min" class="mb-0">This field is required .!</p>
 
           </div>
         </div>
 
-        <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 ">
           <label>
             Total Building Area (in {{UnitOfLand}}) <span style="color:red;">*</span>
           </label>
@@ -245,77 +244,76 @@
             <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.min">This field is required .!</p>
           </div>
         </div>-->
+        <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 " *ngIf="ShowConversionOrderNo">
 
-        <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowConversionOrderNo">
-
-          <label>
-            Land Conversion Order Date(DD/MM/YYYY)--> <!--<span style="color:red;">*</span>-->
-          <!--</label>
+        <label>
+          Land Conversion Order Date(DD/MM/YYYY)-->
+        <!--<span style="color:red;">*</span>-->
+        <!--</label>
           <input type="date" id="dtLandConversionOrderDate" name="dtLandConversionOrderDate" class="form-control" [(ngModel)]="request.LandConversionOrderDate" formControlName="dtLandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
           <p *ngIf="isSubmitted&&request.LandConversionOrderDate ==''" class="text-danger"><i aria-hidden="true"></i> {{LandConversionDateValidate}}</p>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowConversionOrderNo">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 " *ngIf="ShowConversionOrderNo">
           <label>
             Land Conversion Order No <span style="color:red;">*</span>
           </label>
           <input type="text" id="txtLandConversionOrderNo" class="form-control" [(ngModel)]="request.LandConversionOrderNo" formControlName="txtLandConversionOrderNo" />
           <p *ngIf="isSubmitted&&request.LandConversionOrderNo ==''" class="text-danger"><i aria-hidden="true"></i> {{LandConversionOrderNoValidate}}</p>
         </div>-->
+        <!--<div class="col-lg-6" *ngIf="ShowConversionOrderNo">
+          <label>
+            Land Conversion Order No. & Order Date:
+          </label>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr.No.</th>
+                  <th> Conversion Order No</th>
+                  <th>Land Conversion Order Date(DD/MM/YYYY)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of  request.CollegeLandConversionDetails; let idx1 =index">
+                  <td>{{idx1+1}}</td>
+                  <td>
+                    <input type="text" id="txtLandConversionOrderNo{{idx1}}" maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
+                    <div class="text-danger">
+                      <p *ngIf="item.LandConversionOrderNo==''"> This field is required .!</p>
+                    </div>
+                  </td>
+                  <td>
+                    <input type="date" id="dtLandConversionOrderDate{{idx1}}" [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx1}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                    <div class="text-danger">
+                      <p *ngIf="item.LandConversionOrderDate==''"> This field is required .!</p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex">
+                      <button type="button" *ngIf="idx1!=0" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteConverstionDetail(idx1)"><i class="fa fa-trash"></i></button>
+                      <button type="button" *ngIf="idx1==0" class="btn btn-sm btn-success" title="Add More" (click)="AddMoreLandConverstionData()"><i class="fa fa-plus"></i>Add More</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-      <!--<div class="col-lg-6" *ngIf="ShowConversionOrderNo">
-        <label>
-          Land Conversion Order No. & Order Date: 
-        </label>
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover table-striped">
-            <thead>
-              <tr>
-                <th>Sr.No.</th>
-                <th> Conversion Order No</th>
-                <th>Land Conversion Order Date(DD/MM/YYYY)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of  request.CollegeLandConversionDetails; let idx1 =index">
-                <td>{{idx1+1}}</td>
-                <td>
-                  <input type="text" id="txtLandConversionOrderNo{{idx1}}" maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
-                  <div class="text-danger">
-                    <p *ngIf="item.LandConversionOrderNo==''"> This field is required .!</p>
-                  </div>
-                </td>
-                <td>
-                  <input type="date" id="dtLandConversionOrderDate{{idx1}}" [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx1}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
-                  <div class="text-danger">
-                    <p *ngIf="item.LandConversionOrderDate==''"> This field is required .!</p>
-                  </div>
-                </td>
-                <td>
-                  <div class="d-flex">
-                    <button type="button" *ngIf="idx1!=0" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteConverstionDetail(idx1)"><i class="fa fa-trash"></i></button>
-                    <button type="button" *ngIf="idx1==0" class="btn btn-sm btn-success" title="Add More" (click)="AddMoreLandConverstionData()"><i class="fa fa-plus"></i>Add More</button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-      </div>-->
-
+        </div>-->
 
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowAffidavitDate">
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 " *ngIf="ShowAffidavitDate">
           <label>
             Affidavit Date(DD/MM/YYYY) <span style="color:red;">*</span>
           </label>
           <input type="date" id="dtAffidavitDate" name="v" class="form-control" [(ngModel)]="request.AffidavitDate" formControlName="dtAffidavitDate" onkeypress="return false;" />
-          <p *ngIf="isSubmitted&&request.AffidavitDate ==''" class="text-danger"><i aria-hidden="true"></i> {{AffidavitDateValidate}}</p>
+          <p *ngIf="isSubmitted&&request.AffidavitDate ==''" class="text-danger mb-0"><i aria-hidden="true"></i> {{AffidavitDateValidate}}</p>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngFor="let item of request.LandDetailDocument ; let idx =index">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 " *ngFor="let item of request.LandDetailDocument ; let idx =index">
           <label>
-            {{item.DocumentName}}{{item.DisplayName}} <span style="color:red;" *ngIf="item.IsMandatory">*</span>
+            {{item.DocumentName}}<span style="font-size:12px;">{{item.DisplayName}}</span> <span style="color:red;" *ngIf="item.IsMandatory">*</span>
           </label>
           <div class="d-flex">
             <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (input)="onFilechange($event,item)" />
@@ -330,92 +328,92 @@
             </div>
 
           </div>
-          <p style="color: #3458c8;" *ngIf="item.DocumentName =='Land Document'">( Upload first and last page of land registered document )</p>
-          <a style="color: #3458c8;" *ngIf="item.SampleDocument !=''&&item.DocumentName=='Land Title Certificate'" target="_blank" href="{{item.SampleDocument}}">(Download Annexure-13)</a>
-          <a style="color: #3458c8;" *ngIf="item.SampleDocument !='' &&item.DocumentName=='Affidavit document for conversion'" target="_blank" href="{{item.SampleDocument}}">(Download Annexure-7)</a>
+          <p class="text-primay" *ngIf="item.DocumentName =='Land Document'">( Upload first and last page of land registered document )</p>
+          <a class="text-primay" *ngIf="item.SampleDocument !=''&&item.DocumentName=='Land Title Certificate'" target="_blank" href="{{item.SampleDocument}}">(Download Annexure-13)</a>
+          <a class="text-primay" *ngIf="item.SampleDocument !='' &&item.DocumentName=='Affidavit document for conversion'" target="_blank" href="{{item.SampleDocument}}">(Download Annexure-7)</a>
           <div *ngIf="isSubmitted&&item.FileName == ''" class="text-danger">
             <p>This field is required .!</p>
           </div>
+
         </div>
         <!--committed by naresh any dout call me-->
         <!--<div class="row">
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of AnnexureData">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 " *ngFor="let item of AnnexureData">
             <button class="btn btn-success" type="button">
               {{item.AnnexureName}}
             </button>
           </div>
         </div>-->
-        <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
-          <button type="button" class="btn btn-primary" id="btnAddLandDetail" name="btnSave" (click)="AddLandDetails()"> Save</button>&nbsp;
-          <button type="button" class="btn btn-danger" (click)="ResetControl()"> Reset</button>
-        </div>
-      </div>
-    </form>
 
-
-    <div class="row" *ngIf="LandDetailsList.length>0">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
-
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover table-striped">
-            <thead>
-              <tr>
-                <th>Sr.No.</th>
-                <th>College</th>
-                <th>Land Situated</th>
-                <th>Land Doc Type</th>
-                <th>Is Convereted</th>
-                <!--<th>Order No.</th>
-                <th>Order Date</th>-->
-                <!--<th>Land Type</th>
-                <th>Khasra No.</th>-->
-                <th>Owner Name</th>
-                <th>Land Area</th>
-                <!--<th>Building/Hostel/Quarters/Road Area(A1)</th>-->
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of  LandDetailsList; let idx =index">
-                <td>{{idx+1}}</td>
-                <td>{{item.CollegeName}}</td>
-                <td>{{item.LandAreaSituatedName}}</td>
-                <td>{{item.LandDocumentTypeName}}</td>
-                <td>{{item.IsConvereted}}</td>
-                <!--<td>{{item.LandConversionOrderNo}}</td>
-                <td>{{item.LandConversionOrderDate | date:'dd-MM-yyyy'}}</td>-->
-                <!--<td>{{item.LandTypeName}}</td>
-                <td>{{item.KhasraNumber}}</td>-->
-                <td>{{item.LandOwnerName}}</td>
-                <td>{{item.LandArea}}</td>
-                <!--<td>{{item.BuildingHostelQuartersRoadArea}}</td>-->
-                <td>
-                  <div class="d-flex">
-                    <button type="button" (click)="Edit_OnClick(item.LandDetailID)" title="Edit" class="btn btn-sm btn-info" [disabled]="isDisabledGrid"><i class="fa fa-edit"></i></button>
-                    <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteLandDetail(item.LandDetailID)" [disabled]="isDisabledGrid"><i class="fa fa-trash"></i></button>
-
-                    <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewLandDetailDocument" (click)="ViewViewLandDetailDocumentByID(item.LandDetailID)"><i class="fa fa-eye"></i></a>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
     </div>
+    <div class="card-footer text-end">
+      <button type="button" class="btn btn-primary" id="btnAddLandDetail" name="btnSave" (click)="AddLandDetails()"> Save</button>&nbsp;
+      <button type="button" class="btn btn-danger" (click)="ResetControl()"> Reset</button>
+    </div>
+  </form>
 
-    <div class="row">
+  <div class="table-responsive" *ngIf="LandDetailsList.length>0">
+    <table class="table table-bordered table-hover table-striped">
+      <thead>
+        <tr>
+          <th>Sr.No.</th>
+          <th>College</th>
+          <th>Land Situated</th>
+          <th>Land Doc Type</th>
+          <th>Is Convereted</th>
+          <!--<th>Order No.</th>
+          <th>Order Date</th>-->
+          <!--<th>Land Type</th>
+          <th>Khasra No.</th>-->
+          <th>Owner Name</th>
+          <th>Land Area</th>
+          <!--<th>Building/Hostel/Quarters/Road Area(A1)</th>-->
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of  LandDetailsList; let idx =index">
+          <td>{{idx+1}}</td>
+          <td>{{item.CollegeName}}</td>
+          <td>{{item.LandAreaSituatedName}}</td>
+          <td>{{item.LandDocumentTypeName}}</td>
+          <td>{{item.IsConvereted}}</td>
+          <!--<td>{{item.LandConversionOrderNo}}</td>
+          <td>{{item.LandConversionOrderDate | date:'dd-MM-yyyy'}}</td>-->
+          <!--<td>{{item.LandTypeName}}</td>
+          <td>{{item.KhasraNumber}}</td>-->
+          <td>{{item.LandOwnerName}}</td>
+          <td>{{item.LandArea}}</td>
+          <!--<td>{{item.BuildingHostelQuartersRoadArea}}</td>-->
+          <td>
+            <div class="d-flex">
+              <button type="button" (click)="Edit_OnClick(item.LandDetailID)" title="Edit" class="btn btn-sm btn-info" [disabled]="isDisabledGrid"><i class="fa fa-edit"></i></button>
+              <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteLandDetail(item.LandDetailID)" [disabled]="isDisabledGrid"><i class="fa fa-trash"></i></button>
+
+              <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewLandDetailDocument" (click)="ViewViewLandDetailDocumentByID(item.LandDetailID)"><i class="fa fa-eye"></i></a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-body">
+
+
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12 ">
       <h4 class="text-danger">Disclaimer:</h4>
-      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-        <ol>
-          <li *ngFor="let item of TermAndConditionData  let idx =index">
-            {{item.TermAndConditionName}}
-          </li>
-        </ol>
-      </div>
+      <ol>
+        <li *ngFor="let item of TermAndConditionData  let idx =index">
+          {{item.TermAndConditionName}}
+        </li>
+      </ol>
+
     </div>
   </div>
+
 </div>
+
 <div class="modal fade" id="ViewLandDetailDocument" tabindex="-1" aria-labelledby="ViewLandDetailDocument" aria-hidden="true" data-bs-backdrop="false">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">

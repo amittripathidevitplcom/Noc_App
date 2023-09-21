@@ -14,8 +14,7 @@
   </div>
 </div>
 <div class="container-fluid mainContents">
-  <div class="row">
-    <div class="col-md-12">
+
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <b><i class="fa fa-filter"></i>&nbsp;Society General Information</b>
@@ -156,12 +155,13 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-6 col-12 mb-3 text-end">
-              <!--<button type="button" class="btn btn-primary" (click)="SaveData()" [disabled]="IsTrustee"> {{request.TrusteeGeneralInfoID>0?'Update':'Save'}} </button>&nbsp;
-              <button type="button" class="btn btn-danger" (click)="ResetData()" [disabled]="IsTrusteeReset"> Reset</button>-->
-              <button type="button" class="btn btn-primary" (click)="SaveData()" > {{request.TrusteeGeneralInfoID>0?'Update':'Save'}} </button>&nbsp;
-              <button type="button" class="btn btn-danger" (click)="ResetData()" > Reset</button>
-            </div>
+
+          </div>
+          <div class="card-footer text-end">
+            <!--<button type="button" class="btn btn-primary" (click)="SaveData()" [disabled]="IsTrustee"> {{request.TrusteeGeneralInfoID>0?'Update':'Save'}} </button>&nbsp;
+    <button type="button" class="btn btn-danger" (click)="ResetData()" [disabled]="IsTrusteeReset"> Reset</button>-->
+            <button type="button" class="btn btn-primary" (click)="SaveData()"> {{request.TrusteeGeneralInfoID>0?'Update':'Save'}} </button>&nbsp;
+            <button type="button" class="btn btn-danger" (click)="ResetData()"> Reset</button>
           </div>
         </div>
       </form>
@@ -169,73 +169,66 @@
         <div class="card-header d-flex justify-content-between align-items-center">
           <b><i class="fa fa-filter"></i>&nbsp;Society Document Details</b>
         </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>
-                        Sr.No.
-                      </th>
-                      <th>
-                        Election Present Management Committee Date
-                      </th>
-                      <th>
-                        Women Members Of Management Committee
-                      </th>
-                      <th>
-                        Election Of Management Committee
-                      </th>
-                      <th>
-                        Other Institution run by the Society
-                      </th>
-                      <th>
-                        Society Registration Document
-                      </th>
-                      <th>
-                        Society Logo
-                      </th>
-                      <th>
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of TrusteeGeneralInfoList;let idx=index;">
-                      <td>
-                        {{idx+1}}
-                      </td>
-                      <td>
-                        {{row.DateOfElectionOfPresentManagementCommittee | date:'dd-MM-yyyy'}}
-                      </td>
-                      <td>
-                        {{row.WomenMembersOfManagementCommitteeID==1?'Yes':'No'}}
-                      </td>
-                      <td>
-                        {{row.DateOfElectionOfManagementCommitteeID==1?'Yes':'No'}}
-                      </td>
-                      <td>
-                        {{row.OtherInstitutionRunByTheSocietyID==1?'Yes':'No'}}
-                      </td>
-                      <td><a *ngIf="row.SocietyRegistrationDocument!=''" target="_blank" href="{{row.SocietyRegistrationDocumentPath}}"><i class="fa fa-paperclip"></i></a></td>
-                      <td><a *ngIf="row.SocietyLogo!=''" target="_blank" href="{{row.SocietyLogoPath}}"><i class="fa fa-paperclip"></i></a></td>
-                      <td>
-                        <div class="d-flex">
-                          <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="EditData(row.TrusteeGeneralInfoID)"><i class="fa fa-edit"></i></a>
-                          <!--<button type="button" class="btn btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash-o"></i></button>-->
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+        <div class="table-responsive">
+          <table class="table table-bordered mb-0">
+            <thead>
+              <tr>
+                <th>
+                  Sr.No.
+                </th>
+                <th>
+                  Election Present Management Committee Date
+                </th>
+                <th>
+                  Women Members Of Management Committee
+                </th>
+                <th>
+                  Election Of Management Committee
+                </th>
+                <th>
+                  Other Institution run by the Society
+                </th>
+                <th>
+                  Society Registration Document
+                </th>
+                <th>
+                  Society Logo
+                </th>
+                <th>
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of TrusteeGeneralInfoList;let idx=index;">
+                <td>
+                  {{idx+1}}
+                </td>
+                <td>
+                  {{row.DateOfElectionOfPresentManagementCommittee | date:'dd-MM-yyyy'}}
+                </td>
+                <td>
+                  {{row.WomenMembersOfManagementCommitteeID==1?'Yes':'No'}}
+                </td>
+                <td>
+                  {{row.DateOfElectionOfManagementCommitteeID==1?'Yes':'No'}}
+                </td>
+                <td>
+                  {{row.OtherInstitutionRunByTheSocietyID==1?'Yes':'No'}}
+                </td>
+                <td><a *ngIf="row.SocietyRegistrationDocument!=''" target="_blank" href="{{row.SocietyRegistrationDocumentPath}}"><i class="fa fa-paperclip"></i></a></td>
+                <td><a *ngIf="row.SocietyLogo!=''" target="_blank" href="{{row.SocietyLogoPath}}"><i class="fa fa-paperclip"></i></a></td>
+                <td>
+                  <div class="d-flex">
+                    <a href="javascript:void(0)" class="btn btn-sm btn-info" (click)="EditData(row.TrusteeGeneralInfoID)"><i class="fa fa-edit"></i></a>
+                    <!--<button type="button" class="btn btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash-o"></i></button>-->
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-  </div>
-</div>
+
 
