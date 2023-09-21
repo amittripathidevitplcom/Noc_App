@@ -37,6 +37,9 @@ export class DocumentScrutinyLandDetailComponentDce implements OnInit {
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
+  public LandDetailsDocumentListByID: any = [];
+  public DetailoftheLand: any = [];
+  public CollegeLandConverstion: any = [];
 
   constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private landDetailsService: LandDetailsService, private dcedocumentScrutinyService: DCEDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
     private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
@@ -92,6 +95,7 @@ export class DocumentScrutinyLandDetailComponentDce implements OnInit {
   }
 
   async ViewLandDetail(content: any, LandDetailID: number) {
+    debugger;
     this.request = new LandDetailDataModel();
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -99,11 +103,14 @@ export class DocumentScrutinyLandDetailComponentDce implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
     try {
+      this.LandDetailsDocumentListByID = [];
       this.loaderService.requestStarted();
       await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request = data['Data'][0];
+          this.LandDetailsDocumentListByID = data['Data'][0]["LandDetailDocument"];
+          this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
         }, error => console.error(error));
     }
     catch (Ex) {

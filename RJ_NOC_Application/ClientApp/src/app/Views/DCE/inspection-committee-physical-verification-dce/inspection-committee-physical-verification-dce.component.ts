@@ -15,6 +15,7 @@ import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
+import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 
 @Component({
   selector: 'app-inspection-committee-physical-verification-dce',
@@ -79,13 +80,14 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   public ShowHideApplicationAction: boolean = false;
   public ShowHideCommittee: boolean = false;
   AadharRequest = new AadharServiceDataModel();
+  NodelAadharRequest = new AadharServiceDataModel();
   public CustomOTP: string = '123456';
   public IsDisabled: boolean = false;
   public IsBtnShowHide: boolean = true;
   constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private committeeMasterService: CommitteeMasterService,
-    private aadharServiceDetails: AadharServiceDetails, private collegeService: CollegeService
+    private aadharServiceDetails: AadharServiceDetails, private collegeService: CollegeService, private sSOLoginService: SSOLoginService
   ) { }
 
   async ngOnInit() {
@@ -126,6 +128,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   }
   async GetRNCCheckListByTypeDepartment(ApplyNOCID: number, CollegeID: number) {
     try {
+      debugger;
       this.CollegeType_IsExisting = true;
       this.loaderService.requestStarted();
       await this.collegeService.GetData(CollegeID)
@@ -136,7 +139,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
             //this.isAcademicInformation = false;
           }
         }, error => console.error(error));
-      await this.commonMasterService.GetRNCCheckListByTypeDepartment(this.CollegeType_IsExisting ? 'PV' :'NewCollegePV', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
+      await this.commonMasterService.GetRNCCheckListByTypeDepartment(this.CollegeType_IsExisting ? 'PV' : 'NewCollegePV', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -158,19 +161,59 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   }
 
 
-  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number)
-  {
+  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number) {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
-
+  public CheckTabsEntryData: any = [];
+  async CheckTabsEntry(ApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.dceDocumentScrutinyService.CheckDocumentScrutinyTabsData(ApplyNOCID, this.sSOLoginDataModel.RoleID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
+          if (this.CollegeType_IsExisting) {
+            if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+              || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+              || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
+              || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0) {
+              this.isFormvalid = false;
+            }
+          }
+          else {
+            if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+              || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+              || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
+              || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0) {
+              this.isFormvalid = false;
+            }
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
   async OpenActionPopUP(ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
     this.ApplicationNo = ApplicationNo;
     this.SelectedCollageID = CollegeID;
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
-    this.ShowHideApplicationAction = true;
-    this.GetRNCCheckListByTypeDepartment(ApplyNOCID, CollegeID);
+    await this.GetRNCCheckListByTypeDepartment(ApplyNOCID, CollegeID);
+    await this.CheckTabsEntry(ApplyNOCID);
+    if (this.isFormvalid) {
+      this.ShowHideApplicationAction = true;
+    }
+    else {
+      this.toastr.warning('First of all, check and complete all the tabs of document scrutiny and then complete the check list.');
+      this.ShowHideApplicationAction = false;
+    }
   }
   async SaveData() {
     this.isSubmit = true;
@@ -443,6 +486,7 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
     this.FinalSubmitApplyNOCID = ApplyNOCID;
     await this.GetApplicationCommitteeList(ApplyNOCID);
     await this.GetRNCCheckListByTypeDepartment(ApplyNOCID, CollegeID);
+    await this.GetApplicationNodelOfficer(ApplyNOCID);
   }
   CloseCommittee_Click() {
     this.CommitteeApplicationNo = '';
@@ -452,49 +496,75 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
   }
   public TransactionNo: string = '';
   async SendOTP(AadhaarNo: string, idx: number) {
-    if (AadhaarNo != undefined && AadhaarNo.length == 12) {
-      this.AadharRequest.AadharNo = AadhaarNo;
-      for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
-        if (idx != i && this.ApplicationCommitteeList[i].SendOTP != 2) {
-          this.ApplicationCommitteeList[i].SendOTP = 0;
+    try {
+      this.loaderService.requestStarted();
+      if (AadhaarNo != undefined && AadhaarNo.length == 12) {
+        this.AadharRequest.AadharNo = AadhaarNo;
+        for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
+          if (idx != i && this.ApplicationCommitteeList[i].SendOTP != 2) {
+            this.ApplicationCommitteeList[i].SendOTP = 0;
+          }
         }
+        await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
+          .then((data: any) => {
+            if (data[0].status == "0") {
+              this.ApplicationCommitteeList[idx].SendOTP = 1;
+              this.TransactionNo = data[0].data;
+              this.toastr.success("OTP send Successfully");
+            }
+            else {
+              //this.toastr.error(data[0].message);
+              if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                this.toastr.success("OTP send Successfully");
+                this.ApplicationCommitteeList[idx].SendOTP = 1;
+              }
+ 
+            }
+          }, error => console.error(error));
       }
-      await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
-        .then((data: any) => {
-          if (data[0].status == "0") {
-            this.ApplicationCommitteeList[idx].SendOTP = 1;
-            this.TransactionNo = data[0].data;
-            this.toastr.success("OTP send Successfully");
-          }
-          else {
-            //this.toastr.error(data[0].message);
-            this.ApplicationCommitteeList[idx].SendOTP = 1;
-          }
-        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   async VerifyOTP(UserOTP: number, idx: number) {
-    await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
-      .then((data: any) => {
-        data = JSON.parse(JSON.stringify(data));
-        if (data[0].status == "0") {
-          //this.AadharDetails = JSON.parse(data[0].data);
-          this.toastr.success("OTP Verify Successfully");
-          this.ApplicationCommitteeList[idx].Verified = true;
-          this.ApplicationCommitteeList[idx].SendOTP = 2;
-        }
-        else
-        {
-          if (UserOTP != Number(this.CustomOTP)) {
-            this.toastr.error(data[0].message);
-            this.ApplicationCommitteeList[idx].Verified = false;
+    try {
+      this.loaderService.requestStarted();
+      await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data[0].status == "0") {
+            //this.AadharDetails = JSON.parse(data[0].data);
+            this.toastr.success("OTP Verify Successfully");
+            this.ApplicationCommitteeList[idx].Verified = true;
+            this.ApplicationCommitteeList[idx].SendOTP = 2;
           }
-        }
-      }, error => console.error(error));
-    if (UserOTP == Number(this.CustomOTP)) {
-      this.ApplicationCommitteeList[idx].Verified = true;
-      this.ApplicationCommitteeList[idx].SendOTP = 2;
+          else {
+            if (UserOTP != Number(this.CustomOTP)) {
+              this.toastr.error(data[0].message);
+              this.ApplicationCommitteeList[idx].Verified = false;
+            }
+          }
+        }, error => console.error(error));
+      if (UserOTP == Number(this.CustomOTP)) {
+        this.toastr.success("OTP Verify Successfully");
+        this.ApplicationCommitteeList[idx].Verified = true;
+        this.ApplicationCommitteeList[idx].SendOTP = 2;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
@@ -529,6 +599,10 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
           RoleID: this.sSOLoginDataModel.RoleID
         })
       }
+      if (!this.NodelOfficerOTPVerfied) {
+        this.toastr.warning('Please Verify the Nodel Officer');
+        return;
+      }
       await this.applyNOCApplicationService.SaveCommiteeInspectionRNCCheckList(this.request).then((data: any) => {
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
@@ -561,4 +635,137 @@ export class InspectionCommitteePhysicalVerificationDCEComponent implements OnIn
       }, 200);
     }
   }
+
+  async DocumentScrutiny(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
+    if (DepartmentID = 3) {
+      this.routers.navigate(['/documentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
+    }
+  }
+
+
+  public NodelOffierDetails: any = {};
+  async GetApplicationNodelOfficer(ApplyNocApplicationID: number,) {
+    try {
+      this.loaderService.requestStarted();
+      this.NodelOffierDetails = {};
+      await this.committeeMasterService.GetApplicationNodelOfficer(ApplyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.NodelOffierDetails = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public IsSendotpnodelofficer: boolean = false;
+  sSOVerifyDataModel = new SSOLoginDataModel();
+  async SendOTPNodelOfficer(SSOID: string) {
+    try {
+      this.loaderService.requestStarted();
+      if (SSOID != null && SSOID != '') {
+        await this.sSOLoginService.CheckMappingSSOID(SSOID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            // data
+            this.sSOVerifyDataModel = data['Data'];
+          }, (error: any) => console.error(error));
+      }
+      else {
+        this.toastr.warning('SSO Id Invalid !');
+        return
+      }
+      if (this.sSOVerifyDataModel != null && SSOID.toLowerCase() == this.sSOVerifyDataModel.SSOID.toLowerCase()) {
+        let d = new AadharServiceDataModel();
+        d.AadharID = this.sSOVerifyDataModel.AadhaarId;
+        await this.aadharServiceDetails.GetAadharByVID(d)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            if (data[0].status == "0") {
+              this.NodelAadharRequest.AadharNo = data[0].data;
+            }
+            else {
+              this.NodelAadharRequest.AadharNo = '';
+              this.toastr.warning('Aadhaar Service Not Working');
+              return;
+            }
+          }, error => console.error(error));
+
+      }
+      else {
+        this.toastr.warning('SSO Id Invalid !');
+        return;
+      }
+      await this.aadharServiceDetails.SendAadharOTP(this.NodelAadharRequest)
+        .then((data: any) => {
+          if (data[0].status == "0") {
+            this.IsSendotpnodelofficer = true;
+            this.toastr.success("OTP send Successfully");
+          }
+          else {
+            if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+              this.IsSendotpnodelofficer = true;
+              this.toastr.success("OTP send Successfully");
+            }
+          }
+        }, error => console.error(error));
+    }
+
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public NodelOfficerOTPVerfied: boolean = false;
+  public NodelOfficerOTP: number = null;
+  async NodelOfficerVerifyOTP(UserOTP: number) {
+    this.NodelOfficerOTPVerfied = false;
+    try {
+      this.loaderService.requestStarted();
+      await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data[0].status == "0") {
+            //this.AadharDetails = JSON.parse(data[0].data);
+            this.toastr.success("OTP Verify Successfully");
+            this.NodelOfficerOTPVerfied = true;
+          }
+          else {
+            if (UserOTP != Number(this.CustomOTP)) {
+              this.toastr.error(data[0].message);
+              this.NodelOfficerOTPVerfied = false;
+            }
+          }
+        }, error => console.error(error));
+      if (UserOTP == Number(this.CustomOTP)) {
+        this.NodelOfficerOTPVerfied = true;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
+
