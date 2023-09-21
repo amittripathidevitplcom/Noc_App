@@ -34,6 +34,14 @@
           </ng-template>
         </mat-step>
         <mat-step state="chat">
+          <ng-template matStepLabel>Course Detail</ng-template>
+          <ng-template matStepContent>
+            <app-preview-course-detail></app-preview-course-detail>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </ng-template>
+        </mat-step>
+        <mat-step state="chat">
           <ng-template matStepLabel>College Management Society</ng-template>
           <app-college-management-society></app-college-management-society>
           <button mat-button matStepperPrevious>Back</button>

@@ -1208,4 +1208,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetNOCApplicationStepList(ApplyNocID: number, CurrentActionID: number, DepartmentID: number, ActionType: string) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetNOCApplicationStepList/" + ApplyNocID + "/" + CurrentActionID + "/" + DepartmentID + "/" + ActionType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

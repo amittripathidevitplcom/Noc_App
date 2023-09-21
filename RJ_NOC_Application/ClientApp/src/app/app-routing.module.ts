@@ -134,6 +134,7 @@ import { AhPhysicalFinalVerificationComponent } from './Views/DocumentScrutinyTa
 import { AhFinalVerificationDoneListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-verification-done-list/ah-final-verification-done-list.component';
 import { AhFinalNocApplicationListComponent } from './Views/DocumentScrutinyTab_AH/ah-final-noc-application-list/ah-final-noc-application-list.component';
 import { AhDocumentScrutinyNodalOfficerComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-nodal-officer/ah-document-scrutiny-nodal-officer.component';
+import { OneStepRevertBackComponent } from './Views/one-step-revert-back/one-step-revert-back.component';
 import { Observable } from 'rxjs';
 import { SkipLocationChangeGuard } from './Common/auth.guard.ts';
 
@@ -594,7 +595,10 @@ const routes: Routes = [
       },
       {
         path: 'animalhusbandryappnocviewByNodal/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: AhDocumentScrutinyNodalOfficerComponent
-      }, 
+      },
+      {
+        path: 'onesteprevertbackapplist', component: OneStepRevertBackComponent
+      },
     ] 
    // ,canActivate: [SkipLocationChangeGuard],
   },

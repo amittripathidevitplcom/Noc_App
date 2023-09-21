@@ -25,6 +25,8 @@ import { VeterinaryHospitalDataModel, AnimalDataModel } from '../../../Models/Ve
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { ApplyNocpreviewAnimalhusbandryComponent } from '../../apply-nocpreview-animalhusbandry/apply-nocpreview-animalhusbandry.component';
+import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service';
+import { VeterinaryHospitalService } from '../../../Services/VeterinaryHospital/veterinary-hospital.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -71,6 +73,7 @@ export class AhDocumentScrutinyNodalOfficerComponent {
   public isActionTypeValid: boolean = false;
   public isNextActionValid: boolean = false;
 
+  buildingdetails: any = {};
 
   public RoleID: number = 10;
   public UserID: number = 0;
@@ -84,6 +87,7 @@ export class AhDocumentScrutinyNodalOfficerComponent {
   public DocumentScrutinyButtonText: string = '';
 
   ldrequest = new LandDetailDataModel();
+  sdrequest = new StaffDetailDataModel();
   public CheckList_LandDetailList: LandDetailDataModel[] = [];
   public CheckList_FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
   public CheckList_RoomDetails: RoomDetailsDataModel_RoomDetails[] = [];
@@ -125,7 +129,8 @@ export class AhDocumentScrutinyNodalOfficerComponent {
   public SocietyFinalRemarks: any = [];
   dsrequest = new DocumentScrutinyDataModel();
 
-
+  requestAnimal = new AnimalDataModel();
+  vtrequest = new VeterinaryHospitalDataModel();
   public CheckList_hostelDataModel: HostelDataModel[] = [];
   public CheckList_VeterinaryHospitalDataModel: VeterinaryHospitalDataModel[] = [];
 
@@ -137,8 +142,8 @@ export class AhDocumentScrutinyNodalOfficerComponent {
   public TotalStaffDetail: number = 0;
   public TotalNonTeachingStaffDetail: number = 0;
   public TotalTeachingStaffDetail: number = 0;
-
-
+  public DetailoftheLand: any = []; 
+  public LandDetailsDocumentListByID: any = [];
   public CheckList_OldNocDetails: OldNocDetailsDataModel[] = [];
   public OldNOC_FinalRemarks: any = [];
 
@@ -160,9 +165,9 @@ export class AhDocumentScrutinyNodalOfficerComponent {
   public IsShowSuperSpecialtyHospital: boolean = false;
   LegalEntityDataModel = new LegalEntityDataModel();
 
-  constructor(private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private veterinaryHospitalService: VeterinaryHospitalService, private applyNocpreviewAnimalhusbandryComponent: ApplyNocpreviewAnimalhusbandryComponent, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
-    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
+    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private buildingDetailsMasterService: BuildingDetailsMasterService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
   async ngOnInit() {
@@ -193,6 +198,7 @@ export class AhDocumentScrutinyNodalOfficerComponent {
     this.GetCollageDetails();
     this.GetVeterinaryHospitalList_DepartmentCollegeWise();
     this.GetLegalEntityData();
+    await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
   }
   // Start Land Details
   async GetLandDetailsDataList() {
@@ -204,6 +210,53 @@ export class AhDocumentScrutinyNodalOfficerComponent {
           data = JSON.parse(JSON.stringify(data));
           this.CheckList_LandDetailList = data['Data'][0]['LandDetails'];
           this.LandDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetUnitOfLandArea(DepartmentID: number, Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, Type)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.UnitOfLand = data['Data'][0]['Name'];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ViewLandDetail(content: any, LandDetailID: number) {
+    debugger;
+    this.ldrequest = new LandDetailDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.LandDetailsDocumentListByID = [];
+      this.loaderService.requestStarted();
+      await this.landDetailsService.GetLandDetailsIDWise(LandDetailID, this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.ldrequest = data['Data'][0];
+          this.LandDetailsDocumentListByID = data['Data'][0]["LandDetailDocument"];
+          this.DetailoftheLand = data['Data'][0]["CollegeLandTypeDetails"];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -377,6 +430,103 @@ export class AhDocumentScrutinyNodalOfficerComponent {
       }, 200);
     }
   }
+  async ViewBuildingDetails(content: any, BuildingDetailID: number) {
+    this.buildingdetails = {};
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.buildingDetailsMasterService.GetByID(BuildingDetailID, 0)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.buildingdetails.SchoolBuildingDetailsID = data['Data'][0]['data']['Table'][0]["SchoolBuildingDetailsID"];
+          this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
+          this.buildingdetails.BuildingTypeName = data['Data'][0]['data']['Table'][0]["BuildingTypeName"];
+          this.buildingdetails.OwnerName = data['Data'][0]['data']['Table'][0]["OwnerName"];
+          this.buildingdetails.AddressLine1 = data['Data'][0]['data']['Table'][0]["AddressLine1"];
+          this.buildingdetails.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
+          this.buildingdetails.RuralUrban = data['Data'][0]['data']['Table'][0]["RuralUrban"];
+          this.buildingdetails.DivisionID = data['Data'][0]['data']['Table'][0]["DivisionID"];
+          this.buildingdetails.Division_English = data['Data'][0]['data']['Table'][0]["Division_English"];
+          this.buildingdetails.DistrictID = data['Data'][0]['data']['Table'][0]["DistrictID"];
+          this.buildingdetails.District_Eng = data['Data'][0]['data']['Table'][0]["District_Eng"];
+
+          if (this.buildingdetails.RuralUrban == 'Rural') {
+            this.buildingdetails.TehsilID = data['Data'][0]['data']['Table'][0]["TehsilID"];
+            this.buildingdetails.TehsilName = data['Data'][0]['data']['Table'][0]["TehsilName"];
+            this.buildingdetails.PanchayatSamitiID = data['Data'][0]['data']['Table'][0]["PanchayatSamitiID"];
+            this.buildingdetails.PanchyatSamitiName = data['Data'][0]['data']['Table'][0]["PanchyatSamitiName"];
+          }
+          this.buildingdetails.CityTownVillage = data['Data'][0]['data']['Table'][0]["CityTownVillage"];
+          this.buildingdetails.ContactNo = data['Data'][0]['data']['Table'][0]["ContactNo"];
+          this.buildingdetails.Pincode = data['Data'][0]['data']['Table'][0]["Pincode"];
+          this.buildingdetails.OwnBuildingOrderNo = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderNo"];
+          this.buildingdetails.OwnBuildingOrderDate = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderDate"];
+          this.buildingdetails.OwnBuildingFileUpload = data['Data'][0]['data']['Table'][0]["OwnBuildingFileUpload"];
+          this.buildingdetails.Dis_OwnBuildingFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OwnBuildingFileUpload"];
+          this.buildingdetails.OwnBuildingFileUploadPath = data['Data'][0]['data']['Table'][0]["OwnBuildingFileUploadPath"];
+          this.buildingdetails.FromDate = data['Data'][0]['data']['Table'][0]["FromDate"];
+          this.buildingdetails.ToDate = data['Data'][0]['data']['Table'][0]["ToDate"];
+          this.buildingdetails.FireNOCFileUpload = data['Data'][0]['data']['Table'][0]["FireNOCFileUpload"];
+          this.buildingdetails.Dis_FireNOCFileUpload = data['Data'][0]['data']['Table'][0]["Dis_FireNOCFileUpload"];
+          this.buildingdetails.FireNOCFileUploadPath = data['Data'][0]['data']['Table'][0]["FireNOCFileUploadPath"];
+          this.buildingdetails.OrderNo = data['Data'][0]['data']['Table'][0]["OrderNo"];
+          this.buildingdetails.OrderDate = data['Data'][0]['data']['Table'][0]["OrderDate"];
+          this.buildingdetails.ExpiringOn = data['Data'][0]['data']['Table'][0]["ExpiringOn"];
+          this.buildingdetails.PWDNOCFileUpload = data['Data'][0]['data']['Table'][0]["PWDNOCFileUpload"];
+          this.buildingdetails.Dis_PWDNOCFileUpload = data['Data'][0]['data']['Table'][0]["Dis_PWDNOCFileUpload"];
+          this.buildingdetails.PWDNOCFileUploadPath = data['Data'][0]['data']['Table'][0]["PWDNOCFileUploadPath"];
+
+          this.buildingdetails.TotalProjectCost = data['Data'][0]['data']['Table'][0]["TotalProjectCost"];
+          this.buildingdetails.SourceCostAmount = data['Data'][0]['data']['Table'][0]["SourceCostAmount"];
+          this.buildingdetails.AmountDeposited = data['Data'][0]['data']['Table'][0]["AmountDeposited"];
+          this.buildingdetails.OtherFixedAssetsAndSecurities = data['Data'][0]['data']['Table'][0]["OtherFixedAssetsAndSecurities"];
+          this.buildingdetails.GATEYearBalanceSecret = data['Data'][0]['data']['Table'][0]["GATEYearBalanceSecret"];
+          this.buildingdetails.OtherFinancialResources = data['Data'][0]['data']['Table'][0]["OtherFinancialResources"];
+          this.buildingdetails.TotalProjectCostFileUpload = data['Data'][0]['data']['Table'][0]["TotalProjectCostFileUpload"];
+          this.buildingdetails.TotalProjectCostFileUploadPath = data['Data'][0]['data']['Table'][0]["TotalProjectCostFileUploadPath"];
+          this.buildingdetails.Dis_TotalProjectCostFileUpload = data['Data'][0]['data']['Table'][0]["Dis_TotalProjectCostFileUpload"];
+          this.buildingdetails.SourceCostAmountFileUpload = data['Data'][0]['data']['Table'][0]["SourceCostAmountFileUpload"];
+          this.buildingdetails.SourceCostAmountFileUploadPath = data['Data'][0]['data']['Table'][0]["SourceCostAmountFileUploadPath"];
+          this.buildingdetails.Dis_SourceCostAmountFileUpload = data['Data'][0]['data']['Table'][0]["Dis_SourceCostAmountFileUpload"];
+          this.buildingdetails.AmountDepositedFileUpload = data['Data'][0]['data']['Table'][0]["AmountDepositedFileUpload"];
+          this.buildingdetails.AmountDepositedFileUploadPath = data['Data'][0]['data']['Table'][0]["AmountDepositedFileUploadPath"];
+          this.buildingdetails.Dis_AmountDepositedFileUpload = data['Data'][0]['data']['Table'][0]["Dis_AmountDepositedFileUpload"];
+          this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]['data']['Table'][0]["OtherFixedAssetsAndSecuritiesFileUpload"];
+          this.buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFixedAssetsAndSecuritiesFileUploadPath"];
+          this.buildingdetails.Dis_OtherFixedAssetsAndSecuritiesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFixedAssetsAndSecuritiesFileUpload"];
+          this.buildingdetails.GATEYearBalanceSecretFileUpload = data['Data'][0]['data']['Table'][0]["GATEYearBalanceSecretFileUpload"];
+          this.buildingdetails.GATEYearBalanceSecretFileUploadPath = data['Data'][0]['data']['Table'][0]["GATEYearBalanceSecretFileUploadPath"];
+          this.buildingdetails.Dis_GATEYearBalanceSecretFileUpload = data['Data'][0]['data']['Table'][0]["Dis_GATEYearBalanceSecretFileUpload"];
+          this.buildingdetails.OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUpload"];
+          this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUploadPath"];
+          this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFinancialResourcesFileUpload"];
+          this.buildingdetails.BuildingHostelQuartersRoadArea = data['Data'][0]['data']['Table'][0]["BuildingHostelQuartersRoadArea"];
+          this.buildingdetails.FireNOCOrderNumber = data['Data'][0]['data']['Table'][0]["FireNOCOrderNumber"];
+
+          if (this.buildingdetails.BuildingTypeName != 'Owned') {
+            this.buildingdetails.Dis_RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["Dis_RentAgreementFileUpload"];
+            this.buildingdetails.RentAgreementFileUpload = data['Data'][0]['data']['Table'][0]["RentAgreementFileUpload"];
+            this.buildingdetails.RentAgreementFileUploadPath = data['Data'][0]['data']['Table'][0]["RentAgreementFileUploadPath"];
+
+            this.buildingdetails.Rentvaliditydate = data['Data'][0]['data']['Table'][0]["Rentvaliditydate"];
+          }
+
+          this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   //End Building Details
 
   //Start Staff Details
@@ -406,6 +556,40 @@ export class AhDocumentScrutinyNodalOfficerComponent {
             else {
               this.TotalNonTeachingStaffDetail++;
             }
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ViewStaffDetail(content: any, StaffDetailID: number) {
+    this.sdrequest = new StaffDetailDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, StaffDetailID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.sdrequest = data['Data'][0];
+          if (this.sdrequest.AadhaarNo.length > 0) {
+            const visibleDigits = 4;
+            let maskedSection = this.sdrequest.AadhaarNo.slice(0, -visibleDigits);
+            let visibleSection = this.sdrequest.AadhaarNo.slice(-visibleDigits);
+            this.sdrequest.MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
           }
         }, error => console.error(error));
     }
@@ -558,6 +742,32 @@ export class AhDocumentScrutinyNodalOfficerComponent {
           this.CheckList_VeterinaryHospitalDataModel = data['Data'][0]['VeterinaryHospitals'];
           this.VeterinaryHospitalFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
 
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async ViewVeterinaryHospitalDetail(content: any, VeterinaryHospitalID: number) {
+    debugger;
+    this.vtrequest = new VeterinaryHospitalDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.veterinaryHospitalService.GetVeterinaryHospitalByID(VeterinaryHospitalID, this.UserID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.vtrequest = data['Data'];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -837,4 +1047,7 @@ export class AhDocumentScrutinyNodalOfficerComponent {
       }, 200);
     }
   }
+
+  
+
 }

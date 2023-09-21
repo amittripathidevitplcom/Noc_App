@@ -16,6 +16,7 @@ import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aad
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 import { fail } from 'assert';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Component({
   selector: 'app-ah-inspection-committee-physical-verification',
@@ -54,6 +55,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
   public SelectedApplyNOCID: number = 0;
   public WorkFlowActionList: any[] = [];
   public CheckListData: any[] = [];
+  public collegeDataList: any[] = [];
   public FinalCheckListData: any[] = [];
   public NextActionID: number = 0;
 
@@ -88,7 +90,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
   constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService,
-    private aadharServiceDetails: AadharServiceDetails
+    private aadharServiceDetails: AadharServiceDetails, private collegeService: CollegeService
   ) { }
 
   async ngOnInit() {
@@ -96,7 +98,6 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetPhysicalVerificationAppliationList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.UserID, Number(this.sSOLoginDataModel.RoleID), this.sSOLoginDataModel.DepartmentID, this.QueryStringStatus);
-
     if (this.QueryStringStatus == 'Pending') {
       this.IsDisabled = false;
       this.IsBtnShowHide = true;
@@ -129,6 +130,28 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
     }
   }
 
+  async GetCollageDetails(CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(CollegeID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+/*          this.collegeDataList = data['Data'];*/
+          if (data['Data']['CollegeStatus'] == 'New') {
+            this.CollegeType_IsExisting = false;
+            //this.isAcademicInformation = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   public CheckTabsEntryData: any = [];
   async CheckTabsEntry(SelectedApplyNOCID: number) {
     try {
@@ -196,6 +219,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
     this.SelectedCollageID = CollegeID;
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
+    await this.GetCollageDetails(CollegeID);
     await this.CheckTabsEntry(ApplyNOCID);
     if (this.isFormvalid) {
       this.ShowHideApplicationAction = true;

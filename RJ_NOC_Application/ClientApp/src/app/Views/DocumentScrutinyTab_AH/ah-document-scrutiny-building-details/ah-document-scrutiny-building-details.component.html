@@ -170,13 +170,17 @@
                 <label class="form-label"><b>District :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.District_Eng}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Rural' && buildingdetails.BuildingTypeName!='Owned'">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Tehsil :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.TehsilName}}" />
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Rural' && buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Panchayat Samiti :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.PanchyatSamitiName}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Urban' && buildingdetails.BuildingTypeName!='Owned'">
+                <label class="form-label"><b>City :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.CityName}}" />
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>City/Town/Village :</b></label>
@@ -195,7 +199,7 @@
                 <input class="form-control disabled" disabled value="{{buildingdetails.BuildingHostelQuartersRoadArea}}" />
               </div>
 
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" >
                 <label><b>Upload Land Title Certificate :</b></label>
                 <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.buildingOtherDoc1FileUpload}}" data-caption="Image 10" title="click here to zoom">
                   <img src="{{buildingdetails.buildingOtherDoc1FileUpload}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
@@ -249,77 +253,6 @@
                 </div>
               </div>
             </div>
-            <!--<div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
-      <label class="form-label"><b>Owner Name :</b></label>
-      <input class="form-control disabled" disabled value="{{buildingdetails.OwnerName}}" />
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
-      <label class="form-label"><b>Address Line 1 :</b></label>
-      <input class="form-control disabled" disabled value="{{buildingdetails.AddressLine1}}" />
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label class="form-label"><b>Address Line 2 :</b></label>
-      <input class="form-control disabled" disabled value="{{buildingdetails.AddressLine2}}" />
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label class="form-label"> <b>Rural / Urban :</b></label>
-      <input class="form-control disabled" disabled value="{{buildingdetails.RuralUrban}}" />
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label class="form-label"><b>Division :</b></label>
-      <input class="form-control disabled" disabled value="{{buildingdetails.Division_English}}" />
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label class="form-label"><b>District :</b></label>
-      <input class="form-control disabled" disabled value="{{buildingdetails.District_Eng}}" />
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildingdetails.RuralUrban != 'Rural'">
-      <label class="form-label"><b>Tehsil :</b></label>
-      <input class="form-control disabled" disabled value="{{buildingdetails.TehsilName}}" />
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildingdetails.RuralUrban != 'Rural'">
-      <label class="form-label"><b>Panchayat Samiti :</b></label>
-      <input class="form-control disabled" disabled value="{{buildingdetails.PanchyatSamitiName}}" />
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label class="form-label"><b>City/Town/Village :</b></label>
-      <input class="form-control disabled" disabled value="{{buildingdetails.CityTownVillage}}" />
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label class="form-label"><b>Contact No :</b></label>
-      <input class="form-control disabled" disabled value="{{buildingdetails.ContactNo}}" />
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label class="form-label"><b>Pincode :</b></label>
-      <input class="form-control disabled" disabled value="{{buildingdetails.Pincode}}" />
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <b><i class="fa fa-filter"></i>&nbsp;Certificate of Own Building in own land in same campus Order No. & Order Date : </b>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-          <label class="form-label"><b>Order No :</b></label>
-          <input class="form-control disabled" disabled value="{{buildingdetails.OwnBuildingOrderNo}}" />
-        </div>
-
-        <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-          <label class="form-label"><b>Order Date :</b></label>
-          <input class="form-control disabled" disabled value="{{buildingdetails.OwnBuildingOrderDate}}" />
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-          <label><b>Upload Own Building Document :</b></label>
-          <a *ngIf="!buildingdetails.OwnBuildingFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
-            <img src="{{buildingdetails.OwnBuildingFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-          </a>
-          <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-        </div>
-      </div>
-    </div>
-  </div>-->
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <b><i class="fa fa-filter"></i>&nbsp;Fire NOC Validity</b>

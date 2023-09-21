@@ -97,13 +97,17 @@
                 <label class="form-label"><b>District :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.District_Eng}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Rural' && buildingdetails.BuildingTypeName!='Owned'">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Tehsil :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.TehsilName}}" />
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Rural' && buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Panchayat Samiti :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.PanchyatSamitiName}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Urban' && buildingdetails.BuildingTypeName!='Owned'">
+                <label class="form-label"><b>City :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.CityName}}" />
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>City/Town/Village :</b></label>
@@ -122,14 +126,14 @@
                 <input class="form-control disabled" disabled value="{{buildingdetails.BuildingHostelQuartersRoadArea}}" />
               </div>
 
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2">
                 <label><b>Upload Land Title Certificate :</b></label>
                 <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.buildingOtherDoc1FileUpload}}" data-caption="Image 10" title="click here to zoom">
                   <img src="{{buildingdetails.buildingOtherDoc1FileUpload}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                 </a>
                 <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.buildingOtherDoc1FileUpload}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID ==2">
                 <label><b>Upload Land Document :</b></label>
                 <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
                   <img src="{{buildingdetails.OwnBuildingFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />

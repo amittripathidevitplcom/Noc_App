@@ -255,6 +255,8 @@ import { PreviewApplyNocDetailComponent } from './Views/PreviewTabs/preview-appl
 import { AhDocumentScrutinyNodalOfficerComponent } from './Views/DocumentScrutinyTab_AH/ah-document-scrutiny-nodal-officer/ah-document-scrutiny-nodal-officer.component';
 
 import { PreviewFDRDetailComponent } from './Views/PreviewTabs/preview-fdr-detail/preview-fdr-detail.component';
+import { PreviewCourseDetailComponent } from './Views/PreviewTabs/preview-course-detail/preview-course-detail.component';
+import { OneStepRevertBackComponent } from './Views/one-step-revert-back/one-step-revert-back.component';
 
 
 
@@ -502,6 +504,8 @@ import { PreviewFDRDetailComponent } from './Views/PreviewTabs/preview-fdr-detai
     PreviewApplyNocDetailComponent,
     AhDocumentScrutinyNodalOfficerComponent,
     PreviewFDRDetailComponent,
+    PreviewCourseDetailComponent,
+    OneStepRevertBackComponent
   ],
   imports: [
     CommonModule,

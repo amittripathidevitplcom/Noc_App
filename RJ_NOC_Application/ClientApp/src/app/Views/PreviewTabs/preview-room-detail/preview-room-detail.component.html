@@ -11,12 +11,12 @@
             <tr>
               <th>Sr. No.</th>
               <th>Course</th>
-              <th>No. of Rooms</th>
+              <th>Room No.</th>
               <th>Width (In Feet) Size</th>
               <th>Length (In Feet)</th>
               <th>Room Size (sq. ft)</th>
               <th>Student Capacity</th>
-              <th>No. Of Lab</th>
+              <!--<th>No. Of Lab</th>-->
               <th>Upload Image</th>
             </tr>
           </thead>
@@ -43,9 +43,9 @@
               <td>
                 {{item.StudentCapacity}}
               </td>
-              <td>
+              <!--<td>
                 {{item.NoOfLab}} 
-              </td>
+              </td>-->
               <td>
                 <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
                   <img src="{{item.ImageFilePath}}" alt="Image/File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />

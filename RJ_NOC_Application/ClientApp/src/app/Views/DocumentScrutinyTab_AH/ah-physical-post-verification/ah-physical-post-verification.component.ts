@@ -14,6 +14,7 @@ import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aad
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 import { fail } from 'assert';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Component({
   selector: 'app-ah-physical-post-verification',
@@ -84,7 +85,7 @@ export class AhPhysicalPostVerificationComponent {
 
   constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
-    private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService,
+    private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private collegeService: CollegeService,
     private aadharServiceDetails: AadharServiceDetails
   ) { }
 
@@ -193,6 +194,7 @@ export class AhPhysicalPostVerificationComponent {
     this.SelectedCollageID = CollegeID;
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
+    await this.GetCollageDetails(CollegeID);
     await this.CheckTabsEntry(ApplyNOCID);
     if (this.isFormvalid) {
       this.ShowHideApplicationAction = true;
@@ -201,6 +203,28 @@ export class AhPhysicalPostVerificationComponent {
     else {
       this.toastr.warning('First of all, check and complete all the tabs of document scrutiny and then complete the check list.');
       this.ShowHideApplicationAction = false;
+    }
+  }
+  async GetCollageDetails(CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(CollegeID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          /*          this.collegeDataList = data['Data'];*/
+          if (data['Data']['CollegeStatus'] == 'New') {
+            this.CollegeType_IsExisting = false;
+            //this.isAcademicInformation = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
   async SaveData() {

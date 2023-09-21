@@ -20,26 +20,17 @@
                     <label class="form-check-label">No</label>
                   </div>
                 </th>
+                <th>Action </th>
 
                 <th>Sr. No</th>
                 <th>Hospital Name</th>
                 <th>Distance From Institute</th>
-                <th>Address Line1</th>
-                <th>Address Line2</th>
-                <th>Rural Urban</th>
-                <th>Division</th>
-                <th>District</th>
-                <th>Tehsil</th>
-                <th>PanchyatSamiti</th>
-                <th>CityTownVillage</th>
-                <th>Pincode</th>
                 <th>ContactNo</th>
                 <th>Email</th>
                 <th>Person Field</th>
                 <th>Relation</th>
                 <th>Remark</th>
                 <th>Authorized Person</th>
-                <th>File Upload</th>
                 <th>Tarils</th>
               </tr>
             </thead>
@@ -64,28 +55,18 @@
                   </div>
 
                 </td>
-
+                <td>
+                  <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewVeterinaryHospitalDetail(mymodal,row.VeterinaryHospitalID)"><i class="fa fa-eye"></i></button>
+                </td>
                 <td>{{idx+1}}</td>
                 <td>{{row.HospitalName}}</td>
                 <td>{{row.DistanceFromInstitute}}</td>
-                <td>{{row.AddressLine1}}</td>
-                <td>{{row.AddressLine2}}</td>
-                <td>{{row.RuralUrban}}</td>
-                <td>{{row.Division_English}}</td>
-                <td>{{row.District_Eng}}</td>
-                <td>{{row.TehsilName}}</td>
-                <td>{{row.PanchyatSamitiName}}</td>
-                <td>{{row.CityTownVillage}}</td>
-                <td>{{row.Pincode}}</td>
                 <td>{{row.MobileNo}}</td>
                 <td>{{row.EmailAddress}}</td>
                 <td>{{row.PersonField}}</td>
                 <td>{{row.Relation}}</td>
                 <td>{{row.Remarks}}</td>
                 <td>{{row.AuthorizedPerson}}</td>
-                <td>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.FileUpload.includes('.pdf')" data-fancybox="gallery" href="{{row.FileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                </td>
                 <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.VeterinaryHospitalID,'VeterinaryHospitalTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
               </tr>
               <tr *ngIf="lstVeterinaryHospital.length==0">
@@ -134,5 +115,169 @@
       </div>
     </div>
   </div>
+
+  <ng-template #mymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Veterinary Hospital Details</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label><b> Hospital Name:</b></label>
+          <input class="form-control disabled" disabled value="{{request.HospitalName}}" />
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>Distance From Institute(in KM)</b></label>
+          <input class="form-control disabled" disabled value="{{request.DistanceFromInstitute}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>Authorized Person</b></label>
+          <input class="form-control disabled" disabled value="{{request.AuthorizedPerson}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>Mobile No</b></label>
+          <input class="form-control disabled" disabled value="{{request.MobileNo}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>Address Line 1</b></label>
+          <input class="form-control disabled" disabled value="{{request.AddressLine1}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>Address Line 2</b></label>
+          <input class="form-control disabled" disabled value="{{request.AddressLine2}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>Rural/Urban</b></label>
+          <input class="form-control disabled" disabled value="{{request.RuralUrban}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>Division</b></label>
+          <input class="form-control disabled" disabled value="{{request.Division_English}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>District</b></label>
+          <input class="form-control disabled" disabled value="{{request.District_Eng}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>Tehsil</b></label>
+          <input class="form-control disabled" disabled value="{{request.TehsilName}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.RuralUrban=='Rural'">
+          <label> <b>Panchayat Samiti</b></label>
+          <input class="form-control disabled" disabled value="{{request.PanchyatSamitiName}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.RuralUrban=='Urban'">
+          <label> <b>City </b></label>
+          <input class="form-control disabled" disabled value="{{request.CityName}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>City/Town/Village</b></label>
+          <input class="form-control disabled" disabled value="{{request.CityTownVillage}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>Pincode</b></label>
+          <input class="form-control disabled" disabled value="{{request.Pincode}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>Email Address</b></label>
+          <input class="form-control disabled" disabled value="{{request.EmailAddress}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>If Person From Admin/Finance Field are On Board</b></label>
+          <input class="form-control disabled" disabled value="{{request.PersonField}}" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label> <b>Relation With Institute</b></label>
+          <input class="form-control disabled" disabled value="{{request.Relation}}" />
+        </div>
+      </div>
+    </div>
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-filter"></i>&nbsp;Objectives of Society With Reference To Vertinary/Animal Husbandry & Education </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label> <b>Remark</b></label>
+              <input class="form-control disabled" disabled value="{{request.Remark}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label> <b>Upload File(Only pdf)(Min size 100(KB))(Max size 2(MB)) </b></label>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.FileUpload.includes('.pdf')" data-fancybox="gallery" href="{{request.FileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-0" *ngIf="request.AnimalDetails.length>0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Animal Details </b>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Animal Name</th>
+                  <th>Male Animal Count</th>
+                  <th>Female Animal Count</th>
+                  <th>Total Animal Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of request.AnimalDetails let indexOfelement=index;">
+                  <td>{{indexOfelement+1}}</td>
+                  <td>{{item.AnimalName}}</td>
+                  <td>{{item.MaleAnimalCount}}</td>
+                  <td>{{item.FemaleAnimalCount}}</td>
+                  <td>{{item.AnimalCount}}</td>
+                </tr>
+                <tr *ngIf="request.AnimalDetails.length<=0">
+                  <td colspan="12" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-0" *ngIf="request.SansthaBhavanDetails.length>0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Sanstha Bhavan Details </b>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Name</th>
+                  <th>No Of</th>
+                  <th>Width(In Feet)</th>
+                  <th>Length(In Feet)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of request.SansthaBhavanDetails let indexOfelement=index;">
+                  <td>{{indexOfelement+1}}</td>
+                  <td>{{item.RoomName}}</td>
+                  <td>{{item.NoOfRooms}}</td>
+                  <td>{{item.Width}}</td>
+                  <td>{{item.Length}}</td>
+                </tr>
+                <tr *ngIf="request.SansthaBhavanDetails.length<=0">
+                  <td colspan="12" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+  </ng-template>
 </div>
 
