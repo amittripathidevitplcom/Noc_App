@@ -71,6 +71,7 @@ export class AddCollegeComponent implements OnInit {
   public PanchyatSamitiList_Nearest: any = [];
 
   public showCollegeLogo: boolean = false;
+  public IsEdit: boolean = false;
   public showNAACAccreditedCertificate: boolean = false;
   public showHospitalDocument: boolean = false;
   public isValidHospitalDocument: boolean = false;
@@ -1188,6 +1189,7 @@ export class AddCollegeComponent implements OnInit {
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
+    this.IsEdit = true;
 
     try {
       await this.collegeService.GetData(this.QueryStringCollageID)
@@ -1224,6 +1226,9 @@ export class AddCollegeComponent implements OnInit {
           // rural/urban
           await this.IsRuralOrUrban(this.request.RuralUrban == 1 ? true : false, null, false);
 
+
+          this.request.CollegeNAACAccredited = data['Data']['CollegeNAACAccredited'];
+          await this.IsCollegeNAACAccreditedOrNot(this.request.CollegeNAACAccredited == 1 ? true : false)
           //if (!this.State) {
           //  //this.toastr.success(this.SuccessMessage)
           //}
