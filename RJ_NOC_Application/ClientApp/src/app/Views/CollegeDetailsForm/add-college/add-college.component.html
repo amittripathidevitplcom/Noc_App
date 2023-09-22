@@ -32,7 +32,7 @@
             <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlDepartmentID" class="form-label">Select Department <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (change)="FillDepartmentRelatedDDL($event,SeletedDepartmentID.value)">
+                <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" #SeletedDepartmentID (change)="FillDepartmentRelatedDDL($event,SeletedDepartmentID.value)">
                   <option value="0">--Select--</option>
                   <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
                 </select>
@@ -42,7 +42,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlCollegeStatus" class="form-label">College Status <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlCollegeStatus" name="ddlCollegeStatus" [(ngModel)]="request.CollegeStatusID" formControlName="ddlCollegeStatus" #SelectedCollegeStatusID (change)="ddlCollegeStatus_TextChange($event,SelectedCollegeStatusID.value)">
+                <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlCollegeStatus" name="ddlCollegeStatus" [(ngModel)]="request.CollegeStatusID" formControlName="ddlCollegeStatus" #SelectedCollegeStatusID (change)="ddlCollegeStatus_TextChange($event,SelectedCollegeStatusID.value)">
                   <option value="0">--Select--</option>
                   <option *ngFor="let item of CollegeStatusList" value="{{item.ID}}">{{item.Name}}</option>
                 </select>
@@ -70,9 +70,11 @@
         </div>-->
               </div>
               <!---->
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
+              <div  class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
                 <label for="ddlPresentCollegeStatus" class="form-label">Present Status of College <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus" [(ngModel)]="request.PresentCollegeStatusID" formControlName="ddlPresentCollegeStatus" #SelectedPresentCollegeStatusID (change)="ddlPresentCollegeStatus_TextChange($event,SelectedPresentCollegeStatusID.value)">
+                <select attr.disabled]="true" class="form-select" id="ddlPresentCollegeStatus" name="ddlPresentCollegeStatus"
+                        [(ngModel)]="request.PresentCollegeStatusID" formControlName="ddlPresentCollegeStatus" #SelectedPresentCollegeStatusID
+                        (change)="ddlPresentCollegeStatus_TextChange($event,SelectedPresentCollegeStatusID.value)">
                   <option value="0">--Select--</option>
                   <option *ngFor="let item of PresentCollegeStatusList_FilterData" value="{{item.ID}}">{{item.Name}}</option>
                 </select>
@@ -82,7 +84,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlCollegeTypeID" class="form-label">Select College Type <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlCollegeTypeID" name="ddlCollegeTypeID" [(ngModel)]="request.CollegeTypeID" formControlName="ddlCollegeTypeID"
+                <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlCollegeTypeID" name="ddlCollegeTypeID" [(ngModel)]="request.CollegeTypeID" formControlName="ddlCollegeTypeID"
                         #SelectedCollegeTypeID (change)="ddlCollegeType_TextChange(SelectedCollegeTypeID.value)">
                   <option value="0">--Select--</option>
                   <option *ngFor="let item of CollegeTypeList" value="{{item.ID}}">{{item.Name}}</option>
@@ -93,7 +95,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="ddlCollegeLevelID" class="form-label">College Level <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlCollegeLevelID" name="ddlCollegeLevelID" [(ngModel)]="request.CollegeLevelID" formControlName="ddlCollegeLevelID">
+                <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlCollegeLevelID" name="ddlCollegeLevelID" [(ngModel)]="request.CollegeLevelID" formControlName="ddlCollegeLevelID">
                   <option value="0">--Select--</option>
                   <option *ngFor="let item of CollegeLevelList_FilterData" value="{{item.ID}}">{{item.Name}}</option>
                 </select>
@@ -114,14 +116,14 @@
 
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="txtCollegeNameEn" maxlength="200" class="form-label">College Name in English <span style="color:red;">*</span></label>
-                <input type="text" class="form-control" id="txtCollegeNameEn" name="txtCollegeNameEn" [(ngModel)]="request.CollegeNameEn" formControlName="txtCollegeNameEn" (keypress)="alphaOnly($event)">
+                <input [attr.disabled]="IsEdit ? true : null" type="text" class="form-control" id="txtCollegeNameEn" name="txtCollegeNameEn" [(ngModel)]="request.CollegeNameEn" formControlName="txtCollegeNameEn" (keypress)="alphaOnly($event)">
                 <div *ngIf="isSubmitted&&form.txtCollegeNameEn.errors" class="text-danger">
                   <p *ngIf="form.txtCollegeNameEn.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="txtCollegeNameHi" maxlength="200" class="form-label">College Name in Hindi <span style="color:red;">*</span></label>
-                <input type="text" class="form-control" id="txtCollegeNameHi" name="txtCollegeNameHi" [(ngModel)]="request.CollegeNameHi" formControlName="txtCollegeNameHi">
+                <input [attr.disabled]="IsEdit ? true : null" type="text" class="form-control" id="txtCollegeNameHi" name="txtCollegeNameHi" [(ngModel)]="request.CollegeNameHi" formControlName="txtCollegeNameHi">
                 <div *ngIf="isSubmitted&&form.txtCollegeNameHi.errors" class="text-danger">
                   <p *ngIf="form.txtCollegeNameHi.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                 </div>

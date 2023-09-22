@@ -164,7 +164,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     this.isCheck30Female = false;
     try {
       //Check 30 Female Member Exit or Not
-
+      var DCPendingPoint = "";
       await this.commonMasterService.Check30Female(this.SelectedCollageID)
         .then((data: any) => {
           this.State = data['State'];
@@ -177,50 +177,71 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
             if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
               this.toastr.error("Add Minimum 15 College Management Committee Members.")
+              DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "\n";
               this.isCheck30Female = true;
-              return;
+              if (this.SelectedDepartmentID != 3) {
+                return;
+              }
+
             }
 
             if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID == 3) {
               this.toastr.error("Add Minimum 2 Educationist College Management Committee Members.")
+              DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "\n";
               this.isCheck30Female = true;
-              return;
+              if (this.SelectedDepartmentID != 3) {
+                return;
+              }
             }
             Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
             if (Femalepre < 30) {
               //this.toastr.error("Society in Female Member is not valid (30%)")
               this.toastr.error("Member list must have atleast 30% of Woman")
+              DCPendingPoint += "Member list must have atleast 30% of Woman" + "\n";
               this.isCheck30Female = true;
-              return;
+              if (this.SelectedDepartmentID != 3) {
+                return;
+              }
             }
 
             if (data['Data'][0]['data'][0]['PendingFacilities'] > 0) {
               this.toastr.error("Enter All Facilities Details.")
+              DCPendingPoint += "Enter All Facilities Details." + "\n";
               this.isCheck30Female = true;
-              return;
+              if (this.SelectedDepartmentID != 3) {
+                return;
+              }
             }
             if (data['Data'][0]['data'][0]['PendingOtherInformation'] > 0) {
               this.toastr.error("Enter All Other Information Details.")
+              DCPendingPoint += "Enter All Other Information Details." + "\n";
               this.isCheck30Female = true;
-              return;
+              if (this.SelectedDepartmentID != 3) {
+                return;
+              }
             }
 
             if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
               this.toastr.error("Enter All Class Room Details.")
+              DCPendingPoint += "Enter All Class Room Details." + "\n";
               this.isCheck30Female = true;
-              return;
+              if (this.SelectedDepartmentID != 3) {
+                return;
+              }
             }
 
             if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0) {
               this.toastr.error("Enter Class Wise No of Room Details.")
+              DCPendingPoint += "Enter Class Wise No of Room Details." + "\n";
               this.isCheck30Female = true;
-              return;
+              if (this.SelectedDepartmentID != 3) {
+                return;
+              }
             }
             if (this.SelectedDepartmentID == 2) {
               if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
                 this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Acre')
                 this.isCheck30Female = true;
-                return;
               }
               if (data['Data'][0]['data'][0]['FullyConvertedLand'] > 0) {
                 this.toastr.error('Please enter minimum building land area of 1200 square meters or 0.2966 acres and that too must be fully converted land type.')
@@ -231,8 +252,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
             else {
               if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
                 this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
+                DCPendingPoint += "Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet" + "\n";
                 this.isCheck30Female = true;
-                return;
+                if (this.SelectedDepartmentID != 3) {
+                  return;
+                }
               }
             }
 
@@ -257,7 +281,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   this.toastr.error('Please Add two Veterinary Officer in Staff details.')
                 else
                   this.toastr.error('Please Add Four Veterinary Officer in Staff details.')
-               
+
                 this.isCheck30Female = true;
                 return;
               }
@@ -297,7 +321,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   this.toastr.error('Please Add three Attendant Sweeper in Staff details.')
                 else
                   this.toastr.error('Please Add Five Attendant Sweeper in Staff details.')
-               
+
                 this.isCheck30Female = true;
                 return;
 
@@ -312,8 +336,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
             if (this.SelectedDepartmentID == 3 && this.CollegeType_IsExisting == true) {
               if (data['Data'][0]['data'][0]['PendingSubjectStaff'] > 0) {
                 this.toastr.error('In the case of teaching, it is Mandatory to have teachers of all the subjects.')
+                DCPendingPoint += "In the case of teaching, it is Mandatory to have teachers of all the subjects." + "\n";
                 this.isCheck30Female = true;
-                return;
+                if (this.SelectedDepartmentID != 3) {
+                  return;
+                }
               }
             }
           }
@@ -321,26 +348,54 @@ export class ApplicationDetailEntryComponent implements OnInit {
             this.toastr.error(this.ErrorMessage)
           }
         })
-      if (this.isCheck30Female == false) {
-        await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
-          .then((data: any) => {
+      if (this.SelectedDepartmentID == 3) {
+        if (confirm(DCPendingPoint +"\nAre you sure you want to save draft application ?")) {
+          this.isCheck30Female = false;
+          if (this.isCheck30Female == false) {
+            await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+              .then((data: any) => {
 
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            console.log(this.State);
-            if (!this.State) {
-              this.toastr.success(this.SuccessMessage)
+                this.State = data['State'];
+                this.SuccessMessage = data['SuccessMessage'];
+                this.ErrorMessage = data['ErrorMessage'];
+                console.log(this.State);
+                if (!this.State) {
+                  this.toastr.success(this.SuccessMessage)
 
-              setTimeout(() => {
-                this.routers.navigate(['/draftapplicationlist']);
-              }, 500);
+                  setTimeout(() => {
+                    this.routers.navigate(['/draftapplicationlist']);
+                  }, 500);
 
-            }
-            else {
-              this.toastr.error(this.ErrorMessage)
-            }
-          })
+                }
+                else {
+                  this.toastr.error(this.ErrorMessage)
+                }
+              })
+          }
+        }
+      }
+      else {
+        if (this.isCheck30Female == false) {
+          await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+            .then((data: any) => {
+
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              console.log(this.State);
+              if (!this.State) {
+                this.toastr.success(this.SuccessMessage)
+
+                setTimeout(() => {
+                  this.routers.navigate(['/draftapplicationlist']);
+                }, 500);
+
+              }
+              else {
+                this.toastr.error(this.ErrorMessage)
+              }
+            })
+        }
       }
     }
     catch (ex) { console.log(ex) }

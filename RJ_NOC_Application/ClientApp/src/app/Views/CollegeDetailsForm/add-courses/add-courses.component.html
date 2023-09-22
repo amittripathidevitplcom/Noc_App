@@ -40,7 +40,7 @@
               </div>-->
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="txtCollege" class="form-label">College <span style="color:red">*</span></label>
-                <select formControlName="ddlCollege" id="ddlCollege" [(ngModel)]="request.CollegeID" class="form-select"
+                <select [attr.disabled]="isDisabledGrid ? true : null" formControlName="ddlCollege" id="ddlCollege" [(ngModel)]="request.CollegeID" class="form-select"
                         #SeletedCollegeID (change)="ddlCollege_change(SeletedCollegeID.value)">
                   <option value="0">--Select--</option>
                   <option [value]="item.CollegeID" *ngFor="let item of collegeDataList">
@@ -54,7 +54,7 @@
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="isShowStreambox">
                 <label for="ddlStreamID" class="form-label">Select Stream <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID" #SeletedStreamID (change)="ddlSreamChangeReset(SeletedStreamID.value)">
+                <select [attr.disabled]="isDisabledGrid ? true : null" class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID" #SeletedStreamID (change)="ddlSreamChangeReset(SeletedStreamID.value)">
                   <option value="0">--Select Stream--</option>
                   <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
                 </select>
@@ -68,7 +68,7 @@
 
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="ddlCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlCourseLevelID" name="ddlCourseLevelID" [(ngModel)]="request.CourseLevelID" formControlName="ddlCourseLevelID" #SeletedCourseLevelID (change)="ddlCourseLevel_change(SeletedCourseLevelID.value)">
+                <select [attr.disabled]="isDisabledGrid ? true : null" class="form-select" id="ddlCourseLevelID" name="ddlCourseLevelID" [(ngModel)]="request.CourseLevelID" formControlName="ddlCourseLevelID" #SeletedCourseLevelID (change)="ddlCourseLevel_change(SeletedCourseLevelID.value)">
                   <option value="0" disabled>--Select Course Level--</option>
                   <option *ngFor="let item of CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
                 </select>
@@ -80,7 +80,7 @@
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
 
                 <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
-                <select formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-select"
+                <select [attr.disabled]="isDisabledGrid ? true : null" formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-select"
                         #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
                   <option value="0">--Select--</option>
                   <option [value]="item.CourseID" *ngFor="let item of courseDataList">
