@@ -42,14 +42,14 @@ export class AhDocumentScrutinyForwardCommetteComponent {
     else if (this.sSOLoginDataModel.RoleID == 25) {
       this.CommitteType = 'Forward To Physical Check Policy Commitee';
     }
-    await this.GetDocumentScrutinyRejectedReportUserWise(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
+    await this.GeForwardCommiteeAHList(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
     
   }
 
-  async GetDocumentScrutinyRejectedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {
+  async GeForwardCommiteeAHList(UserID: number, RoleID: number, DepartmentID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCRejectedReport(UserID, this.CommitteType, RoleID, DepartmentID)
+      await this.applyNOCApplicationService.GeForwardCommiteeAHList(UserID, this.CommitteType, RoleID, DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -112,8 +112,6 @@ export class AhDocumentScrutinyForwardCommetteComponent {
     if (DepartmentID = 2) {
       //this.routers.navigate(['/animalhusbandryappnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
       //this.routers.navigate(['/animalhusbandryappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString()))]);
-
-
       window.open('/animalhusbandryappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())), "_blank");
     }
   }

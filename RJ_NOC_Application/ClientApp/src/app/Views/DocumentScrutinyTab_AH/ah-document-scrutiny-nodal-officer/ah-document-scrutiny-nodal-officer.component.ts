@@ -198,6 +198,7 @@ export class AhDocumentScrutinyNodalOfficerComponent {
     this.GetCollageDetails();
     this.GetVeterinaryHospitalList_DepartmentCollegeWise();
     this.GetLegalEntityData();
+    await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
   }
   // Start Land Details
   async GetLandDetailsDataList() {
@@ -209,6 +210,25 @@ export class AhDocumentScrutinyNodalOfficerComponent {
           data = JSON.parse(JSON.stringify(data));
           this.CheckList_LandDetailList = data['Data'][0]['LandDetails'];
           this.LandDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetUnitOfLandArea(DepartmentID: number, Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, Type)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.UnitOfLand = data['Data'][0]['Name'];
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -821,10 +841,10 @@ export class AhDocumentScrutinyNodalOfficerComponent {
           this.isNextRoleIDValid = true;
           this.isFormvalid = false;
         }
-        if (this.NextActionID <= 0) {
-          this.isNextActionValid = true;
-          this.isFormvalid = false;
-        }
+        //if (this.NextActionID <= 0) {
+        //  this.isNextActionValid = true;
+        //  this.isFormvalid = false;
+        //}
         if (this.NextUserID <= 0) {
           this.isNextUserIdValid = true;
           this.isFormvalid = false;

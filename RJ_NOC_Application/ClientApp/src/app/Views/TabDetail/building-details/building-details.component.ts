@@ -296,6 +296,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async SaveData() {
+    debugger;
     this.IstxtBuildingHostel = false;
     this.isValidOwnBuildingFileUpload = false;
     this.isValidRentAgreementFileUpload = false;
@@ -338,6 +339,15 @@ export class BuildingDetailsComponent implements OnInit {
         this.toastr.warning("Total building area should be equal to or more than 1200 Sq. Meter.");
         return;
       }
+      if (this.buildingdetails.buildingOtherDoc1FileUpload == '') {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
+
+      if (this.buildingdetails.buildingOtherDoc2FileUpload == '') {
+        this.ImageValidate = 'This field is required .!';
+        return
+      }
     }
 
     if (this.RentAggrementDocShow) {
@@ -349,16 +359,7 @@ export class BuildingDetailsComponent implements OnInit {
         return;
       }
     }
-    if (this.buildingdetails.buildingOtherDoc1FileUpload == '') {
-      this.ImageValidate = 'This field is required .!';
-      return
-    }
-
-    if (this.buildingdetails.buildingOtherDoc2FileUpload == '') {
-      this.ImageValidate = 'This field is required .!';
-      return
-    }
-
+    
     if (this.buildingdetails.FireNOCFileUpload == '') {
       this.ImageValidate = 'This field is required .!';
       return
@@ -1205,7 +1206,7 @@ export class BuildingDetailsComponent implements OnInit {
     }
 
     else if (Type == 'buildingOtherDoc2FileUpload') {
-      this.isValidbuildingOtherDoc1FileUpload = isShow;
+      this.isValidbuildingOtherDoc2FileUpload = isShow;
       this.buildingdetails.buildingOtherDoc2FileUpload = fileName;
       this.buildingdetails.Dis_buildingOtherDoc2FileUpload = dis_Name;
       this.buildingdetails.buildingOtherDoc2FileUploadPath = filePath;

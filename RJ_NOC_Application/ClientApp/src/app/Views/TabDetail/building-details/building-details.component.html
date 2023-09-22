@@ -1,18 +1,3 @@
-<!--<div class="container-fluid breadcrumbBox py-2">
-  <div class="row align-items-center">
-    <div class="col-md-6">
-      <h3>Building Details</h3>
-    </div>
-    <div class="col-md-6 d-flex justify-content-end">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">-->
-<!--<li class="breadcrumb-item"><a href="#">Details</a></li>-->
-<!--<li class="breadcrumb-item active" aria-current="page">Building Details</li>
-        </ol>
-      </nav>
-    </div>
-  </div>
-</div>-->
 
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -163,7 +148,7 @@
               </div>
 
 
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID!=2">
                 <label for="txtbuildingOtherDoc1FileUpload" class="form-label">Upload Land Title Certificate <span style="font-size:10px;">(Upload Only pdf.) (Min.Size 100KB) (Max.Size 2MB)</span> <span style="color:red;">*</span></label>
                 <div class="d-flex">
                   <input type="file" class="form-control" id="txtbuildingOtherDoc1" style="display:none" formControlName="txtbuildingOtherDoc1FileUpload" (change)="ValidateUploadImage($event,'buildingOtherDoc1FileUpload')" buildingOtherDoc1FileUpload />
@@ -182,7 +167,7 @@
                 </div>
               </div>
 
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID!=2">
                 <label for="txtbuildingOtherDoc2FileUpload" class="form-label">Upload Land Document  <span style="font-size:11px;">(Upload Only pdf.) (Min.Size 100KB) (Max.Size 2MB)</span> <span style="color:red;">*</span></label>
                 <div class="d-flex">
                   <input type="file" class="form-control" id="txtbuildingOtherDoc2" style="display:none" formControlName="txtbuildingOtherDoc2FileUpload" (change)="ValidateUploadImage($event,'buildingOtherDoc2FileUpload')" buildingOtherDoc2FileUpload />
@@ -626,8 +611,8 @@
                   <th>Own/Land & Rented Building File</th>
                   <th>Fire NOC File</th>
                   <th>PWD NOC File</th>
-                  <th>Land Title Certificate</th>
-                  <th>Land Document</th>
+                  <th *ngIf="SelectedDepartmentID ==2">Land Title Certificate</th>
+                  <th *ngIf="SelectedDepartmentID ==2">Land Document</th>
                   <th *ngIf="SelectedDepartmentID ==6">Total Project Cost File</th>
                   <th *ngIf="SelectedDepartmentID ==6">Source Cost Amount File</th>
                   <th *ngIf="SelectedDepartmentID ==6">Amount Deposited File</th>
@@ -684,8 +669,8 @@
                   <td><a target="_blank" href="{{item.OwnBuildingFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                   <td><a target="_blank" href="{{item.FireNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                   <td><a target="_blank" href="{{item.PWDNOCFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
-                  <td><a target="_blank" href="{{item.OtherDoc1FileUploadPath}}" title="View Land Title Certificate "><i class="fa fa-eye"></i></a></td>
-                  <td><a target="_blank" href="{{item.OtherDoc2FileUploadPath}}" title="View Land Document"><i class="fa fa-eye"></i></a></td>
+                  <td *ngIf="SelectedDepartmentID ==2"><a target="_blank" href="{{item.OtherDoc1FileUploadPath}}" title="View Land Title Certificate "><i class="fa fa-eye"></i></a></td>
+                  <td *ngIf="SelectedDepartmentID ==2"><a target="_blank" href="{{item.OtherDoc2FileUploadPath}}" title="View Land Document"><i class="fa fa-eye"></i></a></td>
                   <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.TotalProjectCostFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                   <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.SourceCostAmountFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                   <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.AmountDepositedFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>

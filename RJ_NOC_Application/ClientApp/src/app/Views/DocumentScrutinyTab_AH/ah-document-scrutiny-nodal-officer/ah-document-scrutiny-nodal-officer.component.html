@@ -334,8 +334,10 @@
                     <label>College Level :</label>
                     <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeLevel}}" />
                   </div>
-                </div>
-                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>College Code :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeCode}}" />
+                  </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>College Name in English :</label>
                     <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeNameEn}}" />
@@ -357,7 +359,7 @@
                     <label>NACC Validity Date :</label>
                     <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}" />
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.DepartmentID==3">
                     <label>AISHE Code Status :</label>
                     <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AISHECodeStatus}}" />
                   </div>
@@ -1045,7 +1047,7 @@
                 <tr>
                   <th>Sr. No.</th>
                   <th>Course</th>
-                  <th>No. of Rooms</th>
+                  <th>Room No.</th>
                   <th>Width (In Feet) Size</th>
                   <th>Length (In Feet)</th>
                   <th>Room Size (sq. ft)</th>
@@ -2331,7 +2333,7 @@
         </div>
       </div>
 
-      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+      <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
         <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
         <select class="form-select" [(ngModel)]="NextActionID">
           <option value="0" disabled selected>--Select Action--</option>
@@ -2340,7 +2342,7 @@
         <div *ngIf="isNextActionValid" class="text-danger">
           <p *ngIf="isNextActionValid"> This field is required .!</p>
         </div>
-      </div>
+      </div>-->
 
       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
         <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>

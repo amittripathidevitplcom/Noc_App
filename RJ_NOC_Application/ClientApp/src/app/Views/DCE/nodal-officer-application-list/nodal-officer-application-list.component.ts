@@ -23,8 +23,7 @@ import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
   templateUrl: './nodal-officer-application-list.component.html',
   styleUrls: ['./nodal-officer-application-list.component.css']
 })
-export class NodalOfficerApplicationListComponent implements OnInit
-{
+export class NodalOfficerApplicationListComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -91,17 +90,13 @@ export class NodalOfficerApplicationListComponent implements OnInit
   public PVCommitteeList: any[] = [];
   constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
-    private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private decDocumentScrutinyService: DCEDocumentScrutinyService, private sSOLoginService: SSOLoginService,  private aadharServiceDetails :AadharServiceDetails
+    private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private decDocumentScrutinyService: DCEDocumentScrutinyService, private sSOLoginService: SSOLoginService, private aadharServiceDetails: AadharServiceDetails
   ) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    console.log(this.sSOLoginDataModel);
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
-
     await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
-   
-
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
     //this.GetRNCCheckListByTypeDepartment();
@@ -118,8 +113,7 @@ export class NodalOfficerApplicationListComponent implements OnInit
 
 
 
-  async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number, Status: string)
-  {
+  async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       this.loaderService.requestStarted();
       await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID, Status)
@@ -165,14 +159,12 @@ export class NodalOfficerApplicationListComponent implements OnInit
   //}
 
 
-  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number)
-  {
+  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number) {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
 
-  async DocumentScrutiny_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string)
-  {
-    this.routers.navigate(['/documentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))  ]);
+  async DocumentScrutiny_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
+    this.routers.navigate(['/documentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
   }
 
 
@@ -231,12 +223,6 @@ export class NodalOfficerApplicationListComponent implements OnInit
             return
           }
         }
-        //this.request.push({
-        //  ApplyNOCID: this.SelectedApplyNOCID,
-        //  RNCCheckListID: this.CheckListData[i].RNCCheckListID,
-        //  CreatedBy: this.sSOLoginDataModel.UserID,
-        //  FileUploadName: this.CheckListData[i].FileUpload == true ? this.CheckListData[i].FileUploadName : ""
-        //})
       }
       if (this.ActionID <= 0) {
         this.isActionTypeValid = true;
@@ -272,38 +258,24 @@ export class NodalOfficerApplicationListComponent implements OnInit
         return;
       }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.SaveCommiteeInspectionRNCCheckList(this.request).then((data: any) => {
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) {
-          this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-            .then((data: any) => {
-              data = JSON.parse(JSON.stringify(data));
-              this.State = data['State'];
-              this.SuccessMessage = data['SuccessMessage'];
-              this.ErrorMessage = data['ErrorMessage'];
-              if (this.State == 0) {
-                this.toastr.success(this.SuccessMessage);
-                this.modalService.dismissAll('After Success');
-                this.routers.navigate(['/dashboard']);
-              }
-              else if (this.State == 2) {
-                this.toastr.warning(this.ErrorMessage)
-              }
-              else {
-                this.toastr.error(this.ErrorMessage)
-              }
-            }, error => console.error(error));
-        }
-        if (this.State == 1) {
-          this.toastr.error(this.ErrorMessage)
-        }
-        else if (this.State == 2) {
-          this.toastr.warning(this.ErrorMessage)
-        }
-      });
-
+      this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.toastr.success(this.SuccessMessage);
+            this.modalService.dismissAll('After Success');
+            this.routers.navigate(['/dashboard']);
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -557,20 +529,19 @@ export class NodalOfficerApplicationListComponent implements OnInit
   }
 
 
- async AddMemberDetail() {
+  async AddMemberDetail() {
     this.isSubmitted_MemberDetails = true;
     if (this.CommitteeMemberDetails.invalid) {
       return
-   }
-   //rest
-   this.AadhaarNo = '';
+    }
+    //rest
+    this.AadhaarNo = '';
 
     var isValidate = this.request_MemberList.ApplicationCommitteeList.find(e => e.SSOID === this.request_CommitteeMemberDataModel.SSOID);
-    if (!isValidate)
-    {
+    var isValidateMobile = this.request_MemberList.ApplicationCommitteeList.find(e => e.MobileNumber === this.request_CommitteeMemberDataModel.MobileNumber);
+    if (!isValidate && !isValidateMobile) {
       await this.VerifySSOID(this.request_CommitteeMemberDataModel.SSOID);
-      if (this.AadhaarNo.length > 0)
-      {
+      if (this.AadhaarNo.length > 0) {
         this.request_MemberList.ApplicationCommitteeList.push({
           CommitteeMemberID: 0,
           ApplyNocApplicationID: this.SelectedApplyNOCID,
@@ -583,22 +554,21 @@ export class NodalOfficerApplicationListComponent implements OnInit
           DeleteStatus: false,
           AadhaarNo: this.AadhaarNo,
         });
+        this.request_CommitteeMemberDataModel.NameOfPerson = '';
+        this.request_CommitteeMemberDataModel.MobileNumber = '';
+        this.request_CommitteeMemberDataModel.SSOID = '';
+        this.request_CommitteeMemberDataModel.IsPrimaryMember = false;
+        this.isSubmitted_MemberDetails = false;
       }
-      else
-      {
+      else {
         this.toastr.warning('SSOID Invalid')
       }
     }
-    else
-    {
-      this.toastr.warning('This User Alaready Exists')
+    else {
+      this.toastr.warning(isValidate ? 'This User Alaready Exists' : 'this Mobile Number Exists');
     }
     // reset
-    this.request_CommitteeMemberDataModel.NameOfPerson = '';
-    this.request_CommitteeMemberDataModel.MobileNumber = '';
-    this.request_CommitteeMemberDataModel.SSOID = '';
-    this.request_CommitteeMemberDataModel.IsPrimaryMember = false;
-    this.isSubmitted_MemberDetails = false;
+
 
 
 
@@ -642,7 +612,10 @@ export class NodalOfficerApplicationListComponent implements OnInit
       this.toastr.error("Please add Member Details");
       isValid = false;
     }
-
+    if (this.request_MemberList.ApplicationCommitteeList.length <= 3) {
+      this.toastr.error("Please add three Member Details");
+      isValid = false;
+    }
     let ifPrimaryExits = this.request_MemberList.ApplicationCommitteeList.find(f => f.IsPrimaryMember == true);
     if (ifPrimaryExits?.IsPrimaryMember == undefined) {
       this.toastr.error("Atleast one primary member required");
@@ -733,42 +706,36 @@ export class NodalOfficerApplicationListComponent implements OnInit
     }
   }
 
-  async VerifySSOID(SSOID:any)
-  {
+  async VerifySSOID(SSOID: any) {
     //Show Loading
     debugger;
     //verify ssoid
     await this.CheckMappingSSOID(SSOID);
-    if (this.sSOVerifyDataModel != null && SSOID.toLowerCase() == this.sSOVerifyDataModel.SSOID.toLowerCase())
-    {
+    if (this.sSOVerifyDataModel != null && SSOID.toLowerCase() == this.sSOVerifyDataModel.SSOID.toLowerCase()) {
       let d = new AadharServiceDataModel();
       d.AadharID = this.sSOVerifyDataModel.AadhaarId;
-    await this.GetAadharByVID(d);
+      await this.GetAadharByVID(d);
       this.SsoValidationMessage = 'd';
       this.SsoSuccessMessage = 'SSO Id Verified Successfully';
 
       AadharServiceDetails
     }
-    else
-    {
-      this.SsoValidationMessage =''
+    else {
+      this.SsoValidationMessage = ''
       this.SsoValidationMessage = 'SSO Id Invalid !';
     }
   }
 
 
-  async GetAadharByVID(data: any)
-  {
+  async GetAadharByVID(data: any) {
     await this.aadharServiceDetails.GetAadharByVID(data)
       .then((data: any) => {
         data = JSON.parse(JSON.stringify(data));
-        if (data[0].status == "0")
-        {
+        if (data[0].status == "0") {
           this.AadhaarNo = data[0].data;
         }
-        else
-        {
-          this.AadhaarNo ='';
+        else {
+          this.AadhaarNo = '';
         }
       }, error => console.error(error));
   }
@@ -780,8 +747,7 @@ export class NodalOfficerApplicationListComponent implements OnInit
   }
 
   //Application Details
-  async ViewApplicationPvDetails(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) 
-  {
+  async ViewApplicationPvDetails(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
     this.ApplicationNo = ApplicationNo;
     this.SelectedCollageID = CollegeID;
     this.SelectedDepartmentID = DepartmentID;
