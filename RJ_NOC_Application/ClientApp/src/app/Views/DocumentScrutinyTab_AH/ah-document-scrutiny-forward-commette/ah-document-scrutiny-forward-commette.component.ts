@@ -8,6 +8,8 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
+import { EnumCommitteActionType, EnumCommitteType } from '../../../Common/enum-noc';
 
 @Component({
   selector: 'app-ah-document-scrutiny-forward-commette',
@@ -24,26 +26,32 @@ export class AhDocumentScrutinyForwardCommetteComponent {
   public ErrorMessage: any = [];
   public DocumentScrutinyForwardCommiteeList: any = [];
   public ApplicationTrailList: any = [];
+  public ApplicationCommitteeList: any = [];
 
   public CommitteType: string = '';
+  public CommitteMemberType: string = '';
+  public ApplicationNo: string = '';
 
 
-  constructor(private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private committeeMasterService: CommitteeMasterService, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private modalService: NgbModal) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     if (this.sSOLoginDataModel.RoleID == 11) {
-      this.CommitteType = 'Forward To Respective Document Commitee';
+      this.CommitteType = EnumCommitteActionType.FTRDC;//'Forward To Respective Document Commitee';
+      this.CommitteMemberType = EnumCommitteType.Pre;//'PreVerification';
     }
     else if (this.sSOLoginDataModel.RoleID == 14) {
-      this.CommitteType = 'Forward To Physical Infrasturcture Commitee';
+      this.CommitteType = EnumCommitteActionType.FTPIC; //'Forward To Physical Infrasturcture Commitee';
+      this.CommitteMemberType = EnumCommitteType.Post; //'PostVerification';
     }
     else if (this.sSOLoginDataModel.RoleID == 25) {
-      this.CommitteType = 'Forward To Physical Check Policy Commitee';
+      this.CommitteType = EnumCommitteActionType.FTPCPC;//'Forward To Physical Check Policy Commitee';
+      this.CommitteMemberType = EnumCommitteType.Final;//'FinalVerification';
     }
     await this.GeForwardCommiteeAHList(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
-    
+
   }
 
   async GeForwardCommiteeAHList(UserID: number, RoleID: number, DepartmentID: number) {
@@ -69,7 +77,6 @@ export class AhDocumentScrutinyForwardCommetteComponent {
       }, 200);
     }
   }
-
 
   async GetApplicationTrail(content: any, ApplyNOCID: number) {
     this.ApplicationTrailList = [];
@@ -98,6 +105,7 @@ export class AhDocumentScrutinyForwardCommetteComponent {
       }, 200);
     }
   }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -113,6 +121,35 @@ export class AhDocumentScrutinyForwardCommetteComponent {
       //this.routers.navigate(['/animalhusbandryappnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
       //this.routers.navigate(['/animalhusbandryappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString()))]);
       window.open('/animalhusbandryappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())), "_blank");
+    }
+  }
+
+  async GetApplicationCommitteeList(content: any, ApplyNocApplicationID: number, ApplicationNo: any) {
+    this.ApplicationNo = ApplicationNo;
+    try {
+
+      this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+      this.loaderService.requestStarted();
+      await this.committeeMasterService.GetApplicationCommitteeList_AH(ApplyNocApplicationID, this.CommitteMemberType)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationCommitteeList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 }

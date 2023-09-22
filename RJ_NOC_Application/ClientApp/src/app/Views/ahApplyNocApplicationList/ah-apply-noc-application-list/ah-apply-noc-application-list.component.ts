@@ -15,6 +15,7 @@ import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { ApplicationCommitteeMemberdataModel, PostApplicationCommitteeMemberdataModel } from '../../../Models/ApplicationCommitteeMemberdataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 import { fail } from 'assert';
+import { EnumCommitteType } from '../../../Common/enum-noc';
 @Component({
   selector: 'app-ah-apply-noc-application-list',
   templateUrl: './ah-apply-noc-application-list.component.html',
@@ -62,15 +63,15 @@ export class AhApplyNocApplicationListComponent {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //this.RoleID = this.sSOLoginDataModel.RoleID;
     if (this.sSOLoginDataModel.RoleID == 11) {
-      this.CommitteType = 'PreVerification';
+      this.CommitteType = EnumCommitteType.Pre;//'PreVerification';
       this.IsCommitteType = true;
     }
     else if (this.sSOLoginDataModel.RoleID == 14) {
-      this.CommitteType = 'PostVerification';
+      this.CommitteType = EnumCommitteType.Post;//'PostVerification';
       this.IsCommitteType = true;
     }
     else if (this.sSOLoginDataModel.RoleID == 25) {
-      this.CommitteType = 'FinalVerification';
+      this.CommitteType = EnumCommitteType.Final;//'FinalVerification';
       this.IsCommitteType = true;
     }
     else {
@@ -86,6 +87,7 @@ export class AhApplyNocApplicationListComponent {
       })
     await this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
   }
+
   get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
 
   async GetApplyNOCApplicationListByRole(RoleId: number, UserID: number) {
@@ -123,6 +125,7 @@ export class AhApplyNocApplicationListComponent {
 
     this.GetApplicationCommitteeList(ApplyNOCID)
   }
+
   private getDismissReason(reason: any): string {
     this.SelectedCollageID = 0;
     this.SelectedDepartmentID = 0;
@@ -198,6 +201,7 @@ export class AhApplyNocApplicationListComponent {
     this.request_CommitteeMemberDataModel.IsPrimaryMember = false;
     this.isSubmitted_MemberDetails = false;
   }
+
   DelMemberDetail(item: any, index: any) {
     let chkIsPrimary = this.request_MemberList.ApplicationCommitteeList[index].IsPrimaryMember;
     this.isSubmitted = false;
@@ -234,6 +238,7 @@ export class AhApplyNocApplicationListComponent {
       this.SsoValidationMessage = 'SSO Id Invalid !';
     }
   }
+
   async GetAadharByVID(data: any) {
     await this.aadharServiceDetails.GetAadharByVID(data)
       .then((data: any) => {
