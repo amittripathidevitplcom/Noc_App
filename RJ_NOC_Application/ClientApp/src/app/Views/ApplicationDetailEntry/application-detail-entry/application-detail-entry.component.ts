@@ -48,22 +48,28 @@ export class ApplicationDetailEntryComponent implements OnInit {
   @ViewChild(AcademicInformationComponent)
   private academicInformationComponent!: AcademicInformationComponent;
 
+  public DraftbuttonName: string = 'Save Draft';
+
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService) { }
 
   async ngOnInit() {
     // $(".secondTab").addClass("highLightTab");
     this.loaderService.requestStarted();
-    console.log(this.router.snapshot.paramMap.get('DepartmentID'));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //await this.GetCollageMaster();
+    if (this.SelectedDepartmentID == 5) {
+      this.DraftbuttonName = 'Apply LOI';
+    }
+    else {
+      this.DraftbuttonName = 'Save Draft';
+    }
     await this.GetCollageDetails();
     await this.GetCollegeBasicDetails();
     await this.CheckTabsEntry();
     await this.ShowDraftFinalSubmitBtn();
-    debugger;
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
   }
@@ -364,6 +370,32 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
                   setTimeout(() => {
                     this.routers.navigate(['/draftapplicationlist']);
+                  }, 500);
+
+                }
+                else {
+                  this.toastr.error(this.ErrorMessage)
+                }
+              })
+          }
+        }
+      }
+      else if (this.SelectedDepartmentID == 5) {
+        this.isCheck30Female = false;
+        if (this.isCheck30Female == false) {
+          if (confirm("Are you sure you want to Apply LOI?")) {
+            await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+              .then((data: any) => {
+
+                this.State = data['State'];
+                this.SuccessMessage = data['SuccessMessage'];
+                this.ErrorMessage = data['ErrorMessage'];
+                console.log(this.State);
+                if (!this.State) {
+                  this.toastr.success('Apply LOI Successfully')
+
+                  setTimeout(() => {
+                    this.routers.navigate(['/loiapplicationlist']);
                   }, 500);
 
                 }
