@@ -163,7 +163,7 @@
             <label><b>Name of Person:</b> </label>
             <input class="form-control disabled" disabled value="{{request.PersonName}}" />
           </div>
-          <div class="col-md-4 mb-3">
+          <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
             <label><b>Designation :</b> </label>
             <input class="form-control disabled" disabled value="{{request.RoleName}}" />
           </div>
@@ -184,13 +184,12 @@
             <input class="form-control disabled" disabled value="{{request.HighestQualificationName}}" />
           </div>
           <div class="col-md-4 mb-3">
-            <label><b>Total Number of Experience (Year) :</b></label>
-            <input class="form-control disabled" disabled value="{{request.NumberofExperience}}" />
-          </div>
-
-          <div class="col-md-4 mb-3">
             <label><b>Aadhar Number :</b></label>
-            <input class="form-control disabled" disabled value="{{request.AadhaarNo}}" />
+            <input class="form-control disabled" disabled value="{{request.MaskedAadhaarNo}}" />
+          </div>
+          <div class="col-md-4 mb-3">
+            <label><b>PAN Number :</b></label>
+            <input class="form-control disabled" disabled value="{{request.PANNo}}" />
           </div>
           <div class="col-md-4 mb-3">
             <label><b>Date Of Birth :</b></label>
@@ -204,14 +203,22 @@
             <label><b>Date Of Joining :</b></label>
             <input class="form-control disabled" disabled value="{{request.DateOfJoining | date:'dd-MM-yyyy'}}" />
           </div>
+          <div class="col-md-4 mb-3">
+            <label><b>Total Number of Experience (Year) :</b></label>
+            <input class="form-control disabled" disabled value="{{request.NumberofExperience}}" />
+          </div>
           <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
             <label><b>Specialization Subject :</b></label>
             <input class="form-control disabled" disabled value="{{request.SpecializationSubject}}" />
           </div>
+          <div class="col-md-4 mb-3" *ngIf="request.ESINumber != ''">
+            <label><b>ESI Number :</b></label>
+            <input class="form-control disabled" disabled value="{{request.ESINumber}}" />
+          </div>
           <!--<div class="col-md-4 mb-3" *ngIf="request.TeachingType=='NonTeaching'">
-    <label><b>Role Mapping :</b></label>
-    <input class="form-control disabled" disabled value="{{request.RoleMapping}}" />
-  </div>-->
+        <label><b>Role Mapping :</b></label>
+        <input class="form-control disabled" disabled value="{{request.RoleMapping}}" />
+      </div>-->
           <div class="col-md-4 mb-3">
             <label><b>Salary :</b></label>
             <input class="form-control disabled" disabled value="{{request.Salary}}" />
@@ -223,8 +230,10 @@
           <div class="col-md-4 mb-3">
             <label class="form-label" style="margin-right:15px"><b>PF Deduction :</b></label>
             <input class="form-control disabled" disabled value="{{request.PFDeduction}}" />
-            <label *ngIf="request.PFDeduction=='Yes'"><b> UAN No. :</b></label>
-            <input *ngIf="request.PFDeduction=='Yes'" class="form-control disabled" disabled value=" {{request.UANNumber}}" />
+          </div>
+          <div class="col-md-4 mb-3" *ngIf="request.PFDeduction=='Yes'">
+            <label><b> UAN No. :</b></label>
+            <input class="form-control disabled" disabled value=" {{request.UANNumber}}" />
           </div>
           <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching'">
             <label class="form-label" style="margin-right:15px"><b>Research Guide :</b></label>

@@ -156,47 +156,51 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Owner Name :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.OwnerName}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Address Line 1 :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.AddressLine1}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Address Line 2 :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.AddressLine2}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"> <b>Rural / Urban :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.RuralUrban}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Division :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.Division_English}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>District :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.District_Eng}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildingdetails.RuralUrban != 'Rural'">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Tehsil :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.TehsilName}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="buildingdetails.RuralUrban != 'Rural'">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Urban' && buildingdetails.BuildingTypeName!='Owned'">
+                <label class="form-label"><b>City :</b></label>
+                <input class="form-control disabled" disabled value="{{buildingdetails.CityName}}" />
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Rural' && buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Panchayat Samiti :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.PanchyatSamitiName}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>City/Town/Village :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.CityTownVillage}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Contact No :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.ContactNo}}" />
               </div>
-              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
                 <label class="form-label"><b>Pincode :</b></label>
                 <input class="form-control disabled" disabled value="{{buildingdetails.Pincode}}" />
               </div>
@@ -245,12 +249,16 @@
               </div>
               <div class="card-body">
                 <div class="row">
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                    <label class="form-label"><b>Order No :</b></label>
+                    <input class="form-control disabled" disabled value="{{buildingdetails.FireNOCOrderNumber}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
                     <label class="form-label"><b>From Date :</b></label>
                     <input class="form-control disabled" disabled value="{{buildingdetails.FromDate}}" />
                   </div>
 
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
                     <label class="form-label"><b>To Date :</b></label>
                     <input class="form-control disabled" disabled value="{{buildingdetails.ToDate}}" />
                   </div>
@@ -371,6 +379,7 @@
                 </div>
               </div>
             </div>
+
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <b><i class="fa fa-filter"></i>&nbsp;Building Photos</b>
