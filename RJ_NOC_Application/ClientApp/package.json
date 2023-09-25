@@ -38,6 +38,8 @@
     "ngx-cookie-service": "^16.0.1",
     "ngx-toastr": "^17.0.2",
     "rxjs": "~7.5.0",
+    "tinymce": "^6.7.0",
+    "tinymce-mention": "^4.0.2",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",
     "zone.js": "~0.11.4"

@@ -36,5 +36,15 @@ export class DraftApplicationListService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
+  public async LOIApplicationList(LoginSSOID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/LOIApplicationList/" + LoginSSOID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

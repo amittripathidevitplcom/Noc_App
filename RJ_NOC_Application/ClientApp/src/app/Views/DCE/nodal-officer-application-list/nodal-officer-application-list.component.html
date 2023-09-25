@@ -35,7 +35,7 @@
                       <th>Department Name</th>
                       <th>College Name</th>
                       <th>Application No.</th>
-                      <th>Action</th>
+                      <th  *ngIf="QueryStringStatus!='Revert'">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -44,7 +44,7 @@
                       <td>{{item.DepartmentName}}</td>
                       <td>{{item.CollegeName}}</td>
                       <td>{{item.ApplicationNo}}</td>
-                      <td>
+                      <td *ngIf="QueryStringStatus!='Revert'">
                         <a href="javascript:void(0)" title="Document Scrutiny" (click)="DocumentScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage=='0' && this.sSOLoginDataModel.RoleID==17" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>

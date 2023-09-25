@@ -137,6 +137,8 @@ import { AhDocumentScrutinyNodalOfficerComponent } from './Views/DocumentScrutin
 import { OneStepRevertBackComponent } from './Views/one-step-revert-back/one-step-revert-back.component';
 import { Observable } from 'rxjs';
 import { SkipLocationChangeGuard } from './Common/auth.guard.ts';
+import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplication-list/loiapplication-list.component';
+//import { TestTinyComponent } from './Views/test-tiny/test-tiny.component';
 
 
 
@@ -599,6 +601,13 @@ const routes: Routes = [
       {
         path: 'onesteprevertbackapplist', component: OneStepRevertBackComponent
       },
+
+      {
+        path: 'loiapplicationlist', component: LOIApplicationListComponent
+      },
+      //{
+      //  path: 'testt', component: TestTinyComponent
+      //},
     ] 
    // ,canActivate: [SkipLocationChangeGuard],
   },
