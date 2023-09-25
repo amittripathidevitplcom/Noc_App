@@ -183,6 +183,12 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request = data['Data'][0];
+          if (this.request.AadhaarNo.length > 0) {
+            const visibleDigits = 4;
+            let maskedSection = this.request.AadhaarNo.slice(0, -visibleDigits);
+            let visibleSection = this.request.AadhaarNo.slice(-visibleDigits);
+            this.request.MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
+          }
           console.log(this.request);
         }, error => console.error(error));
     }
