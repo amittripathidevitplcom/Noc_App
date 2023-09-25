@@ -54,4 +54,9 @@ export class TestTinyComponent {
   ready(instance: any): void {
     console.log('ready', instance);
   }
+
+
+  async ResetControl() {
+    console.log(this.html);
+  }
 }
