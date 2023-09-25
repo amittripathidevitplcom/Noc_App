@@ -51,7 +51,7 @@
 
             <!--OLD NOC Details Only for New-->
 
-            <mat-tab *ngIf="CollegeType_IsExisting">
+            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5">
               <ng-template mat-tab-label>
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
@@ -62,7 +62,7 @@
             </mat-tab>
 
 
-            <mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID!=5"> 
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
@@ -73,7 +73,7 @@
             </mat-tab>
 
             <!--Facility-->
-            <mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID!=5">
               <ng-template mat-tab-label>
                 <i class="fa fa-list-alt icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Facility']>0"></i>
@@ -96,7 +96,7 @@
 
 
             <!--Other Document-->
-            <mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID!=5">
               <ng-template mat-tab-label>
                 <i class="fa fa-files-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
@@ -108,7 +108,7 @@
 
 
             <!--Other Information-->
-            <mat-tab>
+            <mat-tab *ngIf="SelectedDepartmentID!=5">
               <ng-template mat-tab-label>
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherInformation']>0"></i>
@@ -122,7 +122,7 @@
 
 
             <!--Staff Details-->
-            <mat-tab *ngIf="CollegeType_IsExisting">
+            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5">
               <ng-template mat-tab-label>
                 <i class="fa fa-users icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
@@ -134,7 +134,7 @@
 
 
             <!--Academic Information Only for New-->
-            <mat-tab *ngIf="CollegeType_IsExisting">
+            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5">
               <ng-template mat-tab-label>
                 <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AcademicInformation']>0"></i>
@@ -147,7 +147,7 @@
 
 
             <!--Hospital Details-->
-            <mat-tab *ngIf="SelectedDepartmentID==6">
+            <mat-tab *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==5">
               <ng-template mat-tab-label>
                 <i class="fa fa-hospital-o icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HospitalDetails']>0"></i>
