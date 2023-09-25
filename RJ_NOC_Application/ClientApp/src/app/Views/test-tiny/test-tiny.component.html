@@ -1,0 +1,11 @@
+<!--<div class="container">-->
+<!--<editor apiKey="daRichiedere" style="position:relative;" [inline]="false" [init]="getInit()"></editor>-->
+<!--</div>-->
+<div class="card mb-3">
+  <div class="card-header">Loading</div>
+  <div class="card-body">
+    <tinymce [config]="config" [(ngModel)]="html"></tinymce>
+  </div>
+  <textarea id="editor">
+    </textarea>
+</div>

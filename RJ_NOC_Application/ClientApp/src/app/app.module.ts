@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
+import { NgxTinymceModule } from 'ngx-tinymce';
 /*import { NgShortcutModule, NgShortcutConfig } from 'ng-shortcut';*/
 
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
@@ -258,6 +259,7 @@ import { PreviewFDRDetailComponent } from './Views/PreviewTabs/preview-fdr-detai
 import { PreviewCourseDetailComponent } from './Views/PreviewTabs/preview-course-detail/preview-course-detail.component';
 import { OneStepRevertBackComponent } from './Views/one-step-revert-back/one-step-revert-back.component';
 import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplication-list/loiapplication-list.component';
+import { TestTinyComponent } from './Views/test-tiny/test-tiny.component';
 
 
 
@@ -507,7 +509,9 @@ import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplicat
     PreviewFDRDetailComponent,
     PreviewCourseDetailComponent,
     OneStepRevertBackComponent,
-    LOIApplicationListComponent
+    LOIApplicationListComponent,
+    OneStepRevertBackComponent,
+    TestTinyComponent
   ],
   imports: [
     CommonModule,
@@ -537,7 +541,11 @@ import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplicat
 
     NgIdleModule.forRoot(),
     //NgShortcutModule.forRoot()  ,
-
+    NgxTinymceModule.forRoot({
+      //baseURL: './assets/tinymce/',
+      // or cdn
+      baseURL: '//cdn.tiny.cloud/1/u4ijkaa2fh5luotchiu5jl1tt8bio3o68sbc709dniagcc56/tinymce/6/',
+    }),
 
     //NgSelect2Module,
     //ChartsModule,
