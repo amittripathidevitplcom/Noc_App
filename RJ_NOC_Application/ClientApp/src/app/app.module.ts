@@ -509,7 +509,7 @@ import { TestTinyComponent } from './Views/test-tiny/test-tiny.component';
     PreviewFDRDetailComponent,
     PreviewCourseDetailComponent,
     OneStepRevertBackComponent,
-    LOIApplicationListComponent
+    LOIApplicationListComponent,
     OneStepRevertBackComponent,
     TestTinyComponent
   ],
