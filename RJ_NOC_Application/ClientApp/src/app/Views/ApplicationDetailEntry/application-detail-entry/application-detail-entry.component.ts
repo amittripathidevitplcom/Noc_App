@@ -349,7 +349,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
           }
         })
       if (this.SelectedDepartmentID == 3) {
-        if (confirm(DCPendingPoint +"\nAre you sure you want to save draft application ?")) {
+        if (confirm(DCPendingPoint + "\nAre you sure you want to save draft application ?")) {
           this.isCheck30Female = false;
           if (this.isCheck30Female == false) {
             await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
@@ -475,6 +475,13 @@ export class ApplicationDetailEntryComponent implements OnInit {
           // && this.CheckTabsEntryData['ClassWiseStatistics'] > 0
           this.IsShowDraftFinalSubmit = false;
         }
+      }
+    }
+    //Medical Group 1
+    if (this.SelectedDepartmentID == 5) {
+      if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0) {
+        // && this.CheckTabsEntryData['ClassWiseStatistics'] > 0
+        this.IsShowDraftFinalSubmit = false;
       }
     }
   }

@@ -17,99 +17,119 @@
 </div>
 
 <div class="container-fluid mainContents">
-  <div class="card tabCard1 mb-0">
-    <div class="card-header">
-      <b><i class="bi bi-table"></i>&nbsp; Document Scrutiny Forward Commitee Report</b>
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <b>Document Scrutiny Forward Commitee Applications</b>
+      <a href="/dashboard" class="btn btn-sm btn-primary">Back to Dashboard</a>
     </div>
-    <div class="card-body">
-      <div class="clearfix"></div>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th>S.No.</th>
+            <th>Department Name</th>
+            <th>College Name</th>
+            <th>Application No.</th>
+            <th>Remarks</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of DocumentScrutinyForwardCommiteeList let idx =index">
+            <td>{{idx+1}}</td>
+            <td>{{item.DepartmentName}}</td>
+            <td>{{item.CollegeName}}</td>
+            <td>{{item.ApplicationNo}}</td>
+            <td>{{item.Remark}}</td>
+            <td>{{item.Status}}</td>
+            <td>
+              <button type="button" class="btn btn-sm btn-primary" title="Assigned Commitee" (click)="GetApplicationCommitteeList(mymodalAsignCommittee,item.ApplyNOCID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
+              <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'No')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7" *ngIf="DocumentScrutinyForwardCommiteeList.length<=0" style="color:red"> No Data Found.!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+<ng-template #mymodalAsignCommittee let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Assigned  Committee (ApplicationNo : {{ApplicationNo}})</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-          <b>Document Scrutiny Forward Commitee Applications</b>
-          <a href="/dashboard" class="btn btn-sm btn-primary">Back to Dashboard</a>
+          <b>&nbsp;Member Details <span style="color:red;">*</span></b>
         </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="table-responsive">
-                <table class="table table-hover table-striped">
-                  <thead>
-                    <tr>
-                      <th>S.No.</th>
-                      <th>Department Name</th>
-                      <th>College Name</th>
-                      <th>Application No.</th>
-                      <th>Remarks</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of DocumentScrutinyForwardCommiteeList let idx =index">
-                      <td>{{idx+1}}</td>
-                      <td>{{item.DepartmentName}}</td>
-                      <td>{{item.CollegeName}}</td>
-                      <td>{{item.ApplicationNo}}</td>
-                      <td>{{item.Remark}}</td>
-                      <td>{{item.Status}}</td>
-                      <td>
-                        <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'No')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="7" *ngIf="DocumentScrutinyForwardCommiteeList.length<=0" style="color:red"> No Data Found.!</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <ng-template #mymodal let-modal>
-              <div class="modal-header">
-                <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
-                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                  <i class="fa fa-close"></i>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="card">
-                  <div class="card-header">
-                    <b>Application Trail</b>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Name</th>
+                <th>Mobile Number</th>
+                <th>SSO ID</th>
+                <th>Is Primary Member</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of ApplicationCommitteeList;let idx=index;">
+                <td>{{idx+1}} </td>
+                <td>{{row.NameOfPerson}} </td>
+                <td>{{row.MobileNumber}} </td>
+                <td>{{row.SSOID}} </td>
+                <td>
+                  <div class="form-check form-switch d-flex align-items-center">
+                    <input class="form-check-input" disabled="disabled" [ngModelOptions]="{standalone: true}" type="checkbox" name="Activechk{{idx}}" id="Activechk{{idx}}" [(ngModel)]="row.IsPrimaryMember">
                   </div>
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="table-responsive">
-                        <table class="table table-hover table-striped-columns">
-                          <thead>
-                            <tr>
-                              <th>Sr.No.</th>
-                              <th>User Name</th>
-                              <th>Action</th>
-                              <th>Action Date</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let item of ApplicationTrailList let idx =index">
-                              <td>{{idx+1}}</td>
-                              <td>{{item.ActionUser}}</td>
-                              <td>{{item.ActionName}}</td>
-                              <td>{{item.ActionDate}}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ng-template>
-
-          </div>
+                </td>
+              </tr>
+              <tr *ngIf="ApplicationCommitteeList.length<=0">
+                <td colspan="5" style="color:red">No Member Added.!</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
-</div>
+</ng-template>
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover table-striped-columns">
+      <thead>
+        <tr>
+          <th>Sr.No.</th>
+          <th>User Name</th>
+          <th>Action</th>
+          <th>Action Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of ApplicationTrailList let idx =index">
+          <td>{{idx+1}}</td>
+          <td>{{item.ActionUser}}</td>
+          <td>{{item.ActionName}}</td>
+          <td>{{item.ActionDate}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>
 

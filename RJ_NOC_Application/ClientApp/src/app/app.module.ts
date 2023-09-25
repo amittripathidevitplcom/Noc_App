@@ -258,6 +258,7 @@ import { AhDocumentScrutinyNodalOfficerComponent } from './Views/DocumentScrutin
 import { PreviewFDRDetailComponent } from './Views/PreviewTabs/preview-fdr-detail/preview-fdr-detail.component';
 import { PreviewCourseDetailComponent } from './Views/PreviewTabs/preview-course-detail/preview-course-detail.component';
 import { OneStepRevertBackComponent } from './Views/one-step-revert-back/one-step-revert-back.component';
+import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplication-list/loiapplication-list.component';
 import { TestTinyComponent } from './Views/test-tiny/test-tiny.component';
 
 
@@ -507,6 +508,8 @@ import { TestTinyComponent } from './Views/test-tiny/test-tiny.component';
     AhDocumentScrutinyNodalOfficerComponent,
     PreviewFDRDetailComponent,
     PreviewCourseDetailComponent,
+    OneStepRevertBackComponent,
+    LOIApplicationListComponent
     OneStepRevertBackComponent,
     TestTinyComponent
   ],
