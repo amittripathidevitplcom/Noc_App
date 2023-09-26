@@ -122,10 +122,15 @@
               <div class="clearfix"></div>
               <input class="form-control disabled" disabled value="{{request.DistrictName}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label><b>Tehsil Name :</b></label>
               <div class="clearfix"></div>
               <input class="form-control disabled" disabled value="{{request.TehsilName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="IsRural">
+              <label><b>City Name :</b></label>
+              <div class="clearfix"></div>
+              <input class="form-control disabled" disabled value="{{request.CityName}}" />
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
               <label><b>PanchayatSamiti Name :</b></label>
