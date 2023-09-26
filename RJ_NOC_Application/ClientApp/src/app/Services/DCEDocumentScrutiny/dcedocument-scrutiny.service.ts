@@ -235,13 +235,13 @@ export class DCEDocumentScrutinyService {
   }
 
   //Nodal Officer Applicaiton List 
-  public async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number, Status: string) {
+  public async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number, Status: string, ActionName: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetNodalOfficerApplyNOCApplicationList/" + RoleId + "/" + UserID + "/" + Status)
+    return await this.http.get(this.APIUrl + "/GetNodalOfficerApplyNOCApplicationList/" + RoleId + "/" + UserID + "/" + Status + "/" + ActionName)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
