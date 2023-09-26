@@ -17,14 +17,13 @@ import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutin
 import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
-import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Component({
-  selector: 'app-nodal-officer-application-list',
-  templateUrl: './nodal-officer-application-list.component.html',
-  styleUrls: ['./nodal-officer-application-list.component.css']
+  selector: 'app-commissioner-application-scrutiny-list',
+  templateUrl: './commissioner-application-scrutiny-list.component.html',
+  styleUrls: ['./commissioner-application-scrutiny-list.component.css']
 })
-export class NodalOfficerApplicationListComponent implements OnInit {
+export class CommissionerApplicationScrutinyListComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -116,14 +115,18 @@ export class NodalOfficerApplicationListComponent implements OnInit {
 
   async GetNodalOfficerApplyNOCApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
-      let ActionName = '';
-      if (RoleId == 17) {
-        ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending'?'Apply NOC':'';
-      }
-      else {
-        ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending'?'Approve':'';
-      }
       this.loaderService.requestStarted();
+      let ActionName = '';
+      if (RoleId == 24) {
+        ActionName = Status == 'Completed' ? 'Forward To Secretary' : Status == 'Rejected' ? 'Reject By Commissioner' : Status == 'Revert' ? 'Revert By Commissioner' : Status == 'NOCIssued' ? 'Release NOC' : Status == 'Pending' ? 'Approve' : '';
+      }
+      if (RoleId == 7) {
+        ActionName = Status == 'Completed' ? 'Forward To Minister Higher Education' : Status == 'Rejected' ? 'Reject By Secretary' : Status == 'Revert' ? 'Revert By Secretary' : Status == 'NOCIssued' ? 'Release NOC' : Status == 'Forward' ? 'Forward To Secretary By Minister' : Status == 'Pending' ? 'Forward To Secretary' : '';
+      }
+      if (RoleId == 26) {
+        ActionName = Status == 'Completed' ? 'Forward To Secretary By Minister' : Status == 'Rejected' ? 'Reject By Minister' : Status == 'Pending' ? 'Forward To Minister Higher Education' : '';
+      }
+
       await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -131,6 +134,7 @@ export class NodalOfficerApplicationListComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplyNocDetails = data['Data'];
+          console.log(this.ApplyNocDetails);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -143,37 +147,11 @@ export class NodalOfficerApplicationListComponent implements OnInit {
     }
   }
 
-  //async GetRNCCheckListByTypeDepartment() {
-  //  try {
-  //    this.loaderService.requestStarted();
-  //    await this.commonMasterService.GetRNCCheckListByTypeDepartment('MDHNM', this.sSOLoginDataModel.DepartmentID)
-  //      .then((data: any) => {
-  //        data = JSON.parse(JSON.stringify(data));
-  //        this.State = data['State'];
-  //        this.SuccessMessage = data['SuccessMessage'];
-  //        this.ErrorMessage = data['ErrorMessage'];
-  //        this.CheckListData = data['Data'];
-  //        console.log(this.CheckListData);
-  //      }, error => console.error(error));
-  //  }
-  //  catch (Ex) {
-  //    console.log(Ex);
-  //  }
-  //  finally {
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //    }, 200);
-  //  }
-  //}
-
-
   async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number) {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
 
-  async DocumentScrutiny_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
-    this.routers.navigate(['/documentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
-  }
+
 
 
   async OpenActionPopUP(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
@@ -836,6 +814,56 @@ export class NodalOfficerApplicationListComponent implements OnInit {
     }
     event.preventDefault();
     return false;
+  }
+
+  async ApplicationScrutiny_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
+    this.routers.navigate(['/checklistforcommissioner' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
+  }
+
+  async OpenGeneratePDFPopUP(content: any, ApplyNOCID: number, DepartmentID: number) {
+    this.SelectedDepartmentID = DepartmentID;
+    this.SelectedApplyNOCID = ApplyNOCID;
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+
+  }
+  public NOCIssuedRemark: string = '';
+  async GeneratePDF_OnClick() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.NOCIssuedRemark == '') {
+        this.isRemarkValid = true;
+        this.isFormvalid = false;
+      }
+      if (!this.isFormvalid) {
+        return;
+      }
+      await this.applyNOCApplicationService.GenerateNOCForDCE(this.SelectedApplyNOCID, this.SelectedDepartmentID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.NOCIssuedRemark)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage);
+            this.modalService.dismissAll('After Success');
+            window.location.reload();
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
 
