@@ -258,7 +258,6 @@ import { PreviewFDRDetailComponent } from './Views/PreviewTabs/preview-fdr-detai
 import { PreviewCourseDetailComponent } from './Views/PreviewTabs/preview-course-detail/preview-course-detail.component';
 import { OneStepRevertBackComponent } from './Views/one-step-revert-back/one-step-revert-back.component';
 import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplication-list/loiapplication-list.component';
-//import { TestTinyComponent } from './Views/test-tiny/test-tiny.component';
 
 
 
@@ -538,7 +537,8 @@ import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplicat
     //NgIdleKeepaliveModule.forRoot(),
 
     NgIdleModule.forRoot(),
-   
+    //NgShortcutModule.forRoot()  ,
+    
 
     //NgSelect2Module,
     //ChartsModule,
