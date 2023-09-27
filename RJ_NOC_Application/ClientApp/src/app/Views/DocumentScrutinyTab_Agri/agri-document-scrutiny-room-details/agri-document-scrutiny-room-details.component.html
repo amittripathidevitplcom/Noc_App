@@ -26,8 +26,10 @@
               <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
               <th>Sr. No.</th>
               <th>Course</th>
+              <th>Room No.</th>
               <th>Width (In Feet) Size</th>
               <th>Length (In Feet)</th>
+              <th>Room Size (sq. ft)</th>
               <th>Student Capacity</th>
               <th>Upload Image</th>
             </tr>
@@ -68,10 +70,16 @@
                 {{item.CourseName}}
               </td>
               <td>
+                {{item.NoOfRooms}}
+              </td>
+              <td>
                 {{item.Width}}
               </td>
               <td>
                 {{item.Length}}
+              </td>
+              <td>
+                {{item.Length*item.Width}}
               </td>
               <td>
                 {{item.StudentCapacity}}
