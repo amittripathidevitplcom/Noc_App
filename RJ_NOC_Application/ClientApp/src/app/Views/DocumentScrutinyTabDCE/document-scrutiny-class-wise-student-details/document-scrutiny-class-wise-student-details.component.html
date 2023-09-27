@@ -212,7 +212,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" [hidden]="QueryStringStatus!='Pending'">
             <div class="col-md-12">
               <button class="btn btn-primary" type="button" (click)="SubmitClassWiseStudentDetail_Onclick()">Submit</button>
             </div>

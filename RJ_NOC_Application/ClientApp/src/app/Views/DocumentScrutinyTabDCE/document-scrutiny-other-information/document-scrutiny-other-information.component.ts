@@ -43,6 +43,8 @@ export class DocumentScrutinyOtherInformationComponentDce implements OnInit {
   public isRemarkValid: boolean = false;
   public FinalRemarks: any = [];
   //public RequiredDocumentsAllList: any = [];
+  public QueryStringStatus: any = '';
+
 
   constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private otherInformationService: OtherInformationService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
@@ -52,6 +54,7 @@ export class DocumentScrutinyOtherInformationComponentDce implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetOtherInformationAllList();
    
   }

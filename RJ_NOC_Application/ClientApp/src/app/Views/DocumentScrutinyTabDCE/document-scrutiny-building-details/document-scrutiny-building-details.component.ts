@@ -32,6 +32,7 @@ export class DocumentScrutinyBuildingDetailsComponentDce implements OnInit {
 
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
+  public QueryStringStatus: any = '';
 
   dsrequest = new DocumentScrutinyDataModel();
   public isFormvalid: boolean = true;
@@ -44,6 +45,7 @@ export class DocumentScrutinyBuildingDetailsComponentDce implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetAllBuildingDetailsList();
   }
   async GetAllBuildingDetailsList() {

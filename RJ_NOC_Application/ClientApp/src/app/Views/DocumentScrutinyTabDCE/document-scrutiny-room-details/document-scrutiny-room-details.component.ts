@@ -31,6 +31,7 @@ export class DocumentScrutinyRoomDetailsComponentDce implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public FinalRemarks: any = [];
+  public QueryStringStatus: any = '';
   constructor(private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private roomDetailsService: RoomDetailsService, private dcedocumentscrutiny: DocumentScrutinyComponent) { }
 
@@ -41,6 +42,7 @@ export class DocumentScrutinyRoomDetailsComponentDce implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetRoomDetailAllList();
   }
 

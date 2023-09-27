@@ -30,6 +30,7 @@ export class DocumentScrutinyAcademicInformationComponentDce implements OnInit {
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
+  public QueryStringStatus: any = '';
   constructor(private dceDocumentScrutinyService: DCEDocumentScrutinyService,private academicInformationDetailsService: AcademicInformationDetailsService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute,
     private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService,
@@ -40,6 +41,7 @@ export class DocumentScrutinyAcademicInformationComponentDce implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetAcademicInformationDetailAllList();
   }
   async GetAcademicInformationDetailAllList() {

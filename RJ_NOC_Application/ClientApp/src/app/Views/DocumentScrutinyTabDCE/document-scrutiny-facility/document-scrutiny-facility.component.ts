@@ -19,7 +19,7 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
   styleUrls: ['./document-scrutiny-facility.component.css']
 })
 export class DocumentScrutinyFacilityComponentDce implements OnInit {
-
+  public QueryStringStatus: any = '';
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
@@ -41,6 +41,7 @@ export class DocumentScrutinyFacilityComponentDce implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetFacilityDetailAllList();
   }
 
