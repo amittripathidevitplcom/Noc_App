@@ -336,7 +336,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeStatus!='New'">
                   <label>Present Status of College :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.PresentCollegeStatus}}" />
                 </div>
@@ -348,8 +348,10 @@
                   <label>College Level :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeLevel}}" />
                 </div>
-              </div>
-              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>College Code :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeCode}}" />
+                </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label>College Name in English :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeNameEn}}" />
@@ -363,15 +365,20 @@
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeNAACAccredited}}" />
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeNAACAccredited =='Yes'">
-                  <label><b>NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 100KB) (Max.Size 2MB) :</b></label>
-                  <div class="clearfix"></div>
+                  <label>NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 100KB) (Max.Size 2MB) :</label>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_collegeListData.NAACAccreditedCertificatePath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_collegeListData.NAACAccreditedCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeNAACAccredited =='Yes'">
+                  <label>NACC Validity Date :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}" />
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.DepartmentID==3">
                   <label>AISHE Code Status :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AISHECodeStatus}}" />
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.AISHECodeStatus =='Yes'">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.AISHECodeStatus =='Yes' && CheckList_collegeListData.DepartmentID==3">
                   <label>AISHE Code :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AISHECode}}" />
                 </div>
@@ -379,89 +386,98 @@
                   <label>College Medium :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeMediumName}}" />
                 </div>
-              </div>
-              <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>University :</label>
+                  <label *ngIf="CheckList_collegeListData.DepartmentID==6">University / RMC  :</label>
+                  <label *ngIf="CheckList_collegeListData.DepartmentID !=6">University :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.UniversityName}}" />
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Mobile Number :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.MobileNumber}}" />
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Email :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.Email}}" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Address Line 1 :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AddressLine1}}" />
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Address Line 2 :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AddressLine2}}" />
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Area :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.RuralUrbanArea}}" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.RuralUrbanArea=='Rural'">
-                  <label>Distance from City(km) :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.DistanceFromCity}}" />
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Division :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.Division_English}}" />
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>District :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.District_Eng}}" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Subdivision :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.SubdivisionName}}" />
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.RuralUrbanArea=='Rural'">
-                  <label>Tehsil :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.TehsilName}}" />
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.RuralUrbanArea=='Rural'">
-                  <label>Panchayat Samiti :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.PanchyatSamitiName}}" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Parliament Area :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.ParliamentAreaName}}" />
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Assembly Area :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AssemblyAreaName}}" />
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>City/Town/Village :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CityTownVillage}}" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeStatus!='New'">
                   <label>Year of Establishment :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.FinancialYearName}}" />
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Pincode :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.Pincode}}" />
+
+              </div>
+              <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <b>Address & Contact Detail <span style="color:red;">*</span></b>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label>Website Link :</label>
-                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.WebsiteLink}}" />
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Division :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.Division_English}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>District :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.District_Eng}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Subdivision :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.SubdivisionName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Tehsil :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.TehsilName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Area :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.RuralUrbanArea}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.RuralUrbanArea=='Rural'">
+                      <label>Panchayat Samiti :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.PanchyatSamitiName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.RuralUrbanArea=='Urban'">
+                      <label>City :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CityName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Parliament Area :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.ParliamentAreaName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Assembly Area :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AssemblyAreaName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>City/Town/Village :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CityTownVillage}}" />
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Pincode :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.Pincode}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Address Line 1 :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AddressLine1}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Address Line 2 :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AddressLine2}}" />
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.RuralUrbanArea=='Rural'">
+                      <label>Distance from City(km) :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.DistanceFromCity}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Website Link :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.WebsiteLink}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Mobile Number :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.MobileNumber}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Landline Number :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeLandlineNumber}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Email :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.Email}}" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -544,16 +560,8 @@
                           <th>Sr. No.</th>
                           <th>Hospital Name</th>
                           <th>Hospital RegNo.</th>
+                          <th>Hospital Address</th>
                           <th>Distance From Institute(KM)</th>
-                          <th>Address Line1</th>
-                          <th>Address Line2</th>
-                          <th>Area</th>
-                          <th>Division</th>
-                          <th>District</th>
-                          <th>Tehsil</th>
-                          <th>Panchyat Samiti</th>
-                          <th>City/Town/Village</th>
-                          <th>Pincode</th>
                           <th>Hospital Document</th>
                         </tr>
                       </thead>
@@ -576,16 +584,19 @@
                           <td> {{indexOfelement+1}}</td>
                           <td>{{row.HospitalName}}</td>
                           <td>{{row.HospitalRegNo}}</td>
+                          <td>
+                            <p class="m-0"><b>Area : </b> {{row.RuralUrbanArea}}</p>
+                            <p class="m-0"><b>Address Line 1 : </b> {{row.AddressLine1}}</p>
+                            <p class="m-0"><b>Address Line 2 : </b>{{row.AddressLine2}}</p>
+                            <p class="m-0"><b>Division : </b> {{row.Division_English}}</p>
+                            <p class="m-0"><b>District : </b> {{row.District_Eng}}</p>
+                            <p class="m-0"><b>Tehsil : </b>{{row.TehsilName}}</p>
+                            <p *ngIf="row.RuralUrban==1" class="m-0"><b>PanchayatSamiti : </b>{{row.PanchyatSamitiName}}</p>
+                            <p *ngIf="row.RuralUrban==2" class="m-0"><b>City : </b>{{row.CityName}}</p>
+                            <p class="m-0"><b>City/Town/Village : </b>{{row.CityTownVillage}}</p>
+                            <p class="m-0"><b>Pincode : </b>{{row.Pincode}}</p>
+                          </td>
                           <td>{{row.HospitalDistance}}</td>
-                          <td>{{row.AddressLine1}}</td>
-                          <td>{{row.AddressLine2}}</td>
-                          <td>{{row.RuralUrbanArea}}</td>
-                          <td>{{row.Division_English}}</td>
-                          <td>{{row.District_Eng}}</td>
-                          <td>{{row.TehsilName}}</td>
-                          <td>{{row.PanchyatSamitiName}}</td>
-                          <td>{{row.CityTownVillage}}</td>
-                          <td>{{row.Pincode}}</td>
                           <td>
                             <a *ngIf="!row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom">
                               <img src="{{row.HospitalDocumentPath}}" alt="Hospital Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />

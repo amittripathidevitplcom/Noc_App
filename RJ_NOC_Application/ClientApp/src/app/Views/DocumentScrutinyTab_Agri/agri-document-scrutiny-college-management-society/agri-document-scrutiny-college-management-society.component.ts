@@ -11,7 +11,7 @@ import { SocityService } from '../../../Services/Master/SocietyManagement/socity
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
-
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-agri-document-scrutiny-college-management-society',
   templateUrl: './agri-document-scrutiny-college-management-society.component.html',
@@ -30,10 +30,14 @@ export class AgriDocumentScrutinyCollegeManagementSocietyComponent implements On
   public SelectedApplyNOCID: number = 0;
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
+  request = new SocietyDataModel();
   dsrequest = new DocumentScrutinyDataModel();
+
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
   constructor(private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService) { }
+    private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private modalService: NgbModal) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -155,6 +159,47 @@ export class AgriDocumentScrutinyCollegeManagementSocietyComponent implements On
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+  async ViewCollegeManagmentDetail(content: any, SocietyID: number) {
+    this.request = new SocietyDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.socityService.GetSocietyByID(SocietyID, 0)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request = data['Data'][0];
+          if (this.request.AadhaarNo.length > 0) {
+            const visibleDigits = 4;
+            let maskedSection = this.request.AadhaarNo.slice(0, -visibleDigits);
+            let visibleSection = this.request.AadhaarNo.slice(-visibleDigits);
+            this.request.MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
+          }
+          console.log(this.request);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
     }
   }
 

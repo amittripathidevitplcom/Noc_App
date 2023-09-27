@@ -188,16 +188,20 @@
             <input class="form-control disabled" disabled value="{{request.AadhaarNo}}" />
           </div>
           <div class="col-md-4 mb-3">
+            <label><b>PAN Number :</b></label>
+            <input class="form-control disabled" disabled value="{{request.PANNo}}" />
+          </div>
+          <div class="col-md-4 mb-3">
             <label><b>Date Of Birth :</b></label>
-            <input class="form-control disabled" disabled value="{{request.DateOfBirth}}" />
+            <input class="form-control disabled" disabled value="{{request.DateOfBirth | date:'dd-MM-yyyy'}}" />
           </div>
           <div class="col-md-4 mb-3">
             <label><b>Date Of Appointment :</b></label>
-            <input class="form-control disabled" disabled value="{{request.DateOfAppointment}}" />
+            <input class="form-control disabled" disabled value="{{request.DateOfAppointment | date:'dd-MM-yyyy'}}" />
           </div>
           <div class="col-md-4 mb-3">
             <label><b>Date Of Joining :</b></label>
-            <input class="form-control disabled" disabled value="{{request.DateOfJoining}}" />
+            <input class="form-control disabled" disabled value="{{request.DateOfJoining | date:'dd-MM-yyyy'}}" />
           </div>
           <div class="col-md-4 mb-3">
             <label><b>Total Number of Experience (Year) :</b></label>
@@ -207,10 +211,10 @@
             <label><b>Specialization Subject :</b></label>
             <input class="form-control disabled" disabled value="{{request.SpecializationSubject}}" />
           </div>
-          <!--<div class="col-md-4 mb-3" *ngIf="request.TeachingType=='NonTeaching'">
-            <label><b>Role Mapping :</b></label>
-            <input class="form-control disabled" disabled value="{{request.RoleMapping}}" />
-          </div>-->
+          <div class="col-md-4 mb-3" *ngIf="request.ESINumber != ''">
+            <label><b>ESI Number :</b></label>
+            <input class="form-control disabled" disabled value="{{request.ESINumber}}" />
+          </div>
           <div class="col-md-4 mb-3">
             <label><b>Salary :</b></label>
             <input class="form-control disabled" disabled value="{{request.Salary}}" />
