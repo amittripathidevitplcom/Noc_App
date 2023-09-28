@@ -260,13 +260,13 @@ export class DCEDocumentScrutinyService {
       ).toPromise();
   }
 
-  public async FinalSubmitInspectionCommittee(ApplyNOCID: number) {
+  public async FinalSubmitInspectionCommittee(ApplyNOCID: number, CreatedBy: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.post(this.APIUrl + "/FinalSubmitInspectionCommittee/" + ApplyNOCID, httpOptions)
+    return await this.http.post(this.APIUrl + "/FinalSubmitInspectionCommittee/" + ApplyNOCID + '/' + CreatedBy, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -305,6 +305,17 @@ export class DCEDocumentScrutinyService {
       })
     };
     return await this.http.get(this.APIUrl + "/GetApplicationPvDetails/" + ApplyNocApplicationID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetWorkFlowRemarksByApplicationID(ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetWorkFlowRemarksByApplicationID/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
