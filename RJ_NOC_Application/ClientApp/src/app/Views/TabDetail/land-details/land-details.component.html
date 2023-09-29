@@ -265,7 +265,7 @@
           <label>
             Land Unit <span style="color:red;">*</span>
           </label>
-          <select id="ddlMedicalGroupOneLandUnit" name="ddlMedicalGroupOneLandUnit" class="form-control" [(ngModel)]="request.MedicalGroupOneLandUnitID" formControlName="ddlMedicalGroupOneLandUnit" (change)="MedicalGroupOneLandType_Onclick()">
+          <select id="ddlMedicalGroupOneLandUnit" name="ddlMedicalGroupOneLandUnit" class="form-control" [(ngModel)]="request.MedicalGroupOneLandUnitID" formControlName="ddlMedicalGroupOneLandUnit">
             <option value="0" disabled>--Select--</option>
             <option *ngFor="let item of MedicalGroupOneLandUnit"
                     value="{{item.ID}}">
