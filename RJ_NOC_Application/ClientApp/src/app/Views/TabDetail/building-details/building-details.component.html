@@ -626,7 +626,7 @@
                 <tr *ngFor="let item of lstBuildingDetails | tableSearchFilter:searchText;let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>{{item.BuildingTypeName}}</td>
-                  <td *ngIf="item.BuildingTypeName == 'Rented'">{{item.OwnerName}}</td>
+                  <td *ngIf="item.BuildingTypeName != 'Owned' ">{{item.OwnerName}}</td>
                   <td *ngIf="item.BuildingTypeName == 'Owned'">N/A</td>
                   <td>{{item.FullAddress}}</td>
                   <!--<td>{{item.AddressLine1}}</td>
@@ -654,13 +654,13 @@
                   <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFixedAssetsAndSecurities}}</td>
                   <td *ngIf="SelectedDepartmentID ==6">{{item.GATEYearBalanceSecret}}</td>
                   <td *ngIf="SelectedDepartmentID ==6">{{item.OtherFinancialResources}}</td>
-                  <td *ngIf="item.BuildingTypeName == 'Rented'">
+                  <td *ngIf="item.BuildingTypeName != 'Owned'">
                     {{item.Rentvaliditydate}}
                   </td>
                   <td *ngIf="item.BuildingTypeName == 'Owned'">
                     N/A
                   </td>
-                  <td *ngIf="item.BuildingTypeName == 'Rented'">
+                  <td *ngIf="item.BuildingTypeName != 'Owned'">
                     <a target="_blank" href="{{item.RentAgreementFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a>
                   </td>
                   <td *ngIf="item.BuildingTypeName == 'Owned'">
