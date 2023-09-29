@@ -103,6 +103,10 @@ export class LandDetailsComponent implements OnInit {
         dtLandConversionOrderDate: [''],
         dtAffidavitDate: [''],
         txtLandConversionOrderNo: [''],
+        ddlMedicalGroupOneLandType: [''],
+        dtLeaseDate: [''],
+        ddlMedicalGroupOneLandUnit: [''],
+        txtNameOfLandPurchasedAllotted: [''],
       });
     this.request.BuildingHostelQuartersRoadArea = 0;
     this.request.LandDetailDocument = [];
@@ -135,6 +139,10 @@ export class LandDetailsComponent implements OnInit {
 
 
     this.request.CollegeID = this.SelectedCollageID;
+    if (this.SelectedDepartmentID == 5) {
+      await this.GetMedicalGroupOneLandType(this.SelectedDepartmentID, 'MedicalGroupOneLandType');
+      await this.GetMedicalGroupOneLandUnit(this.SelectedDepartmentID, 'MedicalGroupOneLandUnit');
+    }
   }
 
   get form() { return this.LandDetailForm.controls; }
@@ -575,6 +583,23 @@ export class LandDetailsComponent implements OnInit {
     if (this.LandDetailForm.invalid) {
       return
     }
+    if (this.SelectedDepartmentID == 5) {
+      if (this.request.MedicalGroupOneLandTypeID <= 0) {
+        return
+      }
+      if (this.request.MedicalGroupOneLandUnitID <= 0) {
+        return
+      }
+      if (this.request.NameOfLandPurchasedAllotted == '' || this.request.NameOfLandPurchasedAllotted == undefined || this.request.NameOfLandPurchasedAllotted == null) {
+        return
+      }
+      var LandTypeName = this.MedicalGroupOneLandType.find((x: { ID: number; }) => x.ID == this.request.MedicalGroupOneLandTypeID)?.Name;
+      if (LandTypeName == 'Lease for 99 years') {
+        if (this.request.LeaseDate == '' || this.request.LeaseDate == undefined || this.request.LeaseDate == null) {
+          return;
+        }
+      }
+    }
     //if (this.request.BuildingHostelQuartersRoadArea <= 0 || (this.request.BuildingHostelQuartersRoadArea).toString() == "") {
     //  this.IstxtBuildingHostel = true;
     //  return;
@@ -794,6 +819,12 @@ export class LandDetailsComponent implements OnInit {
       this.request.CollegeLandTypeDetails = [];
       this.ShowConversionOrderNo = false;
       this.isDisabledGrid = false;
+
+      this.request.MedicalGroupOneLandTypeID = 0;
+      this.request.MedicalGroupOneLandUnitID = 0;
+      this.request.LeaseDate = '';
+      this.request.NameOfLandPurchasedAllotted = '';
+      this.ShowLeaseDate = false;
       await this.GetLandDocument(this.SelectedDepartmentID, 'LandDetail');
       const btnSave = document.getElementById('btnAddLandDetail')
       if (btnSave) btnSave.innerHTML = "Save";
@@ -841,7 +872,11 @@ export class LandDetailsComponent implements OnInit {
           this.request.LandTypeName = data['Data'][0]['LandTypeName'];
           this.request.LandDetailDocument = data['Data'][0]["LandDetailDocument"];
 
-
+          this.request.MedicalGroupOneLandTypeID = data['Data'][0]['MedicalGroupOneLandTypeID'];
+          await this.MedicalGroupOneLandType_Onclick();
+          this.request.MedicalGroupOneLandUnitID = data['Data'][0]['MedicalGroupOneLandUnitID'];
+          this.request.NameOfLandPurchasedAllotted = data['Data'][0]['NameOfLandPurchasedAllotted'];
+          this.request.LeaseDate = data['Data'][0]["LeaseDate"];
 
           this.GetLandSqureMeterMappingDetails(this.request.LandAreaID);
           console.log(this.request.LandDetailDocument);
@@ -1276,6 +1311,77 @@ export class LandDetailsComponent implements OnInit {
     }
     catch (ex) {
       console.log(ex);
+    }
+  }
+
+  public MedicalGroupOneLandType: any = [];
+  async GetMedicalGroupOneLandType(DepartmentID: number, Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, Type)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.MedicalGroupOneLandType = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 10);
+    }
+  }
+
+  public ShowLeaseDate: boolean = false;
+  async MedicalGroupOneLandType_Onclick() {
+    try {
+      this.request.LeaseDate = '';
+      this.loaderService.requestStarted();
+      if (this.request.MedicalGroupOneLandTypeID > 0) {
+        var LandTypeName = this.MedicalGroupOneLandType.find((x: { ID: number; }) => x.ID == this.request.MedicalGroupOneLandTypeID)?.Name;
+        if (LandTypeName == 'Lease for 99 years') {
+          this.ShowLeaseDate = true;
+        }
+        else {
+          this.ShowLeaseDate = false;
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 10);
+    }
+  }
+
+  public MedicalGroupOneLandUnit: any = [];
+  async GetMedicalGroupOneLandUnit(DepartmentID: number, Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(DepartmentID, Type)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.MedicalGroupOneLandUnit = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 10);
     }
   }
 }
