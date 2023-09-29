@@ -36,7 +36,13 @@ export class OldnocdetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
+  public async GetOldNOCDetailListForPDF(DepartmentID: number, CollegeID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.APIUrl + '/GetOldNOCDetailListForPDF/' + DepartmentID + "/" + CollegeID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async DeleteOldNocDetail(OldNocID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.post(this.APIUrl + '/DeleteOldNocDetail/' + OldNocID, httpOptions)

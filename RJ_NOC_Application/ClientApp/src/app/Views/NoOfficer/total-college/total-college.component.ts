@@ -55,7 +55,7 @@ export class TotalCollegeComponent implements OnInit {
   async GetApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.draftApplicationListService.DraftApplicationList(this.sSOLoginDataModel.SSOID)
+      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -64,7 +64,7 @@ export class TotalCollegeComponent implements OnInit {
           // data
           this.draftApplicatoinListData = data['Data'][0]['data'];
 
-          //console.log(this.draftApplicatoinListData);
+          
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
@@ -260,7 +260,9 @@ export class TotalCollegeComponent implements OnInit {
       }, 200);
     }
   }
-
+  async ApplyLOI_OnClick(DepartmentID: number, CollegeID: number) {
+    this.routers.navigate(['/applicationdetailentry' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))], { skipLocationChange: true });
+  }
   async EditCollegeData(CollegeID: number) {
     this.routers.navigate(['/addcollege' + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))], { skipLocationChange: true });
   }

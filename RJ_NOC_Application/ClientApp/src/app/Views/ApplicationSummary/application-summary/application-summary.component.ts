@@ -22,9 +22,12 @@ import { LandDetailsService } from '../../../Services/Tabs/LandDetails/land-deta
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service';
 import { FacilityDetailsService } from '../../../Services/FicilityDetais/facility-details.service';
 import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.service';
-
-
-
+import { OtherInformationService } from '../../../Services/OtherInformation/other-information.service';
+import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
+import { AcademicInformationDetailsService } from '../../../Services/AcademicInformationDetails/academic-information-details.service';
+import { FarmLandDetailService } from '../../../Services/FarmLandDetail/farm-land-detail.service';
+import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
+import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 @Component({
   selector: 'app-application-summary',
   templateUrl: './application-summary.component.html',
@@ -65,6 +68,17 @@ export class ApplicationSummaryComponent implements OnInit {
   public lstBuildingDetails: any = [];
   public FacilitiesDataAllList: any = [];
   public RoomDetails: any = [];
+  public OtherInformation: any = [];
+
+  public StaffDetaillst: any = [];
+  public StaffEducationlst: any = [];
+  public AcademicInformationList: any = [];
+  public lstFarmLandDetails: any = [];
+  public OldNocDetailslst: any = [];
+  public OldNocSubjectlst: any = [];
+  public DownloadPdfDetailslst: any = [];
+  public hostelDetaillst: any = [];
+  public HostelBlocklst: any = [];
 
   public CollegeType_IsExisting: boolean = true;
   public collegeDataList: any = [];
@@ -73,7 +87,8 @@ export class ApplicationSummaryComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   constructor(private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) { }
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,private oldnocdetailService: OldnocdetailService,
+    private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private hostelDetailService: HostelDetailService) { }
 
   async ngOnInit() {
 
@@ -82,6 +97,7 @@ export class ApplicationSummaryComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollageDetails();
+    await this.GetDownloadPdfDetails();
     this.loaderService.requestEnded();
 
 
@@ -108,7 +124,25 @@ export class ApplicationSummaryComponent implements OnInit {
       }, 200);
     }
   }
-
+  async GetDownloadPdfDetails() {
+    debugger;
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetDownloadPdfDetails(this.SelectedDepartmentID, this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.DownloadPdfDetailslst = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   @ViewChild('content') content: ElementRef | any;
   btnSavePDF_Click(): void {
     this.loaderService.requestStarted();
@@ -117,7 +151,7 @@ export class ApplicationSummaryComponent implements OnInit {
       let Heading1 = 'GOVERNMENT OF RAJASTHAN';
       let Heading2 = 'OFFICE OF THE COMMISSIONER, COLLEGE EDUCATION,';
       let Heading3 = 'RAJASTHAN, JAIPUR';
-      let Heading4 = 'ACADEMIC SESSION 2023-24';
+      let Heading4 = 'ACADEMIC SESSION ' + this.DownloadPdfDetailslst[0]["data"][0]["SessionYear"];
       let Heading5 = '';
       if (this.CollegeType_IsExisting)
         Heading5 = '(FOR EXISTING COLLEGE)';
@@ -150,6 +184,12 @@ export class ApplicationSummaryComponent implements OnInit {
       pDFData.push({ "ContentName": "#BuildingDetails" })
       pDFData.push({ "ContentName": "#FacilityDetails" })
       pDFData.push({ "ContentName": "#RoomDetails" })
+      pDFData.push({ "ContentName": "#OtherInfoDetails" })
+      pDFData.push({ "ContentName": "#StaffDetails" })
+      pDFData.push({ "ContentName": "#AcademicInfo" })
+      pDFData.push({ "ContentName": "#FarmLandDetial" })
+      pDFData.push({ "ContentName": "#OldNocDetial" })
+      pDFData.push({ "ContentName": "#HostelDetial" })
 
       for (var i = 0; i < pDFData.length; i++) {
         if (pDFData[i].ContentName == '#CollegeManagementSociety') {
@@ -254,6 +294,12 @@ export class ApplicationSummaryComponent implements OnInit {
       await this.GetAllBuildingDetailsList();
       await this.GetFacilityDetailAllList();
       await this.GetRoomDetailAllList();
+      await this.GetOtherInformationAllList();
+      await this.GetAllStaffDetailsList(this.SelectedDepartmentID,this.SelectedCollageID);
+      await this.GetAcademicInformationDetailAllList();
+      await this.GetAllFarmLandDetalsList(this.SelectedCollageID);
+      await this.GetOldNOCDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
+      await this.GetHostelDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
     }
     catch (Ex) {
       console.log(Ex);
@@ -515,6 +561,142 @@ export class ApplicationSummaryComponent implements OnInit {
 
           data = JSON.parse(JSON.stringify(data));
           this.RoomDetails = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetOtherInformationAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.otherInformationService.GetOtherInformationAllList(0, this.SelectedCollageID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.OtherInformation = data['Data'][0]['data'];
+          console.log(this.OtherInformation);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetAllStaffDetailsList(DepartmentID: number, CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.staffDetailService.GetStaffDetailsListForPDF(DepartmentID, CollegeID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.StaffDetaillst = data['Data'][0]['data']['Table'];
+          this.StaffEducationlst = data['Data'][0]['data']['Table1'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetAcademicInformationDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.academicInformationDetailsService.GetAcademicInformationDetailAllList(0, this.SelectedCollageID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.AcademicInformationList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetAllFarmLandDetalsList(CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.farmLandDetailServiceService.GetAllFarmLandDetalsListByCollegeID(CollegeID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.lstFarmLandDetails = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetOldNOCDetailAllList(DepartmentID: number, CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.oldnocdetailService.GetOldNOCDetailListForPDF(DepartmentID, CollegeID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.OldNocDetailslst = data['Data'][0]['data']['Table'];
+          this.OldNocSubjectlst = data['Data'][0]['data']['Table1'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetHostelDetailAllList(DepartmentID: number, CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.hostelDetailService.GetHostelPdfDetails(DepartmentID, CollegeID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.hostelDetaillst = data['Data'][0]['data']['Table'];
+          this.HostelBlocklst = data['Data'][0]['data']['Table1'];
         }, error => console.error(error));
     }
     catch (Ex) {

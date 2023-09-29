@@ -1,5 +1,6 @@
 export class CollegeDataModel {
   public CollegeID: number = 0;
+  public TypeofCollege: string = '';
   public DepartmentID: number = 0;
   public CollegeStatusID: number = 0;
   public CollegeLogo: string = '';

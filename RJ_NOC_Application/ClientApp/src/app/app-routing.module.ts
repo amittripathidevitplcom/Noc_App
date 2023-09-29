@@ -615,6 +615,9 @@ const routes: Routes = [
       {
         path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListForCommissionerComponent
       },
+       {
+         path: 'test', component: CollegeDetailsComponent
+      },
        
     ] 
    // ,canActivate: [SkipLocationChangeGuard],
