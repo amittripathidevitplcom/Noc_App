@@ -673,9 +673,6 @@
             <div class="row" *ngIf="CollegeGeoTaggingList.length>0">
               <div class="col-md-12">
                 <div class="card mb-0">
-                  <!--<div class="card-header">
-            <b><i class="bi bi-table"></i> Geo Tagging Status Details </b>
-          </div>-->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="table-responsive">
                       <table class="table table-bordered table-hover table-striped" id="CollegeGeoTagging" #content>
@@ -724,9 +721,6 @@
             <div class="row" *ngIf="collegeContactDetailsList.length>0">
               <div class="col-md-12">
                 <div class="card mb-0">
-                  <!--<div class="card-header">
-            <b><i class="bi bi-table"></i> Contact Details </b>
-          </div>-->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="table-responsive">
                       <table class="table table-bordered table-hover table-striped" id="CollegeContactDetails" #content>
@@ -760,9 +754,6 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="card mb-0">
-                  <!--<div class="card-header">
-            <b><i class="bi bi-table"></i> General Contact Details </b>
-          </div>-->
                   <div class="card-body">
                     <div class="row">
                       <div class="table-responsive">
@@ -795,9 +786,6 @@
             <div class="row" *ngIf="collegeNearestGovernmentHospitalsList.length>0">
               <div class="col-md-12">
                 <div class="card mb-0">
-                  <!--<div class="card-header">
-            <b><i class="bi bi-table"></i> 10 Government hospitals nearest to the institution </b>
-          </div>-->
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="table-responsive">
                       <table class="table table-bordered table-hover table-striped" id="CollegeHospitalDetails" #content>
@@ -888,10 +876,11 @@
               </div>
             </div>
           </div>
-          <div class="card-body">
+          <!--College Managment Society-->
+          <div class="card-body" >
             <div class="row">
               <div class="col-md-12">
-                <div class="table-responsive">
+                <div class="table-responsive" *ngIf="SocietyAllList.length>0">
                   <table class="table table-hover table-striped-columns table-sm" id="CollegeManagementSociety" #content>
                     <thead>
                       <tr>
@@ -934,10 +923,10 @@
               </div>
             </div>
           </div>
-
+          <!--Land Details-->
           <div class="card-body">
             <div class="row">
-              <div class="table-responsive">
+              <div class="table-responsive" *ngIf="LandDetailList.length>0">
                 <table class="table table-bordered table-hover table-striped" id="LandDetails" #content>
                   <thead>
                     <tr>
@@ -978,10 +967,10 @@
               </div>
             </div>
           </div>
-
+          <!--Building Details-->
           <div class="card-body">
             <div class="row">
-              <div class="table-responsive">
+              <div class="table-responsive" *ngIf="lstBuildingDetails.length>0">
                 <table class="table table-hover table-striped-columns" id="BuildingDetails" #content>
                   <thead>
                     <tr>
@@ -1030,10 +1019,10 @@
               </div>
             </div>
           </div>
-
+          <!--Facility Details-->
           <div class="card-body">
             <div class="row">
-              <div class="table-responsive">
+              <div class="table-responsive" *ngIf="FacilitiesDataAllList.length>0">
                 <table class="table table-bordered table-hover table-striped" id="FacilityDetails" #content>
                   <thead>
                     <tr>
@@ -1069,28 +1058,28 @@
               </div>
             </div>
           </div>
-
+          <!--Room Details-->
           <div class="card-body">
             <div class="row">
-              <div class="table-responsive">
+              <div class="table-responsive" *ngIf="RoomDetails.length>0">
                 <table class="table table-bordered table-hover table-striped" id="RoomDetails" #content>
                   <thead>
                     <tr>
                       <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Rooms Details</b></td>
                     </tr>
                   </thead>
-                 
-                    <tr>
-                      <th>Sr. No.</th>
-                      <th>Course</th>
-                      <th>Room No.</th>
-                      <th>Width (In Feet) Size</th>
-                      <th>Length (In Feet)</th>
-                      <th>Room Size (sq. ft)</th>
-                      <th>Student Capacity</th>
-                      <th>Upload Image</th>
-                    </tr>
-                  
+
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Course</th>
+                    <th>Room No.</th>
+                    <th>Width (In Feet) Size</th>
+                    <th>Length (In Feet)</th>
+                    <th>Room Size (sq. ft)</th>
+                    <th>Student Capacity</th>
+                    <th>Upload Image</th>
+                  </tr>
+
                   <tbody>
                     <tr *ngFor="let item of RoomDetails; let idx =index">
                       <td width="5%">
@@ -1110,6 +1099,255 @@
                       </td>
                     </tr>
 
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Other Information-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="OtherInformation.length>0">
+                <table class="table table-bordered table-hover table-striped" id="OtherInfoDetails" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Other Information Details</b></td>
+                    </tr>
+                  </thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Course Name</th>
+                    <th>No. of Rooms</th>
+                    <th>Minimum Size (Sq. Feet)</th>
+                    <th>No of Computers</th>
+                    <th>No of books</th>
+                    <th>Upload Image</th>
+                    <th>Book's Details Document</th>
+                  </tr>
+                  <tbody>
+                    <tr *ngFor="let item of OtherInformation; let idx =index">
+                      <td width="5%">
+                        {{idx+1}}
+                      </td>
+                      <td>
+                        {{item.CourseName}}
+                      </td>
+                      <td>
+                        {{item.NoOfRooms}}
+                      </td>
+                      <td>
+                        {{item.Width}}
+                      </td>
+                      <td>
+                        {{item.NoofComputers}}
+                      </td>
+                      <td>
+                        {{item.NoofBooks}}
+                      </td>
+                      <td>
+                        <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{item.ImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <label *ngIf="item.ImageFilePath=='N/A'">{{item.ImageFilePath}}</label>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </td>
+                      <td>
+                        <a *ngIf="!item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                          <img src="{{item.BookImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                        </a>
+                        <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Staff Details-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="StaffDetaillst.length>0">
+                <table class="table table-hover table-striped" id="StaffDetails" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Staff Details</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Person Details</th>
+                      <th>Dates</th>
+                      <th>Post & Service</th>
+                      <th>PF/Research Guide</th>
+                      <th>Educational Qualification</th>
+                    </tr>
+                    <tr *ngFor="let item of StaffDetaillst let idx =index">
+                      <td>{{idx+1}}</td>
+                      <td>
+                        Name:- {{item.PersonName}}<br />
+                        Mobile Number:- {{item.MobileNo}}<br />
+                        Email ID:- {{item.Email}}<br />
+                        Qualification:- {{item.HighestQualificationName}}<br />
+                        Type:- {{item.TeachingType}}<br />
+                        Gender:- {{item.Gender}}<br />
+                      </td>
+                      <td>
+                        Date of Birth:- {{item.DateOfBirth | date:'dd-MM-yyyy'}}<br />
+                        Date of Appointment:- {{item.DateOfAppointment | date:'dd-MM-yyyy'}}<br />
+                        Date of Joining:- {{item.DateOfJoining | date:'dd-MM-yyyy'}}<br />
+                        Year of Experience:- {{item.NumberofExperience}}<br />
+                      </td>
+                      <td>
+                        Designation:- {{item.RoleName}}<br />
+                        <span *ngIf="item.TeachingType=='Teaching'">Subject :- {{item.SubjectName}}</span><br />
+                        Staff Status:- {{item.StaffStatus}}<br />
+                        Salary:- {{item.Salary}}<br />
+                      </td>
+                      <td>
+                        Aadhaar No.:- {{item.AadhaarNo}}<br />
+                        PAN No. :- {{item.PANNo}}<br />
+                        <span *ngIf="item.TeachingType=='Teaching'">PAN No. :- {{item.ResearchGuide}}</span><br />
+                        PF Deduction :- {{item.PFDeduction}}<br />
+                        <span *ngIf="item.PFDeduction=='Yes'">UAN No :- {{item.UANNumber}}<br /></span>
+                        <span *ngIf="item.ESINumber != ''">ESI Number :- {{item.ESINumber}}</span><br />
+                        <span *ngIf="item.TeachingType=='Teaching'">Specialization :- {{item.SpecializationSubject}}</span><br />
+                      </td>
+                      <td>
+                        <span *ngFor="let row of StaffEducationlst let idx=index">
+                          <span *ngIf="row.StaffDetailID == item.StaffDetailID">
+                            {{idx==0?'':' '}}Professional Qualification.:- {{row.ProfessionalQualification}}<br />
+                            Stream/Subject :- {{row.StreamSubject}}<br />
+                            University/Board/ Institution :- {{row.UniversityBoardInstitutionName}}<br />
+                            Passing Year :- {{row.PassingYear}}<br />
+                            Percentage/Grade :- {{row.Marks}}<br />
+                          </span>
+                          
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Academic Information-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="AcademicInformationList.length>0">
+                <table class="table table-hover table-striped-columns" id="AcademicInfo" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Academic Information</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Financial Year</th>
+                      <th>Course Name</th>
+                      <th>Result</th>
+                      <th>Admitted Student</th>
+                      <th>Appeared Student</th>
+                      <th>Passed Student</th>
+                      <th>Failed Student</th>
+                      <th>Other Student</th>
+                    </tr>
+                    <tr *ngFor="let row of AcademicInformationList;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.FinancialYearName}}</td>
+                      <td>{{row.CourseName}}</td>
+                      <td>{{row.ResultName}}</td>
+                      <td>{{row.AdmittedStudent}}</td>
+                      <td>{{row.AppearedStudent}}</td>
+                      <td>{{row.PassedStudent}}</td>
+                      <td>{{row.FailedStudent}}</td>
+                      <td>{{row.OtherStudent}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Farm Land Information-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="lstFarmLandDetails.length>0">
+                <table class="table table-hover table-striped-columns" id="FarmLandDetial" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Farm Land Details</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>College</th>
+                      <th>Personal Info</th>
+                      <th>Land Type</th>
+                      <th>Khasra Number</th>
+                      <th>Total Farm Land Area(Ha)</th>
+                      <th>Total Land Area(Ha)</th>
+                      <th>Source Irrigation</th>
+                      <th>Is Farm Land</th>
+                    </tr>
+                    <tr *ngFor="let item of lstFarmLandDetails;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{item.CollegeName}}</td>
+                      <td>
+                        Owner Name:- {{item.LandOwnerName}}<br />
+                        Rural/Urban:- {{item.RuralUrban}}<br />
+                        Address:- {{item.AddressLine1}},{{item.AddressLine2}},{{item.Division_English}},{{item.District_Eng}},{{item.TehsilName}},{{item.PanchyatSamitiName}}{{item.CityName}}<br />
+                      </td>
+                      <td>{{item.LandType}}</td>
+                      <td>{{item.KhasraNumber}}</td>
+                      <td>{{item.TotalFarmLandArea}}</td>
+                      <td>{{item.TotalLandArea}}</td>
+                      <td>{{item.SourceIrrigation}}</td>
+                      <td>{{item.FarmLandIs}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Old NOC Details-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="OldNocDetailslst.length>0">
+                <table class="table table-hover table-striped-columns" id="OldNocDetial" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Old NOC Details</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Course</th>
+                      <th>NOC Type</th>
+                      <th>Session Year</th>
+                      <th>NOC No.</th>
+                      <th>NOC Received On</th>
+                      <th>Subject Details</th>
+                    </tr>
+                    <tr *ngFor="let row of OldNocDetailslst;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.CourseName}}</td>
+                      <td>{{row.NOCTypeName}}</td>
+                      <td>{{row.FinancialYearName}}</td>
+                      <td>{{row.NOCNumber}}</td>
+                      <td>{{row.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
+                      <td>
+                        <span *ngFor="let item of OldNocSubjectlst let idxe=index">
+                          <span *ngIf="row.OldNocID == item.OldNocID">
+                            {{idxe==0?'':', '}}{{item.SubjectName}}
+                          </span>
+
+                        </span>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
