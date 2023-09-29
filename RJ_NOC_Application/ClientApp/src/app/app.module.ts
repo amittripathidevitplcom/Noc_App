@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 /*import { NgShortcutModule, NgShortcutConfig } from 'ng-shortcut';*/
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
 import { CollegeDetailsComponent } from './Views/college-details/college-details.component';
@@ -539,7 +540,7 @@ import { CheckListForCommissionerComponent } from './Views/DCE/check-list-for-co
     NgMultiSelectDropDownModule.forRoot(),
     //NgIdleModule.forRoot(),
     //NgIdleKeepaliveModule.forRoot(),
-
+    AutocompleteLibModule,
     NgIdleModule.forRoot(),
     //NgShortcutModule.forRoot()  ,
     

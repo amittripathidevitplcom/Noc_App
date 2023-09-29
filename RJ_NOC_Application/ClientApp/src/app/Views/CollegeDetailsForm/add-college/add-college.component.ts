@@ -13,6 +13,7 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { max } from 'rxjs';
 import { InputValidationService } from '../../../Services/CustomValidators/input-validation.service';
 import { LegalEntityService } from '../../../Services/LegalEntity/legal-entity.service';
+import { __rest } from 'tslib';
 
 @Injectable()
 
@@ -103,6 +104,7 @@ export class AddCollegeComponent implements OnInit {
     this.CollegeDetailsForm = this.formBuilder.group(
       {
         ddlDepartmentID: ['', [DropdownValidators]],
+        ddlTypeofCollege: ['', Validators.required],
         ddlCollegeStatus: ['', [DropdownValidators]],
         ddlPresentCollegeStatus: ['', [DropdownValidators]],
         ddlCollegeTypeID: ['', [DropdownValidators]],
@@ -354,7 +356,7 @@ export class AddCollegeComponent implements OnInit {
       }, 200);
     }
   }
-  public files : any = '';
+  public files: any = '';
   ResetFileAndValidation(type: string, msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean) {
     //event.target.value = '';
     try {
@@ -401,7 +403,7 @@ export class AddCollegeComponent implements OnInit {
           this.IsRural_Nearest = isRural;
           if (isResetValue) {
             //this.request_NearestGovernmentHospitals.TehsilID = 0;
-            this.request_NearestGovernmentHospitals.CityID = 1;
+            this.request_NearestGovernmentHospitals.CityID = 0;
             this.request_NearestGovernmentHospitals.PanchayatSamitiID = 0;
           }
         }
@@ -410,7 +412,7 @@ export class AddCollegeComponent implements OnInit {
           if (isResetValue) {
             this.request.DistanceFromCity = null;
             //this.request.TehsilID = 0;
-            this.request.CityID = 1;
+            this.request.CityID = 0;
             this.request.PanchayatSamitiID = 0;
           }
         }
@@ -421,7 +423,7 @@ export class AddCollegeComponent implements OnInit {
           if (isResetValue) {
             //this.request_NearestGovernmentHospitals.TehsilID = 1;
             this.request_NearestGovernmentHospitals.CityID = 0;
-            this.request_NearestGovernmentHospitals.PanchayatSamitiID = 1;
+            this.request_NearestGovernmentHospitals.PanchayatSamitiID = 0;
           }
         }
         else {
@@ -430,7 +432,7 @@ export class AddCollegeComponent implements OnInit {
             this.request.DistanceFromCity = 0;
             //this.request.TehsilID = 1;
             this.request.CityID = 0;
-            this.request.PanchayatSamitiID = 1;
+            this.request.PanchayatSamitiID = 0;
           }
         }
       }
@@ -655,6 +657,7 @@ export class AddCollegeComponent implements OnInit {
   async FillDepartmentRelatedDDL(event: any, SeletedDepartmentID: string) {
     try {
       this.loaderService.requestStarted();
+      this.request.TypeofCollege = "";
       const departmentId = Number(SeletedDepartmentID);
       if (SeletedDepartmentID == "2") {
         this.DistancefromCity = "Distance from District Headquater"
@@ -733,6 +736,7 @@ export class AddCollegeComponent implements OnInit {
     }
     finally {
       setTimeout(() => {
+
         this.loaderService.requestEnded();
       }, 200);
     }
@@ -1046,13 +1050,16 @@ export class AddCollegeComponent implements OnInit {
 
     console.log(this.request.RuralUrban);
     if (this.request.RuralUrban == 1) {
-
       this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.setValidators([DropdownValidators]);
+      this.CollegeDetailsForm.get('ddlCityID')?.clearValidators();
     }
     else {
       this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.clearValidators();
+      this.CollegeDetailsForm.get('ddlCityID')?.setValidators([DropdownValidators]);
+
     }
     this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
+    this.CollegeDetailsForm.get('ddlCityID')?.updateValueAndValidity();
 
 
     if (this.request.DepartmentID == 3) {
@@ -1062,6 +1069,14 @@ export class AddCollegeComponent implements OnInit {
       this.CollegeDetailsForm.get('AISHECodeStatus')?.clearValidators();
     }
     this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
+
+    if (this.request.DepartmentID == 5) {
+      this.CollegeDetailsForm.get('ddlTypeofCollege')?.setValidators([Validators.required]);
+    }
+    else {
+      this.CollegeDetailsForm.get('ddlTypeofCollege')?.clearValidators();
+    }
+    this.CollegeDetailsForm.get('ddlTypeofCollege')?.updateValueAndValidity();
 
 
 
@@ -1139,7 +1154,12 @@ export class AddCollegeComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             setTimeout(() => {
-              this.routers.navigate(['/addcourses']);
+              if (this.request.DepartmentID == 5) {
+                this.routers.navigate(['/totalcollege']);
+              }
+              else {
+                this.routers.navigate(['/addcourses']);
+              }
             }, 500);
 
           }
@@ -1229,6 +1249,8 @@ export class AddCollegeComponent implements OnInit {
 
           this.request.CollegeNAACAccredited = data['Data']['CollegeNAACAccredited'];
           await this.IsCollegeNAACAccreditedOrNot(this.request.CollegeNAACAccredited == 1 ? true : false)
+          this.request.TypeofCollege = data['Data']['TypeofCollege'];
+
           //if (!this.State) {
           //  //this.toastr.success(this.SuccessMessage)
           //}
