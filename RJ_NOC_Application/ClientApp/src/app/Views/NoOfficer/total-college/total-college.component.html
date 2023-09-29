@@ -57,7 +57,7 @@
         <tbody *ngIf="draftApplicatoinListData !=null && draftApplicatoinListData.length>0">
 
           <tr *ngFor="let row of draftApplicatoinListData  | tableSearchFilter:searchText; let idx=index;">
-            <td style="width:12%">
+            <td style="display:flex">
 
               <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
@@ -66,24 +66,29 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 
-                        <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)">View</a></li>
-                        <li> <a  href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
-                        <li><a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="DeleteData(row)">Delete</a></li>
-                        <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>
-                      </ul>
-                    </div>
+                  <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)">View</a></li>
+                  <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
+                  <li><a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="DeleteData(row)">Delete</a></li>
+                  <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>
+                </ul>
+              </div>
+              
+              <a href="javascript:void(0)" (click)="ApplyLOI_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"
+                 *ngIf="row.DepartmentID==5 && row.IsLOI==false && row.IsDraftFinalSubmit==false ">
+                Apply LOI
+              </a>
 
 
               <!--<div class="d-flex">
-              <a href="/addcollege/{{row.CollegeID}}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+    <a href="/addcollege/{{row.CollegeID}}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
 
 
-              <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
-              <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
-              <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)"><i class="fa fa-eye"></i></a>
-            </div>-->
+    <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
+    <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
+    <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)"><i class="fa fa-eye"></i></a>
+  </div>-->
             </td>
-            <td>{{idx+1}}</td>
+            <td style="text-align:center;">{{idx+1}}</td>
             <td>{{row.SocietyName}}</td>
             <td>{{row.CollegeRegistrationNo}}</td>
             <td>{{row.CollegeCode}}</td>

@@ -604,6 +604,9 @@ const routes: Routes = [
       {
         path: 'loiapplicationlist', component: LOIApplicationListComponent
       },
+       {
+         path: 'test', component: CollegeDetailsComponent
+      },
        
     ] 
    // ,canActivate: [SkipLocationChangeGuard],
