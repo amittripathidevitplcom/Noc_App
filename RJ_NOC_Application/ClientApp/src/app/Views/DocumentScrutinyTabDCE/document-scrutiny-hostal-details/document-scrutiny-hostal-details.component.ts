@@ -23,6 +23,7 @@ export class DocumentScrutinyHostalDetailsComponentDce implements OnInit {
   request = new HostelDataModel();
   hosteldetail = new HostelDetailsDataModel_Hostel();
   sSOLoginDataModel = new SSOLoginDataModel();
+  public QueryStringStatus: any = '';
 
   public hostelDataModel: HostelDataModel[] = [];
   public State: number = -1;
@@ -50,9 +51,10 @@ export class DocumentScrutinyHostalDetailsComponentDce implements OnInit {
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
-    this.SelectedDepartmentID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString())
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()))
-    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
+    this.SelectedDepartmentID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString());
+    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetHostelDetailList_DepartmentCollegeWise();
   }
 

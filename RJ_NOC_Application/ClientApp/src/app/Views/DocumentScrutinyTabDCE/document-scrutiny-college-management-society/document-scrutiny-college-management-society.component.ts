@@ -33,7 +33,7 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
-
+  public QueryStringStatus: any = '';
   request = new SocietyDataModel();
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
@@ -46,6 +46,7 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
     this.SelectedDepartmentID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetSocietyAllList();
   }
 

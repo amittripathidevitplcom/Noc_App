@@ -19,6 +19,8 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
   styleUrls: ['./document-scrutiny-staff-details.component.css']
 })
 export class DocumentScrutinyStaffDetailsComponentDce implements OnInit {
+  public QueryStringStatus: any = '';
+
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
@@ -50,6 +52,7 @@ export class DocumentScrutinyStaffDetailsComponentDce implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetStaffDetailList_DepartmentCollegeWise();
   }
   async GetStaffDetailList_DepartmentCollegeWise() {

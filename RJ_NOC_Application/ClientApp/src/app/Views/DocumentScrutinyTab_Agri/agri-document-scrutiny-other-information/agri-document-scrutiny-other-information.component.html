@@ -26,12 +26,13 @@
                 <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
                 <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                 <th>Sr. No.</th>
-                <th>Facility Name</th>
-                <th>Width (In Feet)</th>
-                <th>Length (In Feet)</th>
-                <th>No of books</th>
-                <th>Upload Image</th>
-                <th>Book's Details Document</th>
+                <th>Course Name</th>
+                <th>No. of Rooms</th>
+                <th>Minimum Size (Sq. Feet)</th>
+                <th>Number Of Computers</th>
+                <th>Number Of Books</th>
+                <th>View Document</th>
+                <th>View Library Document</th>
               </tr>
             </thead>
             <tbody>
@@ -67,15 +68,10 @@
                 <td>
                   {{item.CourseName}}
                 </td>
-                <td>
-                  {{item.Width}}
-                </td>
-                <td>
-                  {{item.Length}}
-                </td>
-                <td>
-                  {{item.Length}}
-                </td>
+                <td>{{item.NoOfRooms == 0 ? 'N/A' : item.NoOfRooms}}</td>
+                <td>{{item.Width}}</td>
+                <td>{{item.NoofComputers == 0 ? 'N/A' : item.NoofComputers}}</td>
+                <td>{{item.NoofBooks == 0 ? 'N/A' : item.NoofBooks}}</td>
                 <td>
                   <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{item.ImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
@@ -83,10 +79,11 @@
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
                 <td>
-                  <a *ngIf="!item.BookImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                  <a *ngIf="!item.BookImageFilePath.includes('.pdf')&&item.BookImageFileName!=''" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{item.BookImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf')&&item.BookImageFileName!=''" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  <span *ngIf="item.BookImageFileName==''">N/A</span>
                 </td>
               </tr>
               <tr *ngIf="OtherInformation.length<=0">

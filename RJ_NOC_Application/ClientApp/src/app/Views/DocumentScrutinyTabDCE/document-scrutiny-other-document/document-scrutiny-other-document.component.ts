@@ -33,6 +33,7 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
   public HospitalRealtedDocuments: RequiredDocumentsDataModel_Documents[] = []
+  public QueryStringStatus: any = '';
 
   constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private loaderService: LoaderService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute,
@@ -43,7 +44,8 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.request.DocumentDetails = [];
     this.GetOtherDocuments('Other Document');
     //if (this.SelectedDepartmentID == 6) {

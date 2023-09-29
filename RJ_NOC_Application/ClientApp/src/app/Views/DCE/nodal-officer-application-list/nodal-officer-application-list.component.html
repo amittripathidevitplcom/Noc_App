@@ -35,7 +35,7 @@
                       <th>Department Name</th>
                       <th>College Name</th>
                       <th>Application No.</th>
-                      <th  *ngIf="QueryStringStatus!='Revert'">Action</th>
+                      <th *ngIf="QueryStringStatus!='Revert'">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -48,7 +48,7 @@
                         <a href="javascript:void(0)" title="Document Scrutiny" (click)="DocumentScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage=='0' && this.sSOLoginDataModel.RoleID==17" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
-
+                        &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -241,7 +241,7 @@
                     </table>
                     <br />
 
-                    <table>
+                    <table width="100%">
                       <thead>
                         <tr>
                           <th>
@@ -251,7 +251,7 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>  {{PVApplicationDetailsList[0]['FinalRemark']}}</td>
+                          <td> {{PVApplicationDetailsList[0]['FinalRemark']}} </td>
                         </tr>
                       </tbody>
                     </table>
@@ -302,9 +302,58 @@
                         </tr>
                       </tbody>
                     </table>
+                    <br />
+                    <b *ngIf="WorkFlowRemarks.length>0">Details Of Other Officer Remarks</b>
+                    <table class="table table-bordered" *ngIf="WorkFlowRemarks.length>0">
+                      <thead>
+                        <tr>
+                          <th>
+                            Sr.No.
+                          </th>
+                          <th>
+                            Name
+                          </th>
+                          <th>
+                            SSO ID
+                          </th>
+                          <th>
+                            Role
+                          </th>
+                          <th>
+                            Remark
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of WorkFlowRemarks;let idx=index;">
+                          <td>
+                            {{idx+1}}
+                          </td>
+                          <td>
+                            {{row.Name}}
+                          </td>
+                          <td>
+                            {{row.SSOID}}
+                          </td>
+                          <td>
+                            {{row.RoleName}}
+                          </td>
+                          <td>
+                            <span>
+                              {{row.Remark}}
+                            </span>
+                          </td>
+                        </tr>
+                        <!--<tr *ngIf="WorkFlowRemarks.length<=0">
+                  <td colspan="5" style="color:red">No Record Found!</td>
+                </tr>-->
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-                <div class="row m-2" *ngIf="sSOLoginDataModel.RoleID!=16 && QueryStringStatus=='Pending'">
+
+
+                <div class="row m-2" *ngIf="sSOLoginDataModel.RoleID==17 && QueryStringStatus=='Pending'">
 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
@@ -353,7 +402,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row  m-2" *ngIf="sSOLoginDataModel.RoleID!=16 && QueryStringStatus=='Pending'">
+                <div class="row  m-2" *ngIf="sSOLoginDataModel.RoleID==17 && QueryStringStatus=='Pending'">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
                     <label>Remarks  <span style="color:red;">*</span></label>
                     <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
@@ -363,7 +412,7 @@
                   </div>
 
                 </div>
-                <div class="row  m-2" *ngIf="sSOLoginDataModel.RoleID!=16 && QueryStringStatus=='Pending'">
+                <div class="row  m-2" *ngIf="sSOLoginDataModel.RoleID==17 && QueryStringStatus=='Pending'">
                   <div class="col-md-12">
                     <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
                   </div>
@@ -372,6 +421,46 @@
             </div>
           </ng-template>
           <!--END MODAL-->
+
+          <ng-template #mymodal let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="card">
+                <div class="card-header">
+                  <b>Application Trail</b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-striped-columns">
+                        <thead>
+                          <tr>
+                            <th>Sr.No.</th>
+                            <th>User Name</th>
+                            <th>Action</th>
+                            <th>Action Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of ApplicationTrailList let idx =index">
+                            <td>{{idx+1}}</td>
+                            <td>{{item.ActionUser}}</td>
+                            <td>{{item.ActionName}}</td>
+                            <td>{{item.ActionDate}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>

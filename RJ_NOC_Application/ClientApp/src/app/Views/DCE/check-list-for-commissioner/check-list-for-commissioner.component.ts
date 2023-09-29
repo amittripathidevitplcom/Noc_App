@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { LandDetailDataModel } from '../../../Models/LandDetailDataModel';
@@ -24,18 +24,20 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 
 @Injectable({
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-document-scrutiny-check-list-details-dce',
-  templateUrl: './document-scrutiny-check-list-details.component.html',
-  styleUrls: ['./document-scrutiny-check-list-details.component.css']
+  selector: 'app-check-list-for-commissioner',
+  templateUrl: './check-list-for-commissioner.component.html',
+  styleUrls: ['./check-list-for-commissioner.component.css']
 })
-export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
+export class CheckListForCommissionerComponent implements OnInit {
 
+  @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -212,12 +214,12 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   OtherGirlsCountFooter: number = 0
   TotalFooter: number = 0
 
-  public QueryStringStatus: any = '';
+
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private landDetailsService: LandDetailsService, private dcedocumentScrutinyService: DCEDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
-    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
+    private dcedocumentScrutinyService: DCEDocumentScrutinyService,
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService,
+    private dcedocumentscrutiny: DocumentScrutinyComponent) { }
 
 
 
@@ -225,7 +227,6 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
-    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
@@ -845,53 +846,29 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
         this.isFormvalid = false;
       }
 
-      if (this.SelectedDepartmentID == 3) {
-        if (this.CollegeType_IsExisting) {
-          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0) {
-            this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
-          }
-        }
-        else {
-          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
-            || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0) {
-            this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
-          }
-        }
-      }
 
       if (!this.isFormvalid) {
         return;
       }
       this.loaderService.requestStarted();
-      //if (this.sSOLoginDataModel.RoleID == 16) {
-      //  this.routers.navigate(['/inspectioncommitteephysicalverification/Pending']);
-      //}
-      //else {
-        await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            if (this.State == 0) {
-              this.toastr.success(this.SuccessMessage);
-              this.routers.navigate(['/dceapplicationlist/Pending']);
-            }
-            else if (this.State == 2) {
-              this.toastr.warning(this.ErrorMessage)
-            }
-            else {
-              this.toastr.error(this.ErrorMessage)
-            }
-          }, error => console.error(error));
-      //}
+
+      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.toastr.success(this.SuccessMessage);
+            this.routers.navigate(['/dceapplicationlist/Pending']);
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -1097,12 +1074,35 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       // get
       await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.IsPVStageDone = data['Data']['PVStage'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public lstTarils: any = []
+  ViewTaril(ID: number, ActionType: string) {
+    this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      this.commonMasterService.GetDocumentScritintyTaril(ID, this.SelectedApplyNOCID, this.SelectedCollageID, this.SelectedDepartmentID, ActionType)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.lstTarils = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {

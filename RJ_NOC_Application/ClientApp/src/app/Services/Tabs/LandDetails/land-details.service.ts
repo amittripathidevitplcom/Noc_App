@@ -32,6 +32,17 @@ export class LandDetailsService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetLandDetailsListForPDF(SelectedCollageID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetLandDetailsListForPDF/" + SelectedCollageID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async GetLandDetailsIDWise(LandDetailID: number, CollegeID: number) {
     const httpOptions = {

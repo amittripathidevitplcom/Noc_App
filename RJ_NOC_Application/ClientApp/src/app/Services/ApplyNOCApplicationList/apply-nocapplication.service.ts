@@ -33,8 +33,9 @@ export class ApplyNOCApplicationService {
   }
   public async DocumentScrutiny(RoleID: number, UserID: number, ActionID: number, ApplyNOCID: number, DepartmentID: number, CheckList_FinalRemark: string, NextRoleID: number, NextUserID: number, NextActionID: number) {
     const headers = { 'content-type': 'application/json' }
-    var request = { ApplyNOCID: ApplyNOCID, RoleID: RoleID, UserID: UserID, ActionID: ActionID, DepartmentID: DepartmentID, Remark: CheckList_FinalRemark, NextRoleID: NextRoleID, NextUserID: NextUserID, NextActionID:NextActionID
-};
+    var request = {
+      ApplyNOCID: ApplyNOCID, RoleID: RoleID, UserID: UserID, ActionID: ActionID, DepartmentID: DepartmentID, Remark: CheckList_FinalRemark, NextRoleID: NextRoleID, NextUserID: NextUserID, NextActionID: NextActionID
+    };
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + '/DocumentScrutiny/', body, { 'headers': headers })
       .pipe(
@@ -76,7 +77,7 @@ export class ApplyNOCApplicationService {
       ).toPromise();
   }
 
-  public async SaveCommiteeInspectionRNCCheckList(request:CommiteeInspection_RNCCheckList_DataModel[]) {
+  public async SaveCommiteeInspectionRNCCheckList(request: CommiteeInspection_RNCCheckList_DataModel[]) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + '/SaveCommiteeInspectionRNCCheckList/', body, { 'headers': headers })
@@ -137,7 +138,7 @@ export class ApplyNOCApplicationService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetApplyNOCApplicationType/" + CollegeID )
+    return await this.http.get(this.APIUrl + "/GetApplyNOCApplicationType/" + CollegeID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -148,13 +149,21 @@ export class ApplyNOCApplicationService {
     //    'Content-Type': 'application/json'
     //  })
     //};
-    //return await this.http.get(this.APIUrl + "/GeneratePDFForJointSecretary/" + ApplyNOCID + "/" + DepartmentID + "/" + RoleID + "/" + UserID + "/" + NOCIssuedRemark )
+    //return await this.http.get(this.APIUrl + "/GeneratePDFForJointSecretary/" + ApplyNOCID + "/" + DepartmentID + "/" + RoleID + "/" + UserID + "/" + NOCIssuedRemark)
     //  .pipe(
     //    catchError(this.handleErrorObservable)
-    //).toPromise();
+    //  ).toPromise();
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify({ ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID, RoleID: RoleID, UserID: UserID, NOCIssuedRemark: NOCIssuedRemark });
-    return await this.http.post(this.APIUrl + '/SaveCommiteeInspectionRNCCheckList/', body, { 'headers': headers })
+    return await this.http.post(this.APIUrl + '/GeneratePDFForJointSecretary/', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GenerateNOCForDCE(ApplyNOCID: number, DepartmentID: number, RoleID: number, UserID: number, NOCIssuedRemark: string) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify({ ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID, RoleID: RoleID, UserID: UserID, NOCIssuedRemark: NOCIssuedRemark });
+    return await this.http.post(this.APIUrl + '/GenerateNOCForDCE/', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -183,7 +192,7 @@ export class ApplyNOCApplicationService {
       ).toPromise();
   }
 
-  public async GetNocLateFees(DepartmentID: number) { 
+  public async GetNocLateFees(DepartmentID: number) {
     return await this.http.get(this.APIUrl + "/GetNocLateFees/" + DepartmentID)
       .pipe(
         catchError(this.handleErrorObservable)

@@ -44,4 +44,15 @@ export class StaffDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetStaffDetailsListForPDF(DepartmentID: number, CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetStaffDetailListForPDF/" +  DepartmentID + "/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

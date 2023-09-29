@@ -44,7 +44,6 @@ export class CollegeManagementSocietyComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.socityService.GetSocietyAllList(0, this.SelectedCollageID)
         .then((data: any) => {
-
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

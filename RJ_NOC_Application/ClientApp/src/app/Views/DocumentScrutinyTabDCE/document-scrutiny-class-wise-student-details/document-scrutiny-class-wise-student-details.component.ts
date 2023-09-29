@@ -20,7 +20,8 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
 export class DocumentScrutinyClassWiseStudentDetailsComponent implements OnInit {
 
 
-  //public ClassWiseStudentDetailsList: any = [];
+  public QueryStringStatus: any = '';
+
 
   public ClassWiseStudentDetailsList: any[] = [];
 
@@ -71,7 +72,8 @@ async ngOnInit() {
 
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+  this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+  this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
     this.GetCollegeWiseStudenetDetails(this.SelectedCollageID)

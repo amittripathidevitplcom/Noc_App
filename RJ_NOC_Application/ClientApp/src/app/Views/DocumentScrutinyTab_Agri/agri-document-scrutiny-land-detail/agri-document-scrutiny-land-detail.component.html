@@ -163,14 +163,14 @@
             <label><b>Total Building Area (in {{UnitOfLand}}) :</b></label>
             <input class="form-control disabled" disabled value="{{request.BuildingHostelQuartersRoadArea}}" />
           </div>-->
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
+          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
             <label><b> Land Conversion Order Date(DD/MM/YYYY) :</b></label>
             <input class="form-control disabled" disabled value="{{request.LandConversionOrderDate}}" />
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
             <label><b>Land Conversion Order No :</b></label>
             <input class="form-control disabled" disabled value="{{request.LandConversionOrderNo}}" />
-          </div>
+          </div>-->
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')">
             <label><b>Affidavit Date(DD/MM/YYYY) :</b></label>
             <input class="form-control disabled" disabled value="{{request.AffidavitDate}}" />
@@ -185,17 +185,15 @@
                     <tr>
                       <th>Sr. No.</th>
                       <th>Document Name</th>
+                      <th>Document Type</th>
                       <th>File</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let item of request.LandDetailDocument ; let indexOfelement=index;">
                       <td> {{indexOfelement+1}}</td>
-                      <td>
-                        <label>
-                          <b>{{item.DocumentName}} :</b>&nbsp;&nbsp;
-                        </label>
-                      </td>
+                      <td>{{item.DocumentName}}</td>
+                      <td>{{item.DocumentType}}</td>
                       <td>
                         <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
                           <img src="{{item.FilePath}}" alt="Land Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
@@ -225,6 +223,10 @@
                           <th>Land Type</th>
                           <th>Area</th>
                           <th>Khasra No</th>
+                          <th>Land Conversion Order No</th>
+                          <th>Land Conversion Order Date</th>
+                          <th>Land Conversion Document</th>
+                          <th>Other Document</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -233,6 +235,12 @@
                           <td>{{row.LandTypeName}}</td>
                           <td>{{row.LandArea}}</td>
                           <td>{{row.KhasraNo}}</td>
+                          <td>{{row.LandConversionOrderNo}}</td>
+                          <td>{{row.LandConversionOrderDate}}</td>
+                          <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+                          <td>
+                            <a *ngIf="row.FileOtherName!=''" class="btn-outline-primary" target="_blank" href="{{row.FileOtherPath}}" title="View Document"><i class="fa fa-eye"></i></a>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
