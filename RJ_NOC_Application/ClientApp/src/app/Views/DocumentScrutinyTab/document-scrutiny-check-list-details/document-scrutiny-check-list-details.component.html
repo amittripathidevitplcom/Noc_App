@@ -321,6 +321,10 @@
                   <label>Department :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.DepartmentName_English}}" />
                 </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.DepartmentID==5">
+                  <label>Type of College :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{collegeListData.TypeofCollege}}" />
+                </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label>College Status :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeStatus}}" />
@@ -334,8 +338,6 @@
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_collegeListData.CollegeLogoPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_collegeListData.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
                   </a>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeStatus!='New'">
                   <label>Present Status of College :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.PresentCollegeStatus}}" />

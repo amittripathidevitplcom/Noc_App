@@ -538,58 +538,60 @@
                         <label>Department :-{{collegeListData.DepartmentName_English}}</label>
                       </td>
                       <td>
-                        <label>College Status :-{{collegeListData.CollegeStatus}}</label>
+                        <label>Type of College :-{{collegeListData.TypeofCollege}}</label>
                       </td>
                       <td>
-                        <label><b>College Logo :- <img src="{{collegeListData.CollegeLogoPath}}" alt="College Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" /> </b></label>
+                        <label>College Status :-{{collegeListData.CollegeStatus}}</label>
                       </td>
                     </tr>
                     <tr>
+                      <td>
+                        <label><b>College Logo :- <img src="{{collegeListData.CollegeLogoPath}}" alt="College Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" /> </b></label>
+                      </td>
                       <td *ngIf="collegeListData.CollegeStatus!='New'">
                         <label>Present Status of College :-{{collegeListData.PresentCollegeStatus}}</label>
                       </td>
                       <td>
                         <label>College Type :-{{collegeListData.CollegeType}}</label>
                       </td>
+                    </tr>
+                    <tr>
                       <td>
                         <label>College Level :-{{collegeListData.CollegeLevel}}</label>
                       </td>
-                    </tr>
-                    <tr>
                       <td>
                         <label>College Code :-{{collegeListData.CollegeCode}}</label>
                       </td>
                       <td>
                         <label>College Name in English :-{{collegeListData.CollegeNameEn}}</label>
                       </td>
+                    </tr>
+                    <tr>
                       <td>
                         <label>College Name in Hindi :- NAresh college</label><!--{{collegeListData.CollegeNameHi}}-->
                       </td>
-                    </tr>
-                    <tr>
                       <td>
                         <label>IS Your College NAAC Accredited :-{{collegeListData.CollegeNAACAccredited}}</label>
                       </td>
                       <td *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
                         <label>NAAC Accredited Certificate :-{{collegeListData.NAACAccreditedCertificatePath}}</label>
                       </td>
-
+                    </tr>
+                    <tr>
                       <td *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
                         <label>NACC Validity Date :-{{collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}</label>
                       </td>
-                    </tr>
-                    <tr>
                       <td *ngIf="collegeListData.DepartmentID==3">
                         <label>AISHE Code Status :-{{collegeListData.AISHECodeStatus}}</label>
                       </td>
                       <td *ngIf="collegeListData.AISHECodeStatus =='Yes' && collegeListData.DepartmentID==3">
                         <label>AISHE Code :-{{collegeListData.AISHECode}}</label>
                       </td>
+                    </tr>
+                    <tr>
                       <td>
                         <label>College Medium :-{{collegeListData.CollegeMediumName}}</label>
                       </td>
-                    </tr>
-                    <tr>
                       <td>
                         <label *ngIf="collegeListData.DepartmentID==6">University / RMC  :-{{collegeListData.UniversityName}}</label>
                         <label *ngIf="collegeListData.DepartmentID !=6">University :-{{collegeListData.UniversityName}}</label>
@@ -877,7 +879,7 @@
             </div>
           </div>
           <!--College Managment Society-->
-          <div class="card-body" >
+          <div class="card-body">
             <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive" *ngIf="SocietyAllList.length>0">
@@ -1111,7 +1113,8 @@
                 <table class="table table-bordered table-hover table-striped" id="OtherInfoDetails" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Other Information Details</b></td>
+                      <td colspan="8" style="font-weight:800; font-size:18px;" *ngIf="SelectedDepartmentID==6"><b><i class="bi bi-table"></i>&nbsp;Clinical Details</b></td>
+                      <td colspan="8" style="font-weight:800; font-size:18px;" *ngIf="SelectedDepartmentID!=6"><b><i class="bi bi-table"></i>&nbsp;Other Information Details</b></td>
                     </tr>
                   </thead>
                   <tr>
@@ -1223,7 +1226,7 @@
                             Passing Year :- {{row.PassingYear}}<br />
                             Percentage/Grade :- {{row.Marks}}<br />
                           </span>
-                          
+
                         </span>
                       </td>
                     </tr>
@@ -1273,7 +1276,7 @@
           <!--Farm Land Information-->
           <div class="card-body">
             <div class="row">
-              <div class="table-responsive" *ngIf="lstFarmLandDetails.length>0">
+              <div class="table-responsive" *ngIf="lstFarmLandDetails.length>0 && SelectedDepartmentID==1">
                 <table class="table table-hover table-striped-columns" id="FarmLandDetial" #content>
                   <thead>
                     <tr>
@@ -1342,7 +1345,7 @@
                       <td>
                         <span *ngFor="let item of OldNocSubjectlst let idxe=index">
                           <span *ngIf="row.OldNocID == item.OldNocID">
-                            {{idxe==0?'':', '}}{{item.SubjectName}}
+                            {{idxe==0?'':' '}}{{item.SubjectName}}
                           </span>
 
                         </span>
@@ -1353,6 +1356,380 @@
               </div>
             </div>
           </div>
+
+          <!--Hostel Details-->
+          <div class="card-body">
+            <div class="row" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
+              <div class="table-responsive" *ngIf="hostelDetaillst.length>0">
+                <table class="table table-hover table-striped-columns" id="HostelDetial" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hostel Details</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Hostel Details</th>
+                      <th>Address & Contact Detail</th>
+                      <th>Hostel Block Details</th>
+                    </tr>
+                    <tr *ngFor="let row of hostelDetaillst;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>
+                        Is Hostel In Campus:- {{row.IsHostelCampus}}<br />
+                        Hostel Category:- {{row.HostelCategory}}<br />
+                        Hostel Name:- {{row.HostelName}}<br />
+                        <span *ngIf="row.HostelType =='Rent'">
+                          Owner Name:- {{row.OwnerName}}<br />
+                          Contact No.:- {{row.OwnerContactNo}}<br />
+                          From Date:- {{row.FromDate | date:'dd-MM-yyyy'}}<br />
+                          To Date:- {{row.ToDate | date:'dd-MM-yyyy'}}<br />
+                        </span>
+                      </td>
+                      <td>
+                        Contact Person Name:- {{row.ContactPersonName}}<br />
+                        Contact Person No.:- {{row.ContactPersonNo}}<br />
+                        Distance of College (KM):- {{row.DistanceOfCollege}}<br />
+                        Rural/Urban:- {{row.IsRuralUrban}}<br />
+                        Address:- {{row.AddressLine1}},{{row.AddressLine2}},{{row.DivisionName}},{{row.DistrictName}},{{row.TehsilName}},{{row.PanchyatSamitiName}}{{row.CityName}}<br />
+                        <span *ngIf="row.IsHostelCampus !='No'">Hostel Type:- {{row.HostelType}}<br /></span>
+                      </td>
+                      <td>
+                        <span *ngFor="let item of HostelBlocklst let idxe=index">
+                          <span *ngIf="row.HostelDetailID == item.HostelDetailID">
+                            {{idxe==0?'':' '}}Hostel Block:- {{item.CourseName}}<br />
+                            No Of :- {{item.NoOf}}<br />
+                            Area (In Sq Feet):- {{item.Width}}<br />
+                            Student Capacity :- {{item.StudentCapacity}}<br />
+                          </span>
+
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Hospital Details-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped-columns text-left" id="CollegeBasicInfo" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;College Detail</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Department :-{{collegeListData.DepartmentName_English}}</label>
+                      </td>
+                      <td>
+                        <label>Type of College :-{{collegeListData.TypeofCollege}}</label>
+                      </td>
+                      <td>
+                        <label>College Status :-{{collegeListData.CollegeStatus}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label><b>College Logo :- <img src="{{collegeListData.CollegeLogoPath}}" alt="College Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" /> </b></label>
+                      </td>
+                      <td *ngIf="collegeListData.CollegeStatus!='New'">
+                        <label>Present Status of College :-{{collegeListData.PresentCollegeStatus}}</label>
+                      </td>
+                      <td>
+                        <label>College Type :-{{collegeListData.CollegeType}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>College Level :-{{collegeListData.CollegeLevel}}</label>
+                      </td>
+                      <td>
+                        <label>College Code :-{{collegeListData.CollegeCode}}</label>
+                      </td>
+                      <td>
+                        <label>College Name in English :-{{collegeListData.CollegeNameEn}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>College Name in Hindi :- NAresh college</label>{{collegeListData.CollegeNameHi}}
+                      </td>
+                      <td>
+                        <label>IS Your College NAAC Accredited :-{{collegeListData.CollegeNAACAccredited}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
+                        <label>NAAC Accredited Certificate :-{{collegeListData.NAACAccreditedCertificatePath}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
+                        <label>NACC Validity Date :-{{collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.DepartmentID==3">
+                        <label>AISHE Code Status :-{{collegeListData.AISHECodeStatus}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.AISHECodeStatus =='Yes' && collegeListData.DepartmentID==3">
+                        <label>AISHE Code :-{{collegeListData.AISHECode}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>College Medium :-{{collegeListData.CollegeMediumName}}</label>
+                      </td>
+                      <td>
+                        <label *ngIf="collegeListData.DepartmentID==6">University / RMC  :-{{collegeListData.UniversityName}}</label>
+                        <label *ngIf="collegeListData.DepartmentID !=6">University :-{{collegeListData.UniversityName}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.CollegeStatus!='New'">
+                        <label>Year of Establishment :-{{collegeListData.FinancialYearName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Division :-{{collegeListData.Division_English}}</label>
+                      </td>
+                      <td>
+                        <label>District :-{{collegeListData.District_Eng}}</label>
+                      </td>
+                      <td>
+                        <label>Subdivision :-{{collegeListData.SubdivisionName}}{{collegeListData.SubdivisionName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Tehsil :-{{collegeListData.TehsilName}}</label>
+                      </td>
+                      <td>
+                        <label>Area :-{{collegeListData.RuralUrbanArea}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                        <label>Panchayat Samiti :-{{collegeListData.PanchyatSamitiName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="collegeListData.RuralUrbanArea=='Urban'">
+                        <label>City :-{{collegeListData.CityName}}</label>
+                      </td>
+                      <td>
+                        <label>Parliament Area :-{{collegeListData.ParliamentAreaName}}</label>
+                      </td>
+                      <td>
+                        <label>Assembly Area :-{{collegeListData.AssemblyAreaName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>City/Town/Village :-{{collegeListData.CityTownVillage}}</label>
+                      </td>
+
+                      <td>
+                        <label>Pincode :-{{collegeListData.Pincode}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 1 :-{{collegeListData.AddressLine1}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Address Line 2 :-{{collegeListData.AddressLine2}}</label>
+                      </td>
+
+                      <td *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                        <label>Distance from City(km) :-{{collegeListData.DistanceFromCity}}</label>
+                      </td>
+                      <td>
+                        <label>Website Link :-{{collegeListData.WebsiteLink}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Mobile Number :-{{collegeListData.MobileNumber}}</label>
+                      </td>
+                      <td>
+                        <label>Landline Number :-{{collegeListData.CollegeLandlineNumber}}</label>
+                      </td>
+                      <td>
+                        <label>Email :-{{collegeListData.Email}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row" *ngIf="HospitalAllDatalst.length>0">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped" id="CollegeGeoTagging" #content>
+                        <thead>
+                          <tr>
+                            <td colspan="6" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Geo Tagging Status Details</b></td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>Sr.No.</th>
+                            <th>Geo Tagging Status</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                            <th>Image 1</th>
+                            <th>Image 2</th>
+                          </tr>
+                          <tr *ngFor="let row of CollegeGeoTaggingList; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.IsGeoTagging}}</td>
+                            <td>{{row.TGC_Latitude}}</td>
+                            <td>{{row.TGC_Longitude}}</td>
+                            <td>
+                              <a *ngIf="row.Image1!='N/A'" data-fancybox="gallery" href="{{row.Image1}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.Image1}}" alt="Image 1" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <label *ngIf="row.Image1=='N/A'">{{row.Image1}}</label>
+
+                            </td>
+                            <td>
+                              <a *ngIf="row.Image2!='N/A'" data-fancybox="gallery" href="{{row.Image2}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.Image2}}" alt="Image 2" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <label *ngIf="row.Image1=='N/A'">{{row.Image2}}</label>
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="collegeContactDetailsList.length>0">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped" id="CollegeContactDetails" #content>
+                        <thead>
+                          <tr>
+                            <td colspan="5" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Contact Details</b></td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>Sr.No.</th>
+                            <th>Name Of Person</th>
+                            <th>Designation</th>
+                            <th>Mobile Number</th>
+                            <th>Email Address</th>
+                          </tr>
+                          <tr *ngFor="let row of collegeContactDetailsList; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.NameOfPerson}}</td>
+                            <td>{{row.DesignationName}}</td>
+                            <td>{{row.MobileNumber}}</td>
+                            <td>{{row.EmailAddress}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-striped-columns text-left" id="CollegeGeneralContactDetails" #content>
+                          <thead>
+                            <tr>
+                              <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;General Contact Details</b></td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <label>Designation :- {{collegeListData.DesignationName}}</label>
+                              </td>
+                              <td>
+                                <label>Mobile Number :- {{collegeListData.GCD_MobileNumber}}</label>
+                              </td>
+                              <td>
+                                <label>Landline Number :- {{collegeListData.GCD_LandlineNumber}}</label>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="collegeNearestGovernmentHospitalsList.length>0">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped" id="CollegeHospitalDetails" #content>
+                        <thead>
+                          <tr>
+                            <td colspan="6" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;10 Government hospitals nearest to the institution</b></td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Hospital Reg. No.</th>
+                            <th>Hospital Name</th>
+                            <th>Hospital Address</th>
+                            <th>Distance From Institute(KM)</th>
+                            <th>Hospital Document</th>
+                          </tr>
+                          <tr *ngFor="let row of collegeNearestGovernmentHospitalsList; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.HospitalRegNo}}</td>
+                            <td>{{row.HospitalName}}</td>
+                            <td>
+                              <p class="m-0"><b>Area : </b> {{row.RuralUrbanArea}}</p>
+                              <p class="m-0"><b>Address Line 1 : </b> {{row.AddressLine1}}</p>
+                              <p class="m-0"><b>Address Line 2 : </b>{{row.AddressLine2}}</p>
+                              <p class="m-0"><b>Division : </b> {{row.Division_English}}</p>
+                              <p class="m-0"><b>District : </b> {{row.District_Eng}}</p>
+                              <p class="m-0"><b>Tehsil : </b>{{row.TehsilName}}</p>
+                              <p *ngIf="row.RuralUrban==1" class="m-0"><b>PanchayatSamiti : </b>{{row.PanchyatSamitiName}}</p>
+                              <p *ngIf="row.RuralUrban==2" class="m-0"><b>City : </b>{{row.CityName}}</p>
+                              <p class="m-0"><b>City/Town/Village : </b>{{row.CityTownVillage}}</p>
+                              <p class="m-0"><b>Pincode : </b>{{row.Pincode}}</p>
+                            </td>
+                            <td>{{row.HospitalDistance}}</td>
+                            <td>
+                              <a *ngIf="!row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.HospitalDocumentPath}}" alt="Hospital Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
           <div class="card-footer">
             <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
           </div>

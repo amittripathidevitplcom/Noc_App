@@ -42,6 +42,12 @@ export class LandDetailDataModel {
   public CollegeLandTypeDetails: CollegeLandTypeDetailsDataModel[] = [];
   public CollegeLandConversionDetails: CollegeLandConversionDetailsDataModel[] = [];
 
+  public MedicalGroupOneLandTypeID: number = 0;
+  public MedicalGroupOneLandUnitID: number = 0;
+  public LeaseDate: string = '';
+  public NameOfLandPurchasedAllotted: string = '';
+
+
 }
 
 export class LandDetailDocumentDataModel extends RequiredDocumentsDataModel_Documents {
