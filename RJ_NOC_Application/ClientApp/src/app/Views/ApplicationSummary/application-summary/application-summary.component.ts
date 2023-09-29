@@ -28,6 +28,7 @@ import { AcademicInformationDetailsService } from '../../../Services/AcademicInf
 import { FarmLandDetailService } from '../../../Services/FarmLandDetail/farm-land-detail.service';
 import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
+import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
 @Component({
   selector: 'app-application-summary',
   templateUrl: './application-summary.component.html',
@@ -79,6 +80,7 @@ export class ApplicationSummaryComponent implements OnInit {
   public DownloadPdfDetailslst: any = [];
   public hostelDetaillst: any = [];
   public HostelBlocklst: any = [];
+  public HospitalAllDatalst: any = [];
 
   public CollegeType_IsExisting: boolean = true;
   public collegeDataList: any = [];
@@ -87,7 +89,7 @@ export class ApplicationSummaryComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   constructor(private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,private oldnocdetailService: OldnocdetailService,
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService,
     private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService ) { }
 
   async ngOnInit() {
@@ -716,4 +718,30 @@ export class ApplicationSummaryComponent implements OnInit {
       }, 200);
     }
   }
+
+  async ViewHospitalDetailsID(CollegeID: any) {
+    try {
+      this.loaderService.requestStarted();
+      await this.hospitalDetailService.GetDataList(this.SelectedCollageID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.HospitalAllDatalst = data['Data'];
+
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }
