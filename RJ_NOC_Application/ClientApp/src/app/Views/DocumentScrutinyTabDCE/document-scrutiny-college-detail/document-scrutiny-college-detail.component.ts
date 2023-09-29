@@ -21,6 +21,7 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
   constructor(private dcedocumentscrutiny: DocumentScrutinyComponent,private dceDocumentScrutinyService: DCEDocumentScrutinyService,private applyNOCApplicationService: ApplyNOCApplicationService,private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
 
   }
+  public QueryStringStatus: any = '';
 
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -58,7 +59,7 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
     this.SelectedDepartmentID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString())
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()))
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
-    //
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.ModifyBy = 1;
     // get college list
     await this.ViewTotalCollegeDataByID();

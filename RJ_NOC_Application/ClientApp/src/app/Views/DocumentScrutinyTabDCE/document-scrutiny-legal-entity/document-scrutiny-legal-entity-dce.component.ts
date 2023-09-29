@@ -21,7 +21,7 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
 export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
 
   constructor(private dcedocumentscrutiny: DocumentScrutinyComponent,private dcedocumentScrutinyService: DCEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
-
+  public QueryStringStatus: any = '';
   public State: number = -1;
   public SuccessMessage: any = [];
 
@@ -67,7 +67,7 @@ export class DocumentScrutinyLegalEntityComponentDce implements OnInit {
     this.SelectedDepartmentID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString())
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()))
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
-    //
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.ModifyBy = 1;
     // get college list
     this.ViewlegalEntityDataByID();

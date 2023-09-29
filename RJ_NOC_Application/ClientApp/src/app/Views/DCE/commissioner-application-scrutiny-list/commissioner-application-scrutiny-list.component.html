@@ -49,6 +49,7 @@
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
                         &nbsp;<a *ngIf="(QueryStringStatus=='Pending' || QueryStringStatus=='Forward')&&this.sSOLoginDataModel.RoleID!=26" href="javascript:void(0)" class="btn btn-sm btn-info" title="Action" (click)="OpenGeneratePDFPopUP(ViewOpenGeneratePDFPopUP,item.ApplyNOCID,item.DepartmentID)">Release NOC</a>
                         <a *ngIf="QueryStringStatus=='NOCIssued'" class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill" href="{{item.NOCFilePath}}" title="View NOC" target="_blank"></a>
+                        &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
                       </td>
                     </tr>
                     <tr>
@@ -182,6 +183,53 @@
                       </tr>
                     </tbody>
                   </table>
+                  <br />
+                  <b *ngIf="WorkFlowRemarks.length>0">Details Of Other Officer Remarks</b>
+                  <table class="table table-bordered" *ngIf="WorkFlowRemarks.length>0">
+                    <thead>
+                      <tr>
+                        <th>
+                          Sr.No.
+                        </th>
+                        <th>
+                          Name
+                        </th>
+                        <th>
+                          SSO ID
+                        </th>
+                        <th>
+                          Role
+                        </th>
+                        <th>
+                          Remark
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of WorkFlowRemarks;let idx=index;">
+                        <td>
+                          {{idx+1}}
+                        </td>
+                        <td>
+                          {{row.Name}}
+                        </td>
+                        <td>
+                          {{row.SSOID}}
+                        </td>
+                        <td>
+                          {{row.RoleName}}
+                        </td>
+                        <td>
+                          <span>
+                            {{row.Remark}}
+                          </span>
+                        </td>
+                      </tr>
+                      <!--<tr *ngIf="WorkFlowRemarks.length<=0">
+                  <td colspan="5" style="color:red">No Record Found!</td>
+                </tr>-->
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -207,6 +255,45 @@
           <div class="modal-footer">
             <button type="button" (click)="GeneratePDF_OnClick()" title="Generate PDF" class="btn btn-primary">Submit</button>
             <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancel</button>
+          </div>
+        </ng-template>
+        <ng-template #mymodal let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <i class="fa fa-close"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="card">
+              <div class="card-header">
+                <b>Application Trail</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-striped-columns">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>User Name</th>
+                          <th>Action</th>
+                          <th>Action Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of ApplicationTrailList let idx =index">
+                          <td>{{idx+1}}</td>
+                          <td>{{item.ActionUser}}</td>
+                          <td>{{item.ActionName}}</td>
+                          <td>{{item.ActionDate}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </ng-template>
       </div>

@@ -18,7 +18,7 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
   styleUrls: ['./document-scrutiny-land-detail.component.css']
 })
 export class DocumentScrutinyLandDetailComponentDce implements OnInit {
-
+  public QueryStringStatus: any = '';
   request = new LandDetailDataModel();
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
@@ -49,6 +49,7 @@ export class DocumentScrutinyLandDetailComponentDce implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetLandDetailsDataList();
 
     await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');

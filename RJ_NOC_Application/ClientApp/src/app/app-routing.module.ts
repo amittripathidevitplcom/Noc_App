@@ -539,6 +539,9 @@ const routes: Routes = [
         path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: DocumentScrutinyComponent
       },
       {
+        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyComponent
+      },
+      {
         path: 'agricultureappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAgricultureComponent
       },
       {

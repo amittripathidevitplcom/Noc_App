@@ -172,7 +172,7 @@ export class NodalOfficerApplicationListComponent implements OnInit {
   }
 
   async DocumentScrutiny_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
-    this.routers.navigate(['/documentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
+    this.routers.navigate(['/documentscrutiny' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + this.QueryStringStatus]);
   }
 
 
@@ -620,7 +620,7 @@ export class NodalOfficerApplicationListComponent implements OnInit {
       this.toastr.error("Please add Member Details");
       isValid = false;
     }
-    if (this.request_MemberList.ApplicationCommitteeList.length <= 3) {
+    if (this.request_MemberList.ApplicationCommitteeList.length < 3) {
       this.toastr.error("Please add three Member Details");
       isValid = false;
     }
@@ -768,7 +768,7 @@ export class NodalOfficerApplicationListComponent implements OnInit {
     //
     await this.GetApplicationPvDetails(this.SelectedApplyNOCID);
     await this.GetPVApplicationCommitteeList(this.SelectedApplyNOCID);
-
+    await this.GetWorkFlowRemarksByApplicationID(this.SelectedApplyNOCID);
 
   }
 
@@ -836,6 +836,58 @@ export class NodalOfficerApplicationListComponent implements OnInit {
     }
     event.preventDefault();
     return false;
+  }
+
+  public WorkFlowRemarks: any = [];
+  async GetWorkFlowRemarksByApplicationID(ApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.decDocumentScrutinyService.GetWorkFlowRemarksByApplicationID(ApplyNOCID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.WorkFlowRemarks = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public ApplicationTrailList: any = [];
+  async GetApplicationTrail(content: any, ApplyNOCID: number) {
+    this.ApplicationTrailList = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetApplicationTrail_DepartmentApplicationWise(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationTrailList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
 
