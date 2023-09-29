@@ -57,11 +57,11 @@
                   <td style="width:5%">
                     <div class="d-flex">
                       <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
-                        <i class="fa fa-eye"></i>
+                        View
                       </a>
                       <a href="javascript:void(0)" (click)="DraftEdit_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"
                          *ngIf="row.ApplicationStatus==0">
-                        <i class="fa fa-edit"></i>
+                        Apply LOI
                       </a>
 
                     </div>

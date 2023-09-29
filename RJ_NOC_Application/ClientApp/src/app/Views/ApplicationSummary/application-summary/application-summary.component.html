@@ -877,7 +877,7 @@
             </div>
           </div>
           <!--College Managment Society-->
-          <div class="card-body" >
+          <div class="card-body">
             <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive" *ngIf="SocietyAllList.length>0">
@@ -1111,7 +1111,8 @@
                 <table class="table table-bordered table-hover table-striped" id="OtherInfoDetails" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Other Information Details</b></td>
+                      <td colspan="8" style="font-weight:800; font-size:18px;" *ngIf="SelectedDepartmentID==6"><b><i class="bi bi-table"></i>&nbsp;Clinical Details</b></td>
+                      <td colspan="8" style="font-weight:800; font-size:18px;" *ngIf="SelectedDepartmentID!=6"><b><i class="bi bi-table"></i>&nbsp;Other Information Details</b></td>
                     </tr>
                   </thead>
                   <tr>
@@ -1223,7 +1224,7 @@
                             Passing Year :- {{row.PassingYear}}<br />
                             Percentage/Grade :- {{row.Marks}}<br />
                           </span>
-                          
+
                         </span>
                       </td>
                     </tr>
@@ -1273,7 +1274,7 @@
           <!--Farm Land Information-->
           <div class="card-body">
             <div class="row">
-              <div class="table-responsive" *ngIf="lstFarmLandDetails.length>0">
+              <div class="table-responsive" *ngIf="lstFarmLandDetails.length>0 && SelectedDepartmentID==1">
                 <table class="table table-hover table-striped-columns" id="FarmLandDetial" #content>
                   <thead>
                     <tr>
@@ -1342,7 +1343,7 @@
                       <td>
                         <span *ngFor="let item of OldNocSubjectlst let idxe=index">
                           <span *ngIf="row.OldNocID == item.OldNocID">
-                            {{idxe==0?'':', '}}{{item.SubjectName}}
+                            {{idxe==0?'':' '}}{{item.SubjectName}}
                           </span>
 
                         </span>
@@ -1353,6 +1354,63 @@
               </div>
             </div>
           </div>
+
+          <!--Hostel Details-->
+          <div class="card-body">
+            <div class="row" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
+              <div class="table-responsive" *ngIf="hostelDetaillst.length>0">
+                <table class="table table-hover table-striped-columns" id="HostelDetial" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hostel Details</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Hostel Details</th>
+                      <th>Address & Contact Detail</th>
+                      <th>Hostel Block Details</th>
+                    </tr>
+                    <tr *ngFor="let row of hostelDetaillst;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>
+                        Is Hostel In Campus:- {{row.IsHostelCampus}}<br />
+                        Hostel Category:- {{row.HostelCategory}}<br />
+                        Hostel Name:- {{row.HostelName}}<br />
+                        <span *ngIf="row.HostelType =='Rent'">
+                          Owner Name:- {{row.OwnerName}}<br />
+                          Contact No.:- {{row.OwnerContactNo}}<br />
+                          From Date:- {{row.FromDate | date:'dd-MM-yyyy'}}<br />
+                          To Date:- {{row.ToDate | date:'dd-MM-yyyy'}}<br />
+                        </span>
+                      </td>
+                      <td>
+                        Contact Person Name:- {{row.ContactPersonName}}<br />
+                        Contact Person No.:- {{row.ContactPersonNo}}<br />
+                        Distance of College (KM):- {{row.DistanceOfCollege}}<br />
+                        Rural/Urban:- {{row.IsRuralUrban}}<br />
+                        Address:- {{row.AddressLine1}},{{row.AddressLine2}},{{row.DivisionName}},{{row.DistrictName}},{{row.TehsilName}},{{row.PanchyatSamitiName}}{{row.CityName}}<br />
+                        <span *ngIf="row.IsHostelCampus !='No'">Hostel Type:- {{row.HostelType}}<br /></span>
+                      </td>
+                      <td>
+                        <span *ngFor="let item of HostelBlocklst let idxe=index">
+                          <span *ngIf="row.HostelDetailID == item.HostelDetailID">
+                            {{idxe==0?'':' '}}Hostel Block:- {{item.CourseName}}<br />
+                            No Of :- {{item.NoOf}}<br />
+                            Area (In Sq Feet):- {{item.Width}}<br />
+                            Student Capacity :- {{item.StudentCapacity}}<br />
+                          </span>
+
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
           <div class="card-footer">
             <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
           </div>

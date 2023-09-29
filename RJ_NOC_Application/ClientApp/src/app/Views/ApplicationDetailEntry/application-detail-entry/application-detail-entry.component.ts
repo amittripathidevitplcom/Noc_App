@@ -384,25 +384,46 @@ export class ApplicationDetailEntryComponent implements OnInit {
       }
       else if (this.SelectedDepartmentID == 5) {
         if (confirm("Are you sure you want to Apply LOI?")) {
-          await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+          await this.commonMasterService.Check30Female(this.SelectedCollageID)
             .then((data: any) => {
-
               this.State = data['State'];
               this.SuccessMessage = data['SuccessMessage'];
               this.ErrorMessage = data['ErrorMessage'];
-              console.log(this.State);
+
+              data = JSON.parse(JSON.stringify(data));
+
               if (!this.State) {
-                this.toastr.success('Apply LOI Successfully')
-
-                setTimeout(() => {
-                  this.routers.navigate(['/loiapplicationlist']);
-                }, 500);
-
+                if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
+                  this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Acre');
+                  this.isCheck30Female = true;
+                  return;
+                }
               }
               else {
                 this.toastr.error(this.ErrorMessage)
               }
             })
+          if (this.isCheck30Female == false) {
+            await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+              .then((data: any) => {
+
+                this.State = data['State'];
+                this.SuccessMessage = data['SuccessMessage'];
+                this.ErrorMessage = data['ErrorMessage'];
+                console.log(this.State);
+                if (!this.State) {
+                  this.toastr.success('Apply LOI Successfully')
+
+                  setTimeout(() => {
+                    this.routers.navigate(['/loiapplicationlist']);
+                  }, 500);
+
+                }
+                else {
+                  this.toastr.error(this.ErrorMessage)
+                }
+              })
+          }
         }
       }
 
@@ -539,13 +560,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
     //Tech Education
     if (this.SelectedDepartmentID == 6) {
       if (this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0)
-        {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 &&  this.CheckTabsEntryData['HostelDetails'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }

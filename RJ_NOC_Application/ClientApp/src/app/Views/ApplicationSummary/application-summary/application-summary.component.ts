@@ -27,6 +27,7 @@ import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.s
 import { AcademicInformationDetailsService } from '../../../Services/AcademicInformationDetails/academic-information-details.service';
 import { FarmLandDetailService } from '../../../Services/FarmLandDetail/farm-land-detail.service';
 import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
+import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 @Component({
   selector: 'app-application-summary',
   templateUrl: './application-summary.component.html',
@@ -76,6 +77,8 @@ export class ApplicationSummaryComponent implements OnInit {
   public OldNocDetailslst: any = [];
   public OldNocSubjectlst: any = [];
   public DownloadPdfDetailslst: any = [];
+  public hostelDetaillst: any = [];
+  public HostelBlocklst: any = [];
 
   public CollegeType_IsExisting: boolean = true;
   public collegeDataList: any = [];
@@ -84,8 +87,8 @@ export class ApplicationSummaryComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   constructor(private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService,
-    private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService) { }
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,private oldnocdetailService: OldnocdetailService,
+    private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService ) { }
 
   async ngOnInit() {
 
@@ -192,6 +195,7 @@ export class ApplicationSummaryComponent implements OnInit {
       pDFData.push({ "ContentName": "#FarmLandDetial" })
 
       pDFData.push({ "ContentName": "#OldNocDetial" })
+      pDFData.push({ "ContentName": "#HostelDetial" })
 
       for (var i = 0; i < pDFData.length; i++) {
         if (pDFData[i].ContentName == '#CollegeManagementSociety') {
@@ -303,6 +307,7 @@ export class ApplicationSummaryComponent implements OnInit {
       await this.GetAcademicInformationDetailAllList();
       await this.GetAllFarmLandDetalsList(this.SelectedCollageID);
       await this.GetOldNOCDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
+      await this.GetHostelDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
     }
     catch (Ex) {
       console.log(Ex);
@@ -677,6 +682,29 @@ export class ApplicationSummaryComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.OldNocDetailslst = data['Data'][0]['data']['Table'];
           this.OldNocSubjectlst = data['Data'][0]['data']['Table1'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetHostelDetailAllList(DepartmentID: number, CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.hostelDetailService.GetHostelPdfDetails(DepartmentID, CollegeID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.hostelDetaillst = data['Data'][0]['data']['Table'];
+          this.HostelBlocklst = data['Data'][0]['data']['Table1'];
         }, error => console.error(error));
     }
     catch (Ex) {

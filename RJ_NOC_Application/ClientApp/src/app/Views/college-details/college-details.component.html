@@ -1,232 +1,60 @@
-<div class="container-fluid breadcrumbBox py-2">
-  <div class="row align-items-center">
-    <div class="col-md-6">
-      <h3>College Details</h3>
+ <form [formGroup]="CourseMasterForm" class="form-horizontal">
+  <div class="container-fluid mainContents">
+
+    <br />
+
+    <br />
+
+    <br />
+
+    <br />
+
+    <div class="row">
+
+      <div class="col-sm3">
+
+        <ng-autocomplete [data]="data" #auto   formControlName="txtSearch" id="txtSearch"
+                         [searchKeyword]="keyword"
+                         placeholder="Select country"
+                         (selected)='selectEvent($event)'
+                         (inputChanged)='onChangeSearch($event)'
+                         (inputFocused)='onFocused($event)'
+                         [itemTemplate]="itemTemplate"
+                         [notFoundTemplate]="notFoundTemplate">
+
+        </ng-autocomplete>
+
+
+
+        <ng-template #itemTemplate let-item>
+
+          <a [innerHTML]="item.name"></a>
+
+        </ng-template>
+
+
+
+        <ng-template #notFoundTemplate let-notFound>
+
+          <div [innerHTML]="notFound"></div>
+
+        </ng-template>
+
+
+
+        <br />
+
+        <input type="text" class="form-control" id="fCollegeLogo" name="fCollegeLogo">
+
+
+
+        <button type="button" class="btn btn-outline-danger" (click)="show()">Show</button>
+
+      </div>
+
+
+
     </div>
-    <div class="col-md-6 d-flex justify-content-end">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">College</a></li>
-          <li class="breadcrumb-item active" aria-current="page">College Details</li>
-        </ol>
-      </nav>
-    </div>
+
   </div>
-</div>
-<div class="container-fluid mainContents">
-  <div class="row">
-    
-    <div class="col-md-12">
-      <h3>Basic Information - (Test Society) - Society</h3>
-    </div>
-    <div class="col-md-12">
-      <div class="tabUl1 d-block w-100">
-        <ul>
-          <li class="tabs-Link tabComplete">
-            <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="LandInformation1">
-              <i class="bi bi-house-door"></i>
-              <span>Land Information</span>
-            </a>
-          </li>
-          <li class="tabs-Link tabOnProcess">
-            <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="Facility1">
-              <i class="bi bi-emoji-smile"></i>
-              <span>Facility</span>
-            </a>
-          </li>
-          <li class="tabs-Link tabActive">
-            <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="RequiredDocument1">
-              <i class="bi bi-card-checklist"></i>
-              <span>Required Document</span>
-            </a>
-          </li>
-          <li class="tabs-Link">
-            <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="RoomDetails1">
-              <i class="fa fa-building-o"></i>
-              <span>Room Details</span>
-            </a>
-          </li>
-          <li class="tabs-Link">
-            <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="OtherInformation1">
-              <i class="bi bi-card-list"></i>
-              <span>Other Information</span>
-            </a>
-          </li>
-          <li class="tabs-Link">
-            <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="BuildingDocuments1">
-              <i class="bi bi-hospital"></i>
-              <span>Building Documents</span>
-            </a>
-          </li>
-          <li class="tabs-Link">
-            <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="StaffDetails1">
-              <i class="bi bi-people"></i>
-              <span>Staff Details</span>
-            </a>
-          </li>
-          <li class="tabs-Link">
-            <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="AcademicInformation1">
-              <i class="bi bi-file-earmark-text"></i>
-              <span>Academic Information</span>
-            </a>
-          </li>
-          <li class="tabs-Link">
-            <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="OLD_NOC_Details1">
-              <i class="fa fa-copy"></i>
-              <span>OLD NOC Details</span>
-            </a>
-          </li>
-          <li class="tabs-Link">
-            <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="OtherDocument1">
-              <i class="fa fa-file-o"></i>
-              <span>Other Document</span>
-            </a>
-          </li>
-          <li class="tabs-Link">
-            <a href="javascript:void(0);" onclick="js_Tabs1(this)" data-target="FarmLandDetails1">
-              <i class="bi bi-stack"></i>
-              <span>Farm Land Details</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="clearfix"></div>
-      <div class="card tabCard1 mb-0" id="LandInformation1">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>&nbsp; Land Information</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-      <div class="card tabCard1 d-none mb-0" id="Facility1">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>&nbsp; Facility</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-      <div class="card tabCard1 d-none mb-0" id="RequiredDocument1">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>&nbsp; Required Document</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-      <div class="card d-none tabCard1 mb-0" id="RoomDetails1">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>&nbsp; Room Details</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-      <div class="card d-none tabCard1 mb-0" id="OtherInformation1">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>&nbsp; Other Information</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-      <div class="card tabCard1 d-none mb-0" id="BuildingDocuments1">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>&nbsp; Building Documents</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-      <div class="card tabCard1 d-none mb-0" id="StaffDetails1">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>&nbsp; Staff Details</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-      <div class="card d-none tabCard1 mb-0" id="AcademicInformation1">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>&nbsp; Academic Information</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-      <div class="card d-none tabCard1 mb-0" id="OLD_NOC_Details1">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>&nbsp; OLD NOC Details</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-
-      <div class="card d-none tabCard1 mb-0" id="OtherDocument1">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>&nbsp; Other Document</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-      <div class="card d-none tabCard1 mb-0" id="FarmLandDetails1">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i>&nbsp; Farm Land Details</b>
-        </div>
-        <div class="card-body">
-
-        </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="submit" class="btn btn-danger">Reset</button>
-        </div>
-      </div>
-    </div>
-
-
-    
-  </div>
-</div>
+   </form>
