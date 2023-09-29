@@ -80,6 +80,7 @@ export class ApplicationSummaryComponent implements OnInit {
   public DownloadPdfDetailslst: any = [];
   public hostelDetaillst: any = [];
   public HostelBlocklst: any = [];
+  public HospitalAllDatalst: any = [];
 
   public CollegeType_IsExisting: boolean = true;
   public collegeDataList: any = [];
@@ -88,7 +89,7 @@ export class ApplicationSummaryComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   constructor(private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,private oldnocdetailService: OldnocdetailService,
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService,
     private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService ) { }
 
   async ngOnInit() {
@@ -729,10 +730,7 @@ export class ApplicationSummaryComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           // data
-          this.collegeListData = data['Data'][0]['data']['Table'][0];
-          this.collegeContactDetailsList = data['Data'][0]['data']['Table1'];
-          this.collegeNearestGovernmentHospitalsList = data['Data'][0]['data']['Table2'];
-          this.CollegeGeoTaggingList = data['Data'][0]['data']['Table3'];
+          this.HospitalAllDatalst = data['Data'];
 
         }, (error: any) => console.error(error));
     }
