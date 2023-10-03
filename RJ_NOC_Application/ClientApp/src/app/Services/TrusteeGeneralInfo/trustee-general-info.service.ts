@@ -44,6 +44,13 @@ export class TrusteeGeneralInfoService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetDataListForPDF(TrusteeGeneralInfoId: number) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.get(this.APIUrl + "/GetDataListForPDF/" + TrusteeGeneralInfoId, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async SaveData(TrusteeGeneralInfoDataModel: TrusteeGeneralInfoDataModel) {
     const headers = { 'content-type': 'application/json' }

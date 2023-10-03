@@ -187,7 +187,10 @@ export class ApplicationSummaryComponent implements OnInit {
       pDFData.push({ "ContentName": "#CollegeGeoTagging" })
       pDFData.push({ "ContentName": "#CollegeContactDetails" })
       pDFData.push({ "ContentName": "#CollegeGeneralContactDetails" })
-      pDFData.push({ "ContentName": "#CollegeHospitalDetails" })
+      if (this.SelectedDepartmentID == 6) {
+        pDFData.push({ "ContentName": "#CollegeHospitalDetails" })
+      }
+
       pDFData.push({ "ContentName": "#CourseBasicDetails" })
       pDFData.push({ "ContentName": "#CollegeManagementSociety" })
       pDFData.push({ "ContentName": "#LandDetails" })
@@ -195,16 +198,26 @@ export class ApplicationSummaryComponent implements OnInit {
       pDFData.push({ "ContentName": "#FacilityDetails" })
       pDFData.push({ "ContentName": "#RoomDetails" })
       pDFData.push({ "ContentName": "#OtherInfoDetails" })
-      pDFData.push({ "ContentName": "#StaffDetails" })
-      pDFData.push({ "ContentName": "#AcademicInfo" })
-      pDFData.push({ "ContentName": "#FarmLandDetial" })
+     
+      if (this.CollegeType_IsExisting) {
+        pDFData.push({ "ContentName": "#OldNocDetial" })
+        pDFData.push({ "ContentName": "#StaffDetails" })
+        pDFData.push({ "ContentName": "#AcademicInfo" })
+      }
+      if (this.SelectedDepartmentID == 1) {
+        pDFData.push({ "ContentName": "#FarmLandDetial" })
+      }
+      if (this.SelectedDepartmentID == 3 || this.SelectedDepartmentID == 6 || this.SelectedDepartmentID == 4) {
+        pDFData.push({ "ContentName": "#HostelDetial" })
+        pDFData.push({ "ContentName": "#HospitalDetailInfo" })
+      }
+      if (this.SelectedDepartmentID == 6 || this.SelectedDepartmentID == 5) {
+        pDFData.push({ "ContentName": "#HospitalDetailInfo" })
+      }
 
-      pDFData.push({ "ContentName": "#OldNocDetial" })
-      pDFData.push({ "ContentName": "#HostelDetial" })
-      pDFData.push({ "ContentName": "#HospitalDetailInfo" })
 
       for (var i = 0; i < pDFData.length; i++) {
-        
+
         if (pDFData[i].ContentName == '#TrusteeMemberDetails') {
           autoTable(doc,
             {
@@ -216,8 +229,8 @@ export class ApplicationSummaryComponent implements OnInit {
                 halign: 'left',
                 fontSize: 13
               },
-              
-              theme:'plain',
+
+              theme: 'plain',
               bodyStyles: {
                 halign: 'left', valign: "top"
               },
@@ -231,7 +244,7 @@ export class ApplicationSummaryComponent implements OnInit {
               tableLineWidth: 0.5,
               didDrawPage: function (data) {
                 // Header
-                
+
                 doc.setFontSize(13);
                 doc.setTextColor("#161C22");
 
@@ -270,7 +283,159 @@ export class ApplicationSummaryComponent implements OnInit {
               },
               didDrawCell: function (data) {
                 //data.cell.height = 20;
-                if ((data.column.index === 0) && data.row.index==1 && data.cell.section === 'body') {
+                if ((data.column.index === 0) && data.row.index == 1 && data.cell.section === 'body') {
+                  let td = data.cell.raw
+                  var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
+                  var dim = data.cell.height - data.cell.padding('vertical');
+                  //var textPos = data.cell.textPos;
+                  doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                }
+              }
+            }
+          )
+        }
+        else if (pDFData[i].ContentName == '#TrusteeGeneralDetails') {
+          autoTable(doc,
+            {
+              html: pDFData[i].ContentName,
+              styles: { fontSize: 10, overflow: "linebreak" },
+              headStyles: {
+                fillColor: '#3f51b5',
+                textColor: '#fff',
+                halign: 'left',
+                fontSize: 13
+              },
+
+              theme: 'plain',
+              bodyStyles: {
+                halign: 'left', valign: "top"
+              },
+              showHead: "everyPage",
+              margin: {
+                left: 16,
+                right: 16,
+                top: 35,
+                bottom: 70
+              },
+              tableLineWidth: 0.5,
+              didDrawPage: function (data) {
+                // Header
+
+                doc.setFontSize(13);
+                doc.setTextColor("#161C22");
+
+                doc.text(Heading1, 140, 10, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(12);
+                doc.text(Heading2, 140, 15, { align: 'center', maxWidth: 200 });
+                doc.setFontSize(12);
+                doc.text(Heading3, 140, 20, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(10);
+                doc.text(Heading4, 140, 25, { align: 'center', maxWidth: 150 });
+                doc.setFontSize(8);
+                doc.text(Heading5, 140, 30, { align: 'center', maxWidth: 100 });
+
+                // Footer
+                let str = "1";//+ doc.internal.getNumberOfPages();
+                doc.setFontSize(13);
+
+
+                let pageSize = doc.internal.pageSize;
+                let pageHeight = pageSize.height
+                  ? pageSize.height
+                  : pageSize.getHeight();
+                doc.line(264, 377, 15, 377)
+                doc.setTextColor("#3f51b5");
+                doc.text(Footer1, data.settings.margin.left, pageHeight - 50);
+                doc.line(264, 385, 15, 385)
+                doc.setFontSize(10);
+                doc.setTextColor("#161C22");
+                doc.text(Footer2, data.settings.margin.left, pageHeight - 43);
+                doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
+                doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
+                let down = (pageHeight - 39);
+                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
+                doc.text(str, 575, 830);
+              },
+              didDrawCell: function (data) {
+                //data.cell.height = 20;
+                if ((data.column.index === 6) && data.row.index >= 1 && data.cell.section === 'body') {
+                  let td = data.cell.raw
+                  var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
+                  var dim = data.cell.height - data.cell.padding('vertical');
+                  //var textPos = data.cell.textPos;
+                  doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                }
+              }
+            }
+          )
+        }
+        else if (pDFData[i].ContentName == '#LegalMemberDetails') {
+          autoTable(doc,
+            {
+              html: pDFData[i].ContentName,
+              styles: { fontSize: 10, overflow: "linebreak" },
+              headStyles: {
+                fillColor: '#3f51b5',
+                textColor: '#fff',
+                halign: 'left',
+                fontSize: 13
+              },
+
+              theme: 'plain',
+              bodyStyles: {
+                halign: 'left', valign: "top"
+              },
+              showHead: "everyPage",
+              margin: {
+                left: 16,
+                right: 16,
+                top: 35,
+                bottom: 70
+              },
+              tableLineWidth: 0.5,
+              didDrawPage: function (data) {
+                // Header
+
+                doc.setFontSize(13);
+                doc.setTextColor("#161C22");
+
+                doc.text(Heading1, 140, 10, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(12);
+                doc.text(Heading2, 140, 15, { align: 'center', maxWidth: 200 });
+                doc.setFontSize(12);
+                doc.text(Heading3, 140, 20, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(10);
+                doc.text(Heading4, 140, 25, { align: 'center', maxWidth: 150 });
+                doc.setFontSize(8);
+                doc.text(Heading5, 140, 30, { align: 'center', maxWidth: 100 });
+
+                // Footer
+                let str = "1";//+ doc.internal.getNumberOfPages();
+                doc.setFontSize(13);
+
+
+                let pageSize = doc.internal.pageSize;
+                let pageHeight = pageSize.height
+                  ? pageSize.height
+                  : pageSize.getHeight();
+                doc.line(264, 377, 15, 377)
+                doc.setTextColor("#3f51b5");
+                doc.text(Footer1, data.settings.margin.left, pageHeight - 50);
+                doc.line(264, 385, 15, 385)
+                doc.setFontSize(10);
+                doc.setTextColor("#161C22");
+                doc.text(Footer2, data.settings.margin.left, pageHeight - 43);
+                doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
+                doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
+                let down = (pageHeight - 39);
+                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
+                doc.text(str, 575, 830);
+              },
+              didDrawCell: function (data) {
+                //data.cell.height = 20;
+                if ((data.column.index === 7 || data.column.index === 8) && data.row.index >= 1 && data.cell.section === 'body') {
                   let td = data.cell.raw
                   var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
                   var dim = data.cell.height - data.cell.padding('vertical');
@@ -353,9 +518,9 @@ export class ApplicationSummaryComponent implements OnInit {
               }
             }
           )
-        //doc.rect(15, 35, doc.internal.pageSize.width - 30, doc.internal.pageSize.height - 45, 'S');
+          //doc.rect(15, 35, doc.internal.pageSize.width - 30, doc.internal.pageSize.height - 45, 'S');
         }
-       
+
       }
       doc.save("ApplicationSummery" + '.pdf');
     }
@@ -436,7 +601,7 @@ export class ApplicationSummaryComponent implements OnInit {
     //Show Loading
     this.loaderService.requestStarted();
     try {
-      await this.TrusteeGeneralInfoService.GetDataList(this.LegalEntityDataModel.LegalEntityID)
+      await this.TrusteeGeneralInfoService.GetDataListForPDF(this.LegalEntityDataModel.LegalEntityID)
         .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
