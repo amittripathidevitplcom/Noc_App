@@ -316,7 +316,7 @@
                     <tbody>
                       <tr>
                         <td>
-                            <img src="{{legalEntityListData1.TrustLogoDoc}}" alt="Trust Logo" style="    width: 50px !important;
+                          <img src="{{legalEntityListData1.TrustLogoDoc}}" alt="Trust Logo" style="    width: 50px !important;
     height: 50px !important;" class="img-thumbnail" />
                         <td>
                           <a *ngIf="!legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
@@ -1598,6 +1598,278 @@
                       </td>
                     </tr>
                   </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Distribution of beds in different areas</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Medical :-{{HospitalAllDatalst.MedicalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Surgical :-{{HospitalAllDatalst.SurgicalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Obst. & Gynaecology :-{{HospitalAllDatalst.ObstAndGynaecologyBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Pediatrics :{{HospitalAllDatalst.PediatricsBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Ortho :-{{HospitalAllDatalst.OrthoBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Bed Occupancy of the Hospital in percentege :-{{HospitalAllDatalst.OccupancyPercentegeBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Affiliation of psychiatric hospital beds :{{HospitalAllDatalst.AffiliationPsychiatricBeds}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Super specialty hospital details</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Cardio Thoracic Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{HospitalAllDatalst.CardioThoracicTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>CCU Beds :-{{HospitalAllDatalst.CardioThoracicCCUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICCU Beds :-{{HospitalAllDatalst.CardioThoracicICCUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICU Beds :{{HospitalAllDatalst.CardioThoracicICUBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Critical Care Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{HospitalAllDatalst.CriticalCareNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Critical Care Beds :-{{HospitalAllDatalst.CriticalCareNursingCCBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICU Beds :{{HospitalAllDatalst.CriticalCareNursingICUBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Midwifery Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{HospitalAllDatalst.MidwiferyNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Mother and Neonatal Units Beds :-{{HospitalAllDatalst.MotherNeonatalUnitsBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Deliveries Per Year :{{HospitalAllDatalst.DeliveriesPerYear}}</label>
+                      </td>
+                      <td>
+                        <label>Level II Neonatal Beds :-{{HospitalAllDatalst.LevelIINeonatalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Level III Neonatal Beds :{{HospitalAllDatalst.LevelIIINeonatalBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Neuro Science Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{HospitalAllDatalst.NeuroScienceNursingTotalBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Oncology Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{HospitalAllDatalst.OncologyNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Medical Beds :{{HospitalAllDatalst.OncologyNursingMedicalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Chemotherapy Beds :-{{HospitalAllDatalst.OncologyNursingChemotherapyBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Radiotherapy Beds :{{HospitalAllDatalst.OncologyNursingRadiotherapyBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Palliative Beds :-{{HospitalAllDatalst.OncologyNursingPalliativeBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Diagnostic Beds :{{HospitalAllDatalst.OncologyNursingDiagnosticBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Orthopaedic & Rehabilitation Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{HospitalAllDatalst.OrthopaedicRehabilitationNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Orthopaedic Beds :-{{HospitalAllDatalst.OrthopaedicRehabilitationNursingOrthopaedicBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Rehabilitation Beds :{{HospitalAllDatalst.OrthopaedicRehabilitationNursingRehabilitationBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Psychiatric Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{HospitalAllDatalst.PsychiatricNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Acute Beds :-{{HospitalAllDatalst.PsychiatricNursingAcuteBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Chronic Beds  :{{HospitalAllDatalst.PsychiatricNursingChronicBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Adult Beds  :{{HospitalAllDatalst.PsychiatricNursingAdultBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Child Beds :-{{HospitalAllDatalst.PsychiatricNursingChildBeds}}</label>
+                      </td>
+                      <td>
+                        <label>De-Addiction Beds :-{{HospitalAllDatalst.PsychiatricNursingDeAddictionBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Neonatal Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{HospitalAllDatalst.NeonatalNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Level II/III NICU Beds :-{{HospitalAllDatalst.NeonatalNursingLevelIIOrIIINICUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>NICU Beds  :{{HospitalAllDatalst.NeonatalNursingNICUBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Operation Room Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{HospitalAllDatalst.OperationRoomNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>General Surgery Beds :-{{HospitalAllDatalst.OperationRoomNursingGeneralSurgeryBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Pediatric Beds  :{{HospitalAllDatalst.OperationRoomNursingPediatricBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Cardiothoracic Beds  :{{HospitalAllDatalst.OperationRoomNursingCardiothoracicBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Gynae. and Obstetrical Beds :-{{HospitalAllDatalst.OperationRoomNursingGynaeAndObstetricalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Orthopaedics Beds :-{{HospitalAllDatalst.OperationRoomNursingOrthopaedicsBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Ophthalmic Beds  :{{HospitalAllDatalst.OperationRoomNursingOphthalmicBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ENT and Neuro Beds  :{{HospitalAllDatalst.OperationRoomNursingENTAndNeuroBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Emergency and Disaster Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{HospitalAllDatalst.EmergencyAndDisasterNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICU Beds :-{{HospitalAllDatalst.EmergencyAndDisasterNursingICUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Emergency Beds  :{{HospitalAllDatalst.EmergencyAndDisasterNursingEmergencylBeds}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Manage by</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Manage by Name :-{{HospitalAllDatalst.ManageByName}}</label>
+                      </td>
+                      <td>
+                        <label>Manage by Contact No. :-{{HospitalAllDatalst.ManageByPhone}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 1 :-{{HospitalAllDatalst.AddressLine1_ManageBy}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 2 :{{HospitalAllDatalst.AddressLine2_ManageBy}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Area :{{HospitalAllDatalst.RuralUrban_ManageBy==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :-{{HospitalAllDatalst.ManageDivisionName}}</label>
+                      </td>
+                      <td><label>District :{{HospitalAllDatalst.ManageDistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{HospitalAllDatalst.ManageTehsilName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Area :{{HospitalAllDatalst.RuralUrban_ManageBy==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :-{{HospitalAllDatalst.ManageDivisionName}}</label>
+                      </td>
+                      <td><label>District :{{HospitalAllDatalst.ManageDistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{HospitalAllDatalst.ManageTehsilName}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+
+                  <tr>
+
+                    <td *ngIf="HospitalAllDatalst.RuralUrban_ManageBy==2">
+                      <label *ngIf="HospitalAllDatalst.RuralUrban_ManageBy==2">City :{{HospitalAllDatalst.ManageCityName}}</label>
+                    </td>
+                    <td *ngIf="HospitalAllDatalst.RuralUrban_ManageBy==1">
+                      <label>Panchayat Samiti :{{HospitalAllDatalst.ManagePanchyatSamitiName}}</label>
+                    </td>
+                    <td>
+                      <label>City/Town/Village :{{HospitalAllDatalst.CityTownVillage}}</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label>Pincode :{{HospitalAllDatalst.Pincode}}</label> </td>
+                    <td>
+                      <label>Whether the affiliated hospital has affiliation with any other institution in the past or not:{{HospitalAllDatalst.AffiliatedHospitalAffiliationToOtherID==1?'Yes':'No'}}</label>
+                    </td>
+                    <td>
+                      <label>Area :{{HospitalAllDatalst.RuralUrban==1?'Rural':'Urban'}}</label>
+                    </td>
+                    <td>
+                      <label>Division :{{HospitalAllDatalst.DivisionName}}</label>
+                    </td>
+
+
                 </table>
               </div>
             </div>
