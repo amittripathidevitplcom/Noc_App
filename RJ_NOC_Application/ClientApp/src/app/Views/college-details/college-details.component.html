@@ -13,7 +13,7 @@
 
       <div class="col-sm3">
 
-        <ng-autocomplete [data]="data" #auto   formControlName="txtSearch" id="txtSearch"
+        <ng-autocomplete [data]="data" #auto formControlName="txtSearch" id="txtSearch"
                          [searchKeyword]="keyword"
                          placeholder="Select country"
                          (selected)='selectEvent($event)'
@@ -43,12 +43,26 @@
 
 
         <br />
+        <!--[attr.disabled]="isDisabledGrid ? true : null"-->
+        <input type="text" class="form-control" formControlName="txttest" id="txttest" name="txttest"
+               [attr.disabled]="isDisabledGrid ? true : null">
 
-        <input type="text" class="form-control" id="fCollegeLogo" name="fCollegeLogo">
+        <div *ngIf="isSubmitted&&form.txttest.errors" class="text-danger">
+          <p *ngIf="!form.txttest.errors.DropdownValidators">This field is required .!</p>
+        </div>
+
+        <input type="text" class="form-control" formControlName="txttest2" id="txttest2" name="txttest2"
+               [attr.disabled]="isDisabledGrid ? true : null">
+
+        <div *ngIf="isSubmitted&&form.txttest2.errors" class="text-danger">
+          <p *ngIf="!form.txttest2.errors.DropdownValidators">This field is required .!</p>
+        </div>
+
 
 
 
         <button type="button" class="btn btn-outline-danger" (click)="show()">Show</button>
+        <button type="button" class="btn btn-outline-danger" (click)="checkf()">checkf</button>
 
       </div>
 

@@ -201,6 +201,7 @@ export class ApplicationSummaryComponent implements OnInit {
 
       pDFData.push({ "ContentName": "#OldNocDetial" })
       pDFData.push({ "ContentName": "#HostelDetial" })
+      pDFData.push({ "ContentName": "#HospitalDetailInfo" })
 
       for (var i = 0; i < pDFData.length; i++) {
         
