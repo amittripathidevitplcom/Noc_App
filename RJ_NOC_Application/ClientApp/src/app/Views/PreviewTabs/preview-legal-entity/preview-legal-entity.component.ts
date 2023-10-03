@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -11,6 +11,8 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { AbstractControl, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { TrusteeGeneralInfoDataModel, LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
+
+
 
 @Component({
   selector: 'app-preview-legal-entity',

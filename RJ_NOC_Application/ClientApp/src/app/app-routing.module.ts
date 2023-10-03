@@ -138,6 +138,8 @@ import { OneStepRevertBackComponent } from './Views/one-step-revert-back/one-ste
 import { Observable } from 'rxjs';
 import { SkipLocationChangeGuard } from './Common/auth.guard.ts';
 import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplication-list/loiapplication-list.component';
+import { CommissionerApplicationScrutinyListComponent } from './Views/DCE/commissioner-application-scrutiny-list/commissioner-application-scrutiny-list.component';
+import { CheckListForCommissionerComponent } from './Views/DCE/check-list-for-commissioner/check-list-for-commissioner.component';
  
 
 
@@ -537,6 +539,9 @@ const routes: Routes = [
         path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: DocumentScrutinyComponent
       },
       {
+        path: 'documentscrutiny/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyComponent
+      },
+      {
         path: 'agricultureappnocpreview/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: ApplyNocpreviewAgricultureComponent
       },
       {
@@ -603,6 +608,12 @@ const routes: Routes = [
 
       {
         path: 'loiapplicationlist', component: LOIApplicationListComponent
+      },
+      {
+        path: 'commissionerapplicationscrutinylist/:Status', component: CommissionerApplicationScrutinyListComponent
+      },
+      {
+        path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListForCommissionerComponent
       },
        {
          path: 'test', component: CollegeDetailsComponent

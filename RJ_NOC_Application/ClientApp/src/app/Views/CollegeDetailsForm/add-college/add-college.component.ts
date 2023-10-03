@@ -13,6 +13,7 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { max } from 'rxjs';
 import { InputValidationService } from '../../../Services/CustomValidators/input-validation.service';
 import { LegalEntityService } from '../../../Services/LegalEntity/legal-entity.service';
+import { __rest } from 'tslib';
 
 @Injectable()
 
@@ -103,6 +104,7 @@ export class AddCollegeComponent implements OnInit {
     this.CollegeDetailsForm = this.formBuilder.group(
       {
         ddlDepartmentID: ['', [DropdownValidators]],
+        ddlTypeofCollege: ['', Validators.required],
         ddlCollegeStatus: ['', [DropdownValidators]],
         ddlPresentCollegeStatus: ['', [DropdownValidators]],
         ddlCollegeTypeID: ['', [DropdownValidators]],
@@ -354,7 +356,7 @@ export class AddCollegeComponent implements OnInit {
       }, 200);
     }
   }
-  public files : any = '';
+  public files: any = '';
   ResetFileAndValidation(type: string, msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean) {
     //event.target.value = '';
     try {
@@ -655,6 +657,7 @@ export class AddCollegeComponent implements OnInit {
   async FillDepartmentRelatedDDL(event: any, SeletedDepartmentID: string) {
     try {
       this.loaderService.requestStarted();
+      this.request.TypeofCollege = "";
       const departmentId = Number(SeletedDepartmentID);
       if (SeletedDepartmentID == "2") {
         this.DistancefromCity = "Distance from District Headquater"
@@ -733,6 +736,7 @@ export class AddCollegeComponent implements OnInit {
     }
     finally {
       setTimeout(() => {
+
         this.loaderService.requestEnded();
       }, 200);
     }
@@ -1066,6 +1070,14 @@ export class AddCollegeComponent implements OnInit {
     }
     this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
 
+    if (this.request.DepartmentID == 5) {
+      this.CollegeDetailsForm.get('ddlTypeofCollege')?.setValidators([Validators.required]);
+    }
+    else {
+      this.CollegeDetailsForm.get('ddlTypeofCollege')?.clearValidators();
+    }
+    this.CollegeDetailsForm.get('ddlTypeofCollege')?.updateValueAndValidity();
+
 
 
     this.isValidCollegeLogo = false;
@@ -1142,7 +1154,12 @@ export class AddCollegeComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             setTimeout(() => {
-              this.routers.navigate(['/addcourses']);
+              if (this.request.DepartmentID == 5) {
+                this.routers.navigate(['/totalcollege']);
+              }
+              else {
+                this.routers.navigate(['/addcourses']);
+              }
             }, 500);
 
           }
@@ -1232,6 +1249,8 @@ export class AddCollegeComponent implements OnInit {
 
           this.request.CollegeNAACAccredited = data['Data']['CollegeNAACAccredited'];
           await this.IsCollegeNAACAccreditedOrNot(this.request.CollegeNAACAccredited == 1 ? true : false)
+          this.request.TypeofCollege = data['Data']['TypeofCollege'];
+
           //if (!this.State) {
           //  //this.toastr.success(this.SuccessMessage)
           //}

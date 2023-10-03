@@ -168,9 +168,13 @@
                     <label class="form-label"><b>District :</b></label>
                     <input class="form-control disabled" disabled value="{{HospitalData.DistrictName}}" />
                   </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban==1">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label class="form-label"><b>Tehsil :</b></label>
                     <input class="form-control disabled" disabled value="{{HospitalData.TehsilName}}" />
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban==2">
+                    <label class="form-label"><b>City :</b></label>
+                    <input class="form-control disabled" disabled value="{{HospitalData.CityName}}" />
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban==1">
                     <label class="form-label"><b>Panchayat Samiti :</b></label>
@@ -519,9 +523,13 @@
                       <label class="form-label"><b>District :</b></label>
                       <input class="form-control disabled" disabled value="{{HospitalData.ManageDistrictName}}" />
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_ManageBy==1">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                       <label class="form-label"><b>Tehsil :</b></label>
                       <input class="form-control disabled" disabled value="{{HospitalData.ManageTehsilName}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_ManageBy==2">
+                      <label class="form-label"><b>City :</b></label>
+                      <input class="form-control disabled" disabled value="{{HospitalData.ManageCityName}}" />
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="HospitalData.RuralUrban_ManageBy==1">
                       <label class="form-label"><b>Panchayat Samiti :</b></label>

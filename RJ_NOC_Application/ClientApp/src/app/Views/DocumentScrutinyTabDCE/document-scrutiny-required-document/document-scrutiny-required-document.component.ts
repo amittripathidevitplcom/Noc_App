@@ -19,6 +19,7 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
   styleUrls: ['./document-scrutiny-required-document.component.css']
 })
 export class DocumentScrutinyRequiredDocumentComponentDce implements OnInit {
+  public QueryStringStatus: any = '';
 
   request = new RequiredDocumentsDataModel();
   isSubmitted: boolean = false;
@@ -49,6 +50,7 @@ export class DocumentScrutinyRequiredDocumentComponentDce implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.request.DocumentDetails = [];
     this.GetRequiredDocuments('Required Document')
 

@@ -29,6 +29,7 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
   styleUrls: ['./document-scrutiny-old-nocdetails.component.css']
 })
 export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
+  public QueryStringStatus: any = '';
 
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
@@ -62,6 +63,7 @@ export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
     this.SelectedDepartmentID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetOldNOCDetailList_DepartmentCollegeWise(); 
 
   }

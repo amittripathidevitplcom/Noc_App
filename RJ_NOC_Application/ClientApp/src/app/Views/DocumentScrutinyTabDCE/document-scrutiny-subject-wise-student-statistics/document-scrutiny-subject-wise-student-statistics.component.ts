@@ -21,6 +21,7 @@ import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-
 export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements OnInit {
 
   public SubjectWiseStudentDetailsList: any[] = [];
+  public QueryStringStatus: any = '';
 
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
@@ -63,6 +64,7 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.GetSubjectWiseStudenetDetails();
   }
 

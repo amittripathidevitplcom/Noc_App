@@ -59,6 +59,12 @@ export class LegalEntityService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetLegalEntityBySSOIDFForPDF(SSOID: string, UserID: number) {
+    return await this.http.get(this.APIUrl + "/GetLegalEntityBySSOIDFForPDF/" + SSOID + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async CheckExistsLegalEntity(SSOID: string, RoleID: number) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify({ SSOID: SSOID, RoleID: RoleID });
