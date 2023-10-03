@@ -223,7 +223,7 @@
         <div class="col-md-4 mb-3" *ngIf="request.TeachingType=='Teaching' && IsCourseLevel=='Yes'">
           <label>Specialization Subject <span style="color:red;">*</span></label>
           <select id="txtSpecializationSubject" name="txtSpecializationSubject" class="form-control" formControlName="txtSpecializationSubject" [(ngModel)]="request.SpecializationSubject">
-            <option value="0" disabled>--Select--</option>
+            <option value="" disabled>--Select--</option>
             <option *ngFor="let item of SubjectData"
                     value="{{item.SubjectName}}">
               {{item.SubjectName}}
