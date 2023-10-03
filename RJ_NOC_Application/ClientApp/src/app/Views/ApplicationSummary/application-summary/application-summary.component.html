@@ -184,7 +184,8 @@
 <!--// model pdf-->
 <ng-template #myApplicationSummery let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+    <h4 class="modal-title" id="modal-applynocview-title" style="    font-size: 17px;
+    font-weight: 600 !important;">
       Application Preview for PDf <!--: {{ApplyNocApplicationDetail.ApplicationNo}}-->
     </h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -203,7 +204,10 @@
                 <table class="table table-hover table-striped-columns text-left" id="LegalBasicInfo" #content>
                   <thead>
                     <tr>
-                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Legal Entity</b></td>
+                      <td colspan="3" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Legal Entity</b>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -296,41 +300,44 @@
                   <table class="table table-bordered table-hover table-striped" id="TrusteeMemberDetails" #content>
                     <thead>
                       <tr>
-                        <td colspan="4" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Trustee Member Details</b></td>
+                        <td colspan="4" style="    font-weight: 800;
+    font-size: 18px;">
+                          <b><i class="bi bi-table"></i>&nbsp;Trustee Member Details</b>
+                        </td>
                       </tr>
-
                     </thead>
+
+                    <tr>
+                      <th>Trust Logo</th>
+                      <th>Trustee Member Proof</th>
+                      <th>Pan Proof</th>
+                      <th>Registration Document</th>
+                    </tr>
                     <tbody>
                       <tr>
-                        <th>Trust Logo</th>
-                        <th>Trustee Member Proof</th>
-                        <th>Pan Proof</th>
-                        <th>Registration Document</th>
-                      </tr>
-                      <tr>
                         <td>
-                          <a *ngIf="!legalEntityListData1.TrustLogoDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom">
-                            <img src="{{legalEntityListData1.TrustLogoDocPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                          </a>
-                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrustLogoDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                        </td>
+                            <img src="{{legalEntityListData1.TrustLogoDoc}}" alt="Trust Logo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                         <td>
                           <a *ngIf="!legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
-                            <img src="{{legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trustee Member Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                            <img src="{{legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trustee Member Proof" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                           </a>
-                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                         </td>
                         <td>
                           <a *ngIf="!legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom">
-                            <img src="{{legalEntityListData1.SocietyPanProofDocPath}}" alt="Society Pan Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                            <img src="{{legalEntityListData1.SocietyPanProofDocPath}}" alt="Society Pan Proof" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                           </a>
-                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                         </td>
                         <td>
                           <a *ngIf="!legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom">
-                            <img src="{{legalEntityListData1.RegistrationDocPath}}" alt="Registration Doc" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                            <img src="{{legalEntityListData1.RegistrationDocPath}}" alt="Registration Doc" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                           </a>
-                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                         </td>
                       </tr>
                     </tbody>
@@ -350,7 +357,10 @@
                           <table class="table table-bordered" id="TrusteeGeneralDetails" #content>
                             <thead>
                               <tr>
-                                <td colspan="7" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Trustee General Info</b></td>
+                                <td colspan="7" style="    font-weight: 800;
+    font-size: 18px;">
+                                  <b><i class="bi bi-table"></i>&nbsp;Trustee General Info</b>
+                                </td>
                               </tr>
 
                             </thead>
@@ -396,16 +406,18 @@
                                 </td>
                                 <td>
                                   <a *ngIf="!row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{row.SocietyRegistrationDocumentPath}}" alt="Society Registration Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                    <img src="{{row.SocietyRegistrationDocumentPath}}" alt="Society Registration Document" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                                   </a>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                                   <label *ngIf="row.SocietyRegistrationDocument=='N/A'">{{row.SocietyRegistrationDocument}}</label>
                                 </td>
                                 <td>
                                   <a *ngIf="!row.SocietyLogo.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyLogoPath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{row.SocietyLogoPath}}" alt="Society Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                    <img src="{{row.SocietyLogoPath}}" alt="Society Logo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                                   </a>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyLogo.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyLogoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyLogo.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyLogoPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                                   <label *ngIf="row.SocietyLogo=='N/A'">{{row.SocietyLogo}}</label>
                                 </td>
                               </tr>
@@ -427,7 +439,10 @@
                       <table class="table table-bordered table-hover table-striped" id="LegalMemberDetails" #content>
                         <thead>
                           <tr>
-                            <td colspan="10" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Member Details</b></td>
+                            <td colspan="10" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;Member Details</b>
+                            </td>
                           </tr>
 
                         </thead>
@@ -454,26 +469,29 @@
                             <td>{{row.PresidentAadhaarNumber}}</td>
                             <td>
                               <a *ngIf="!row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.MemberPhotoPath}}" alt="Member Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                <img src="{{row.MemberPhotoPath}}" alt="Member Photo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                               </a>
                               <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
-                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
 
                             </td>
                             <td>
                               <a *ngIf="!row.MemberSignaturePath.includes('.pdf') && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.MemberSignaturePath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                <img src="{{row.MemberSignaturePath}}" alt="Member Signature" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                               </a>
                               <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label>
-                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberSignaturePath.includes('.pdf')  && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberSignaturePath.includes('.pdf')  && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
 
                             </td>
                             <td>
                               <a *ngIf="!row.PresidentAadhaarProofDocPath.includes('.pdf') && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.PresidentAadhaarProofDocPath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                <img src="{{row.PresidentAadhaarProofDocPath}}" alt="Member Signature" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                               </a>
                               <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
-                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                             </td>
                           </tr>
                         </tbody>
@@ -492,7 +510,10 @@
                       <table class="table table-bordered table-hover table-striped" id="LegalInstituteDetails" #content>
                         <thead>
                           <tr>
-                            <td colspan="7" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Institute Details</b></td>
+                            <td colspan="7" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;Institute Details</b>
+                            </td>
                           </tr>
                         </thead>
                         <tbody>
@@ -529,7 +550,10 @@
                 <table class="table table-hover table-striped-columns text-left" id="CollegeBasicInfo" #content>
                   <thead>
                     <tr>
-                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;College Detail</b></td>
+                      <td colspan="3" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;College Detail</b>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -546,7 +570,12 @@
                     </tr>
                     <tr>
                       <td>
-                        <label><b>College Logo :- <img src="{{collegeListData.CollegeLogoPath}}" alt="College Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" /> </b></label>
+                        <label>
+                          <b>
+                            College Logo :- <img src="{{collegeListData.CollegeLogoPath}}" alt="College Logo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                          </b>
+                        </label>
                       </td>
                       <td *ngIf="collegeListData.CollegeStatus!='New'">
                         <label>Present Status of College :-{{collegeListData.PresentCollegeStatus}}</label>
@@ -568,7 +597,7 @@
                     </tr>
                     <tr>
                       <td>
-                        <label>College Name in Hindi :- NAresh college</label><!--{{collegeListData.CollegeNameHi}}-->
+                        <label>College Name in Hindi :- NAresh collegeeg</label><!--{{collegeListData.CollegeNameHi}}-->
                       </td>
                       <td>
                         <label>IS Your College NAAC Accredited :-{{collegeListData.CollegeNAACAccredited}}</label>
@@ -680,7 +709,10 @@
                       <table class="table table-bordered table-hover table-striped" id="CollegeGeoTagging" #content>
                         <thead>
                           <tr>
-                            <td colspan="6" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Geo Tagging Status Details</b></td>
+                            <td colspan="6" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;Geo Tagging Status Details</b>
+                            </td>
                           </tr>
                         </thead>
                         <tbody>
@@ -699,14 +731,16 @@
                             <td>{{row.TGC_Longitude}}</td>
                             <td>
                               <a *ngIf="row.Image1!='N/A'" data-fancybox="gallery" href="{{row.Image1}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.Image1}}" alt="Image 1" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                <img src="{{row.Image1}}" alt="Image 1" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                               </a>
                               <label *ngIf="row.Image1=='N/A'">{{row.Image1}}</label>
 
                             </td>
                             <td>
                               <a *ngIf="row.Image2!='N/A'" data-fancybox="gallery" href="{{row.Image2}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.Image2}}" alt="Image 2" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                <img src="{{row.Image2}}" alt="Image 2" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                               </a>
                               <label *ngIf="row.Image1=='N/A'">{{row.Image2}}</label>
 
@@ -728,7 +762,10 @@
                       <table class="table table-bordered table-hover table-striped" id="CollegeContactDetails" #content>
                         <thead>
                           <tr>
-                            <td colspan="5" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Contact Details</b></td>
+                            <td colspan="5" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;Contact Details</b>
+                            </td>
                           </tr>
                         </thead>
                         <tbody>
@@ -762,7 +799,10 @@
                         <table class="table table-hover table-striped-columns text-left" id="CollegeGeneralContactDetails" #content>
                           <thead>
                             <tr>
-                              <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;General Contact Details</b></td>
+                              <td colspan="3" style="    font-weight: 800;
+    font-size: 18px;">
+                                <b><i class="bi bi-table"></i>&nbsp;General Contact Details</b>
+                              </td>
                             </tr>
                           </thead>
                           <tbody>
@@ -793,7 +833,10 @@
                       <table class="table table-bordered table-hover table-striped" id="CollegeHospitalDetails" #content>
                         <thead>
                           <tr>
-                            <td colspan="6" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;10 Government hospitals nearest to the institution</b></td>
+                            <td colspan="6" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;10 Government hospitals nearest to the institution</b>
+                            </td>
                           </tr>
                         </thead>
                         <tbody>
@@ -824,9 +867,10 @@
                             <td>{{row.HospitalDistance}}</td>
                             <td>
                               <a *ngIf="!row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.HospitalDocumentPath}}" alt="Hospital Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                <img src="{{row.HospitalDocumentPath}}" alt="Hospital Document" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                               </a>
-                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px">
                               </a>
                             </td>
                           </tr>
@@ -848,7 +892,10 @@
                   <table class="table table-hover table-striped-columns" id="CourseBasicDetails" #content>
                     <thead>
                       <tr>
-                        <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Course Details</b></td>
+                        <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                          <b><i class="bi bi-table"></i>&nbsp;Course Details</b>
+                        </td>
                       </tr>
                     </thead>
                     <tbody>
@@ -858,17 +905,17 @@
                         <th>College Name</th>
                         <th>Course</th>
                         <th>Stream</th>
-                        <th style="width:250px !important">Subject</th>
+                        <th style="    width: 250px !important">Subject</th>
                         <th *ngIf="this.SelectedDepartmentID !=3">Seat</th>
                         <th *ngIf="this.SelectedDepartmentID ==3">No Of Enrolled Students</th>
                       </tr>
                       <tr *ngFor="let row of AllCourseList ; let idx=index;">
-                        <td style="width:40px !important"> {{idx+1}}</td>
+                        <td style="    width: 40px !important"> {{idx+1}}</td>
                         <td>{{row.DepartmentName}}</td>
                         <td>{{row.CollageName}}</td>
                         <td>{{row.CourseName}}</td>
                         <td>{{row.StreamName}}</td>
-                        <td style="width:250px !important">{{row.SubjectDetails}}</td>
+                        <td style="    width: 250px !important">{{row.SubjectDetails}}</td>
                         <td *ngIf="this.SelectedDepartmentID !=3">{{row.Dis_Sits}}</td>
                         <td *ngIf="this.SelectedDepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
                       </tr>
@@ -886,7 +933,10 @@
                   <table class="table table-hover table-striped-columns table-sm" id="CollegeManagementSociety" #content>
                     <thead>
                       <tr>
-                        <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;College Management Society</b></td>
+                        <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                          <b><i class="bi bi-table"></i>&nbsp;College Management Society</b>
+                        </td>
                       </tr>
                     </thead>
                     <tbody>
@@ -932,7 +982,10 @@
                 <table class="table table-bordered table-hover table-striped" id="LandDetails" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Land Details</b></td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Land Details</b>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -976,7 +1029,10 @@
                 <table class="table table-hover table-striped-columns" id="BuildingDetails" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Building Details</b></td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Building Details</b>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -1028,7 +1084,10 @@
                 <table class="table table-bordered table-hover table-striped" id="FacilityDetails" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Facility Details</b></td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Facility Details</b>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -1050,9 +1109,10 @@
                       </td>
                       <td>
                         <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                         </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                       </td>
                     </tr>
                   </tbody>
@@ -1067,7 +1127,10 @@
                 <table class="table table-bordered table-hover table-striped" id="RoomDetails" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Rooms Details</b></td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Rooms Details</b>
+                      </td>
                     </tr>
                   </thead>
 
@@ -1095,9 +1158,10 @@
                       <td> {{item.StudentCapacity}}</td>
                       <td>
                         <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{item.ImageFilePath}}" alt="Image/File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          <img src="{{item.ImageFilePath}}" alt="Image/File" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                         </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                       </td>
                     </tr>
 
@@ -1113,8 +1177,14 @@
                 <table class="table table-bordered table-hover table-striped" id="OtherInfoDetails" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;" *ngIf="SelectedDepartmentID==6"><b><i class="bi bi-table"></i>&nbsp;Clinical Details</b></td>
-                      <td colspan="8" style="font-weight:800; font-size:18px;" *ngIf="SelectedDepartmentID!=6"><b><i class="bi bi-table"></i>&nbsp;Other Information Details</b></td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;" *ngIf="SelectedDepartmentID==6">
+                        <b><i class="bi bi-table"></i>&nbsp;Clinical Details</b>
+                      </td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;" *ngIf="SelectedDepartmentID!=6">
+                        <b><i class="bi bi-table"></i>&nbsp;Other Information Details</b>
+                      </td>
                     </tr>
                   </thead>
                   <tr>
@@ -1149,17 +1219,19 @@
                       </td>
                       <td>
                         <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{item.ImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          <img src="{{item.ImageFilePath}}" alt="Image File" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                         </a>
                         <label *ngIf="item.ImageFilePath=='N/A'">{{item.ImageFilePath}}</label>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                       </td>
                       <td>
                         <a *ngIf="!item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{item.BookImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          <img src="{{item.BookImageFilePath}}" alt="Image File" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                         </a>
                         <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                       </td>
                     </tr>
                   </tbody>
@@ -1174,7 +1246,10 @@
                 <table class="table table-hover table-striped" id="StaffDetails" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Staff Details</b></td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Staff Details</b>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -1242,7 +1317,10 @@
                 <table class="table table-hover table-striped-columns" id="AcademicInfo" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Academic Information</b></td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Academic Information</b>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -1280,7 +1358,10 @@
                 <table class="table table-hover table-striped-columns" id="FarmLandDetial" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Farm Land Details</b></td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Farm Land Details</b>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -1322,7 +1403,10 @@
                 <table class="table table-hover table-striped-columns" id="OldNocDetial" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Old NOC Details</b></td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Old NOC Details</b>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -1364,7 +1448,10 @@
                 <table class="table table-hover table-striped-columns" id="HostelDetial" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hostel Details</b></td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Hostel Details</b>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -1419,7 +1506,10 @@
                 <table class="table table-hover table-striped-columns text-left" id="CollegeBasicInfo" #content>
                   <thead>
                     <tr>
-                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;College Detail</b></td>
+                      <td colspan="3" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;College Detail</b>
+                      </td>
                     </tr>
                   </thead>
                   <tbody>
@@ -1436,7 +1526,12 @@
                     </tr>
                     <tr>
                       <td>
-                        <label><b>College Logo :- <img src="{{collegeListData.CollegeLogoPath}}" alt="College Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" /> </b></label>
+                        <label>
+                          <b>
+                            College Logo :- <img src="{{collegeListData.CollegeLogoPath}}" alt="College Logo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                          </b>
+                        </label>
                       </td>
                       <td *ngIf="collegeListData.CollegeStatus!='New'">
                         <label>Present Status of College :-{{collegeListData.PresentCollegeStatus}}</label>
@@ -1570,7 +1665,10 @@
                       <table class="table table-bordered table-hover table-striped" id="CollegeGeoTagging" #content>
                         <thead>
                           <tr>
-                            <td colspan="6" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Geo Tagging Status Details</b></td>
+                            <td colspan="6" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;Geo Tagging Status Details</b>
+                            </td>
                           </tr>
                         </thead>
                         <tbody>
@@ -1589,14 +1687,16 @@
                             <td>{{row.TGC_Longitude}}</td>
                             <td>
                               <a *ngIf="row.Image1!='N/A'" data-fancybox="gallery" href="{{row.Image1}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.Image1}}" alt="Image 1" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                <img src="{{row.Image1}}" alt="Image 1" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                               </a>
                               <label *ngIf="row.Image1=='N/A'">{{row.Image1}}</label>
 
                             </td>
                             <td>
                               <a *ngIf="row.Image2!='N/A'" data-fancybox="gallery" href="{{row.Image2}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.Image2}}" alt="Image 2" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                <img src="{{row.Image2}}" alt="Image 2" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                               </a>
                               <label *ngIf="row.Image1=='N/A'">{{row.Image2}}</label>
 
@@ -1618,7 +1718,10 @@
                       <table class="table table-bordered table-hover table-striped" id="CollegeContactDetails" #content>
                         <thead>
                           <tr>
-                            <td colspan="5" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Contact Details</b></td>
+                            <td colspan="5" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;Contact Details</b>
+                            </td>
                           </tr>
                         </thead>
                         <tbody>
@@ -1652,7 +1755,10 @@
                         <table class="table table-hover table-striped-columns text-left" id="CollegeGeneralContactDetails" #content>
                           <thead>
                             <tr>
-                              <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;General Contact Details</b></td>
+                              <td colspan="3" style="    font-weight: 800;
+    font-size: 18px;">
+                                <b><i class="bi bi-table"></i>&nbsp;General Contact Details</b>
+                              </td>
                             </tr>
                           </thead>
                           <tbody>
@@ -1683,7 +1789,10 @@
                       <table class="table table-bordered table-hover table-striped" id="CollegeHospitalDetails" #content>
                         <thead>
                           <tr>
-                            <td colspan="6" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;10 Government hospitals nearest to the institution</b></td>
+                            <td colspan="6" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;10 Government hospitals nearest to the institution</b>
+                            </td>
                           </tr>
                         </thead>
                         <tbody>
@@ -1714,9 +1823,10 @@
                             <td>{{row.HospitalDistance}}</td>
                             <td>
                               <a *ngIf="!row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.HospitalDocumentPath}}" alt="Hospital Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                <img src="{{row.HospitalDocumentPath}}" alt="Hospital Document" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                               </a>
-                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px">
                               </a>
                             </td>
                           </tr>
