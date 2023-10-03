@@ -232,7 +232,7 @@ export class ApplicationSummaryComponent implements OnInit {
 
               theme: 'plain',
               bodyStyles: {
-                halign: 'left', valign: "top"
+                halign: 'left', valign: "top", minCellHeight: 20
               },
               showHead: "everyPage",
               margin: {
@@ -242,6 +242,7 @@ export class ApplicationSummaryComponent implements OnInit {
                 bottom: 70
               },
               tableLineWidth: 0.5,
+              
               didDrawPage: function (data) {
                 // Header
 
@@ -282,7 +283,7 @@ export class ApplicationSummaryComponent implements OnInit {
                 doc.text(str, 575, 830);
               },
               didDrawCell: function (data) {
-                //data.cell.height = 20;
+                //data.cell.height = 15;
                 if ((data.column.index === 0) && data.row.index == 1 && data.cell.section === 'body') {
                   let td = data.cell.raw
                   var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
@@ -308,7 +309,7 @@ export class ApplicationSummaryComponent implements OnInit {
 
               theme: 'plain',
               bodyStyles: {
-                halign: 'left', valign: "top"
+                halign: 'left', valign: "top", minCellHeight: 20
               },
               showHead: "everyPage",
               margin: {
@@ -359,7 +360,7 @@ export class ApplicationSummaryComponent implements OnInit {
               },
               didDrawCell: function (data) {
                 //data.cell.height = 20;
-                if ((data.column.index === 6) && data.row.index >= 1 && data.cell.section === 'body') {
+                if ((data.column.index === 3) && data.row.index >= 1 && data.cell.section === 'body') {
                   let td = data.cell.raw
                   var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
                   var dim = data.cell.height - data.cell.padding('vertical');
@@ -384,7 +385,7 @@ export class ApplicationSummaryComponent implements OnInit {
 
               theme: 'plain',
               bodyStyles: {
-                halign: 'left', valign: "top"
+                halign: 'left', valign: "top", minCellHeight: 20
               },
               showHead: "everyPage",
               margin: {
