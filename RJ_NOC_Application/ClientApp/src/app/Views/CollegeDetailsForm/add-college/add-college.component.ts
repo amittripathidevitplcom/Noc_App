@@ -401,7 +401,7 @@ export class AddCollegeComponent implements OnInit {
           this.IsRural_Nearest = isRural;
           if (isResetValue) {
             //this.request_NearestGovernmentHospitals.TehsilID = 0;
-            this.request_NearestGovernmentHospitals.CityID = 1;
+            this.request_NearestGovernmentHospitals.CityID = 0;
             this.request_NearestGovernmentHospitals.PanchayatSamitiID = 0;
           }
         }
@@ -410,7 +410,7 @@ export class AddCollegeComponent implements OnInit {
           if (isResetValue) {
             this.request.DistanceFromCity = null;
             //this.request.TehsilID = 0;
-            this.request.CityID = 1;
+            this.request.CityID = 0;
             this.request.PanchayatSamitiID = 0;
           }
         }
@@ -421,7 +421,7 @@ export class AddCollegeComponent implements OnInit {
           if (isResetValue) {
             //this.request_NearestGovernmentHospitals.TehsilID = 1;
             this.request_NearestGovernmentHospitals.CityID = 0;
-            this.request_NearestGovernmentHospitals.PanchayatSamitiID = 1;
+            this.request_NearestGovernmentHospitals.PanchayatSamitiID = 0;
           }
         }
         else {
@@ -430,7 +430,7 @@ export class AddCollegeComponent implements OnInit {
             this.request.DistanceFromCity = 0;
             //this.request.TehsilID = 1;
             this.request.CityID = 0;
-            this.request.PanchayatSamitiID = 1;
+            this.request.PanchayatSamitiID = 0;
           }
         }
       }
@@ -1046,13 +1046,16 @@ export class AddCollegeComponent implements OnInit {
 
     console.log(this.request.RuralUrban);
     if (this.request.RuralUrban == 1) {
-
       this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.setValidators([DropdownValidators]);
+      this.CollegeDetailsForm.get('ddlCityID')?.clearValidators();
     }
     else {
       this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.clearValidators();
+      this.CollegeDetailsForm.get('ddlCityID')?.setValidators([DropdownValidators]);
+     
     }
     this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
+    this.CollegeDetailsForm.get('ddlCityID')?.updateValueAndValidity();
 
 
     if (this.request.DepartmentID == 3) {
