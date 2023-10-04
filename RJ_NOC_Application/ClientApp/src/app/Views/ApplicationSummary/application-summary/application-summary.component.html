@@ -376,6 +376,9 @@
                                   Election Present Management Committee Date
                                 </th>
                                 <th>
+                                  Trustee General Details Yes/No
+                                </th>
+                                <!--<th>
                                   Women Members Of Management Committee
                                 </th>
                                 <th>
@@ -383,13 +386,14 @@
                                 </th>
                                 <th>
                                   Other Institution run by the Society
+                                </th>-->
+                                <th>
+                                  Society Logo
                                 </th>
                                 <th>
                                   Society Registration Document
                                 </th>
-                                <th>
-                                  Society Logo
-                                </th>
+
                               </tr>
                               <tr *ngFor="let row of TrusteeGeneralInfoList;let idx=index;">
                                 <td>
@@ -399,13 +403,20 @@
                                   {{row.DateOfElectionOfPresentManagementCommittee | date:'dd-MM-yyyy'}}
                                 </td>
                                 <td>
-                                  {{row.WomenMembersOfManagementCommitteeID==1?'Yes':'No'}}
+                                  1.Women Members Of Management Committee:- {{row.WomenMembersOfManagementCommitteeID==1?'Yes':'No'}} <br />
+                                  2.Election Of Management Committee:- {{row.DateOfElectionOfManagementCommitteeID==1?'Yes':'No'}} <br />
+                                  3.Other Institution run by the Society:- {{row.OtherInstitutionRunByTheSocietyID==1?'Yes':'No'}} <br />
+
                                 </td>
-                                <td>
+                                <!--<td>
                                   {{row.DateOfElectionOfManagementCommitteeID==1?'Yes':'No'}}
                                 </td>
                                 <td>
                                   {{row.OtherInstitutionRunByTheSocietyID==1?'Yes':'No'}}
+                                </td>-->
+                                <td>
+                                  <img src="{{row.SocietyLogo}}" alt="Society Logo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
                                 </td>
                                 <td>
                                   <a *ngIf="!row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom">
@@ -415,10 +426,7 @@
                                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                                   <label *ngIf="row.Dis_SocietyRegistrationDocument!='N/A'">{{row.Dis_SocietyRegistrationDocument}}</label>
                                 </td>
-                                <td>
-                                    <img src="{{row.SocietyLogo}}" alt="Society Logo" style="    width: 50px !important;
-    height: 50px !important;" class="img-thumbnail" />
-                                </td>
+
                               </tr>
                             </tbody>
                           </table>

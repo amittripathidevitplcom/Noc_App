@@ -1056,7 +1056,7 @@ export class AddCollegeComponent implements OnInit {
     else {
       this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.clearValidators();
       this.CollegeDetailsForm.get('ddlCityID')?.setValidators([DropdownValidators]);
-
+     
     }
     this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
     this.CollegeDetailsForm.get('ddlCityID')?.updateValueAndValidity();

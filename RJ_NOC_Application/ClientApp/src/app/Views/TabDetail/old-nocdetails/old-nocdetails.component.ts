@@ -153,11 +153,11 @@ export class OldNOCDetailsComponent implements OnInit {
     }
   }
 
-  async GetCourseList(Type: string = 'Course', OldNocID: number=0) {
+  async GetCourseList(Type: string = 'Course', OldNocID: number = 0) {
     try {
       this.loaderService.requestStarted();
       this.lstCourse = [];
-      await this.commonMasterService.Get_CollegeWiseCourse_Subject_OldNOC(this.SelectedCollageID, Type,0, OldNocID)//4=existing
+      await this.commonMasterService.Get_CollegeWiseCourse_Subject_OldNOC(this.SelectedCollageID, Type, 0, OldNocID)//4=existing
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -176,7 +176,7 @@ export class OldNOCDetailsComponent implements OnInit {
     }
   }
 
-  async GetSubjectList(CourseID: any, GetType: string = 'Subject', OldNocID: number=0) {
+  async GetSubjectList(CourseID: any, GetType: string = 'Subject', OldNocID: number = 0) {
     try {
       this.SelectedSubjectDetails = [];
       this.loaderService.requestStarted();
@@ -352,7 +352,8 @@ export class OldNOCDetailsComponent implements OnInit {
     if (this.oldNOCForm.invalid) {
       this.IsFormValid = false;
     }
-    if (this.SubjectDataModel.length == 0) {
+
+    if (this.SubjectDataModel.length == 0 && this.SelectedDepartmentID != 2) {
       this.IsFormValid = false;
       this.SubjectRequried = true;
     }
@@ -384,12 +385,12 @@ export class OldNOCDetailsComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-         
+
 
 
           if (this.State == 0) {
             //console.log(data['Data']);
-            
+
             this.toastr.success(this.SuccessMessage);
             this.ResetControl();
           }
@@ -499,7 +500,7 @@ export class OldNOCDetailsComponent implements OnInit {
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
-        if (this.State == 0) { 
+        if (this.State == 0) {
           this.request.UploadNOCDoc = '';
           this.request.UploadNOCDocPath = '';
           this.request.Dis_FileName = '';
