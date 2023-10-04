@@ -480,48 +480,70 @@ export class AhPhysicalFinalVerificationComponent {
   }
   public TransactionNo: string = '';
   async SendOTP(AadhaarNo: string, idx: number) {
-    if (AadhaarNo != undefined && AadhaarNo.length == 12) {
-      this.AadharRequest.AadharNo = AadhaarNo;
-      for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
-        if (idx != i && this.ApplicationCommitteeList[i].SendOTP != 2) {
-          this.ApplicationCommitteeList[i].SendOTP = 0;
+    try {
+      this.loaderService.requestStarted();
+      if (AadhaarNo != undefined && AadhaarNo.length == 12) {
+        this.AadharRequest.AadharNo = AadhaarNo;
+        for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
+          if (idx != i && this.ApplicationCommitteeList[i].SendOTP != 2) {
+            this.ApplicationCommitteeList[i].SendOTP = 0;
+          }
         }
+        await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
+          .then((data: any) => {
+            if (data[0].status == "0") {
+              this.ApplicationCommitteeList[idx].SendOTP = 1;
+              this.TransactionNo = data[0].data;
+              this.toastr.success("OTP send Successfully");
+            }
+            else {
+              //this.toastr.error(data[0].message);
+              this.ApplicationCommitteeList[idx].SendOTP = 1;
+            }
+          }, error => console.error(error));
       }
-      await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
-        .then((data: any) => {
-          if (data[0].status == "0") {
-            this.ApplicationCommitteeList[idx].SendOTP = 1;
-            this.TransactionNo = data[0].data;
-            this.toastr.success("OTP send Successfully");
-          }
-          else {
-            //this.toastr.error(data[0].message);
-            this.ApplicationCommitteeList[idx].SendOTP = 1;
-          }
-        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   async VerifyOTP(UserOTP: number, idx: number) {
-    await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
-      .then((data: any) => {
-        data = JSON.parse(JSON.stringify(data));
-        if (data[0].status == "0") {
-          //this.AadharDetails = JSON.parse(data[0].data);
-          this.toastr.success("OTP Verify Successfully");
-          this.ApplicationCommitteeList[idx].Verified = true;
-          this.ApplicationCommitteeList[idx].SendOTP = 2;
-        }
-        else {
-          if (UserOTP != Number(this.CustomOTP)) {
-            this.toastr.error(data[0].message);
-            this.ApplicationCommitteeList[idx].Verified = false;
+    try {
+      this.loaderService.requestStarted();
+      await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data[0].status == "0") {
+            //this.AadharDetails = JSON.parse(data[0].data);
+            this.toastr.success("OTP Verify Successfully");
+            this.ApplicationCommitteeList[idx].Verified = true;
+            this.ApplicationCommitteeList[idx].SendOTP = 2;
           }
-        }
-      }, error => console.error(error));
-    if (UserOTP == Number(this.CustomOTP)) {
-      this.ApplicationCommitteeList[idx].Verified = true;
-      this.ApplicationCommitteeList[idx].SendOTP = 2;
+          else {
+            if (UserOTP != Number(this.CustomOTP)) {
+              this.toastr.error(data[0].message);
+              this.ApplicationCommitteeList[idx].Verified = false;
+            }
+          }
+        }, error => console.error(error));
+      if (UserOTP == Number(this.CustomOTP)) {
+        this.ApplicationCommitteeList[idx].Verified = true;
+        this.ApplicationCommitteeList[idx].SendOTP = 2;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
@@ -556,6 +578,7 @@ export class AhPhysicalFinalVerificationComponent {
           RoleID: this.sSOLoginDataModel.RoleID
         })
       }
+      this.loaderService.requestStarted();
       await this.applyNOCApplicationService.SaveCommiteeInspectionRNCCheckList(this.request).then((data: any) => {
         this.State = data['State'];
         this.SuccessMessage = data['SuccessMessage'];

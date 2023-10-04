@@ -136,7 +136,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
       await this.collegeService.GetData(CollegeID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-/*          this.collegeDataList = data['Data'];*/
+          /*          this.collegeDataList = data['Data'];*/
           if (data['Data']['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
@@ -172,7 +172,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
             else {
               if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
                 || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-                || this.CheckTabsEntryData['BuildingDocuments'] <= 0  || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0
+                || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0
               ) {
                 this.isFormvalid = false;
               }
@@ -483,48 +483,70 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
   }
   public TransactionNo: string = '';
   async SendOTP(AadhaarNo: string, idx: number) {
-    if (AadhaarNo != undefined && AadhaarNo.length == 12) {
-      this.AadharRequest.AadharNo = AadhaarNo;
-      for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
-        if (idx != i && this.ApplicationCommitteeList[i].SendOTP != 2) {
-          this.ApplicationCommitteeList[i].SendOTP = 0;
+    try {
+      this.loaderService.requestStarted();
+      if (AadhaarNo != undefined && AadhaarNo.length == 12) {
+        this.AadharRequest.AadharNo = AadhaarNo;
+        for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
+          if (idx != i && this.ApplicationCommitteeList[i].SendOTP != 2) {
+            this.ApplicationCommitteeList[i].SendOTP = 0;
+          }
         }
+        await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
+          .then((data: any) => {
+            if (data[0].status == "0") {
+              this.ApplicationCommitteeList[idx].SendOTP = 1;
+              this.TransactionNo = data[0].data;
+              this.toastr.success("OTP send Successfully");
+            }
+            else {
+              //this.toastr.error(data[0].message);
+              this.ApplicationCommitteeList[idx].SendOTP = 1;
+            }
+          }, error => console.error(error));
       }
-      await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
-        .then((data: any) => {
-          if (data[0].status == "0") {
-            this.ApplicationCommitteeList[idx].SendOTP = 1;
-            this.TransactionNo = data[0].data;
-            this.toastr.success("OTP send Successfully");
-          }
-          else {
-            //this.toastr.error(data[0].message);
-            this.ApplicationCommitteeList[idx].SendOTP = 1;
-          }
-        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
   async VerifyOTP(UserOTP: number, idx: number) {
-    await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
-      .then((data: any) => {
-        data = JSON.parse(JSON.stringify(data));
-        if (data[0].status == "0") {
-          //this.AadharDetails = JSON.parse(data[0].data);
-          this.toastr.success("OTP Verify Successfully");
-          this.ApplicationCommitteeList[idx].Verified = true;
-          this.ApplicationCommitteeList[idx].SendOTP = 2;
-        }
-        else {
-          if (UserOTP != Number(this.CustomOTP)) {
-            this.toastr.error(data[0].message);
-            this.ApplicationCommitteeList[idx].Verified = false;
+    try {
+      this.loaderService.requestStarted();
+      await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data[0].status == "0") {
+            //this.AadharDetails = JSON.parse(data[0].data);
+            this.toastr.success("OTP Verify Successfully");
+            this.ApplicationCommitteeList[idx].Verified = true;
+            this.ApplicationCommitteeList[idx].SendOTP = 2;
           }
-        }
-      }, error => console.error(error));
-    if (UserOTP == Number(this.CustomOTP)) {
-      this.ApplicationCommitteeList[idx].Verified = true;
-      this.ApplicationCommitteeList[idx].SendOTP = 2;
+          else {
+            if (UserOTP != Number(this.CustomOTP)) {
+              this.toastr.error(data[0].message);
+              this.ApplicationCommitteeList[idx].Verified = false;
+            }
+          }
+        }, error => console.error(error));
+      if (UserOTP == Number(this.CustomOTP)) {
+        this.ApplicationCommitteeList[idx].Verified = true;
+        this.ApplicationCommitteeList[idx].SendOTP = 2;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 
@@ -564,6 +586,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
       });
+      this.loaderService.requestStarted();
       await this.animalDocumentScrutinyService.FinalSubmitInspectionCommittee(this.ApplicationCommitteeList[0].ApplyNocApplicationID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID, "Pre Verification Forward")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
