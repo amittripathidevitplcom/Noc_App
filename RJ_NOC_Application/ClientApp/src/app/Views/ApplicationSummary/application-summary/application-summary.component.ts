@@ -29,6 +29,7 @@ import { FarmLandDetailService } from '../../../Services/FarmLandDetail/farm-lan
 import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
+import { VeterinaryHospitalService } from '../../../Services/VeterinaryHospital/veterinary-hospital.service';
 @Component({
   selector: 'app-application-summary',
   templateUrl: './application-summary.component.html',
@@ -80,7 +81,13 @@ export class ApplicationSummaryComponent implements OnInit {
   public DownloadPdfDetailslst: any = [];
   public hostelDetaillst: any = [];
   public HostelBlocklst: any = [];
+  public IsShowSuperSpecialtyHospital: boolean = false;
   public HospitalAllDatalst: any = [];
+  public ParaHospitallst: any = [];
+
+  public vetHospitalDetaillst: any = [];
+  public AnimalDetaillst: any = [];
+  public SansthaBhavanlst: any = [];
 
   public CollegeType_IsExisting: boolean = true;
   public collegeDataList: any = [];
@@ -89,7 +96,7 @@ export class ApplicationSummaryComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   constructor(private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService,
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService, private veterinaryHospitalService: VeterinaryHospitalService,
     private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private elRef: ElementRef) { }
 
   async ngOnInit() {
@@ -198,7 +205,7 @@ export class ApplicationSummaryComponent implements OnInit {
       pDFData.push({ "ContentName": "#FacilityDetails" })
       pDFData.push({ "ContentName": "#RoomDetails" })
       pDFData.push({ "ContentName": "#OtherInfoDetails" })
-     
+
       if (this.CollegeType_IsExisting) {
         pDFData.push({ "ContentName": "#OldNocDetial" })
         pDFData.push({ "ContentName": "#StaffDetails" })
@@ -214,7 +221,12 @@ export class ApplicationSummaryComponent implements OnInit {
       if (this.SelectedDepartmentID == 6 || this.SelectedDepartmentID == 5) {
         pDFData.push({ "ContentName": "#HospitalDetailInfo" })
       }
-
+      if (this.SelectedDepartmentID == 9) {
+        pDFData.push({ "ContentName": "#ParaHospitalDetailInfo" })
+      }
+      if (this.SelectedDepartmentID == 2) {
+        pDFData.push({ "ContentName": "#VetHospitalDetial" })
+      }
 
       for (var i = 0; i < pDFData.length; i++) {
 
@@ -232,84 +244,7 @@ export class ApplicationSummaryComponent implements OnInit {
 
               theme: 'plain',
               bodyStyles: {
-                halign: 'left', valign: "top", minCellHeight: 20
-              },
-              showHead: "everyPage",
-              margin: {
-                left: 16,
-                right: 16,
-                top: 35,
-                bottom: 70
-              },
-              tableLineWidth: 0.5,
-              
-              didDrawPage: function (data) {
-                // Header
-
-                doc.setFontSize(13);
-                doc.setTextColor("#161C22");
-
-                doc.text(Heading1, 140, 10, { align: 'center', maxWidth: 100 });
-                doc.setFontSize(12);
-                doc.text(Heading2, 140, 15, { align: 'center', maxWidth: 200 });
-                doc.setFontSize(12);
-                doc.text(Heading3, 140, 20, { align: 'center', maxWidth: 100 });
-                doc.setFontSize(10);
-                doc.text(Heading4, 140, 25, { align: 'center', maxWidth: 150 });
-                doc.setFontSize(8);
-                doc.text(Heading5, 140, 30, { align: 'center', maxWidth: 100 });
-
-                // Footer
-                let str = "1";//+ doc.internal.getNumberOfPages();
-                doc.setFontSize(13);
-
-
-                let pageSize = doc.internal.pageSize;
-                let pageHeight = pageSize.height
-                  ? pageSize.height
-                  : pageSize.getHeight();
-                doc.line(264, 377, 15, 377)
-                doc.setTextColor("#3f51b5");
-                doc.text(Footer1, data.settings.margin.left, pageHeight - 50);
-                doc.line(264, 385, 15, 385)
-                doc.setFontSize(10);
-                doc.setTextColor("#161C22");
-                doc.text(Footer2, data.settings.margin.left, pageHeight - 43);
-                doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
-                doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
-                let down = (pageHeight - 39);
-                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
-                doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
-                doc.text(str, 575, 830);
-              },
-              didDrawCell: function (data) {
-                //data.cell.height = 15;
-                if ((data.column.index === 0) && data.row.index == 1 && data.cell.section === 'body') {
-                  let td = data.cell.raw
-                  var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
-                  var dim = data.cell.height - data.cell.padding('vertical');
-                  //var textPos = data.cell.textPos;
-                  doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
-                }
-              }
-            }
-          )
-        }
-        else if (pDFData[i].ContentName == '#TrusteeGeneralDetails') {
-          autoTable(doc,
-            {
-              html: pDFData[i].ContentName,
-              styles: { fontSize: 10, overflow: "linebreak" },
-              headStyles: {
-                fillColor: '#3f51b5',
-                textColor: '#fff',
-                halign: 'left',
-                fontSize: 13
-              },
-
-              theme: 'plain',
-              bodyStyles: {
-                halign: 'left', valign: "top", minCellHeight: 20
+                halign: 'left', valign: "top"
               },
               showHead: "everyPage",
               margin: {
@@ -360,7 +295,83 @@ export class ApplicationSummaryComponent implements OnInit {
               },
               didDrawCell: function (data) {
                 //data.cell.height = 20;
-                if ((data.column.index === 3) && data.row.index >= 1 && data.cell.section === 'body') {
+                if ((data.column.index === 0) && data.row.index == 1 && data.cell.section === 'body') {
+                  let td = data.cell.raw
+                  var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
+                  var dim = data.cell.height - data.cell.padding('vertical');
+                  //var textPos = data.cell.textPos;
+                  doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                }
+              }
+            }
+          )
+        }
+        else if (pDFData[i].ContentName == '#TrusteeGeneralDetails') {
+          autoTable(doc,
+            {
+              html: pDFData[i].ContentName,
+              styles: { fontSize: 10, overflow: "linebreak" },
+              headStyles: {
+                fillColor: '#3f51b5',
+                textColor: '#fff',
+                halign: 'left',
+                fontSize: 13
+              },
+
+              theme: 'plain',
+              bodyStyles: {
+                halign: 'left', valign: "top"
+              },
+              showHead: "everyPage",
+              margin: {
+                left: 16,
+                right: 16,
+                top: 35,
+                bottom: 70
+              },
+              tableLineWidth: 0.5,
+              didDrawPage: function (data) {
+                // Header
+
+                doc.setFontSize(13);
+                doc.setTextColor("#161C22");
+
+                doc.text(Heading1, 140, 10, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(12);
+                doc.text(Heading2, 140, 15, { align: 'center', maxWidth: 200 });
+                doc.setFontSize(12);
+                doc.text(Heading3, 140, 20, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(10);
+                doc.text(Heading4, 140, 25, { align: 'center', maxWidth: 150 });
+                doc.setFontSize(8);
+                doc.text(Heading5, 140, 30, { align: 'center', maxWidth: 100 });
+
+                // Footer
+                let str = "1";//+ doc.internal.getNumberOfPages();
+                doc.setFontSize(13);
+
+
+                let pageSize = doc.internal.pageSize;
+                let pageHeight = pageSize.height
+                  ? pageSize.height
+                  : pageSize.getHeight();
+                doc.line(264, 377, 15, 377)
+                doc.setTextColor("#3f51b5");
+                doc.text(Footer1, data.settings.margin.left, pageHeight - 50);
+                doc.line(264, 385, 15, 385)
+                doc.setFontSize(10);
+                doc.setTextColor("#161C22");
+                doc.text(Footer2, data.settings.margin.left, pageHeight - 43);
+                doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
+                doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
+                let down = (pageHeight - 39);
+                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
+                doc.text(str, 575, 830);
+              },
+              didDrawCell: function (data) {
+                //data.cell.height = 20;
+                if ((data.column.index === 6) && data.row.index >= 1 && data.cell.section === 'body') {
                   let td = data.cell.raw
                   var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
                   var dim = data.cell.height - data.cell.padding('vertical');
@@ -385,7 +396,7 @@ export class ApplicationSummaryComponent implements OnInit {
 
               theme: 'plain',
               bodyStyles: {
-                halign: 'left', valign: "top", minCellHeight: 20
+                halign: 'left', valign: "top"
               },
               showHead: "everyPage",
               margin: {
@@ -560,6 +571,9 @@ export class ApplicationSummaryComponent implements OnInit {
       await this.GetAllFarmLandDetalsList(this.SelectedCollageID);
       await this.GetOldNOCDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
       await this.GetHostelDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
+      await this.GetHospitalDetailList(this.SelectedCollageID);
+      await this.GetParaHospitalDataList();
+      await this.GetVetHospitalDetailList(this.SelectedDepartmentID, this.SelectedCollageID);
     }
     catch (Ex) {
       console.log(Ex);
@@ -969,10 +983,33 @@ export class ApplicationSummaryComponent implements OnInit {
     }
   }
 
-  async ViewHospitalDetailsID(CollegeID: any) {
+  async IsSuperSpecialtyHospital() {
+    try {
+      this.IsShowSuperSpecialtyHospital = false;
+      this.loaderService.requestStarted();
+      await this.hospitalDetailService.IsSuperSpecialtyHospital(this.SelectedCollageID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.IsShowSuperSpecialtyHospital = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetHospitalDetailList(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.hospitalDetailService.GetDataList(this.SelectedCollageID)
+      await this.hospitalDetailService.GetHospitalDataListforPDF(CollegeID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -983,6 +1020,52 @@ export class ApplicationSummaryComponent implements OnInit {
           this.HospitalAllDatalst = data['Data'];
 
         }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetParaHospitalDataList() {
+    this.loaderService.requestStarted();
+    try {
+      await this.hospitalDetailService.GetHospitalDataListforPDF(this.SelectedCollageID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.ParaHospitallst = data['Data'];
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetVetHospitalDetailList(DepartmentID: number, CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.veterinaryHospitalService.GetAllVeterinaryHospitalList(DepartmentID, CollegeID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.vetHospitalDetaillst = data['Data'][0]['data']['Table'];
+          this.AnimalDetaillst = data['Data'][0]['data']['Table1'];
+          this.SansthaBhavanlst = data['Data'][0]['data']['Table2'];
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
