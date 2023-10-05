@@ -78,6 +78,7 @@
             <tr>
               <th>Sr.No.</th>
               <th>Role</th>
+              <th>Action</th>
               <th>Remark</th>
             </tr>
           </thead>
@@ -85,6 +86,7 @@
             <tr *ngFor="let item1 of FinalRemarks ; let idx =index">
               <td>{{idx+1}}</td>
               <td>{{item1.RoleID}}</td>
+              <td>{{item1.ActionName}}</td>
               <td>{{item1.Remark}}</td>
             </tr>
           </tbody>
@@ -92,135 +94,152 @@
       </div>
 
     </div>
-
-    <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-        <label>Remarks</label>
-        <textarea id="LandRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
-        <div *ngIf="isRemarkValid" class="text-danger">
-          <p *ngIf="isRemarkValid"> This field is required .!</p>
+    <div class="card-header">
+      <b>Land Detail Approve/Revert </b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdlandapproverevert" id="rdlandapprove" [value]="1" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+            <label class="form-check-label">Approve</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rdlandapproverevert" id="rdlandrevert" [value]="2" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+            <label class="form-check-label">Revert</label>
+          </div>
+          <p *ngIf="isSubmitted&&dsrequest.ActionID==0" class="text-danger"> This field is required .!</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <label>Remarks</label>
+          <textarea id="LandRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+          <div *ngIf="isRemarkValid" class="text-danger">
+            <p *ngIf="isRemarkValid"> This field is required .!</p>
+          </div>
+        </div>
+      </div>
+      <div class="row" [hidden]="QueryStringStatus!='Pending'">
+        <div class="col-md-12">
+          <button class="btn btn-primary" type="button" (click)="SubmitLandDetail_Onclick()">Submit</button>
         </div>
       </div>
     </div>
-    <div class="row" [hidden]="QueryStringStatus!='Pending'">
-      <div class="col-md-12">
-        <button class="btn btn-primary" type="button" (click)="SubmitLandDetail_Onclick()">Submit</button>
-      </div>
-    </div>
-    <ng-template #mymodal let-modal>
-      <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Land Details</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <i class="fa fa-close"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label><b> College:</b></label>
-            <input class="form-control disabled" disabled value="{{request.CollegeName}}" />
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label><b>Land Area Situated In :</b></label>
-            <input class="form-control disabled" disabled value="{{request.LandAreaSituatedName}}" />
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label><b>Land Document Type :</b></label>
-            <input class="form-control disabled" disabled value="{{request.LandDocumentTypeName}}" />
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label><b>Is Your Land converted to Institution/Education :</b></label>
-            <input class="form-control disabled" disabled value="{{request.IsConvereted}}" />
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label><b>Name of Owner of Land :</b></label>
-            <input class="form-control disabled" disabled value="{{request.LandOwnerName}}" />
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label><b>Land Area (in {{request.AreaType !=''?request.AreaType:UnitOfLand}}) :</b></label>
-            <input class="form-control disabled" disabled value="{{request.LandArea}}" />
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')">
-            <label><b>Affidavit Date(DD/MM/YYYY) :</b></label>
-            <input class="form-control disabled" disabled value="{{request.AffidavitDate | date:'dd-MM-yyyy'}}" />
-          </div>
+      <ng-template #mymodal let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Land Details</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <i class="fa fa-close"></i>
+          </button>
         </div>
-        <div class="card-body">
-          <div class="row" *ngIf="LandDetailsDocumentListByID.length>0">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-              <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped">
-                  <thead>
-                    <tr>
-                      <th>Sr. No.</th>
-                      <th>Document Name</th>
-                      <th>Document Type</th>
-                      <th>Show Document</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of LandDetailsDocumentListByID ; let indexOfelement=index;">
-                      <td> {{indexOfelement+1}}</td>
-                      <td>{{item.DocumentName}}</td>
-                      <td>{{item.DocumentType}}</td>
-                      <td><a class="btn-outline-primary" target="_blank" href="{{item.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b> College:</b></label>
+              <input class="form-control disabled" disabled value="{{request.CollegeName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Land Area Situated In :</b></label>
+              <input class="form-control disabled" disabled value="{{request.LandAreaSituatedName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Land Document Type :</b></label>
+              <input class="form-control disabled" disabled value="{{request.LandDocumentTypeName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Is Your Land converted to Institution/Education :</b></label>
+              <input class="form-control disabled" disabled value="{{request.IsConvereted}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Name of Owner of Land :</b></label>
+              <input class="form-control disabled" disabled value="{{request.LandOwnerName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Land Area (in {{request.AreaType !=''?request.AreaType:UnitOfLand}}) :</b></label>
+              <input class="form-control disabled" disabled value="{{request.LandArea}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')">
+              <label><b>Affidavit Date(DD/MM/YYYY) :</b></label>
+              <input class="form-control disabled" disabled value="{{request.AffidavitDate | date:'dd-MM-yyyy'}}" />
             </div>
           </div>
-
-
-          <div class="row" *ngIf="DetailoftheLand.length>0">
-            <div class="col-md-12">
-              <div class="card mb-0">
-                <div class="card-header">
-                  <b><i class="bi bi-table"></i>&nbsp;Detail of the Land (With Khasra No.):  </b>
+          <div class="card-body">
+            <div class="row" *ngIf="LandDetailsDocumentListByID.length>0">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Document Name</th>
+                        <th>Document Type</th>
+                        <th>Show Document</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of LandDetailsDocumentListByID ; let indexOfelement=index;">
+                        <td> {{indexOfelement+1}}</td>
+                        <td>{{item.DocumentName}}</td>
+                        <td>{{item.DocumentType}}</td>
+                        <td><a class="btn-outline-primary" target="_blank" href="{{item.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                  <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped">
-                      <thead>
-                        <tr>
-                          <th>Sr.No.</th>
-                          <th>Land Type</th>
-                          <th>Area</th>
-                          <th>Khasra No</th>
-                          <th>Land Conversion Order No</th>
-                          <th>Land Conversion Order Date</th>
-                          <th>Land Conversion Document</th>
-                          <th>Other Document</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let row of DetailoftheLand; let indexOfelement=index;">
-                          <td> {{indexOfelement+1}}</td>
-                          <td>{{row.LandTypeName}}</td>
-                          <td>{{row.LandArea}}</td>
-                          <td>{{row.KhasraNo}}</td>
-                          <td>{{row.LandConversionOrderNo}}</td>
-                          <td>{{row.LandConversionOrderDate}}</td>
-
-                          <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+              </div>
+            </div>
 
 
-                          <td>
+            <div class="row" *ngIf="DetailoftheLand.length>0">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="card-header">
+                    <b><i class="bi bi-table"></i>&nbsp;Detail of the Land (With Khasra No.):  </b>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                          <tr>
+                            <th>Sr.No.</th>
+                            <th>Land Type</th>
+                            <th>Area</th>
+                            <th>Khasra No</th>
+                            <th>Land Conversion Order No</th>
+                            <th>Land Conversion Order Date</th>
+                            <th>Land Conversion Document</th>
+                            <th>Other Document</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of DetailoftheLand; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.LandTypeName}}</td>
+                            <td>{{row.LandArea}}</td>
+                            <td>{{row.KhasraNo}}</td>
+                            <td>{{row.LandConversionOrderNo}}</td>
+                            <td>{{row.LandConversionOrderDate}}</td>
 
-                            <a *ngIf="row.FileOtherName!=''" class="btn-outline-primary" target="_blank" href="{{row.FileOtherPath}}" title="View Document"><i class="fa fa-eye"></i></a>
+                            <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
 
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+
+                            <td>
+
+                              <a *ngIf="row.FileOtherName!=''" class="btn-outline-primary" target="_blank" href="{{row.FileOtherPath}}" title="View Document"><i class="fa fa-eye"></i></a>
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </ng-template>
+      </ng-template>
+    </div>
   </div>
-</div>
 

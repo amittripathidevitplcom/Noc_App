@@ -317,6 +317,15 @@ const routes: Routes = [
         //}
       },
       {
+        path: 'applicationdetailentry/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: ApplicationDetailEntryComponent,
+        pathMatch: 'full'
+        // canActivate: [NeverActivate]
+        //canActivate: [RedirectGuard],
+        //data: {
+        //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
+        //}
+      },
+      {
         path: 'applynoc', component: ApplyNOCComponent
       },
       {
@@ -614,6 +623,9 @@ const routes: Routes = [
       },
       {
         path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListForCommissionerComponent
+      },
+      {
+        path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID', component: CheckListForCommissionerComponent
       },
        {
          path: 'test', component: CollegeDetailsComponent

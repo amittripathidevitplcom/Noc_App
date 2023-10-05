@@ -8,6 +8,9 @@ import { CommonMasterService } from '../../../Services/CommonMaster/common-maste
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
 
 @Injectable()
 
@@ -29,10 +32,11 @@ export class RevertedApplicationListComponent implements OnInit
   public draftApplicatoinListData: any = [];
   searchText: string = '';
   sSOLoginDataModel = new SSOLoginDataModel();
+  closeResult: string | undefined;
 
 
-  constructor(private collegeservice: CollegeService, private toastr: ToastrService, private loaderService: LoaderService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
+  constructor(private committeeMasterService: CommitteeMasterService,private collegeservice: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private modalService: NgbModal,
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private decDocumentScrutinyService: DCEDocumentScrutinyService) {
 
   }
 
@@ -67,11 +71,107 @@ export class RevertedApplicationListComponent implements OnInit
     }
   }
 
-  async DraftEdit_OnClick(DepartmentID: number, CollegeID: number) {
-    this.routers.navigate(['/applicationdetailentry' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+  async DraftEdit_OnClick(DepartmentID: number, CollegeID: number, ApplyNocApplicationID: number) {
+    this.routers.navigate(['/applicationdetailentry' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())) + "/R"], { skipLocationChange: true });
   }
   async ApplicationSummary_OnClick(DepartmentID: number, CollegeID: number) {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+  }
+
+  async CheckList_OnClick(DepartmentID: number, CollegeID: number, ApplyNocApplicationID: number) {
+    this.routers.navigate([]).then(result => { window.open('/checklistforcommissioner' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())), '_blank'); });
+  }
+
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  async ViewApplicationPvDetails(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    //
+    await this.GetApplicationPvDetails(ApplyNOCID);
+    //await this.GetPVApplicationCommitteeList(ApplyNOCID);
+    await this.GetWorkFlowRemarksByApplicationID(ApplyNOCID);
+
+  }
+  public PVApplicationDetailsList: any[] = [];
+  async GetApplicationPvDetails(ApplyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.decDocumentScrutinyService.GetApplicationPvDetails(ApplyNocApplicationID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.PVApplicationDetailsList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public PVCommitteeList: any[] = [];
+  async GetPVApplicationCommitteeList(ApplyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.committeeMasterService.GetApplicationCommitteeList(ApplyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.PVCommitteeList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public WorkFlowRemarks: any = [];
+  async GetWorkFlowRemarksByApplicationID(ApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.decDocumentScrutinyService.GetWorkFlowRemarksByApplicationID(ApplyNOCID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.WorkFlowRemarks = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
 

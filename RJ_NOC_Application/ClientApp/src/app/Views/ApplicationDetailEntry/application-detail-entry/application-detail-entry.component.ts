@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { bottom } from '@popperjs/core';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
@@ -23,6 +24,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
 
   public SelectedCollageID: number = 0;
+  public SelectedApplyNOCID: number = 0;
   public SelectedDepartmentID: number = 0;
   public SeatValue: number = 50;
   public CollegeID: number = 0;
@@ -50,7 +52,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   public DraftbuttonName: string = 'Save Draft';
 
-  constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
+  public QueryStringStatus: any = '';
+  constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService) { }
 
   async ngOnInit() {
@@ -58,6 +61,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
     this.loaderService.requestStarted();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //await this.GetCollageMaster();
     if (this.SelectedDepartmentID == 5) {
@@ -581,5 +586,38 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
 
   }
+  async ResubmitApplication() {
+    try {
+      this.loaderService.requestStarted();
 
+      if (confirm("Are you sure you want to Resubmit application?")) {
+
+        await this.applyNOCApplicationService.SubmitRevertApplication(this.SelectedApplyNOCID,this.SelectedDepartmentID)
+          .then((data: any) => {
+
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (!this.State) {
+              this.toastr.success('Resubmit Application Successfully')
+
+              setTimeout(() => {
+                this.routers.navigate(['/revertedapplicationlist']);
+              }, 500);
+
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          });
+      }
+    } catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
 }
