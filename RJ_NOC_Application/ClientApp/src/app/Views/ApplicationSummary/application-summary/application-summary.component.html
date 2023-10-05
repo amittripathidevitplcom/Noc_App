@@ -324,6 +324,7 @@
     height: 50px !important;" class="img-thumbnail" />
                           </a>
                           <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                          <label *ngIf="legalEntityListData1.Dis_TrusteeMemberProofDocName!='N/A'">{{legalEntityListData1.Dis_TrusteeMemberProofDocName}}</label>
                         </td>
                         <td>
                           <a *ngIf="!legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom">
@@ -331,6 +332,7 @@
     height: 50px !important;" class="img-thumbnail" />
                           </a>
                           <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                          <label *ngIf="legalEntityListData1.Dis_SocietyPanProofDocName!='N/A'">{{legalEntityListData1.Dis_SocietyPanProofDocName}}</label>
                         </td>
                         <td>
                           <a *ngIf="!legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom">
@@ -338,6 +340,7 @@
     height: 50px !important;" class="img-thumbnail" />
                           </a>
                           <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                          <label *ngIf="legalEntityListData1.Dis_RegistrationDocName!='N/A'">{{legalEntityListData1.Dis_RegistrationDocName}}</label>
                         </td>
                       </tr>
                     </tbody>
@@ -410,15 +413,11 @@
     height: 50px !important;" class="img-thumbnail" />
                                   </a>
                                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                  <label *ngIf="row.SocietyRegistrationDocument=='N/A'">{{row.SocietyRegistrationDocument}}</label>
+                                  <label *ngIf="row.Dis_SocietyRegistrationDocument!='N/A'">{{row.Dis_SocietyRegistrationDocument}}</label>
                                 </td>
                                 <td>
-                                  <a *ngIf="!row.SocietyLogo.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyLogoPath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{row.SocietyLogoPath}}" alt="Society Logo" style="    width: 50px !important;
+                                  <img src="{{row.SocietyLogo}}" alt="Society Logo" style="    width: 50px !important;
     height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyLogo.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyLogoPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                  <label *ngIf="row.SocietyLogo=='N/A'">{{row.SocietyLogo}}</label>
                                 </td>
                               </tr>
                             </tbody>
@@ -468,29 +467,19 @@
                             <td>{{row.MemberPostName}}</td>
                             <td>{{row.PresidentAadhaarNumber}}</td>
                             <td>
-                              <a *ngIf="!row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.MemberPhotoPath}}" alt="Member Photo" style="    width: 50px !important;
+                              <img src="{{row.MemberPhoto}}" alt="Member Photo" style="    width: 50px !important;
     height: 50px !important;" class="img-thumbnail" />
-                              </a>
-                              <label *ngIf="row.MemberPhotoPath=='N/A'">{{row.MemberPhotoPath}}</label>
-                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberPhotoPath.includes('.pdf') && row.MemberPhotoPath!='N/A'" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-
                             </td>
                             <td>
-                              <a *ngIf="!row.MemberSignaturePath.includes('.pdf') && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.MemberSignaturePath}}" alt="Member Signature" style="    width: 50px !important;
+                              <img src="{{row.MemberSignature}}" alt="Member Signature" style="    width: 50px !important;
     height: 50px !important;" class="img-thumbnail" />
-                              </a>
-                              <label *ngIf="row.MemberSignaturePath=='N/A'">{{row.MemberSignaturePath}}</label>
-                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberSignaturePath.includes('.pdf')  && row.MemberSignaturePath!='N/A'" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-
                             </td>
                             <td>
                               <a *ngIf="!row.PresidentAadhaarProofDocPath.includes('.pdf') && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
-                                <img src="{{row.PresidentAadhaarProofDocPath}}" alt="Member Signature" style="    width: 50px !important;
+                                <img src="{{row.PresidentAadhaarProofDocPath}}" alt="President Aadhaar Proof" style="    width: 50px !important;
     height: 50px !important;" class="img-thumbnail" />
                               </a>
-                              <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
+                              <label *ngIf="row.Dis_PresidentAadhaarProofDocName!='N/A'">{{row.Dis_PresidentAadhaarProofDocName}}</label>
                               <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
                             </td>
                           </tr>
@@ -1403,8 +1392,7 @@
                 <table class="table table-hover table-striped-columns" id="OldNocDetial" #content>
                   <thead>
                     <tr>
-                      <td colspan="8" style="    font-weight: 800;
-    font-size: 18px;">
+                      <td colspan="8" style="    font-weight: 800; font-size: 18px;">
                         <b><i class="bi bi-table"></i>&nbsp;Old NOC Details</b>
                       </td>
                     </tr>
@@ -1500,7 +1488,7 @@
             </div>
           </div>
           <!--Hospital Details-->
-          <div class="card-body">
+          <div class="card-body" *ngIf="SelectedDepartmentID==6">
             <div class="row">
               <div class="table-responsive">
                 <table class="table table-hover table-striped-columns text-left" id="HospitalDetailInfo" #content>
@@ -1630,12 +1618,12 @@
                       </td>
                     </tr>
                   </tbody>
-                  <thead>
+                  <thead *ngIf="IsShowSuperSpecialtyHospital">
                     <tr>
                       <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Super specialty hospital details</b></td>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody *ngIf="IsShowSuperSpecialtyHospital">
                     <tr colspan="3" style="font-weight:800; font-size:18px;">Cardio Thoracic Nursing</tr>
                     <tr>
                       <td>
@@ -1832,49 +1820,612 @@
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        <label>Area :{{HospitalAllDatalst.RuralUrban_ManageBy==1?'Rural':'Urban'}}</label>
+                      <td *ngIf="HospitalAllDatalst.RuralUrban_ManageBy==2">
+                        <label>City :{{HospitalAllDatalst.CityName_ManageBy}}</label>
                       </td>
-                      <td>
-                        <label>Division :-{{HospitalAllDatalst.ManageDivisionName}}</label>
+                      <td *ngIf="HospitalAllDatalst.RuralUrban_ManageBy==1">
+                        <label>Panchayat Samiti :-{{HospitalAllDatalst.ManagePanchyatSamitiName}}</label>
                       </td>
-                      <td><label>District :{{HospitalAllDatalst.ManageDistrictName}}</label> </td>
+                      <td><label>City/Town/Village :{{HospitalAllDatalst.CityTownVillage_ManageBy}}</label> </td>
                       <td>
-                        <label>Tehsil:{{HospitalAllDatalst.ManageTehsilName}}</label>
+                        <label>Pincode:{{HospitalAllDatalst.Pincode_ManageBy}}</label>
                       </td>
                     </tr>
                   </tbody>
-
-                  <tr>
-
-                    <td *ngIf="HospitalAllDatalst.RuralUrban_ManageBy==2">
-                      <label *ngIf="HospitalAllDatalst.RuralUrban_ManageBy==2">City :{{HospitalAllDatalst.ManageCityName}}</label>
-                    </td>
-                    <td *ngIf="HospitalAllDatalst.RuralUrban_ManageBy==1">
-                      <label>Panchayat Samiti :{{HospitalAllDatalst.ManagePanchyatSamitiName}}</label>
-                    </td>
-                    <td>
-                      <label>City/Town/Village :{{HospitalAllDatalst.CityTownVillage}}</label>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><label>Pincode :{{HospitalAllDatalst.Pincode}}</label> </td>
-                    <td>
-                      <label>Whether the affiliated hospital has affiliation with any other institution in the past or not:{{HospitalAllDatalst.AffiliatedHospitalAffiliationToOtherID==1?'Yes':'No'}}</label>
-                    </td>
-                    <td>
-                      <label>Area :{{HospitalAllDatalst.RuralUrban==1?'Rural':'Urban'}}</label>
-                    </td>
-                    <td>
-                      <label>Division :{{HospitalAllDatalst.DivisionName}}</label>
-                    </td>
-
-
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Owner</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Owner Name :-{{HospitalAllDatalst.OwnerName}}</label>
+                      </td>
+                      <td>
+                        <label>Owner Contact No. :-{{HospitalAllDatalst.OwnerPhone}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 1 :-{{HospitalAllDatalst.AddressLine1_Owner}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 2 :{{HospitalAllDatalst.AddressLine2_Owner}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Area :{{HospitalAllDatalst.RuralUrban_Owner==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :-{{HospitalAllDatalst.OwnerDivisionName}}</label>
+                      </td>
+                      <td><label>District :{{HospitalAllDatalst.OwnerDistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{HospitalAllDatalst.OwnerTehsilName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="HospitalAllDatalst.RuralUrban_Owner==2">
+                        <label>City :{{HospitalAllDatalst.CityName_Owner}}</label>
+                      </td>
+                      <td *ngIf="HospitalAllDatalst.RuralUrban_Owner==1">
+                        <label>Panchayat Samiti :-{{HospitalAllDatalst.OwnerPanchyatSamitiName}}</label>
+                      </td>
+                      <td><label>City/Town/Village :{{HospitalAllDatalst.CityTownVillage_Owner}}</label> </td>
+                      <td>
+                        <label>Pincode:{{HospitalAllDatalst.Pincode_Owner}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Other</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Whether the parent hospital is related to any other institution in the past or not :-{{HospitalAllDatalst.ParentHospitalRelatedToOtherID==1?'Yes':'No'}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Name of Institution :-{{HospitalAllDatalst.InstitutionName}}</label>
+                      </td>
+                      <td>
+                        <label>Organization Contact No. :-{{HospitalAllDatalst.OrganizationPhone}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 1 :-{{HospitalAllDatalst.AddressLine1_Other}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 2 :{{HospitalAllDatalst.AddressLine2_Other}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Area :{{HospitalAllDatalst.RuralUrban_Other==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :-{{HospitalAllDatalst.OtherDivisionName}}</label>
+                      </td>
+                      <td><label>District :{{HospitalAllDatalst.OtherDistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{HospitalAllDatalst.OtherTehsilName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="HospitalAllDatalst.RuralUrban_Other==2">
+                        <label>City :{{HospitalAllDatalst.CityName_Other}}</label>
+                      </td>
+                      <td *ngIf="HospitalAllDatalst.RuralUrban_Other==1">
+                        <label>Panchayat Samiti :-{{HospitalAllDatalst.OtherPanchyatSamitiName}}</label>
+                      </td>
+                      <td><label>City/Town/Village :{{HospitalAllDatalst.CityTownVillage_Other}}</label> </td>
+                      <td>
+                        <label>Pincode:{{HospitalAllDatalst.Pincode_Other}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>
+          </div>
 
+          <!--Para-Medical Hospital Details-->
+          <div class="card-body" *ngIf="SelectedDepartmentID==9">
+            <div class="row">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped-columns text-left" id="ParaHospitalDetailInfo" #content>
+                  <thead>
+                    <!--<tr *ngIf="HospitalData.ParentHospitalID==2">
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Which affiliated hospitals would the organization like to associate with for clinical training</b></td>
+                    </tr>-->
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hospital Detail</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Whether the institution is a parent hospital or not :-{{ParaHospitallst.ParentHospitalID==1?'Yes':'No'}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Status :-{{ParaHospitallst.HospitalStatus}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Area :-{{ParaHospitallst.HospitalAreaName}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Reg. No. :{{ParaHospitallst.HospitalRegNo}}</label>
+                      </td>
+                    </tr>
 
+                    <tr>
+                      <td><label>Hospital Name :{{ParaHospitallst.HospitalName}}</label> </td>
+                      <td>
+                        <label>Hospital Distance from Institutions (KM) :{{ParaHospitallst.HospitalDistance}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Contact No. :{{ParaHospitallst.HospitalContactNo}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Email ID :{{ParaHospitallst.HospitalEmailID}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>Address Line 1 :{{ParaHospitallst.AddressLine1}}</label> </td>
+                      <td>
+                        <label>Address Line 2:{{ParaHospitallst.AddressLine2}}</label>
+                      </td>
+                      <td>
+                        <label>Area :{{ParaHospitallst.RuralUrban==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :{{ParaHospitallst.DivisionName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>District :{{ParaHospitallst.DistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{ParaHospitallst.TehsilName}}</label>
+                      </td>
+                      <td *ngIf="ParaHospitallst.RuralUrban==2">
+                        <label *ngIf="ParaHospitallst.RuralUrban==2">City :{{ParaHospitallst.CityName}}</label>
+                      </td>
+                      <td *ngIf="ParaHospitallst.RuralUrban==1">
+                        <label>Panchayat Samiti :{{ParaHospitallst.PanchyatSamitiName}}</label>
+                      </td>
+                      <td>
+                        <label>City/Town/Village :{{ParaHospitallst.CityTownVillage}}</label>
+                      </td>
+                      <td>
+                        <label>City Population :{{ParaHospitallst.CityPopulation}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>Hospital Distance from Institutions (KM) :{{ParaHospitallst.HospitalDistance}}</label> </td>
+                      <td><label>Pincode :{{ParaHospitallst.Pincode}}</label> </td>
+                      <td>
+                        <label>Whether the affiliated hospital has affiliation with any other institution in the past or not:{{ParaHospitallst.AffiliatedHospitalAffiliationToOtherID==1?'Yes':'No'}}</label>
+                      </td>
+                      <td>
+                        <label>Area :{{ParaHospitallst.RuralUrban==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :{{ParaHospitallst.DivisionName}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Pollution Detail</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Whether the institution is a parent hospital or not :-{{ParaHospitallst.ParentHospitalID==1?'Yes':'No'}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Status :-{{ParaHospitallst.HospitalStatus}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Area :-{{ParaHospitallst.HospitalAreaName}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Reg. No. :{{ParaHospitallst.HospitalRegNo}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Distribution of beds in different areas</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!--<tr *ngFor="let item of ParamedicalHospitalBedValidationList ; let idx =index">
+                      <td>
+                        <label>
+                          {{item.ColumnName}} :- {{item.Istextordropdown==2?item.ColumnValue==1?'Yes':'No':item.ColumnValue}}
+                        </label>
+                      </td>
+                    </tr>-->
+                  </tbody>
+                  <thead *ngIf="IsShowSuperSpecialtyHospital">
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Super specialty hospital details</b></td>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="IsShowSuperSpecialtyHospital">
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Cardio Thoracic Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.CardioThoracicTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>CCU Beds :-{{ParaHospitallst.CardioThoracicCCUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICCU Beds :-{{ParaHospitallst.CardioThoracicICCUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICU Beds :{{ParaHospitallst.CardioThoracicICUBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Critical Care Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.CriticalCareNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Critical Care Beds :-{{ParaHospitallst.CriticalCareNursingCCBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICU Beds :{{ParaHospitallst.CriticalCareNursingICUBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Midwifery Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.MidwiferyNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Mother and Neonatal Units Beds :-{{ParaHospitallst.MotherNeonatalUnitsBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Deliveries Per Year :{{ParaHospitallst.DeliveriesPerYear}}</label>
+                      </td>
+                      <td>
+                        <label>Level II Neonatal Beds :-{{ParaHospitallst.LevelIINeonatalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Level III Neonatal Beds :{{ParaHospitallst.LevelIIINeonatalBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Neuro Science Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.NeuroScienceNursingTotalBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Oncology Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.OncologyNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Medical Beds :{{ParaHospitallst.OncologyNursingMedicalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Chemotherapy Beds :-{{ParaHospitallst.OncologyNursingChemotherapyBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Radiotherapy Beds :{{ParaHospitallst.OncologyNursingRadiotherapyBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Palliative Beds :-{{ParaHospitallst.OncologyNursingPalliativeBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Diagnostic Beds :{{ParaHospitallst.OncologyNursingDiagnosticBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Orthopaedic & Rehabilitation Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.OrthopaedicRehabilitationNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Orthopaedic Beds :-{{ParaHospitallst.OrthopaedicRehabilitationNursingOrthopaedicBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Rehabilitation Beds :{{ParaHospitallst.OrthopaedicRehabilitationNursingRehabilitationBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Psychiatric Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.PsychiatricNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Acute Beds :-{{ParaHospitallst.PsychiatricNursingAcuteBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Chronic Beds  :{{ParaHospitallst.PsychiatricNursingChronicBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Adult Beds  :{{ParaHospitallst.PsychiatricNursingAdultBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Child Beds :-{{ParaHospitallst.PsychiatricNursingChildBeds}}</label>
+                      </td>
+                      <td>
+                        <label>De-Addiction Beds :-{{ParaHospitallst.PsychiatricNursingDeAddictionBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Neonatal Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.NeonatalNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Level II/III NICU Beds :-{{ParaHospitallst.NeonatalNursingLevelIIOrIIINICUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>NICU Beds  :{{ParaHospitallst.NeonatalNursingNICUBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Operation Room Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.OperationRoomNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>General Surgery Beds :-{{ParaHospitallst.OperationRoomNursingGeneralSurgeryBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Pediatric Beds  :{{ParaHospitallst.OperationRoomNursingPediatricBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Cardiothoracic Beds  :{{ParaHospitallst.OperationRoomNursingCardiothoracicBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Gynae. and Obstetrical Beds :-{{ParaHospitallst.OperationRoomNursingGynaeAndObstetricalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Orthopaedics Beds :-{{ParaHospitallst.OperationRoomNursingOrthopaedicsBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Ophthalmic Beds  :{{ParaHospitallst.OperationRoomNursingOphthalmicBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ENT and Neuro Beds  :{{ParaHospitallst.OperationRoomNursingENTAndNeuroBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Emergency and Disaster Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.EmergencyAndDisasterNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICU Beds :-{{ParaHospitallst.EmergencyAndDisasterNursingICUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Emergency Beds  :{{ParaHospitallst.EmergencyAndDisasterNursingEmergencylBeds}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Manage by</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Manage by Name :-{{ParaHospitallst.ManageByName}}</label>
+                      </td>
+                      <td>
+                        <label>Manage by Contact No. :-{{ParaHospitallst.ManageByPhone}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 1 :-{{ParaHospitallst.AddressLine1_ManageBy}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 2 :{{ParaHospitallst.AddressLine2_ManageBy}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Area :{{ParaHospitallst.RuralUrban_ManageBy==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :-{{ParaHospitallst.ManageDivisionName}}</label>
+                      </td>
+                      <td><label>District :{{ParaHospitallst.ManageDistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{ParaHospitallst.ManageTehsilName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="ParaHospitallst.RuralUrban_ManageBy==2">
+                        <label>City :{{ParaHospitallst.CityName_ManageBy}}</label>
+                      </td>
+                      <td *ngIf="ParaHospitallst.RuralUrban_ManageBy==1">
+                        <label>Panchayat Samiti :-{{ParaHospitallst.ManagePanchyatSamitiName}}</label>
+                      </td>
+                      <td><label>City/Town/Village :{{ParaHospitallst.CityTownVillage_ManageBy}}</label> </td>
+                      <td>
+                        <label>Pincode:{{ParaHospitallst.Pincode_ManageBy}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Owner</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Owner Name :-{{ParaHospitallst.OwnerName}}</label>
+                      </td>
+                      <td>
+                        <label>Owner Contact No. :-{{ParaHospitallst.OwnerPhone}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 1 :-{{ParaHospitallst.AddressLine1_Owner}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 2 :{{ParaHospitallst.AddressLine2_Owner}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Area :{{ParaHospitallst.RuralUrban_Owner==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :-{{ParaHospitallst.OwnerDivisionName}}</label>
+                      </td>
+                      <td><label>District :{{ParaHospitallst.OwnerDistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{ParaHospitallst.OwnerTehsilName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="ParaHospitallst.RuralUrban_Owner==2">
+                        <label>City :{{ParaHospitallst.CityName_Owner}}</label>
+                      </td>
+                      <td *ngIf="ParaHospitallst.RuralUrban_Owner==1">
+                        <label>Panchayat Samiti :-{{ParaHospitallst.OwnerPanchyatSamitiName}}</label>
+                      </td>
+                      <td><label>City/Town/Village :{{ParaHospitallst.CityTownVillage_Owner}}</label> </td>
+                      <td>
+                        <label>Pincode:{{ParaHospitallst.Pincode_Owner}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Other</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Whether the parent hospital is related to any other institution in the past or not :-{{ParaHospitallst.ParentHospitalRelatedToOtherID==1?'Yes':'No'}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Name of Institution :-{{ParaHospitallst.InstitutionName}}</label>
+                      </td>
+                      <td>
+                        <label>Organization Contact No. :-{{ParaHospitallst.OrganizationPhone}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 1 :-{{ParaHospitallst.AddressLine1_Other}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 2 :{{ParaHospitallst.AddressLine2_Other}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Area :{{ParaHospitallst.RuralUrban_Other==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :-{{ParaHospitallst.OtherDivisionName}}</label>
+                      </td>
+                      <td><label>District :{{ParaHospitallst.OtherDistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{ParaHospitallst.OtherTehsilName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="ParaHospitallst.RuralUrban_Other==2">
+                        <label>City :{{ParaHospitallst.CityName_Other}}</label>
+                      </td>
+                      <td *ngIf="ParaHospitallst.RuralUrban_Other==1">
+                        <label>Panchayat Samiti :-{{ParaHospitallst.OtherPanchyatSamitiName}}</label>
+                      </td>
+                      <td><label>City/Town/Village :{{ParaHospitallst.CityTownVillage_Other}}</label> </td>
+                      <td>
+                        <label>Pincode:{{ParaHospitallst.Pincode_Other}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!--Veterinary Hospital Details-->
+          <div class="card-body">
+            <div class="row" *ngIf="SelectedDepartmentID==2">
+              <div class="table-responsive" *ngIf="VetHospitallst.length>0">
+                <table class="table table-hover table-striped-columns" id="VetHospitalDetial" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800; font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Veterinary Hospital Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Hospital Name:</th>
+                      <th>Distance From Institute(in KM):</th>
+                      <th>Address & Contact Detail</th>
+                      <th>Animal Details</th>
+                      <th>Sanstha Bhavan Details</th>
+                    </tr>
+                    <tr *ngFor="let row of vetHospitalDetaillst;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.HospitalName}}</td>
+                      <td>{{row.DistanceFromInstitute}}</td>
+                      <td>
+                        Authorized Person:- {{row.AuthorizedPerson}}<br />
+                        Mobile No.:- {{row.MobileNo}}<br />
+                        Email Address:- {{row.EmailAddress}}<br />
+                        If Person From Admin/Finance Field are On Board:- {{row.PersonField}}<br />
+                        Relation With Institute:- {{row.Relation}}<br />
+                        Address:- {{row.AddressLine1}},{{row.AddressLine2}},{{row.DivisionName}},{{row.DistrictName}},{{row.TehsilName}},{{row.PanchyatSamitiName}}{{row.CityName}},{{row.Pincode}}<br />
+                      </td>
+                      <td>
+                        <span *ngFor="let item of AnimalDetaillst let idxe=index">
+                          <span *ngIf="row.VeterinaryHospitalID == item.VeterinaryHospitalID">
+                            {{idxe==0?'':' '}}Animal Name:- {{item.AnimalName}}<br />
+                            Male Animal Count :- {{item.MaleAnimalCount}}<br />
+                            Female Animal Count:- {{item.FemaleAnimalCount}}<br />
+                            Animal Count :- {{item.AnimalCount}}<br />
+                          </span>
+
+                        </span>
+                      </td>
+                      <td>
+                        <span *ngFor="let item of SansthaBhavanlst let idxe=index">
+                          <span *ngIf="row.VeterinaryHospitalID == item.VeterinaryHospitalID">
+                            {{idxe==0?'':' '}}Name:- {{item.RoomName}}<br />
+                            No Of :- {{item.NoOfRooms}}<br />
+                            Width(In Feet):- {{item.Width}}<br />
+                            Length(In Feet) :- {{item.Length}}<br />
+                          </span>
+
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
           <div class="card-footer">
