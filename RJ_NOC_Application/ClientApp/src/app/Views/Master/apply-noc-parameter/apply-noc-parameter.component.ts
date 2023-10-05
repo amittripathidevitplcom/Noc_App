@@ -158,6 +158,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   public isShowPriceDetails: boolean = false;
   public IsTermsChecked: boolean = false;
+  public CollegeLableName: string = "College";
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
     private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal, private cdref: ChangeDetectorRef) {
@@ -279,7 +280,12 @@ export class ApplyNocParameterComponent implements OnInit {
                 data = JSON.parse(JSON.stringify(data));
                 this.CollegeDepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
                 this.request.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
-
+                if (this.request.DepartmentID == 2) {
+                  this.CollegeLableName = "College/Institute Name";
+                }
+                else {
+                  this.CollegeLableName = "College";
+                }
               }, error => console.error(error));
           }
         }, error => console.error(error));

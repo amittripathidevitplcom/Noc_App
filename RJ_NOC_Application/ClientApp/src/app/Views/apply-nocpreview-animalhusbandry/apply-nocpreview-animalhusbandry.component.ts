@@ -156,22 +156,29 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
-  ngOnInit(): void {
+ async  ngOnInit() {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.GetCollageDetails();
+    await this.GetCollageDetails();
     this.CheckTabsEntry();
     if (this.tabGroup != null)
       this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
-    else
-      this.maxNumberOfTabs = 14;
+    else {
+      if (this.CollegeType_IsExisting) {
+        this.maxNumberOfTabs = 14;
+      }
+      else {
+        this.maxNumberOfTabs = 11;
+      }
+    }
 
 
   }
   NextStep() {
+
     if (this.selectedIndex != this.maxNumberOfTabs) {
       this.selectedIndex = this.selectedIndex + 1;
     }
@@ -188,10 +195,11 @@ export class ApplyNocpreviewAnimalhusbandryComponent implements OnInit {
     this.CheckTabsEntry();
   }
   onTabChange(event: MatTabChangeEvent) {
+    this.selectedIndex = event.index;
     if (this.selectedIndex == this.maxNumberOfTabs) {
       this.checkListDetailsComponent_New.ngOnInit();
     }
-    this.selectedIndex = event.index;
+
     this.CheckTabsEntry();
   }
 

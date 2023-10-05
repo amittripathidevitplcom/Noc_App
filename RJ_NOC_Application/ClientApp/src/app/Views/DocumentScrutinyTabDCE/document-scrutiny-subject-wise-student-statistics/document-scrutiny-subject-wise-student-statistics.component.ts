@@ -55,7 +55,7 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
-
+  public isDisabledAction: boolean = false;
   constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit()
@@ -82,7 +82,10 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
           this.SubjectWiseStudentDetailsList = data['Data'][0]['SubjectWiseStudentDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
-
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
           this.TotalFooterSum();
 
         }, error => console.error(error));
@@ -168,8 +171,9 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
       + Number(OtherB) + Number(OtherG)
   }
 
-
+  public isSubmitted: boolean = false;
   async SubmitSubjectWiseStudentDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -191,7 +195,9 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
         }
       }
     }
-
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
     if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
@@ -251,17 +257,38 @@ export class DocumentScrutinySubjectWiseStudentStatisticsComponent implements On
     await this.SubjectWiseStudentDetailsList.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
-    })
+    });
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.SubjectWiseStudentDetailsList.length; i++) {
       if (i == idx) {
         this.SubjectWiseStudentDetailsList[i].Remark = '';
       }
+      if (this.SubjectWiseStudentDetailsList[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
+
   ViewTaril(ID: number, ActionType: string) {
     this.dcedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }

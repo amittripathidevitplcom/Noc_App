@@ -65,7 +65,7 @@ export class DocumentScrutinyClassWiseStudentDetailsComponent implements OnInit 
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
 
-
+  public isDisabledAction: boolean = false;
 
   constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService,private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService) { }
 async ngOnInit() {
@@ -93,6 +93,10 @@ async ngOnInit() {
           this.ClassWiseStudentDetailsList = data['Data'][0]['ClassWiseStudentDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
           this.TotalFooterSum();
         }, error => console.error(error));
     }
@@ -208,20 +212,38 @@ async ngOnInit() {
     await this.ClassWiseStudentDetailsList.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
-    })
+    });
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.ClassWiseStudentDetailsList.length; i++) {
       if (i == idx) {
         this.ClassWiseStudentDetailsList[i].Remark = '';
       }
     }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
-
+  public isSubmitted: boolean = false;
 
   async SubmitClassWiseStudentDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -243,7 +265,9 @@ async ngOnInit() {
         }
       }
     }
-
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
     if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;

@@ -118,10 +118,10 @@ export class NodalOfficerApplicationListComponent implements OnInit {
     try {
       let ActionName = '';
       if (RoleId == 17) {
-        ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending'?'Apply NOC':'';
+        ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending' ?'Apply NOC,ReSubmit Application,Revert,Revert By Commissioner,Revert by Secretary':'';
       }
       else {
-        ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending'?'Approve':'';
+        ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending' ? 'Approve,Revert,Revert By Commissioner,Revert by Secretary':'';
       }
       this.loaderService.requestStarted();
       await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
@@ -224,24 +224,16 @@ export class NodalOfficerApplicationListComponent implements OnInit {
     this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
-      for (var i = 0; i < this.CheckListData.length; i++) {
-        if (this.CheckListData[i].FileUpload == true) {
-          if (this.CheckListData[i].FileUploadName == '' || this.CheckListData[i].FileUploadName == undefined) {
-            this.toastr.warning('Please select a file for upload');
-            return
-          }
-        }
-      }
-      if (this.ActionID <= 0) {
-        this.isActionTypeValid = true;
-        this.isFormvalid = false;
-      }
       if (this.CheckFinalRemark == '') {
         this.isRemarkValid = true;
         this.isFormvalid = false;
       }
 
-      if (this.ShowHideNextRoleNextUser) {
+      if (this.ActionID <= 0) {
+        this.isActionTypeValid = true;
+        this.isFormvalid = false;
+      }
+      if (this.ShowHideNextRole && this.ShowHideNextAction && this.ShowHideNextUser) {
         if (this.NextRoleID <= 0) {
           this.isNextRoleIDValid = true;
           this.isFormvalid = false;
@@ -255,12 +247,30 @@ export class NodalOfficerApplicationListComponent implements OnInit {
           this.isFormvalid = false;
         }
       }
-      else {
+      else if (!this.ShowHideNextUser && !this.ShowHideNextRole && !this.ShowHideNextAction) {
         this.NextRoleID = 1;
         this.NextUserID = 0;
         this.NextActionID = 0;
       }
-
+      else if (this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+        if (this.NextRoleID <= 0) {
+          this.isNextRoleIDValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.NextUserID <= 0) {
+          this.isNextUserIdValid = true;
+          this.isFormvalid = false;
+        }
+        this.NextActionID = 0;
+      }
+      else if (!this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+        if (this.NextRoleID <= 0) {
+          this.isNextRoleIDValid = true;
+          this.isFormvalid = false;
+        }
+        this.NextUserID = 0;
+        this.NextActionID = 0;
+      }
 
       if (!this.isFormvalid) {
         return;
@@ -394,128 +404,6 @@ export class NodalOfficerApplicationListComponent implements OnInit {
 
   }
 
-
-
-  async GetRoleListForApporval() {
-    this.UserRoleList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.UserRoleList = data['Data'];
-            if (this.UserRoleList.length > 0) {
-              this.NextRoleID = this.UserRoleList[0]['RoleID'];
-              await this.NextGetUserDetailsByRoleID();
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-
-  async NextGetUserDetailsByRoleID() {
-    this.UserListRoleWise = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.UserListRoleWise = data['Data'];
-            if (this.UserListRoleWise.length > 0) {
-              this.NextUserID = this.UserListRoleWise[0]['UId'];
-              await this.NextGetWorkFlowActionListByRole();
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  async NextGetWorkFlowActionListByRole() {
-    this.NextWorkFlowActionList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next", this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.NextWorkFlowActionList = data['Data'];
-            if (this.NextWorkFlowActionList.length > 0) {
-              this.NextActionID = this.NextWorkFlowActionList[0]['ActionID'];
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-
-
-  async GetWorkFlowActionListByRole() {
-    this.WorkFlowActionList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID, "Current", this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.WorkFlowActionList = data['Data'];
-            if (this.WorkFlowActionList.length > 0) {
-              this.ActionID = this.WorkFlowActionList[0]['ActionID'];
-              var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-              if (IsNextAction == true) {
-                this.ShowHideNextRoleNextUser = true;
-              }
-              else {
-                this.ShowHideNextRoleNextUser = false;
-              }
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-
-  OnChangeCurrentAction() {
-    var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-    if (IsNextAction == true) {
-      this.ShowHideNextRoleNextUser = true;
-    }
-    else {
-      this.ShowHideNextRoleNextUser = false;
-    }
-  }
 
   async CheckDocumentScrutinyTabsData() {
     try {
@@ -887,6 +775,156 @@ export class NodalOfficerApplicationListComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+
+  public ShowHideNextRole: boolean = true;
+  public ShowHideNextUser: boolean = true;
+  public ShowHideNextAction: boolean = true;
+  async GetRoleListForApporval() {
+    this.UserRoleList = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.UserRoleList = data['Data'];
+            if (this.UserRoleList.length > 0) {
+              this.NextRoleID = this.UserRoleList[0]['RoleID'];
+              await this.NextGetUserDetailsByRoleID();
+            }
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async NextGetUserDetailsByRoleID() {
+    this.UserListRoleWise = [];
+    this.NextWorkFlowActionList = [];
+    this.NextUserID = 0;
+    this.NextActionID = 0
+    this.loaderService.requestStarted();
+    try {
+      if (this.NextRoleID == 1) {
+        this.ShowHideNextUser = false;
+      }
+      else {
+        this.ShowHideNextUser = true;
+        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (data['Data'].length > 0) {
+              this.UserListRoleWise = data['Data'];
+              if (this.UserListRoleWise.length > 0) {
+                this.NextUserID = this.UserListRoleWise[0]['UId'];
+                await this.NextGetWorkFlowActionListByRole();
+              }
+            }
+          })
+      }
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async NextGetWorkFlowActionListByRole() {
+    this.NextActionID = 0;
+    this.NextWorkFlowActionList = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next", this.sSOLoginDataModel.DepartmentID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.NextWorkFlowActionList = data['Data'];
+            if (this.NextWorkFlowActionList.length > 0) {
+              this.NextActionID = this.NextWorkFlowActionList[0]['ActionID'];
+            }
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetWorkFlowActionListByRole() {
+    this.WorkFlowActionList = [];
+    this.loaderService.requestStarted();
+    try {
+      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID, "Current", this.sSOLoginDataModel.DepartmentID)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'].length > 0) {
+            this.WorkFlowActionList = data['Data'];
+            if (this.WorkFlowActionList.length > 0) {
+              this.ActionID = this.WorkFlowActionList[0]['ActionID'];
+              var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
+              var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
+              if (IsNextAction == true && IsRevert == false) {
+                this.ShowHideNextUser = true;
+                this.ShowHideNextRole = true;
+                this.ShowHideNextAction = true;
+              }
+              else if (IsNextAction == false && IsRevert == false) {
+                this.ShowHideNextUser = false;
+                this.ShowHideNextRole = false;
+                this.ShowHideNextAction = false;
+              }
+              else if (IsNextAction == false && IsRevert == true) {
+                this.ShowHideNextUser = true;
+                this.ShowHideNextRole = true;
+                this.ShowHideNextAction = false;
+              }
+            }
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  OnChangeCurrentAction() {
+    debugger;
+    var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
+    var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
+    if (IsNextAction == true && IsRevert == false) {
+      this.ShowHideNextUser = true;
+      this.ShowHideNextRole = true;
+      this.ShowHideNextAction = true;
+    }
+    else if (IsNextAction == false && IsRevert == false) {
+      this.ShowHideNextUser = false;
+      this.ShowHideNextRole = false;
+      this.ShowHideNextAction = false;
+    }
+    else if (IsNextAction == false && IsRevert == true) {
+      this.ShowHideNextUser = true;
+      this.ShowHideNextRole = true;
+      this.ShowHideNextAction = false;
     }
   }
 }

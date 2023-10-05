@@ -1092,6 +1092,7 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
 
   public IsPVStageDone: number = null;
   async GetPVStageStatusOfApplication(applyNocApplicationID: number) {
+    debugger;
     try {
       this.loaderService.requestStarted();
       // get

@@ -140,8 +140,14 @@ import { SkipLocationChangeGuard } from './Common/auth.guard.ts';
 import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplication-list/loiapplication-list.component';
 import { CommissionerApplicationScrutinyListComponent } from './Views/DCE/commissioner-application-scrutiny-list/commissioner-application-scrutiny-list.component';
 import { CheckListForCommissionerComponent } from './Views/DCE/check-list-for-commissioner/check-list-for-commissioner.component';
+import { RevertCheckListDCEComponent } from './Views/DCE/revert-check-list-dce/revert-check-list-dce.component';
+import { RevertApplicationDetailEntryComponent } from './Views/DCE/revert-application-detail-entry/revert-application-detail-entry.component';
+
+import { ImportExcelDataComponent } from './Views/import-excel-data/import-excel-data.component';
+ 
 import { StaffattendanceComponent } from './Views/Staff-Attendance/staffattendance/staffattendance.component';
  
+
 
 
 const routes: Routes = [
@@ -313,6 +319,15 @@ const routes: Routes = [
         pathMatch: 'full'
        // canActivate: [NeverActivate]
       //canActivate: [RedirectGuard],
+        //data: {
+        //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
+        //}
+      },
+      {
+        path: 'applicationdetailentry/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: RevertApplicationDetailEntryComponent,
+        pathMatch: 'full'
+        // canActivate: [NeverActivate]
+        //canActivate: [RedirectGuard],
         //data: {
         //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
         //}
@@ -617,11 +632,22 @@ const routes: Routes = [
         path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListForCommissionerComponent
       },
       {
+        path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID', component: CheckListForCommissionerComponent
+      },
+      {
+        path: 'revertchecklistdce/:DepartmentID/:CollegeID/:ApplyNOCID', component: RevertCheckListDCEComponent
+      },
+       {
+      {
         path: 'staffattendance/:DepartmentID', component: StaffattendanceComponent
       },
        {
          path: 'test', component: CollegeDetailsComponent
       },
+      {
+        path: 'ImportExcelData', component: ImportExcelDataComponent,
+
+      }
        
     ] 
    // ,canActivate: [SkipLocationChangeGuard],

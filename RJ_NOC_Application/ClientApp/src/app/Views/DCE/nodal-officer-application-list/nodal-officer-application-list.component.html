@@ -361,12 +361,12 @@
                       <option value="0" disabled selected>--Select Action--</option>
                       <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
                     </select>
-                    <div *ngIf="isActionTypeValid" class="text-danger">
-                      <p *ngIf="isActionTypeValid"> This field is required .!</p>
+                    <div *ngIf="isActionTypeValid&&ActionID<=0" class="text-danger">
+                      <p *ngIf="isActionTypeValid&&ActionID<=0"> This field is required .!</p>
                     </div>
                   </div>
 
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
                     <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
 
                     <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
@@ -375,30 +375,30 @@
                     </select>
 
 
-                    <div *ngIf="isNextRoleIDValid" class="text-danger">
-                      <p *ngIf="isNextRoleIDValid"> This field is required .!</p>
+                    <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
+                      <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
                     </div>
                   </div>
 
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
                     <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
                     <select class="form-select" [(ngModel)]="NextActionID">
                       <option value="0" disabled selected>--Select Action--</option>
                       <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
                     </select>
-                    <div *ngIf="isNextActionValid" class="text-danger">
-                      <p *ngIf="isNextActionValid"> This field is required .!</p>
+                    <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
+                      <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
                     </div>
                   </div>
 
-                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
                     <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
                     <select class="form-select" [(ngModel)]="NextUserID">
                       <option value="0" selected>--Select User--</option>
                       <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
                     </select>
-                    <div *ngIf="isNextUserIdValid" class="text-danger">
-                      <p *ngIf="isNextUserIdValid"> This field is required .!</p>
+                    <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
+                      <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
                     </div>
                   </div>
                 </div>

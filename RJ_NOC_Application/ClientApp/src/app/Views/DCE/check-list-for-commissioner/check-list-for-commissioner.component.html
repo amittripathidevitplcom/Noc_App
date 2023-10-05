@@ -250,6 +250,7 @@
                   <tr>
                     <th>Sr.No.</th>
                     <th>Role</th>
+                    <th>Action</th>
                     <th>Remark</th>
                   </tr>
                 </thead>
@@ -257,6 +258,7 @@
                   <tr *ngFor="let item1 of LegalEntityFinalRemarks ; let idx =index">
                     <td>{{idx+1}}</td>
                     <td>{{item1.RoleID}}</td>
+                    <td>{{item1.ActionName}}</td>
                     <td>{{item1.Remark}}</td>
                   </tr>
                 </tbody>
@@ -571,6 +573,7 @@
                   <tr>
                     <th>Sr.No.</th>
                     <th>Role</th>
+                    <th>Action</th>
                     <th>Remark</th>
                   </tr>
                 </thead>
@@ -578,6 +581,7 @@
                   <tr *ngFor="let item1 of CollegeDetailFinalRemarks ; let idx =index">
                     <td>{{idx+1}}</td>
                     <td>{{item1.RoleID}}</td>
+                    <td>{{item1.ActionName}}</td>
                     <td>{{item1.Remark}}</td>
                   </tr>
                 </tbody>
@@ -681,13 +685,15 @@
               <tr>
                 <th>Sr.No.</th>
                 <th>Role</th>
+                <th>Action</th>
                 <th>Remark</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item1 of SocietyFinalRemarks ; let idx =index">
                 <td>{{idx+1}}</td>
-                <td>{{item1.RoleID}}</td>
+                <td>{{item1.RoleID}}</td>.
+                <td>{{item1.ActionName}}</td>
                 <td>{{item1.Remark}}</td>
               </tr>
             </tbody>
@@ -744,6 +750,7 @@
             <tr>
               <th>Sr.No.</th>
               <th>Role</th>
+              <th>Action</th>
               <th>Remark</th>
             </tr>
           </thead>
@@ -751,6 +758,7 @@
             <tr *ngFor="let item1 of  LandDetail_FinalRemarks ; let idx =index">
               <td>{{idx+1}}</td>
               <td>{{item1.RoleID}}</td>
+              <td>{{item1.ActionName}}</td>
               <td>{{item1.Remark}}</td>
             </tr>
           </tbody>
@@ -810,6 +818,7 @@
             <tr>
               <th>Sr.No.</th>
               <th>Role</th>
+              <th>Action</th>
               <th>Remark</th>
             </tr>
           </thead>
@@ -817,6 +826,7 @@
             <tr *ngFor="let item1 of Facility_FinalRemarks ; let idx =index">
               <td>{{idx+1}}</td>
               <td>{{item1.RoleID}}</td>
+              <td>{{item1.ActionName}}</td>
               <td>{{item1.Remark}}</td>
             </tr>
           </tbody>
@@ -869,6 +879,7 @@
             <tr>
               <th>Sr.No.</th>
               <th>Role</th>
+              <th>Action</th>
               <th>Remark</th>
             </tr>
           </thead>
@@ -876,6 +887,7 @@
             <tr *ngFor="let item1 of RequiredDocument_FinalRemarks ; let idx =index">
               <td>{{idx+1}}</td>
               <td>{{item1.RoleID}}</td>
+              <td>{{item1.ActionName}}</td>
               <td>{{item1.Remark}}</td>
             </tr>
           </tbody>
@@ -943,6 +955,7 @@
               <tr>
                 <th>Sr.No.</th>
                 <th>Role</th>
+                <th>Action</th>
                 <th>Remark</th>
               </tr>
             </thead>
@@ -950,6 +963,7 @@
               <tr *ngFor="let item1 of RoomDetails_FinalRemarks ; let idx =index">
                 <td>{{idx+1}}</td>
                 <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
                 <td>{{item1.Remark}}</td>
               </tr>
             </tbody>
@@ -1030,6 +1044,7 @@
               <tr>
                 <th>Sr.No.</th>
                 <th>Role</th>
+                <th>Action</th>
                 <th>Remark</th>
               </tr>
             </thead>
@@ -1037,6 +1052,7 @@
               <tr *ngFor="let item1 of OtherInformation_FinalRemarks ; let idx =index">
                 <td>{{idx+1}}</td>
                 <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
                 <td>{{item1.Remark}}</td>
               </tr>
             </tbody>
@@ -1096,6 +1112,7 @@
               <tr>
                 <th>Sr.No.</th>
                 <th>Role</th>
+                <th>Action</th>
                 <th>Remark</th>
               </tr>
             </thead>
@@ -1103,6 +1120,7 @@
               <tr *ngFor="let item1 of BuildingDetail_FinalRemarks ; let idx =index">
                 <td>{{idx+1}}</td>
                 <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
                 <td>{{item1.Remark}}</td>
               </tr>
             </tbody>
@@ -1173,6 +1191,7 @@
               <tr>
                 <th>Sr.No.</th>
                 <th>Role</th>
+                <th>Action</th>
                 <th>Remark</th>
               </tr>
             </thead>
@@ -1180,6 +1199,7 @@
               <tr *ngFor="let item1 of StaffDetails_FinalRemarks ; let idx =index">
                 <td>{{idx+1}}</td>
                 <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
                 <td>{{item1.Remark}}</td>
               </tr>
             </tbody>
@@ -1239,6 +1259,7 @@
               <tr>
                 <th>Sr.No.</th>
                 <th>Role</th>
+                <th>Action</th>
                 <th>Remark</th>
               </tr>
             </thead>
@@ -1246,6 +1267,7 @@
               <tr *ngFor="let item1 of OldNOC_FinalRemarks ; let idx =index">
                 <td>{{idx+1}}</td>
                 <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
                 <td>{{item1.Remark}}</td>
               </tr>
             </tbody>
@@ -1307,6 +1329,7 @@
               <tr>
                 <th>Sr.No.</th>
                 <th>Role</th>
+                <th>Action</th>
                 <th>Remark</th>
               </tr>
             </thead>
@@ -1314,6 +1337,7 @@
               <tr *ngFor="let item1 of AcademicInformation_FinalRemarks ; let idx =index">
                 <td>{{idx+1}}</td>
                 <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
                 <td>{{item1.Remark}}</td>
               </tr>
             </tbody>
@@ -1365,6 +1389,7 @@
               <tr>
                 <th>Sr.No.</th>
                 <th>Role</th>
+                <th>Action</th>
                 <th>Remark</th>
               </tr>
             </thead>
@@ -1372,6 +1397,7 @@
               <tr *ngFor="let item1 of OtherDocuments_FinalRemarks ; let idx =index">
                 <td>{{idx+1}}</td>
                 <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
                 <td>{{item1.Remark}}</td>
               </tr>
             </tbody>
@@ -1428,6 +1454,7 @@
               <tr>
                 <th>Sr.No.</th>
                 <th>Role</th>
+                <th>Action</th>
                 <th>Remark</th>
               </tr>
             </thead>
@@ -1435,6 +1462,7 @@
               <tr *ngFor="let item1 of HostelDetailFinalRemarks ; let idx =index">
                 <td>{{idx+1}}</td>
                 <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
                 <td>{{item1.Remark}}</td>
               </tr>
             </tbody>
@@ -1608,6 +1636,7 @@
                   <tr>
                     <th>Sr.No.</th>
                     <th>Role</th>
+                    <th>Action</th>
                     <th>Remark</th>
                   </tr>
                 </thead>
@@ -1615,6 +1644,7 @@
                   <tr *ngFor="let item1 of ClassWiseStudentFinalRemarks ; let idx =index">
                     <td>{{idx+1}}</td>
                     <td>{{item1.RoleID}}</td>
+                    <td>{{item1.ActionName}}</td>
                     <td>{{item1.Remark}}</td>
                   </tr>
                 </tbody>
@@ -1790,6 +1820,7 @@
                   <tr>
                     <th>Sr.No.</th>
                     <th>Role</th>
+                    <th>Action</th>
                     <th>Remark</th>
                   </tr>
                 </thead>
@@ -1797,6 +1828,7 @@
                   <tr *ngFor="let item1 of SubjectWiseStudentFinalRemarks ; let idx =index">
                     <td>{{idx+1}}</td>
                     <td>{{item1.RoleID}}</td>
+                    <td>{{item1.ActionName}}</td>
                     <td>{{item1.Remark}}</td>
                   </tr>
                 </tbody>
@@ -1825,7 +1857,7 @@
 
   <!--end subject wise data-->
 
-  <div class="row m-2" [hidden]="sSOLoginDataModel.RoleID==16">
+  <div class="row m-2" [hidden]="sSOLoginDataModel.RoleID==16 || sSOLoginDataModel.RoleID==0">
     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
       <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
       <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
@@ -1873,7 +1905,7 @@
       </div>
     </div>
   </div>
-  <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16">
+  <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || sSOLoginDataModel.RoleID==0">
     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
       <label>Remarks  <span style="color:red;">*</span></label>
       <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
@@ -1883,7 +1915,7 @@
     </div>
 
   </div>
-  <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16">
+  <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || sSOLoginDataModel.RoleID==0">
     <div class="col-md-12">
       <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
     </div>

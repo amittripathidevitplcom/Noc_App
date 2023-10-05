@@ -1,0 +1,10 @@
+tr .overtools {
+  position: absolute;
+  right: 14px;
+  margin-top: -25px;
+  background: #fff;
+  padding: 0px 2px;
+  display:none;
+}
+
+tr:hover .overtools { display:block;}

@@ -296,7 +296,6 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async SaveData() {
-    debugger;
     this.IstxtBuildingHostel = false;
     this.isValidOwnBuildingFileUpload = false;
     this.isValidRentAgreementFileUpload = false;
@@ -335,10 +334,10 @@ export class BuildingDetailsComponent implements OnInit {
       return;
     }
     if (this.SelectedDepartmentID == 2) {
-      if (this.buildingdetails.BuildingHostelQuartersRoadArea < 1200) {
-        this.toastr.warning("Total building area should be equal to or more than 1200 Sq. Meter.");
-        return;
-      }
+      //if (this.buildingdetails.BuildingHostelQuartersRoadArea < 1200) {
+      //  this.toastr.warning("Total building area should be equal to or more than 1200 Sq. Meter.");
+      //  return;
+      //}
       if (this.buildingdetails.buildingOtherDoc1FileUpload == '') {
         this.ImageValidate = 'This field is required .!';
         return

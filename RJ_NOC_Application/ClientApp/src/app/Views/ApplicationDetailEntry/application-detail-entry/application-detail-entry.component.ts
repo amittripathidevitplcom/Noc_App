@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { bottom } from '@popperjs/core';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
@@ -23,6 +24,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
 
   public SelectedCollageID: number = 0;
+  public SelectedApplyNOCID: number = 0;
   public SelectedDepartmentID: number = 0;
   public SeatValue: number = 50;
   public CollegeID: number = 0;
@@ -50,7 +52,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   public DraftbuttonName: string = 'Save Draft';
 
-  constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
+  public QueryStringStatus: any = '';
+  constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService) { }
 
   async ngOnInit() {
@@ -58,6 +61,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
     this.loaderService.requestStarted();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //await this.GetCollageMaster();
     if (this.SelectedDepartmentID == 5) {
@@ -162,7 +167,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   isCheck30Female: boolean = false;
   async DraftFinalSubmit(IsDraftSubmited: any) {
-    debugger;
+    
     let Femalepre = 0;
     this.isSubmitted = true;
     this.loaderService.requestStarted();
@@ -181,33 +186,34 @@ export class ApplicationDetailEntryComponent implements OnInit {
             data = JSON.parse(JSON.stringify(data));
 
             if (!this.State) {
+              //No need Animal Husbandry Departement check member validation
+              if (this.SelectedDepartmentID != 2) {
+                if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
+                  this.toastr.error("Add Minimum 15 College Management Committee Members.")
+                  DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "\n";
+                  this.isCheck30Female = true;
+                  if (this.SelectedDepartmentID != 3) {
+                    return;
+                  }
 
-              if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
-                this.toastr.error("Add Minimum 15 College Management Committee Members.")
-                DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "\n";
-                this.isCheck30Female = true;
-                if (this.SelectedDepartmentID != 3) {
-                  return;
                 }
-
-              }
-
-              if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID == 3) {
-                this.toastr.error("Add Minimum 2 Educationist College Management Committee Members.")
-                DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "\n";
-                this.isCheck30Female = true;
-                if (this.SelectedDepartmentID != 3) {
-                  return;
+                if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID == 3) {
+                  this.toastr.error("Add Minimum 2 Educationist College Management Committee Members.")
+                  DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "\n";
+                  this.isCheck30Female = true;
+                  if (this.SelectedDepartmentID != 3) {
+                    return;
+                  }
                 }
-              }
-              Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
-              if (Femalepre < 30) {
-                //this.toastr.error("Society in Female Member is not valid (30%)")
-                this.toastr.error("Member list must have atleast 30% of Woman")
-                DCPendingPoint += "Member list must have atleast 30% of Woman" + "\n";
-                this.isCheck30Female = true;
-                if (this.SelectedDepartmentID != 3) {
-                  return;
+                Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
+                if (Femalepre < 30) {
+                  //this.toastr.error("Society in Female Member is not valid (30%)")
+                  this.toastr.error("Member list must have atleast 30% of Woman")
+                  DCPendingPoint += "Member list must have atleast 30% of Woman" + "\n";
+                  this.isCheck30Female = true;
+                  if (this.SelectedDepartmentID != 3) {
+                    return;
+                  }
                 }
               }
 
@@ -356,6 +362,14 @@ export class ApplicationDetailEntryComponent implements OnInit {
             }
           })
       }
+
+
+
+
+
+
+
+
       if (this.SelectedDepartmentID == 3) {
         if (confirm(DCPendingPoint + "\nAre you sure you want to save draft application ?")) {
           this.isCheck30Female = false;
@@ -572,5 +586,38 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
 
   }
+  async ResubmitApplication() {
+    try {
+      this.loaderService.requestStarted();
 
+      if (confirm("Are you sure you want to Resubmit application?")) {
+
+        await this.applyNOCApplicationService.SubmitRevertApplication(this.SelectedApplyNOCID,this.SelectedDepartmentID)
+          .then((data: any) => {
+
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (!this.State) {
+              this.toastr.success('Resubmit Application Successfully')
+
+              setTimeout(() => {
+                this.routers.navigate(['/revertedapplicationlist']);
+              }, 500);
+
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          });
+      }
+    } catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
 }
