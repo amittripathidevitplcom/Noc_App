@@ -1007,49 +1007,49 @@ export class ApplicationSummaryComponent implements OnInit {
   }
 
   async GetHospitalDetailList(CollegeID: number) {
-    try {
-      this.loaderService.requestStarted();
-      await this.hospitalDetailService.GetHospitalDataListforPDF(CollegeID)
-        .then((data: any) => {
+    //try {
+    //  this.loaderService.requestStarted();
+    //  await this.hospitalDetailService.GetHospitalDataListforPDF(CollegeID)
+    //    .then((data: any) => {
 
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          // data
-          this.HospitalAllDatalst = data['Data'];
+    //      data = JSON.parse(JSON.stringify(data));
+    //      this.State = data['State'];
+    //      this.SuccessMessage = data['SuccessMessage'];
+    //      this.ErrorMessage = data['ErrorMessage'];
+    //      // data
+    //      this.HospitalAllDatalst = data['Data'];
 
-        }, (error: any) => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
+    //    }, (error: any) => console.error(error));
+    //}
+    //catch (Ex) {
+    //  console.log(Ex);
+    //}
+    //finally {
+    //  setTimeout(() => {
+    //    this.loaderService.requestEnded();
+    //  }, 200);
+    //}
   }
 
   async GetParaHospitalDataList() {
-    this.loaderService.requestStarted();
-    try {
-      await this.hospitalDetailService.GetHospitalDataListforPDF(this.SelectedCollageID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.ParaHospitallst = data['Data'];
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
+    //this.loaderService.requestStarted();
+    //try {
+    //  await this.hospitalDetailService.GetHospitalDataListforPDF(this.SelectedCollageID)
+    //    .then(async (data: any) => {
+    //      this.State = data['State'];
+    //      this.SuccessMessage = data['SuccessMessage'];
+    //      this.ErrorMessage = data['ErrorMessage'];
+    //      if (data['Data'].length > 0) {
+    //        this.ParaHospitallst = data['Data'];
+    //      }
+    //    })
+    //}
+    //catch (ex) { console.log(ex) }
+    //finally {
+    //  setTimeout(() => {
+    //    this.loaderService.requestEnded();
+    //  }, 200);
+    //}
   }
 
   async GetVetHospitalDetailList(DepartmentID: number, CollegeID: number) {

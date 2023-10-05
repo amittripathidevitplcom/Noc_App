@@ -261,6 +261,8 @@ import { OneStepRevertBackComponent } from './Views/one-step-revert-back/one-ste
 import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplication-list/loiapplication-list.component';
 import { CommissionerApplicationScrutinyListComponent } from './Views/DCE/commissioner-application-scrutiny-list/commissioner-application-scrutiny-list.component';
 import { CheckListForCommissionerComponent } from './Views/DCE/check-list-for-commissioner/check-list-for-commissioner.component';
+import { RevertCheckListDCEComponent } from './Views/DCE/revert-check-list-dce/revert-check-list-dce.component';
+import { RevertApplicationDetailEntryComponent } from './Views/DCE/revert-application-detail-entry/revert-application-detail-entry.component';
 
 
 
@@ -514,6 +516,8 @@ import { CheckListForCommissionerComponent } from './Views/DCE/check-list-for-co
     OneStepRevertBackComponent,
     CommissionerApplicationScrutinyListComponent,
     CheckListForCommissionerComponent,
+    RevertCheckListDCEComponent,
+    RevertApplicationDetailEntryComponent,
   ],
   imports: [
     CommonModule,
