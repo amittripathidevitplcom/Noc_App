@@ -9,8 +9,11 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
 
-            <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="DraftFinalSubmit(1)">
+            <button *ngIf="QueryStringStatus!='R'" [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="DraftFinalSubmit(1)">
               {{DraftbuttonName}}
+            </button>
+            <button *ngIf="QueryStringStatus=='R'" [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="ResubmitApplication()">
+             ReSubmit Application
             </button>
           </li>
           <li class="breadcrumb-item"><a href="#">Application</a></li>

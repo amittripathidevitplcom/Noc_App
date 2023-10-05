@@ -34,6 +34,7 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
   public FinalRemarks: any = [];
   public HospitalRealtedDocuments: RequiredDocumentsDataModel_Documents[] = []
   public QueryStringStatus: any = '';
+  public isDisabledAction: boolean = false;
 
   constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private loaderService: LoaderService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute,
@@ -64,6 +65,10 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
           this.request.DocumentDetails = data['Data'][0]['CollegeDocument'][0];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -100,19 +105,40 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
     await this.request.DocumentDetails.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
-    })
+    });
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.request.DocumentDetails.length; i++) {
       if (i == idx) {
         this.request.DocumentDetails[i].Remark = '';
       }
+      if (this.request.DocumentDetails[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
 
   async SubmitOtherDocumentDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -134,7 +160,9 @@ export class DocumentScrutinyOtherDocumentComponentDce implements OnInit {
         }
       }
     }
-
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
     if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;

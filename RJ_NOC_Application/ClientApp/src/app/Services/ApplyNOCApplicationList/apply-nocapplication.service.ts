@@ -198,5 +198,17 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async SubmitRevertApplication(ApplyNOCID: number, DepartmentID: number) {
+    const headers = { 'content-type': 'application/json' }
+    var request = {
+      ApplyNOCID: ApplyNOCID,DepartmentID: DepartmentID
+    };
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/SubmitRevertApplication/', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
 

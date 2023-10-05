@@ -37,6 +37,7 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
   request = new SocietyDataModel();
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
+  public isDisabledAction: boolean = false;
   constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DCEDocumentScrutinyService, private modalService: NgbModal) { }
@@ -63,6 +64,10 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
           this.SocietyAllList = data['Data'][0]['CollegeManagementSocietys'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -78,19 +83,40 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
     await this.SocietyAllList.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
-    })
+    });
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.SocietyAllList.length; i++) {
       if (i == idx) {
         this.SocietyAllList[i].Remark = '';
       }
+      if (this.SocietyAllList[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
-
+  public isSubmitted: boolean = false;
   async SubmitCollegeSocietyDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -112,7 +138,9 @@ export class DocumentScrutinyCollegeManagementSocietyComponentDce implements OnI
         }
       }
     }
-
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
     if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;
