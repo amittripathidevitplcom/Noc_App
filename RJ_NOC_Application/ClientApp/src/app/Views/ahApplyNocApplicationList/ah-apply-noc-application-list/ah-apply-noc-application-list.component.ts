@@ -168,38 +168,49 @@ export class AhApplyNocApplicationListComponent {
       return
     }
     //rest
-    this.AadhaarNo = '';
-    var isValidate = this.request_MemberList.ApplicationCommitteeList.find(e => e.SSOID === this.request_CommitteeMemberDataModel.SSOID);
-    if (!isValidate) {
-      await this.VerifySSOID(this.request_CommitteeMemberDataModel.SSOID);
-      if (this.AadhaarNo.length > 0) {
-        this.request_MemberList.ApplicationCommitteeList.push({
-          CommitteeMemberID: 0,
-          ApplyNocApplicationID: this.SelectedApplyNOCID,
-          NameOfPerson: this.request_CommitteeMemberDataModel.NameOfPerson,
-          MobileNumber: this.request_CommitteeMemberDataModel.MobileNumber,
-          SSOID: this.request_CommitteeMemberDataModel.SSOID,
-          RoleID: 0,
-          IsPrimaryMember: false,
-          ActiveStatus: true,
-          DeleteStatus: false,
-          AadhaarNo: this.AadhaarNo,
-          CommitteeType: this.CommitteType
-        });
+    try {
+      this.loaderService.requestStarted();
+      this.AadhaarNo = '';
+      var isValidate = this.request_MemberList.ApplicationCommitteeList.find(e => e.SSOID === this.request_CommitteeMemberDataModel.SSOID);
+      if (!isValidate) {
+        await this.VerifySSOID(this.request_CommitteeMemberDataModel.SSOID);
+        if (this.AadhaarNo.length > 0) {
+          this.request_MemberList.ApplicationCommitteeList.push({
+            CommitteeMemberID: 0,
+            ApplyNocApplicationID: this.SelectedApplyNOCID,
+            NameOfPerson: this.request_CommitteeMemberDataModel.NameOfPerson,
+            MobileNumber: this.request_CommitteeMemberDataModel.MobileNumber,
+            SSOID: this.request_CommitteeMemberDataModel.SSOID,
+            RoleID: 0,
+            IsPrimaryMember: false,
+            ActiveStatus: true,
+            DeleteStatus: false,
+            AadhaarNo: this.AadhaarNo,
+            CommitteeType: this.CommitteType
+          });
+        }
+        else {
+          this.toastr.warning('SssoID Invalid')
+        }
       }
       else {
-        this.toastr.warning('SssoID Invalid')
+        this.toastr.warning('This User Alaready Exists')
       }
+      // reset
+      this.request_CommitteeMemberDataModel.NameOfPerson = '';
+      this.request_CommitteeMemberDataModel.MobileNumber = '';
+      this.request_CommitteeMemberDataModel.SSOID = '';
+      this.request_CommitteeMemberDataModel.IsPrimaryMember = false;
+      this.isSubmitted_MemberDetails = false;
     }
-    else {
-      this.toastr.warning('This User Alaready Exists')
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
     }
-    // reset
-    this.request_CommitteeMemberDataModel.NameOfPerson = '';
-    this.request_CommitteeMemberDataModel.MobileNumber = '';
-    this.request_CommitteeMemberDataModel.SSOID = '';
-    this.request_CommitteeMemberDataModel.IsPrimaryMember = false;
-    this.isSubmitted_MemberDetails = false;
   }
 
   DelMemberDetail(item: any, index: any) {
@@ -310,11 +321,11 @@ export class AhApplyNocApplicationListComponent {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-         
+
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.modalService.dismissAll('After Success');
-             this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
+            this.GetApplyNOCApplicationListByRole(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -345,7 +356,7 @@ export class AhApplyNocApplicationListComponent {
     this.request_MemberList.ApplicationCommitteeList = newArr;
   }
 
-  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string, Status:string) {
+  async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string, Status: string) {
     if (DepartmentID = 2) {
       //this.routers.navigate(['/animalhusbandryappnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
       this.routers.navigate(['/animalhusbandryappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString()))]);

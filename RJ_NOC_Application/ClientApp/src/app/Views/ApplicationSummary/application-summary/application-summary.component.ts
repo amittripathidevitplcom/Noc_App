@@ -552,6 +552,7 @@ export class ApplicationSummaryComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
     try {
+      debugger;
       this.loaderService.requestStarted();
       await this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
       await this.GetDataOfLegalEntity();

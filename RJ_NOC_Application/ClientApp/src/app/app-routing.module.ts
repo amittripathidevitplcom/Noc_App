@@ -143,6 +143,10 @@ import { CheckListForCommissionerComponent } from './Views/DCE/check-list-for-co
 import { RevertCheckListDCEComponent } from './Views/DCE/revert-check-list-dce/revert-check-list-dce.component';
 import { RevertApplicationDetailEntryComponent } from './Views/DCE/revert-application-detail-entry/revert-application-detail-entry.component';
 
+import { ImportExcelDataComponent } from './Views/import-excel-data/import-excel-data.component';
+ 
+
+
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -633,6 +637,10 @@ const routes: Routes = [
        {
          path: 'test', component: CollegeDetailsComponent
       },
+      {
+        path: 'ImportExcelData', component: ImportExcelDataComponent,
+
+      }
        
     ] 
    // ,canActivate: [SkipLocationChangeGuard],
