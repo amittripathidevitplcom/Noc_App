@@ -140,6 +140,7 @@ import { SkipLocationChangeGuard } from './Common/auth.guard.ts';
 import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplication-list/loiapplication-list.component';
 import { CommissionerApplicationScrutinyListComponent } from './Views/DCE/commissioner-application-scrutiny-list/commissioner-application-scrutiny-list.component';
 import { CheckListForCommissionerComponent } from './Views/DCE/check-list-for-commissioner/check-list-for-commissioner.component';
+import { ImportExcelDataComponent } from './Views/import-excel-data/import-excel-data.component';
  
 
 
@@ -618,6 +619,10 @@ const routes: Routes = [
        {
          path: 'test', component: CollegeDetailsComponent
       },
+      {
+        path: 'ImportExcelData', component: ImportExcelDataComponent,
+
+      }
        
     ] 
    // ,canActivate: [SkipLocationChangeGuard],
