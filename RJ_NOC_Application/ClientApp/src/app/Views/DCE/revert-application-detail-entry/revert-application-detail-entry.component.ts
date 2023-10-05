@@ -278,87 +278,87 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
 
       if (confirm("Are you sure you want to Resubmit application?")) {
         var DCPendingPoint = "";
-          //await this.commonMasterService.Check30Female(this.SelectedCollageID)
-          //  .then((data: any) => {
-          //    this.State = data['State'];
-          //    this.SuccessMessage = data['SuccessMessage'];
-          //    this.ErrorMessage = data['ErrorMessage'];
+          await this.commonMasterService.Check30Female(this.SelectedCollageID)
+            .then((data: any) => {
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
 
-          //    data = JSON.parse(JSON.stringify(data));
+              data = JSON.parse(JSON.stringify(data));
 
-          //    if (!this.State) {
+              if (!this.State) {
 
-          //      if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
-          //        this.toastr.error("Add Minimum 15 College Management Committee Members.")
-          //        DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "\n";
-          //        this.isCheck30Female = true;
-          //        return;
-          //      }
+                if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
+                  this.toastr.error("Add Minimum 15 College Management Committee Members.")
+                  DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "\n";
+                  this.isCheck30Female = true;
+                  return;
+                }
 
-          //      if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID == 3) {
-          //        this.toastr.error("Add Minimum 2 Educationist College Management Committee Members.")
-          //        DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "\n";
-          //        this.isCheck30Female = false;
-          //        return;
-          //      }
-          //      Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
-          //      if (Femalepre < 30) {
-          //        //this.toastr.error("Society in Female Member is not valid (30%)")
-          //        this.toastr.error("Member list must have atleast 30% of Woman")
-          //        DCPendingPoint += "Member list must have atleast 30% of Woman" + "\n";
-          //        this.isCheck30Female = true;
-          //        return;
-          //      }
+                if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID == 3) {
+                  this.toastr.error("Add Minimum 2 Educationist College Management Committee Members.")
+                  DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "\n";
+                  this.isCheck30Female = false;
+                  return;
+                }
+                Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
+                if (Femalepre < 30) {
+                  //this.toastr.error("Society in Female Member is not valid (30%)")
+                  this.toastr.error("Member list must have atleast 30% of Woman")
+                  DCPendingPoint += "Member list must have atleast 30% of Woman" + "\n";
+                  this.isCheck30Female = true;
+                  return;
+                }
 
-          //      if (data['Data'][0]['data'][0]['PendingFacilities'] > 0) {
-          //        this.toastr.error("Enter All Facilities Details.")
-          //        DCPendingPoint += "Enter All Facilities Details." + "\n";
-          //        this.isCheck30Female = true;
-          //        return;
-          //      }
-          //      if (data['Data'][0]['data'][0]['PendingOtherInformation'] > 0) {
-          //        this.toastr.error("Enter All Other Information Details.")
-          //        DCPendingPoint += "Enter All Other Information Details." + "\n";
-          //        this.isCheck30Female = true;
-          //        return;
-          //      }
+                if (data['Data'][0]['data'][0]['PendingFacilities'] > 0) {
+                  this.toastr.error("Enter All Facilities Details.")
+                  DCPendingPoint += "Enter All Facilities Details." + "\n";
+                  this.isCheck30Female = true;
+                  return;
+                }
+                if (data['Data'][0]['data'][0]['PendingOtherInformation'] > 0) {
+                  this.toastr.error("Enter All Other Information Details.")
+                  DCPendingPoint += "Enter All Other Information Details." + "\n";
+                  this.isCheck30Female = true;
+                  return;
+                }
 
-          //      if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
-          //        this.toastr.error("Enter All Class Room Details.")
-          //        DCPendingPoint += "Enter All Class Room Details." + "\n";
-          //        this.isCheck30Female = true;
-          //        return;
-          //      }
+                if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
+                  this.toastr.error("Enter All Class Room Details.")
+                  DCPendingPoint += "Enter All Class Room Details." + "\n";
+                  this.isCheck30Female = true;
+                  return;
+                }
 
-          //      if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0) {
-          //        this.toastr.error("Enter Class Wise No of Room Details.")
-          //        DCPendingPoint += "Enter Class Wise No of Room Details." + "\n";
-          //        this.isCheck30Female = true;
-          //        return;
-          //      }
+                if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0) {
+                  this.toastr.error("Enter Class Wise No of Room Details.")
+                  DCPendingPoint += "Enter Class Wise No of Room Details." + "\n";
+                  this.isCheck30Female = true;
+                  return;
+                }
     
-          //      else {
-          //        if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
-          //          this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
-          //          DCPendingPoint += "Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet" + "\n";
-          //          this.isCheck30Female = true;
-          //          return;
-          //        }
-          //      }
+                else {
+                  if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
+                    this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
+                    DCPendingPoint += "Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet" + "\n";
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                }
 
-          //      if (this.SelectedDepartmentID == 3 && this.CollegeType_IsExisting == true) {
-          //        if (data['Data'][0]['data'][0]['PendingSubjectStaff'] > 0) {
-          //          this.toastr.error('In the case of teaching, it is Mandatory to have teachers of all the subjects.')
-          //          DCPendingPoint += "In the case of teaching, it is Mandatory to have teachers of all the subjects." + "\n";
-          //          this.isCheck30Female = true;
-          //          return;
-          //        }
-          //      }
-          //    }
-          //    else {
-          //      this.toastr.error(this.ErrorMessage)
-          //    }
-          //  })
+                if (this.SelectedDepartmentID == 3 && this.CollegeType_IsExisting == true) {
+                  if (data['Data'][0]['data'][0]['PendingSubjectStaff'] > 0) {
+                    this.toastr.error('In the case of teaching, it is Mandatory to have teachers of all the subjects.')
+                    DCPendingPoint += "In the case of teaching, it is Mandatory to have teachers of all the subjects." + "\n";
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                }
+              }
+              else {
+                this.toastr.error(this.ErrorMessage)
+              }
+            })
         if (this.isCheck30Female == false) {
           await this.applyNOCApplicationService.SubmitRevertApplication(this.SelectedApplyNOCID, this.SelectedDepartmentID)
             .then((data: any) => {
