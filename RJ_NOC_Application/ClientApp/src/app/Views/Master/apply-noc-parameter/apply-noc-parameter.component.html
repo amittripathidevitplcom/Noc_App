@@ -36,7 +36,7 @@
           </div>
           <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label for="ddlCollege" class="form-label">College <span style="color:red">*</span></label>
+              <label for="ddlCollege" class="form-label">{{CollegeLableName}}<span style="color:red">*</span></label>
               <select class="form-select" id="ddlCollege" name="ddlCollege" (change)="College_ddlChange($event)" formControlName="ddlCollege" [(ngModel)]="request.CollegeID">
                 <option value="0">--Select--</option>
                 <option *ngFor="let item of CollegeList_ddl" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
