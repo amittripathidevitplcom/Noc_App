@@ -140,6 +140,7 @@ import { SkipLocationChangeGuard } from './Common/auth.guard.ts';
 import { LOIApplicationListComponent } from './Views/Medical Group 1/loiapplication-list/loiapplication-list.component';
 import { CommissionerApplicationScrutinyListComponent } from './Views/DCE/commissioner-application-scrutiny-list/commissioner-application-scrutiny-list.component';
 import { CheckListForCommissionerComponent } from './Views/DCE/check-list-for-commissioner/check-list-for-commissioner.component';
+import { StaffattendanceComponent } from './Views/Staff-Attendance/staffattendance/staffattendance.component';
  
 
 
@@ -614,6 +615,9 @@ const routes: Routes = [
       },
       {
         path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListForCommissionerComponent
+      },
+      {
+        path: 'staffattendance/:DepartmentID', component: StaffattendanceComponent
       },
        {
          path: 'test', component: CollegeDetailsComponent
