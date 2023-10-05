@@ -27,6 +27,20 @@
         <div class="col-md-12">
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
+
+            <!--OLD NOC Details Only for New-->
+
+            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5">
+              <ng-template mat-tab-label>
+                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['OLDNOCDetails']==0"></span>
+                <span>OLD NOC Details</span>
+              </ng-template>
+              <app-old-nocdetails></app-old-nocdetails>
+            </mat-tab>
+
+
             <!--Land Information-->
             <mat-tab>
               <ng-template mat-tab-label>
@@ -49,17 +63,6 @@
               <app-building-details></app-building-details>
             </mat-tab>
 
-            <!--OLD NOC Details Only for New-->
-
-            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5">
-              <ng-template mat-tab-label>
-                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['OLDNOCDetails']==0"></span>
-                <span>OLD NOC Details</span>
-              </ng-template>
-              <app-old-nocdetails></app-old-nocdetails>
-            </mat-tab>
 
 
             <mat-tab *ngIf="SelectedDepartmentID!=5">
@@ -71,6 +74,19 @@
               </ng-template>
               <app-room-details></app-room-details>
             </mat-tab>
+
+            <!--Other Information-->
+            <mat-tab *ngIf="SelectedDepartmentID!=5">
+              <ng-template mat-tab-label>
+                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherInformation']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['OtherInformation']==0"></span>
+                <span *ngIf="SelectedDepartmentID==6">Clinical Details</span>
+                <span *ngIf="SelectedDepartmentID !=6">Other Information</span>
+              </ng-template>
+              <app-other-information></app-other-information>
+            </mat-tab>
+
 
             <!--Facility-->
             <mat-tab *ngIf="SelectedDepartmentID!=5">
@@ -104,19 +120,6 @@
                 <span>Other Document</span>
               </ng-template>
               <app-other-document></app-other-document>
-            </mat-tab>
-
-
-            <!--Other Information-->
-            <mat-tab *ngIf="SelectedDepartmentID!=5">
-              <ng-template mat-tab-label>
-                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherInformation']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['OtherInformation']==0"></span>
-                <span *ngIf="SelectedDepartmentID==6">Clinical Details</span>
-                <span *ngIf="SelectedDepartmentID !=6">Other Information</span>
-              </ng-template>
-              <app-other-information></app-other-information>
             </mat-tab>
 
 

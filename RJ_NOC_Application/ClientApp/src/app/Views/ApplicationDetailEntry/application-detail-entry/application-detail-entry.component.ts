@@ -162,7 +162,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   isCheck30Female: boolean = false;
   async DraftFinalSubmit(IsDraftSubmited: any) {
-    debugger;
+    
     let Femalepre = 0;
     this.isSubmitted = true;
     this.loaderService.requestStarted();
@@ -181,33 +181,34 @@ export class ApplicationDetailEntryComponent implements OnInit {
             data = JSON.parse(JSON.stringify(data));
 
             if (!this.State) {
+              //No need Animal Husbandry Departement check member validation
+              if (this.SelectedDepartmentID != 2) {
+                if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
+                  this.toastr.error("Add Minimum 15 College Management Committee Members.")
+                  DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "\n";
+                  this.isCheck30Female = true;
+                  if (this.SelectedDepartmentID != 3) {
+                    return;
+                  }
 
-              if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
-                this.toastr.error("Add Minimum 15 College Management Committee Members.")
-                DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "\n";
-                this.isCheck30Female = true;
-                if (this.SelectedDepartmentID != 3) {
-                  return;
                 }
-
-              }
-
-              if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID == 3) {
-                this.toastr.error("Add Minimum 2 Educationist College Management Committee Members.")
-                DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "\n";
-                this.isCheck30Female = true;
-                if (this.SelectedDepartmentID != 3) {
-                  return;
+                if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID == 3) {
+                  this.toastr.error("Add Minimum 2 Educationist College Management Committee Members.")
+                  DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "\n";
+                  this.isCheck30Female = true;
+                  if (this.SelectedDepartmentID != 3) {
+                    return;
+                  }
                 }
-              }
-              Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
-              if (Femalepre < 30) {
-                //this.toastr.error("Society in Female Member is not valid (30%)")
-                this.toastr.error("Member list must have atleast 30% of Woman")
-                DCPendingPoint += "Member list must have atleast 30% of Woman" + "\n";
-                this.isCheck30Female = true;
-                if (this.SelectedDepartmentID != 3) {
-                  return;
+                Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
+                if (Femalepre < 30) {
+                  //this.toastr.error("Society in Female Member is not valid (30%)")
+                  this.toastr.error("Member list must have atleast 30% of Woman")
+                  DCPendingPoint += "Member list must have atleast 30% of Woman" + "\n";
+                  this.isCheck30Female = true;
+                  if (this.SelectedDepartmentID != 3) {
+                    return;
+                  }
                 }
               }
 
@@ -356,6 +357,14 @@ export class ApplicationDetailEntryComponent implements OnInit {
             }
           })
       }
+
+
+
+
+
+
+
+
       if (this.SelectedDepartmentID == 3) {
         if (confirm(DCPendingPoint + "\nAre you sure you want to save draft application ?")) {
           this.isCheck30Female = false;
