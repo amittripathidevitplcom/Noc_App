@@ -43,7 +43,7 @@
 
                     </th>
                     <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                    <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                     <th>S.No.</th>
                     <th>Action</th>
                     <th>Type</th>
@@ -76,13 +76,13 @@
                       </div>
                     </td>
                     <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                      Compliance: {{item.C_Action}}<br />
-                      <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-                    </td>
-                    <td *ngIf="sSOLoginDataModel.RoleID==5">
-                      Compliance: {{item.S_Action}}<br />
-                      <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-                    </td>-->
+                  Compliance: {{item.C_Action}}<br />
+                  <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
+                </td>
+                <td *ngIf="sSOLoginDataModel.RoleID==5">
+                  Compliance: {{item.S_Action}}<br />
+                  <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
+                </td>-->
                     <td>{{idx+1}}</td>
                     <td>
                       <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewStaffDetail(mymodal,item.StaffDetailID)"><i class="fa fa-eye"></i></button>
@@ -110,6 +110,7 @@
                 <tr>
                   <th>Sr.No.</th>
                   <th>Role</th>
+                  <th>Action</th>
                   <th>Remark</th>
                 </tr>
               </thead>
@@ -117,29 +118,47 @@
                 <tr *ngFor="let item1 of FinalRemarks ; let idx =index">
                   <td>{{idx+1}}</td>
                   <td>{{item1.RoleID}}</td>
+                  <td>{{item1.ActionName}}</td>
                   <td>{{item1.Remark}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label>Remarks</label>
-            <textarea id="StaffDetailRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
-            <div *ngIf="isRemarkValid" class="text-danger">
-              <p *ngIf="isRemarkValid"> This field is required .!</p>
+        <div class="card-header">
+          <b>Staff Detail Approve/Revert </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rdStaffapproverevert" id="rdStaffapprove" [value]="1" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+                <label class="form-check-label">Approve</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rdStaffapproverevert" id="rdStaffrevert" [value]="2" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+                <label class="form-check-label">Revert</label>
+              </div>
+              <p *ngIf="isSubmitted&&dsrequest.ActionID==0" class="text-danger"> This field is required .!</p>
             </div>
           </div>
-        </div>
-        <div class="row" [hidden]="QueryStringStatus!='Pending'">
-          <div class="col-md-12">
-            <button class="btn btn-primary" type="button" (click)="SubmitStaffDetail_Onclick()">Submit</button>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Remarks</label>
+              <textarea id="StaffDetailRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+              <div *ngIf="isRemarkValid" class="text-danger">
+                <p *ngIf="isRemarkValid"> This field is required .!</p>
+              </div>
+            </div>
+          </div>
+          <div class="row" [hidden]="QueryStringStatus!='Pending'">
+            <div class="col-md-12">
+              <button class="btn btn-primary" type="button" (click)="SubmitStaffDetail_Onclick()">Submit</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
     <ng-template #mymodal let-modal>
       <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Staff Details</h4>

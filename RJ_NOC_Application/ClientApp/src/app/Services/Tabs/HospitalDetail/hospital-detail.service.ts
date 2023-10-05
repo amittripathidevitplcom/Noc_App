@@ -36,6 +36,7 @@ export class HospitalDetailService {
       ).toPromise();
   }
 
+
   public async GetData(hospitalId: number) {
     const headers = { 'content-type': 'application/json' }
     return await this.http.get(this.APIUrl + "/GetData/" + hospitalId, { 'headers': headers })
@@ -68,5 +69,11 @@ export class HospitalDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
+  public async GetHospitalDataListforPDF(CollegeID: number) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.get(this.APIUrl + "/GetHospitalDataListforPDF/" + CollegeID, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

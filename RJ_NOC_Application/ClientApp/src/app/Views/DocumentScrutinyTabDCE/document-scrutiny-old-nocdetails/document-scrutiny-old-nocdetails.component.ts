@@ -53,6 +53,7 @@ export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
   //public RequiredDocumentsAllList: any = [];
 
   public FinalRemarks: any = [];
+  public isDisabledAction: boolean = false;
 
   constructor(private dcedocumentscrutiny: DocumentScrutinyComponent, private oldnocdetailService: OldnocdetailService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
@@ -77,6 +78,10 @@ export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
           this.OldNocDetails = data['Data'][0]['OldNOCDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -132,18 +137,39 @@ export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
     await this.OldNocDetails.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
-    })
+    });
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.OldNocDetails.length; i++) {
       if (i == idx) {
         this.OldNocDetails[i].Remark = '';
       }
+      if (this.OldNocDetails[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
 
   async SubmitOldNOCDetails_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -165,7 +191,9 @@ export class DocumentScrutinyOldNOCDetailsComponentDce implements OnInit {
         }
       }
     }
-
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
     if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;

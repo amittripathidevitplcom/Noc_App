@@ -161,7 +161,7 @@
                             </div>
                           </th>
                           <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+                          <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                           <th>Sr. No.</th>
                           <th>Member Name</th>
                           <th>Father's Name</th>
@@ -197,13 +197,13 @@
 
                           </td>
                           <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-    Compliance: {{row.C_Action}}<br />
-    <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-  </td>
-  <td *ngIf="sSOLoginDataModel.RoleID==5">
-    Compliance: {{row.S_Action}}<br />
-    <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-  </td>-->
+                            Compliance: {{row.C_Action}}<br />
+                            <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                          </td>
+                          <td *ngIf="sSOLoginDataModel.RoleID==5">
+                            Compliance: {{row.S_Action}}<br />
+                            <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
+                          </td>-->
                           <td> {{indexOfelement+1}}</td>
                           <td>{{row.MemberName}}</td>
                           <td>{{row.MemberFatherName}}</td>
@@ -267,7 +267,7 @@
                             </div>
                           </th>
                           <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+                          <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                           <th>Sr. No.</th>
                           <th>Registration No.</th>
                           <th>Institute Name</th>
@@ -300,13 +300,13 @@
 
                           </td>
                           <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-    Compliance: {{row.C_Action}}<br />
-    <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-  </td>
-  <td *ngIf="sSOLoginDataModel.RoleID==5">
-    Compliance: {{row.S_Action}}<br />
-    <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-  </td>-->
+                            Compliance: {{row.C_Action}}<br />
+                            <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
+                          </td>
+                          <td *ngIf="sSOLoginDataModel.RoleID==5">
+                            Compliance: {{row.S_Action}}<br />
+                            <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
+                          </td>-->
                           <td> {{indexOfelement+1}}</td>
                           <td>{{row.RegistrationNo}}</td>
                           <td>{{row.InstituteName}}</td>
@@ -334,6 +334,7 @@
                 <tr>
                   <th>Sr.No.</th>
                   <th>Role</th>
+                  <th>Action</th>
                   <th>Remark</th>
                 </tr>
               </thead>
@@ -341,6 +342,7 @@
                 <tr *ngFor="let item1 of FinalRemarks ; let idx =index">
                   <td>{{idx+1}}</td>
                   <td>{{item1.RoleID}}</td>
+                  <td>{{item1.ActionName}}</td>
                   <td>{{item1.Remark}}</td>
                 </tr>
               </tbody>
@@ -348,20 +350,36 @@
           </div>
 
         </div>
-
-
-        <div class="row">
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label>Remarks</label>
-            <textarea id="LegalEntityRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
-            <div *ngIf="isRemarkValid" class="text-danger">
-              <p *ngIf="isRemarkValid"> This field is required .!</p>
+        <div class="card-header">
+          <b> Legal Entity Approve/Revert </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rdlegalapproverevert" id="rdlegalapprove" [value]="1" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+                <label class="form-check-label">Approve</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rdlegalapproverevert" id="rdlegalrevert" [value]="2" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
+                <label class="form-check-label">Revert</label>
+              </div>
+              <p *ngIf="isSubmitted&&dsrequest.ActionID==0" class="text-danger"> This field is required .!</p>
             </div>
           </div>
-        </div>
-        <div class="row" [hidden]="QueryStringStatus!='Pending'">
-          <div class="col-md-12">
-            <button class="btn btn-primary" type="button" (click)="SubmitLegalEntity_Onclick()">Submit</button>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label>Remarks</label>
+              <textarea id="LegalEntityRemark" class="form-control" [(ngModel)]="dsrequest.FinalRemark"></textarea>
+              <div *ngIf="isRemarkValid" class="text-danger">
+                <p *ngIf="isRemarkValid"> This field is required .!</p>
+              </div>
+            </div>
+          </div>
+          <div class="row" [hidden]="QueryStringStatus!='Pending'">
+            <div class="col-md-12">
+              <button class="btn btn-primary" type="button" (click)="SubmitLegalEntity_Onclick()">Submit</button>
+            </div>
           </div>
         </div>
       </div>

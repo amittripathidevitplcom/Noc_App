@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { LandDetailDataModel } from '../../../Models/LandDetailDataModel';
@@ -7,13 +7,8 @@ import { RoomDetailsDataModel_RoomDetails } from '../../../Models/RoomDetailsDat
 import { BuildingDetailsDataModel, OldNocDetailsDataModel, RequiredDocumentsDataModel_Documents, StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
 import { OtherInformationDataModel } from '../../../Models/OtherInformationDataModel';
 import { AcademicInformationDetailsDataModel } from '../../../Models/AcademicInformationDetailsDataModel';
-import { HospitalDataModel, HospitalParentNotDataModel } from '../../../Models/HospitalDataModel';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
-import { FacilityDetailsService } from '../../../Services/FicilityDetais/facility-details.service';
-import { LandDetailsService } from '../../../Services/Tabs/LandDetails/land-details.service';
-import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.service';
-import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -21,21 +16,22 @@ import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutin
 import { ToastrService } from 'ngx-toastr';
 import { HostelDataModel } from '../../../Models/HostelDetailsDataModel';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
-import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
+import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
 
 
 @Injectable({
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-document-scrutiny-check-list-details-dce',
-  templateUrl: './document-scrutiny-check-list-details.component.html',
-  styleUrls: ['./document-scrutiny-check-list-details.component.css']
+  selector: 'app-revert-check-list-dce',
+  templateUrl: './revert-check-list-dce.component.html',
+  styleUrls: ['./revert-check-list-dce.component.css']
 })
-export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
+export class RevertCheckListDCEComponent implements OnInit {
 
+  @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -98,7 +94,6 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   public CheckList_OtherDocumentDetails: RequiredDocumentsDataModel_Documents[] = [];
   public CheckList_OtherInformation: OtherInformationDataModel[] = [];
   public CheckList_AcademicInformationList: AcademicInformationDetailsDataModel[] = [];
-  public CheckList_HospitalParentNotDataModelList: HospitalDataModel[] = [];
   public LandDetail_FinalRemarks: any = [];
   public Facility_FinalRemarks: any = [];
   public RoomDetails_FinalRemarks: any = [];
@@ -212,12 +207,12 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   OtherGirlsCountFooter: number = 0
   TotalFooter: number = 0
 
-  public QueryStringStatus: any = '';
+
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private landDetailsService: LandDetailsService, private dcedocumentScrutinyService: DCEDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
-    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
+    private dcedocumentScrutinyService: DCEDocumentScrutinyService,
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService,
+    private dcedocumentscrutiny: DocumentScrutinyComponent) { }
 
 
 
@@ -225,7 +220,6 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
-    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
@@ -241,15 +235,10 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     this.GetAcademicInformationDetailAllList();
     this.GetOtherDocuments('Other Document');
     this.GetHostelDetailList_DepartmentCollegeWise();
-    this.GetRoleListForApporval();
-    this.GetWorkFlowActionListByRole();
-    //this.NextGetWorkFlowActionListByRole();
     this.GetCollageDetails();
     this.GetCollegeWiseStudenetDetails();
     this.GetSubjectWiseStudenetDetails();
-    //this.CheckDocumentScrutinyTabsData();
-    this.CheckTabsEntry();
-    this.GetPVStageStatusOfApplication(this.SelectedApplyNOCID);
+    this.GetRevertedTabData();
   }
 
 
@@ -785,248 +774,6 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
   //Document  Post Section
   public isNextRoleIDValid: boolean = false;
   public isNextUserIdValid: boolean = false;
-  async DocumentScrutiny() {
-    this.isFormvalid = true;
-    this.isNextUserIdValid = false;
-    this.isNextRoleIDValid = false;
-    this.isNextActionValid = false;
-    this.isRemarkValid = false;
-    try {
-
-      if (this.CheckFinalRemark == '') {
-        this.isRemarkValid = true;
-        this.isFormvalid = false;
-      }
-
-      if (this.ActionID <= 0) {
-        this.isActionTypeValid = true;
-        this.isFormvalid = false;
-      }
-      if (this.ShowHideNextRole && this.ShowHideNextAction && this.ShowHideNextUser) {
-        if (this.NextRoleID <= 0) {
-          this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextActionID <= 0) {
-          this.isNextActionValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextUserID <= 0) {
-          this.isNextUserIdValid = true;
-          this.isFormvalid = false;
-        }
-      }
-      else if (!this.ShowHideNextUser && !this.ShowHideNextRole && !this.ShowHideNextAction) {
-        this.NextRoleID = 1;
-        this.NextUserID = 0;
-        this.NextActionID = 0;
-      }
-      else if (this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
-        if (this.NextRoleID <= 0) {
-          this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextUserID <= 0) {
-          this.isNextUserIdValid = true;
-          this.isFormvalid = false;
-        }
-        this.NextActionID = 0;
-      }
-      else if (!this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
-        if (this.NextRoleID <= 0) {
-          this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
-        this.NextUserID = 0;
-        this.NextActionID = 0;
-      }
-      if (this.IsPVStageDone != 1) {
-        this.toastr.warning('Physical Verification not done yet');
-        this.isFormvalid = false;
-      }
-
-      if (this.SelectedDepartmentID == 3) {
-        if (this.CollegeType_IsExisting) {
-          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0) {
-            this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
-          }
-        }
-        else {
-          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['SubjectWiseStudentDetail'] <= 0
-            || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['ClassWiseStudentDetail'] <= 0) {
-            this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
-          }
-        }
-      }
-
-      if (!this.isFormvalid) {
-        return;
-      }
-      this.loaderService.requestStarted();
-      //if (this.sSOLoginDataModel.RoleID == 16) {
-      //  this.routers.navigate(['/inspectioncommitteephysicalverification/Pending']);
-      //}
-      //else {
-        await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            if (this.State == 0) {
-              this.toastr.success(this.SuccessMessage);
-              this.routers.navigate(['/dceapplicationlist/Pending']);
-            }
-            else if (this.State == 2) {
-              this.toastr.warning(this.ErrorMessage)
-            }
-            else {
-              this.toastr.error(this.ErrorMessage)
-            }
-          }, error => console.error(error));
-      //}
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  async GetRoleListForApporval() {
-    this.UserRoleList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetRoleListForApporval(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.UserRoleList = data['Data'];
-            if (this.UserRoleList.length > 0) {
-              this.NextRoleID = this.UserRoleList[0]['RoleID'];
-              await this.NextGetUserDetailsByRoleID();
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  async NextGetUserDetailsByRoleID() {
-    this.UserListRoleWise = [];
-    this.NextWorkFlowActionList = [];
-    this.NextUserID = 0;
-    this.NextActionID = 0
-    this.loaderService.requestStarted();
-    try {
-      if (this.NextRoleID == 1) {
-        this.ShowHideNextUser = false;
-      }
-      else {
-        this.ShowHideNextUser = true;
-        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
-          .then(async (data: any) => {
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            if (data['Data'].length > 0) {
-              this.UserListRoleWise = data['Data'];
-              if (this.UserListRoleWise.length > 0) {
-                this.NextUserID = this.UserListRoleWise[0]['UId'];
-                await this.NextGetWorkFlowActionListByRole();
-              }
-            }
-          })
-      }
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  async NextGetWorkFlowActionListByRole() {
-    this.NextActionID = 0;
-    this.NextWorkFlowActionList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next", this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.NextWorkFlowActionList = data['Data'];
-            if (this.NextWorkFlowActionList.length > 0) {
-              this.NextActionID = this.NextWorkFlowActionList[0]['ActionID'];
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  async GetWorkFlowActionListByRole() {
-    this.WorkFlowActionList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID, "Current", this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.WorkFlowActionList = data['Data'];
-            if (this.WorkFlowActionList.length > 0) {
-              this.ActionID = this.WorkFlowActionList[0]['ActionID'];
-              var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-              var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
-              if (IsNextAction == true && IsRevert == false) {
-                this.ShowHideNextUser = true;
-                this.ShowHideNextRole = true;
-                this.ShowHideNextAction = true;
-              }
-              else if (IsNextAction == false && IsRevert == false) {
-                this.ShowHideNextUser = false;
-                this.ShowHideNextRole = false;
-                this.ShowHideNextAction = false;
-              }
-              else if (IsNextAction == false && IsRevert == true) {
-                this.ShowHideNextUser = true;
-                this.ShowHideNextRole = true;
-                this.ShowHideNextAction = false;
-              }
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
   async GetCollageDetails() {
     try {
       this.loaderService.requestStarted();
@@ -1049,35 +796,16 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
       }, 200);
     }
   }
-  OnChangeCurrentAction() {
-    debugger;
-    var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-    var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
-    if (IsNextAction == true && IsRevert == false) {
-      this.ShowHideNextUser = true;
-      this.ShowHideNextRole = true;
-      this.ShowHideNextAction = true;
-    }
-    else if (IsNextAction == false && IsRevert == false) {
-      this.ShowHideNextUser = false;
-      this.ShowHideNextRole = false;
-      this.ShowHideNextAction = false;
-    }
-    else if (IsNextAction == false && IsRevert == true) {
-      this.ShowHideNextUser = true;
-      this.ShowHideNextRole = true;
-      this.ShowHideNextAction = false;
-    }
-  }
 
-  public CheckTabsEntryData: any = [];
-  async CheckTabsEntry() {
+
+  public RevertedTabData: any = [];
+  async GetRevertedTabData() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+      await this.dcedocumentScrutinyService.GetRevertedTabData(this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.CheckTabsEntryData = data['Data'][0]['data'][0];
+          this.RevertedTabData = data['Data'][0]['data'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -1090,20 +818,19 @@ export class DocumentScrutinyCheckListDetailsComponentDce implements OnInit {
     }
   }
 
-  public IsPVStageDone: number = null;
-  async GetPVStageStatusOfApplication(applyNocApplicationID: number) {
-    debugger;
+  public lstTarils: any = []
+  ViewTaril(ID: number, ActionType: string) {
+    this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
     try {
       this.loaderService.requestStarted();
-      // get
-      await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
+      this.commonMasterService.GetDocumentScritintyTaril(ID, this.SelectedApplyNOCID, this.SelectedCollageID, this.SelectedDepartmentID, ActionType)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.IsPVStageDone = data['Data']['PVStage'];
+          this.lstTarils = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {

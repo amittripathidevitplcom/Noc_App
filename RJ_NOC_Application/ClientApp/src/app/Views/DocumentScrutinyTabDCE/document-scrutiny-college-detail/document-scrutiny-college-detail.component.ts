@@ -53,6 +53,7 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
   dsrequest = new DocumentScrutinyDataModel();
 
   public FinalRemarks: any = [];
+  public isDisabledAction: boolean = false;
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -81,7 +82,7 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
           this.collegeNearestGovernmentHospitalsList = data['Data'][0]['CollegeNearestHospitalsDetails'][0];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
-          //console.log(this.draftApplicatoinListData);
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
@@ -97,20 +98,40 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
     await this.collegeNearestGovernmentHospitalsList.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
+      if (ActionType == 'No') {
+        this.dsrequest.ActionID = 2;
+        this.isDisabledAction = true;
+      }
+      else {
+        this.dsrequest.ActionID = 0;
+        this.isDisabledAction = false;
+      }
     })
   }
 
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.collegeNearestGovernmentHospitalsList.length; i++) {
       if (i == idx) {
         this.collegeNearestGovernmentHospitalsList[i].Remark = '';
       }
+      if (this.collegeNearestGovernmentHospitalsList[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
-
+  public isSubmitted: boolean = false;
   async SubmitCollegeDetail_Onclick() {
-    debugger;
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
@@ -132,7 +153,9 @@ export class DocumentScrutinyCollegeDetailComponentDce implements OnInit {
         }
       }
     }
-
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
     if (this.dsrequest.FinalRemark == '' || this.dsrequest.FinalRemark == undefined) {
       this.isRemarkValid = true;
       this.isFormvalid = false;

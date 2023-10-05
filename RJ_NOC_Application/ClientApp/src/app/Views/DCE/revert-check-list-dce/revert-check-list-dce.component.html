@@ -3,7 +3,7 @@
     <b><i class="bi bi-table"></i>&nbsp; Check List Details</b>
   </div>
   <!--Legal Entity-->
-  <div class="row">
+  <div class="row" *ngIf="RevertedTabData['LegalEntity']>0">
     <div class="col-md-12">
       <div class="card mb-0">
         <div class="card-header">
@@ -272,7 +272,7 @@
   </div>
   <!--Legal Entity-->
   <!--College Detail-->
-  <div class="row">
+  <div class="row" *ngIf="RevertedTabData['CollegeDetail']>0">
     <div class="col-md-12">
       <div class="card mb-0">
         <div class="card-header">
@@ -595,7 +595,7 @@
   </div>
   <!--End College Detail-->
   <!--College Management Society-->
-  <div class="card mb-0">
+  <div class="card mb-0" *ngIf="RevertedTabData['CollegeManagementSociety']>0">
     <div class="card-header">
       <b><i class="bi bi-table"></i>&nbsp;College Management Society</b>
     </div>
@@ -692,7 +692,7 @@
             <tbody>
               <tr *ngFor="let item1 of SocietyFinalRemarks ; let idx =index">
                 <td>{{idx+1}}</td>
-                <td>{{item1.RoleID}}</td>.
+                <td>{{item1.RoleID}}</td>
                 <td>{{item1.ActionName}}</td>
                 <td>{{item1.Remark}}</td>
               </tr>
@@ -706,10 +706,10 @@
 
   <!--End College Management Society-->
   <!--Start Land Details-->
-  <div class="card-header">
+  <div class="card-header" *ngIf="RevertedTabData['LandInformation']>0">
     <b><i class="bi bi-table"></i>&nbsp; Land Details</b>
   </div>
-  <div class="card-body">
+  <div class="card-body" *ngIf="RevertedTabData['LandInformation']>0">
     <div class="row">
       <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped">
@@ -769,10 +769,10 @@
   </div>
   <!--End Land Details-->
   <!--Start Facility Details-->
-  <div class="card-header">
+  <div class="card-header" *ngIf="RevertedTabData['Facility']>0">
     <b><i class="bi bi-table"></i>&nbsp; Facility Details</b>
   </div>
-  <div class="card-body">
+  <div class="card-body" *ngIf="RevertedTabData['Facility']>0">
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="table-responsive">
@@ -836,10 +836,10 @@
   </div>
   <!--End Facility Details-->
   <!--End Required Document-->
-  <div class="card-header">
+  <div class="card-header" *ngIf="RevertedTabData['RequiredDocument']>0">
     <b><i class="bi bi-table"></i>&nbsp;Required Documents</b>
   </div>
-  <div class="card-body">
+  <div class="card-body" *ngIf="RevertedTabData['RequiredDocument']>0">
     <div class="row" *ngIf="CheckList_DocumentDetails.length>0">
       <div class="col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="table-responsive">
@@ -897,7 +897,7 @@
   </div>
   <!--End Required Document-->
   <!--Start Room Details-->
-  <div class="card">
+  <div class="card" *ngIf="RevertedTabData['RoomDetails']>0">
     <div class="card-header">
       <b><i class="bi bi-building-add"></i>&nbsp; Class Room Details</b>
     </div>
@@ -974,7 +974,7 @@
   </div>
   <!--End Room Details-->
   <!--Start Other Information-->
-  <div class="card">
+  <div class="card" *ngIf="RevertedTabData['OtherInformation']>0">
     <div class="card-header">
       <span *ngIf="SelectedDepartmentID==6">
         <b><i class="bi bi-table"></i>&nbsp; Clinical Details</b>
@@ -1063,7 +1063,7 @@
   </div>
   <!--End Other Information-->
   <!--Start Building Documents-->
-  <div class="card mb-0">
+  <div class="card mb-0" *ngIf="RevertedTabData['BuildingDocuments']>0">
     <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
       <b><i class="bi bi-table"></i> Building Details </b>
     </div>
@@ -1131,7 +1131,7 @@
   </div>
   <!--End Building Documents-->
   <!--Start Staff Details-->
-  <div class="card mb-0" *ngIf="CollegeType_IsExisting">
+  <div class="card mb-0" *ngIf="CollegeType_IsExisting&&RevertedTabData['StaffDetails']>0">
     <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
       <b><i class="bi bi-table"></i> Staff Details </b>
     </div>
@@ -1167,7 +1167,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of CheckList_StaffDetailModel let idx =index">
-      
+
                   <td>{{idx+1}}</td>
                   <td>{{item.TeachingType}}</td>
                   <td>{{item.PersonName}}</td>
@@ -1210,7 +1210,7 @@
   </div>
   <!--End Staff Details-->
   <!--Start Old Noce Details-->
-  <div class="card tabCard1 mb-0" *ngIf="CollegeType_IsExisting">
+  <div class="card tabCard1 mb-0" *ngIf="CollegeType_IsExisting&&RevertedTabData['OLDNOCDetails']>0">
     <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
       <b><i class="bi bi-table"></i> Old NOC Details </b>
     </div>
@@ -1278,7 +1278,7 @@
   </div>
   <!--End Old NOC Details-->
   <!--Start Academic Information-->
-  <div class="card mb-0" *ngIf="CollegeType_IsExisting">
+  <div class="card mb-0" *ngIf="CollegeType_IsExisting&&RevertedTabData['AcademicInformation']>0">
     <div class="card-header">
       <b><i class="bi bi-table"></i>&nbsp;Academic Information</b>
     </div>
@@ -1348,7 +1348,7 @@
   </div>
   <!--End Academic Information-->
   <!--Start Other Document-->
-  <div class="card tabCard1 mb-0" id="LandDetails1">
+  <div class="card tabCard1 mb-0" id="LandDetails1" *ngIf="RevertedTabData['OtherDocument']>0">
     <div class="card-header">
       <b><i class="bi bi-table"></i>&nbsp;Other Documents</b>
     </div>
@@ -1408,7 +1408,7 @@
   </div>
   <!--End Other Document-->
   <!--Hostel Detail-->
-  <div class="card mb-0">
+  <div class="card mb-0" *ngIf="RevertedTabData['HostelDetails']>0">
     <div class="card-header">
       <b>Hostel Details</b>
     </div>
@@ -1475,7 +1475,7 @@
   <!--End Hostel Detail-->
   <!--Class Wise Student Details-->
 
-  <div class="row">
+  <div class="row" *ngIf="RevertedTabData['ClassWiseStudentDetail']>0">
     <div class="col-md-12">
       <div class="clearfix"></div>
       <div class="card mb-0">
@@ -1624,7 +1624,7 @@
                   <td>{{OFTotalMinorityGirlsFooter}}</td>
                   <td>{{OFTotalPHBoysFooter}}</td>
                   <td>{{OFTotalPHGirlsFooter}}</td>
-                  
+
                 </tr>
               </tfoot>
             </table>
@@ -1660,7 +1660,7 @@
   </div>
   <!--End Class Wise Student Details-->
   <!--subject wise data-->
-  <div class="row">
+  <div class="row" *ngIf="RevertedTabData['SubjectWiseStudentDetail']>0">
     <div class="col-md-12">
       <div class="clearfix"></div>
       <div class="card mb-0">
@@ -1856,70 +1856,6 @@
 
 
   <!--end subject wise data-->
-
-  <div class="row m-2" [hidden]="sSOLoginDataModel.RoleID==16 || sSOLoginDataModel.RoleID==0">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
-      <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
-        <option value="0" disabled selected>--Select Action--</option>
-        <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-      </select>
-      <div *ngIf="isActionTypeValid&&ActionID<=0" class="text-danger">
-        <p *ngIf="isActionTypeValid&&ActionID<=0"> This field is required .!</p>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
-      <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
-
-      <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
-        <option value="0" selected>--Select Role--</option>
-        <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
-      </select>
-
-
-      <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
-        <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
-      <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
-      <select class="form-select" [(ngModel)]="NextActionID">
-        <option value="0" disabled selected>--Select Action--</option>
-        <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-      </select>
-      <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
-        <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
-      <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
-      <select class="form-select" [(ngModel)]="NextUserID">
-        <option value="0" selected>--Select User--</option>
-        <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
-      </select>
-      <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
-        <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
-      </div>
-    </div>
-  </div>
-  <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || sSOLoginDataModel.RoleID==0">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-      <label>Remarks  <span style="color:red;">*</span></label>
-      <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
-      <div *ngIf="isRemarkValid&&CheckFinalRemark==''" class="text-danger">
-        <p *ngIf="isRemarkValid&&CheckFinalRemark==''"> This field is required .!</p>
-      </div>
-    </div>
-
-  </div>
-  <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || sSOLoginDataModel.RoleID==0">
-    <div class="col-md-12">
-      <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
-    </div>
-  </div>
 </div>
 
 <ng-template #TarilMymodal let-modal>

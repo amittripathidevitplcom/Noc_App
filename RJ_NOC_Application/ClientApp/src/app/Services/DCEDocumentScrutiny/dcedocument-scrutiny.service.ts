@@ -321,5 +321,15 @@ export class DCEDocumentScrutinyService {
       ).toPromise();
   }
 
-
+  public async GetRevertedTabData(ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetRevertedTabData/" + ApplyNOCID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
