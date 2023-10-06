@@ -114,6 +114,7 @@
                     <td>
                       <div class="d-flex">
                         <button type="button" (click)="GetImportExcelFileDetailsByID(mymodal,item.StaticsFileID)" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>
+                        <button type="button" (click)="EditImportExcelFileDetailsByID(myEditmodal,item.StaticsFileID)" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
                         <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteImportExcelFileDetailsByID(item.StaticsFileID)"><i class="fa fa-trash"></i></button>
                       </div>
                     </td>
@@ -179,6 +180,70 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template #myEditmodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Edit Imported excel Data</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-header">
+          <b>Import Excel list</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns">
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>Course Name</th>
+                    <th>Subject Name</th>
+                    <th>Student Name</th>
+                    <th>Father Name</th>
+                    <th>Gender</th>
+                    <th>Date Of Birth</th>
+                    <th>Section</th>
+                    <th>Roll No</th>
+                    <th>Passing Year</th>
+                    <th>Cast Category</th>
+                    <th>Physical<br /> Handicap</th>
+                    <th>Minorty</th>
+                    <th>Created Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of request.Data let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td><input type="text" class="form-control" id="txtCourseName" name="txtCourseName" [(ngModel)]="item.Course"></td>
+                    <td><input type="text" class="form-control" id="txtSubject" name="txtSubject" [(ngModel)]="item.Subject"></td>
+                    <td><input type="text" class="form-control" id="txtStudentName" name="txtStudentName" [(ngModel)]="item.StudentName"></td>
+                    <td><input type="text" class="form-control" id="txtFatherName" name="txtFatherName" [(ngModel)]="item.FatherName"></td>
+                    <td><input type="text" class="form-control" id="txtGender" name="txtGender" [(ngModel)]="item.Gender"></td>
+                    <td><input type="text" class="form-control" id="txtDOB" name="txtDOB" [(ngModel)]="item.DOB"></td>
+                    <td><input type="text" class="form-control" id="txtSection" name="txtSection" [(ngModel)]="item.Section"></td>
+                    <td><input type="text" class="form-control" id="txtRollno" name="txtRollno" [(ngModel)]="item.RollNo"></td>
+                    <td><input type="text" class="form-control" id="txtYear" name="txtYear" [(ngModel)]="item.Year"></td>
+                    <td><input type="text" class="form-control" id="txtCast" name="txtCast" [(ngModel)]="item.Cast"></td>
+                    <td><input type="text" class="form-control" id="txtPH" name="txtPH" [(ngModel)]="item.PH"></td>
+                    <td><input type="text" class="form-control" id="txtMinorty" name="txtMinorty" [(ngModel)]="item.Minorty"></td>
+                    <td>{{item.CreatedDate | date:'yyyy-MM-dd'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer text-end saveCancelBtn">
+              <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="UpdateData()">Update</button>
             </div>
           </div>
         </div>

@@ -30,6 +30,7 @@ export class ImportExcelDataComponent {
   public CollegeList: any = [];
   public lstImportFileData: any = [];
   public lstImportFileDetails: any = [];
+  public lstEditImportFileDetails: any = [];
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -65,7 +66,7 @@ export class ImportExcelDataComponent {
     this.SelectedDepartmentID = this.sSOLoginDataModel.DepartmentID;
     this.GetCollegesByDepartmentAndSsoId(this.SelectedDepartmentID, this.sSOLoginDataModel.SSOID, 'Society');
     this.GetImportExcelData();
-   // this.DownloadExcelPath = GlobalConstants.ExcelPathURL + 'Statics_Sample.xlsx';
+    // this.DownloadExcelPath = GlobalConstants.ExcelPathURL + 'Statics_Sample.xlsx';
   }
   get form() {
     return this.ImportExcelDataForm.controls;
@@ -145,6 +146,7 @@ export class ImportExcelDataComponent {
 
   async SaveData() {
     ///Check Validators
+    debugger;
     this.isSubmitted = true;
     if (this.ImportExcelDataForm.invalid) {
       return
@@ -167,6 +169,46 @@ export class ImportExcelDataComponent {
           }
           else {
             this.toastr.error(this.ErrorMessage)
+          }
+        }, error => {
+          this.toastr.warning("Invalid excel file data entry .!");
+          setTimeout(() => {
+          }, 200);
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async UpdateData() {
+    ///Check Validators
+    this.request.DataType = '';
+    try {
+      let Data = this.request.Data;
+      this.request.Data = [];
+      this.loaderService.requestStarted();
+      this.request.Data.push(Data);
+      this.request.DepartmentID = this.SelectedDepartmentID;
+      this.request.SSOID = this.sSOLoginDataModel.SSOID;
+      await this.importExcelDataService.SaveData(this.request)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.importExcelData = [];
+            this.toastr.success(this.SuccessMessage)
+            this.modalService.dismissAll('After Success');
+            this.ResetControl();
+            this.GetImportExcelData();
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+            this.request.Data = Data;
           }
         }, error => {
           this.toastr.warning("Invalid excel file data entry .!");
@@ -220,6 +262,37 @@ export class ImportExcelDataComponent {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.lstImportFileDetails = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async EditImportExcelFileDetailsByID(content: any, StaticsFileID: number) {
+    try {
+      this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+      this.loaderService.requestStarted();
+      this.request.StaticsFileID = StaticsFileID;
+      this.request.SSOID = this.sSOLoginDataModel.SSOID;
+      await this.importExcelDataService.GetImprtExcelData(this.sSOLoginDataModel.SSOID, 0, 0, StaticsFileID, 'ImportExcelFileDetailsById')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          
+          this.request.Data = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {

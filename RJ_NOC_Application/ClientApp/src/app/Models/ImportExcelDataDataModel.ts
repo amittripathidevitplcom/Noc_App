@@ -1,5 +1,6 @@
 
 export class ImportExcelDataDataModel {
+  public StaticsFileID: number = 0;
   public DataType: string = '';
   public FinancialYear: string = '0';
   public FileName: string = '';
