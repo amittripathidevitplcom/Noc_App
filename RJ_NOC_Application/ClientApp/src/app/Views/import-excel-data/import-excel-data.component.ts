@@ -65,7 +65,7 @@ export class ImportExcelDataComponent {
     this.SelectedDepartmentID = this.sSOLoginDataModel.DepartmentID;
     this.GetCollegesByDepartmentAndSsoId(this.SelectedDepartmentID, this.sSOLoginDataModel.SSOID, 'Society');
     this.GetImportExcelData();
-    //this.DownloadExcelPath = GlobalConstants.ExcelPathURL + 'Statics_Sample.xlsx';
+   // this.DownloadExcelPath = GlobalConstants.ExcelPathURL + 'Statics_Sample.xlsx';
   }
   get form() {
     return this.ImportExcelDataForm.controls;
