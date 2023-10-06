@@ -638,7 +638,7 @@ const routes: Routes = [
         path: 'revertchecklistdce/:DepartmentID/:CollegeID/:ApplyNOCID', component: RevertCheckListDCEComponent
       },
       {
-        path: 'staffattendance/:DepartmentID', component: StaffattendanceComponent
+        path: 'staffattendance', component: StaffattendanceComponent
       },
       {
         path: 'test', component: CollegeDetailsComponent

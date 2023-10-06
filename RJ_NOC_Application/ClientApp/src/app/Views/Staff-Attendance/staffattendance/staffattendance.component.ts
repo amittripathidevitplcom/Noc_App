@@ -62,10 +62,9 @@ export class StaffattendanceComponent implements OnInit {
 
     // get login data
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     // get colleges
-    await this.GetCollegesByDepartmentAndSsoId(this.SelectedDepartmentID, this.sSOLoginDataModel.SSOID, 'Society');
+    await this.GetCollegesByDepartmentAndSsoId(this.sSOLoginDataModel.SSOID, 'Society');
 
     await this.FillStaffDetailsStatus();
 
@@ -73,12 +72,12 @@ export class StaffattendanceComponent implements OnInit {
   get form() { return this.StaffAttendForm.controls; }
 
 
-  async GetCollegesByDepartmentAndSsoId(departmentId: number, ssoId: string, type: string) {
+  async GetCollegesByDepartmentAndSsoId(ssoId: string, type: string) {
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
-      await this.commonMasterService.GetCollageList_DepartmentAndSSOIDWise(departmentId, ssoId, type)
+      await this.commonMasterService.GetCollageList_DepartmentAndSSOIDWise(0, ssoId, type)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -98,6 +97,7 @@ export class StaffattendanceComponent implements OnInit {
   }
 
   async GetCourseByCollegID(SeletedCollegeID: any) {
+    this.request.Date = '';
     this.StaffAttendanceDetailsList = [];
     this.request.CourseID = 0;
     try {
@@ -126,18 +126,15 @@ export class StaffattendanceComponent implements OnInit {
       this.isFormValid = false;
       return;
     }
-    if (this.request.CollegeID == undefined || this.request.CollegeID == 0) {
-      this.toastr.warning('Please select College !!!.');
-    }
     this.loaderService.requestStarted();
     try {
       this.staffAttendanceService.GetStaffList_CollegeWise(this.request.CollegeID, this.request.CourseID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.StaffAttendanceDetailsList = data['Data'][0]['data'];
-          //if (this.StaffAttendanceDetailsList.length = 0) {
-          //  this.toastr.warning('No Record Found !!!.');
-          //}
+          if (this.StaffAttendanceDetailsList.length == 0) {
+            this.toastr.warning('No Record Found !!!.');
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -161,10 +158,10 @@ export class StaffattendanceComponent implements OnInit {
 
       for (var i = 0; i < this.StaffAttendanceDetailsList.length; i++) {
 
-        //if (this.PresentStatusLst[i].PresentStatus == '' || this.PresentStatusLst[i].PresentStatus == undefined) {
-        //  this.toastr.warning('Please check one radio button.');
-        //  return
-        //}
+        if (this.StaffAttendanceDetailsList[i].StatusID == '' || this.StaffAttendanceDetailsList[i].StatusID == undefined) {
+          this.toastr.warning('Please check one radio button.');
+          return
+        }
         this.request.AttendanceDetailsList.push({
           StaffAttendanceDetailID: 0,
           StaffID: this.StaffAttendanceDetailsList[i].StaffDetailID,
@@ -182,9 +179,11 @@ export class StaffattendanceComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.toastr.success(this.SuccessMessage);
+            this.ResetControl();
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
+            this.ResetControl();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -205,12 +204,7 @@ export class StaffattendanceComponent implements OnInit {
   async FillStaffDetailsStatus() {
     try {
       this.loaderService.requestStarted();
-      const departmentId = Number(this.SelectedDepartmentID);
-      if (departmentId <= 0) {
-        return;
-      }
-      // College Medium
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "StaffAttendance")
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(0, "StaffAttendance")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -241,7 +235,7 @@ export class StaffattendanceComponent implements OnInit {
     this.request.UserID = 0;
     this.request.ActiveStatus = true;
     this.request.DeleteStatus = false;
-
+    this.StaffAttendanceDetailsList = [];
 
     this.request.UserID = 0;
 
