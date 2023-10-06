@@ -1,2 +1,188 @@
+<app-loader></app-loader>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-filter"></i>&nbsp;Import Excel Data</b>
+          <span style="color:red;">Upload File(Only xls,xlsx)(Min size 1(KB))(Max size 2(MB))</span>
+        </div>
+        <form [formGroup]="ImportExcelDataForm" class="form-horizontal">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlFinancialYear" class="form-label">Financial Year <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlFinancialYear" name="ddlFinancialYear" [(ngModel)]="request.FinancialYear" formControlName="ddlFinancialYear">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of FinancialYearList" value="{{item.FinancialYearID}}">{{item.FinancialYearName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlFinancialYear.errors" class="text-danger">
+                  <p *ngIf="!form.ddlFinancialYear.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlCollegeID" class="form-label">College <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCollegeID" name="ddlCollegeID" [(ngModel)]="request.CollegeID" formControlName="ddlCollegeID" #SelectCollegeID (change)="GetCourseList_CollegeWise(SelectCollegeID.value)">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCollegeID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCollegeID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="ddlCourseId" class="form-label">Course <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCourseId" name="ddlCourseId" [(ngModel)]="request.CourseID" formControlName="ddlCourseId" (change)="ddlCourseTypeSelected('All')">
+                  <option value="0" disabled>--Select--</option>
+                  <option *ngFor="let item of CourseData" value="{{item.CourseID}}">{{item.CourseName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCourseId.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCourseId.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="exampleInputEmail1">Select File <span style="color:red;">*</span></label>
+                <input type="file" class="form-control" id="fileData" [(ngModel)]="request.FileName" formControlName="fileData" (change)="onFileChange($event)" accept=".xlsx,.xls">
+                <div *ngIf="isSubmitted&&form.fileData.errors" class="text-danger">
+                  <p *ngIf="form.fileData.errors.required">This field is required .!</p>
+                </div>
+                <span *ngIf="ShowFileDownload" style="color: #3458c8; cursor:pointer;display:block;text-decoration:underline" (click)="downloadFile(DownloadExcelPath)">Download Sample Excel Sheet</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-end saveCancelBtn">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Save</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </form>
+        <div class="card mb-0">
+          <div class="col-sm-12" style="padding: 0px !important;">
+            <div class="fixTableHead">
 
-Helllo
+              <table class="table table-bordered dataTable dtr-inline table-head-fixed text-nowrap">
+                <tbody>
+                  <tr *ngFor="let row of importExcelData">
+                    <td *ngFor="let val of row">
+                      {{val}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-0" *ngIf="lstImportFileData.length>0">
+          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+            <b><i class="bi bi-table"></i> Import Excel Details </b>
+            <div class="d-flex align-items-center">
+              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              </div>
+              <div class="d-flex align-items-center table-filter mr-15">
+                <i class="fa fa-search"></i>
+                <input type="text" id="searchText" class="form-control" placeholder="Search Here" />
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                <thead>
+                  <tr>
+                    <th>Sr. No</th>
+                    <th>Department</th>
+                    <th>College</th>
+                    <th>Course</th>
+                    <th>Financial Year</th>
+                    <th>File Name</th>
+                    <th>Total Record</th>
+                    <th>Created Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstImportFileData ;let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.DepartmentName}}</td>
+                    <td>{{item.CollegeName}}</td>
+                    <td>{{item.CourseName}}</td>
+                    <td>{{item.FinancialYearName}}</td>
+                    <td>{{item.FileName}}</td>
+                    <td>{{item.TotalRecord}}</td>
+                    <td>{{item.CreatedDate | date:'yyyy-MM-dd'}}</td>
+
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" (click)="GetImportExcelFileDetailsByID(mymodal,item.StaticsFileID)" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteImportExcelFileDetailsByID(item.StaticsFileID)"><i class="fa fa-trash"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #mymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">View Imported excel Data</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-header">
+          <b>Import Excel list</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns">
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>Course</th>
+                    <th>Subject</th>
+                    <th>Student Name</th>
+                    <th>Father Name</th>
+                    <th>Gender</th>
+                    <th>DOB</th>
+                    <th>Section</th>
+                    <th>RollNo</th>
+                    <th>Year</th>
+                    <th>Cast</th>
+                    <th>Physical Handicap</th>
+                    <th>Minorty</th>
+                    <th>Created Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstImportFileDetails let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.Course}}</td>
+                    <td>{{item.Subject}}</td>
+                    <td>{{item.StudentName}}</td>
+                    <td>{{item.FatherName}}</td>
+                    <td>{{item.Gender}}</td>
+                    <td>{{item.DOB}}</td>
+                    <td>{{item.Section}}</td>
+                    <td>{{item.RollNo}}</td>
+                    <td>{{item.Year}}</td>
+                    <td>{{item.Cast}}</td>
+                    <td>{{item.PH}}</td>
+                    <td>{{item.Minorty}}</td>
+                    <td>{{item.CreatedDate | date:'yyyy-MM-dd'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

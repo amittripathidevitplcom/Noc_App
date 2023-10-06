@@ -12,6 +12,7 @@ import { DropdownValidators, createPasswordStrengthValidator, MustMatch } from '
 import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
 import * as XLSX from 'xlsx';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { GlobalConstants } from '../../Common/GlobalConstants';
 
 type AOA = any[][];
 @Injectable()
@@ -41,6 +42,8 @@ export class ImportExcelDataComponent {
   public SelectedDepartmentID: number = 0;
   request = new ImportExcelDataDataModel();
   sSOLoginDataModel = new SSOLoginDataModel();
+  public DownloadExcelPath: string = '';
+  public ShowFileDownload: boolean = false;
 
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
@@ -49,8 +52,6 @@ export class ImportExcelDataComponent {
     private formBuilder: FormBuilder, private fileUploadService: FileUploadService) { }
 
   ngOnInit() {
-    debugger;
-    ///Create Form Field
     this.ImportExcelDataForm = this.formBuilder.group({
       ddlDataType: [''],
       ddlFinancialYear: ['', [DropdownValidators]],
@@ -61,9 +62,10 @@ export class ImportExcelDataComponent {
     this.request.Data = [];
     this.GetAllFinancialYear();
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.SelectedDepartmentID = 2;//this.sSOLoginDataModel.DepartmentID;
+    this.SelectedDepartmentID = this.sSOLoginDataModel.DepartmentID;
     this.GetCollegesByDepartmentAndSsoId(this.SelectedDepartmentID, this.sSOLoginDataModel.SSOID, 'Society');
     this.GetImportExcelData();
+    //this.DownloadExcelPath = GlobalConstants.ExcelPathURL + 'Statics_Sample.xlsx';
   }
   get form() {
     return this.ImportExcelDataForm.controls;
@@ -133,69 +135,15 @@ export class ImportExcelDataComponent {
     }
   }
 
-  async onFileChange(event: any) {
-    try {
-      this.request.Data = []
-      this.importExcelData = []
-      this.loaderService.requestStarted();
-
-      let workBook: any = null;
-      let jsonData = null;
-      const reader = new FileReader();
-      const file = event.target.files[0];
-      reader.onload = (event1) => {
-        const data = reader.result;
-        workBook = XLSX.read(data, { type: 'binary' });
-        jsonData = workBook.SheetNames.reduce((initial: any, name: any) => {
-          const sheet = workBook.Sheets[name];
-          initial[name] = XLSX.utils.sheet_to_json(sheet);
-          //console.log(sheet);
-          return initial;
-        }, {});
-        //console.log(jsonData['Sheet1']);
-        const dataString = JSON.stringify(jsonData['Sheet1']);
-        this.request.Data.push(jsonData['Sheet1']);
-      }
-      reader.readAsBinaryString(file);
-
-
-      const file1 = event.target.files[0];
-      const target: DataTransfer = <DataTransfer>(event.target);
-      if (target.files.length !== 1) throw new Error('Cannot use multiple files');
-      const reader1: FileReader = new FileReader();
-      reader1.onload = (e: any) => {
-        /* read workbook */
-        const bstr: string = e.target.result;
-        const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
-
-        /* grab first sheet */
-        const wsname: string = wb.SheetNames[0];
-        const ws: XLSX.WorkSheet = wb.Sheets[wsname];
-
-        /* save data */
-        this.importExcelData = <AOA>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
-        //console.log(this.importExcelData);
-      };
-      reader1.readAsBinaryString(file1);
-    }
-    catch (ex) { }
-    finally {
-      setTimeout(() => {
-
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-
-  }
-
-  ResetData() {
+  async ResetControl() {
     this.importExcelData = [];
     this.request = new ImportExcelDataDataModel();
     this.GetImportExcelData();
     this.file = document.getElementById('fileData');
     this.file.value = '';
   }
-  SaveData() {
+
+  async SaveData() {
     ///Check Validators
     this.isSubmitted = true;
     if (this.ImportExcelDataForm.invalid) {
@@ -203,18 +151,18 @@ export class ImportExcelDataComponent {
     }
     this.request.DataType = '';
     try {
-      debugger;
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.SelectedDepartmentID;
-      this.importExcelDataService.SaveData(this.request)
-        .subscribe(data => {
+      this.request.SSOID = this.sSOLoginDataModel.SSOID;
+      await this.importExcelDataService.SaveData(this.request)
+        .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(data);
           if (this.State == 0) {
             this.importExcelData = [];
             this.toastr.success(this.SuccessMessage)
+            this.ResetControl();
             this.GetImportExcelData();
           }
           else {
@@ -237,7 +185,7 @@ export class ImportExcelDataComponent {
   async GetImportExcelData() {
     try {
       this.loaderService.requestStarted();
-      await this.importExcelDataService.GetImprtExcelData(this.SelectedDepartmentID, this.SelectedCollageID, 0, 'ImportExcelFileName')
+      await this.importExcelDataService.GetImprtExcelData(this.sSOLoginDataModel.SSOID, this.SelectedDepartmentID, this.SelectedCollageID, 0, 'ImportExcelFileName')
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -265,7 +213,7 @@ export class ImportExcelDataComponent {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
       this.loaderService.requestStarted();
-      await this.importExcelDataService.GetImprtExcelData(0, 0, StaticsFileID, 'ImportExcelFileDetailsById')
+      await this.importExcelDataService.GetImprtExcelData(this.sSOLoginDataModel.SSOID, 0, 0, StaticsFileID, 'ImportExcelFileDetailsById')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -286,16 +234,17 @@ export class ImportExcelDataComponent {
 
   async DeleteImportExcelFileDetailsByID(StaticsFileID: number) {
     try {
-      this.loaderService.requestStarted();
-      await this.importExcelDataService.GetImprtExcelData(0, 0, StaticsFileID, 'DeleteImportExcelFileDetailsById')
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          //this.lstImportFileDetails = data['Data'][0]['data'];
-          this.GetImportExcelData();
-        }, error => console.error(error));
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        await this.importExcelDataService.GetImprtExcelData(this.sSOLoginDataModel.SSOID, 0, 0, StaticsFileID, 'DeleteImportExcelFileDetailsById')
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.GetImportExcelData();
+          }, error => console.error(error));
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -315,5 +264,87 @@ export class ImportExcelDataComponent {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  async downloadFile(filePath: string) {
+    var link = document.createElement('a');
+    link.href = filePath;
+    link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+    link.click();
+  }
+
+  ddlCourseTypeSelected(value: string) {
+    if (value == "All") {
+      this.DownloadExcelPath = GlobalConstants.ExcelPathURL + 'Statics_Sample.xlsx';
+      this.ShowFileDownload = true;
+    }
+  }
+
+  async onFileChange(event: any) {
+    try {
+      this.request.Data = []
+      this.importExcelData = []
+      this.loaderService.requestStarted();
+
+      let workBook: any = null;
+      let jsonData = null;
+      const reader = new FileReader();
+      const file = event.target.files[0];
+      if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+        //size validation
+        if (file.size > 2000000) {
+          this.toastr.error('Select less then 2MB File')
+          return
+        }
+        if (file.size < 10) {
+          this.toastr.error('Select more then 1kb File')
+          return
+        }
+      }
+      else {// type validation
+        this.toastr.error('Select Only xls/xlsx file')
+        return
+      }
+      reader.onload = (event1) => {
+        const data = reader.result;
+        workBook = XLSX.read(data, { type: 'binary' });
+        jsonData = workBook.SheetNames.reduce((initial: any, name: any) => {
+          const sheet = workBook.Sheets[name];
+          initial[name] = XLSX.utils.sheet_to_json(sheet);
+          //console.log(sheet);
+          return initial;
+        }, {});
+        //console.log(jsonData['Sheet1']);
+        const dataString = JSON.stringify(jsonData['Sheet1']);
+        this.request.Data.push(jsonData['Sheet1']);
+      }
+      reader.readAsBinaryString(file);
+
+      const file1 = event.target.files[0];
+      const target: DataTransfer = <DataTransfer>(event.target);
+      if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+      const reader1: FileReader = new FileReader();
+      reader1.onload = (e: any) => {
+        /* read workbook */
+        const bstr: string = e.target.result;
+        const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
+
+        /* grab first sheet */
+        const wsname: string = wb.SheetNames[0];
+        const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+        /* save data */
+        this.importExcelData = <AOA>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
+      };
+      reader1.readAsBinaryString(file1);
+
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
   }
 }
