@@ -1,0 +1,111 @@
+<app-loader></app-loader>
+
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Staff Attendance</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">College</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Staff Attendance</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<form [formGroup]="StaffAttendForm" class="form-horizontal">
+  <div class="container-fluid mainContents">
+
+    <div class="clearfix"></div>
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <b><i class="fa fa-plus"></i>&nbsp;Staff Attendance</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label for="ddlCollegeID" class="form-label">College <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCollegeID" name="ddlCollegeID" [(ngModel)]="request.CollegeID" formControlName="ddlCollegeID" #SeletedCollegeID (change)="GetCourseByCollegID(SeletedCollegeID.value)">
+              <!--(change)="GetCourseByCollegID(request.CollegeID)">-->
+              <option value="0" disabled>--Select College--</option>
+              <option *ngFor="let item of collegeDataList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCollegeID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCollegeID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
+            <select formControlName="ddlCourse" id="ddlCourse" class="form-select" [(ngModel)]="request.CourseID">
+              <option value="0" disabled>--Select--</option>
+              <option [value]="item.CourseID" *ngFor="let item of courseDataList">
+                {{item.CourseName}}
+              </option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourse.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourse.errors.DropdownValidators">This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-4 col-sm-46 col-12 mb-3">
+            <label for="txtDate">Date <span style="color:red">*</span></label>
+            <input class="form-control" type="date" id="txtDate" placeholder="Enter Date" [(ngModel)]="request.Date" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;"  formControlName="txtDate" />  <!--[ngModelOptions]="{standalone: true}"-->
+            <div *ngIf="isSubmitted&&form.txtDate.errors" class="text-danger">
+              <p *ngIf="form.txtDate.errors.required"> This field is required .!</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="card-footer text-end">
+        <button name="btnSave" id="btnSave" class="btn btn-primary" [disabled]="isLoading" (click)="SearchData()">
+          <img *ngIf="isLoading" style="width:17px" src="../../../assets/img/loader.gif" /> Search
+        </button>
+        <button type="button" class="btn btn-danger" name="btnReset" id="btnReset" (click)="ResetControl()" style="margin-left:10px"> Reset</button>
+
+      </div>
+    </div>
+    <div *ngIf="StaffAttendanceDetailsList.length>0">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-th-list"></i>&nbsp;Staff Attendance List</b>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0 table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Staff Name </th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of StaffAttendanceDetailsList;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.PersonName}}</td>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div *ngFor="let item of PresentStatusLst;let idex=index;" class="me-3">
+                        <input type="radio" name="PresentStatusLst_{{idx}}" [(ngModel)]="row.StatusID" id="PresentStatusLst_{{idx}}" value="{{item.ID}}" [ngModelOptions]="{standalone: true}">
+                        {{item.Name}}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button name="btnSave" id="btnSave" class="btn btn-primary" [disabled]="isLoading" (click)="SaveData()">Save</button>
+          <button type="button" class="btn btn-danger" name="btnReset" id="btnReset" (click)="ResetControl()" style="margin-left:10px"> Reset</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+

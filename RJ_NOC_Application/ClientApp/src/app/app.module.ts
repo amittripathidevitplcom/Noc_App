@@ -264,6 +264,7 @@ import { CheckListForCommissionerComponent } from './Views/DCE/check-list-for-co
 import { RevertCheckListDCEComponent } from './Views/DCE/revert-check-list-dce/revert-check-list-dce.component';
 import { RevertApplicationDetailEntryComponent } from './Views/DCE/revert-application-detail-entry/revert-application-detail-entry.component';
 import { ImportExcelDataComponent } from './Views/import-excel-data/import-excel-data.component';
+import { StaffattendanceComponent } from './Views/Staff-Attendance/staffattendance/staffattendance.component';
 
 
 
@@ -520,6 +521,7 @@ import { ImportExcelDataComponent } from './Views/import-excel-data/import-excel
     RevertCheckListDCEComponent,
     RevertApplicationDetailEntryComponent,
     ImportExcelDataComponent,
+    StaffattendanceComponent,
   ],
   imports: [
     CommonModule,

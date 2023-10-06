@@ -144,7 +144,10 @@ import { RevertCheckListDCEComponent } from './Views/DCE/revert-check-list-dce/r
 import { RevertApplicationDetailEntryComponent } from './Views/DCE/revert-application-detail-entry/revert-application-detail-entry.component';
 
 import { ImportExcelDataComponent } from './Views/import-excel-data/import-excel-data.component';
- 
+
+import { StaffattendanceComponent } from './Views/Staff-Attendance/staffattendance/staffattendance.component';
+
+
 
 
 const routes: Routes = [
@@ -170,11 +173,11 @@ const routes: Routes = [
     path: 'paymentstatus/:TransID', component: EmitraPaymentResponseComponent
   },
   {
-    path: '', component: MasterPageComponent ,
+    path: '', component: MasterPageComponent,
     children: [
       {
         path: 'dashboard', component: DashboardComponent,
-         
+
       },
       {
         path: 'projectmaster', component: ProjectMasterComponent
@@ -265,7 +268,7 @@ const routes: Routes = [
       },
       {
         //path: 'addcollege/:CollegeID', component: AddCollegeComponent,
-        
+
         //data: { redirectTo: '/adc' }
         path: 'addcollege/:CollegeID', component: AddCollegeComponent,
         //data: {
@@ -314,8 +317,8 @@ const routes: Routes = [
       {
         path: 'applicationdetailentry/:DepartmentID/:CollegeID', component: ApplicationDetailEntryComponent,
         pathMatch: 'full'
-       // canActivate: [NeverActivate]
-      //canActivate: [RedirectGuard],
+        // canActivate: [NeverActivate]
+        //canActivate: [RedirectGuard],
         //data: {
         //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
         //}
@@ -634,16 +637,19 @@ const routes: Routes = [
       {
         path: 'revertchecklistdce/:DepartmentID/:CollegeID/:ApplyNOCID', component: RevertCheckListDCEComponent
       },
-       {
-         path: 'test', component: CollegeDetailsComponent
+      {
+        path: 'staffattendance', component: StaffattendanceComponent
+      },
+      {
+        path: 'test', component: CollegeDetailsComponent
       },
       {
         path: 'ImportExcelData', component: ImportExcelDataComponent,
 
       }
-       
-    ] 
-   // ,canActivate: [SkipLocationChangeGuard],
+
+    ]
+    // ,canActivate: [SkipLocationChangeGuard],
   },
 
 
