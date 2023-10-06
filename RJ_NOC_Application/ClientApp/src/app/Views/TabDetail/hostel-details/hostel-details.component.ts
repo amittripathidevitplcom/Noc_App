@@ -200,7 +200,7 @@ export class HostelDetailsComponent implements OnInit {
     this.LoadMaster();
 
     // load
-    await this.GetCollageDetails();
+    //await this.GetCollageDetails();
     await this.GetHostelCategory();
     await this.GetDivisionList();
     await this.GetHostelDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0)
@@ -1031,6 +1031,7 @@ export class HostelDetailsComponent implements OnInit {
           this.SuvdivisionList = [];
           this.TehsilList = [];
           this.PanchyatSamitiList = [];
+          this.CityList = [];
         }
       }
       else {
