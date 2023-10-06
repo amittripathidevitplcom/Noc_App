@@ -16,3 +16,15 @@ export class AttendanceDataModel {
   public StaffID: string = '';
   public PresentStatus: number = 0;
 }
+
+export class StaffAttendanceReportDataModel {
+  public CollegeID: number = 0;
+  public CourseID: number = 0;
+  public FromDate: string = '';
+  public ToDate: string = '';
+  public StatusID: number = 0;
+  public StaffName: string = '';
+  public StatusName: string = '';
+  public PresentStatus: number = 0;
+  public Date: string = '';
+}

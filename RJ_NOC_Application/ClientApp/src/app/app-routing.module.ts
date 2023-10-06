@@ -147,6 +147,7 @@ import { ImportExcelDataComponent } from './Views/import-excel-data/import-excel
 
 import { StaffattendanceComponent } from './Views/Staff-Attendance/staffattendance/staffattendance.component';
 
+import { StaffAttendanceReportComponent } from './Views/Staff-Attendance/staff-attendance-report/staff-attendance-report.component';
 
 
 
@@ -639,6 +640,9 @@ const routes: Routes = [
       },
       {
         path: 'staffattendance', component: StaffattendanceComponent
+      },
+      {
+        path: 'staffattendancereport', component: StaffAttendanceReportComponent
       },
       {
         path: 'test', component: CollegeDetailsComponent

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { StaffAttendanceDataModel } from '../../Models/StaffAttendanceDataModel';
+import { StaffAttendanceDataModel,StaffAttendanceReportDataModel } from '../../Models/StaffAttendanceDataModel';
 
 import { GlobalConstants } from '../../Common/GlobalConstants';
 @Injectable({
@@ -35,6 +35,14 @@ export class StaffAttendanceService {
     const body = JSON.stringify(StaffAttendanceDataModel);
     console.log(body);
     return await this.http.post(this.APIUrl + '/SaveStaffAttendanceData', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetStaffAttendanceReportData(CollegeID: number, CourseID: number, FromDate: string, ToDate: string, StatusID: number, ) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.get(this.APIUrl + "/GetStaffAttendanceReportData/" + CollegeID + "/" + CourseID + "/" + FromDate + "/" + ToDate + "/" + StatusID, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
