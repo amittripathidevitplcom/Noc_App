@@ -1,0 +1,40 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { ImportExcelDataDataModel } from '../../Models/ImportExcelDataDataModel';
+import { GlobalConstants } from '../../Common/GlobalConstants';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class ImportExcelDataService {
+  readonly APIUrl = GlobalConstants.apiURL + "ImportExcelData";
+  constructor(private http: HttpClient) { }
+  extractData(res: Response) {
+    return res;
+  }
+  handleErrorObservable(error: Response | any) {
+    return throwError(error);
+  }
+
+  public SaveData(request: ImportExcelDataDataModel): Observable<any> {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return this.http.post(this.APIUrl, body, { 'headers': headers })
+  }
+
+  public async GetImprtExcelData(DepartmentID: number, CollageID: number, StaticsFileID: number, ActionType: string) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetImportExcelData/" + DepartmentID + "/" + CollageID + "/" + StaticsFileID + "/" + ActionType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+}
