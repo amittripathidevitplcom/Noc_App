@@ -1055,7 +1055,7 @@ export class ApplicationSummaryComponent implements OnInit {
   async GetVetHospitalDetailList(DepartmentID: number, CollegeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.veterinaryHospitalService.GetAllVeterinaryHospitalList(DepartmentID, CollegeID)
+      await this.veterinaryHospitalService.GetVeterinaryHospitalListForPdf(DepartmentID, CollegeID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
