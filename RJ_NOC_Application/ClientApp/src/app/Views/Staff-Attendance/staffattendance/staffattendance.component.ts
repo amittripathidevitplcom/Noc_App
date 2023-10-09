@@ -42,8 +42,9 @@ export class StaffattendanceComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedDepartmentID: number = 0;
   public SelectedCollageID: number = 0;
-  //public is_disableDepartment: boolean = false;
+  public is_disableDepartment: boolean = false;
   public MaxDate: Date = new Date();
+  public IsTeaching: boolean = false;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private staffAttendanceService: StaffAttendanceService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
 
@@ -53,7 +54,8 @@ export class StaffattendanceComponent implements OnInit {
     this.StaffAttendForm = this.formBuilder.group(
       {
         ddlCollegeID: ['', [DropdownValidators]],
-        ddlCourse: ['', [DropdownValidators]],
+        ddlCourse: [''],
+        ddlStaffType: ['', [Validators.required]],
         txtDate: ['', Validators.required],
       })
 
@@ -71,7 +73,17 @@ export class StaffattendanceComponent implements OnInit {
   }
   get form() { return this.StaffAttendForm.controls; }
 
-
+  async GetStaffType(SeletedStaffType: any) {
+    this.StaffAttendanceDetailsList = [];
+    this.request.Date = '';
+    if (SeletedStaffType == 'Teaching') {
+      this.IsTeaching = true;
+    }
+    else {
+      this.IsTeaching = false;
+      this.request.CourseID = 0;
+    }
+  }
   async GetCollegesByDepartmentAndSsoId(ssoId: string, type: string) {
     //Show Loading
     this.loaderService.requestStarted();
@@ -83,10 +95,11 @@ export class StaffattendanceComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.collegeDataList = data['Data'];
-          //if (this.collegeDataList.length == 1) {
-          //  this.request.CollegeID = data['Data'][0]['CollegeID'];
-          //  this.is_disableDepartment = true;
-          //}
+          if (this.collegeDataList.length == 1) {
+            this.request.CollegeID = data['Data'][0]['CollegeID'];
+            this.is_disableDepartment = true;
+            this.GetCourseByCollegID(this.request.CollegeID);
+          }
         });
     }
     catch (ex) {
@@ -104,6 +117,8 @@ export class StaffattendanceComponent implements OnInit {
     this.request.Date = '';
     this.StaffAttendanceDetailsList = [];
     this.request.CourseID = 0;
+    this.request.StaffType = '';
+    this.IsTeaching = false;
     try {
       this.loaderService.requestStarted();
       this.request.CollegeID = SeletedCollegeID;
@@ -124,15 +139,21 @@ export class StaffattendanceComponent implements OnInit {
   }
   public isFormValid: boolean = true;
   async SearchData() {
+    debugger;
     this.isSubmitted = true;
     this.isFormValid = true;
+    if (this.request.StaffType == 'Teaching') {
+      if (this.request.CourseID == 0) {
+        return;
+      }
+    }
     if (this.StaffAttendForm.invalid) {
       this.isFormValid = false;
       return;
     }
     this.loaderService.requestStarted();
     try {
-      this.staffAttendanceService.GetStaffList_CollegeWise(this.request.CollegeID, this.request.CourseID)
+      this.staffAttendanceService.GetStaffList_CollegeWise(this.request.CollegeID, this.request.StaffType, this.request.CourseID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.StaffAttendanceDetailsList = data['Data'][0]['data'];
@@ -154,14 +175,10 @@ export class StaffattendanceComponent implements OnInit {
 
   async SaveData() {
     this.request.AttendanceDetailsList = [];
-
     this.request.DepartmentID = this.SelectedDepartmentID;
 
     try {
-
-
       for (var i = 0; i < this.StaffAttendanceDetailsList.length; i++) {
-
         if (this.StaffAttendanceDetailsList[i].StatusID == '' || this.StaffAttendanceDetailsList[i].StatusID == undefined) {
           this.toastr.warning('Please check one radio button.');
           return
@@ -172,7 +189,6 @@ export class StaffattendanceComponent implements OnInit {
           PresentStatus: this.StaffAttendanceDetailsList[i].StatusID != undefined ? this.StaffAttendanceDetailsList[i].StatusID : 0,
         })
       }
-
 
       this.loaderService.requestStarted();
       await this.staffAttendanceService.SaveStaffAttendanceData(this.request)
@@ -234,13 +250,14 @@ export class StaffattendanceComponent implements OnInit {
     this.isSubmitted = false;
     this.request.CollegeID = 0;
     this.request.CourseID = 0;
+    this.request.StaffType = '';
     this.request.Date = '';
     this.courseDataList = [];
     this.request.UserID = 0;
     this.request.ActiveStatus = true;
     this.request.DeleteStatus = false;
     this.StaffAttendanceDetailsList = [];
-
+    this.request.StaffType = '';
     this.request.UserID = 0;
 
   }

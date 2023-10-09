@@ -41,8 +41,9 @@ export class StaffAttendanceReportComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedDepartmentID: number = 0;
   public SelectedCollageID: number = 0;
-  //public is_disableDepartment: boolean = false;
+  public is_disableDepartment: boolean = false;
   public MaxDate: Date = new Date();
+  public IsTeaching: boolean = false;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private staffAttendanceService: StaffAttendanceService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
 
@@ -52,7 +53,8 @@ export class StaffAttendanceReportComponent implements OnInit {
     this.StaffAttendReport = this.formBuilder.group(
       {
         ddlCollegeID: ['', [DropdownValidators]],
-        ddlCourse: ['', [DropdownValidators]],
+        ddlStaffType: ['', [Validators.required]],
+        ddlCourse: [''],
         txtFromDate: ['', Validators.required],
         txtToDate: ['', Validators.required],
       })
@@ -71,7 +73,20 @@ export class StaffAttendanceReportComponent implements OnInit {
   }
   get form() { return this.StaffAttendReport.controls; }
 
-
+  async GetStaffType(SeletedStaffType: any) {
+    this.StaffAttendanceReportList = [];
+    this.request.CourseID = 0;
+    this.request.FromDate = '';
+    this.request.ToDate = '';
+    this.request.StatusID = 0;
+    if (SeletedStaffType == 'Teaching') {
+      this.IsTeaching = true;
+    }
+    else {
+      this.IsTeaching = false;
+      this.request.CourseID = 0;
+    }
+  }
   async GetCollegesByDepartmentAndSsoId(ssoId: string, type: string) {
     //Show Loading
     this.loaderService.requestStarted();
@@ -83,10 +98,11 @@ export class StaffAttendanceReportComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.collegeDataList = data['Data'];
-          //if (this.collegeDataList.length == 1) {
-          //  this.request.CollegeID = data['Data'][0]['CollegeID'];
-          //  this.is_disableDepartment = true;
-          //}
+          if (this.collegeDataList.length == 1) {
+            this.request.CollegeID = data['Data'][0]['CollegeID'];
+            this.is_disableDepartment = true;
+            this.GetCourseByCollegID(this.request.CollegeID);
+          }
         });
     }
     catch (ex) {
@@ -104,6 +120,7 @@ export class StaffAttendanceReportComponent implements OnInit {
     this.request.Date = '';
     this.StaffAttendanceReportList = [];
     this.request.CourseID = 0;
+    this.request.StaffType = '';
     try {
       this.loaderService.requestStarted();
       this.request.CollegeID = SeletedCollegeID;
@@ -147,15 +164,21 @@ export class StaffAttendanceReportComponent implements OnInit {
 
   public isFormValid: boolean = true;
   async SearchData() {
+    debugger;
     this.isSubmitted = true;
     this.isFormValid = true;
+    if (this.request.StaffType == 'Teaching') {
+      if (this.request.CourseID == 0) {
+        return;
+      }
+    }
     if (this.StaffAttendReport.invalid) {
       this.isFormValid = false;
       return;
     }
     this.loaderService.requestStarted();
     try {
-      this.staffAttendanceService.GetStaffAttendanceReportData(this.request.CollegeID, this.request.CourseID, this.request.FromDate,this.request.ToDate,this.request.StatusID)
+      this.staffAttendanceService.GetStaffAttendanceReportData(this.request.CollegeID,this.request.StaffType, this.request.CourseID, this.request.FromDate,this.request.ToDate,this.request.StatusID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.StaffAttendanceReportList = data['Data'][0]['data'];
@@ -184,6 +207,7 @@ export class StaffAttendanceReportComponent implements OnInit {
     this.request.CollegeID = 0;
     this.request.CourseID = 0;
     this.request.FromDate = '';
+    this.request.StaffType = '';
     this.request.ToDate = '';
     this.request.StatusID = 0;
     this.courseDataList = [];

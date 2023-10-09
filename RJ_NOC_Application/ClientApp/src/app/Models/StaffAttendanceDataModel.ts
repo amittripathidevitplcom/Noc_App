@@ -4,6 +4,7 @@ export class StaffAttendanceDataModel {
   public StaffAttendanceID: number = 0;
   public CollegeID: number = 0;
   public CourseID: number = 0;
+  public StaffType: string = '';
   public DepartmentID: number = 0;
   public Date: string = '';
   public ActiveStatus: boolean = true;
@@ -20,6 +21,7 @@ export class AttendanceDataModel {
 export class StaffAttendanceReportDataModel {
   public CollegeID: number = 0;
   public CourseID: number = 0;
+  public StaffType: string = '';
   public FromDate: string = '';
   public ToDate: string = '';
   public StatusID: number = 0;
