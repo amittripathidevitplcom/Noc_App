@@ -26,6 +26,17 @@
         <div class="col-md-12">
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
+            <!--OLD NOC Details Only for New-->
+
+            <mat-tab *ngIf="CollegeType_IsExisting && RevertedTabData['OLDNOCDetails']>0">
+              <ng-template mat-tab-label>
+                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['OLDNOCDetails']==0"></span>
+                <span>OLD NOC Details</span>
+              </ng-template>
+              <app-old-nocdetails></app-old-nocdetails>
+            </mat-tab>
             <!--Land Information-->
             <mat-tab *ngIf="RevertedTabData['LandInformation']>0">
               <ng-template mat-tab-label>
@@ -47,17 +58,7 @@
               <app-building-details></app-building-details>
             </mat-tab>
 
-            <!--OLD NOC Details Only for New-->
 
-            <mat-tab *ngIf="CollegeType_IsExisting && RevertedTabData['OLDNOCDetails']>0">
-              <ng-template mat-tab-label>
-                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['OLDNOCDetails']==0"></span>
-                <span>OLD NOC Details</span>
-              </ng-template>
-              <app-old-nocdetails></app-old-nocdetails>
-            </mat-tab>
 
 
             <mat-tab *ngIf="RevertedTabData['RoomDetails']>0">
@@ -141,7 +142,15 @@
               </ng-template>
               <app-academic-information></app-academic-information>
             </mat-tab>
-
+            <mat-tab *ngIf="RevertedTabData['HostelDetails']>0">
+              <ng-template mat-tab-label>
+                <i class="fa fa-bed icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HostelDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['HostelDetails']==0"></span>
+                <span>Hostel Details</span>
+              </ng-template>
+              <app-hostel-details></app-hostel-details>
+            </mat-tab>
             <mat-tab *ngIf="RevertedTabData['ClassWiseStudentDetail']>0">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon" aria-hidden="true"></i>

@@ -28,6 +28,7 @@ import { GlobalConstants } from '../../../Common/GlobalConstants';
 export class BuildingDetailsComponent implements OnInit {
   isSubmitted: boolean = false;
   buildingdetailsForm!: FormGroup;
+  holddata = new BuildingDetailsDataModel();
   buildingdetails = new BuildingDetailsDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -47,12 +48,9 @@ export class BuildingDetailsComponent implements OnInit {
   public DivisionList: any = [];
   public DistrictList_Owner: any = [];
   public UserID: number = 0;
-  public DistrictList: any = [];
-  public SuvdivisionList: any = [];
   public TehsilList_Owner: any = [];
-  public TehsilList: any = [];
-  public PanchyatSamitiList_Owner: any = [];
-  public PanchyatSamitiList: any = [];
+    public PanchyatSamitiList_Owner: any = [];
+
   public ParliamentAreaList: any = [];
   public AssembelyAreaList: any = [];
   IsBuildingDetails: boolean = false;
@@ -122,6 +120,9 @@ export class BuildingDetailsComponent implements OnInit {
   public CityName: string = '';
   public CityList: any = [];
 
+
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
   constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute,
     private routers: Router, private cdRef: ChangeDetectorRef, private clipboard: Clipboard) { }
@@ -192,6 +193,9 @@ export class BuildingDetailsComponent implements OnInit {
 
     this.buildingdetails.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+
     if (this.SelectedDepartmentID == 3) {
       this.SampleDocument = GlobalConstants.ImagePathURL + "LandTitleCertificateAnn13.pdf";
       this.RangeType = 'in Sq. Ft'
@@ -233,18 +237,51 @@ export class BuildingDetailsComponent implements OnInit {
     return true;
   }
 
-  changeBuildingType(BuildingType: any) {
+  async changeBuildingType(BuildingType: any, IsChanged: boolean) {
+    debugger;
     if (BuildingType == 'Owned') {
       this.RentAggrementDocShow = false;
       this.buildAddressShowHide = true;
       //this.IsRural = false;
-      this.Owin_RentDocTitle = 'Certificate of Own Building in own land in same campus Order No. & Order Date :'
+      this.CollegeAddressOnAutoPopulateOnPageload();
     }
     else {
       this.RentAggrementDocShow = true;
       this.buildAddressShowHide = false;
 
       this.Owin_RentDocTitle = 'Certificate of Land & Rented Building in same "Tehsil" Order No. & Order Date : '
+
+      if (this.buildingdetails.SchoolBuildingDetailsID > 0 && !IsChanged) {
+        this.buildingdetails.AddressLine1 = this.holddata.AddressLine1;
+        this.buildingdetails.AddressLine2 = this.holddata.AddressLine2;
+        this.buildingdetails.RuralUrban = this.holddata.RuralUrban;
+        await this.IsRuralOrUrban(this.buildingdetails.RuralUrban == 'Rural' ? true : false, '');
+        this.buildingdetails.DivisionID = this.holddata.DivisionID;
+        await this.FillDivisionRelatedDDL(null,this.buildingdetails.DivisionID);
+        this.buildingdetails.DistrictID = this.holddata.DistrictID;
+        await this.FillDistrictRelatedDDL(null, this.buildingdetails.DistrictID);
+        this.buildingdetails.TehsilID = this.holddata.TehsilID;
+        this.buildingdetails.CityID = this.holddata.CityID;
+        this.buildingdetails.PanchayatSamitiID = this.holddata.PanchayatSamitiID;
+        this.buildingdetails.CityTownVillage = this.holddata.CityTownVillage;
+        this.buildingdetails.Pincode = this.holddata.Pincode;
+      }
+      else {
+        this.buildingdetails.AddressLine1 = '';
+        this.buildingdetails.AddressLine2 = '';
+        this.buildingdetails.RuralUrban = '';
+        this.buildingdetails.DivisionID = 0;
+        this.buildingdetails.DistrictID = 0;
+        this.buildingdetails.TehsilID = 0;
+        this.buildingdetails.CityID = 0;
+        this.buildingdetails.PanchayatSamitiID = 0;
+        this.buildingdetails.CityTownVillage = '';
+        this.buildingdetails.Pincode = '';
+        this.DistrictList_Owner = [];
+        this.TehsilList_Owner = [];
+        this.PanchyatSamitiList_Owner = [];
+        this.CityList = [];
+      }
     }
   }
   async GetBuildingTypeCheck() {
@@ -508,27 +545,30 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.SchoolBuildingDetailsID = data['Data'][0]['data']['Table'][0]["SchoolBuildingDetailsID"];
           this.GetBuildingTypeCheck();
           this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
-          this.changeBuildingType(data['Data'][0]['data']['Table'][0]["BuildingTypeName"]);
-          this.buildingdetails.OwnerName = data['Data'][0]['data']['Table'][0]["OwnerName"];
-          this.buildingdetails.AddressLine1 = data['Data'][0]['data']['Table'][0]["AddressLine1"];
-          this.buildingdetails.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
-          this.buildingdetails.RuralUrban = data['Data'][0]['data']['Table'][0]["RuralUrban"];
-          this.buildingdetails.DivisionID = data['Data'][0]['data']['Table'][0]["DivisionID"];
-          await this.FillDivisionRelatedDDL(null, this.buildingdetails.DivisionID);
-          this.buildingdetails.DistrictID = data['Data'][0]['data']['Table'][0]["DistrictID"];
-          await this.FillDistrictRelatedDDL(null, this.buildingdetails.DistrictID);
-          this.buildingdetails.TehsilID = data['Data'][0]['data']['Table'][0]["TehsilID"];
-          if (this.buildingdetails.RuralUrban == 'Rural') {
+          this.holddata.AddressLine1 = data['Data'][0]['data']['Table'][0]["AddressLine1"];
+          this.holddata.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
+          this.holddata.RuralUrban = data['Data'][0]['data']['Table'][0]["RuralUrban"];
+          this.holddata.DivisionID = data['Data'][0]['data']['Table'][0]["DivisionID"];
+          await this.FillDivisionRelatedDDL(null, this.holddata.DivisionID);
+          this.holddata.DistrictID = data['Data'][0]['data']['Table'][0]["DistrictID"];
+          await this.FillDistrictRelatedDDL(null, this.holddata.DistrictID);
+          this.holddata.TehsilID = data['Data'][0]['data']['Table'][0]["TehsilID"];
+          if (this.holddata.RuralUrban == 'Rural') {
             this.IsRural = true;
-            this.buildingdetails.PanchayatSamitiID = data['Data'][0]['data']['Table'][0]["PanchayatSamitiID"];
+            this.holddata.PanchayatSamitiID = data['Data'][0]['data']['Table'][0]["PanchayatSamitiID"];
           }
           else {
             this.IsRural = false;
-            this.buildingdetails.CityID = data['Data'][0]['data']['Table'][0]["CityID"];
+            this.holddata.CityID = data['Data'][0]['data']['Table'][0]["CityID"];
           }
-          this.buildingdetails.CityTownVillage = data['Data'][0]['data']['Table'][0]["CityTownVillage"];
+          this.holddata.CityTownVillage = data['Data'][0]['data']['Table'][0]["CityTownVillage"];
+          this.holddata.Pincode = data['Data'][0]['data']['Table'][0]["Pincode"];
+          this.changeBuildingType(data['Data'][0]['data']['Table'][0]["BuildingTypeName"], false);
+          this.buildingdetails.OwnerName = data['Data'][0]['data']['Table'][0]["OwnerName"];
+
+         
           this.buildingdetails.ContactNo = data['Data'][0]['data']['Table'][0]["ContactNo"];
-          this.buildingdetails.Pincode = data['Data'][0]['data']['Table'][0]["Pincode"];
+
           this.buildingdetails.OwnBuildingOrderNo = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderNo"];
           this.buildingdetails.OwnBuildingOrderDate = data['Data'][0]['data']['Table'][0]["OwnBuildingOrderDate"];
           this.buildingdetails.OwnBuildingFileUpload = data['Data'][0]['data']['Table'][0]["OwnBuildingFileUpload"];
@@ -664,7 +704,7 @@ export class BuildingDetailsComponent implements OnInit {
   async GetAllBuildingDetailsList() {
     try {
       this.loaderService.requestStarted();
-      await this.buildingDetailsMasterService.GetAllBuildingDetailsList(this.UserID, this.buildingdetails.CollegeID)
+      await this.buildingDetailsMasterService.GetAllBuildingDetailsList(this.UserID, this.buildingdetails.CollegeID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -674,7 +714,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.lstBuildingDetails = data['Data'][0]['data']['Table'];
           this.lstBuildingDetailsDocument = data['Data'][0]['data']['Table1'];
           this.BuildingCollegeAddress = data['Data'][0]['data']['Table2'];
-          this.CollegeAddressOnAutoPopulateOnPageload();
+          //this.CollegeAddressOnAutoPopulateOnPageload();
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -766,6 +806,10 @@ export class BuildingDetailsComponent implements OnInit {
     if (btnSave) btnSave.innerHTML = "Save";
     const btnReset = document.getElementById('')
     if (btnReset) btnReset.innerHTML = "Reset";
+    this.DistrictList_Owner = [];
+    this.TehsilList_Owner = [];
+    this.CityList = [];
+    this.PanchyatSamitiList_Owner = [];
   }
   btnCancel_Click() {
     this.routers.navigate(['/dashboard']);
@@ -810,13 +854,13 @@ export class BuildingDetailsComponent implements OnInit {
     }
   }
   async FillDivisionRelatedDDL(event: any, SeletedValueDivision: any) {
-    this.DistrictList = [];
+    this.DistrictList_Owner = [];
     this.buildingdetails.DistrictID = 0;
-    this.TehsilList = [];
+    this.TehsilList_Owner = [];
     this.buildingdetails.TehsilID = 0;
     this.CityList = [];
     this.buildingdetails.CityID = 0;
-    this.PanchyatSamitiList = [];
+    this.PanchyatSamitiList_Owner = [];
     this.buildingdetails.PanchayatSamitiID = 0;
     this.buildingdetails.DivisionID = SeletedValueDivision;
     try {
@@ -844,16 +888,6 @@ export class BuildingDetailsComponent implements OnInit {
     // this.buildingdetails.DistrictID = SeletedValueDistrict;
     try {
       this.loaderService.requestStarted();
-      // subdivision list
-      await this.commonMasterService.GetSuvdivisionByDistrictId(SeletedValueDistrict)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.SuvdivisionList = data['Data'];
-
-        }, error => console.error(error));
       // Tehsil list
       await this.commonMasterService.GetTehsilByDistrictId(SeletedValueDistrict)
         .then((data: any) => {

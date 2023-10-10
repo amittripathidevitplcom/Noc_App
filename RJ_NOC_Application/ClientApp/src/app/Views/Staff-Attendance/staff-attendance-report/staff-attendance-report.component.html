@@ -3,25 +3,25 @@
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
-      <h3>Staff Attendance</h3>
+      <h3>Staff Attendance Report</h3>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">College</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Staff Attendance</li>
+          <li class="breadcrumb-item active" aria-current="page">Staff Attendance Report</li>
         </ol>
       </nav>
     </div>
   </div>
 </div>
-<form [formGroup]="StaffAttendForm" class="form-horizontal">
+<form [formGroup]="StaffAttendReport" class="form-horizontal">
   <div class="container-fluid mainContents">
 
     <div class="clearfix"></div>
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <b><i class="fa fa-plus"></i>&nbsp;Staff Attendance</b>
+        <b><i class="fa fa-plus"></i>&nbsp;Staff Attendance Report</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -58,29 +58,47 @@
               <p *ngIf="request.CourseID == 0"><i aria-hidden="true"></i>   This field is required .!</p>
             </div>
           </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="">From Date <span style="color:red">*</span></label>
+            <input class="form-control" type="date" id="txtFromDate" placeholder="Enter From Date" [(ngModel)]="request.FromDate" formControlName="txtFromDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+            <div *ngIf="isSubmitted&&form.txtFromDate.errors" class="text-danger">
+              <p *ngIf="form.txtFromDate.errors.required"> This field is required .!</p>
+            </div>
+          </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="txtDate">Date <span style="color:red">*</span></label>
-            <input class="form-control" type="date" id="txtDate" placeholder="Enter Date" [(ngModel)]="request.Date" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" formControlName="txtDate" />  <!--[ngModelOptions]="{standalone: true}"-->
-            <div *ngIf="isSubmitted&&form.txtDate.errors" class="text-danger">
-              <p *ngIf="form.txtDate.errors.required"> This field is required .!</p>
+            <label for="">To Date <span style="color:red">*</span></label>
+            <input class="form-control" type="date" id="txtToDate" placeholder="Enter To Date" [(ngModel)]="request.ToDate" formControlName="txtToDate" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+            <div *ngIf="isSubmitted&&form.txtToDate.errors" class="text-danger">
+              <p *ngIf="form.txtToDate.errors.required"> This field is required .!</p>
             </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtStatus" class="form-label">Status <span style="color:red">*</span></label>
+            <select [ngModelOptions]="{standalone: true}" id="ddlStatus" class="form-select" [(ngModel)]="request.StatusID">
+              <option value="0">--All--</option>
+              <option [value]="item.ID" *ngFor="let item of PresentStatusLst">
+                {{item.Name}}
+              </option>
+            </select>
+            <!--<div *ngIf="isSubmitted&&form.ddlStatus.errors" class="text-danger">
+              <p *ngIf="!form.ddlStatus.errors.DropdownValidators">This field is required .!</p>
+            </div>-->
           </div>
 
         </div>
       </div>
       <div class="card-footer text-end">
-        <button name="btnSave" id="btnSave" class="btn btn-primary" [disabled]="isLoading" (click)="SearchData()">
-          <img *ngIf="isLoading" style="width:17px" src="../../../assets/img/loader.gif" /> Search
-        </button>
+        <button name="btnSave" id="btnSave" class="btn btn-primary" [disabled]="isLoading" (click)="SearchData()"> Search</button>
         <button type="button" class="btn btn-danger" name="btnReset" id="btnReset" (click)="ResetControl()" style="margin-left:10px"> Reset</button>
 
       </div>
     </div>
-    <div *ngIf="StaffAttendanceDetailsList.length>0">
+    <div *ngIf="StaffAttendanceReportList.length>0">
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-          <b><i class="fa fa-th-list"></i>&nbsp;Staff Attendance List</b>
+          <b><i class="fa fa-th-list"></i>&nbsp;Staff Attendance Report List</b>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -88,34 +106,25 @@
               <thead>
                 <tr>
                   <th>Sr. No.</th>
+                  <th>Date</th>
                   <th>Staff Name </th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let row of StaffAttendanceDetailsList;let idx=index;">
+                <tr *ngFor="let row of StaffAttendanceReportList;let idx=index;">
                   <td>{{idx+1}}</td>
-                  <td>{{row.PersonName}}</td>
-                  <td>
-                    <div class="d-flex align-items-center">
-                      <div *ngFor="let item of PresentStatusLst;let idex=index;" class="me-3">
-                        <input type="radio" name="PresentStatusLst_{{idx}}" [(ngModel)]="row.StatusID" id="PresentStatusLst_{{idx}}" value="{{item.ID}}" [ngModelOptions]="{standalone: true}">
-                        {{item.Name}}
-                      </div>
-                    </div>
-                  </td>
+                  <td>{{row.Date | date:'dd-MM-yyyy'}}</td>
+                  <td>{{row.StaffName}}</td>
+                  <td>{{row.StatusName}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-        <div class="card-footer text-end">
-          <button name="btnSave" id="btnSave" class="btn btn-primary" [disabled]="isLoading" (click)="SaveData()">Save</button>
-          <button type="button" class="btn btn-danger" name="btnReset" id="btnReset" (click)="ResetControl()" style="margin-left:10px"> Cancel</button>
-
-        </div>
       </div>
     </div>
   </div>
 </form>
+
 

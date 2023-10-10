@@ -83,7 +83,8 @@ export class FacilityDetailsComponent implements OnInit {
   @ViewChild('fileUploadImage')
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
 
-
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
 
   constructor(private facilityDetailsService: FacilityDetailsService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
 
@@ -107,7 +108,8 @@ export class FacilityDetailsComponent implements OnInit {
 
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.GetFacilities(this.SelectedDepartmentID, 'Facilities');
     this.GetFacilityDetailAllList();
   }
@@ -441,7 +443,7 @@ export class FacilityDetailsComponent implements OnInit {
   async GetFacilityDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.facilityDetailsService.GetFacilityDetailAllList(this.UserID, this.SelectedCollageID)
+      await this.facilityDetailsService.GetFacilityDetailAllList(this.UserID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

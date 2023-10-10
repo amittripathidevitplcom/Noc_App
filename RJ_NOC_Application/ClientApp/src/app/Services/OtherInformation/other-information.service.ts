@@ -29,9 +29,9 @@ export class OtherInformationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetOtherInformationAllList(UserID: number, CollegeID: number) {
+  public async GetOtherInformationAllList(UserID: number, CollegeID: number, ApplyNOCID: number=0) {
     
-    return await this.http.get(this.APIUrl + "/GetOtherInformationAllList/" + UserID + "/" + CollegeID)
+    return await this.http.get(this.APIUrl + "/GetOtherInformationAllList/" + UserID + "/" + CollegeID + "/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

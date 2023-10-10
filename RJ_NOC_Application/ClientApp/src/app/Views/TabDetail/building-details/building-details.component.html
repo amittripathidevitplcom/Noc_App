@@ -12,7 +12,7 @@
                 <label for="buildingdeatilstype" class="form-label d-block" style="margin-right:15px">Building Category <span style="color:red;">*</span> : </label>
                 <div class="form-check form-check-inline" *ngFor="let item of lstBuildingTypeChk">
 
-                  <input class="form-check-input" type="radio" name="rdBuildingType" formControlName="rdBuildingType" id="rdBuildingType_{{item.BuildingTypeID}}" value="{{item.BuildingTypeID}}" [value]="item.BuildingTypeID" [(ngModel)]="buildingdetails.BuildingTypeID" (change)="changeBuildingType(item.BuildingTypeName)">
+                  <input class="form-check-input" type="radio" name="rdBuildingType" formControlName="rdBuildingType" id="rdBuildingType_{{item.BuildingTypeID}}" value="{{item.BuildingTypeID}}" [value]="item.BuildingTypeID" [(ngModel)]="buildingdetails.BuildingTypeID" (change)="changeBuildingType(item.BuildingTypeName,true)">
                   <label class="form-check-label" for="txtBuildinDetails">{{item.BuildingTypeName}}</label>
                 </div>
                 <div *ngIf="isSubmitted&&form.rdBuildingType.errors" class="text-danger">
@@ -679,8 +679,8 @@
                   <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFinancialResourcesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                   <td>
                     <div class="d-flex">
-                      <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                      <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                      <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info" [hidden]="QueryStringStatus=='R'&&item.Action=='Yes'"><i class="fa fa-edit"></i></button>
+                      <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" [hidden]="QueryStringStatus=='R'"><i class="fa fa-trash"></i></button>
                       <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewBuildingDocument" (click)="ViewBuildingDocument(item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></a>
                     </div>
                   </td>

@@ -80,7 +80,8 @@ export class StaffDetailsComponent implements OnInit {
   public StartYear: number = 0;
   closeResult: string | undefined;
   public EducationalQualificationDetailsById: any = [];
-
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private staffDetailService: StaffDetailService, private fileUploadService: FileUploadService
     , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private modalService: NgbModal) {
 
@@ -136,6 +137,8 @@ export class StaffDetailsComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
 
     await this.GetCourseLevelByCollegeIDAndDepartmentID();
     await this.GetCollegeWiseSubjectList(this.SelectedCollageID);
@@ -876,7 +879,7 @@ export class StaffDetailsComponent implements OnInit {
   async GetStaffDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, StaffDetailID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, StaffDetailID)
+      await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, StaffDetailID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

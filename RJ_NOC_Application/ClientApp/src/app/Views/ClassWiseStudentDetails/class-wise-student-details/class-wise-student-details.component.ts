@@ -55,7 +55,8 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
   OFTotalPHBoysFooter: number = 0
   OFTotalPHGirlsFooter: number = 0
 
-
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
 
 
   constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService) { }
@@ -64,6 +65,8 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
 
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
     this.GetCollegeWiseStudenetDetails(this.SelectedCollageID)
@@ -73,7 +76,7 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(CollageID)
+      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(CollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

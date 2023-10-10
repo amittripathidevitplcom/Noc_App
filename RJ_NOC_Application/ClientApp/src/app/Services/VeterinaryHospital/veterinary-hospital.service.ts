@@ -76,4 +76,15 @@ export class VeterinaryHospitalService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetVeterinaryHospitalListForPdf(DepartmentID: number, CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetVeterinaryHospitalListForPdf/" + DepartmentID + "/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

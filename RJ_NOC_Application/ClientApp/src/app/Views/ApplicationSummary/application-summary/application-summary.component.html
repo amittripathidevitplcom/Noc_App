@@ -2383,8 +2383,7 @@
                       <th>Hospital Name:</th>
                       <th>Distance From Institute(in KM):</th>
                       <th>Address & Contact Detail</th>
-                      <th>Animal Details</th>
-                      <th>Sanstha Bhavan Details</th>
+                      <th></th>
                     </tr>
                     <tr *ngFor="let row of vetHospitalDetaillst;let idx=index;">
                       <td>{{idx+1}}</td>
@@ -2398,30 +2397,57 @@
                         Relation With Institute:- {{row.Relation}}<br />
                         Address:- {{row.AddressLine1}},{{row.AddressLine2}},{{row.DivisionName}},{{row.DistrictName}},{{row.TehsilName}},{{row.PanchyatSamitiName}}{{row.CityName}},{{row.Pincode}}<br />
                       </td>
-                      <td>
-                        <span *ngFor="let item of AnimalDetaillst let idxe=index">
-                          <span *ngIf="row.VeterinaryHospitalID == item.VeterinaryHospitalID">
-                            {{idxe==0?'':' '}}Animal Name:- {{item.AnimalName}}<br />
-                            Male Animal Count :- {{item.MaleAnimalCount}}<br />
-                            Female Animal Count:- {{item.FemaleAnimalCount}}<br />
-                            Animal Count :- {{item.AnimalCount}}<br />
-                          </span>
-
-                        </span>
-                      </td>
-                      <td>
-                        <span *ngFor="let item of SansthaBhavanlst let idxe=index">
-                          <span *ngIf="row.VeterinaryHospitalID == item.VeterinaryHospitalID">
-                            {{idxe==0?'':' '}}Name:- {{item.RoomName}}<br />
-                            No Of :- {{item.NoOfRooms}}<br />
-                            Width(In Feet):- {{item.Width}}<br />
-                            Length(In Feet) :- {{item.Length}}<br />
-                          </span>
-
-                        </span>
-                      </td>
+                      <td></td>
                     </tr>
                   </tbody>
+ 
+                  <thead *ngIf="AnimalDetaillst.length>0">
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800; font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Animal Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="AnimalDetaillst.length>0"> 
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Animal Name:</th>
+                      <th>Male Animal Count:</th>
+                      <th> Female Animal Count</th>
+                      <th>Animal Count</th>
+                    </tr>
+                    <tr *ngFor="let row of AnimalDetaillst;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.AnimalName}}</td>
+                      <td>{{row.MaleAnimalCount}}</td>
+                      <td>{{row.FemaleAnimalCount}}</td>
+                      <td>{{row.AnimalCount}}</td>
+                    </tr>
+                  </tbody>
+                  <thead *ngIf="SansthaBhavanlst.length>0">
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800; font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Sanstha Bhavan Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="SansthaBhavanlst.length>0">
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Name:</th>
+                      <th>No Of:</th>
+                      <th>Width(In Feet)</th>
+                      <th>Length(In Feet) </th>
+                    </tr>
+                    <tr *ngFor="let row of SansthaBhavanlst;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.RoomName}}</td>
+                      <td>{{row.NoOfRooms}}</td>
+                      <td>{{row.Width}}</td>
+                      <td>{{row.Length}}</td>
+                    </tr>
+                  </tbody>
+
                 </table>
               </div>
             </div>

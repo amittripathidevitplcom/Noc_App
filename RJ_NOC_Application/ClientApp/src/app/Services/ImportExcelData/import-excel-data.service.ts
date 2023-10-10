@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ImportExcelDataDataModel } from '../../Models/ImportExcelDataDataModel';
+import { ExcelMemberDataModel, ImportExcelDataDataModel } from '../../Models/ImportExcelDataDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 
 @Injectable({
@@ -19,20 +19,40 @@ export class ImportExcelDataService {
     return throwError(error);
   }
 
-  public SaveData(request: ImportExcelDataDataModel): Observable<any> {
+  //public SaveData(request: ImportExcelDataDataModel): Observable<any> {
+  //  const headers = { 'content-type': 'application/json' }
+  //  const body = JSON.stringify(request);
+  //  return this.http.post(this.APIUrl, body, { 'headers': headers })
+  //}
+
+  public async SaveData(request: ImportExcelDataDataModel) {
+
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
-    return this.http.post(this.APIUrl, body, { 'headers': headers })
+    return await this.http.post(this.APIUrl, body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
   }
 
-  public async GetImprtExcelData(DepartmentID: number, CollageID: number, StaticsFileID: number, ActionType: string) {
+  public async UpdateSingleRow(request: ExcelMemberDataModel) {
+
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl +'/UpdateSingleRow', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetImprtExcelData(SSOID: string, DepartmentID: number, CollageID: number, StaticsFileID: number, ActionType: string) {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetImportExcelData/" + DepartmentID + "/" + CollageID + "/" + StaticsFileID + "/" + ActionType)
+    return await this.http.get(this.APIUrl + "/GetImportExcelData/" + SSOID + "/" + DepartmentID + "/" + CollageID + "/" + StaticsFileID + "/" + ActionType)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

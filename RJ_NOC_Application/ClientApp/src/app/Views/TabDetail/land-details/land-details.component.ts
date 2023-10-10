@@ -77,6 +77,9 @@ export class LandDetailsComponent implements OnInit {
 
   public LandTypeKhataAndLandArea: any = [];
 
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
+
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private landDetailsService: LandDetailsService, private fileUploadService: FileUploadService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder) {
 
@@ -112,10 +115,10 @@ export class LandDetailsComponent implements OnInit {
     this.request.LandDetailDocument = [];
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
-    this.loaderService.requestStarted();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
 
     await this.GetLandAreaMasterList_DepartmentWise(this.SelectedDepartmentID, this.SelectedCollageID);
     await this.GetLandDoucmentTypeMasterList_DepartmentWise(this.SelectedDepartmentID);
@@ -736,7 +739,7 @@ export class LandDetailsComponent implements OnInit {
   async GetLandDetailsDataList() {
     try {
       this.loaderService.requestStarted();
-      await this.landDetailsService.GetLandDetailsList(this.SelectedCollageID, 0)
+      await this.landDetailsService.GetLandDetailsList(this.SelectedCollageID, 0, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
