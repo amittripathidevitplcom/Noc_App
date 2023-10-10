@@ -282,7 +282,6 @@ export class ImportExcelDataComponent {
           if (this.State == 0) {
             this.modalService.dismissAll('After Success');
             this.toastr.success(this.SuccessMessage)
-            debugger;
             this.EditImportExcelFileDetailsByID(this.MemberData.ImportExcelID);
             this.MemberData = new ExcelMemberDataModel();
           }
@@ -459,7 +458,8 @@ export class ImportExcelDataComponent {
 
   ddlCourseTypeSelected(value: string) {
     if (value == "All") {
-      this.DownloadExcelPath = GlobalConstants.ExcelPathURL + 'Statics_Sample.xlsx';
+      // this.DownloadExcelPath = GlobalConstants.ExcelPathURL + 'Statics_Sample.xlsx';
+      this.DownloadExcelPath = '../../../assets/ExcelFile/Statics_Sample.xlsx';
       this.ShowFileDownload = true;
     }
   }
