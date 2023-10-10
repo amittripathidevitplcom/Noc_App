@@ -13,6 +13,121 @@
     </div>
   </div>
 </div>
+<!--admin-->
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.RoleID==10">
+  <div class="row">
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards ">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-bank"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Total Legal Entity</h4>
+              <h2>{{dashboardDataModel.TotalLegalEntity}}</h2>
+            </div>
+          </div>
+        </div>
+        <a  href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards ">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-bank"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Total College</h4>
+              <h2>{{dashboardDataModel.TotalCollege}}</h2>
+            </div>
+          </div>
+        </div>
+        <a  href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+
+
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-bank"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Total Application</h4>
+              <h2>{{dashboardDataModel.TotalApplication}}</h2>
+            </div>
+          </div>
+        </div>
+        <a  href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-bank"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Total Application Pending</h4>
+              <h2>{{dashboardDataModel.TotalApplicationPending}}</h2>
+            </div>
+          </div>
+        </div>
+        <a  href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-bank"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Total Application Reject</h4>
+              <h2>{{dashboardDataModel.TotalApplicationReject}}</h2>
+            </div>
+          </div>
+        </div>
+        <a  href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-bank"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Total Application Completed</h4>
+              <h2>{{dashboardDataModel.TotalApplicationCompleted}}</h2>
+            </div>
+          </div>
+        </div>
+        <a  href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!--admin-->
+
+
+
+
+
+
+
 <div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.RoleID==0 || this.sSOLoginDataModel.RoleID==1">
   <div class="row">
     <div class="col-lg-2 col-md-4 col-sm-6 col-12">
