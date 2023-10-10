@@ -21,143 +21,143 @@
     </div>
     <div class="col-md-12">
       <mat-stepper orientation="vertical">
-         <mat-step state="chat">
-     <ng-template matStepLabel>Legal Entity </ng-template>
-     <ng-template matStepContent>
-       <app-preview-legal-entity></app-preview-legal-entity>
-       <button mat-button matStepperNext>Next</button>
-     </ng-template>
-   </mat-step>
-   <mat-step state="chat">
-     <ng-template matStepLabel>College Detail</ng-template>
-     <ng-template matStepContent>
-       <app-preview-college></app-preview-college>
-       <button mat-button matStepperPrevious>Back</button>
-       <button mat-button matStepperNext>Next</button>
-     </ng-template>
-   </mat-step>
-   <mat-step state="chat">
-     <ng-template matStepLabel>Course Detail</ng-template>
-     <ng-template matStepContent>
-       <app-preview-course-detail></app-preview-course-detail>
-       <button mat-button matStepperPrevious>Back</button>
-       <button mat-button matStepperNext>Next</button>
-     </ng-template>
-   </mat-step>
-   <mat-step state="chat">
-     <ng-template matStepLabel>College Management Society</ng-template>
-     <app-college-management-society></app-college-management-society>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
-   <mat-step state="chat">
-     <ng-template matStepLabel>Land Details</ng-template>
-     <app-preview-land-detail></app-preview-land-detail>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
-   <mat-step state="chat">
-     <ng-template matStepLabel>Facility</ng-template>
-     <app-preview-facility-detail></app-preview-facility-detail>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel>Legal Entity </ng-template>
+          <ng-template matStepContent>
+            <app-preview-legal-entity></app-preview-legal-entity>
+            <button mat-button matStepperNext>Next</button>
+          </ng-template>
+        </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel>College Detail</ng-template>
+          <ng-template matStepContent>
+            <app-preview-college></app-preview-college>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </ng-template>
+        </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel>Course Detail</ng-template>
+          <ng-template matStepContent>
+            <app-preview-course-detail></app-preview-course-detail>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </ng-template>
+        </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel>College Management Society</ng-template>
+          <app-college-management-society></app-college-management-society>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel>Land Details</ng-template>
+          <app-preview-land-detail></app-preview-land-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel>Facility</ng-template>
+          <app-preview-facility-detail></app-preview-facility-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step state="chat">
-     <ng-template matStepLabel>Required Document</ng-template>
-     <app-preview-required-document></app-preview-required-document>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel>Required Document</ng-template>
+          <app-preview-required-document></app-preview-required-document>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step state="chat">
-     <ng-template matStepLabel>Class Room Details</ng-template>
-     <app-preview-room-detail></app-preview-room-detail>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel>Class Room Details</ng-template>
+          <app-preview-room-detail></app-preview-room-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step state="chat">
-     <ng-template matStepLabel *ngIf="SelectedDepartmentID==6">Clinical Details</ng-template>
-     <ng-template matStepLabel *ngIf="SelectedDepartmentID !=6">Other Information</ng-template>
-     <app-preview-other-information></app-preview-other-information>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
-   <mat-step state="chat">
-     <ng-template matStepLabel>Building Documents</ng-template>
-     <app-preview-building-detail></app-preview-building-detail>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel *ngIf="SelectedDepartmentID==6">Clinical Details</ng-template>
+          <ng-template matStepLabel *ngIf="SelectedDepartmentID !=6">Other Information</ng-template>
+          <app-preview-other-information></app-preview-other-information>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel>Building Documents</ng-template>
+          <app-preview-building-detail></app-preview-building-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step state="chat" *ngIf="CollegeType_IsExisting">
-     <ng-template matStepLabel>Staff Details</ng-template>
-     <app-preview-staff-detail></app-preview-staff-detail>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step state="chat" *ngIf="CollegeType_IsExisting">
+          <ng-template matStepLabel>Staff Details</ng-template>
+          <app-preview-staff-detail></app-preview-staff-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step *ngIf="CollegeType_IsExisting" state="chat">
-     <ng-template matStepLabel>OLD NOC Details</ng-template>
-     <app-preview-old-nocdetail></app-preview-old-nocdetail>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step *ngIf="CollegeType_IsExisting" state="chat">
+          <ng-template matStepLabel>OLD NOC Details</ng-template>
+          <app-preview-old-nocdetail></app-preview-old-nocdetail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step *ngIf="CollegeType_IsExisting" state="chat">
-     <ng-template matStepLabel>Academic Information</ng-template>
-     <app-preview-academic-information></app-preview-academic-information>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step *ngIf="CollegeType_IsExisting" state="chat">
+          <ng-template matStepLabel>Academic Information</ng-template>
+          <app-preview-academic-information></app-preview-academic-information>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step state="chat">
-     <ng-template matStepLabel>Other Document</ng-template>
-     <app-preview-other-document></app-preview-other-document>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel>Other Document</ng-template>
+          <app-preview-other-document></app-preview-other-document>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step state="chat" *ngIf="SelectedDepartmentID==6">
-     <ng-template matStepLabel>Hospital Details</ng-template>
-     <app-preview-hospital-detail></app-preview-hospital-detail>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step state="chat" *ngIf="SelectedDepartmentID==6">
+          <ng-template matStepLabel>Hospital Details</ng-template>
+          <app-preview-hospital-detail></app-preview-hospital-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step state="chat" *ngIf="SelectedDepartmentID==9">
-     <ng-template matStepLabel>Hospital Details</ng-template>
-     <app-preview-paramedical-hospital-detail></app-preview-paramedical-hospital-detail>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step state="chat" *ngIf="SelectedDepartmentID==9">
+          <ng-template matStepLabel>Hospital Details</ng-template>
+          <app-preview-paramedical-hospital-detail></app-preview-paramedical-hospital-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step state="chat" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
-     <ng-template matStepLabel>Hostel Details</ng-template>
-     <app-preview-hostel-details></app-preview-hostel-details>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step state="chat" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
+          <ng-template matStepLabel>Hostel Details</ng-template>
+          <app-preview-hostel-details></app-preview-hostel-details>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step state="chat" *ngIf="SelectedDepartmentID==2">
-     <ng-template matStepLabel>Veterinary Hospital</ng-template>
-     <app-preview-veterinary-hospital></app-preview-veterinary-hospital>
-     <button mat-button matStepperPrevious>Back</button>
-     <button mat-button matStepperNext>Next</button>
-   </mat-step>
+        <mat-step state="chat" *ngIf="SelectedDepartmentID==2">
+          <ng-template matStepLabel>Veterinary Hospital</ng-template>
+          <app-preview-veterinary-hospital></app-preview-veterinary-hospital>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
 
-   <mat-step state="chat" *ngIf="SelectedDepartmentID==1">
-     <ng-template matStepLabel>Farm Land Details</ng-template>
-     <app-preview-farm-land-details></app-preview-farm-land-details>
-     <button mat-button matStepperPrevious>Back</button>
-   </mat-step>
+        <mat-step state="chat" *ngIf="SelectedDepartmentID==1">
+          <ng-template matStepLabel>Farm Land Details</ng-template>
+          <app-preview-farm-land-details></app-preview-farm-land-details>
+          <button mat-button matStepperPrevious>Back</button>
+        </mat-step>
 
-   <mat-step state="chat">
-     <ng-template matStepLabel>Apply Noc Details</ng-template>
-     <app-preview-apply-noc-detail></app-preview-apply-noc-detail>
-     <button mat-button matStepperPrevious>Back</button>
-   </mat-step> 
+        <mat-step state="chat">
+          <ng-template matStepLabel>Apply Noc Details</ng-template>
+          <app-preview-apply-noc-detail></app-preview-apply-noc-detail>
+          <button mat-button matStepperPrevious>Back</button>
+        </mat-step>
 
         <mat-step state="chat">
           <ng-template matStepLabel>FDR Details</ng-template>
@@ -166,11 +166,11 @@
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-         <mat-step state="chat">
-    <ng-template matStepLabel>Payment Details</ng-template>
-    <app-preview-payment-detail></app-preview-payment-detail>
-    <button mat-button matStepperPrevious>Back</button>
-  </mat-step> 
+        <mat-step state="chat">
+          <ng-template matStepLabel>Payment Details</ng-template>
+          <app-preview-payment-detail></app-preview-payment-detail>
+          <button mat-button matStepperPrevious>Back</button>
+        </mat-step>
         <!-- Icon overrides. -->
         <ng-template matStepperIcon="chat">
           <mat-icon>forum</mat-icon>
@@ -558,12 +558,10 @@
                     </tr>
                     <tr>
                       <td>
-                        <label>
-                          <b>
-                            College Logo :- <img src="{{collegeListData.CollegeLogoPath}}" alt="College Logo" style="    width: 50px !important;
+
+                        College Logo :- <img src="{{collegeListData.CollegeLogo}}" alt="College Logo" style="    width: 50px !important;
     height: 50px !important;" class="img-thumbnail" />
-                          </b>
-                        </label>
+
                       </td>
                       <td *ngIf="collegeListData.CollegeStatus!='New'">
                         <label>Present Status of College :-{{collegeListData.PresentCollegeStatus}}</label>
@@ -572,6 +570,7 @@
                         <label>College Type :-{{collegeListData.CollegeType}}</label>
                       </td>
                     </tr>
+                    <br />
                     <tr>
                       <td>
                         <label>College Level :-{{collegeListData.CollegeLevel}}</label>
@@ -585,6 +584,7 @@
                     </tr>
                     <tr>
                       <td>
+                        ll
                         <label>College Name in Hindi :- NAresh collegeeg</label><!--{{collegeListData.CollegeNameHi}}-->
                       </td>
                       <td>
@@ -1085,7 +1085,7 @@
                       <th>Is Available</th>
                       <th>No of </th>
                       <th>Minimum Size</th>
-                      <th>Image/File</th>
+                      <!--<th>Image/File</th>-->
                     </tr>
                     <tr *ngFor="let item of FacilitiesDataAllList ; let indexOfelement=index;">
                       <td> {{indexOfelement+1}}</td>
@@ -1095,13 +1095,13 @@
                       <td>
                         {{item.MinSize}}
                       </td>
-                      <td>
-                        <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="    width: 50px !important;
-    height: 50px !important;" class="img-thumbnail" />
-                        </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                      </td>
+                      <!--<td>
+                                          <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>-->
                     </tr>
                   </tbody>
                 </table>
@@ -1130,7 +1130,7 @@
                     <th>Length (In Feet)</th>
                     <th>Room Size (sq. ft)</th>
                     <th>Student Capacity</th>
-                    <th>Upload Image</th>
+                    <!--<th>Upload Image</th>-->
                   </tr>
 
                   <tbody>
@@ -1144,13 +1144,13 @@
                       <td>{{item.Length}}</td>
                       <td> {{item.Length*item.Width}}</td>
                       <td> {{item.StudentCapacity}}</td>
-                      <td>
-                        <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{item.ImageFilePath}}" alt="Image/File" style="    width: 50px !important;
-    height: 50px !important;" class="img-thumbnail" />
-                        </a>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                      </td>
+                      <!--<td>
+                                          <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.ImageFilePath}}" alt="Image/File" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>-->
                     </tr>
 
                   </tbody>
@@ -1182,8 +1182,8 @@
                     <th>Minimum Size (Sq. Feet)</th>
                     <th>No of Computers</th>
                     <th>No of books</th>
-                    <th>Upload Image</th>
-                    <th>Book's Details Document</th>
+                    <!--<th>Upload Image</th>-->
+                    <!--<th>Book's Details Document</th>-->
                   </tr>
                   <tbody>
                     <tr *ngFor="let item of OtherInformation; let idx =index">
@@ -1205,22 +1205,22 @@
                       <td>
                         {{item.NoofBooks}}
                       </td>
-                      <td>
-                        <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{item.ImageFilePath}}" alt="Image File" style="    width: 50px !important;
-    height: 50px !important;" class="img-thumbnail" />
-                        </a>
-                        <label *ngIf="item.ImageFilePath=='N/A'">{{item.ImageFilePath}}</label>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                      </td>
-                      <td>
-                        <a *ngIf="!item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                          <img src="{{item.BookImageFilePath}}" alt="Image File" style="    width: 50px !important;
-    height: 50px !important;" class="img-thumbnail" />
-                        </a>
-                        <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
-                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                      </td>
+                      <!--<td>
+                                          <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.ImageFilePath}}" alt="Image File" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <label *ngIf="item.ImageFilePath=='N/A'">{{item.ImageFilePath}}</label>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>
+                                        <td>
+                                          <a *ngIf="!item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.BookImageFilePath}}" alt="Image File" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>-->
                     </tr>
                   </tbody>
                 </table>
@@ -1243,6 +1243,7 @@
                   <tbody>
                     <tr>
                       <th>S.No.</th>
+                      <th>Image</th>
                       <th>Person Details</th>
                       <th>Dates</th>
                       <th>Post & Service</th>
@@ -1251,6 +1252,9 @@
                     </tr>
                     <tr *ngFor="let item of StaffDetaillst let idx =index">
                       <td>{{idx+1}}</td>
+                      <td>
+                        <img src="{{item.ProfilePhoto}}" alt="Trust Logo" style="width: 50px !important;height: 50px !important;" class="img-thumbnail" />
+                      </td>
                       <td>
                         Name:- {{item.PersonName}}<br />
                         Mobile Number:- {{item.MobileNo}}<br />
@@ -2400,7 +2404,7 @@
                       <td></td>
                     </tr>
                   </tbody>
- 
+
                   <thead *ngIf="AnimalDetaillst.length>0">
                     <tr>
                       <td colspan="8" style="    font-weight: 800; font-size: 18px;">
@@ -2408,7 +2412,7 @@
                       </td>
                     </tr>
                   </thead>
-                  <tbody *ngIf="AnimalDetaillst.length>0"> 
+                  <tbody *ngIf="AnimalDetaillst.length>0">
                     <tr>
                       <th>Sr.No.</th>
                       <th>Animal Name:</th>

@@ -457,6 +457,158 @@ export class ApplicationSummaryComponent implements OnInit {
             }
           )
         }
+        else if (pDFData[i].ContentName == '#CollegeBasicInfo') {
+          autoTable(doc,
+            {
+              html: pDFData[i].ContentName,
+              styles: { fontSize: 10, overflow: "linebreak" },
+              headStyles: {
+                fillColor: '#3f51b5',
+                textColor: '#fff',
+                halign: 'left',
+                fontSize: 13
+              },
+
+              theme: 'plain',
+              bodyStyles: {
+                halign: 'left', valign: "top"
+              },
+              showHead: "everyPage",
+              margin: {
+                left: 16,
+                right: 16,
+                top: 35,
+                bottom: 70
+              },
+              tableLineWidth: 0.5,
+              didDrawPage: function (data) {
+                // Header
+
+                doc.setFontSize(13);
+                doc.setTextColor("#161C22");
+
+                doc.text(Heading1, 140, 10, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(12);
+                doc.text(Heading2, 140, 15, { align: 'center', maxWidth: 200 });
+                doc.setFontSize(12);
+                doc.text(Heading3, 140, 20, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(10);
+                doc.text(Heading4, 140, 25, { align: 'center', maxWidth: 150 });
+                doc.setFontSize(8);
+                doc.text(Heading5, 140, 30, { align: 'center', maxWidth: 100 });
+
+                // Footer
+                let str = "1";//+ doc.internal.getNumberOfPages();
+                doc.setFontSize(13);
+
+
+                let pageSize = doc.internal.pageSize;
+                let pageHeight = pageSize.height
+                  ? pageSize.height
+                  : pageSize.getHeight();
+                doc.line(264, 377, 15, 377)
+                doc.setTextColor("#3f51b5");
+                doc.text(Footer1, data.settings.margin.left, pageHeight - 50);
+                doc.line(264, 385, 15, 385)
+                doc.setFontSize(10);
+                doc.setTextColor("#161C22");
+                doc.text(Footer2, data.settings.margin.left, pageHeight - 43);
+                doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
+                doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
+                let down = (pageHeight - 39);
+                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
+                doc.text(str, 575, 830);
+              },
+              didDrawCell: function (data) {
+                //data.cell.height = 20;
+                debugger;
+                if ((data.column.index === 0) && data.row.index == 1 && data.cell.section === 'body') {
+                  let td = data.cell.raw
+                  var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
+                  var dim = data.cell.height - data.cell.padding('vertical');
+                  //var textPos = data.cell.textPos;
+                  doc.addImage(img.src, 'JPEG', data.cell.x + 35, data.cell.y + 2, 10, 10);
+                }
+              }
+            }
+          )
+        }
+        else if (pDFData[i].ContentName == '#StaffDetails') {
+          autoTable(doc,
+            {
+              html: pDFData[i].ContentName,
+              styles: { fontSize: 10, overflow: "linebreak" },
+              headStyles: {
+                fillColor: '#3f51b5',
+                textColor: '#fff',
+                halign: 'left',
+                fontSize: 13
+              },
+
+              theme: 'plain',
+              bodyStyles: {
+                halign: 'left', valign: "top"
+              },
+              showHead: "everyPage",
+              margin: {
+                left: 16,
+                right: 16,
+                top: 35,
+                bottom: 70
+              },
+              tableLineWidth: 0.5,
+              didDrawPage: function (data) {
+                // Header
+
+                doc.setFontSize(13);
+                doc.setTextColor("#161C22");
+
+                doc.text(Heading1, 140, 10, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(12);
+                doc.text(Heading2, 140, 15, { align: 'center', maxWidth: 200 });
+                doc.setFontSize(12);
+                doc.text(Heading3, 140, 20, { align: 'center', maxWidth: 100 });
+                doc.setFontSize(10);
+                doc.text(Heading4, 140, 25, { align: 'center', maxWidth: 150 });
+                doc.setFontSize(8);
+                doc.text(Heading5, 140, 30, { align: 'center', maxWidth: 100 });
+
+                // Footer
+                let str = "1";//+ doc.internal.getNumberOfPages();
+                doc.setFontSize(13);
+
+
+                let pageSize = doc.internal.pageSize;
+                let pageHeight = pageSize.height
+                  ? pageSize.height
+                  : pageSize.getHeight();
+                doc.line(264, 377, 15, 377)
+                doc.setTextColor("#3f51b5");
+                doc.text(Footer1, data.settings.margin.left, pageHeight - 50);
+                doc.line(264, 385, 15, 385)
+                doc.setFontSize(10);
+                doc.setTextColor("#161C22");
+                doc.text(Footer2, data.settings.margin.left, pageHeight - 43);
+                doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
+                doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
+                let down = (pageHeight - 39);
+                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
+                doc.text(str, 575, 830);
+              },
+              didDrawCell: function (data) {
+                if ((data.column.index === 1) && data.row.index >= 1 && data.cell.section === 'body') {
+                  let td = data.cell.raw
+                  var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
+                  var dim = data.cell.height - data.cell.padding('vertical');
+                  //var textPos = data.cell.textPos;
+                  doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, 11, 20);
+                }
+              }
+            }
+          )
+        }
         else {
           if (pDFData[i].ContentName == '#CollegeManagementSociety') {
             doc.addPage();
