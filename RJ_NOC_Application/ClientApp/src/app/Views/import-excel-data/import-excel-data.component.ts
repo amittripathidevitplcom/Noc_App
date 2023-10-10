@@ -47,6 +47,7 @@ export class ImportExcelDataComponent {
   public DownloadExcelPath: string = '';
   public ShowFileDownload: boolean = false;
   public ShowHideEditApplicationAction: boolean = false;
+  public isDisabled: boolean = false;
   public YearData: any = [];
 
   closeResult: string | undefined;
@@ -144,11 +145,13 @@ export class ImportExcelDataComponent {
   async ResetControl() {
     this.importExcelData = [];
     this.request = new ImportExcelDataDataModel();
+    this.MemberData = new ExcelMemberDataModel();
     this.GetImportExcelData();
     this.file = document.getElementById('fileData');
     this.file.value = '';
     this.ShowHideEditApplicationAction = false;
     this.request.Data = [];
+    this.isDisabled = false;
   }
 
   async SaveData() {
@@ -209,7 +212,6 @@ export class ImportExcelDataComponent {
           if (this.State == 0) {
             this.importExcelData = [];
             this.toastr.success(this.SuccessMessage)
-            //this.modalService.dismissAll('After Success');
             this.ResetControl();
             this.GetImportExcelData();
           }
@@ -232,7 +234,7 @@ export class ImportExcelDataComponent {
   }
 
   async UpdateSingleRow(data: any) {
-    
+
     try {
       this.MemberData = data;
       this.loaderService.requestStarted();
@@ -248,7 +250,44 @@ export class ImportExcelDataComponent {
             this.toastr.success(this.SuccessMessage)
           }
           else {
-            this.toastr.error(this.ErrorMessage)          
+            this.toastr.error(this.ErrorMessage)
+          }
+        }, error => {
+          this.toastr.warning("There are some error.Please try again .!");
+          setTimeout(() => {
+          }, 200);
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
+
+  async AddSingleRow(data: any) {
+
+    try {
+      this.MemberData = data;
+      this.loaderService.requestStarted();
+      this.request.DepartmentID = this.SelectedDepartmentID;
+      this.request.SSOID = this.sSOLoginDataModel.SSOID;
+      await this.importExcelDataService.UpdateSingleRow(this.MemberData)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.modalService.dismissAll('After Success');
+            this.toastr.success(this.SuccessMessage)
+            debugger;
+            this.EditImportExcelFileDetailsByID(this.MemberData.ImportExcelID);
+            this.MemberData = new ExcelMemberDataModel();
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
           }
         }, error => {
           this.toastr.warning("There are some error.Please try again .!");
@@ -318,16 +357,12 @@ export class ImportExcelDataComponent {
 
   CloseApplicationAction_Click() {
     this.ShowHideEditApplicationAction = false;
+    this.isDisabled = false;
     this.request.Data = [];
   }
 
   async EditImportExcelFileDetailsByID(StaticsFileID: number) {
     try {
-      //this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-      //  this.closeResult = `Closed with: ${result}`;
-      //}, (reason) => {
-      //  this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      //});
       this.request.Data = [];
       this.loaderService.requestStarted();
       this.request.StaticsFileID = StaticsFileID;
@@ -339,9 +374,36 @@ export class ImportExcelDataComponent {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ShowHideEditApplicationAction = true;
-
+          this.isDisabled = true;
           this.request.Data = data['Data'][0]['data'];
         }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async AddSingleRowByID(content: any, StaticsFileID: number) {
+    try {
+      this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+      this.MemberData = new ExcelMemberDataModel();
+      this.loaderService.requestStarted();
+      this.MemberData.ImportExcelID = StaticsFileID;
+      this.MemberData.ID = 0;
+      this.MemberData.Section = '0';
+      this.MemberData.PH = '0';
+      this.MemberData.Minorty = '0';
+      this.MemberData.Year = '0';
+      this.MemberData.Cast = '0';
+      this.MemberData.Gender = '0';
     }
     catch (Ex) {
       console.log(Ex);
