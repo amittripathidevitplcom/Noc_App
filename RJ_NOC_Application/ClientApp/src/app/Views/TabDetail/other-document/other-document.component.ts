@@ -76,7 +76,8 @@ export class OtherDocumentComponent implements OnInit {
 
   public HospitalRealtedDocuments: RequiredDocumentsDataModel_Documents[] = []
 
-
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
   constructor(private collegeDocumentService: CollegeDocumentService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute,
     private routers: Router, private cdRef: ChangeDetectorRef, private clipboard: Clipboard) { }
@@ -96,6 +97,8 @@ export class OtherDocumentComponent implements OnInit {
       })
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //this.request.CollegeID = this.SelectedCollageID;
     //this.request.DepartmentID = this.SelectedDepartmentID;

@@ -679,8 +679,8 @@
                   <td *ngIf="SelectedDepartmentID ==6"><a target="_blank" href="{{item.OtherFinancialResourcesFileUploadPath}}" title="View Front View File"><i class="fa fa-eye"></i></a></td>
                   <td>
                     <div class="d-flex">
-                      <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                      <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                      <button type="button" (click)="Edit_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info" [hidden]="QueryStringStatus=='R'&&item.Action=='Yes'"><i class="fa fa-edit"></i></button>
+                      <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.SchoolBuildingDetailsID)" [attr.disabled]="isDisabledGrid ? true : null" [hidden]="QueryStringStatus=='R'"><i class="fa fa-trash"></i></button>
                       <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewBuildingDocument" (click)="ViewBuildingDocument(item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></a>
                     </div>
                   </td>

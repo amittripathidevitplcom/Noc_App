@@ -56,13 +56,13 @@ export class BuildingDetailsMasterService {
       ).toPromise();
   }
 
-  public async GetAllBuildingDetailsList(UserID: number, CollegeID: number) {
+  public async GetAllBuildingDetailsList(UserID: number, CollegeID: number, ApplyNOCID: number=0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetAllBuildingDetailsList/" + UserID + "/" + CollegeID)
+    return await this.http.get(this.APIUrl + "/GetAllBuildingDetailsList/" + UserID + "/" + CollegeID + "/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

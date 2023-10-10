@@ -126,8 +126,8 @@
                         <td><a *ngIf="row.FacilitiesUrl!=''" target="_blank" href="{{row.FacilitiesUrlPath}}"><i class="fa fa-eye"></i></a></td>
                         <td>
                           <div class="d-flex">
-                            <button type="button" (click)="Edit_OnClick(row.FacilityDetailID)" [disabled]="isDisabledGrid" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.FacilityDetailID)" [disabled]="isDisabledGrid"><i class="fa fa-trash"></i></button>
+                            <button type="button" (click)="Edit_OnClick(row.FacilityDetailID)" [disabled]="isDisabledGrid" title="Edit" class="btn btn-sm btn-info" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.FacilityDetailID)" [hidden]="QueryStringStatus=='R'" [disabled]="isDisabledGrid"><i class="fa fa-trash"></i></button>
                           </div>
                         </td>
                       </tr>

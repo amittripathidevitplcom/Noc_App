@@ -95,7 +95,8 @@ export class RoomDetailsComponent implements OnInit {
   @ViewChild('fileUploadImage')
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
 
-
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
   constructor(private roomDetailsService: RoomDetailsService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute,
     private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
@@ -120,6 +121,8 @@ export class RoomDetailsComponent implements OnInit {
 
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.request.DepartmentID = this.SelectedDepartmentID;
     this.LoadMaster();
     this.GetRoomDetailAllList();
@@ -453,7 +456,7 @@ export class RoomDetailsComponent implements OnInit {
   async GetRoomDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.roomDetailsService.GetRoomDetailAllList(this.UserID, this.SelectedCollageID)
+      await this.roomDetailsService.GetRoomDetailAllList(this.UserID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

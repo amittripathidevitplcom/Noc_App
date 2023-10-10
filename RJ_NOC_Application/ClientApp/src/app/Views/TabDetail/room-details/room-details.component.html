@@ -168,8 +168,8 @@
                 <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                 <td align="center">
                   <div class="d-flex">
-                    <button type="button" style="margin-right:10px" (click)="Edit_OnClick(row.CollegeWiseRoomID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                    <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseRoomID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                    <button type="button" style="margin-right:10px" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'" (click)="Edit_OnClick(row.CollegeWiseRoomID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                    <button *ngIf="isDeleteButton" type="button" [hidden]="QueryStringStatus=='R'" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseRoomID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
                   </div>
                 </td>
               </tr>

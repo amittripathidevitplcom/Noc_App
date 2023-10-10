@@ -236,8 +236,8 @@
           <td><a *ngIf="row.UploadNOCDoc!=''" target="_blank" href="{{row.UploadNOCDocPath}}" title="View Upload Document"><i class="fa fa-eye"></i></a></td>
           <td>{{row.Remark}}</td>
           <td>
-            <button type="button" class="btn btn-sm btn-primary" title="Edit" [attr.disabled]="isDisabled ? true : null" (click)="EditItem(row.OldNocID)"><i class="fa fa-edit"></i></button>
-            <button type="button" class="btn btn-sm btn-danger" title="Delete" [attr.disabled]="isDisabled ? true : null" (click)="DeleteOldNocDetail(row.OldNocID)"><i class="fa fa-trash"></i></button>
+            <button type="button" class="btn btn-sm btn-primary" title="Edit" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'" [attr.disabled]="isDisabled ? true : null" (click)="EditItem(row.OldNocID)"><i class="fa fa-edit"></i></button>
+            <button type="button" class="btn btn-sm btn-danger" title="Delete" [hidden]="QueryStringStatus=='R'" [attr.disabled]="isDisabled ? true : null" (click)="DeleteOldNocDetail(row.OldNocID)"><i class="fa fa-trash"></i></button>
           </td>
         </tr>
         <!--<tr *ngFor="let item of OldNocDetails let idx =index">

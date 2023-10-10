@@ -890,7 +890,9 @@ export class CheckListForCommissionerComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'].length > 0) {
             this.UserRoleList = data['Data'];
+
             if (this.UserRoleList.length > 0) {
+              this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
               this.NextRoleID = this.UserRoleList[0]['RoleID'];
               await this.NextGetUserDetailsByRoleID();
             }

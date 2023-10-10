@@ -72,7 +72,8 @@ export class AcademicInformationComponent implements OnInit {
 
   @ViewChild('fileUploadImage')
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
-
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
   constructor(private academicInformationDetailsService: AcademicInformationDetailsService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
 
@@ -98,7 +99,8 @@ export class AcademicInformationComponent implements OnInit {
 
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.GetCourseList_CollegeWise(this.SelectedCollageID);
     this.GetResult(this.SelectedDepartmentID, 'Result');
     this.GetAllFinancialYear();
@@ -337,7 +339,7 @@ export class AcademicInformationComponent implements OnInit {
   async GetAcademicInformationDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.academicInformationDetailsService.GetAcademicInformationDetailAllList(this.UserID, this.SelectedCollageID)
+      await this.academicInformationDetailsService.GetAcademicInformationDetailAllList(this.UserID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

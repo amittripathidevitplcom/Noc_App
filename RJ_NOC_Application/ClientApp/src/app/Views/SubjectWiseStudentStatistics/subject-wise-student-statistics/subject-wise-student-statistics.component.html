@@ -61,54 +61,54 @@
                   </td>
 
                   <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FirstYearBoysCount" autocomplete="off">
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FirstYearBoysCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
 
                   </td>
                   <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FirstYearGirlsCount" autocomplete="off">
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FirstYearGirlsCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
                   </td>
 
                   <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.SecYearBoysCount" autocomplete="off">
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.SecYearBoysCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
                   </td>
                   <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.SecYearGirlsCount" autocomplete="off">
-                  </td>
-
-                  <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.ThirdYearBoysCount" autocomplete="off">
-                  </td>
-                  <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.ThirdYearGirlsCount" autocomplete="off">
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.SecYearGirlsCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
                   </td>
 
                   <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.PervYearBoysCount" autocomplete="off">
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.ThirdYearBoysCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
                   </td>
                   <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.PervYearGirlsCount" autocomplete="off">
-                  </td>
-
-                  <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FinalYearBoysCount" autocomplete="off">
-                  </td>
-                  <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FinalYearGirlsCount" autocomplete="off">
-                  </td>
-
-
-                  <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.DiplomaBoysCount" autocomplete="off">
-                  </td>
-                  <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.DiplomaGirlsCount" autocomplete="off">
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.ThirdYearGirlsCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
                   </td>
 
                   <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txOtherBoysCount{{idx}}" name="txTotalBoys{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.OtherBoysCount" autocomplete="off">
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.PervYearBoysCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
                   </td>
                   <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txOtherGirlsCount{{idx}}" name="txTotalGirls{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.OtherGirlsCount" autocomplete="off">
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.PervYearGirlsCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FinalYearBoysCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.FinalYearGirlsCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
+                  </td>
+
+
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.DiplomaBoysCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.DiplomaGirlsCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txOtherBoysCount{{idx}}" name="txTotalBoys{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.OtherBoysCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txOtherGirlsCount{{idx}}" name="txTotalGirls{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.OtherGirlsCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
                   </td>
 
 
