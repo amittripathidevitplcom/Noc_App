@@ -29,9 +29,9 @@ export class OldnocdetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetOldNOCDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, OldNocID: number) {
+  public async GetOldNOCDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, OldNocID: number, ApplyNOCID: number = 0) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return await this.http.get(this.APIUrl + '/GetOldNOCDetailList_DepartmentCollegeWise/' + DepartmentID + "/" + CollegeID + "/" + OldNocID, httpOptions)
+    return await this.http.get(this.APIUrl + '/GetOldNOCDetailList_DepartmentCollegeWise/' + DepartmentID + "/" + CollegeID + "/" + OldNocID + "/" + ApplyNOCID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

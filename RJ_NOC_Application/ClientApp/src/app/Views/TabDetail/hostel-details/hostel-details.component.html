@@ -427,9 +427,9 @@
                   <td>{{row.ContactPersonNo}}</td>
                   <td>{{row.HostelCategory}}</td>
                   <td>
-                    <button type="button" class="btn btn-sm btn-primary" title="Edit" (click)="EditItem(row.HostelDetailID)" [attr.disabled]="isDisabled ? true : null"><i class="fa fa-edit"></i></button>
+                    <button type="button" class="btn btn-sm btn-primary" title="Edit" (click)="EditItem(row.HostelDetailID)" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'" [attr.disabled]="isDisabled ? true : null"><i class="fa fa-edit"></i></button>
                     <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewItem(mymodal,row.HostelDetailID)"><i class="fa fa-eye"></i></button>
-                    <button type="button" class="btn btn-sm btn-danger" (click)="DeleteHostelDetails(row.HostelDetailID)" title="Delete" [attr.disabled]="isDisabled ? true : null"><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-sm btn-danger" (click)="DeleteHostelDetails(row.HostelDetailID)" [hidden]="QueryStringStatus=='R'" title="Delete" [attr.disabled]="isDisabled ? true : null"><i class="fa fa-trash"></i></button>
 
                   </td>
                 </tr>

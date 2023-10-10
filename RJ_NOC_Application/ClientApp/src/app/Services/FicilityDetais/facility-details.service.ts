@@ -27,9 +27,9 @@ export class FacilityDetailsService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetFacilityDetailAllList(UserID: number, CollageID: number) {
+  public async GetFacilityDetailAllList(UserID: number, CollageID: number, ApplyNOCID: number=0) {
     
-    return await this.http.get(this.APIUrl + "/GetFacilityDetailAllList/" + UserID + "/" + CollageID)
+    return await this.http.get(this.APIUrl + "/GetFacilityDetailAllList/" + UserID + "/" + CollageID + "/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

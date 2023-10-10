@@ -29,9 +29,9 @@ export class StaffDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetStaffDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, StaffDetailID: number) {
+  public async GetStaffDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, StaffDetailID: number, ApplyNOCID: number=0) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return await this.http.get(this.APIUrl + '/GetStaffDetailList_DepartmentCollegeWise/' + DepartmentID + "/" + CollegeID + "/" + StaffDetailID, httpOptions)
+    return await this.http.get(this.APIUrl + '/GetStaffDetailList_DepartmentCollegeWise/' + DepartmentID + "/" + CollegeID + "/" + StaffDetailID + "/" + ApplyNOCID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

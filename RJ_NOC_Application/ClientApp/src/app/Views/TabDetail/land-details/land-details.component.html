@@ -305,9 +305,8 @@
           <!--<td>{{item.BuildingHostelQuartersRoadArea}}</td>-->
           <td>
             <div class="d-flex">
-              <button type="button" (click)="Edit_OnClick(item.LandDetailID)" title="Edit" class="btn btn-sm btn-info" [disabled]="isDisabledGrid"><i class="fa fa-edit"></i></button>
-              <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteLandDetail(item.LandDetailID)" [disabled]="isDisabledGrid"><i class="fa fa-trash"></i></button>
-
+              <button type="button" (click)="Edit_OnClick(item.LandDetailID)" title="Edit" class="btn btn-sm btn-info" [disabled]="isDisabledGrid" [hidden]="(QueryStringStatus=='R'&&item.Action=='Yes')"><i class="fa fa-edit"></i></button>
+              <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteLandDetail(item.LandDetailID)" [disabled]="isDisabledGrid" [hidden]="QueryStringStatus=='R'"><i class="fa fa-trash"></i></button>
               <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-backdrop="false" data-bs-target="#ViewLandDetailDocument" (click)="ViewViewLandDetailDocumentByID(item.LandDetailID)"><i class="fa fa-eye"></i></a>
             </div>
           </td>

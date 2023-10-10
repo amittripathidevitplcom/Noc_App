@@ -12,7 +12,7 @@
           {{item.DocumentName}} <span style="color:red;" *ngIf="item.IsMandatory">*</span>
         </label>
         <div class="d-flex">
-          <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (change)="onFilechange($event,item)" />
+          <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (change)="onFilechange($event,item)" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'"/>
           <label class="btn upload" for="fileLandDocument_{{item.DID}}">
             <span class="filename">Choose file</span>
             {{item.FileName === '' ? 'No File Choosen' : item.Dis_FileName}}
@@ -20,7 +20,7 @@
 
           <div class="btn-group" *ngIf="item.FileName !== ''">
             <a class="btn btn-outline-primary" target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a>
-            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(item)"><i class="fa fa-trash-o"></i></button>
+            <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(item)" [hidden]="QueryStringStatus=='R'"><i class="fa fa-trash-o"></i></button>
           </div>
         </div>
         <a style="color: #3458c8;" *ngIf="item.SampleDocument !=''" target="_blank" href="{{item.SampleDocument}}">{{item.DisplayName}}</a>

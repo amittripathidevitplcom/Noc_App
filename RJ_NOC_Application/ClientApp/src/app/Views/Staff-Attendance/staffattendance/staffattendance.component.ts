@@ -75,7 +75,7 @@ export class StaffattendanceComponent implements OnInit {
 
   async GetStaffType(SeletedStaffType: any) {
     this.StaffAttendanceDetailsList = [];
-    this.request.Date = '';
+    //this.request.Date = '';
     if (SeletedStaffType == 'Teaching') {
       this.IsTeaching = true;
     }
@@ -114,7 +114,7 @@ export class StaffattendanceComponent implements OnInit {
   }
 
   async GetCourseByCollegID(SeletedCollegeID: any) {
-    this.request.Date = '';
+    //this.request.Date = '';
     this.StaffAttendanceDetailsList = [];
     this.request.CourseID = 0;
     this.request.StaffType = '';
