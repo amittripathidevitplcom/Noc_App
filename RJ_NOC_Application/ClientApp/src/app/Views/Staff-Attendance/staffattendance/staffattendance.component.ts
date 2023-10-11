@@ -261,6 +261,7 @@ export class StaffattendanceComponent implements OnInit {
     this.StaffAttendanceDetailsList = [];
     this.request.StaffType = '';
     this.request.UserID = 0;
+    this.IsTeaching = false;
 
   }
 
