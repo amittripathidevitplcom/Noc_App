@@ -61,7 +61,7 @@
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="txtDate">Date <span style="color:red">*</span></label>
-            <input class="form-control" type="date" id="txtDate" placeholder="Enter Date" [(ngModel)]="request.Date" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" formControlName="txtDate" />  <!--[ngModelOptions]="{standalone: true}"-->
+            <input class="form-control" type="date" id="txtDate" placeholder="Enter Date" [(ngModel)]="request.Date" max="{{MaxDate | date:'yyyy-MM-dd'}}"  onkeypress="return false;" formControlName="txtDate" />  <!--[ngModelOptions]="{standalone: true}"-->
             <div *ngIf="isSubmitted&&form.txtDate.errors" class="text-danger">
               <p *ngIf="form.txtDate.errors.required"> This field is required .!</p>
             </div>
@@ -99,7 +99,7 @@
                   <td>
                     <div class="d-flex align-items-center">
                       <div *ngFor="let item of PresentStatusLst;let idex=index;" class="me-3">
-                        <input type="radio" name="PresentStatusLst_{{idx}}" [(ngModel)]="row.StatusID" id="PresentStatusLst_{{idx}}" value="{{item.ID}}" [ngModelOptions]="{standalone: true}">
+                        <input type="radio" name="PresentStatusLst_{{idx}}" [(ngModel)]="row.StatusID" id="PresentStatusLst_{{idx}}" [value]="item.ID" [ngModelOptions]="{standalone: true}">
                         {{item.Name}}
                       </div>
                     </div>

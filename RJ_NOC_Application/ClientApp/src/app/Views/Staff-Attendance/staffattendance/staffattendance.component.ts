@@ -139,7 +139,6 @@ export class StaffattendanceComponent implements OnInit {
   }
   public isFormValid: boolean = true;
   async SearchData() {
-    debugger;
     this.isSubmitted = true;
     this.isFormValid = true;
     if (this.request.StaffType == 'Teaching') {
@@ -153,10 +152,11 @@ export class StaffattendanceComponent implements OnInit {
     }
     this.loaderService.requestStarted();
     try {
-      this.staffAttendanceService.GetStaffList_CollegeWise(this.request.CollegeID, this.request.StaffType, this.request.CourseID)
+      this.staffAttendanceService.GetStaffList_CollegeWise(this.request.CollegeID, this.request.StaffType, this.request.CourseID,this.request.Date)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.StaffAttendanceDetailsList = data['Data'][0]['data'];
+          this.request.StaffAttendanceID = data['Data'][0]['data'][0]['StaffAttendanceID'];
           if (this.StaffAttendanceDetailsList.length == 0) {
             this.toastr.warning('No Record Found !!!.');
           }
@@ -176,11 +176,14 @@ export class StaffattendanceComponent implements OnInit {
   async SaveData() {
     this.request.AttendanceDetailsList = [];
     this.request.DepartmentID = this.SelectedDepartmentID;
+    if (this.request.StaffAttendanceID == undefined || this.request.StaffAttendanceID == null) {
+      this.request.StaffAttendanceID = 0;
+    }
 
     try {
       for (var i = 0; i < this.StaffAttendanceDetailsList.length; i++) {
         if (this.StaffAttendanceDetailsList[i].StatusID == '' || this.StaffAttendanceDetailsList[i].StatusID == undefined) {
-          this.toastr.warning('Please check one radio button.');
+          this.toastr.warning('Please check at least one radio button.');
           return
         }
         this.request.AttendanceDetailsList.push({
@@ -189,7 +192,6 @@ export class StaffattendanceComponent implements OnInit {
           PresentStatus: this.StaffAttendanceDetailsList[i].StatusID != undefined ? this.StaffAttendanceDetailsList[i].StatusID : 0,
         })
       }
-
       this.loaderService.requestStarted();
       await this.staffAttendanceService.SaveStaffAttendanceData(this.request)
         .then((data: any) => {
