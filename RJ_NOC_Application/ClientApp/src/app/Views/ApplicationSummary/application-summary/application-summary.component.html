@@ -17,6 +17,7 @@
 <div class="container-fluid mainContents" id="ApplicationSummary">
   <div class="row">
     <div class="col-md-12 text-end">
+      <!--<input type="button" value="Download PDF" class="btn btn-sm btn-primary pull-right mb-2" (click)="TestPDF()" />-->
       <input type="button" value="Download PDF" class="btn btn-sm btn-primary pull-right mb-2" (click)="btnViewPDfPreview(myApplicationSummery)" />
     </div>
     <div class="col-md-12">
@@ -203,8 +204,7 @@
                 <table class="table table-hover table-striped-columns text-left" id="LegalBasicInfo" #content>
                   <thead>
                     <tr>
-                      <td colspan="3" style="    font-weight: 800;
-    font-size: 18px;">
+                      <td colspan="3" style="font-weight: 800;font-size: 18px;">
                         <b><i class="bi bi-table"></i>&nbsp;Legal Entity</b>
                       </td>
                     </tr>
@@ -558,10 +558,17 @@
                     </tr>
                     <tr>
                       <td>
-
                         College Logo :- <img src="{{collegeListData.CollegeLogo}}" alt="College Logo" style="    width: 50px !important;
     height: 50px !important;" class="img-thumbnail" />
-
+                      </td>
+                      <td colspan="2">
+                        <label>College Name in Hindi :- {{collegeListData.CollegeNameHi}}</label>
+                      </td>
+                    </tr>
+                    <tr><td colspan="3"></td></tr>
+                    <tr>
+                      <td>
+                        <label>College Name in English :-{{collegeListData.CollegeNameEn}}</label>
                       </td>
                       <td *ngIf="collegeListData.CollegeStatus!='New'">
                         <label>Present Status of College :-{{collegeListData.PresentCollegeStatus}}</label>
@@ -579,17 +586,10 @@
                         <label>College Code :-{{collegeListData.CollegeCode}}</label>
                       </td>
                       <td>
-                        <label>College Name in English :-{{collegeListData.CollegeNameEn}}</label>
+                        <label>IS Your College NAAC Accredited :-{{collegeListData.CollegeNAACAccredited}}</label>
                       </td>
                     </tr>
                     <tr>
-                      <td>
-                        ll
-                        <label>College Name in Hindi :- NAresh collegeeg</label><!--{{collegeListData.CollegeNameHi}}-->
-                      </td>
-                      <td>
-                        <label>IS Your College NAAC Accredited :-{{collegeListData.CollegeNAACAccredited}}</label>
-                      </td>
                       <td *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
                         <label>NAAC Accredited Certificate :-{{collegeListData.NAACAccreditedCertificatePath}}</label>
                       </td>

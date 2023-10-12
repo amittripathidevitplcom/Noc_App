@@ -180,4 +180,182 @@ export class AgricultureDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+
+  public async GetPhysicalVerificationAppliationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetPhysicalVerificationAppliationList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetFinalVerificationAppliationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetFinalVerificationAppliationList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetPostVerificationAppliationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetPostVerificationAppliationList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetPreVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetPreVerificationDoneList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetPostVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetPostVerificationDoneList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetFinalVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetFinalVerificationDoneList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async FinalSubmitInspectionCommittee(ApplyNOCID: number, DepartmentID: number, UserID: Number, ActionName: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/FinalSubmitInspectionCommittee/" + ApplyNOCID + "/" + DepartmentID + "/" + UserID + "/" + ActionName, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetPreVerificationchecklistDetails(Type: string, DepartmentID: number, ApplyNOCID: number, CreatedBy: number, RoleID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetPreVerificationchecklistDetails/" + Type + "/" + DepartmentID + "/" + ApplyNOCID + "/" + CreatedBy + "/" + RoleID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async FinalSubmitPreVerification(ApplyNOCID: number, DepartmentID: number, UserID: Number, ActionName: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/FinalSubmitPreVerification/" + ApplyNOCID + "/" + DepartmentID + "/" + UserID + "/" + ActionName, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetNOCApplicationList(Action: string, DepartmentID: number, UserID: number, RoleID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetNOCApplicationList/" + UserID + "/" + RoleID + "/" + DepartmentID + "/" + Action)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetFinalNOCApplicationList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const body = { SSOID: SSOID, UserID: UserID, RoleID: RoleID, DepartmentID: DepartmentID, Status: QueryStringStatus };
+    return await this.http.post(this.APIUrl + "/GetFinalNOCApplicationList/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetNOCCourse(ActionType: string, DepartmentID: number, ApplyNocID: number, CollegeID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetNOCCourse/" + ApplyNocID + "/" + DepartmentID + "/" + CollegeID + "/" + ActionType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async UpdateNOCPDFData(ActionType: string, DepartmentID: number, ApplyNocID: number, CollegeID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/UpdateNOCPDFData/" + ApplyNocID + "/" + DepartmentID + "/" + CollegeID + "/" + ActionType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async FinalNOCRejectRelese(ApplyNOCID: number, DepartmentID: number, RoleID: number, UserID: number, NOCIssuedRemark: string) {
+
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify({ ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID, RoleID: RoleID, UserID: UserID, NOCIssuedRemark: NOCIssuedRemark });
+    return await this.http.post(this.APIUrl + '/FinalNOCRejectRelese', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

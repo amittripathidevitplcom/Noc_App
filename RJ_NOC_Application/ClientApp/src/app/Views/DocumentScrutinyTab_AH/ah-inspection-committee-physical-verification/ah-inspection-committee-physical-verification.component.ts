@@ -17,6 +17,7 @@ import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 import { fail } from 'assert';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
+import { EnumCheckListType_AH, EnumCommitteType } from '../../../Common/enum-noc';
 
 @Component({
   selector: 'app-ah-inspection-committee-physical-verification',
@@ -162,7 +163,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
           if (this.SelectedDepartmentID == 2) {
             if (this.CollegeType_IsExisting) {
-              if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+              if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
                 || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
                 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
                 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0) {
@@ -170,7 +171,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
               }
             }
             else {
-              if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+              if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
                 || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
                 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0
               ) {
@@ -193,7 +194,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
   async GetRNCCheckListByTypeDepartment(ApplyNOCID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetRNCCheckListByTypeDepartment('PVCRD', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
+      await this.commonMasterService.GetRNCCheckListByTypeDepartment(EnumCheckListType_AH.PVCRD.toString(), this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -445,7 +446,7 @@ export class AhInspectionCommitteePhysicalVerificationComponent {
 
     try {
       this.loaderService.requestStarted();
-      await this.committeeMasterService.GetApplicationCommitteeList_AH(ApplyNocApplicationID, "PreVerification")
+      await this.committeeMasterService.GetApplicationCommitteeList_AH(ApplyNocApplicationID, EnumCommitteType.Pre)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

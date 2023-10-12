@@ -27,6 +27,7 @@ export class DashboardDataModel {
   public secretary_Rejected: number = 0;
   public ScrutinyCommittee_Forward: number = 0;
   public RegistratCommittee_Forward: number = 0;
+  public ApprovedAndForward: number = 0;
 
   //Section Officer Count
   public SectionOffs_Pending: number = 0;
