@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormA
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel } from '../../../Models/ApplyNOCApplicationDataModel';
+import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel, GenerateNOC_DataModel } from '../../../Models/ApplyNOCApplicationDataModel';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
@@ -17,6 +17,8 @@ import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutin
 import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
+import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
+import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterDataModel';
 
 @Component({
   selector: 'app-commissioner-application-scrutiny-list',
@@ -88,7 +90,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
   CommitteeMemberDetails!: FormGroup;
   public PVApplicationDetailsList: any[] = [];
   public PVCommitteeList: any[] = [];
-  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private applyNocParameterService: ApplyNocParameterService,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private decDocumentScrutinyService: DCEDocumentScrutinyService, private sSOLoginService: SSOLoginService, private aadharServiceDetails: AadharServiceDetails
   ) { }
@@ -134,7 +136,6 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplyNocDetails = data['Data'];
-          console.log(this.ApplyNocDetails);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -614,7 +615,6 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
     //console.log(this.request_MemberList.ApplicationCommitteeList);
     this.request_MemberList.ApplyNocApplicationID = this.SelectedApplyNOCID;
     this.request_MemberList.UserID = this.sSOLoginDataModel.UserID;
-    console.log(this.request_MemberList);
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
@@ -624,7 +624,6 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.modalService.dismissAll('After Success');
@@ -679,7 +678,6 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // data
           this.sSOVerifyDataModel = data['Data'];
-          console.log(this.sSOVerifyDataModel);
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
@@ -823,6 +821,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
   async OpenGeneratePDFPopUP(content: any, ApplyNOCID: number, DepartmentID: number) {
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
+    await this.GetApplyNOCCourseandSubject(ApplyNOCID);
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -830,18 +829,46 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
     });
 
   }
+  public requestnoc: GenerateNOC_DataModel[] = [];
+  public isSubmitNOC: boolean = false;
   public NOCIssuedRemark: string = '';
+  public SubjectCount: number = 0;
   async GeneratePDF_OnClick() {
     try {
-      this.loaderService.requestStarted();
+
+      this.SubjectCount = 0;
+      this.isSubmitNOC = true;
+      this.requestnoc = [];
       if (this.NOCIssuedRemark == '') {
-        this.isRemarkValid = true;
         this.isFormvalid = false;
+      }
+      for (var i = 0; i < this.ApplyNocApplicationDetail.length; i++) {
+        for (var j = 0; j < this.ApplyNocApplicationDetail[i].SubjectList.length; j++) {
+          if (this.ApplyNocApplicationDetail[i].SubjectList[j].IsSubjectChecked == true) {
+            this.SubjectCount++;
+            this.requestnoc.push({
+              ApplyNOCID: this.ApplyNocApplicationDetail[i].ApplyNocApplicationID,
+              DepartmentID: this.SelectedDepartmentID,
+              RoleID: this.sSOLoginDataModel.RoleID,
+              UserID: this.sSOLoginDataModel.UserID,
+              CourseID: this.ApplyNocApplicationDetail[i].CourseID,
+              CourseName: this.ApplyNocApplicationDetail[i].CourseName,
+              SubjectID: this.ApplyNocApplicationDetail[i].SubjectList[j].SubjectID,
+              SubjectName: this.ApplyNocApplicationDetail[i].SubjectList[j].SubjectName,
+              ApplyNocParameterID: this.ApplyNocApplicationDetail[i].SubjectList[j].ApplyNocParameterID,
+              NOCIssuedRemark: this.NOCIssuedRemark
+            });
+          }
+        }
+      }
+      if (this.SubjectCount <= 0) {
+        this.isFormvalid = false
       }
       if (!this.isFormvalid) {
         return;
       }
-      await this.applyNOCApplicationService.GenerateNOCForDCE(this.SelectedApplyNOCID, this.SelectedDepartmentID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.NOCIssuedRemark)
+      this.loaderService.requestStarted();
+      await this.applyNOCApplicationService.GenerateNOCForDCE(this.requestnoc)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -905,6 +932,40 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplicationTrailList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+  public ApplyNocApplicationDetail:any = [];;
+  async GetApplyNOCCourseandSubject(applyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetCourseSubjectByApplyNOCID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          console.log(data['Data']);
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationDetail = data['Data'];
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
         }, error => console.error(error));
     }
     catch (Ex) {

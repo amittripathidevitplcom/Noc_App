@@ -16,3 +16,18 @@ export class CommiteeInspection_RNCCheckList_DataModel {
   public FinalRemark: string = '';
   public RoleID: number = 0;
 }
+
+
+export class GenerateNOC_DataModel {
+  public ApplyNOCID: number = 0;
+  public DepartmentID: number = 0;
+  public RoleID: number = 0;
+  public UserID: number = 0;
+  public CourseID: number = 0;
+  public CourseName: string = '';
+  public SubjectID: number = 0;
+  public SubjectName: string = '';
+  public ApplyNocParameterID: number = 0;
+  public NOCIssuedRemark: string = '';
+
+}
