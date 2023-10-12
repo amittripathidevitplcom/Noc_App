@@ -76,8 +76,8 @@ export class StaffAttendanceReportComponent implements OnInit {
   async GetStaffType(SeletedStaffType: any) {
     this.StaffAttendanceReportList = [];
     this.request.CourseID = 0;
-    this.request.FromDate = '';
-    this.request.ToDate = '';
+    //this.request.FromDate = '';
+    //this.request.ToDate = '';
     this.request.StatusID = 0;
     if (SeletedStaffType == 'Teaching') {
       this.IsTeaching = true;

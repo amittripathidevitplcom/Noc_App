@@ -265,5 +265,7 @@ export class StaffattendanceComponent implements OnInit {
 
   }
 
-
+  async OnChangeCourseAndDate() {
+    this.StaffAttendanceDetailsList = [];
+  }
 }

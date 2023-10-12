@@ -563,7 +563,7 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label for="txtGCD_LandlineNumber" class="form-label">Landline Number</label>
-                <input class="form-control" id="txtGCD_LandlineNumber" name="txtGCD_LandlineNumber" [(ngModel)]="request.GCD_LandlineNumber" formControlName="txtGCD_LandlineNumber" maxlength="15" (keypress)="numberOnly($event)">
+                <input class="form-control" id="txtGCD_LandlineNumber" name="txtGCD_LandlineNumber" [(ngModel)]="request.GCD_LandlineNumber" formControlName="txtGCD_LandlineNumber" maxlength="12" (keypress)="numberOnly($event)">
                 <div *ngIf="isSubmitted&&form.txtGCD_LandlineNumber.errors" class="text-danger">
                   <p *ngIf="form.txtGCD_LandlineNumber.errors.pattern"><i aria-hidden="true"></i> Landline number is not valid .!</p>
                 </div>
