@@ -24,7 +24,8 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { FarmLandDetailDataModel } from '../../../Models/FarmLandDetailDataModel';
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
-
+import { SocietyDataModel } from '../../../Models/SocietyDataModel';
+import { SocityService } from '../../../Services/Master/SocietyManagement/socity.service';
 @Component({
   selector: 'app-agri-document-scrutiny-check-list-details',
   templateUrl: './agri-document-scrutiny-check-list-details.component.html',
@@ -116,7 +117,7 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
   public CheckList_collegeNearestGovernmentHospitalsList: any = [];
   public CollegeDetailFinalRemarks: any = [];
 
-
+  CheckList_societyrequest = new SocietyDataModel();
   public CheckList_SocietyAllList: any = [];
   public SocietyFinalRemarks: any = [];
   dsrequest = new DocumentScrutinyDataModel();
@@ -156,7 +157,7 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
 
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
-    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
+    private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private socityService: SocityService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
   async ngOnInit() {
@@ -311,6 +312,38 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.CheckList_SocietyAllList = data['Data'][0]['CollegeManagementSocietys'];
           this.SocietyFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async ViewCollegeManagmentDetail(content: any, SocietyID: number) {
+    this.CheckList_societyrequest = new SocietyDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.socityService.GetSocietyByID(SocietyID, 0)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckList_societyrequest = data['Data'][0];
+          if (this.CheckList_societyrequest.AadhaarNo.length > 0) {
+            const visibleDigits = 4;
+            let maskedSection = this.CheckList_societyrequest.AadhaarNo.slice(0, -visibleDigits);
+            let visibleSection = this.CheckList_societyrequest.AadhaarNo.slice(-visibleDigits);
+            this.CheckList_societyrequest.MaskedAadhaarNo = maskedSection.replace(/./g, 'X') + visibleSection;
+          }
+          console.log(this.request);
         }, error => console.error(error));
     }
     catch (Ex) {
