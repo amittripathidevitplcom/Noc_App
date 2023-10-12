@@ -59,7 +59,6 @@ export class AgriDocumentScrutinyOtherInformationComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.agricultureDocumentScrutinyService.DocumentScrutiny_OtherInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
-
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

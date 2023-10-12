@@ -77,7 +77,7 @@
                     <td>{{item.NOCTypeName}}</td>
                     <td>{{item.FinancialYearName}}</td>
                     <td>{{item.NOCNumber}}</td>
-                    <td>{{item.NOCReceivedDate}}</td>
+                    <td>{{item.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
                   </tr>
                   <tr *ngIf="OldNocDetails.length<=0">
                     <td colspan="7" style="color:red">No Data Found.!</td>

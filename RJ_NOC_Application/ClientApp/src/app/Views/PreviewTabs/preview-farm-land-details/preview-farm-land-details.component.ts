@@ -75,14 +75,14 @@ export class PreviewFarmLandDetailsComponent implements OnInit {
           this.request.RuralUrban = data['Data']["RuralUrban"];
           this.request.DivisionName = data['Data']["DivisionName"];
           this.request.DistrictName = data['Data']["DistrictName"];
-
+          this.request.TehsilName = data['Data']["TehsilName"];
           if (this.request.RuralUrban == 'Rural') {
             this.IsRural = true;
-            this.request.TehsilName = data['Data']["TehsilName"];
             this.request.PanchayatSamitiName = data['Data']["PanchayatSamitiName"];
           }
           else {
             this.IsRural = false;
+            this.request.CityName = data['Data']["CityName"];
           }
           this.request.CityTownVillage = data['Data']["CityTownVillage"];
           this.request.LandType = data['Data']["LandType"];

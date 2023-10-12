@@ -2,6 +2,7 @@
 export class FarmLandDetailDataModel {
   public FarmLandDetailID: number = 0;
   public CollegeID: number = 0;
+  public CollegeName: string = '';
   public CertificatefOfTehsildarPath: string = '';
   public CertificatefOfTehsildarName: string = '';
   public CertificatefOfTehsildar_DisName: string = '';
