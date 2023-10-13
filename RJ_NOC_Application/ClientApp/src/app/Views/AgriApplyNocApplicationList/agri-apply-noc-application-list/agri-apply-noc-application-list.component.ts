@@ -65,10 +65,7 @@ export class AgriApplyNocApplicationListComponent {
       this.CommitteType = EnumCommitteType.Pre;
       this.IsCommitteType = true;
     }
-    //else if (this.sSOLoginDataModel.RoleID == 29) {
-    //  this.CommitteType = EnumCommitteType.Post;
-    //  this.IsCommitteType = true;
-    //}
+
     else {
       this.CommitteType = 'All';
       this.IsCommitteType = false;

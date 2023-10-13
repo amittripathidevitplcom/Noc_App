@@ -148,7 +148,7 @@ export class AgriInsepctionPostVerificationComponent {
             }
             else {
               if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 ||
-                this.CheckTabsEntryData['LandInformation'] || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 ||
+                this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 ||
                 this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 ||
                 this.CheckTabsEntryData['FarmLandDetails'] <= 0) {
                 this.isFormvalid = false;

@@ -8,6 +8,7 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { EnumApplicationStatus, EnumDepartment } from '../../../Common/enum-noc';
 
 @Component({
   selector: 'app-document-scrutiny-completed-report',
@@ -33,8 +34,12 @@ export class DocumentScrutinyCompletedReportComponent implements OnInit {
   }
   async GetDocumentScrutinyCompletedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {
     try {
+      let ActionName = EnumApplicationStatus.Approve.toString();
+      if (RoleID == 28 && DepartmentID == EnumDepartment.Agriculture) {
+        ActionName = EnumApplicationStatus.ApproveandForward;
+      }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID, 'Approve', RoleID, DepartmentID)
+      await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID, ActionName, RoleID, DepartmentID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

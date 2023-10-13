@@ -643,68 +643,49 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.isNextActionValid = false;
     this.isRemarkValid = false;
     try {
-      if (this.ActionID <= 0) {
-        this.isActionTypeValid = true;
-        this.isFormvalid = false;
-      }
-      if (this.CheckFinalRemark == '') {
-        this.isRemarkValid = true;
-        this.isFormvalid = false;
-      }
+      //if (this.ActionID <= 0) {
+      //  this.isActionTypeValid = true;
+      //  this.isFormvalid = false;
+      //}
+      //if (this.CheckFinalRemark == '') {
+      //  this.isRemarkValid = true;
+      //  this.isFormvalid = false;
+      //}
 
-      if (this.ShowHideNextRoleNextUser) {
-        if (this.NextRoleID <= 0) {
-          this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextActionID <= 0) {
-          this.isNextActionValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextUserID <= 0) {
-          this.isNextUserIdValid = true;
-          this.isFormvalid = false;
-        }
-      }
-      else {
-        this.NextRoleID = 1;
-        this.NextUserID = 0;
-        this.NextActionID = 0;
-      }
-      if (this.SelectedDepartmentID == 6) {
+      //if (this.ShowHideNextRoleNextUser) {
+      //  if (this.NextRoleID <= 0) {
+      //    this.isNextRoleIDValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //  if (this.NextActionID <= 0) {
+      //    this.isNextActionValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //  if (this.NextUserID <= 0) {
+      //    this.isNextUserIdValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //}
+      //else {
+      //  this.NextRoleID = 1;
+      //  this.NextUserID = 0;
+      //  this.NextActionID = 0;
+      //}
+      debugger;
+      if (this.SelectedDepartmentID == 1) {
         if (this.CollegeType_IsExisting) {
-          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
             || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HospitalDetails'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {
+            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['FarmLandDetails'] <= 0) {
             this.isFormvalid = false;
             this.toastr.warning('Please do document scrutiny all tabs');
           }
         }
         else {
-          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
             || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['HospitalDetails'] <= 0
-            || this.CheckTabsEntryData['HostelDetails'] <= 0) {
-            this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
-          }
-        }
-      }
-      if (this.SelectedDepartmentID == 9) {
-        if (this.CollegeType_IsExisting) {
-          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ParamedicalHospitalDetails'] <= 0) {
-            this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
-          }
-        }
-        else {
-          if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['ParamedicalHospitalDetails'] <= 0
+            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['FarmLandDetails'] <= 0
           ) {
             this.isFormvalid = false;
             this.toastr.warning('Please do document scrutiny all tabs');
@@ -715,23 +696,28 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
         return;
       }
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/applynocapplicationlist']);
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-          else {
-            this.toastr.error(this.ErrorMessage)
-          }
-        }, error => console.error(error));
+      this.toastr.success('Document check tab label is complete now the next process is to check list');
+      if (this.sSOLoginDataModel.RoleID == 8)
+        this.routers.navigate(['/DSCommitteePrimaryVerification/Pending']);
+      else if (this.sSOLoginDataModel.RoleID == 16)
+        this.routers.navigate(['/AgriInsepctionPostVerification/Pending']);
+      //await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+      //  .then((data: any) => {
+      //    data = JSON.parse(JSON.stringify(data));
+      //    this.State = data['State'];
+      //    this.SuccessMessage = data['SuccessMessage'];
+      //    this.ErrorMessage = data['ErrorMessage'];
+      //    if (this.State == 0) {
+      //      this.toastr.success(this.SuccessMessage);
+      //      this.routers.navigate(['/applynocapplicationlist']);
+      //    }
+      //    else if (this.State == 2) {
+      //      this.toastr.warning(this.ErrorMessage)
+      //    }
+      //    else {
+      //      this.toastr.error(this.ErrorMessage)
+      //    }
+      //  }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -855,7 +841,7 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
-          if (this.collegeDataList['CollegeStatusID'] == 3) {
+          if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
           }

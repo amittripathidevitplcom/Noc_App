@@ -272,6 +272,8 @@ import { AgriDsForwardToCommiteeListComponent } from './Views/DocumentScrutinyTa
 import { AgriDsCommitteePrimaryVerificationComponent } from './Views/DocumentScrutinyTab_Agri/agri-ds-committee-primary-verification/agri-ds-committee-primary-verification.component';
 import { AgriInsepctionPostVerificationComponent } from './Views/DocumentScrutinyTab_Agri/agri-insepction-post-verification/agri-insepction-post-verification.component';
 import { AgriPreViewByNodalOfficerComponent } from './Views/DocumentScrutinyTab_Agri/agri-pre-view-by-nodal-officer/agri-pre-view-by-nodal-officer.component';
+import { AgriPIForwardToCommiteeListComponent } from './Views/DocumentScrutinyTab_Agri/agri-piforward-to-commitee-list/agri-piforward-to-commitee-list.component';
+import { AgriPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab_Agri/agri-post-verification-done-list/agri-post-verification-done-list.component';
 
 
 
@@ -536,6 +538,8 @@ import { AgriPreViewByNodalOfficerComponent } from './Views/DocumentScrutinyTab_
     AgriDsCommitteePrimaryVerificationComponent,
     AgriInsepctionPostVerificationComponent,
     AgriPreViewByNodalOfficerComponent,
+    AgriPIForwardToCommiteeListComponent,
+    AgriPostVerificationDoneListComponent,
   ],
   imports: [
     CommonModule,

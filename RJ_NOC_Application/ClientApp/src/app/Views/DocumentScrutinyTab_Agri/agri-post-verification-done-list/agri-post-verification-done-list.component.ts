@@ -12,15 +12,15 @@ import { FileUploadService } from '../../../Services/FileUpload/file-upload.serv
 import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
-import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
-import { EnumApplicationStatus, EnumCheckListType_AH, EnumOfficerActionType } from '../../../Common/enum-noc';
+import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
+import { EnumApplicationStatus, EnumCheckListType_Agri, EnumOfficerActionType } from '../../../Common/enum-noc';
 
 @Component({
-  selector: 'app-ah-post-verification-done-list',
-  templateUrl: './ah-post-verification-done-list.component.html',
-  styleUrls: ['./ah-post-verification-done-list.component.css']
+  selector: 'app-agri-post-verification-done-list',
+  templateUrl: './agri-post-verification-done-list.component.html',
+  styleUrls: ['./agri-post-verification-done-list.component.css']
 })
-export class AhPostVerificationDoneListComponent {
+export class AgriPostVerificationDoneListComponent {
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -48,7 +48,7 @@ export class AhPostVerificationDoneListComponent {
   public IsPreDisabled: boolean = true;
   public IsBtnShowHide: boolean = true;
 
-  constructor(private animalDocumentScrutinyService: AnimalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService,
     private aadharServiceDetails: AadharServiceDetails
@@ -80,7 +80,7 @@ export class AhPostVerificationDoneListComponent {
   async GetPostVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     try {
       this.loaderService.requestStarted();
-      await this.animalDocumentScrutinyService.GetPostVerificationDoneList(SSOID, UserID, RoleID, DepartmentID, QueryStringStatus)
+      await this.agricultureDocumentScrutinyService.GetPostVerificationDoneList(SSOID, UserID, RoleID, DepartmentID, QueryStringStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -122,7 +122,7 @@ export class AhPostVerificationDoneListComponent {
     try {
       this.CheckListData = [];
       this.FinalRemark = '';
-      if (this.QueryStringStatus == 'Pending') {
+      if (this.QueryStringStatus == EnumApplicationStatus.Pending) {
         this.ActionID = 0;
       }
 
@@ -132,7 +132,7 @@ export class AhPostVerificationDoneListComponent {
       this.IsRemarksReject = false;
       this.ActionName = '';
       this.loaderService.requestStarted();
-      await this.animalDocumentScrutinyService.GetPreVerificationchecklistDetails(EnumCheckListType_AH.PVPIC, this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
+      await this.agricultureDocumentScrutinyService.GetPreVerificationchecklistDetails(EnumCheckListType_Agri.PIPV, this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -184,7 +184,7 @@ export class AhPostVerificationDoneListComponent {
         }
       }
       if (this.ActionName != '') {
-        await this.animalDocumentScrutinyService.FinalSubmitPreVerification(this.selectedApplyNOCID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID, this.ActionName)
+        await this.agricultureDocumentScrutinyService.FinalSubmitPreVerification(this.selectedApplyNOCID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID, this.ActionName)
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
             this.State = data['State'];
@@ -216,9 +216,7 @@ export class AhPostVerificationDoneListComponent {
   }
   async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string, Status: string) {
     if (DepartmentID = 2) {
-      //this.routers.navigate(['/animalhusbandryappnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
-      //this.routers.navigate(['/animalhusbandryappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString()))]);
-      window.open('/animalhusbandryappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())), "_blank");
+      window.open('/Previewbynodalofficer' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())), "_blank");
     }
   }
 }
