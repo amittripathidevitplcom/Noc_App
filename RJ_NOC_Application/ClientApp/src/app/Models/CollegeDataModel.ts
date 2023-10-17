@@ -49,9 +49,11 @@ export class CollegeDataModel {
   public NAACAccreditedCertificate_Dis_FileName: string = '';
   public NACCValidityDate: string = '';
   public CityID: number = 0;
-
+  public ManagementTypeID: number = 0;
+  public OtherUniversityName: string = '';
   public ContactDetailsList: ContactDetailsDataModel[] = [];
   public NearestGovernmentHospitalsList: NearestGovernmentHospitalsDataModel[] = [];
+  public CollegeLevelDetails: CollegeLevelDetailsDataModel[] = [];
 }
 export class ContactDetailsDataModel {
   public ContactID: number = 0;
@@ -88,4 +90,9 @@ export class NearestGovernmentHospitalsDataModel {
   public CityID: number = 0;
   public CityName: string  = '';
 }
-
+export class CollegeLevelDetailsDataModel {
+  public AID: number = 0;
+  public CollegeID: number = 0;
+  public ID: number = 0;
+  public Name: string = '';
+}
