@@ -33,7 +33,7 @@
                     <td>{{item.ApplicationNo}}</td>
                     <td>
                       <a href="javascript:void(0)" *ngIf="item.IsCommittee=='Yes'" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'Yes')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                      &nbsp;<button type="button" *ngIf="(item.PVStage=='0' || item.PVStage=='2' || item.PVStage=='4') && IsCommitteType" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
+                      &nbsp;<button type="button" *ngIf="IsCommitteType" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
                       &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
                     </td>
                   </tr>

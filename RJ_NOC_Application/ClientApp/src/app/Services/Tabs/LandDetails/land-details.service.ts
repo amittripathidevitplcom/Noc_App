@@ -21,13 +21,13 @@ export class LandDetailsService {
     return throwError(error);
   }
   //Get 
-  public async GetLandDetailsList(SelectedCollageID: number, LandDetailID:number) {
+  public async GetLandDetailsList(SelectedCollageID: number, LandDetailID: number, ApplyNOCID: number=0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetAllLandDetails/" + SelectedCollageID + "/" + LandDetailID)
+    return await this.http.get(this.APIUrl + "/GetAllLandDetails/" + SelectedCollageID + "/" + LandDetailID + "/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

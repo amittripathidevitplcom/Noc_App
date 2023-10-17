@@ -29,9 +29,9 @@ export class HostelDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetHostelDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, HostelDetailID: number) {
+  public async GetHostelDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, HostelDetailID: number, ApplyNOCID: number=0) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return await this.http.get(this.APIUrl + '/GetHostelDetailList_DepartmentCollegeWise/' + DepartmentID + "/" + CollegeID + "/" + HostelDetailID, httpOptions)
+    return await this.http.get(this.APIUrl + '/GetHostelDetailList_DepartmentCollegeWise/' + DepartmentID + "/" + CollegeID + "/" + HostelDetailID + "/" + ApplyNOCID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

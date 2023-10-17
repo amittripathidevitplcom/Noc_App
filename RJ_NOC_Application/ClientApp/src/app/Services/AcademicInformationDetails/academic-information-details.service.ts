@@ -28,9 +28,9 @@ export class AcademicInformationDetailsService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetAcademicInformationDetailAllList(UserID: number, CollegeID: Number) {
+  public async GetAcademicInformationDetailAllList(UserID: number, CollegeID: Number, ApplyNOCID: number=0) {
     
-    return await this.http.get(this.APIUrl + "/GetAcademicInformationDetailAllList/" + UserID + "/" + CollegeID)
+    return await this.http.get(this.APIUrl + "/GetAcademicInformationDetailAllList/" + UserID + "/" + CollegeID + "/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

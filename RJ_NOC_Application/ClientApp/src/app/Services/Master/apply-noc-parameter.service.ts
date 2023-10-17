@@ -173,5 +173,10 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  
+  public async GetCourseSubjectByApplyNOCID(ApplyNOCID: number) {
+    return await this.http.get(this.APIUrl + "/GetCourseSubjectByApplyNOCID/" + ApplyNOCID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

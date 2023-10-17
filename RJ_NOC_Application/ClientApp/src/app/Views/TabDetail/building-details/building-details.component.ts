@@ -120,6 +120,9 @@ export class BuildingDetailsComponent implements OnInit {
   public CityName: string = '';
   public CityList: any = [];
 
+
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
   constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute,
     private routers: Router, private cdRef: ChangeDetectorRef, private clipboard: Clipboard) { }
@@ -190,6 +193,9 @@ export class BuildingDetailsComponent implements OnInit {
 
     this.buildingdetails.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+
     if (this.SelectedDepartmentID == 3) {
       this.SampleDocument = GlobalConstants.ImagePathURL + "LandTitleCertificateAnn13.pdf";
       this.RangeType = 'in Sq. Ft'
@@ -698,7 +704,7 @@ export class BuildingDetailsComponent implements OnInit {
   async GetAllBuildingDetailsList() {
     try {
       this.loaderService.requestStarted();
-      await this.buildingDetailsMasterService.GetAllBuildingDetailsList(this.UserID, this.buildingdetails.CollegeID)
+      await this.buildingDetailsMasterService.GetAllBuildingDetailsList(this.UserID, this.buildingdetails.CollegeID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

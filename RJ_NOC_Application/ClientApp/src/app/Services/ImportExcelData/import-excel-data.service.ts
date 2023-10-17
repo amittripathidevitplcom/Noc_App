@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ImportExcelDataDataModel } from '../../Models/ImportExcelDataDataModel';
+import { ExcelMemberDataModel, ImportExcelDataDataModel } from '../../Models/ImportExcelDataDataModel';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 
 @Injectable({
@@ -30,6 +30,16 @@ export class ImportExcelDataService {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async UpdateSingleRow(request: ExcelMemberDataModel) {
+
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl +'/UpdateSingleRow', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

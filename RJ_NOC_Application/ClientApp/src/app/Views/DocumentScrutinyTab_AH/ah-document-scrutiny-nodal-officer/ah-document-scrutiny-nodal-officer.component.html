@@ -619,20 +619,12 @@
                   <tr>
 
                     <th>SNo</th>
+                    <th>College</th>
                     <th>Name</th>
                     <th>Father Name</th>
-                    <th>Mobile No</th>
-                    <th>Gender</th>
-                    <th>Email</th>
-                    <th>Aadhaar</th>
-                    <th>Pan</th>
-                    <th>PAN Card Document</th>
-                    <th>Aadhaar Card Document</th>
-                    <th>Signature Document</th>
-                    <th>Profile Photo</th>
-                    <th>Authorized Document</th>
-                    <th>Is Primary</th>
-                    <th>Is Authorize</th>
+                    <th>Designation </th>
+                    <th>Occupation </th>
+                    <th>Action</th>
                     <th>Tarils</th>
                   </tr>
                 </thead>
@@ -640,45 +632,14 @@
                   <tr *ngFor="let row of CheckList_SocietyAllList let idx=index;">
 
                     <td>{{idx+1}}</td>
+                    <td>{{row.CollegeName}}</td>
                     <td>{{row.PersonName}}</td>
                     <td>{{row.FatherName}}</td>
-                    <td>{{row.MobileNo}}</td>
-                    <td>{{row.Gender}}</td>
-                    <td>{{row.Email}}</td>
-                    <td>{{row.AadhaarNo}}</td>
-                    <td>{{row.PANNo}}</td>
+                    <td>{{row.DesignationName}}</td>
+                    <td>{{row.OccupationName}}</td>
                     <td>
-                      <a *ngIf="!row.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{row.PANCardPath}}" data-caption="Image 10" title="click here to zoom">
-                        <img src="{{row.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                      </a>
-                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{row.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                      <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewCollegeManagmentDetail(mymodal,row.SocietyID)"><i class="fa fa-eye"></i></button>
                     </td>
-                    <td>
-                      <a *ngIf="!row.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{row.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
-                        <img src="{{row.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                      </a>
-                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{row.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                    </td>
-                    <td>
-                      <a *ngIf="!row.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{row.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom">
-                        <img src="{{row.SignatureDocPath}}" alt="Signature Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                      </a>
-                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{row.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                    </td>
-                    <td>
-                      <a *ngIf="!row.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{row.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
-                        <img src="{{row.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                      </a>
-                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{row.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                    </td>
-                    <td>
-                      <a *ngIf="!row.AuthorizedDocument.includes('.pdf') && row.IsAuthorized==true" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
-                        <img src="{{row.AuthorizedDocumentPath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-                      </a>
-                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AuthorizedDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                    </td>
-                    <td>{{row.IsPrimary}}</td>
-                    <td>{{row.IsAuthorized}}</td>
                     <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.SocietyID,'ManagementSocietyTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
                   </tr>
                   <tr *ngIf="CheckList_SocietyAllList.length<=0">
@@ -708,8 +669,129 @@
               </tbody>
             </table>
           </div>
-
         </div>
+        <ng-template #mymodal let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">College Management Society Details</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <i class="fa fa-close"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label><b> College:</b></label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.CollegeName}}" />
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label> <b>Person Name</b></label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.PersonName}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label> <b>Profile Photo</b></label>
+                <a *ngIf="!CheckList_societyrequest.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{CheckList_societyrequest.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label><b> Designation: </b></label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.DesignationName}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label> <b>Occupation:</b></label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.OccupationName}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_societyrequest.OccupationName=='Others'">
+                <label> <b>Other Occupation:</b></label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.OtherOccupation}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID!=2">
+                <label> <b>Management Committee Should have at least two educationists : </b> </label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.Educationists}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label> <b> Mobile No: </b></label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.MobileNo}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>  <b>Email: </b></label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.Email}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label> <b>Gender:</b> </label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.Gender}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label> <b>Father Name: </b> </label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.FatherName}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label><b> Aadhaar Number : </b></label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.MaskedAadhaarNo}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label> <b>Aadhaar Card </b></label>
+                <a *ngIf="!CheckList_societyrequest.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{CheckList_societyrequest.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label> <b>Signature Document</b></label>
+                <a *ngIf="!CheckList_societyrequest.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{CheckList_societyrequest.SignatureDocPath}}" alt="Signature Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label><b>PAN Number:</b></label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.PANNo}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label> <b>PAN Card </b></label>
+                <a *ngIf="!CheckList_societyrequest.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.PANCardPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{CheckList_societyrequest.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label> <b>IsPrimary </b></label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.IsPrimary == false ? 'No' : 'Yes'}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label> <b>IsAuthorized </b></label>
+                <input class="form-control disabled" disabled value="{{CheckList_societyrequest.IsAuthorized == false ? 'No' : 'Yes'}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_societyrequest.IsAuthorized !=false">
+                <label> <b>Authorized Document </b></label>
+                <a *ngIf="!CheckList_societyrequest.AuthorizedDocument.includes('.pdf') && CheckList_societyrequest.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{CheckList_societyrequest.AuthorizedDocumentPath}}" alt="Authorized Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <label *ngIf="CheckList_societyrequest.AuthorizedDocumentPath=='N/A'">{{CheckList_societyrequest.AuthorizedDocumentPath}}</label>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.AuthorizedDocument.includes('.pdf') && CheckList_societyrequest.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_societyrequest.OccupationName=='Educationist'">
+                <label> <b>Education Proof </b></label>
+                <a *ngIf="!CheckList_societyrequest.EducationProof.includes('.pdf') && CheckList_societyrequest.EducationProofPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.EducationProofPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{CheckList_societyrequest.EducationProofPath}}" alt="Education Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <label *ngIf="CheckList_societyrequest.EducationProofPath=='N/A'">{{CheckList_societyrequest.EducationProofPath}}</label>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.EducationProof.includes('.pdf') && CheckList_societyrequest.EducationProofPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.EducationProofPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_societyrequest.OccupationName=='Educationist'">
+                <label> <b>Consent Letter </b></label>
+                <a *ngIf="!CheckList_societyrequest.ConsentLetter.includes('.pdf') && CheckList_societyrequest.ConsentLetterPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.ConsentLetterPath}}" data-caption="Image 10" title="click here to zoom">
+                  <img src="{{CheckList_societyrequest.ConsentLetterPath}}" alt="Consent Letter" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                </a>
+                <label *ngIf="CheckList_societyrequest.ConsentLetterPath=='N/A'">{{CheckList_societyrequest.ConsentLetterPath}}</label>
+                <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.ConsentLetter.includes('.pdf') && CheckList_societyrequest.ConsentLetterPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.ConsentLetterPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
       </div>
     </div>
 

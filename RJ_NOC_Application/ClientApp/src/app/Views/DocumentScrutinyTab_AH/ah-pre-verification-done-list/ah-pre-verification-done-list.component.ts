@@ -9,13 +9,10 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
-import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
-import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
-import { fail } from 'assert';
+import { EnumCheckListType_AH } from '../../../Common/enum-noc';
 
 @Component({
   selector: 'app-ah-pre-verification-done-list',
@@ -125,16 +122,16 @@ export class AhPreVerificationDoneListComponent {
       this.CheckListData = [];
       this.FinalRemark = '';
       if (this.QueryStringStatus == 'Pending') {
-         this.ActionID = 0;
+        this.ActionID = 0;
       }
-     
+
       this.CheckFinalRemark = '';
       this.isRemarkValid = false;
       this.isActionTypeValid = false;
       this.IsRemarksReject = false;
       this.ActionName = '';
       this.loaderService.requestStarted();
-      await this.animalDocumentScrutinyService.GetPreVerificationchecklistDetails('PVCRD', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
+      await this.animalDocumentScrutinyService.GetPreVerificationchecklistDetails(EnumCheckListType_AH.PVCRD.toString(), this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel } from '../../Models/ApplyNOCApplicationDataModel';
+import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel, GenerateNOC_DataModel } from '../../Models/ApplyNOCApplicationDataModel';
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../Models/DocumentScrutinyDataModel';
 
 import { GlobalConstants } from '../../Common/GlobalConstants';
@@ -160,10 +160,10 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GenerateNOCForDCE(ApplyNOCID: number, DepartmentID: number, RoleID: number, UserID: number, NOCIssuedRemark: string) {
+  public async GenerateNOCForDCE(request: GenerateNOC_DataModel[]) {
     const headers = { 'content-type': 'application/json' }
-    const body = JSON.stringify({ ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID, RoleID: RoleID, UserID: UserID, NOCIssuedRemark: NOCIssuedRemark });
-    return await this.http.post(this.APIUrl + '/GenerateNOCForDCE/', body, { 'headers': headers })
+    //const body = JSON.stringify({ ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID, RoleID: RoleID, UserID: UserID, NOCIssuedRemark: NOCIssuedRemark });
+    return await this.http.post(this.APIUrl + '/GenerateNOCForDCE/', request, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

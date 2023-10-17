@@ -26,7 +26,8 @@ export class RequiredDocumentComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
   sSOLoginDataModel = new SSOLoginDataModel();
   public file: File = null;
-
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
   constructor(private loaderService: LoaderService, private toastr: ToastrService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder,
     private fileUploadService: FileUploadService) { }
@@ -36,13 +37,15 @@ export class RequiredDocumentComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.request.DocumentDetails = [];
     this.GetRequiredDocuments('RequiredDocument')
   }
   async GetRequiredDocuments(Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, Type)
+      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, Type, this.SelectedApplyNOCID > 0? this.SelectedApplyNOCID:0)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

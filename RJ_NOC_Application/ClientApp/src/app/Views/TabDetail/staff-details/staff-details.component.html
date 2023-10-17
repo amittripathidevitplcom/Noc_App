@@ -521,8 +521,8 @@
 
                     </td>
                     <td>
-                      <button type="button" class="btn btn-sm btn-primary" title="Edit" [attr.disabled]="isDisabled ? true : null" (click)="EditItem(item.StaffDetailID)"><i class="fa fa-edit"></i></button>
-                      <button type="button" class="btn btn-sm btn-danger" title="Delete" [attr.disabled]="isDisabled ? true : null" (click)="DeleteStaffDetails(item.StaffDetailID)"><i class="fa fa-trash"></i></button>
+                      <button type="button" class="btn btn-sm btn-primary" title="Edit" [attr.disabled]="isDisabled ? true : null" (click)="EditItem(item.StaffDetailID)" [hidden]="QueryStringStatus=='R'&&item.Action=='Yes'"><i class="fa fa-edit"></i></button>
+                      <button type="button" class="btn btn-sm btn-danger" title="Delete" [attr.disabled]="isDisabled ? true : null" (click)="DeleteStaffDetails(item.StaffDetailID)" [hidden]="QueryStringStatus=='R'"><i class="fa fa-trash"></i></button>
                       <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewStaffDetail(mymodal,item.StaffDetailID)"><i class="fa fa-eye"></i></button>
                     </td>
                   </tr>

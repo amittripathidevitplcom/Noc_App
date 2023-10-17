@@ -50,7 +50,8 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
 
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined
-
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
   constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService) { }
 
 
@@ -59,6 +60,8 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
   {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetSubjectWiseStudenetDetails(this.SelectedCollageID)
   }
@@ -66,7 +69,7 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
   async GetSubjectWiseStudenetDetails(CollageID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.classWiseStudentDetailsServiceService.GetSubjectWiseStudenetDetails(CollageID)
+      await this.classWiseStudentDetailsServiceService.GetSubjectWiseStudenetDetails(CollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

@@ -21,13 +21,13 @@ export class CollegeDocumentService {
     return throwError(error);
   }
   //Get 
-  public async GetList(DepartmentID: number, CollegeID: number, DocumentType: string) {
+  public async GetList(DepartmentID: number, CollegeID: number, DocumentType: string, ApplyNOCID: number=0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/" + DepartmentID + "/" + CollegeID + "/" + DocumentType)
+    return await this.http.get(this.APIUrl + "/" + DepartmentID + "/" + CollegeID + "/" + DocumentType + "/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

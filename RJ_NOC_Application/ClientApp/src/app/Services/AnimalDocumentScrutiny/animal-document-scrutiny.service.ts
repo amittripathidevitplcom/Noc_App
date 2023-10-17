@@ -218,6 +218,7 @@ export class AnimalDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
   public async GetPreVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -243,6 +244,7 @@ export class AnimalDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
   public async GetFinalVerificationDoneList(SSOID: string, UserID: number, RoleID: number, DepartmentID: number, QueryStringStatus: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -255,6 +257,7 @@ export class AnimalDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
   public async FinalSubmitInspectionCommittee(ApplyNOCID: number, DepartmentID: number, UserID: Number, ActionName: string) {
     const httpOptions = {
       headers: new HttpHeaders({

@@ -13,6 +13,7 @@ import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { EnumApplicationStatus, EnumCheckListType_AH, EnumOfficerActionType } from '../../../Common/enum-noc';
 
 @Component({
   selector: 'app-ah-post-verification-done-list',
@@ -59,17 +60,17 @@ export class AhPostVerificationDoneListComponent {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetPostVerificationDoneList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.UserID, Number(this.sSOLoginDataModel.RoleID), this.sSOLoginDataModel.DepartmentID, this.QueryStringStatus);
 
-    if (this.QueryStringStatus == 'Pending') {
+    if (this.QueryStringStatus == EnumApplicationStatus.Pending) {
       this.IsPreDisabled = false;
       this.IsBtnShowHide = true;
       this.ActionID = 0;
     }
-    else if (this.QueryStringStatus == 'Completed') {
+    else if (this.QueryStringStatus == EnumApplicationStatus.Completed) {
       this.IsPreDisabled = true;
       this.IsBtnShowHide = false;
       this.ActionID = 1;
     }
-    else if (this.QueryStringStatus == 'Rejected') {
+    else if (this.QueryStringStatus == EnumApplicationStatus.Rejected) {
       this.IsPreDisabled = true;
       this.IsBtnShowHide = false;
       this.ActionID = 2;
@@ -131,7 +132,7 @@ export class AhPostVerificationDoneListComponent {
       this.IsRemarksReject = false;
       this.ActionName = '';
       this.loaderService.requestStarted();
-      await this.animalDocumentScrutinyService.GetPreVerificationchecklistDetails('PVPIC', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
+      await this.animalDocumentScrutinyService.GetPreVerificationchecklistDetails(EnumCheckListType_AH.PVPIC, this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -172,14 +173,14 @@ export class AhPostVerificationDoneListComponent {
       }
       else {
         if (this.ActionID == 2) {
-          this.ActionName = 'Post Verification Rejected';
+          this.ActionName = EnumOfficerActionType.PostVeriRejected;
           if (this.CheckFinalRemark == '' || this.CheckFinalRemark == null) {
             this.isRemarkValid = true;
             return;
           }
         }
         else {
-          this.ActionName = 'Post Verification Approved';
+          this.ActionName = EnumOfficerActionType.PostVeriApproved;
         }
       }
       if (this.ActionName != '') {

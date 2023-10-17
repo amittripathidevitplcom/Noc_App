@@ -10,4 +10,21 @@ export class ImportExcelDataDataModel {
   public SSOID: string = '';
   public Data: any = [];
 }
+export class ExcelMemberDataModel {
+  public ID: number = 0;
+  public ImportExcelID: number = 0;
+  public Course: string = '';
+  public Subject: string = '';
+  public StudentName: string = '';
+  public FatherName: string = '';
+  public Gender: string = '';
+  public DOB: string = '';
+  public Section: string = '';
+  public RollNo: string = '';
+  public Year: string = '';
+  public Cast: string = '';
+  public PH: string = '';
+  public Minorty: string = '';
+  public CreatedDate: string = '';
+}
 

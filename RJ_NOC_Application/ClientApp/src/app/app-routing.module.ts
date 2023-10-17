@@ -142,10 +142,17 @@ import { CommissionerApplicationScrutinyListComponent } from './Views/DCE/commis
 import { CheckListForCommissionerComponent } from './Views/DCE/check-list-for-commissioner/check-list-for-commissioner.component';
 import { RevertCheckListDCEComponent } from './Views/DCE/revert-check-list-dce/revert-check-list-dce.component';
 import { RevertApplicationDetailEntryComponent } from './Views/DCE/revert-application-detail-entry/revert-application-detail-entry.component';
-
 import { ImportExcelDataComponent } from './Views/import-excel-data/import-excel-data.component';
-
 import { StaffattendanceComponent } from './Views/Staff-Attendance/staffattendance/staffattendance.component';
+import { StaffAttendanceReportComponent } from './Views/Staff-Attendance/staff-attendance-report/staff-attendance-report.component';
+import { AgriApplyNocApplicationListComponent } from './Views/AgriApplyNocApplicationList/agri-apply-noc-application-list/agri-apply-noc-application-list.component';
+import { AgriPriVerificationDoneListComponent } from './Views/DocumentScrutinyTab_Agri/agri-pri-verification-done-list/agri-pri-verification-done-list.component';
+import { AgriDsForwardToCommiteeListComponent } from './Views/DocumentScrutinyTab_Agri/agri-ds-forward-to-commitee-list/agri-ds-forward-to-commitee-list.component';
+import { AgriDsCommitteePrimaryVerificationComponent } from './Views/DocumentScrutinyTab_Agri/agri-ds-committee-primary-verification/agri-ds-committee-primary-verification.component';
+import { AgriInsepctionPostVerificationComponent } from './Views/DocumentScrutinyTab_Agri/agri-insepction-post-verification/agri-insepction-post-verification.component';
+import { AgriPreViewByNodalOfficerComponent } from './Views/DocumentScrutinyTab_Agri/agri-pre-view-by-nodal-officer/agri-pre-view-by-nodal-officer.component';
+import { AgriPIForwardToCommiteeListComponent } from './Views/DocumentScrutinyTab_Agri/agri-piforward-to-commitee-list/agri-piforward-to-commitee-list.component';
+import { AgriPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab_Agri/agri-post-verification-done-list/agri-post-verification-done-list.component';
 
 import { StaffAttendanceReportComponent } from './Views/Staff-Attendance/staff-attendance-report/staff-attendance-report.component';
 import {PaymentTransactionComponent } from './Views/noc-payment/payment-transaction/payment-transaction.component';
@@ -650,6 +657,32 @@ const routes: Routes = [
       {
         path: 'ImportExcelData', component: ImportExcelDataComponent,
 
+      },
+      {
+        path: 'applynocapplicationlistAgri', component: AgriApplyNocApplicationListComponent
+      },
+      {
+        path: 'AgriPriVerificationDone/:Status', component: AgriPriVerificationDoneListComponent
+      },
+      {
+        path: 'AgriDsForwardToCommiteeList', component: AgriDsForwardToCommiteeListComponent
+      },
+      {
+        path: 'AgriPIForwardToCommiteeList', component: AgriPIForwardToCommiteeListComponent
+      },
+      {
+        path: 'DSCommitteePrimaryVerification/:Status', component: AgriDsCommitteePrimaryVerificationComponent
+      },
+      {
+        path: 'AgriInsepctionPostVerification/:Status', component: AgriInsepctionPostVerificationComponent
+      },
+      {
+        path: 'Previewbynodalofficer/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: AgriPreViewByNodalOfficerComponent
+      },
+
+      {
+        path: 'AgriPostVerificationDoneList/:Status', component: AgriPostVerificationDoneListComponent
+      },
       },
       {
         path: 'paymenttransactionlist', component: PaymentTransactionComponent,

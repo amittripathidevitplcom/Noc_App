@@ -77,7 +77,7 @@
               <td>
                 <div class="d-flex">
                   <!--<button type="button" (click)="Edit_OnClick(item.OtherDocumentID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>-->
-                  <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.AID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                  <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(item.AID)" [attr.disabled]="isDisabledGrid ? true : null" [hidden]="QueryStringStatus=='R'"><i class="fa fa-trash"></i></button>
                 </div>
               </td>
             </tr>
