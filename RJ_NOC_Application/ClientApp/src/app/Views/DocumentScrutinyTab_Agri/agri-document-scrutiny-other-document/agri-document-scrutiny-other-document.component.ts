@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
-
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 @Component({
   selector: 'app-agri-document-scrutiny-other-document',
   templateUrl: './agri-document-scrutiny-other-document.component.html',
@@ -33,7 +33,7 @@ export class AgriDocumentScrutinyOtherDocumentComponent implements OnInit {
   public FinalRemarks: any = [];
   public HospitalRealtedDocuments: RequiredDocumentsDataModel_Documents[] = []
 
-  constructor(private loaderService: LoaderService,
+  constructor(private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private loaderService: LoaderService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute,
     private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService) { }
 
@@ -181,5 +181,7 @@ export class AgriDocumentScrutinyOtherDocumentComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

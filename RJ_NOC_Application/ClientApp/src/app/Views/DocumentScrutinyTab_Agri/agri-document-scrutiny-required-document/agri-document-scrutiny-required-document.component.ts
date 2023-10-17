@@ -11,7 +11,7 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { ToastrService } from 'ngx-toastr';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
-
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 
 @Component({
   selector: 'app-agri-document-scrutiny-required-document',
@@ -37,7 +37,8 @@ export class AgriDocumentScrutinyRequiredDocumentComponent implements OnInit {
   //public RequiredDocumentsAllList: any = [];
   public FinalRemarks: any = [];
 
-  constructor(private collegeDocumentService: CollegeDocumentService, private commonMasterService: CommonMasterService,
+  constructor(
+    private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private collegeDocumentService: CollegeDocumentService, private commonMasterService: CommonMasterService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService
   ) { }
@@ -169,5 +170,7 @@ export class AgriDocumentScrutinyRequiredDocumentComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

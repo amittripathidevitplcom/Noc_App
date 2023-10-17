@@ -19,7 +19,7 @@ import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../..
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service'
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
-
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 @Component({
   selector: 'app-agri-document-scrutiny-old-nocdetails',
   templateUrl: './agri-document-scrutiny-old-nocdetails.component.html',
@@ -50,7 +50,7 @@ export class AgriDocumentScrutinyOldNocdetailsComponent implements OnInit {
 
   public FinalRemarks: any = [];
 
-  constructor(private oldnocdetailService: OldnocdetailService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
+  constructor(private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private oldnocdetailService: OldnocdetailService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private fileUploadService: FileUploadService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
 
 
@@ -213,5 +213,7 @@ export class AgriDocumentScrutinyOldNocdetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

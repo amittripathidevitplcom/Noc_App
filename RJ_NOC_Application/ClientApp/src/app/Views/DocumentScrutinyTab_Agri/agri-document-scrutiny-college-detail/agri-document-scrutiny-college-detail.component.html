@@ -25,9 +25,7 @@
                 <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.CollegeLogoPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
                 </a>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeStatus!='New'">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label>Present Status of College :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.PresentCollegeStatus}}" />
               </div>
@@ -56,20 +54,19 @@
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeNAACAccredited}}" />
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
-                <label>NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 100KB) (Max.Size 2MB) :</label>
+                <label><b>NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 500KB) (Max.Size 2MB) :</b></label>
+                <div class="clearfix"></div>
                 <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.NAACAccreditedCertificatePath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.NAACAccreditedCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
               </div>
-
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
                 <label>NACC Validity Date :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}" />
               </div>
-
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==3">
                 <label>AISHE Code Status :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECodeStatus}}" />
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.AISHECodeStatus =='Yes' && collegeListData.DepartmentID==3">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.AISHECodeStatus =='Yes'">
                 <label>AISHE Code :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.AISHECode}}" />
               </div>
@@ -78,15 +75,13 @@
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeMediumName}}" />
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label *ngIf="collegeListData.DepartmentID==6">University / RMC  :</label>
-                <label *ngIf="collegeListData.DepartmentID !=6">University :</label>
+                <label>University :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.UniversityName}}" />
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.CollegeStatus!='New'">
                 <label>Year of Establishment :</label>
                 <input class="form-control disabled mt-1" disabled value="{{collegeListData.FinancialYearName}}" />
               </div>
-
             </div>
             <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
@@ -258,8 +253,8 @@
                         <th>Sr. No.</th>
                         <th>Hospital Name</th>
                         <th>Hospital RegNo.</th>
-                        <th>Hospital Address</th>
                         <th>Distance From Institute(KM)</th>
+                        <th>Hospital Address</th>
                         <th>Hospital Document</th>
                       </tr>
                     </thead>
@@ -295,6 +290,8 @@
                         <td> {{indexOfelement+1}}</td>
                         <td>{{row.HospitalName}}</td>
                         <td>{{row.HospitalRegNo}}</td>
+                        ta
+                        <td>{{row.HospitalDistance}}</td>
                         <td>
                           <p class="m-0"><b>Area : </b> {{row.RuralUrbanArea}}</p>
                           <p class="m-0"><b>Address Line 1 : </b> {{row.AddressLine1}}</p>
@@ -307,7 +304,6 @@
                           <p class="m-0"><b>City/Town/Village : </b>{{row.CityTownVillage}}</p>
                           <p class="m-0"><b>Pincode : </b>{{row.Pincode}}</p>
                         </td>
-                        <td>{{row.HospitalDistance}}</td>
                         <td>
                           <a *ngIf="!row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom">
                             <img src="{{row.HospitalDocumentPath}}" alt="Hospital Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
@@ -365,7 +361,6 @@
     </div>
   </div>
 </div>
-
 
 
 

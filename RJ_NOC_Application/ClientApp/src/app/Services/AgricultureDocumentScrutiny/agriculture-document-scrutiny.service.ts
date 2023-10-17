@@ -155,7 +155,7 @@ export class AgricultureDocumentScrutinyService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-  }  
+  }
 
   public async CheckDocumentScrutinyTabsData(ApplyNOCID: number, RoleID: number) {
     const httpOptions = {
@@ -349,10 +349,10 @@ export class AgricultureDocumentScrutinyService {
       ).toPromise();
   }
 
-  public async FinalNOCRejectRelese(ApplyNOCID: number, DepartmentID: number, RoleID: number, UserID: number, NOCIssuedRemark: string) {
+  public async FinalNOCRejectRelese(ApplyNOCID: number, DepartmentID: number, RoleID: number, UserID: number, NOCIssuedRemark: string, Status: string) {
 
     const headers = { 'content-type': 'application/json' }
-    const body = JSON.stringify({ ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID, RoleID: RoleID, UserID: UserID, NOCIssuedRemark: NOCIssuedRemark });
+    const body = JSON.stringify({ ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID, RoleID: RoleID, UserID: UserID, NOCIssuedRemark: NOCIssuedRemark, Status: Status });
     return await this.http.post(this.APIUrl + '/FinalNOCRejectRelese', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)

@@ -892,7 +892,7 @@
             </div>
             <div class="dashCardContent  text-start">
               <h4>Reverted</h4>
-              <a href="/documentscrutinyrejectedreport" style="background: none;"><h2>{{dashboardDataModel.Revert}}</h2></a>
+              <a href="/documentscrutinyrevertedreport" style="background: none;"><h2>{{dashboardDataModel.Revert}}</h2></a>
             </div>
 
             <div class="dashCardContent  text-start" *ngIf="this.sSOLoginDataModel.RoleID==29">
@@ -968,20 +968,20 @@
             <div class="dashCardContent text-start">
               <h4>Pending</h4>
               <h2>
-                <a href="/AhFinalNocApplicationList/Pending" style="background: none;">{{dashboardDataModel.PendingNOC}}</a>
+                <a href="/AgriPSNocApplicationList/Pending" style="background: none;">{{dashboardDataModel.PendingNOC}}</a>
               </h2>
             </div>
             <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
-              <a href="/AhFinalNocApplicationList/Rejected" style="background: none;"><h2>{{dashboardDataModel.TotalRejectApplication}}</h2></a>
+              <a href="/AgriPSNocApplicationList/Rejected" style="background: none;"><h2>{{dashboardDataModel.TotalRejectApplication}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
-              <a href="/AhFinalNocApplicationList/Completed" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
+              <a href="/AgriPSNocApplicationList/Completed" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
             </div>
             <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID==27">
               <h4>Forward To Commissioner</h4>
-              <a href="/AhFinalNocApplicationList/Completed" style="background: none;"><h2>{{dashboardDataModel.ApprovedAndForward}}</h2></a>
+              <a href="/AgriPSNocApplicationList/Forward To Commissioner" style="background: none;"><h2>{{dashboardDataModel.ApprovedAndForward}}</h2></a>
             </div>
           </div>
         </div>

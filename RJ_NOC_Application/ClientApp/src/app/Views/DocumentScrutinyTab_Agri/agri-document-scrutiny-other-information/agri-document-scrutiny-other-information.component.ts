@@ -17,7 +17,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
-
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 @Component({
   selector: 'app-agri-document-scrutiny-other-information',
   templateUrl: './agri-document-scrutiny-other-information.component.html',
@@ -43,7 +43,7 @@ export class AgriDocumentScrutinyOtherInformationComponent implements OnInit {
   public FinalRemarks: any = [];
   //public RequiredDocumentsAllList: any = [];
 
-  constructor(private otherInformationService: OtherInformationService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
+  constructor(private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private otherInformationService: OtherInformationService, private commonMasterService: CommonMasterService, private formBuilder: FormBuilder, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private routers: Router) { }
 
   async ngOnInit() {
@@ -166,6 +166,9 @@ export class AgriDocumentScrutinyOtherInformationComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
   }
 
 }

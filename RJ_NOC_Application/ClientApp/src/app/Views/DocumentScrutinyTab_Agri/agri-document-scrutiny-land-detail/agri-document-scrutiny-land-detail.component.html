@@ -31,6 +31,7 @@
               <th>Is Convereted</th>
               <!--<th>Land Type</th>-->
               <th>Owner Name</th>
+              <th>Tarils</th>
 
             </tr>
           </thead>
@@ -74,6 +75,8 @@
               <td>{{item.IsConvereted}}</td>
               <!--<td>{{item.LandTypeName}}</td>-->
               <td>{{item.LandOwnerName}}</td>
+              <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.LandDetailID,'LandDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+            
             </tr>
             <tr *ngIf="LandDetailList.length<=0">
               <td colspan="9" style="color:red">No Data Found.!</td>
