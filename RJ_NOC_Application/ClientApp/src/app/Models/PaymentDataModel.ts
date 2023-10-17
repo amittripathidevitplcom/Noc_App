@@ -48,8 +48,9 @@ export class RequestDetails {
   public USERNAME: string = '';
   public USERMOBILE: string = '';
   public USEREMAIL: string = '';
-  public ApplyNocApplicationID: number = 0
-  public PaymentRequestURL: string = ''
+  public ApplyNocApplicationID: number = 0;
+  public PaymentRequestURL: string = '';
+  public DepartmentID: number = 0;
 }
 
 //Emitra Request
@@ -71,10 +72,26 @@ export class EmitraRequestDetails {
   public MERCHANTCODE: string = ''
   public IsKiosk: boolean = false;
 
+}
+
+export class TransactionStatusDataModel {
+  public ApplyNocApplicationID: string = '';
+  public AMOUNT: string = '';
+  public PRN: string = '';
+  public DepartmentID: number = 0;
+  public RPPTXNID: string = '';
+  public SubOrderID: string = ''
+}
 
 
-
-
-
+export class TransactionSearchFilterModel {
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public TransactionID: number = 0;
+  public PRN: string = '';
+  public RPPTranID: string = '';
+  public Key: string = '';
+  public RefundID: string = '';
+  public ApplyNocApplicationID: string = '';
 
 }

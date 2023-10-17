@@ -3,7 +3,7 @@ import { GlobalConstants } from '../../Common/GlobalConstants';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import { EmitraRequestDetails, RequestDetails } from '../../Models/PaymentDataModel';
+import { EmitraRequestDetails, RequestDetails, TransactionSearchFilterModel, TransactionStatusDataModel } from '../../Models/PaymentDataModel';
 
 
 @Injectable({
@@ -32,6 +32,35 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetTransactionStatus(request: TransactionStatusDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/GetTransactionStatus", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  //refund API
+  public async RPPTransactionRefund(request: TransactionStatusDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/RPPTransactionRefund", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async RPPTransactionRefundStatus(request: TransactionStatusDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/RPPTransactionRefundStatus", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 
   public async GetPaymentListIDWise(PRnNO: string) {
     const httpOptions = {
@@ -83,5 +112,15 @@ export class NocpaymentService
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetRPPTransactionList(request: TransactionSearchFilterModel)
+  {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/GetRPPTransactionList", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 
 }

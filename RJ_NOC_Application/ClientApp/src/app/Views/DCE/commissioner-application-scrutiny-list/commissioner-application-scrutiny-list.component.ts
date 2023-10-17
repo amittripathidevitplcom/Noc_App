@@ -64,7 +64,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
   public TotalDocumentScrutinyTab: number = 0;
   public isNextActionValid: boolean = false;
   public CollegeType_IsExisting: boolean = true;
-
+  public ApplyNocApplicationDetail: any = [];
   request_CommitteeMemberDataModel = new ApplicationCommitteeMemberdataModel();
   public ApplicationNo: string = '';
 
@@ -835,7 +835,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
   public SubjectCount: number = 0;
   async GeneratePDF_OnClick() {
     try {
-
+      this.isFormvalid = true;
       this.SubjectCount = 0;
       this.isSubmitNOC = true;
       this.requestnoc = [];
@@ -946,7 +946,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
 
 
 
-  public ApplyNocApplicationDetail:any = [];;
+  
   async GetApplyNOCCourseandSubject(applyNocApplicationID: number) {
     try {
       this.loaderService.requestStarted();
