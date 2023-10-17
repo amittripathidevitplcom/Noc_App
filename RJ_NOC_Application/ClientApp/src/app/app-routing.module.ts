@@ -153,8 +153,6 @@ import { AgriInsepctionPostVerificationComponent } from './Views/DocumentScrutin
 import { AgriPreViewByNodalOfficerComponent } from './Views/DocumentScrutinyTab_Agri/agri-pre-view-by-nodal-officer/agri-pre-view-by-nodal-officer.component';
 import { AgriPIForwardToCommiteeListComponent } from './Views/DocumentScrutinyTab_Agri/agri-piforward-to-commitee-list/agri-piforward-to-commitee-list.component';
 import { AgriPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab_Agri/agri-post-verification-done-list/agri-post-verification-done-list.component';
-
-import { StaffAttendanceReportComponent } from './Views/Staff-Attendance/staff-attendance-report/staff-attendance-report.component';
 import {PaymentTransactionComponent } from './Views/noc-payment/payment-transaction/payment-transaction.component';
 
 
@@ -682,7 +680,6 @@ const routes: Routes = [
 
       {
         path: 'AgriPostVerificationDoneList/:Status', component: AgriPostVerificationDoneListComponent
-      },
       },
       {
         path: 'paymenttransactionlist', component: PaymentTransactionComponent,
