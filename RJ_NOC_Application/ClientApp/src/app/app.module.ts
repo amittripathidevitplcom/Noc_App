@@ -266,6 +266,7 @@ import { RevertApplicationDetailEntryComponent } from './Views/DCE/revert-applic
 import { ImportExcelDataComponent } from './Views/import-excel-data/import-excel-data.component';
 import { StaffattendanceComponent } from './Views/Staff-Attendance/staffattendance/staffattendance.component';
 import { StaffAttendanceReportComponent } from './Views/Staff-Attendance/staff-attendance-report/staff-attendance-report.component';
+import { PaymentTransactionComponent } from './Views/noc-payment/payment-transaction/payment-transaction.component';
 
 
 
@@ -524,6 +525,7 @@ import { StaffAttendanceReportComponent } from './Views/Staff-Attendance/staff-a
     ImportExcelDataComponent,
     StaffattendanceComponent,
     StaffAttendanceReportComponent,
+    PaymentTransactionComponent,
   ],
   imports: [
     CommonModule,

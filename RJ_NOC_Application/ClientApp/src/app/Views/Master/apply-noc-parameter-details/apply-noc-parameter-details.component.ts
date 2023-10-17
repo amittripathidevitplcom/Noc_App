@@ -226,8 +226,10 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       this.nocPaymentComponent.request.USERNAME = item.CollegeName.substring(0, 49).replace(/[^a-zA-Z ]/g, "");
       this.nocPaymentComponent.request.USERMOBILE = item.CollegeMobileNo;
       this.nocPaymentComponent.request.PURPOSE = "Noc Payment";
+      this.nocPaymentComponent.request.DepartmentID = item.DepartmentID;
       // post
       await this.nocPaymentComponent.PaymentRequest()
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -238,6 +240,32 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       }, 200);
     }
   }
+  async CheckStatus_click(item: any)
+  {
+    try {
+      this.loaderService.requestStarted();
+      //debugger
+      // payment request
+      this.nocPaymentComponent.transactionStatusRequest.ApplyNocApplicationID = item.ApplyNocApplicationID;
+      this.nocPaymentComponent.transactionStatusRequest.AMOUNT = item.Amount;
+      this.nocPaymentComponent.transactionStatusRequest.PRN = item.PRNNO;
+      this.nocPaymentComponent.transactionStatusRequest.DepartmentID = item.DepartmentID;
+      // post
+      await this.nocPaymentComponent.GetTransactionStatus();
+      this.GetRPPPaymentHistory(item.ApplyNocApplicationID);
+    }
+    catch (Ex)
+    {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
+
 
   async MakeEmitraPayment_click(item: any) {
     try {
@@ -483,8 +511,46 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-
   }
+
+
+
+
+  async GetRPPPaymentHistory(applyNocApplicationID: number)
+  {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocPaymentHistoryApplicationID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationDetail.ApplyNocApplicationID = applyNocApplicationID;
+            this.PaymentHistoryDetails = data['Data'][0]['data'];
+            console.log(this.PaymentHistoryDetails);
+            // model popup
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
 
   async PaymentHistoryNocApplication_click(content: any, applyNocApplicationID: number) {
     try {
