@@ -36,6 +36,8 @@ export class DteAddCourseComponent {
   request = new DTECourseMasterDataModel();
   sSOLoginDataModel = new SSOLoginDataModel();
   public isLoading: boolean = false;
+  public ShowHideotherCourse: boolean = false;
+  public CourseDropdown: boolean = false;
   isSubmitted: boolean = false;
   public UserID: number = 0;
   searchText: string = '';
@@ -57,12 +59,13 @@ export class DteAddCourseComponent {
         {
           ddlStreamID: ['', DropdownValidators],
           ddlCourseLevelID: ['', [DropdownValidators]],
-          ddlCourse: ['', [DropdownValidators]],
+          ddlCourse: [''],
           ddlConductMode: ['', [DropdownValidators]],
           ddlShift: ['', DropdownValidators],
           txtEnrollment: ['', Validators.required],
           txtSuperNumerarySeats: ['', Validators.required],
           txtIntake: ['', Validators.required],
+          txtOtherCourseName: [''],
         })
 
       const ddlDepartment = document.getElementById('ddlStreamID')
@@ -159,11 +162,30 @@ export class DteAddCourseComponent {
     }
   };
 
+  async IsChangeCourse(CourseID: number) {
+    try {
+      this.loaderService.requestStarted();
+      if (CourseID == -1)
+        this.ShowHideotherCourse = true;
+      else
+        this.ShowHideotherCourse = false;
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  };
+
   async FillShift() {
     try {
       this.loaderService.requestStarted();
       this.shiftDataList.push({
-        "shiftName":"1st Shift",
+        "shiftName": "1st Shift",
         "shiftID": "1",
       });
       this.shiftDataList.push({
@@ -215,9 +237,18 @@ export class DteAddCourseComponent {
   async SaveData() {
     this.isSubmitted = true;
     this.isFormValid = true;
+    this.CourseDropdown = false;
     if (this.CourseMasterForm.invalid) {
       this.isFormValid = false;
-      return
+    }
+    if (this.request.CourseID == 0) {
+      this.CourseDropdown = true;
+      this.isFormValid = false;
+    }
+    if (this.ShowHideotherCourse) {
+      if (this.request.OtherCourseName == '') {
+        this.isFormValid = false;
+      }
     }
 
     if (!this.isFormValid) {
@@ -228,20 +259,22 @@ export class DteAddCourseComponent {
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
-      //await this.courseMasterService.SaveData(this.request)
-      //  .then((data: any) => {
-      //    this.State = data['State'];
-      //    this.SuccessMessage = data['SuccessMessage'];
-      //    this.ErrorMessage = data['ErrorMessage'];
-      //    console.log(this.State);
-      //    if (!this.State) {
-      //      this.toastr.success(this.SuccessMessage)
-      //      this.ResetControl();
-      //    }
-      //    else {
-      //      this.toastr.error(this.ErrorMessage)
-      //    }
-      //  })
+      this.request.CollegeID = this.CollegeID;
+      this.request.DepartmentID = this.SelectedDepartmentID;
+      await this.courseMasterService.DTESaveData(this.request)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          console.log(this.State);
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)
+            this.ResetControl();
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -263,7 +296,7 @@ export class DteAddCourseComponent {
   }
 
   async ResetControl() {
-    const ddlDepartment = document.getElementById('ddlDepartment')
+    const ddlDepartment = document.getElementById('ddlStreamID')
     if (ddlDepartment) ddlDepartment.focus();
     this.isSubmitted = false;
     this.request.CollegeWiseCourseID = 0;
@@ -273,6 +306,7 @@ export class DteAddCourseComponent {
     this.request.CollegeID = 0;
     this.request.CourseID = 0;
     this.request.CourseLevelID = 0;
+    this.request.OtherCourseName = '';
     this.request.UserID = 0;
     this.request.Intake = 0;
     this.request.Enrollment = 0;
@@ -281,6 +315,7 @@ export class DteAddCourseComponent {
     this.request.ConductMode = 0;
     this.request.ActiveStatus = true;
     this.request.DeleteStatus = false;
+    this.ShowHideotherCourse = false;
 
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";

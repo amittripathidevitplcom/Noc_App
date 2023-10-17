@@ -26,9 +26,9 @@
       <div class="card-body">
         <div class="row">
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="ddlStreamID" class="form-label">Programme Name <span style="color:red;">*</span></label>
-            <select  class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID"
+            <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID"
                     formControlName="ddlStreamID">
               <option value="0">-- Select --</option>
               <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
@@ -38,9 +38,9 @@
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="ddlCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
-            <select  class="form-select" id="ddlCourseLevelID" name="ddlCourseLevelID" [(ngModel)]="request.CourseLevelID"
+            <select class="form-select" id="ddlCourseLevelID" name="ddlCourseLevelID" [(ngModel)]="request.CourseLevelID"
                     formControlName="ddlCourseLevelID" #SeletedCourseLevelID (change)="GetCourseListByLevelID(SeletedCourseLevelID.value)">
               <option value="0" disabled>--Select Course Level--</option>
               <option *ngFor="let item of CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
@@ -50,21 +50,26 @@
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="txtCourse" class="form-label">Course Name <span style="color:red">*</span></label>
-            <select  formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-select">
+            <select formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-select" #SeletedCourseID (change)="IsChangeCourse(SeletedCourseID.value)">
               <option value="0">--Select--</option>
               <option [value]="item.CourseID" *ngFor="let item of courseDataList">
                 {{item.CourseName}}
               </option>
             </select>
 
-            <div *ngIf="isSubmitted&&form.ddlCourse.errors" class="text-danger">
-              <p *ngIf="!form.ddlCourse.errors.DropdownValidators">This field is required .!</p>
-            </div>
+              <p *ngIf="isSubmitted&&CourseDropdown" class="text-danger">This field is required .!</p>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideotherCourse">
+            <label for="txtOtherCourseName" class="form-label"> Other Course<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtOtherCourseName" name="txtOtherCourseName" [(ngModel)]="request.OtherCourseName" formControlName="txtOtherCourseName" maxlength="100">
+            <p *ngIf="isSubmitted&&ShowHideotherCourse&&request.OtherCourseName==''" class="text-danger">
+              This field is required .!
+            </p>
           </div>
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="ddlSeatInformation" class="form-label">Intake  <span style="color:red">*</span></label>
             <input type="text" class="form-control" id="txtIntake" name="txtIntake" [(ngModel)]="request.Intake" formControlName="txtIntake" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted" class="text-danger">
@@ -72,7 +77,7 @@
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="ddlSeatInformation" class="form-label">Super Numerary Seats  <span style="color:red">*</span></label>
             <input type="text" class="form-control" id="txtSuperNumerarySeats" name="txtSuperNumerarySeats" [(ngModel)]="request.SuperNumerarySeats" formControlName="txtSuperNumerarySeats" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted" class="text-danger">
@@ -80,14 +85,14 @@
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="txtEnrollment" class="form-label">Enrollment  <span style="color:red;">*</span>  </label>
             <input type="text" class="form-control" id="txtEnrollment" name="txtEnrollment" [(ngModel)]="request.Enrollment" formControlName="txtEnrollment" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted" class="text-danger">
               <p *ngIf="isSubmitted&& (request.Enrollment==null || request.Enrollment.toString()==0)"><i aria-hidden="true"></i> This field is required .!</p>
             </div>
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="txtCourse" class="form-label">Shift <span style="color:red">*</span></label>
             <select formControlName="ddlShift" id="ddlShift" [(ngModel)]="request.Shift" class="form-select">
               <option value="0">--Select--</option>
@@ -100,7 +105,7 @@
               <p *ngIf="!form.ddlShift.errors.DropdownValidators">This field is required .!</p>
             </div>
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="txtCourse" class="form-label">Conduct Mode <span style="color:red">*</span></label>
             <select formControlName="ddlConductMode" id="ddlConductMode" [(ngModel)]="request.ConductMode" class="form-select">
               <option value="0">--Select--</option>
