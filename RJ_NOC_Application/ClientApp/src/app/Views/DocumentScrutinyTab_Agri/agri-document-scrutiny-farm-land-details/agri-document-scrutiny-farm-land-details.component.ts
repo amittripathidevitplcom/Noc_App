@@ -12,6 +12,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 @Component({
   selector: 'app-agri-document-scrutiny-farm-land-details',
   templateUrl: './agri-document-scrutiny-farm-land-details.component.html',
@@ -35,7 +36,7 @@ export class AgriDocumentScrutinyFarmLandDetailsComponent implements OnInit {
   public IsRural: any = false;
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
-  constructor(private farmLandDetailService: FarmLandDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+  constructor(private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent,private farmLandDetailService: FarmLandDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
     private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private modalService: NgbModal) { }
 
@@ -229,5 +230,7 @@ export class AgriDocumentScrutinyFarmLandDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

@@ -26,6 +26,11 @@ import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { SocietyDataModel } from '../../../Models/SocietyDataModel';
 import { SocityService } from '../../../Services/Master/SocietyManagement/socity.service';
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
+
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-agri-document-scrutiny-check-list-details',
   templateUrl: './agri-document-scrutiny-check-list-details.component.html',
@@ -155,7 +160,7 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
   public IsShowSuperSpecialtyHospital: boolean = false;
   LegalEntityDataModel = new LegalEntityDataModel();
 
-  constructor(private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private socityService: SocityService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
@@ -885,5 +890,8 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }
+

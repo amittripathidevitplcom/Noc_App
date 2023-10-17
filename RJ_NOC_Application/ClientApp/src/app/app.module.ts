@@ -275,6 +275,9 @@ import { AgriPreViewByNodalOfficerComponent } from './Views/DocumentScrutinyTab_
 import { AgriPIForwardToCommiteeListComponent } from './Views/DocumentScrutinyTab_Agri/agri-piforward-to-commitee-list/agri-piforward-to-commitee-list.component';
 import { AgriPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab_Agri/agri-post-verification-done-list/agri-post-verification-done-list.component';
 import { PaymentTransactionComponent } from './Views/noc-payment/payment-transaction/payment-transaction.component';
+import { AgriPSNocApplicationListComponent } from './Views/DocumentScrutinyTab_Agri/agri-psnoc-application-list/agri-psnoc-application-list.component';
+import { DocumentScrutinyRevertedReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-reverted-report/document-scrutiny-reverted-report.component';
+import { DteAddCourseComponent } from './Views/CollegeDetailsForm/dte-add-course/dte-add-course.component';
 
 
 
@@ -542,6 +545,9 @@ import { PaymentTransactionComponent } from './Views/noc-payment/payment-transac
     AgriPIForwardToCommiteeListComponent,
     AgriPostVerificationDoneListComponent,
     PaymentTransactionComponent,
+    AgriPSNocApplicationListComponent,
+    DocumentScrutinyRevertedReportComponent,
+    DteAddCourseComponent,
   ],
   imports: [
     CommonModule,

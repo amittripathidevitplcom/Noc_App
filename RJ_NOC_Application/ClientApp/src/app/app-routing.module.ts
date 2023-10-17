@@ -155,6 +155,9 @@ import { AgriPIForwardToCommiteeListComponent } from './Views/DocumentScrutinyTa
 import { AgriPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab_Agri/agri-post-verification-done-list/agri-post-verification-done-list.component';
 import {PaymentTransactionComponent } from './Views/noc-payment/payment-transaction/payment-transaction.component';
 
+import { AgriPSNocApplicationListComponent } from './Views/DocumentScrutinyTab_Agri/agri-psnoc-application-list/agri-psnoc-application-list.component';
+import { DocumentScrutinyRevertedReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-reverted-report/document-scrutiny-reverted-report.component';
+import { DteAddCourseComponent } from './Views/CollegeDetailsForm/dte-add-course/dte-add-course.component';
 
 const routes: Routes = [
   {
@@ -266,6 +269,10 @@ const routes: Routes = [
 
       {
         path: 'addcourses', component: AddCoursesComponent
+
+      },
+      {
+        path: 'dteaddcourses', component: DteAddCourseComponent
 
       },
       {
@@ -463,6 +470,9 @@ const routes: Routes = [
       },
       {
         path: 'documentscrutinyrejectedreport', component: DocumentScrutinyRejectedReportComponent
+      },
+      {
+        path: 'documentscrutinyrevertedreport', component: DocumentScrutinyRevertedReportComponent
       },
       {
         path: 'rncchekclistmaster', component: RNCCheckListMasterComponent
@@ -680,6 +690,9 @@ const routes: Routes = [
 
       {
         path: 'AgriPostVerificationDoneList/:Status', component: AgriPostVerificationDoneListComponent
+      },
+      {
+        path: 'AgriPSNocApplicationList/:Status', component: AgriPSNocApplicationListComponent
       },
       {
         path: 'paymenttransactionlist', component: PaymentTransactionComponent,

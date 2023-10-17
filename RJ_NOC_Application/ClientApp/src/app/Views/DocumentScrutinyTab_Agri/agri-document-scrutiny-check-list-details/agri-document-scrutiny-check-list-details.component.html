@@ -17,6 +17,10 @@
                 <label>Legal Entity :</label>
                 <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.IsLegalEntity}}" />
               </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>SSOID :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.SSOID}}" />
+              </div>
             </div>
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -146,12 +150,6 @@
                       <table class="table table-bordered table-hover table-striped">
                         <thead>
                           <tr>
-                            <th>
-                              Compliance
-                            </th>
-                            <th>Remark</th>
-                            <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                            <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                             <th>Sr. No.</th>
                             <th>Member Name</th>
                             <th>Father's Name</th>
@@ -162,24 +160,11 @@
                             <th>Member Photo</th>
                             <th>Member Sing</th>
                             <th>Aadhaar Document</th>
+                            <th>Tarils</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr *ngFor="let row of CheckList_legalEntityMemberDetailData; let indexOfelement=index;">
-                            <td>
-                              {{row.Action}}
-                            </td>
-                            <td>
-                              {{row.Action=='No'?row.Remark:''}}
-                              <!--</td>
-                              <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                                Compliance: {{row.C_Action}}<br />
-                                <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-                              </td>
-                              <td *ngIf="sSOLoginDataModel.RoleID==5">
-                                Compliance: {{row.S_Action}}<br />
-                                <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-                              </td>-->
                             <td> {{indexOfelement+1}}</td>
                             <td>{{row.MemberName}}</td>
                             <td>{{row.MemberFatherName}}</td>
@@ -207,8 +192,8 @@
                               </a>
                               <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
                               <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-
                             </td>
+                            <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.MemberID,'LegalEntityMemberTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
                           </tr>
                         </tbody>
                       </table>
@@ -228,13 +213,7 @@
                       <table class="table table-bordered table-hover table-striped">
                         <thead>
                           <tr>
-                            <th>
-                              Compliance<br />
 
-                            </th>
-                            <th>Remark</th>
-                            <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                            <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                             <th>Sr. No.</th>
                             <th>Registration No.</th>
                             <th>Institute Name</th>
@@ -242,24 +221,12 @@
                             <th>Designation</th>
                             <th>Contact Number</th>
                             <th>State</th>
+                            <th>Tarils</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr *ngFor="let row of CheckList_legalEntityInstituteDetailData; let indexOfelement=index;">
-                            <td>
-                              {{row.Action}}
-                            </td>
-                            <td>
-                              {{row.Action=='No'?row.Remark:''}}
-                            </td>
-                            <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                              Compliance: {{row.C_Action}}<br />
-                              <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-                            </td>
-                            <td *ngIf="sSOLoginDataModel.RoleID==5">
-                              Compliance: {{row.S_Action}}<br />
-                              <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-                            </td>-->
+
                             <td> {{indexOfelement+1}}</td>
                             <td>{{row.RegistrationNo}}</td>
                             <td>{{row.InstituteName}}</td>
@@ -267,6 +234,7 @@
                             <td>{{row.InstituteDesignation}}</td>
                             <td>{{row.InstituteContactNumber}}</td>
                             <td>{{row.StateName_English}}</td>
+                            <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.InstituteID,'LegalEntityInstituteTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
                           </tr>
                         </tbody>
                       </table>
@@ -336,7 +304,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeStatus!='New'">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                   <label>Present Status of College :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.PresentCollegeStatus}}" />
                 </div>
@@ -365,20 +333,19 @@
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeNAACAccredited}}" />
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeNAACAccredited =='Yes'">
-                  <label>NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 100KB) (Max.Size 2MB) :</label>
+                  <label><b>NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 100KB) (Max.Size 2MB) :</b></label>
+                  <div class="clearfix"></div>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_collegeListData.NAACAccreditedCertificatePath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_collegeListData.NAACAccreditedCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </div>
-
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeNAACAccredited =='Yes'">
                   <label>NACC Validity Date :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}" />
                 </div>
-
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.DepartmentID==3">
                   <label>AISHE Code Status :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AISHECodeStatus}}" />
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.AISHECodeStatus =='Yes' && CheckList_collegeListData.DepartmentID==3">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.AISHECodeStatus =='Yes'">
                   <label>AISHE Code :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AISHECode}}" />
                 </div>
@@ -387,15 +354,13 @@
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeMediumName}}" />
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <label *ngIf="CheckList_collegeListData.DepartmentID==6">University / RMC  :</label>
-                  <label *ngIf="CheckList_collegeListData.DepartmentID !=6">University :</label>
+                  <label>University :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.UniversityName}}" />
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeStatus!='New'">
                   <label>Year of Establishment :</label>
                   <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.FinancialYearName}}" />
                 </div>
-
               </div>
               <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -480,6 +445,7 @@
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
           <div class="row" *ngIf="CheckList_collegeContactDetailsList.length>0">
@@ -551,15 +517,9 @@
                     <table class="table table-bordered table-hover table-striped">
                       <thead>
                         <tr>
-                          <th>
-                            Compliance<br />
-                          </th>
-                          <th>Remark</th>
-                          <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                          <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                           <th>Sr. No.</th>
+                          <th>Hospital Reg. No.</th>
                           <th>Hospital Name</th>
-                          <th>Hospital RegNo.</th>
                           <th>Hospital Address</th>
                           <th>Distance From Institute(KM)</th>
                           <th>Hospital Document</th>
@@ -567,23 +527,9 @@
                       </thead>
                       <tbody>
                         <tr *ngFor="let row of CheckList_collegeNearestGovernmentHospitalsList; let indexOfelement=index;">
-                          <td>
-                            {{row.Action}}
-                          </td>
-                          <td>
-                            {{row.Action=='No'?row.Remark:''}}
-                          </td>
-                          <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                            Compliance: {{row.C_Action}}<br />
-                            <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-                          </td>
-                          <td *ngIf="sSOLoginDataModel.RoleID==5">
-                            Compliance: {{row.S_Action}}<br />
-                            <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-                          </td>-->
                           <td> {{indexOfelement+1}}</td>
-                          <td>{{row.HospitalName}}</td>
                           <td>{{row.HospitalRegNo}}</td>
+                          <td>{{row.HospitalName}}</td>
                           <td>
                             <p class="m-0"><b>Area : </b> {{row.RuralUrbanArea}}</p>
                             <p class="m-0"><b>Address Line 1 : </b> {{row.AddressLine1}}</p>
@@ -653,48 +599,69 @@
             <table class="table table-hover table-striped-columns" id="tabellist" #content>
               <thead>
                 <tr>
-                  <th>
-                    Compliance<br />
-                  </th>
-                  <th>
-                    Remark
-                  </th>
-                  <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-              <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+
                   <th>SNo</th>
-                  <th>College</th>
                   <th>Name</th>
                   <th>Father Name</th>
-                  <th>Designation </th>
-                  <th>Occupation </th>
-                  <th>Action</th>
+                  <th>Mobile No</th>
+                  <th>Gender</th>
+                  <th>Email</th>
+                  <th>Aadhaar</th>
+                  <th>Pan</th>
+                  <th>PAN Card Document</th>
+                  <th>Aadhaar Card Document</th>
+                  <th>Signature Document</th>
+                  <th>Profile Photo</th>
+                  <th>Authorized Document</th>
+                  <th>Is Primary</th>
+                  <th>Is Authorize</th>
+                  <th>Tarils</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let row of CheckList_SocietyAllList let idx=index;">
-                  <td>
-                    {{row.Action}}
-                  </td>
-                  <td>
-                    {{row.Action=='No'?row.Remark:''}}
-                  </td>
-                  <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                Compliance: {{row.C_Action}}<br />
-                <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-              </td>
-              <td *ngIf="sSOLoginDataModel.RoleID==5">
-                Compliance: {{row.S_Action}}<br />
-                <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-              </td>-->
+
                   <td>{{idx+1}}</td>
-                  <td>{{row.CollegeName}}</td>
                   <td>{{row.PersonName}}</td>
                   <td>{{row.FatherName}}</td>
-                  <td>{{row.DesignationName}}</td>
-                  <td>{{row.OccupationName}}</td>
+                  <td>{{row.MobileNo}}</td>
+                  <td>{{row.Gender}}</td>
+                  <td>{{row.Email}}</td>
+                  <td>{{row.AadhaarNo}}</td>
+                  <td>{{row.PANNo}}</td>
                   <td>
-                    <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewCollegeManagmentDetail(mymodal,row.SocietyID)"><i class="fa fa-eye"></i></button>
+                    <a *ngIf="!row.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{row.PANCardPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{row.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{row.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </td>
+                  <td>
+                    <a *ngIf="!row.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{row.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{row.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{row.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td>
+                    <a *ngIf="!row.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{row.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{row.SignatureDocPath}}" alt="Signature Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{row.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td>
+                    <a *ngIf="!row.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{row.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{row.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{row.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td>
+                    <a *ngIf="!row.AuthorizedDocument.includes('.pdf') && row.IsAuthorized==true" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{row.AuthorizedDocumentPath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AuthorizedDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td>{{row.IsPrimary}}</td>
+                  <td>{{row.IsAuthorized}}</td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.SocietyID,'ManagementSocietyTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
                 </tr>
                 <tr *ngIf="CheckList_SocietyAllList.length<=0">
                   <td colspan="20" style="color:red">No Data Found.!</td>
@@ -723,128 +690,8 @@
             </tbody>
           </table>
         </div>
-      </div>
-      <ng-template #mymodal let-modal>
-        <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">College Management Society Details</h4>
-          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <i class="fa fa-close"></i>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b> College:</b></label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.CollegeName}}" />
-            </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label> <b>Person Name</b></label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.PersonName}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label> <b>Profile Photo</b></label>
-              <a *ngIf="!CheckList_societyrequest.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
-                <img src="{{CheckList_societyrequest.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-              </a>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b> Designation: </b></label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.DesignationName}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label> <b>Occupation:</b></label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.OccupationName}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_societyrequest.OccupationName=='Others'">
-              <label> <b>Other Occupation:</b></label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.OtherOccupation}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID!=2">
-              <label> <b>Management Committee Should have at least two educationists : </b> </label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.Educationists}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label> <b> Mobile No: </b></label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.MobileNo}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label>  <b>Email: </b></label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.Email}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label> <b>Gender:</b> </label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.Gender}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label> <b>Father Name: </b> </label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.FatherName}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b> Aadhaar Number : </b></label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.MaskedAadhaarNo}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label> <b>Aadhaar Card </b></label>
-              <a *ngIf="!CheckList_societyrequest.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
-                <img src="{{CheckList_societyrequest.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-              </a>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label> <b>Signature Document</b></label>
-              <a *ngIf="!CheckList_societyrequest.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom">
-                <img src="{{CheckList_societyrequest.SignatureDocPath}}" alt="Signature Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-              </a>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label><b>PAN Number:</b></label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.PANNo}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label> <b>PAN Card </b></label>
-              <a *ngIf="!CheckList_societyrequest.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.PANCardPath}}" data-caption="Image 10" title="click here to zoom">
-                <img src="{{CheckList_societyrequest.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-              </a>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_societyrequest.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label> <b>IsPrimary </b></label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.IsPrimary == false ? 'No' : 'Yes'}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-              <label> <b>IsAuthorized </b></label>
-              <input class="form-control disabled" disabled value="{{CheckList_societyrequest.IsAuthorized == false ? 'No' : 'Yes'}}" />
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_societyrequest.IsAuthorized !=false">
-              <label> <b>Authorized Document </b></label>
-              <a *ngIf="!CheckList_societyrequest.AuthorizedDocument.includes('.pdf') && CheckList_societyrequest.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
-                <img src="{{CheckList_societyrequest.AuthorizedDocumentPath}}" alt="Authorized Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-              </a>
-              <label *ngIf="CheckList_societyrequest.AuthorizedDocumentPath=='N/A'">{{CheckList_societyrequest.AuthorizedDocumentPath}}</label>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.AuthorizedDocument.includes('.pdf') && CheckList_societyrequest.AuthorizedDocumentPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_societyrequest.OccupationName=='Educationist'">
-              <label> <b>Education Proof </b></label>
-              <a *ngIf="!CheckList_societyrequest.EducationProof.includes('.pdf') && CheckList_societyrequest.EducationProofPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.EducationProofPath}}" data-caption="Image 10" title="click here to zoom">
-                <img src="{{CheckList_societyrequest.EducationProofPath}}" alt="Education Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-              </a>
-              <label *ngIf="CheckList_societyrequest.EducationProofPath=='N/A'">{{CheckList_societyrequest.EducationProofPath}}</label>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.EducationProof.includes('.pdf') && CheckList_societyrequest.EducationProofPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.EducationProofPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_societyrequest.OccupationName=='Educationist'">
-              <label> <b>Consent Letter </b></label>
-              <a *ngIf="!CheckList_societyrequest.ConsentLetter.includes('.pdf') && CheckList_societyrequest.ConsentLetterPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.ConsentLetterPath}}" data-caption="Image 10" title="click here to zoom">
-                <img src="{{CheckList_societyrequest.ConsentLetterPath}}" alt="Consent Letter" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
-              </a>
-              <label *ngIf="CheckList_societyrequest.ConsentLetterPath=='N/A'">{{CheckList_societyrequest.ConsentLetterPath}}</label>
-              <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_societyrequest.ConsentLetter.includes('.pdf') && CheckList_societyrequest.ConsentLetterPath!='N/A'" data-fancybox="gallery" href="{{CheckList_societyrequest.ConsentLetterPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-            </div>
-          </div>
-        </div>
-      </ng-template>
+      </div>
     </div>
   </div>
 
@@ -859,41 +706,31 @@
         <table class="table table-bordered table-hover table-striped">
           <thead>
             <tr>
-
-              <th>Compliance</th>
-              <th>Remark</th>
-              <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-              <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
               <th>Sr.No.</th>
               <th>College</th>
               <th>Land Situated</th>
               <th>Land Doc Type</th>
               <th>Is Convereted</th>
-              <th>Land Type</th>
+              <!--<th>Land Type</th>-->
               <th>Owner Name</th>
-
+              <th>Action</th>
+              <th>Tarils</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of CheckList_LandDetailList; let idx =index">
 
-              <td>{{item.Action}} </td>
-              <td>{{item.Action =='No'?item.Remark:''}}</td>
-              <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                Compliance: {{item.C_Action}}<br />
-                <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-              </td>
-              <td *ngIf="sSOLoginDataModel.RoleID==5">
-                Compliance: {{item.S_Action}}<br />
-                <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-              </td>-->
               <td>{{idx+1}}</td>
               <td>{{item.CollegeName}}</td>
               <td>{{item.LandAreaSituatedName}}</td>
               <td>{{item.LandDocumentTypeName}}</td>
               <td>{{item.IsConvereted}}</td>
-              <td>{{item.LandTypeName}}</td>
+              <!--<td>{{item.LandTypeName}}</td>-->
               <td>{{item.LandOwnerName}}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(mymodal,item.LandDetailID)"><i class="fa fa-eye"></i></button>
+              </td>
+              <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.LandDetailID,'LandDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
             </tr>
             <tr *ngIf="CheckList_LandDetailList.length<=0">
               <td colspan="9" style="color:red">No Data Found.!</td>
@@ -902,6 +739,8 @@
         </table>
       </div>
     </div>
+
+
     <div class="row" *ngIf="LandDetail_FinalRemarks.length>0">
       <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped">
@@ -923,6 +762,122 @@
       </div>
     </div>
 
+    <ng-template #mymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Land Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b> College:</b></label>
+            <input class="form-control disabled" disabled value="{{ldrequest.CollegeName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Land Area Situated In :</b></label>
+            <input class="form-control disabled" disabled value="{{ldrequest.LandAreaSituatedName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Land Document Type :</b></label>
+            <input class="form-control disabled" disabled value="{{ldrequest.LandDocumentTypeName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Is Your Land converted to Institution/Education :</b></label>
+            <input class="form-control disabled" disabled value="{{ldrequest.IsConvereted}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Name of Owner of Land :</b></label>
+            <input class="form-control disabled" disabled value="{{ldrequest.LandOwnerName}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Land Area (in {{ldrequest.AreaType !=''?ldrequest.AreaType:UnitOfLand}}) :</b></label>
+            <input class="form-control disabled" disabled value="{{ldrequest.LandArea}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(ldrequest.Code=='NCON' || ldrequest.Code=='PCON')">
+            <label><b>Affidavit Date(DD/MM/YYYY) :</b></label>
+            <input class="form-control disabled" disabled value="{{ldrequest.AffidavitDate | date:'dd-MM-yyyy'}}" />
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row" *ngIf="LandDetailsDocumentListByID.length>0">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Document Name</th>
+                      <th>Document Type</th>
+                      <th>Show Document</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of LandDetailsDocumentListByID ; let indexOfelement=index;">
+                      <td> {{indexOfelement+1}}</td>
+                      <td>{{item.DocumentName}}</td>
+                      <td>{{item.DocumentType}}</td>
+                      <td><a class="btn-outline-primary" target="_blank" href="{{item.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row" *ngIf="DetailoftheLand.length>0">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i>&nbsp;Detail of the Land (With Khasra No.):  </b>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>Land Type</th>
+                          <th>Area</th>
+                          <th>Khasra No</th>
+                          <th>Land Conversion Order No</th>
+                          <th>Land Conversion Order Date</th>
+                          <th>Land Conversion Document</th>
+                          <th>Other Document</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of DetailoftheLand; let indexOfelement=index;">
+                          <td> {{indexOfelement+1}}</td>
+                          <td>{{row.LandTypeName}}</td>
+                          <td>{{row.LandArea}}</td>
+                          <td>{{row.KhasraNo}}</td>
+                          <td>{{row.LandConversionOrderNo}}</td>
+                          <td>{{row.LandConversionOrderDate}}</td>
+
+                          <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+
+
+                          <td>
+
+                            <a *ngIf="row.FileOtherName!=''" class="btn-outline-primary" target="_blank" href="{{row.FileOtherPath}}" title="View Document"><i class="fa fa-eye"></i></a>
+
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </ng-template>
+
   </div>
   <!--End Land Details-->
   <!--Start Facility Details-->
@@ -937,35 +892,28 @@
             <thead>
               <tr>
 
-                <th>Compliance</th>
-                <th>Remark</th>
-                <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                 <th>Sr. No.</th>
                 <th>Facility Name</th>
                 <th>Is Available</th>
+                <th>No of </th>
                 <th>Minimum Size</th>
                 <th>Image/File</th>
+                <th>Tarils</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of CheckList_FacilitiesDataAllList ; let indexOfelement=index;">
 
-                <td>{{item.Action}} </td>
-                <td>{{item.Action =='No'?item.Remark:''}}</td>
-                <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                  Compliance: {{item.C_Action}}<br />
-                  <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-                </td>
-                <td *ngIf="sSOLoginDataModel.RoleID==5">
-                  Compliance: {{item.S_Action}}<br />
-                  <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-                </td>-->
                 <td> {{indexOfelement+1}}</td>
                 <td>
                   {{item.FacilitiesName}}
                 </td>
-                <td>{{item.IsAvailable}}</td>
+                <td>
+                  {{item.IsAvailable}}
+                </td>
+                <td>
+                  {{item.NoOf}}
+                </td>
                 <td>
                   {{item.MinSize}}
                 </td>
@@ -975,6 +923,7 @@
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.FacilityDetailID,'FacilityTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
               </tr>
               <tr *ngIf="CheckList_FacilitiesDataAllList.length<=0">
                 <td colspan="10" style="color:red">No Data Found.!</td>
@@ -1018,28 +967,15 @@
             <thead>
               <tr>
 
-                <th>Compliance</th>
-                <th>Remark</th>
-                <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                 <th>Sr. No.</th>
                 <th>Document Name</th>
                 <th>File</th>
+                <th>Tarils</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of CheckList_DocumentDetails ; let indexOfelement=index;">
 
-                <td>{{item.Action}} </td>
-                <td>{{item.Action =='No'?item.Remark:''}}</td>
-                <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                  Compliance: {{item.C_Action}}<br />
-                  <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-                </td>
-                <td *ngIf="sSOLoginDataModel.RoleID==5">
-                  Compliance: {{item.S_Action}}<br />
-                  <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-                </td>-->
                 <td> {{indexOfelement+1}}</td>
                 <td>{{item.DocumentName}}</td>
                 <td>
@@ -1048,6 +984,7 @@
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.DID,'RequriedDocuemntTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
               </tr>
               <tr *ngIf="CheckList_DocumentDetails.length<=0">
                 <td colspan="11" style="color:red">No Data Found.!</td>
@@ -1090,37 +1027,28 @@
           <table class="table table-bordered table-hover table-striped">
             <thead>
               <tr>
-
-                <th>Compliance</th>
-                <th>Remark</th>
-                <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                 <th>Sr. No.</th>
                 <th>Course</th>
+                <th>Room No.</th>
                 <th>Width (In Feet) Size</th>
                 <th>Length (In Feet)</th>
+                <th>Room Size (sq. ft)</th>
                 <th>Student Capacity</th>
+                <!--<th>No. Of Lab</th>-->
                 <th>Upload Image</th>
+                <th>Tarils</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of CheckList_RoomDetails; let idx =index">
-
-                <td>{{item.Action}} </td>
-                <td>{{item.Action =='No'?item.Remark:''}}</td>
-                <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                  Compliance: {{item.C_Action}}<br />
-                  <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-                </td>
-                <td *ngIf="sSOLoginDataModel.RoleID==5">
-                  Compliance: {{item.S_Action}}<br />
-                  <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-                </td>-->
                 <td width="5%">
                   {{idx+1}}
                 </td>
                 <td>
                   {{item.CourseName}}
+                </td>
+                <td>
+                  {{item.NoOfRooms}}
                 </td>
                 <td>
                   {{item.Width}}
@@ -1129,15 +1057,21 @@
                   {{item.Length}}
                 </td>
                 <td>
+                  {{item.Length*item.Width}}
+                </td>
+                <td>
                   {{item.StudentCapacity}}
                 </td>
+                <!--<td>
+                  {{item.NoOfLab}}
+                </td>-->
                 <td>
                   <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
                     <img src="{{item.ImageFilePath}}" alt="Image/File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
-
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.CollegeWiseRoomID,'ClassRoomDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
               </tr>
               <tr *ngIf="CheckList_RoomDetails.length<=0">
                 <td colspan="7" style="color:red">No Data Found.!</td>
@@ -1181,45 +1115,35 @@
             <table class="table table-bordered table-hover table-striped">
               <thead>
                 <tr>
-
-                  <th>Compliance</th>
-                  <th>Remark</th>
-                  <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                   <th>Sr. No.</th>
-                  <th>Facility Name</th>
-                  <th>Width (In Feet)</th>
-                  <th>Length (In Feet)</th>
+                  <th>Course Name</th>
+                  <th>No. of Rooms</th>
+                  <th>Minimum Size (Sq. Feet)</th>
+                  <th>No of Computers</th>
                   <th>No of books</th>
                   <th>Upload Image</th>
                   <th>Book's Details Document</th>
+                  <th>Tarils</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let item of CheckList_OtherInformation ; let indexOfelement=index;">
 
-                  <td>{{item.Action}} </td>
-                  <td>{{item.Action =='No'?item.Remark:''}}</td>
-                  <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                    Compliance: {{item.C_Action}}<br />
-                    <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-                  </td>
-                  <td *ngIf="sSOLoginDataModel.RoleID==5">
-                    Compliance: {{item.S_Action}}<br />
-                    <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-                  </td>-->
                   <td> {{indexOfelement+1}}</td>
                   <td>
                     {{item.CourseName}}
                   </td>
                   <td>
+                    {{item.NoOfRooms}}
+                  </td>
+                  <td>
                     {{item.Width}}
                   </td>
                   <td>
-                    {{item.Length}}
+                    {{item.NoofComputers}}
                   </td>
                   <td>
-                    {{item.Length}}
+                    {{item.NoofBooks}}
                   </td>
                   <td>
                     <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
@@ -1233,6 +1157,7 @@
                     </a>
                     <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.CollegeWiseOtherInfoID,'otherInformationTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
                 </tr>
                 <tr *ngIf="CheckList_OtherInformation.length<=0">
                   <td colspan="20" style="color:red">No Data Found.!</td>
@@ -1276,10 +1201,6 @@
           <thead>
             <tr>
 
-              <th>Compliance</th>
-              <th>Remark</th>
-              <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-              <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
               <th>Sr. No</th>
               <th>Building Type</th>
               <th>Owner Name</th>
@@ -1290,22 +1211,13 @@
               <th>Order No</th>
               <th>Order Date</th>
               <th>Expiring On</th>
-
+              <th>Action</th>
+              <th>Tarils</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of CheckList_lstBuildingDetails; let idx=index">
 
-              <td>{{item.Action}} </td>
-              <td>{{item.Action =='No'?item.Remark:''}}</td>
-              <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                Compliance: {{item.C_Action}}<br />
-                <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-              </td>
-              <td *ngIf="sSOLoginDataModel.RoleID==5">
-                Compliance: {{item.S_Action}}<br />
-                <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-              </td>-->
               <td>{{idx+1}}</td>
               <td>{{item.BuildingTypeName}}</td>
               <td>{{item.OwnerName}}</td>
@@ -1316,6 +1228,12 @@
               <td>{{item.OrderNo}}</td>
               <td>{{item.OrderDate}}</td>
               <td>{{item.ExpiringOn}}</td>
+              <td>
+                <div class="d-flex">
+                  <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewBuildingDetails(mymodalbuild,item.SchoolBuildingDetailsID)"><i class="fa fa-eye"></i></button>
+                </div>
+              </td>
+              <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.SchoolBuildingDetailsID,'BuildingDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
 
             </tr>
             <tr *ngIf="CheckList_lstBuildingDetails.length<=0">
@@ -1344,6 +1262,314 @@
           </table>
         </div>
       </div>
+      <ng-template #mymodalbuild let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Building Details</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <b><i class="fa fa-filter"></i>&nbsp;Building Documents</b>
+            </div>
+
+            <div class="card-body">
+
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label"><b>Building Category  :</b> </label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.BuildingTypeName}}" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>Owner Name :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.OwnerName}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>Address Line 1 :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.AddressLine1}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>Address Line 2 :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.AddressLine2}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"> <b>Rural / Urban :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.RuralUrban}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>Division :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.Division_English}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>District :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.District_Eng}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>Tehsil :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.TehsilName}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Rural' && buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>Panchayat Samiti :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.PanchyatSamitiName}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.RuralUrban == 'Urban' && buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>City :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.CityName}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>City/Town/Village :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.CityTownVillage}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>Contact No :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.ContactNo}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>Pincode :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.Pincode}}" />
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label"><b>Total Constructed Building Area (in Sq. Ft) :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.BuildingHostelQuartersRoadArea}}" />
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Upload Land Title Certificate :</b></label>
+                  <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.buildingOtherDoc1FileUpload}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{buildingdetails.buildingOtherDoc1FileUpload}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.buildingOtherDoc1FileUpload}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label><b>Upload Land Document :</b></label>
+                  <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{buildingdetails.OwnBuildingFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label><b>Upload Registered Rent Agreement/Lease Deed :</b></label>
+                  <a *ngIf="!buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.RentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.RentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{buildingdetails.RentAgreementFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <label *ngIf="buildingdetails.RentAgreementFileUploadPath=='N/A'">{{buildingdetails.RentAgreementFileUploadPath}}</label>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.RentAgreementFileUpload.includes('.pdf') && buildingdetails.RentAgreementFileUploadPath!='N/A'" data-fancybox="gallery" href="{{buildingdetails.RentAgreementFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="buildingdetails.BuildingTypeName!='Owned'">
+                  <label class="form-label"><b>Rent Valid Up To :</b></label>
+                  <input class="form-control disabled" disabled value="{{buildingdetails.Rentvaliditydate | date:'dd-MM-yyyy'}}" />
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <b *ngIf="buildingdetails.BuildingTypeName=='Owned'"><i class="fa fa-filter"></i>&nbsp;Certificate of Own Building in own land in same campus Order No. & Order Date : </b>
+                  <b *ngIf="buildingdetails.BuildingTypeName!='Owned'"><i class="fa fa-filter"></i>&nbsp;Certificate of Land & Rented Building in same "Tehsil" Order No. & Order Date : </b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                      <label class="form-label"><b>Order No :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.OwnBuildingOrderNo}}" />
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                      <label class="form-label"><b>Order Date :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.OwnBuildingOrderDate | date:'dd-MM-yyyy'}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Upload Own Building Document :</b></label>
+                      <a *ngIf="!buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{buildingdetails.OwnBuildingFileUploadPath}}" alt="Building Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OwnBuildingFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OwnBuildingFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <b><i class="fa fa-filter"></i>&nbsp;Fire NOC Validity</b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                      <label class="form-label"><b>Order No :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.FireNOCOrderNumber}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                      <label class="form-label"><b>From Date :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.FromDate | date:'dd-MM-yyyy'}}" />
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                      <label class="form-label"><b>To Date :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.ToDate | date:'dd-MM-yyyy'}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Upload Fire NOC Document :</b></label>
+                      <a *ngIf="!buildingdetails.FireNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.FireNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{buildingdetails.FireNOCFileUploadPath}}" alt="Fire NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.FireNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.FireNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <b><i class="fa fa-filter"></i>&nbsp;Current Year Building Safety Certificate Order No. & Order Date: </b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                      <label for="txtOrderNo" class="form-label"><b>Order No :</b> </label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.OrderNo}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                      <label for="txtOrderDate"><b>Order Date :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.OrderDate | date:'dd-MM-yyyy'}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
+                      <label for="txtExpiringOn"><b>Expiring On :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.ExpiringOn | date:'dd-MM-yyyy'}}" />
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                      <label><b>Upload PWD NOC Document :</b></label>
+                      <a *ngIf="!buildingdetails.PWDNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.PWDNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom">
+                        <img src="{{buildingdetails.PWDNOCFileUploadPath}}" alt="PWD NOC Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                      </a>
+                      <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.PWDNOCFileUpload.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.PWDNOCFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card" *ngIf="SelectedDepartmentID ==6">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <b><i class="fa fa-filter"></i>&nbsp;Description</b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Total Project Cost :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.TotalProjectCost}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Source Cost Amount :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.SourceCostAmount}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Amount deposited in the Bank near the institution :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.AmountDeposited}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Other fixed assets/securities of the organization :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.OtherFixedAssetsAndSecurities}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>GATE year balance secret of the organization :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.GATEYearBalanceSecret}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label class="form-label"><b>Other financial resources :</b></label>
+                      <input class="form-control disabled" disabled value="{{buildingdetails.OtherFinancialResources}}" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th>Upload Total Project Cost Document</th>
+                              <th>Upload Source Cost Amount Document</th>
+                              <th>Upload Amount Deposited Document</th>
+                              <th>Upload Other Fixed Assets/Securities Document</th>
+                              <th>Upload GATE Year Balance Secret Document</th>
+                              <th>Upload Other Financial Resources Document</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.TotalProjectCostFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.TotalProjectCostFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.TotalProjectCostFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.TotalProjectCostFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              </td>
+                              <td>
+                                <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.SourceCostAmountFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.SourceCostAmountFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.SourceCostAmountFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.SourceCostAmountFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              </td>
+                              <td>
+                                <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.AmountDepositedFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.AmountDepositedFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.AmountDepositedFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.AmountDepositedFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              </td>
+                              <td>
+                                <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFixedAssetsAndSecuritiesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              </td>
+                              <td>
+                                <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.GATEYearBalanceSecretFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.GATEYearBalanceSecretFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.GATEYearBalanceSecretFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.GATEYearBalanceSecretFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              </td>
+                              <td>
+                                <a class="bi bi-file-earmark-excel-fill" *ngIf="!buildingdetails.OtherFinancialResourcesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFinancialResourcesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="buildingdetails.OtherFinancialResourcesFileUploadPath.includes('.pdf')" data-fancybox="gallery" href="{{buildingdetails.OtherFinancialResourcesFileUploadPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <b><i class="fa fa-filter"></i>&nbsp;Building Photos</b>
+                </div>
+                <div class="card-body">
+                  <div class="row" *ngIf="buildingdetails.lstBuildingDocDetails.length>0">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                          <thead>
+                            <tr>
+                              <th>Sr. No.</th>
+                              <th>Document Name</th>
+                              <th>File</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of buildingdetails.lstBuildingDocDetails ; let indexOfelement=index;">
+                              <td> {{indexOfelement+1}}</td>
+                              <td>
+                                {{item.DocumentName}}
+                              </td>
+                              <td>
+                                <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                                  <img src="{{item.FilePath}}" alt="Image/File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                                </a>
+                                <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                              </td>
+                            </tr>
+                            <tr *ngIf="buildingdetails.lstBuildingDocDetails.length<=0">
+                              <td colspan="2" style="color:red">No Data Found.!</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
   <!--End Building Documents-->
@@ -1374,38 +1600,30 @@
               <thead>
                 <tr>
 
-                  <th>Compliance</th>
-                  <th>Remark</th>
-                  <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                   <th>S.No.</th>
                   <th>Type</th>
                   <th>Name Of Person</th>
                   <th>Mobile No.</th>
                   <th>Highest Qualification</th>
                   <th>Date of Birth</th>
+                  <th>Action</th>
+                  <th>Tarils</th>
 
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let item of CheckList_StaffDetailModel let idx =index">
-
-                  <td>{{item.Action}} </td>
-                  <td>{{item.Action =='No'?item.Remark:''}}</td>
-                  <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                    Compliance: {{item.C_Action}}<br />
-                    <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-                  </td>
-                  <td *ngIf="sSOLoginDataModel.RoleID==5">
-                    Compliance: {{item.S_Action}}<br />
-                    <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-                  </td>-->
                   <td>{{idx+1}}</td>
                   <td>{{item.TeachingType}}</td>
                   <td>{{item.PersonName}}</td>
                   <td>{{item.MobileNo}}</td>
                   <td>{{item.HighestQualificationName}}</td>
                   <td>{{item.DateOfBirth}}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewStaffDetail(mymodalstaff,item.StaffDetailID)"><i class="fa fa-eye"></i></button>
+                  </td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.StaffDetailID,'StaffDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+
                 </tr>
                 <tr *ngIf="CheckList_StaffDetailModel.length<=0">
                   <td colspan="7" style="color:red">No Data Found.!</td>
@@ -1435,6 +1653,196 @@
           </table>
         </div>
       </div>
+      <ng-template #mymodalstaff let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Staff Details</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label class="form-label" style="margin-right:15px"><b> Type :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.TeachingType}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="sdrequest.TeachingType=='Teaching'">
+              <label><b>Subject :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.SubjectName}}" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label><b>Name of Person:</b> </label>
+              <input class="form-control disabled" disabled value="{{sdrequest.PersonName}}" />
+            </div>
+            <div class="col-md-4 mb-3" *ngIf="sdrequest.TeachingType=='Teaching'">
+              <label><b>Designation :</b> </label>
+              <input class="form-control disabled" disabled value="{{sdrequest.RoleName}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label><b>Mobile No. :</b> </label>
+              <input class="form-control disabled" disabled value="{{sdrequest.MobileNo}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label><b>Email :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.Email}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label><b>Gender :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.Gender}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label><b>Highest Qualification :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.HighestQualificationName}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label><b>Aadhar Number :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.MaskedAadhaarNo}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label><b>PAN Number :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.PANNo}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label><b>Date Of Birth :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.DateOfBirth | date:'dd-MM-yyyy'}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label><b>Date Of Appointment :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.DateOfAppointment | date:'dd-MM-yyyy'}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label><b>Date Of Joining :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.DateOfJoining | date:'dd-MM-yyyy'}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label><b>Total Number of Experience (Year) :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.NumberofExperience}}" />
+            </div>
+            <div class="col-md-4 mb-3" *ngIf="sdrequest.TeachingType=='Teaching'">
+              <label><b>Specialization Subject :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.SpecializationSubject}}" />
+            </div>
+            <div class="col-md-4 mb-3" *ngIf="sdrequest.ESINumber != ''">
+              <label><b>ESI Number :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.ESINumber}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label><b>Salary :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.Salary}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label" style="margin-right:15px"><b>Staff Status :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.StaffStatus}}" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label" style="margin-right:15px"><b>PF Deduction :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.PFDeduction}}" />
+            </div>
+            <div class="col-md-4 mb-3" *ngIf="sdrequest.PFDeduction=='Yes'">
+              <label><b> UAN No. :</b></label>
+              <input class="form-control disabled" disabled value=" {{sdrequest.UANNumber}}" />
+            </div>
+            <div class="col-md-4 mb-3" *ngIf="sdrequest.TeachingType=='Teaching'">
+              <label class="form-label" style="margin-right:15px"><b>Research Guide :</b></label>
+              <input class="form-control disabled" disabled value="{{sdrequest.ResearchGuide}}" />
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Profile Photo</th>
+                        <th>Aadhaar Card</th>
+                        <th>PAN Card</th>
+                        <th>Experience Certificate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a *ngIf="!sdrequest.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{sdrequest.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{sdrequest.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="sdrequest.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{sdrequest.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                        <td>
+                          <a *ngIf="!sdrequest.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{sdrequest.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{sdrequest.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="sdrequest.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{sdrequest.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                        <td>
+                          <a *ngIf="!sdrequest.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{sdrequest.PANCardPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{sdrequest.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="sdrequest.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{sdrequest.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                        <td>
+                          <a *ngIf="!sdrequest.ExperienceCertificate.includes('.pdf')" data-fancybox="gallery" href="{{sdrequest.ExperienceCertificatePath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{sdrequest.ExperienceCertificatePath}}" alt="Experience Certificate" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="sdrequest.ExperienceCertificate.includes('.pdf')" data-fancybox="gallery" href="{{sdrequest.ExperienceCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <b>Educational Qualification Details</b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="table-responsive" *ngIf="sdrequest.EducationalQualificationDetails.length>0">
+                  <table class="table table-hover table-striped-columns">
+                    <thead>
+                      <tr>
+                        <th>Professional Qualification</th>
+                        <th> Stream/Subject </th>
+                        <th>University/Board/ Institution</th>
+                        <th>Passing Year</th>
+                        <th>Percentage/Grade</th>
+                        <th>Upload Document</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of sdrequest.EducationalQualificationDetails let idx =index">
+                        <td>
+                          {{item.ProfessionalQualification}}
+                        </td>
+                        <td>
+                          {{item.StreamSubject}}
+                        </td>
+                        <td>
+                          {{item.UniversityBoardInstitutionName}}
+                        </td>
+                        <td>
+                          {{item.PassingYear}}
+                        </td>
+                        <td>
+                          {{item.Marks}}
+                        </td>
+                        <td>
+                          <a *ngIf="!item.UploadDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{item.UploadDocumentPath}}" alt="Upload Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.UploadDocument.includes('.pdf')" data-fancybox="gallery" href="{{item.UploadDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
   <!--End Staff Details-->
@@ -1453,38 +1861,26 @@
                 <thead>
                   <tr>
 
-                    <th>Compliance</th>
-                    <th>Remark</th>
-                    <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                    <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                     <th>S.No.</th>
                     <th>Course</th>
                     <th>NOC Type</th>
                     <th>Session Year</th>
                     <th>NOC No.</th>
                     <th>NOC Received On</th>
-
+                    <th>Tarils</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of CheckList_OldNocDetails let idx =index">
 
-                    <td>{{item.Action}} </td>
-                    <td>{{item.Action =='No'?item.Remark:''}}</td>
-                    <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                      Compliance: {{item.C_Action}}<br />
-                      <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-                    </td>
-                    <td *ngIf="sSOLoginDataModel.RoleID==5">
-                      Compliance: {{item.S_Action}}<br />
-                      <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-                    </td>-->
                     <td>{{idx+1}}</td>
                     <td>{{item.CourseName}}</td>
                     <td>{{item.NOCTypeName}}</td>
                     <td>{{item.FinancialYearName}}</td>
                     <td>{{item.NOCNumber}}</td>
                     <td>{{item.NOCReceivedDate}}</td>
+                    <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.OldNocID,'OldNocTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+
                   </tr>
                   <tr *ngIf="CheckList_OldNocDetails.length<=0">
                     <td colspan="7" style="color:red">No Data Found.!</td>
@@ -1532,10 +1928,6 @@
               <thead>
                 <tr>
 
-                  <th>Compliance</th>
-                  <th>Remark</th>
-                  <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                   <th>Sr. No.</th>
                   <th>Financial Year</th>
                   <th>Course Name</th>
@@ -1545,21 +1937,12 @@
                   <th>Passed Student</th>
                   <th>Failed Student</th>
                   <th>Other Student</th>
+                  <th>Tarils</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let row of CheckList_AcademicInformationList;let idx=index;">
 
-                  <td>{{row.Action}} </td>
-                  <td>{{row.Action =='No'?row.Remark:''}}</td>
-                  <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                    Compliance: {{row.C_Action}}<br />
-                    <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-                  </td>
-                  <td *ngIf="sSOLoginDataModel.RoleID==5">
-                    Compliance: {{row.S_Action}}<br />
-                    <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-                  </td>-->
                   <td>{{idx+1}}</td>
                   <td>{{row.FinancialYearName}}</td>
                   <td>{{row.CourseName}}</td>
@@ -1569,6 +1952,8 @@
                   <td>{{row.PassedStudent}}</td>
                   <td>{{row.FailedStudent}}</td>
                   <td>{{row.OtherStudent}}</td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.AcademicInformationID,'AcademicInformationTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+
                 </tr>
                 <tr *ngIf="(CheckList_AcademicInformationList.length<=0)">
                   <td colspan="10" style="color:red">No Data Found.!</td>
@@ -1614,28 +1999,15 @@
               <thead>
                 <tr>
 
-                  <th>Compliance</th>
-                  <th>Remark</th>
-                  <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                  <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                   <th>Sr. No.</th>
                   <th>Document Name</th>
                   <th>File</th>
+                  <th>Tarils</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let item of CheckList_OtherDocumentDetails ; let indexOfelement=index;">
 
-                  <td>{{item.Action}} </td>
-                  <td>{{item.Action =='No'?item.Remark:''}}</td>
-                  <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                    Compliance: {{item.C_Action}}<br />
-                    <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-                  </td>
-                  <td *ngIf="sSOLoginDataModel.RoleID==5">
-                    Compliance: {{item.S_Action}}<br />
-                    <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-                  </td>-->
                   <td> {{indexOfelement+1}}</td>
                   <td>{{item.DocumentName}}</td>
                   <td>
@@ -1644,6 +2016,8 @@
                     </a>
                     <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.DID,'OtherDocumentTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+
                 </tr>
               </tbody>
             </table>
@@ -1673,7 +2047,7 @@
     </div>
   </div>
   <!--End Other Document-->
-  <!--Start Farm Land Details-->
+  <!-- Farm land details-->
   <div class="card mb-0" *ngIf="SelectedDepartmentID==1">
     <div class="card-header">
       <b>Farm Land Details</b>
@@ -1712,6 +2086,7 @@
                   <th>Pincode</th>
                   <th>Certificate from the Tehsildar for Tha Land Distance</th>
                   <th>Land Title Certificate</th>
+                  <th>Trails</th>
                 </tr>
               </thead>
               <tbody>
@@ -1753,6 +2128,7 @@
                   <td>
                     <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.LandTitleCertificateName.includes('.pdf')" data-fancybox="gallery" href="{{row.LandTitleCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                   </td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.FarmLandDetailID,'FarmLandTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
 
                 </tr>
                 <tr *ngIf="CheckList_FarmLandDetailsDataModel.length<=0">
@@ -1787,54 +2163,7 @@
   </div>
   <!--End Farm Land Details-->
 
-  <!--<div class="row m-2">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-      <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
-      <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
-        <option value="0" disabled selected>--Select Action--</option>
-        <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-      </select>
-      <div *ngIf="isActionTypeValid" class="text-danger">
-        <p *ngIf="isActionTypeValid"> This field is required .!</p>
-      </div>
-    </div>
 
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
-      <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
-
-      <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
-        <option value="0" selected>--Select Role--</option>
-        <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
-      </select>
-
-
-      <div *ngIf="isNextRoleIDValid" class="text-danger">
-        <p *ngIf="isNextRoleIDValid"> This field is required .!</p>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
-      <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
-      <select class="form-select" [(ngModel)]="NextActionID">
-        <option value="0" disabled selected>--Select Action--</option>
-        <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-      </select>
-      <div *ngIf="isNextActionValid" class="text-danger">
-        <p *ngIf="isNextActionValid"> This field is required .!</p>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
-      <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
-      <select class="form-select" [(ngModel)]="NextUserID">
-        <option value="0" selected>--Select User--</option>
-        <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
-      </select>
-      <div *ngIf="isNextUserIdValid" class="text-danger">
-        <p *ngIf="isNextUserIdValid"> This field is required .!</p>
-      </div>
-    </div>
-  </div>-->
   <div class="row  m-2">
     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
       <label>Remarks  <span style="color:red;">*</span></label>

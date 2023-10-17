@@ -22,6 +22,7 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/trustee-general-info.service';
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service';
+import { FarmLandDetailDataModel } from '../../../Models/FarmLandDetailDataModel';
 
 @Component({
   selector: 'app-agri-pre-view-by-nodal-officer',
@@ -55,6 +56,8 @@ export class AgriPreViewByNodalOfficerComponent {
   public SelectedTabFieldDataList: any = [];
   request = new DocumentScrutinyDataModel();
   DocumentScrutinyList: DocumentScrutinyDataModel[] = [];
+  public CheckList_FarmLandDetailsDataModel: FarmLandDetailDataModel[] = [];
+
 
   public isFormvalid: boolean = true;
   public isActionValid: boolean = false;
@@ -155,26 +158,27 @@ export class AgriPreViewByNodalOfficerComponent {
     this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
     this.PageStatus = (this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('Status')?.toString()));
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.GetCollageDetails();
-    this.GetLandDetailsDataList();
-    this.GetFacilityDetailAllList();
-    this.ViewlegalEntityDataByID();
-    this.GetSocietyAllList();
-    this.ViewTotalCollegeDataByID();
-    this.GetRoomDetailAllList();
-    this.GetAllBuildingDetailsList();
-    this.GetStaffDetailList_DepartmentCollegeWise();
-    this.GetOldNOCDetailList_DepartmentCollegeWise();
-    this.GetRequiredDocuments('Required Document');
-    this.GetOtherInformationAllList();
-    this.GetAcademicInformationDetailAllList();
-    this.GetOtherDocuments('Other Document');
-    this.GetRoleListForApporval();
-    this.GetWorkFlowActionListByRole();
-    this.NextGetWorkFlowActionListByRole();
-    this.GetCollageDetails();
-    this.GetLegalEntityData();
+    await this.GetCollageDetails();
+    await this.GetLandDetailsDataList();
+    await this.GetFacilityDetailAllList();
+    await this.ViewlegalEntityDataByID();
+    await this.GetSocietyAllList();
+    await this.ViewTotalCollegeDataByID();
+    await this.GetRoomDetailAllList();
+    await this.GetAllBuildingDetailsList();
+    await this.GetStaffDetailList_DepartmentCollegeWise();
+    await this.GetOldNOCDetailList_DepartmentCollegeWise();
+    await this.GetRequiredDocuments('Required Document');
+    await this.GetOtherInformationAllList();
+    await this.GetAcademicInformationDetailAllList();
+    await this.GetOtherDocuments('Other Document');
+    await this.GetRoleListForApporval();
+    await this.GetWorkFlowActionListByRole();
+    await this.NextGetWorkFlowActionListByRole();
+    await this.GetCollageDetails();
+    await this.GetLegalEntityData();
     await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
+    await this.GetFarmLandDetailsList_DepartmentCollegeWise();
   }
   // Start Land Details
   async GetLandDetailsDataList() {
@@ -731,6 +735,33 @@ export class AgriPreViewByNodalOfficerComponent {
     }
   }
 
+  //Farm Land Details
+  async GetFarmLandDetailsList_DepartmentCollegeWise() {
+    try {
+      this.loaderService.requestStarted();
+      await this.agricultureDocumentScrutinyService.DocumentScrutiny_FarmLandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_FarmLandDetailsDataModel = data['Data'][0]['FarmLandDetails'];
+          this.FarmLandDetailsFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Farm Land Details
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -949,6 +980,7 @@ export class AgriPreViewByNodalOfficerComponent {
 
 
   ViewTaril(ID: number, ActionType: string) {
+    debugger;
     this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

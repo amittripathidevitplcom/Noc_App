@@ -33,6 +33,9 @@ import { CollegeService } from '../../services/collegedetailsform/College/colleg
 import { AgricultureDocumentScrutinyService } from '../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
 import { AgriDocumentScrutinyCheckListDetailsComponent } from '../DocumentScrutinyTab_Agri/agri-document-scrutiny-check-list-details/agri-document-scrutiny-check-list-details.component';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-apply-nocpreview-agriculture',
   templateUrl: './apply-nocpreview-agriculture.component.html',
@@ -45,6 +48,7 @@ export class ApplyNocpreviewAgricultureComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public dropdownSettings: IDropdownSettings = {};
+  public lstTarils: any = [];
 
   public collegeDataList: any = [];
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -232,6 +236,40 @@ export class ApplyNocpreviewAgricultureComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+  public ViewTarilCommon(ID: number, ActionType: string) {
+    this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      this.commonMasterService.GetDocumentScritintyTaril(ID, this.SelectedApplyNOCID, this.SelectedCollageID, this.SelectedDepartmentID, ActionType)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.lstTarils = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
     }
   }
 

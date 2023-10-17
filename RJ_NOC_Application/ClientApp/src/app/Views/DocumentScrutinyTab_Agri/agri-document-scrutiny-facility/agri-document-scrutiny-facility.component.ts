@@ -11,6 +11,7 @@ import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsM
 import { ToastrService } from 'ngx-toastr';
 import { FacilityDetailsService } from '../../../Services/FicilityDetais/facility-details.service';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class AgriDocumentScrutinyFacilityComponent implements OnInit {
   public FacilitiesDataAllList: FacilityDetailsDataModel[] = [];
   public FinalRemarks: any = [];
 
-  constructor(private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
+  constructor(
+    private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private facilityDetailsService: FacilityDetailsService, private commonMasterService: CommonMasterService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -156,5 +158,7 @@ export class AgriDocumentScrutinyFacilityComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

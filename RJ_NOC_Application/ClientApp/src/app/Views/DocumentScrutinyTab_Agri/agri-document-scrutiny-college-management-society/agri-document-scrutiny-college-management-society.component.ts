@@ -12,6 +12,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 @Component({
   selector: 'app-agri-document-scrutiny-college-management-society',
   templateUrl: './agri-document-scrutiny-college-management-society.component.html',
@@ -35,7 +36,8 @@ export class AgriDocumentScrutinyCollegeManagementSocietyComponent implements On
 
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
-  constructor(private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+  constructor(
+    private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
     private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private modalService: NgbModal) { }
 
@@ -202,5 +204,7 @@ export class AgriDocumentScrutinyCollegeManagementSocietyComponent implements On
       return `with: ${reason}`;
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

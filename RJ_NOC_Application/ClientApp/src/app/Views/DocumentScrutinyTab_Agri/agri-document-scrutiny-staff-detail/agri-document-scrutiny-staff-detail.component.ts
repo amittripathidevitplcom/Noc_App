@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
 import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
-
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 @Component({
   selector: 'app-agri-document-scrutiny-staff-detail',
   templateUrl: './agri-document-scrutiny-staff-detail.component.html',
@@ -42,7 +42,8 @@ export class AgriDocumentScrutinyStaffDetailComponent implements OnInit {
   public isRemarkValid: boolean = false;
   public isFormvalid: boolean = true;
 
-  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
+  constructor(
+    private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private staffDetailService: StaffDetailService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -224,5 +225,7 @@ export class AgriDocumentScrutinyStaffDetailComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }
