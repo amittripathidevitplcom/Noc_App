@@ -9,6 +9,7 @@ import { RequestDetails, EmitraRequestDetails, TransactionStatusDataModel, Trans
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 import { NocPaymentComponent } from '../payment-request/noc-payment.component';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 
 @Component({
   selector: 'app-payment-transaction',
@@ -26,11 +27,15 @@ export class PaymentTransactionComponent
   public RefundTransactionList: any[] = [];
   transactionStatusRequest = new TransactionStatusDataModel();
   transactionSearchFilterModel = new TransactionSearchFilterModel();
+  // login model
+  sSOLoginDataModel = new SSOLoginDataModel();
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private nocpaymentService: NocpaymentService, private nocPaymentComponent: NocPaymentComponent) {
 
   }
   async ngOnInit()
   {
+
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetRPPPaymentHistory();
   }
   async GetRPPPaymentHistory()
@@ -82,7 +87,7 @@ export class PaymentTransactionComponent
         this.transactionStatusRequest.AMOUNT = item.Amount;
         this.transactionStatusRequest.DepartmentID = item.DepartmentID;
         this.transactionStatusRequest.RPPTXNID = item.RPPTXNID;
-
+        this.transactionStatusRequest.CreatedBy = this.sSOLoginDataModel.UserID;
         await this.nocpaymentService.RPPTransactionRefund(this.transactionStatusRequest)
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));

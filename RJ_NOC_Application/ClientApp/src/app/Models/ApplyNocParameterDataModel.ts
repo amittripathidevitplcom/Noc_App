@@ -17,6 +17,9 @@ export class ApplyNocParameterDataModel {
   public SSOID: string = '';
   public TotalNocFee: number = 0;
   public LateFee: number = 0;
+  public ExistingLetterofEOA: string = '';
+  public ExistingLetterofEOA_Dis_FileName: string = '';
+  public ExistingLetterofEOA_Path: string = '';
  
 
   public ApplyNocParameterMasterListDataModel: ApplyNocParameterMasterListDataModel[] = [];

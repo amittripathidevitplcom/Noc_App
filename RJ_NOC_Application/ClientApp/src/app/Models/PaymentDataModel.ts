@@ -51,6 +51,8 @@ export class RequestDetails {
   public ApplyNocApplicationID: number = 0;
   public PaymentRequestURL: string = '';
   public DepartmentID: number = 0;
+  public CreatedBy: number = 0;
+  public SSOID: string = '';
 }
 
 //Emitra Request
@@ -81,6 +83,9 @@ export class TransactionStatusDataModel {
   public DepartmentID: number = 0;
   public RPPTXNID: string = '';
   public SubOrderID: string = ''
+  public CreatedBy: number = 0;
+  public SSOID: string = '';
+
 }
 
 

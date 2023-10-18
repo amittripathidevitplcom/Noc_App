@@ -211,6 +211,8 @@ export class ApplyNocParameterComponent implements OnInit {
 
   async GetApplicationTypeList(CollegeID: number) {
     try {
+      this.request.ApplicationTypeID = 0;
+      this.ApplicationTypeList = [];
       this.loaderService.requestStarted();
       await this.applyNOCApplicationService.GetApplyNOCApplicationType(CollegeID)
         .then((data: any) => {
@@ -257,6 +259,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
       this.isInspectionFee = false;
+      this.request.ApplicationTypeID = 0;
       this.ApplicationTypeList = [];
 
 
@@ -331,7 +334,7 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.ApplyNocFor = item.ApplyNocFor;
       this.request.ApplyNocCode = item.ApplyNocCode;
 
-      debugger;
+
       if (this.CollegeDepartmentID == 2) {
         if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length > 0) {
           await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
@@ -415,7 +418,7 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_TNOCExtOfSubject.FeeAmount = item.FeeAmount;
         this.TNOCParameterFees = item.FeeAmount;
       }
-      
+
       if (this.request.ApplyNocCode == 'DEC_PNOCSubject') {
         this.ApplyNocParameterMasterList_PNOCOfSubject = new ApplyNocParameterMaster_TNOCExtensionDataModel();
         this.ApplyNocParameterMasterList_PNOCOfSubject.ApplyNocID = Number(SelectedApplyNocForID);
@@ -550,19 +553,35 @@ export class ApplyNocParameterComponent implements OnInit {
 
   HasData(): boolean {
     let HasData = false;
-    if (this.ApplyNocParameterMasterList_TNOCExtension != null || this.ApplyNocParameterMasterList_AdditionOfNewSeats60 != null || this.ApplyNocParameterMasterList_ChangeInNameOfCollege != null ||
-      this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null || this.ApplyNocParameterMasterList_ChangeInGirlstoCoed != null || this.ApplyNocParameterMasterList_ChangeInCollegeManagement != null || this.ApplyNocParameterMasterList_MergerCollege != null || this.ApplyNocParameterMasterList_ChangeInCoedtoGirls != null || this.ApplyNocParameterMasterList_NewCourse != null
-      || this.ApplyNocParameterMasterList_NewCourseSubject != null || this.ApplyNocParameterMasterList_TNOCExtOfSubject != null || this.ApplyNocParameterMasterList_PNOCOfSubject != null || (this.isInspectionFee && this.DepartmentInspectionFee > 0)) {
-      HasData = true;
+    if (this.request.DepartmentID == 4) {
+      let IfSelectedParamenter = false;
+      for (var i = 0; i < this.ApplyNocParameterMasterList_ddl.length; i++) {
+        if (this.ApplyNocParameterMasterList_ddl[i].IsChecked == true) {
+          IfSelectedParamenter = true;
+        }
+      }
+      HasData = IfSelectedParamenter;
+    }
+    else {
+      if (this.ApplyNocParameterMasterList_TNOCExtension != null || this.ApplyNocParameterMasterList_AdditionOfNewSeats60 != null || this.ApplyNocParameterMasterList_ChangeInNameOfCollege != null ||
+        this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege != null || this.ApplyNocParameterMasterList_ChangeInGirlstoCoed != null || this.ApplyNocParameterMasterList_ChangeInCollegeManagement != null || this.ApplyNocParameterMasterList_MergerCollege != null || this.ApplyNocParameterMasterList_ChangeInCoedtoGirls != null || this.ApplyNocParameterMasterList_NewCourse != null
+        || this.ApplyNocParameterMasterList_NewCourseSubject != null || this.ApplyNocParameterMasterList_TNOCExtOfSubject != null || this.ApplyNocParameterMasterList_PNOCOfSubject != null || (this.isInspectionFee && this.DepartmentInspectionFee > 0)) {
+        HasData = true;
+      }
+
     }
     return HasData;
   }
   public isSave: boolean = true;
   async SaveApplyNoc_click() {
 
-
-
-    debugger;
+    if (this.CollegeDepartmentID == 4) {
+      if (this.request.ExistingLetterofEOA == '') {
+        this.toastr.warning('Upload Existing Letter of EOA');
+        return;
+      }
+    }
+   
     //this.isSave = false; 
     try {
       let isValid = true;
@@ -577,7 +596,7 @@ export class ApplyNocParameterComponent implements OnInit {
       if (!isValid) {
         return;
       }
-      debugger
+
 
       this.isSubmitted = true;
       //set
@@ -672,8 +691,6 @@ export class ApplyNocParameterComponent implements OnInit {
           else
             this.toastr.error("Choose any subject from 'NOC For New Subject'");
           return;
-          
-         
         }
       }
 
@@ -700,7 +717,7 @@ export class ApplyNocParameterComponent implements OnInit {
       //Changes In College Place
       this.request.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege;
 
-      debugger;
+
       //Changes In Coed to Girls
       this.request.ApplyNocParameterMasterList_ChangeInCoedtoGirls = this.ApplyNocParameterMasterList_ChangeInCoedtoGirls;
 
@@ -811,7 +828,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   async ValidateDocument(event: any, Type: string, SubType: string) {
-    debugger;
+
     this.loaderService.requestStarted();
     if (event.target.files && event.target.files[0]) {
       if (event.target.files[0].type === 'application/pdf') {
@@ -1351,7 +1368,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   async ddlCourseLevel_change(CourseLevelID: any) {
-    debugger;
+
     //this.request.CourseLevelID = CourseLevelID;
 
     await this.commonMasterService.GetAddCourseList_DepartmentIDWise(this.request.DepartmentID, CourseLevelID)
@@ -1409,7 +1426,7 @@ export class ApplyNocParameterComponent implements OnInit {
       }
     }
 
-     
+
     var data: ApplyNocParameterCourseDataModel = new ApplyNocParameterCourseDataModel();
     data.CourseID = this.ddlCourse;
     data.CourseName = CourseName;
@@ -1600,7 +1617,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   async calcuateSumofNewSubject(): Promise<number> {
-     
+
     if (this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList != null) {
       this.totalNewSubjectFees = 0;
 
@@ -1613,7 +1630,7 @@ export class ApplyNocParameterComponent implements OnInit {
       });
 
       await this.ApplyNocParameterMasterList_NewCourseSubject.ApplyNocParameterCourseList.forEach(element => {
-         element.ApplyNocParameterSubjectList.forEach(e2 => {
+        element.ApplyNocParameterSubjectList.forEach(e2 => {
           if (element.CollegeLevel == 'PG') {
             this.totalNewSubjectFees += Number(element.CourseFeesAmount);
           }
@@ -1808,7 +1825,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   async ApplyNocFor_rbChange(event: any, selectedvalue: any, item: any) {
-    debugger;
+
     this.IsTermsChecked = false;
     if (item.Code == 'InspectionFee') {
       this.isInspectionFee = true;
@@ -1928,5 +1945,101 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
+
+
+  async fExistingLetterofEOA_onFilechange(event: any) {
+
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg' || this.file.type == 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.toastr.warning('Select less then 2MB File');
+            event.target.value = ''
+            this.request.ExistingLetterofEOA = '';
+            this.request.ExistingLetterofEOA_Dis_FileName = '';
+            this.request.ExistingLetterofEOA_Path = '';
+            return
+          }
+          if (this.file.size < 100000) {
+            this.toastr.warning('Select more then 100kb File');
+            event.target.value = ''
+            this.request.ExistingLetterofEOA = '';
+            this.request.ExistingLetterofEOA_Dis_FileName = '';
+            this.request.ExistingLetterofEOA_Path = '';
+            return
+          }
+
+          // upload to server folder
+          await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.request.ExistingLetterofEOA = data['Data'][0]["FileName"];
+              this.request.ExistingLetterofEOA_Dis_FileName = data['Data'][0]["Dis_FileName"];
+              this.request.ExistingLetterofEOA_Path = data['Data'][0]["FilePath"];
+              event.target.value = ''
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+        }
+        else {
+          this.toastr.warning('Select Only pdf/jpg/jpeg');
+          event.target.value = ''
+          this.request.ExistingLetterofEOA = '';
+          this.request.ExistingLetterofEOA_Dis_FileName = '';
+          this.request.ExistingLetterofEOA_Path = '';
+          return
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async DeleteImage(file: string) {
+    try {
+
+        this.loaderService.requestStarted();
+        // delete from server folder
+        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.request.ExistingLetterofEOA = '';
+            this.request.ExistingLetterofEOA_Dis_FileName = '';
+            this.request.ExistingLetterofEOA_Path = '';
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
 }
