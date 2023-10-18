@@ -27,6 +27,7 @@ export class DTECourseMasterDataModel {
   public StreamID: number = 0;
   public CourseLevelID: number = 0;
   public CourseID: number = 0;
+  public OtherCourseName: string = '';
   public Intake: number = 0;
   public SuperNumerarySeats: number = 0;
   public Enrollment: number = 0;

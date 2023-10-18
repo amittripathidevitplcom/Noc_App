@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { CourseMasterDataModel } from '../../../Models/CourseMasterDataModel';
+import { CourseMasterDataModel, DTECourseMasterDataModel } from '../../../Models/CourseMasterDataModel';
 
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 @Injectable({
@@ -32,6 +32,18 @@ export class CourseMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetListDTE(UserID: number, LoginSSOID: string, CollegeWiseCourseID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetAllCourseDTE/" + CollegeWiseCourseID + "/" + LoginSSOID + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetByID(CollegeWiseCourseID: number, LoginSSOID: string, UserID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -47,6 +59,15 @@ export class CourseMasterService {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl, body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async DTESaveData(request: DTECourseMasterDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/DTESaveData", body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
