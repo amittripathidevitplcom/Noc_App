@@ -228,7 +228,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       this.nocPaymentComponent.request.PURPOSE = "Noc Payment";
       this.nocPaymentComponent.request.DepartmentID = item.DepartmentID;
       this.nocPaymentComponent.request.CreatedBy = this.sSOLoginDataModel.UserID;
-
+      this.nocPaymentComponent.request.SSOID = this.sSOLoginDataModel.SSOID;
       // post
       await this.nocPaymentComponent.PaymentRequest()
 
@@ -253,6 +253,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       this.nocPaymentComponent.transactionStatusRequest.PRN = item.PRNNO;
       this.nocPaymentComponent.transactionStatusRequest.DepartmentID = item.DepartmentID;
       this.nocPaymentComponent.request.CreatedBy = this.sSOLoginDataModel.UserID;
+      this.nocPaymentComponent.request.SSOID = this.sSOLoginDataModel.SSOID;
       // post
       await this.nocPaymentComponent.GetTransactionStatus();
       this.GetRPPPaymentHistory(item.ApplyNocApplicationID);

@@ -52,6 +52,7 @@ export class RequestDetails {
   public PaymentRequestURL: string = '';
   public DepartmentID: number = 0;
   public CreatedBy: number = 0;
+  public SSOID: string = '';
 }
 
 //Emitra Request
@@ -83,6 +84,8 @@ export class TransactionStatusDataModel {
   public RPPTXNID: string = '';
   public SubOrderID: string = ''
   public CreatedBy: number = 0;
+  public SSOID: string = '';
+
 }
 
 
