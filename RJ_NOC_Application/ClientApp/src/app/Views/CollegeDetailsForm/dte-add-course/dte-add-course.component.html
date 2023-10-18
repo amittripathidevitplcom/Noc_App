@@ -136,7 +136,7 @@
 
       </div>
     </div>
-    <!--<div class="card mb-0" *ngIf="AllCourseList.length>0">
+    <div class="card mb-0" *ngIf="AllCourseList.length>0">
       <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
         <b><i class="bi bi-table"></i> Course List </b>
         <div class="d-flex align-items-center">
@@ -159,12 +159,14 @@
               <th>Sr.No.</th>
               <th>Department</th>
               <th>College Name</th>
-              <th>Course</th>
-              <th>Stream</th>
-              <th style="width:250px !important">Subject</th>
-
-              <th *ngIf="this.request.DepartmentID !=3">Seat</th>
-              <th *ngIf="this.request.DepartmentID ==3">No Of Enrolled Students</th>
+              <th>Programme Name</th>
+              <th>Course Level</th>
+              <th>Course Name</th>
+              <th>Intake</th>
+              <th>Super Numerary Seats</th>
+              <th>Enrollment</th>
+              <th>Shift</th>
+              <th>Conduct Mode</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -173,13 +175,14 @@
               <td style="width:40px !important"> {{idx+1}}</td>
               <td>{{row.DepartmentName}}</td>
               <td>{{row.CollageName}}</td>
-              <td>{{row.CourseName}}</td>
               <td>{{row.StreamName}}</td>
-              <td style="width:250px !important">{{row.SubjectDetails}}</td>
-
-
-              <td *ngIf="this.request.DepartmentID !=3">{{row.Dis_Sits}}</td>
-              <td *ngIf="this.request.DepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
+              <td>{{row.CourseLevel}}</td>
+              <td>{{row.CourseName}}</td>
+              <td>{{row.Intake}}</td>
+              <td>{{row.Seats}}</td>
+              <td>{{row.NoOfEnrolledStudents}}</td>
+              <td>{{row.ShiftTypeName}}</td>
+              <td>{{row.ConductModeName}}</td>
               <td>
                 <div class="d-flex">
                   <button type="button" (click)="Edit_OnClick(row.CollegeWiseCourseID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"
@@ -197,7 +200,6 @@
         </table>
       </div>
 
-    </div>-->
+    </div>
   </div>
-
 </form>

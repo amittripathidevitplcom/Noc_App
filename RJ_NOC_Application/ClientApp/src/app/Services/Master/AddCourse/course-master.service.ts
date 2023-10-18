@@ -32,6 +32,18 @@ export class CourseMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetListDTE(UserID: number, LoginSSOID: string, CollegeWiseCourseID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetAllCourseDTE/" + CollegeWiseCourseID + "/" + LoginSSOID + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetByID(CollegeWiseCourseID: number, LoginSSOID: string, UserID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
