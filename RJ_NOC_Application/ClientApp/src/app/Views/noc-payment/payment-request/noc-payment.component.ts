@@ -84,7 +84,7 @@ export class NocPaymentComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(data.Data.MERCHANTCODE);
+          //console.log(data.Data.MERCHANTCODE);
           console.log(this.State);
           if (!this.State) {
             this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA)
