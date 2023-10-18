@@ -1420,6 +1420,7 @@ export class AddCollegeComponent implements OnInit {
   async OnChangeUnniversity(UniversityID: number) {
 
     try {
+      this.request.OtherUniversityName = '';
       this.loaderService.requestStarted();
       var UniversityName = this.UniversityList.find((x: { UniversityID: number; }) => x.UniversityID == UniversityID)?.UniversityName;
       if (UniversityName == 'Other') {

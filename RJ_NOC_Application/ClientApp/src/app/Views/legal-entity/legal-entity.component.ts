@@ -21,6 +21,14 @@ import { GlobalConstants } from '../../Common/GlobalConstants';
   styleUrls: ['./legal-entity.component.css']
 })
 export class LegalEntityComponent implements OnInit {
+  public DepartmentID: number = 0;
+  public DepartmentType: number = 0;
+  public isDepartmentSubmitted: boolean = false;
+  public DepartmentList: any = [];
+  public IsDepartmentShowHide: boolean = true;
+  public ShowHideLegalEntity: boolean = false;
+
+
   isOtherStateNewRegistration: boolean = false;
   isSubmitted: boolean = false;
   isValidateMemberDoc: boolean = true;
@@ -243,6 +251,7 @@ export class LegalEntityComponent implements OnInit {
       }
       this.AnnexureDocumentPath = GlobalConstants.ImagePathURL + 'DCECMCAnn6.pdf';
       this.AnnexureName = 'Download Annexure-6';
+      await this.GetDepartmentList();
     }
     catch (Ex) {
       console.log(Ex);
@@ -266,6 +275,8 @@ export class LegalEntityComponent implements OnInit {
         .then(async (data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));
+          this.ShowHideLegalEntity = true;
+          this.IsDepartmentShowHide = false;
           this.isRegisterNoBox = false;
           this.isDisabled = true;
           this.request.LegalEntityID = data['Data'][0]['data']['Table']['0']['LegalEntityID'];
@@ -367,7 +378,7 @@ export class LegalEntityComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 2) {
-            this.routers.navigate(['/totallegalentitypreview']);
+            //this.routers.navigate(['/totallegalentitypreview']);
           }
         }, error => console.error(error));
     }
@@ -2085,5 +2096,83 @@ export class LegalEntityComponent implements OnInit {
     this.showPresidentAadhaarProofDoc = this.memberdetails.PresidentAadhaarProofDoc != '' ? true : false;
     const btnAdd = document.getElementById('btnAddmember')
     if (btnAdd) { btnAdd.innerHTML = "Update"; }
+  }
+
+
+  async GetDepartmentList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetDepartmentList()
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.DepartmentList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public isFormValid: boolean = true;
+  async OnSubmitDepartment() {
+    try {
+      this.isFormValid = true;
+      this.isDepartmentSubmitted = true;
+      if (this.DepartmentID <= 0) {
+        this.isFormValid = false;
+      }
+      if (this.DepartmentID == 4) {
+        if (this.DepartmentType <= 0) {
+          this.isFormValid = false;
+        }
+      }
+      if (!this.isFormValid) {
+        return;
+      }
+      this.loaderService.requestStarted();
+      if (this.DepartmentType == 1 && this.DepartmentID == 4) {
+        this.request = new LegalEntityDataModel();
+        this.request.SSOID = this.sSOLoginDataModel.SSOID;
+        this.request.ElectionPresentManagementCommitteeDate = '';
+        await this.legalEntityService.SaveData(this.request)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              this.routers.navigate(['/addcollege']);
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          }, error => {
+            this.toastr.warning("Unable to connect to server .!");
+          })
+      }
+      else {
+        this.ShowHideLegalEntity = true;
+        this.IsDepartmentShowHide = false;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

@@ -26,8 +26,31 @@
       </div>
     </div>
     <div class="card-body">
+      <div class="row" *ngIf="IsDepartmentShowHide"> 
+        <div class="col-lg-3 col-md-3 col-sm-3 col-3 mb-3">
+          <label for="ddlDepartmentID" class="form-label">Select Department <span style="color:red;">*</span></label>
+
+          <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="DepartmentID">
+            <option value="0">--Select--</option>
+            <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+          </select>
+          <p *ngIf="isDepartmentSubmitted&&DepartmentID<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-3 mb-3" *ngIf="DepartmentID==4">
+          <label for="ddlDepartment" class="form-label" style="margin-right:15px">Select Department Type: </label>
+          <select class="form-select" id="ddlDepartmentType" name="ddlDepartmentType" [(ngModel)]="DepartmentType">
+            <option value="0">--select--</option>
+            <option value="1">Government</option>
+            <option value="2">Private</option>
+          </select>
+          <p *ngIf="isDepartmentSubmitted&&DepartmentID==4&&DepartmentType<=0" class="text-danger"><i aria-hidden="true"></i>This field is required .!</p>
+        </div>
+        <div class="col-lg-3 col-md-3  col-sm-6 col-12 mb-3" style="padding-top:22px;">
+          <button type="button" class="btn btn-primary" (click)="OnSubmitDepartment()">Submit</button>
+        </div>
+      </div>
       <form [formGroup]="legalentityOlRegistrationForm" class="form-horizontal">
-        <div class="row">
+        <div class="row" *ngIf="ShowHideLegalEntity">
           <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" [attr.disabled]="isDisabled ? true : null">
             <label for="employeeName" class="form-label" style="margin-right:15px">Select Legal Entity : </label>
             <div class="form-check form-check-inline">
@@ -85,7 +108,7 @@
               <p *ngIf="ORform.OldRegistrationNo.errors.required">  This field is required .!</p>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3  col-sm-6 col-12 mb-3" style="padding-top:28px;" *ngIf="IsSocietyRegistration">
+          <div class="col-lg-3 col-md-3  col-sm-6 col-12 mb-3" style="padding-top:22px;" *ngIf="IsSocietyRegistration">
             <button type="button" class="btn btn-primary" (click)="GetSocietyDetailByRegistrationNo()" [attr.disabled]="isDisabled ? true : null">Get Details</button>
           </div>
           <div class="col-lg-6"></div>
@@ -596,7 +619,7 @@
                   <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PresidentAadhaar', memberdetails.PresidentAadhaarProofDoc)"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
-              <!--<p *ngIf="isMemberAdded&&memberdetails.PresidentAadhaarProofDoc ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidationMessage_PresidentAadhaarProofDoc}}</p>-->
+                <!--<p *ngIf="isMemberAdded&&memberdetails.PresidentAadhaarProofDoc ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidationMessage_PresidentAadhaarProofDoc}}</p>-->
               <div *ngIf="isPresidentAadhaarProofDoc" class="text-danger">
                 <p *ngIf="isPresidentAadhaarProofDoc"> This field is required .!</p>
               </div>
@@ -663,111 +686,111 @@
       </form>
     </div>
 
-  
-      <form [formGroup]="legalentityAddInstituteForm">
-        <div  *ngIf="IsOtherInstitution && isFormsFill">
-        
-            <div class="card-header border-top">
-              <b>Institute Details</b>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                  <label for="txtInstituteRegistrationNo" class="form-label">Institute Registration No. <span style="color:red">*</span></label>
-                  <input type="text" class="form-control" id="txtInstituteRegistrationNo" [(ngModel)]="institutedetails.RegistrationNo" formControlName="txtInstituteRegistrationNo">
-                  <div *ngIf="isInstitueAdded&&AIform.txtInstituteRegistrationNo.errors" class="text-danger">
-                    <p *ngIf="AIform.txtInstituteRegistrationNo.errors.required">  This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                  <label for="txtInstituteName" class="form-label">Institute Name <span style="color:red">*</span></label>
-                  <input type="text" class="form-control" id="txtInstituteName" [(ngModel)]="institutedetails.InstituteName" formControlName="txtInstituteName">
-                  <div *ngIf="isInstitueAdded&&AIform.txtInstituteName.errors" class="text-danger">
-                    <p *ngIf="AIform.txtInstituteName.errors.required"> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                  <label for="txtInstitutePersonName" class="form-label">Contact Person Name <span style="color:red">*</span></label>
-                  <input type="text" class="form-control" id="txtInstitutePersonName" [(ngModel)]="institutedetails.InstitutePersonName" formControlName="txtInstitutePersonName" (keypress)="alphaOnly($event)">
-                  <div *ngIf="isInstitueAdded&&AIform.txtInstitutePersonName.errors" class="text-danger">
-                    <p *ngIf="AIform.txtInstitutePersonName.errors.required"> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                  <label for="txtDOB" class="form-label">Designation <span style="color:red">*</span></label>
-                  <input type="text" class="form-control" id="txtInstituteDesignation" [(ngModel)]="institutedetails.InstituteDesignation" formControlName="txtInstituteDesignation">
-                  <div *ngIf="isInstitueAdded&&AIform.txtInstituteDesignation.errors" class="text-danger">
-                    <p *ngIf="AIform.txtInstituteDesignation.errors.required">  This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                  <label for="txtMobNob" class="form-label">Contact Number <span style="color:red">*</span></label>
-                  <input type="text" class="form-control" id="txtInstituteContactNumber" [(ngModel)]="institutedetails.InstituteContactNumber" formControlName="txtInstituteContactNumber" maxlength="10" (keypress)="numberOnly($event)">
-                  <div *ngIf="isInstitueAdded&&AIform.txtInstituteContactNumber.errors" class="text-danger">
-                    <p *ngIf="AIform.txtInstituteContactNumber.errors.required">  This field is required .!</p>
-                    <p *ngIf="AIform.txtInstituteContactNumber.errors.pattern || AIform.txtInstituteContactNumber.errors.maxlength || AIform.txtInstituteContactNumber.errors.minlength">Invalid Mobile No</p>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-                  <label for="DepartmentName" class="form-label">State <span style="color:red">*</span></label>
-                  <select class="form-select" id="ddlInstituteStateID" [(ngModel)]="institutedetails.StateID" formControlName="ddlInstituteStateID">
-                    <option value="0" disabled>--Select State--</option>
-                    <option *ngFor="let item of lstState"
-                            value="{{item.StateID}}">
-                      {{item.StateName}}
-                    </option>
-                  </select>
-                  <div *ngIf="isInstitueAdded&&AIform.ddlInstituteStateID.errors" class="text-danger">
-                    <p *ngIf="!AIform.ddlInstituteStateID.errors.DropdownValidators"> This field is required .!</p>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                  <button class="btn btn-primary" style="margin-top:27px" (click)="AddInstitute()"><i class="fa fa-plus"></i> Add</button>
-                </div>
-              </div>
-            
-              <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                  <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped">
-                      <thead>
-                        <tr>
-                          <th>Sr. No.</th>
-                          <th>Registration No.</th>
-                          <th>Institute Name</th>
-                          <th>Contact Person Name</th>
-                          <th>Designation</th>
-                          <th>Contact Number</th>
-                          <th>State</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let row of request.InstituteDetails; let indexOfelement=index;">
-                          <td> {{indexOfelement+1}}</td>
-                          <td>{{row.RegistrationNo}}</td>
-                          <td>{{row.InstituteName}}</td>
-                          <td>{{row.InstitutePersonName}}</td>
-                          <td>{{row.InstituteDesignation}}</td>
-                          <td>{{row.InstituteContactNumber}}</td>
-                          <td>{{row.StateName}}</td>
-                          <td>
-                            <button class="btn btn-danger" type="button" (click)="DeleteInstitute(indexOfelement)"><i class="fa fa-trash-o"></i></button>
-                          </td>
-                        </tr>
-                        <tr *ngIf="request.InstituteDetails.length<=0">
-                          <td colspan="13" style="color:red">No Data Found.!</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-         
+
+    <form [formGroup]="legalentityAddInstituteForm">
+      <div *ngIf="IsOtherInstitution && isFormsFill">
+
+        <div class="card-header border-top">
+          <b>Institute Details</b>
         </div>
-      </form>
-   
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+              <label for="txtInstituteRegistrationNo" class="form-label">Institute Registration No. <span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtInstituteRegistrationNo" [(ngModel)]="institutedetails.RegistrationNo" formControlName="txtInstituteRegistrationNo">
+              <div *ngIf="isInstitueAdded&&AIform.txtInstituteRegistrationNo.errors" class="text-danger">
+                <p *ngIf="AIform.txtInstituteRegistrationNo.errors.required">  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+              <label for="txtInstituteName" class="form-label">Institute Name <span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtInstituteName" [(ngModel)]="institutedetails.InstituteName" formControlName="txtInstituteName">
+              <div *ngIf="isInstitueAdded&&AIform.txtInstituteName.errors" class="text-danger">
+                <p *ngIf="AIform.txtInstituteName.errors.required"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+              <label for="txtInstitutePersonName" class="form-label">Contact Person Name <span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtInstitutePersonName" [(ngModel)]="institutedetails.InstitutePersonName" formControlName="txtInstitutePersonName" (keypress)="alphaOnly($event)">
+              <div *ngIf="isInstitueAdded&&AIform.txtInstitutePersonName.errors" class="text-danger">
+                <p *ngIf="AIform.txtInstitutePersonName.errors.required"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+              <label for="txtDOB" class="form-label">Designation <span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtInstituteDesignation" [(ngModel)]="institutedetails.InstituteDesignation" formControlName="txtInstituteDesignation">
+              <div *ngIf="isInstitueAdded&&AIform.txtInstituteDesignation.errors" class="text-danger">
+                <p *ngIf="AIform.txtInstituteDesignation.errors.required">  This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+              <label for="txtMobNob" class="form-label">Contact Number <span style="color:red">*</span></label>
+              <input type="text" class="form-control" id="txtInstituteContactNumber" [(ngModel)]="institutedetails.InstituteContactNumber" formControlName="txtInstituteContactNumber" maxlength="10" (keypress)="numberOnly($event)">
+              <div *ngIf="isInstitueAdded&&AIform.txtInstituteContactNumber.errors" class="text-danger">
+                <p *ngIf="AIform.txtInstituteContactNumber.errors.required">  This field is required .!</p>
+                <p *ngIf="AIform.txtInstituteContactNumber.errors.pattern || AIform.txtInstituteContactNumber.errors.maxlength || AIform.txtInstituteContactNumber.errors.minlength">Invalid Mobile No</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+              <label for="DepartmentName" class="form-label">State <span style="color:red">*</span></label>
+              <select class="form-select" id="ddlInstituteStateID" [(ngModel)]="institutedetails.StateID" formControlName="ddlInstituteStateID">
+                <option value="0" disabled>--Select State--</option>
+                <option *ngFor="let item of lstState"
+                        value="{{item.StateID}}">
+                  {{item.StateName}}
+                </option>
+              </select>
+              <div *ngIf="isInstitueAdded&&AIform.ddlInstituteStateID.errors" class="text-danger">
+                <p *ngIf="!AIform.ddlInstituteStateID.errors.DropdownValidators"> This field is required .!</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <button class="btn btn-primary" style="margin-top:27px" (click)="AddInstitute()"><i class="fa fa-plus"></i> Add</button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Registration No.</th>
+                      <th>Institute Name</th>
+                      <th>Contact Person Name</th>
+                      <th>Designation</th>
+                      <th>Contact Number</th>
+                      <th>State</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of request.InstituteDetails; let indexOfelement=index;">
+                      <td> {{indexOfelement+1}}</td>
+                      <td>{{row.RegistrationNo}}</td>
+                      <td>{{row.InstituteName}}</td>
+                      <td>{{row.InstitutePersonName}}</td>
+                      <td>{{row.InstituteDesignation}}</td>
+                      <td>{{row.InstituteContactNumber}}</td>
+                      <td>{{row.StateName}}</td>
+                      <td>
+                        <button class="btn btn-danger" type="button" (click)="DeleteInstitute(indexOfelement)"><i class="fa fa-trash-o"></i></button>
+                      </td>
+                    </tr>
+                    <tr *ngIf="request.InstituteDetails.length<=0">
+                      <td colspan="13" style="color:red">No Data Found.!</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
 
     <div class="modal" id="ModalOtpVerify" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-md modal-dialog-scrollable">
@@ -837,7 +860,7 @@
     </div>
   </div>
 
-  </div>
+</div>
 
- 
+
 
