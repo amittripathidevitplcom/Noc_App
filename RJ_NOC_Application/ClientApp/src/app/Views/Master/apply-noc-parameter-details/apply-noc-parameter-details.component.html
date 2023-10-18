@@ -89,8 +89,8 @@
                   <li>
                     <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
                       Payment
-                    </a>
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==true" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
+                    </a><!--*ngIf="item.IsMakePayment==true"-->
+                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
                       Payment History
                     </a>
                   </li>
@@ -534,27 +534,43 @@
                   <thead>
                     <tr>
                       <th>Sr. No.</th>
-                      <th>Transaction No</th>
+                      <th>PRN No</th>
                       <th>Transaction Date</th>
                       <th>Payment Status</th>
+                      <th>Message</th>
+                      <th>Is Refunded</th>
                       <th>Amount</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let paymentdetails of PaymentHistoryDetails;let idx=index;">
                       <td>{{idx+1}}</td>
                       <td>
-                        <label>{{paymentdetails.TransactionNo}}</label>
+                        <label>{{paymentdetails.PaymentID}}</label>
                       </td>
                       <td>
                         <label>{{paymentdetails.TransactionDate}}</label>
                       </td>
                       <td>
-                        <label>{{paymentdetails.PaymentStatus}}</label>
+                        <label>{{paymentdetails.STATUS}} </label>
+                      </td>
+                      <td>
+                        <label>{{paymentdetails.strRefund}}</label>
                       </td>
                       <td>
                         <label>{{paymentdetails.Amount}}</label>
                       </td>
+                      <td>
+                        <label>{{paymentdetails.ResponseMessage}}</label>
+                      </td>
+
+                      <td>
+                        <button *ngIf="paymentdetails.STATUS!='SUCCESS'" type="button" id="btnCheckStatus" class="btn btn-primary btn-sm" (click)="CheckStatus_click(paymentdetails)">Check Status</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="7" *ngIf="PaymentHistoryDetails.length==0" style="color:red"> No Data Found.!</td>
                     </tr>
                   </tbody>
                 </table>

@@ -22,13 +22,14 @@
                   </div>
 
                 </th>
-                <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+
                 <th>Sr. No.</th>
                 <th>Facility Name</th>
+                <th>Is Available</th>
                 <th>No of </th>
                 <th>Minimum Size</th>
                 <th>Image/File</th>
+                <th>Tarils</th>
               </tr>
             </thead>
             <tbody>
@@ -53,18 +54,12 @@
                   </div>
                 </td>
 
-                <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                  Compliance: {{item.C_Action}}<br />
-                  <p [hidden]="item.C_Action !='No'">Remark : {{item.C_Remark}}</p>
-                </td>
-                <td *ngIf="sSOLoginDataModel.RoleID==5">
-                  Compliance: {{item.S_Action}}<br />
-                  <p [hidden]="item.S_Action !='No'">Remark : {{item.S_Remark}}</p>
-                </td>-->
+
                 <td> {{indexOfelement+1}}</td>
                 <td>
                   {{item.FacilitiesName}}
                 </td>
+                <td>{{item.IsAvailable}}</td>
                 <td>{{item.NoOf}}</td>
                 <td>
                   {{item.MinSize}}
@@ -75,6 +70,7 @@
                   </a>
                   <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
                 </td>
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.FacilityDetailID,'FacilityTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
               </tr>
               <tr *ngIf="FacilitiesDataAllList.length<=0">
                 <td colspan="6" style="color:red">No Data Found.!</td>

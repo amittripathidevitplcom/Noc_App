@@ -5,7 +5,7 @@ import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NocpaymentService } from '../../../Services/NocPayment/noc-payment.service';
-import { RequestDetails, EmitraRequestDetails } from '../../../Models/PaymentDataModel';
+import { RequestDetails, EmitraRequestDetails, TransactionStatusDataModel } from '../../../Models/PaymentDataModel';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
 
@@ -29,7 +29,7 @@ export class NocPaymentComponent implements OnInit {
   /*Save Data Model*/
   request = new RequestDetails();
   emitraRequest = new EmitraRequestDetails();
-
+  transactionStatusRequest = new TransactionStatusDataModel();
 
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private nocpaymentService: NocpaymentService) {
 
@@ -48,10 +48,10 @@ export class NocPaymentComponent implements OnInit {
       })
   }
 
-  RedirectPaymentRequest(pMERCHANTCODE: any, pENCDATA: any) {
+  RedirectPaymentRequest(pMERCHANTCODE: any, pENCDATA: any,pRequestURl:any) {
     var form = document.createElement("form");
     form.setAttribute("method", "post");
-    form.setAttribute("action", GlobalConstants.RPPRequstURL);
+    form.setAttribute("action", pRequestURl); //GlobalConstants.RPPRequstURL
     form.setAttribute("target", "_self");
     var hiddenField = document.createElement("input");
     hiddenField.setAttribute("name", "ENCDATA");
@@ -87,7 +87,7 @@ export class NocPaymentComponent implements OnInit {
           //console.log(data.Data.MERCHANTCODE);
           console.log(this.State);
           if (!this.State) {
-            this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA)
+            this.RedirectPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL)
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -102,10 +102,89 @@ export class NocPaymentComponent implements OnInit {
     }
   }
 
+  async GetTransactionStatus()
+  {
+    this.loaderService.requestStarted();
+    try {
+      await this.nocpaymentService.GetTransactionStatus(this.transactionStatusRequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          console.log(data.Data.MERCHANTCODE);
+          console.log(this.State);
+          if (!this.State)
+          {
+            this.toastr.success(this.SuccessMessage)
+          }
+          else
+          {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
+  async RPPTransactionRefund() {
+    this.loaderService.requestStarted();
+    try {
+      await this.nocpaymentService.RPPTransactionRefund(this.transactionStatusRequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          console.log(data.Data.MERCHANTCODE);
+          console.log(this.State);
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
-
-
+  async RPPTransactionRefundStatus() {
+    this.loaderService.requestStarted();
+    try {
+      await this.nocpaymentService.RPPTransactionRefundStatus(this.transactionStatusRequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          console.log(data.Data.MERCHANTCODE);
+          console.log(this.State);
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
   async EmitraPaymentRequest()
   {

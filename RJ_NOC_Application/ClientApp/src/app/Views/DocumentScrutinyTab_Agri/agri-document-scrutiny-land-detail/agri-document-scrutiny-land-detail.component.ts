@@ -10,7 +10,7 @@ import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../..
 import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
-
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 @Component({
   selector: 'app-agri-document-scrutiny-land-detail',
   templateUrl: './agri-document-scrutiny-land-detail.component.html',
@@ -37,7 +37,7 @@ export class AgriDocumentScrutinyLandDetailComponent implements OnInit {
   public ErrorMessage: any = [];
   public DetailoftheLand: any = [];
 
-  constructor(private landDetailsService: LandDetailsService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
+  constructor(private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private landDetailsService: LandDetailsService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
     private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -215,5 +215,7 @@ export class AgriDocumentScrutinyLandDetailComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

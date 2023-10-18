@@ -11,7 +11,8 @@ import { FarmLandDetailService } from '../../../Services/FarmLandDetail/farm-lan
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
-
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 @Component({
   selector: 'app-agri-document-scrutiny-farm-land-details',
   templateUrl: './agri-document-scrutiny-farm-land-details.component.html',
@@ -23,6 +24,7 @@ export class AgriDocumentScrutinyFarmLandDetailsComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
+  request = new FarmLandDetailDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -31,9 +33,12 @@ export class AgriDocumentScrutinyFarmLandDetailsComponent implements OnInit {
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
-  constructor(private farmLandDetailService: FarmLandDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+  public IsRural: any = false;
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  constructor(private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent,private farmLandDetailService: FarmLandDetailService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService) { }
+    private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private modalService: NgbModal) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -67,6 +72,73 @@ export class AgriDocumentScrutinyFarmLandDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+  async ViewLandDetail(content: any, FarmLandDetailID: number) {
+    this.request = new FarmLandDetailDataModel();
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+
+      this.loaderService.requestStarted();
+      await this.farmLandDetailService.GetFarmLandDetalsByID(FarmLandDetailID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          console.log(data);
+          this.request.FarmLandDetailID = data['Data']["FarmLandDetailID"];
+          this.request.CollegeID = data['Data']["CollegeID"];
+          this.request.LandOwnerName = data['Data']["LandOwnerName"];
+          this.request.KhasraNumber = data['Data']["KhasraNumber"];
+          this.request.AddressLine1 = data['Data']["AddressLine1"];
+          this.request.AddressLine2 = data['Data']["AddressLine2"];
+          this.request.RuralUrban = data['Data']["RuralUrban"];
+          this.request.DivisionName = data['Data']["DivisionName"];
+          this.request.DistrictName = data['Data']["DistrictName"];
+          this.request.TehsilName = data['Data']["TehsilName"];
+          if (this.request.RuralUrban == 'Rural') {
+            this.IsRural = true;
+            this.request.PanchayatSamitiName = data['Data']["PanchayatSamitiName"];
+          }
+          else {
+            this.IsRural = false;
+            this.request.CityName = data['Data']["CityName"];
+          }
+          this.request.CityTownVillage = data['Data']["CityTownVillage"];
+          this.request.LandType = data['Data']["LandType"];
+          this.request.Pincode = data['Data']["Pincode"];
+          this.request.TotalFarmLandArea = data['Data']["TotalFarmLandArea"];
+          this.request.TotalLandArea = data['Data']["TotalLandArea"];
+          this.request.SourceIrrigation = data['Data']["SourceIrrigation"];
+          this.request.FarmLandIs = data['Data']["FarmLandIs"];
+          this.request.CertificatefOfTehsildarPath = data['Data']["CertificatefOfTehsildarPath"];
+          this.request.CertificatefOfTehsildarName = data['Data']["CertificatefOfTehsildarName"];
+          this.request.CertificatefOfTehsildar_DisName = data['Data']["CertificatefOfTehsildar_DisName"];
+          this.request.LandTitleCertificatePath = data['Data']["LandTitleCertificatePath"];
+          this.request.LandTitleCertificateName = data['Data']["LandTitleCertificateName"];
+          this.request.LandTitleCertificate_DisName = data['Data']["LandTitleCertificate_DisName"];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
   async selectAll(ActionType: string) {
     await this.lstFarmLandDetails.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
@@ -158,5 +230,7 @@ export class AgriDocumentScrutinyFarmLandDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

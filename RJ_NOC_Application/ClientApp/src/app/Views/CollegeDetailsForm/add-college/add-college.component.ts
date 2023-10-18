@@ -14,6 +14,7 @@ import { max } from 'rxjs';
 import { InputValidationService } from '../../../Services/CustomValidators/input-validation.service';
 import { LegalEntityService } from '../../../Services/LegalEntity/legal-entity.service';
 import { __rest } from 'tslib';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Injectable()
 
@@ -96,6 +97,10 @@ export class AddCollegeComponent implements OnInit {
   public CityList_Nearest: any = [];
   public CityList: any = [];
 
+
+  public dropdownSettings: IDropdownSettings = {};
+  public ManagementTypeList: any = [];
+  public SelectedCollegeLevel: any = [];
   constructor(private legalEntityListService: LegalEntityService, private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
   }
 
@@ -108,7 +113,9 @@ export class AddCollegeComponent implements OnInit {
         ddlCollegeStatus: ['', [DropdownValidators]],
         ddlPresentCollegeStatus: ['', [DropdownValidators]],
         ddlCollegeTypeID: ['', [DropdownValidators]],
-        ddlCollegeLevelID: ['', [DropdownValidators]],
+        ddlCollegeLevelID: [''],
+        ddlDTECollegeLevelID: [''],
+        ddlManagementType: [''],
         //txtCollegeCode: ['', Validators.required],
         txtCollegeCode: [''],
         txtCollegeNameEn: ['', Validators.required],
@@ -151,6 +158,7 @@ export class AddCollegeComponent implements OnInit {
         NAACAccreditedCertificate: [''],
         txtNACCValidityDate: [''],
         ddlCityID: ['', [DropdownValidators]],
+        txtUniversity: ['']
       })
 
     this.CollegeDetailsForm_ContactDetails = this.formBuilder.group(
@@ -178,6 +186,8 @@ export class AddCollegeComponent implements OnInit {
         txtCityTownVillage_Nearest: ['', Validators.required],
         txtPincode_Nearest: ['', [Validators.required, Validators.pattern(this.PinNoRegex)]]
       })
+
+
     setTimeout(function () { (window as any).LoadData(); }, 200)
     // query string
     this.QueryStringCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
@@ -187,6 +197,15 @@ export class AddCollegeComponent implements OnInit {
     this.request.ContactDetailsList = [];
     this.request.NearestGovernmentHospitalsList = [];
 
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      selectAllText: 'Select All',
+      unSelectAllText: 'Unselect All',
+      allowSearchFilter: true,
+      idField: "ID",
+      textField: "Name",
+    }
     // department
     await this.GetDepartmentList();
     // division
@@ -730,6 +749,16 @@ export class AddCollegeComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.UniversityList = data['Data'];
         }, error => console.error(error));
+
+      //Management Type
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "DTEManagementType")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ManagementTypeList = data['Data'];
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -1033,7 +1062,7 @@ export class AddCollegeComponent implements OnInit {
   }
 
   async SaveData() {
-
+    this.request.CollegeLevelDetails = [];
     if (this.IsExisting == true) {
       this.CollegeDetailsForm.get('ddlYearofEstablishment')?.setValidators([DropdownValidators]);
       //this.CollegeDetailsForm.get('AISHECodeStatus')?.setValidators([DropdownValidators]);
@@ -1056,7 +1085,7 @@ export class AddCollegeComponent implements OnInit {
     else {
       this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.clearValidators();
       this.CollegeDetailsForm.get('ddlCityID')?.setValidators([DropdownValidators]);
-     
+
     }
     this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.updateValueAndValidity();
     this.CollegeDetailsForm.get('ddlCityID')?.updateValueAndValidity();
@@ -1115,7 +1144,32 @@ export class AddCollegeComponent implements OnInit {
         isValid = false;
       }
     }
-
+    if (this.request.DepartmentID == 4) {
+      if (this.SelectedCollegeLevel.length > 0) {
+        for (var i = 0; i < this.SelectedCollegeLevel.length; i++) {
+          this.request.CollegeLevelDetails.push({
+            AID: 0,
+            CollegeID: 0,
+            ID: this.SelectedCollegeLevel[i].ID,
+            Name: ''
+          })
+        }
+      }
+      else {
+        isValid = false;
+      }
+      if (this.ShowHideotheruniversity && this.request.OtherUniversityName == '') {
+        isValid = false;
+      }
+      if (this.request.ManagementTypeID <= 0) {
+        isValid = false;
+      }
+    }
+    else {
+      if (this.request.CollegeLevelID <= 0) {
+        isValid = false;
+      }
+    }
     // all validate
     //if (!isValid) {
     //  console.log(this.CollegeDetailsForm);
@@ -1214,7 +1268,7 @@ export class AddCollegeComponent implements OnInit {
     try {
       await this.collegeService.GetData(this.QueryStringCollageID)
         .then(async (data: any) => {
-
+          this.SelectedCollegeLevel = [];
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -1238,7 +1292,8 @@ export class AddCollegeComponent implements OnInit {
           // college status
           await this.ddlCollegeStatus_TextChange(null, this.request.CollegeStatusID.toString())
           this.request.PresentCollegeStatusID = data['Data']['PresentCollegeStatusID'];
-          await this.ddlPresentCollegeStatus_TextChange(null, this.request.PresentCollegeStatusID.toString())
+          await this.ddlPresentCollegeStatus_TextChange(null, this.request.PresentCollegeStatusID.toString());
+          this.SelectedCollegeLevel = this.request.CollegeLevelDetails;
           // division dll
           await this.FillDivisionRelatedDDL(null, this.request.DivisionID.toString(), null);
           // district status
@@ -1354,6 +1409,27 @@ export class AddCollegeComponent implements OnInit {
     }
     catch (Ex) {
       console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public ShowHideotheruniversity: boolean = false;
+  async OnChangeUnniversity(UniversityID: number) {
+
+    try {
+      this.loaderService.requestStarted();
+      var UniversityName = this.UniversityList.find((x: { UniversityID: number; }) => x.UniversityID == UniversityID)?.UniversityName;
+      if (UniversityName == 'Other') {
+        this.ShowHideotheruniversity = true;
+      }
+      else {
+        this.ShowHideotheruniversity = false;
+      }
+    } catch (e) {
+      console.log(e);
     }
     finally {
       setTimeout(() => {

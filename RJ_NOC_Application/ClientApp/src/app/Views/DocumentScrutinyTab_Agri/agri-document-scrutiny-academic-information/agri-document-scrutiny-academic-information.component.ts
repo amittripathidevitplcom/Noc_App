@@ -10,7 +10,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
-
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 @Component({
   selector: 'app-agri-document-scrutiny-academic-information',
   templateUrl: './agri-document-scrutiny-academic-information.component.html',
@@ -30,7 +30,7 @@ export class AgriDocumentScrutinyAcademicInformationComponent implements OnInit 
   public isRemarkValid: boolean = false;
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
-  constructor(private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private academicInformationDetailsService: AcademicInformationDetailsService, private loaderService: LoaderService, private formBuilder: FormBuilder,
+  constructor(private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent,private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private academicInformationDetailsService: AcademicInformationDetailsService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute,
     private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
 
@@ -157,5 +157,7 @@ export class AgriDocumentScrutinyAcademicInformationComponent implements OnInit 
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

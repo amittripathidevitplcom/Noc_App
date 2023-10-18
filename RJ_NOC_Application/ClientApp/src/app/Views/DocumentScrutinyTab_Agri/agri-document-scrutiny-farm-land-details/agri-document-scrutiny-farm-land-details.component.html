@@ -21,26 +21,19 @@
                   </div>
                 </th>
                 <!--<th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
+              <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>-->
                 <th>Sr. No</th>
-                <th>Total Farm Land Area In(Hectare)</th>
-                <th>Is Farm Land</th>
-                <th>Land Owner Name</th>
-                <th>Khasra  Number</th>
-                <th>Total Land Area In(Hectare)</th>
+                <!--<th>College</th>-->
+                <th>Owner Name</th>
                 <th>Land Type</th>
+                <th>Khasra Number</th>
+                <th>Total Farm Land Area(Ha)</th>
+                <th>Total Land Area(Ha)</th>
                 <th>Source Irrigation</th>
-                <th>Address Line1</th>
-                <th>Address Line2</th>
-                <th>Rural/Urban</th>
-                <th>Division</th>
-                <th>District</th>
-                <th>Tehsil</th>
-                <th>PanchayatSamiti Name</th>
-                <th>City/Town/Village</th>
-                <th>Pincode</th>
-                <th>Certificate from the Tehsildar for Tha Land Distance</th>
-                <th>Land Title Certificate</th>
+                <th>Is Farm Land</th>
+                <th>Action</th>
+                <th>Trail</th>
+
               </tr>
             </thead>
             <tbody>
@@ -63,37 +56,20 @@
                     </div>
                   </div>
                 </td>
-                <!--<td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                  Compliance: {{row.C_Action}}<br />
-                  <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-                </td>
-                <td *ngIf="sSOLoginDataModel.RoleID==5">
-                  Compliance: {{row.S_Action}}<br />
-                  <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-                </td>-->
+
                 <td>{{idx+1}}</td>
-                <td>{{row.TotalFarmLandArea}}</td>
-                <td>{{row.FarmLandIs}}</td>
+                <!--<td>{{row.CollegeName}}</td>-->
                 <td>{{row.LandOwnerName}}</td>
-                <td>{{row.KhasraNumber}}</td>
-                <td>{{row.TotalLandArea}}</td>
                 <td>{{row.LandType}}</td>
+                <td>{{row.KhasraNumber}}</td>
+                <td>{{row.TotalFarmLandArea}}</td>
+                <td>{{row.TotalLandArea}}</td>
                 <td>{{row.SourceIrrigation}}</td>
-                <td>{{row.AddressLine1}}</td>
-                <td>{{row.AddressLine2}}</td>
-                <td>{{row.RuralUrban}}</td>
-                <td>{{row.DivisionName}}</td>
-                <td>{{row.DistrictName}}</td>
-                <td>{{row.TehsilName}}</td>
-                <td>{{row.PanchayatSamitiName}}</td>
-                <td>{{row.CityTownVillage}}</td>
-                <td>{{row.Pincode}}</td>
+                <td>{{row.FarmLandIs}}</td>
                 <td>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.CertificatefOfTehsildarName.includes('.pdf')" data-fancybox="gallery" href="{{row.CertificatefOfTehsildarPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(mymodal,row.FarmLandDetailID)"><i class="fa fa-eye"></i></button>
                 </td>
-                <td>
-                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.LandTitleCertificateName.includes('.pdf')" data-fancybox="gallery" href="{{row.LandTitleCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
-                </td>
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.FarmLandDetailID,'FarmLandTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
               </tr>
               <tr *ngIf="lstFarmLandDetails.length==0">
                 <td colspan="20" style="color:red">
@@ -140,6 +116,134 @@
         <button class="btn btn-primary" type="button" (click)="SubmitFarmLandDetailsDetail_Onclick()">Submit</button>
       </div>
     </div>
+    <ng-template #mymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Farm Land Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Total Farm Land Area In(Hectare) :</b></label>
+            <input class="form-control disabled" disabled value="{{request.TotalFarmLandArea}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <label><b>Is Farm Land :</b></label>
+            <input class="form-control disabled" disabled value="{{request.FarmLandIs}}" />
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-filter"></i>&nbsp;Owned Land Details </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Land Owner Name :</b></label>
+              <input class="form-control disabled" disabled value="{{request.LandOwnerName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Khasra  Number :</b></label>
+              <input class="form-control disabled" disabled value="{{request.KhasraNumber}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Total Land Area In(Hectare) :</b></label>
+              <input class="form-control disabled" disabled value="{{request.TotalLandArea}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Land Type :</b></label>
+              <input class="form-control disabled" disabled value="{{request.LandType}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Source Irrigation :</b></label>
+              <input class="form-control disabled" disabled value="{{request.SourceIrrigation}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-filter"></i>&nbsp;Owned Land Address </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Address Line1 :</b></label>
+              <div class="clearfix"></div>
+              <input class="form-control disabled" disabled value="{{request.AddressLine1}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Address Line2 :</b></label>
+              <div class="clearfix"></div>
+              <input class="form-control disabled" disabled value="{{request.AddressLine2}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Rural/Urban :</b></label>
+              <div class="clearfix"></div>
+              <input class="form-control disabled" disabled value="{{request.RuralUrban}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Division Name :</b></label>
+              <div class="clearfix"></div>
+              <input class="form-control disabled" disabled value="{{request.DivisionName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>District Name :</b></label>
+              <div class="clearfix"></div>
+              <input class="form-control disabled" disabled value="{{request.DistrictName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Tehsil Name :</b></label>
+              <div class="clearfix"></div>
+              <input class="form-control disabled" disabled value="{{request.TehsilName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="IsRural">
+              <label><b>City Name :</b></label>
+              <div class="clearfix"></div>
+              <input class="form-control disabled" disabled value="{{request.CityName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
+              <label><b>PanchayatSamiti Name :</b></label>
+              <div class="clearfix"></div>
+              <input class="form-control disabled" disabled value="{{request.PanchayatSamitiName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>City/Town/Village :</b></label>
+              <div class="clearfix"></div>
+              <input class="form-control disabled" disabled value="{{request.CityTownVillage}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Pincode :</b></label>
+              <div class="clearfix"></div>
+              <input class="form-control disabled" disabled value="{{request.Pincode}}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-filter"></i>&nbsp;Land Documents </b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Certificate from the Tehsildar for Tha Land Distance :</b></label>
+              <div class="clearfix"></div>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.CertificatefOfTehsildarName.includes('.pdf')" data-fancybox="gallery" href="{{request.CertificatefOfTehsildarPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label><b>Land Title Certificate :</b></label>
+              <div class="clearfix"></div>
+              <a class="bi bi-file-earmark-pdf-fill" *ngIf="request.LandTitleCertificateName.includes('.pdf')" data-fancybox="gallery" href="{{request.LandTitleCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
   </div>
 </div>
 

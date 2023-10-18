@@ -10,6 +10,7 @@ import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsM
 import { ToastrService } from 'ngx-toastr';
 import { BuildingDetailsDataModel, DocuemntBuildingDetailsDataModel } from '../../../Models/TabDetailDataModel';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 
 @Component({
   selector: 'app-agri-document-scrutiny-building-details',
@@ -37,7 +38,8 @@ export class AgriDocumentScrutinyBuildingDetailsComponent implements OnInit {
   dsrequest = new DocumentScrutinyDataModel();
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
-  constructor(private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
+  constructor(
+    private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private buildingDetailsMasterService: BuildingDetailsMasterService, private commonMasterService: CommonMasterService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
     private loaderService: LoaderService, private router: ActivatedRoute, private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
   async ngOnInit() {
@@ -84,6 +86,7 @@ export class AgriDocumentScrutinyBuildingDetailsComponent implements OnInit {
 
           this.buildingdetails.SchoolBuildingDetailsID = data['Data'][0]['data']['Table'][0]["SchoolBuildingDetailsID"];
           this.buildingdetails.BuildingTypeID = data['Data'][0]['data']['Table'][0]["BuildingTypeID"];
+          this.buildingdetails.BuildingTypeName = data['Data'][0]['data']['Table'][0]["BuildingTypeName"];
           this.buildingdetails.OwnerName = data['Data'][0]['data']['Table'][0]["OwnerName"];
           this.buildingdetails.AddressLine1 = data['Data'][0]['data']['Table'][0]["AddressLine1"];
           this.buildingdetails.AddressLine2 = data['Data'][0]['data']['Table'][0]["AddressLine2"];
@@ -118,6 +121,8 @@ export class AgriDocumentScrutinyBuildingDetailsComponent implements OnInit {
           this.buildingdetails.PWDNOCFileUpload = data['Data'][0]['data']['Table'][0]["PWDNOCFileUpload"];
           this.buildingdetails.Dis_PWDNOCFileUpload = data['Data'][0]['data']['Table'][0]["Dis_PWDNOCFileUpload"];
           this.buildingdetails.PWDNOCFileUploadPath = data['Data'][0]['data']['Table'][0]["PWDNOCFileUploadPath"];
+          this.buildingdetails.BuildingHostelQuartersRoadArea = data['Data'][0]['data']['Table'][0]["BuildingHostelQuartersRoadArea"];
+          this.buildingdetails.FireNOCOrderNumber = data['Data'][0]['data']['Table'][0]["FireNOCOrderNumber"];
 
           this.buildingdetails.TotalProjectCost = data['Data'][0]['data']['Table'][0]["TotalProjectCost"];
           this.buildingdetails.SourceCostAmount = data['Data'][0]['data']['Table'][0]["SourceCostAmount"];
@@ -143,7 +148,6 @@ export class AgriDocumentScrutinyBuildingDetailsComponent implements OnInit {
           this.buildingdetails.OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUpload"];
           this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUploadPath"];
           this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFinancialResourcesFileUpload"];
-
           this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
         }, error => console.error(error));
     }
@@ -257,5 +261,7 @@ export class AgriDocumentScrutinyBuildingDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

@@ -22,9 +22,9 @@ export class StaffAttendanceService {
   }
   //Get
 
-  public async GetStaffList_CollegeWise(CollegeID: number, StaffType: string, CourseID: number) {
+  public async GetStaffList_CollegeWise(CollegeID: number, StaffType: string, CourseID: number, Date:string) {
     const headers = { 'content-type': 'application/json' }
-    return await this.http.get(this.APIUrl + "/GetStaffList_CollegeWise/" + CollegeID + "/" + StaffType + "/" + CourseID, { 'headers': headers })
+    return await this.http.get(this.APIUrl + "/GetStaffList_CollegeWise/" + CollegeID + "/" + StaffType + "/" + CourseID + "/" + Date, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

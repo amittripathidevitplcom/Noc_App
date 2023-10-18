@@ -1,0 +1,205 @@
+<app-loader></app-loader>
+
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Add Course</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Society</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Add Course</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<form [formGroup]="CourseMasterForm" class="form-horizontal">
+  <div class="container-fluid mainContents">
+
+    <div class="clearfix"></div>
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlStreamID" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID"
+                    formControlName="ddlStreamID">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&request.StreamID==0" class="text-danger">
+              <p *ngIf="isSubmitted&&request.StreamID==0"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseLevelID" name="ddlCourseLevelID" [(ngModel)]="request.CourseLevelID"
+                    formControlName="ddlCourseLevelID" #SeletedCourseLevelID (change)="GetCourseListByLevelID(SeletedCourseLevelID.value)">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseLevelID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseLevelID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCourse" class="form-label">Course Name <span style="color:red">*</span></label>
+            <select formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-select" #SeletedCourseID (change)="IsChangeCourse(SeletedCourseID.value)">
+              <option value="0">--Select--</option>
+              <option [value]="item.CourseID" *ngFor="let item of courseDataList">
+                {{item.CourseName}}
+              </option>
+            </select>
+
+              <p *ngIf="isSubmitted&&CourseDropdown" class="text-danger">This field is required .!</p>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideotherCourse">
+            <label for="txtOtherCourseName" class="form-label"> Other Course<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtOtherCourseName" name="txtOtherCourseName" [(ngModel)]="request.OtherCourseName" formControlName="txtOtherCourseName" maxlength="100">
+            <p *ngIf="isSubmitted&&ShowHideotherCourse&&request.OtherCourseName==''" class="text-danger">
+              This field is required .!
+            </p>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Intake  <span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtIntake" name="txtIntake" [(ngModel)]="request.Intake" formControlName="txtIntake" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& request.Intake==0">This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Super Numerary Seats  <span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtSuperNumerarySeats" name="txtSuperNumerarySeats" [(ngModel)]="request.SuperNumerarySeats" formControlName="txtSuperNumerarySeats" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted && request.SuperNumerarySeats==0">This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtEnrollment" class="form-label">Enrollment  <span style="color:red;">*</span>  </label>
+            <input type="text" class="form-control" id="txtEnrollment" name="txtEnrollment" [(ngModel)]="request.Enrollment" formControlName="txtEnrollment" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& (request.Enrollment==null || request.Enrollment.toString()==0)"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCourse" class="form-label">Shift <span style="color:red">*</span></label>
+            <select formControlName="ddlShift" id="ddlShift" [(ngModel)]="request.Shift" class="form-select">
+              <option value="0">--Select--</option>
+              <option [value]="item.shiftID" *ngFor="let item of shiftDataList">
+                {{item.shiftName}}
+              </option>
+            </select>
+
+            <div *ngIf="isSubmitted&&form.ddlShift.errors" class="text-danger">
+              <p *ngIf="!form.ddlShift.errors.DropdownValidators">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCourse" class="form-label">Conduct Mode <span style="color:red">*</span></label>
+            <select formControlName="ddlConductMode" id="ddlConductMode" [(ngModel)]="request.ConductMode" class="form-select">
+              <option value="0">--Select--</option>
+              <option [value]="item.ConductID" *ngFor="let item of ConductModeDataList">
+                {{item.ConductName}}
+              </option>
+            </select>
+
+            <div *ngIf="isSubmitted&&form.ddlConductMode.errors" class="text-danger">
+              <p *ngIf="!form.ddlConductMode.errors.DropdownValidators">This field is required .!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-end">
+        <button name="btnSave" id="btnSave" class="btn btn-primary" [disabled]="isLoading" (click)="SaveData()">
+          <img *ngIf="isLoading" style="width:17px" src="../../../assets/img/loader.gif" />
+          Save
+        </button>
+        <button type="button" class="btn btn-secondary" name="btnReset" id="btnReset" (click)="ResetControl()" style="margin-left:10px">
+          Reset
+        </button>
+
+
+        <a class="btn btn-info" href="/societydetails" name="btnReset" id="btnReset" style="margin-left:10px">
+          College Management Society
+        </a>
+
+      </div>
+    </div>
+    <div class="card mb-0" *ngIf="AllCourseList.length>0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="bi bi-table"></i> Course List </b>
+        <div class="d-flex align-items-center">
+          <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+            <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+            <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+            <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+          </div>
+          <div class="d-flex align-items-center table-filter mr-15">
+            <i class="fa fa-search"></i>
+            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" formControlName="txtsearchText" name="txtsearchText" />
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive" *ngIf="AllCourseList.length>0">
+        <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Department</th>
+              <th>College Name</th>
+              <th>Programme Name</th>
+              <th>Course Level</th>
+              <th>Course Name</th>
+              <th>Intake</th>
+              <th>Super Numerary Seats</th>
+              <th>Enrollment</th>
+              <th>Shift</th>
+              <th>Conduct Mode</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of AllCourseList| tableSearchFilter:searchText; let idx=index;">
+              <td style="width:40px !important"> {{idx+1}}</td>
+              <td>{{row.DepartmentName}}</td>
+              <td>{{row.CollageName}}</td>
+              <td>{{row.StreamName}}</td>
+              <td>{{row.CourseLevel}}</td>
+              <td>{{row.CourseName}}</td>
+              <td>{{row.Intake}}</td>
+              <td>{{row.Seats}}</td>
+              <td>{{row.NoOfEnrolledStudents}}</td>
+              <td>{{row.ShiftTypeName}}</td>
+              <td>{{row.ConductModeName}}</td>
+              <td>
+                <div class="d-flex">
+                  <button type="button" (click)="Edit_OnClick(row.CollegeWiseCourseID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"
+                          class="btn btn-sm btn-info">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseCourseID)"
+                          [attr.disabled]="isDisabledGrid ? true : null">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</form>

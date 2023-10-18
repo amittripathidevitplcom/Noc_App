@@ -9,7 +9,7 @@ import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicatio
 import { RoomDetailsDataModel_RoomDetails } from '../../../Models/RoomDetailsDataModel';
 import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.service';
 import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
-
+import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agriculture/apply-nocpreview-agriculture.component';
 @Component({
   selector: 'app-agri-document-scrutiny-room-details',
   templateUrl: './agri-document-scrutiny-room-details.component.html',
@@ -30,7 +30,7 @@ export class AgriDocumentScrutinyRoomDetailsComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public FinalRemarks: any = [];
-  constructor(private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
+  constructor(private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,
     private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private roomDetailsService: RoomDetailsService) { }
 
   async ngOnInit() {
@@ -155,5 +155,7 @@ export class AgriDocumentScrutinyRoomDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
 }

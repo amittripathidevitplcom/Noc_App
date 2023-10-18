@@ -15,6 +15,7 @@ import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
 import { fail } from 'assert';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
+import { EnumCheckListType_AH, EnumCommitteType } from '../../../Common/enum-noc';
 
 @Component({
   selector: 'app-ah-physical-post-verification',
@@ -137,7 +138,7 @@ export class AhPhysicalPostVerificationComponent {
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
           if (this.SelectedDepartmentID == 2) {
             if (this.CollegeType_IsExisting) {
-              if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+              if (this.CheckTabsEntryData['LegalEntity'] <= 0 ||this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
                 || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
                 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
                 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0) {
@@ -145,7 +146,7 @@ export class AhPhysicalPostVerificationComponent {
               }
             }
             else {
-              if (this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+              if (this.CheckTabsEntryData['LegalEntity'] <= 0 ||this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
                 || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
                 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['VeterinaryHospital'] <= 0
               ) {
@@ -168,7 +169,7 @@ export class AhPhysicalPostVerificationComponent {
   async GetRNCCheckListByTypeDepartment(ApplyNOCID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetRNCCheckListByTypeDepartment('PVPIC', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
+      await this.commonMasterService.GetRNCCheckListByTypeDepartment(EnumCheckListType_AH.PVPIC.toString(), this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -441,7 +442,7 @@ export class AhPhysicalPostVerificationComponent {
 
     try {
       this.loaderService.requestStarted();
-      await this.committeeMasterService.GetApplicationCommitteeList_AH(ApplyNocApplicationID, "PostVerification")
+      await this.committeeMasterService.GetApplicationCommitteeList_AH(ApplyNocApplicationID, EnumCommitteType.Post.toString())
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -515,35 +516,35 @@ export class AhPhysicalPostVerificationComponent {
   async VerifyOTP(UserOTP: number, idx: number) {
     try {
       this.loaderService.requestStarted();
-    await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
-      .then((data: any) => {
-        data = JSON.parse(JSON.stringify(data));
-        if (data[0].status == "0") {
-          //this.AadharDetails = JSON.parse(data[0].data);
-          this.toastr.success("OTP Verify Successfully");
-          this.ApplicationCommitteeList[idx].Verified = true;
-          this.ApplicationCommitteeList[idx].SendOTP = 2;
-        }
-        else {
-          if (UserOTP != Number(this.CustomOTP)) {
-            this.toastr.error(data[0].message);
-            this.ApplicationCommitteeList[idx].Verified = false;
+      await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data[0].status == "0") {
+            //this.AadharDetails = JSON.parse(data[0].data);
+            this.toastr.success("OTP Verify Successfully");
+            this.ApplicationCommitteeList[idx].Verified = true;
+            this.ApplicationCommitteeList[idx].SendOTP = 2;
           }
-        }
-      }, error => console.error(error));
-    if (UserOTP == Number(this.CustomOTP)) {
-      this.ApplicationCommitteeList[idx].Verified = true;
-      this.ApplicationCommitteeList[idx].SendOTP = 2;
+          else {
+            if (UserOTP != Number(this.CustomOTP)) {
+              this.toastr.error(data[0].message);
+              this.ApplicationCommitteeList[idx].Verified = false;
+            }
+          }
+        }, error => console.error(error));
+      if (UserOTP == Number(this.CustomOTP)) {
+        this.ApplicationCommitteeList[idx].Verified = true;
+        this.ApplicationCommitteeList[idx].SendOTP = 2;
+      }
     }
-  }
-  catch(Ex) {
-    console.log(Ex);
-  }
+    catch (Ex) {
+      console.log(Ex);
+    }
     finally {
-  setTimeout(() => {
-    this.loaderService.requestEnded();
-  }, 200);
-}
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   async SubmitPhysicalVerification() {
@@ -583,7 +584,7 @@ export class AhPhysicalPostVerificationComponent {
         this.SuccessMessage = data['SuccessMessage'];
         this.ErrorMessage = data['ErrorMessage'];
       });
-     
+
       await this.animalDocumentScrutinyService.FinalSubmitInspectionCommittee(this.ApplicationCommitteeList[0].ApplyNocApplicationID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID, "Post Verification Forward")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));

@@ -63,6 +63,15 @@ export class CommitteeMasterService {
       ).toPromise();
   }
 
+  public async SaveApplicationCommitteeData_Agri(request: PostApplicationCommitteeMemberdataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/SaveApplicationCommitteeData_Agri', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
   public async GetApplicationCommitteeList(ApplyNocApplicationID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl + '/GetApplicationCommitteeList/' + ApplyNocApplicationID, httpOptions)

@@ -24,6 +24,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
                 <span>Legal Entity</span>
               </ng-template>
               <app-agri-document-scrutiny-legal-entity></app-agri-document-scrutiny-legal-entity>
@@ -32,6 +33,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CollegeDetail']>0"></i>
                 <span>College Detail</span>
               </ng-template>
               <app-agri-document-scrutiny-college-detail></app-agri-document-scrutiny-college-detail>
@@ -40,6 +42,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-building-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CollegeManagementSociety']>0"></i>
                 <span>College Management Society</span>
               </ng-template>
               <app-agri-document-scrutiny-college-management-society></app-agri-document-scrutiny-college-management-society>
@@ -50,6 +53,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-location-arrow icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LandInformation']>0"></i>
                 <span>Land Information</span>
               </ng-template>
               <app-agri-document-scrutiny-land-detail></app-agri-document-scrutiny-land-detail>
@@ -58,6 +62,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-list-alt icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Facility']>0"></i>
                 <span>Facility</span>
               </ng-template>
               <app-agri-document-scrutiny-facility></app-agri-document-scrutiny-facility>
@@ -66,6 +71,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-file-text-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RequiredDocument']>0"></i>
                 <span>Required Document</span>
               </ng-template>
               <app-agri-document-scrutiny-required-document></app-agri-document-scrutiny-required-document>
@@ -74,6 +80,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
                 <span>Class Room Details</span>
               </ng-template>
               <app-agri-document-scrutiny-room-details></app-agri-document-scrutiny-room-details>
@@ -82,6 +89,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherInformation']>0"></i>
                 <span>Other Information</span>
               </ng-template>
               <app-agri-document-scrutiny-other-information></app-agri-document-scrutiny-other-information>
@@ -90,14 +98,16 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-building-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
                 <span>Building Documents</span>
               </ng-template>
               <app-agri-document-scrutiny-building-details></app-agri-document-scrutiny-building-details>
             </mat-tab>
 
-            <mat-tab>
+            <mat-tab *ngIf="CollegeType_IsExisting">
               <ng-template mat-tab-label>
                 <i class="fa fa-users icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
                 <span>Staff Details</span>
               </ng-template>
               <app-agri-document-scrutiny-staff-detail></app-agri-document-scrutiny-staff-detail>
@@ -106,6 +116,7 @@
             <mat-tab *ngIf="CollegeType_IsExisting">
               <ng-template mat-tab-label>
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
                 <span>OLD NOC Details</span>
               </ng-template>
               <app-agri-document-scrutiny-old-nocdetails></app-agri-document-scrutiny-old-nocdetails>
@@ -115,6 +126,7 @@
             <mat-tab *ngIf="CollegeType_IsExisting">
               <ng-template mat-tab-label>
                 <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AcademicInformation']>0"></i>
                 <span>Academic Information</span>
               </ng-template>
               <app-agri-document-scrutiny-academic-information></app-agri-document-scrutiny-academic-information>
@@ -123,6 +135,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-files-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
                 <span>Other Document</span>
               </ng-template>
               <app-agri-document-scrutiny-other-document></app-agri-document-scrutiny-other-document>
@@ -132,6 +145,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-files-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['FarmLandDetails']>0"></i>
                 <span>Farm Land Details</span>
               </ng-template>
               <app-agri-document-scrutiny-farm-land-details></app-agri-document-scrutiny-farm-land-details>
@@ -151,5 +165,41 @@
         </div>
       </div>
     </div>
+    <ng-template #TarilMymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Trails</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+          <div class="row" *ngIf="lstTarils.length>0">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Compliance</th>
+                      <th>Remark</th>
+                      <th>Action By</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of lstTarils ; let indexOfelement=index;">
+                      <td> {{indexOfelement+1}}</td>
+                      <td>{{item.Action}}</td>
+                      <td>{{item.Remark}}</td>
+                      <td>{{item.RoleName}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

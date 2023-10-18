@@ -1,0 +1,155 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Transaction List</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page"> Transaction List</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Total Transaction List</b>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center table-filter mr-15">
+            <i class="fa fa-search"></i>
+            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" id="txtsearchText" name="txtsearchText" />
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>CollegeName</th>
+                  <th>PRN No</th>
+                  <th>Transaction Date</th>
+                  <th>Payment Status</th>
+
+                  <th>Is Refunded</th>
+                  <th>Amount</th>
+                  <th>Message</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let paymentdetails of TransactionList | tableSearchFilter:searchText; let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>
+                    <label>{{paymentdetails.CollegeNameEn}}</label>
+                  </td>
+                  <td>
+                    <label>{{paymentdetails.PaymentID}}</label>
+                  </td>
+                  <td>
+                    <label>{{paymentdetails.TransactionDate}}</label>
+                  </td>
+                  <td>
+                    <label>{{paymentdetails.STATUS}} </label>
+                  </td>
+                  <td>
+                    <label>{{paymentdetails.strRefund}}</label>
+                  </td>
+                  <td>
+                    <label>{{paymentdetails.Amount}}</label>
+                  </td>
+                  <td>
+                    <label>{{paymentdetails.ResponseMessage}} </label>
+                  </td>
+                  <td>
+                    <a *ngIf="paymentdetails.IsRefunded=='1'" title="View Refund Request" (click)="ViewRefundRequest(paymentdetails)" href="javascript:void(0)" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#ViewRefundRequest"><i class="fa fa-eye"></i></a>&nbsp;
+                    <button *ngIf="paymentdetails.STATUS=='SUCCESS' && paymentdetails.IsRefunded==0" type="button" id="btnRefund" class="btn btn-primary btn-sm" (click)="RefundPayment_click(paymentdetails)">Refund Payment</button>&nbsp;
+                    <button *ngIf="paymentdetails.STATUS!='SUCCESS' && paymentdetails.IsRefunded==0" type="button" id="btnCheckStatus" class="btn btn-primary btn-sm" (click)="CheckStatus_click(paymentdetails)">Check Status</button>&nbsp;
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="7" *ngIf="TransactionList.length==0" style="color:red"> No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="ViewRefundRequest" tabindex="-1" aria-labelledby="ViewRefundRequest" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Refund Request History</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="ViewLegalEntity_Close"><i class="fa fa-close"></i></button>
+        </div>
+        <div class="modal-body py-4">
+          <app-loader></app-loader>
+          <div class="row">
+            <div class="col-lg-12">
+              <table class="table table-hover table-striped-columns">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>PRN No/Sub Order ID</th>
+                    <th>Refund ID</th>
+                    <th>Transaction Date</th>
+                    <th>Payment Status</th>
+
+                    <th>Is Refunded</th>
+                    <th>Amount</th>
+                    <th>Message</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let paymentdetails of RefundTransactionList ; let idx=index;">
+                    <td>{{idx+1}}</td>
+                    <td>
+                      <label>{{paymentdetails.PaymentID}}</label>
+                    </td>
+                    <td>
+                      <label>{{paymentdetails.REFUNDID}}</label>
+                    </td>
+                    <td>
+                      <label>{{paymentdetails.TransactionDate}}</label>
+                    </td>
+                    <td>
+                      <label>{{paymentdetails.STATUS}} </label>
+                    </td>
+                    <td>
+                      <label>{{paymentdetails.strRefund}}</label>
+                    </td>
+                    <td>
+                      <label>{{paymentdetails.Amount}}</label>
+                    </td>
+                    <td>
+                      <label>{{paymentdetails.ResponseMessage}} </label>
+                    </td>
+                    <td>
+                      <button *ngIf="paymentdetails.STATUS!='SUCCESS'" type="button" id="btnCheckStatus" class="btn btn-primary btn-sm" (click)="RefundPaymentStatus_click(paymentdetails)">Check Refund Status</button>&nbsp;
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="7" *ngIf="RefundTransactionList.length==0" style="color:red"> No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
