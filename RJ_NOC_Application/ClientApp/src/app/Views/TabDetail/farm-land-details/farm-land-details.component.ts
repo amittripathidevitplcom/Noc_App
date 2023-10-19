@@ -47,6 +47,8 @@ export class FarmLandDetailsComponent implements OnInit {
   public PanchyatSamitiList: any = [];
   public QueryStringCollegeID: any = 0;
   public CityList: any = [];
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
 
   @ViewChild('fileUploadImage')
   fileUploadImage: ElementRef<HTMLInputElement> = {} as ElementRef;
@@ -88,6 +90,8 @@ export class FarmLandDetailsComponent implements OnInit {
       })
     this.GetDivisionList();
     this.QueryStringCollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.GetAllFarmLandDetalsList(this.QueryStringCollegeID);
   }
   get form() { return this.farmlanddetailform.controls; }
@@ -437,7 +441,7 @@ export class FarmLandDetailsComponent implements OnInit {
     
     try {
       this.loaderService.requestStarted();
-      await this.farmLandDetailServiceService.GetAllFarmLandDetalsListByCollegeID(CollegeID)
+      await this.farmLandDetailServiceService.GetAllFarmLandDetalsListByCollegeID(CollegeID,this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

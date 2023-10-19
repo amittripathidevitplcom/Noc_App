@@ -28,13 +28,13 @@ export class FarmLandDetailService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetAllFarmLandDetalsListByCollegeID(CollegeID: number) {
+  public async GetAllFarmLandDetalsListByCollegeID(CollegeID: number, ApplyNOCID: number=0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetAllFarmLandDetalsListByCollegeID/" + CollegeID)
+    return await this.http.get(this.APIUrl + "/GetAllFarmLandDetalsListByCollegeID/" + CollegeID + "/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

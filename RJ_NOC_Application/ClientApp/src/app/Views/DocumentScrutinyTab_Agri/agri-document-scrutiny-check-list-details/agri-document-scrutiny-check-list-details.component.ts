@@ -156,6 +156,7 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
   public NextUserID: number = 0;
   public ActionID: number = 0;
   public NextActionID: number = 0;
+  public PageStatus: string = 'Yes'
 
   public IsShowSuperSpecialtyHospital: boolean = false;
   LegalEntityDataModel = new LegalEntityDataModel();
@@ -190,6 +191,12 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
     this.GetFarmLandDetailsList_DepartmentCollegeWise();
     this.GetLegalEntityData();
     this.CheckTabsEntry();
+    if (this.sSOLoginDataModel.RoleID == 29) {
+      this.PageStatus = 'Yes'
+    }
+    else {
+      this.PageStatus = 'No'
+    }
   }
   // Start Land Details
   async GetLandDetailsDataList() {
@@ -642,87 +649,103 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
   public isNextRoleIDValid: boolean = false;
   public isNextUserIdValid: boolean = false;
   async DocumentScrutiny() {
+    debugger;
     this.isFormvalid = true;
     this.isNextUserIdValid = false;
     this.isNextRoleIDValid = false;
     this.isNextActionValid = false;
     this.isRemarkValid = false;
+    if (this.SelectedDepartmentID == 1) {
+      if (this.CollegeType_IsExisting) {
+        if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+          || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
+          || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['FarmLandDetails'] <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please do document scrutiny all tabs');
+        }
+      }
+      else {
+        if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+          || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['FarmLandDetails'] <= 0
+        ) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please do document scrutiny all tabs');
+        }
+      }
+    }
     try {
-      //if (this.ActionID <= 0) {
-      //  this.isActionTypeValid = true;
-      //  this.isFormvalid = false;
-      //}
-      //if (this.CheckFinalRemark == '') {
-      //  this.isRemarkValid = true;
-      //  this.isFormvalid = false;
-      //}
-
-      //if (this.ShowHideNextRoleNextUser) {
-      //  if (this.NextRoleID <= 0) {
-      //    this.isNextRoleIDValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //  if (this.NextActionID <= 0) {
-      //    this.isNextActionValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //  if (this.NextUserID <= 0) {
-      //    this.isNextUserIdValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //}
-      //else {
-      //  this.NextRoleID = 1;
-      //  this.NextUserID = 0;
-      //  this.NextActionID = 0;
-      //}
-      debugger;
-      if (this.SelectedDepartmentID == 1) {
-        if (this.CollegeType_IsExisting) {
-          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0
-            || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['FarmLandDetails'] <= 0) {
+      
+      if (this.PageStatus == 'Yes') {
+        if (this.CheckFinalRemark == '') {
+          this.isRemarkValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.ActionID <= 0) {
+          this.isActionTypeValid = true;
+          this.isFormvalid = false;
+        }
+        if (this.ShowHideNextRole && this.ShowHideNextUser) {
+          if (this.NextRoleID <= 0) {
+            this.isNextRoleIDValid = true;
             this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
+          }
+          //if (this.NextActionID <= 0) {
+          //  this.isNextActionValid = true;
+          //  this.isFormvalid = false;
+          //}
+          if (this.NextUserID <= 0) {
+            this.isNextUserIdValid = true;
+            this.isFormvalid = false;
           }
         }
-        else {
-          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-            || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['OtherDocument'] <= 0 || this.CheckTabsEntryData['FarmLandDetails'] <= 0
-          ) {
+        else if (!this.ShowHideNextUser && this.ShowHideNextRole) {
+          if (this.NextRoleID <= 0) {
+            this.isNextRoleIDValid = true;
             this.isFormvalid = false;
-            this.toastr.warning('Please do document scrutiny all tabs');
           }
+          this.NextUserID = 0;
+          this.NextActionID = 0;
         }
+        else if (!this.ShowHideNextUser && !this.ShowHideNextRole) {
+          this.NextRoleID = 1;
+          this.NextUserID = 0;
+          this.NextActionID = 0;
+        }
+        if (!this.isFormvalid) {
+          return;
+        }
+        this.loaderService.requestStarted();
+        await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              this.routers.navigate(['/applynocapplicationlistAgri']);
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+            else {
+              this.toastr.error(this.ErrorMessage)
+            }
+          }, error => console.error(error));
       }
-      if (!this.isFormvalid) {
-        return;
+      else {
+        if (!this.isFormvalid) {
+          return;
+        }
+        this.loaderService.requestStarted();
+        this.toastr.success('Document check tab label is complete now the next process is to check list');
+        if (this.sSOLoginDataModel.RoleID == 8)
+          this.routers.navigate(['/DSCommitteePrimaryVerification/Pending']);
+        else if (this.sSOLoginDataModel.RoleID == 16)
+          this.routers.navigate(['/AgriInsepctionPostVerification/Pending']);
       }
-      this.loaderService.requestStarted();
-      this.toastr.success('Document check tab label is complete now the next process is to check list');
-      if (this.sSOLoginDataModel.RoleID == 8)
-        this.routers.navigate(['/DSCommitteePrimaryVerification/Pending']);
-      else if (this.sSOLoginDataModel.RoleID == 16)
-        this.routers.navigate(['/AgriInsepctionPostVerification/Pending']);
-      //await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
-      //  .then((data: any) => {
-      //    data = JSON.parse(JSON.stringify(data));
-      //    this.State = data['State'];
-      //    this.SuccessMessage = data['SuccessMessage'];
-      //    this.ErrorMessage = data['ErrorMessage'];
-      //    if (this.State == 0) {
-      //      this.toastr.success(this.SuccessMessage);
-      //      this.routers.navigate(['/applynocapplicationlist']);
-      //    }
-      //    else if (this.State == 2) {
-      //      this.toastr.warning(this.ErrorMessage)
-      //    }
-      //    else {
-      //      this.toastr.error(this.ErrorMessage)
-      //    }
-      //  }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);
@@ -733,6 +756,57 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeDataList = data['Data'];
+          if (this.collegeDataList['CollegeStatus'] == 'New') {
+            this.CollegeType_IsExisting = false;
+            //this.isAcademicInformation = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public CheckTabsEntryData: any = [];
+  async CheckTabsEntry() {
+    try {
+      this.loaderService.requestStarted();
+      await this.agricultureDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  ViewTaril(ID: number, ActionType: string) {
+    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
+  }
+
+  public ShowHideNextRole: boolean = true;
+  public ShowHideNextUser: boolean = true;
+  public ShowHideNextAction: boolean = true;
   async GetRoleListForApporval() {
     this.UserRoleList = [];
     this.loaderService.requestStarted();
@@ -761,21 +835,29 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
   async NextGetUserDetailsByRoleID() {
     this.UserListRoleWise = [];
     this.NextWorkFlowActionList = [];
+    this.NextUserID = 0;
+    this.NextActionID = 0
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.UserListRoleWise = data['Data'];
-            if (this.UserListRoleWise.length > 0) {
-              this.NextUserID = this.UserListRoleWise[0]['UId'];
-              await this.NextGetWorkFlowActionListByRole();
+      if (this.NextRoleID == 1) {
+        this.ShowHideNextUser = false;
+      }
+      else {
+        this.ShowHideNextUser = true;
+        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (data['Data'].length > 0) {
+              this.UserListRoleWise = data['Data'];
+              if (this.UserListRoleWise.length > 0) {
+                this.NextUserID = this.UserListRoleWise[0]['UId'];
+                await this.NextGetWorkFlowActionListByRole();
+              }
             }
-          }
-        })
+          })
+      }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -785,6 +867,7 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
     }
   }
   async NextGetWorkFlowActionListByRole() {
+    this.NextActionID = 0;
     this.NextWorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
@@ -822,11 +905,21 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
             if (this.WorkFlowActionList.length > 0) {
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-              if (IsNextAction == true) {
-                this.ShowHideNextRoleNextUser = true;
+              var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
+              if (IsNextAction == true && IsRevert == false) {
+                this.ShowHideNextUser = true;
+                this.ShowHideNextRole = true;
+                this.ShowHideNextAction = true;
               }
-              else {
-                this.ShowHideNextRoleNextUser = false;
+              else if (IsNextAction == false && IsRevert == false) {
+                this.ShowHideNextUser = false;
+                this.ShowHideNextRole = false;
+                this.ShowHideNextAction = false;
+              }
+              else if (IsNextAction == false && IsRevert == true) {
+                this.ShowHideNextUser = true;
+                this.ShowHideNextRole = true;
+                this.ShowHideNextAction = false;
               }
             }
           }
@@ -839,59 +932,24 @@ export class AgriDocumentScrutinyCheckListDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  async GetCollageDetails() {
-    try {
-      this.loaderService.requestStarted();
-      await this.collegeService.GetData(this.SelectedCollageID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.collegeDataList = data['Data'];
-          if (this.collegeDataList['CollegeStatus'] == 'New') {
-            this.CollegeType_IsExisting = false;
-            //this.isAcademicInformation = false;
-          }
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
   OnChangeCurrentAction() {
     var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-    if (IsNextAction == true) {
-      this.ShowHideNextRoleNextUser = true;
+    var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
+    if (IsNextAction == true && IsRevert == false) {
+      this.ShowHideNextUser = true;
+      this.ShowHideNextRole = true;
+      this.ShowHideNextAction = true;
     }
-    else {
-      this.ShowHideNextRoleNextUser = false;
+    else if (IsNextAction == false && IsRevert == false) {
+      this.ShowHideNextUser = false;
+      this.ShowHideNextRole = false;
+      this.ShowHideNextAction = false;
     }
-  }
-
-  public CheckTabsEntryData: any = [];
-  async CheckTabsEntry() {
-    try {
-      this.loaderService.requestStarted();
-      await this.agricultureDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.CheckTabsEntryData = data['Data'][0]['data'][0];
-        }, error => console.error(error));
+    else if (IsNextAction == false && IsRevert == true) {
+      this.ShowHideNextUser = true;
+      this.ShowHideNextRole = true;
+      this.ShowHideNextAction = false;
     }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  ViewTaril(ID: number, ActionType: string) {
-    this.applyNocpreviewAgricultureComponent.ViewTarilCommon(ID, ActionType);
   }
 }
 

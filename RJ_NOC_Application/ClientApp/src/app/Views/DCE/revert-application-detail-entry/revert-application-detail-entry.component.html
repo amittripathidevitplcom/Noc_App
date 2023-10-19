@@ -172,7 +172,15 @@
               <app-subject-wise-student-statistics></app-subject-wise-student-statistics>
             </mat-tab>
 
-
+            <mat-tab *ngIf="RevertedTabData['FarmLandDetails']>0">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['FarmLandDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['FarmLandDetails']==0"></span>
+                <span>Farm Land Details</span>
+              </ng-template>
+              <app-farm-land-details></app-farm-land-details>
+            </mat-tab>
           </mat-tab-group>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">

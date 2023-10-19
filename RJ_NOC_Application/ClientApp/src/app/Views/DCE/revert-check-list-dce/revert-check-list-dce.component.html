@@ -1854,7 +1854,102 @@
     </div>
   </div>
 
+  <!-- Farm land details-->
+  <div class="card mb-0" *ngIf="RevertedTabData['FarmLandDetails']>0">
+    <div class="card-header">
+      <b>Farm Land Details</b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Total Farm Land Area In(Hectare)</th>
+                  <th>Is Farm Land</th>
+                  <th>Land Owner Name</th>
+                  <th>Khasra  Number</th>
+                  <th>Total Land Area In(Hectare)</th>
+                  <th>Land Type</th>
+                  <th>Source Irrigation</th>
+                  <th>Address Line1</th>
+                  <th>Address Line2</th>
+                  <th>Rural/Urban</th>
+                  <th>Division</th>
+                  <th>District</th>
+                  <th>Tehsil</th>
+                  <th>PanchayatSamiti Name</th>
+                  <th>City/Town/Village</th>
+                  <th>Pincode</th>
+                  <th>Certificate from the Tehsildar for Tha Land Distance</th>
+                  <th>Land Title Certificate</th>
+                  <th>Trails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of CheckList_FarmLandDetailsDataModel let idx=index;">
 
+                  <td>{{idx+1}}</td>
+                  <td>{{row.TotalFarmLandArea}}</td>
+                  <td>{{row.FarmLandIs}}</td>
+                  <td>{{row.LandOwnerName}}</td>
+                  <td>{{row.KhasraNumber}}</td>
+                  <td>{{row.TotalLandArea}}</td>
+                  <td>{{row.LandType}}</td>
+                  <td>{{row.SourceIrrigation}}</td>
+                  <td>{{row.AddressLine1}}</td>
+                  <td>{{row.AddressLine2}}</td>
+                  <td>{{row.RuralUrban}}</td>
+                  <td>{{row.DivisionName}}</td>
+                  <td>{{row.DistrictName}}</td>
+                  <td>{{row.TehsilName}}</td>
+                  <td>{{row.PanchayatSamitiName}}</td>
+                  <td>{{row.CityTownVillage}}</td>
+                  <td>{{row.Pincode}}</td>
+                  <td>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.CertificatefOfTehsildarName.includes('.pdf')" data-fancybox="gallery" href="{{row.CertificatefOfTehsildarPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.LandTitleCertificateName.includes('.pdf')" data-fancybox="gallery" href="{{row.LandTitleCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.FarmLandDetailID,'FarmLandTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+
+                </tr>
+                <tr *ngIf="CheckList_FarmLandDetailsDataModel.length<=0">
+                  <td colspan="8" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="FarmLandDetailsFinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of FarmLandDetailsFinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Farm Land Details-->
   <!--end subject wise data-->
 </div>
 
