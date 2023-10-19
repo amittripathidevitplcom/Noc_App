@@ -45,6 +45,7 @@ export class StaffattendanceComponent implements OnInit {
   public is_disableDepartment: boolean = false;
   public MaxDate: Date = new Date();
   public IsTeaching: boolean = false;
+  public IsStaffList: boolean = false;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private staffAttendanceService: StaffAttendanceService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
 
@@ -75,7 +76,7 @@ export class StaffattendanceComponent implements OnInit {
 
   async GetStaffType(SeletedStaffType: any) {
     this.StaffAttendanceDetailsList = [];
-    //this.request.Date = '';
+    this.IsStaffList = false;
     if (SeletedStaffType == 'Teaching') {
       this.IsTeaching = true;
     }
@@ -122,7 +123,7 @@ export class StaffattendanceComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.request.CollegeID = SeletedCollegeID;
-      this.commonMasterService.GetCourseList_CollegeWise(SeletedCollegeID)
+      this.commonMasterService.GetOldNOCCourseList_CollegeWise(SeletedCollegeID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.courseDataList = data['Data'];
@@ -139,6 +140,7 @@ export class StaffattendanceComponent implements OnInit {
   }
   public isFormValid: boolean = true;
   async SearchData() {
+    this.IsStaffList = true;
     this.isSubmitted = true;
     this.isFormValid = true;
     if (this.request.StaffType == 'Teaching') {
@@ -156,9 +158,8 @@ export class StaffattendanceComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.StaffAttendanceDetailsList = data['Data'][0]['data'];
-          this.request.StaffAttendanceID = data['Data'][0]['data'][0]['StaffAttendanceID'];
-          if (this.StaffAttendanceDetailsList.length == 0) {
-            this.toastr.warning('No Record Found !!!.');
+          if (data['Data'][0]['data'].length > 0) {
+            this.request.StaffAttendanceID = data['Data'][0]['data'][0]['StaffAttendanceID'];
           }
         }, error => console.error(error));
     }
@@ -183,7 +184,7 @@ export class StaffattendanceComponent implements OnInit {
     try {
       for (var i = 0; i < this.StaffAttendanceDetailsList.length; i++) {
         if (this.StaffAttendanceDetailsList[i].StatusID == '' || this.StaffAttendanceDetailsList[i].StatusID == undefined) {
-          this.toastr.warning('Please check at least one radio button.');
+          this.toastr.warning('Please mark Attendence');
           return
         }
         this.request.AttendanceDetailsList.push({
@@ -262,10 +263,11 @@ export class StaffattendanceComponent implements OnInit {
     this.request.StaffType = '';
     this.request.UserID = 0;
     this.IsTeaching = false;
-
+    this.IsStaffList = false;
   }
 
   async OnChangeCourseAndDate() {
     this.StaffAttendanceDetailsList = [];
+    this.IsStaffList = false;
   }
 }

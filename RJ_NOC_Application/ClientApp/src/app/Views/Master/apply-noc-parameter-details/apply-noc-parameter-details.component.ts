@@ -218,7 +218,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   async MakePayment_click(item: any) {
     try {
       this.loaderService.requestStarted();
-      //debugger
+      debugger;
       // payment request
       this.nocPaymentComponent.request.ApplyNocApplicationID = item.ApplyNocApplicationID;
       this.nocPaymentComponent.request.AMOUNT = item.TotalFeeAmount;
