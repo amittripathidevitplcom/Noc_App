@@ -26,7 +26,7 @@ import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agri
   styleUrls: ['./agri-document-scrutiny-old-nocdetails.component.css']
 })
 export class AgriDocumentScrutinyOldNocdetailsComponent implements OnInit {
-
+  public isDisabledAction: boolean = false;
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
@@ -72,6 +72,10 @@ export class AgriDocumentScrutinyOldNocdetailsComponent implements OnInit {
           this.OldNocDetails = data['Data'][0]['OldNOCDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -128,21 +132,43 @@ export class AgriDocumentScrutinyOldNocdetailsComponent implements OnInit {
       i.Action = ActionType;
       i.Remark = '';
     })
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.OldNocDetails.length; i++) {
       if (i == idx) {
         this.OldNocDetails[i].Remark = '';
       }
+      if (this.OldNocDetails[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    
     }
   }
-
+ // public isSubmitted: boolean = false;
   async SubmitOldNOCDetails_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'OLD NOC Details';
     this.isRemarkValid = false;
@@ -160,6 +186,9 @@ export class AgriDocumentScrutinyOldNocdetailsComponent implements OnInit {
         }
       }
     }
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
 
     if (this.dsrequest.FinalRemark == '') {
       this.isRemarkValid = true;
@@ -175,7 +204,7 @@ export class AgriDocumentScrutinyOldNocdetailsComponent implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.OldNocDetails[i].Action,

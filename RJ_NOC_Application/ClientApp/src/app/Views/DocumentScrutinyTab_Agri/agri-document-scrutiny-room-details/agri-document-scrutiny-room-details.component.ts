@@ -16,7 +16,7 @@ import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agri
   styleUrls: ['./agri-document-scrutiny-room-details.component.css']
 })
 export class AgriDocumentScrutinyRoomDetailsComponent implements OnInit {
-
+  public isDisabledAction: boolean = false;
   public RoomDetails: RoomDetailsDataModel_RoomDetails[] = [];
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
@@ -53,6 +53,10 @@ export class AgriDocumentScrutinyRoomDetailsComponent implements OnInit {
           this.RoomDetails = data['Data'][0]['RoomDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -70,21 +74,43 @@ export class AgriDocumentScrutinyRoomDetailsComponent implements OnInit {
       i.Action = ActionType;
       i.Remark = '';
     })
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.RoomDetails.length; i++) {
       if (i == idx) {
         this.RoomDetails[i].Remark = '';
       }
+      if (this.RoomDetails[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    
     }
   }
-
+  public isSubmitted: boolean = false;
   async SubmitRoomDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Room Details';
     this.isRemarkValid = false;
@@ -102,6 +128,9 @@ export class AgriDocumentScrutinyRoomDetailsComponent implements OnInit {
         }
       }
     }
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
 
     if (this.dsrequest.FinalRemark == '') {
       this.isRemarkValid = true;
@@ -117,7 +146,7 @@ export class AgriDocumentScrutinyRoomDetailsComponent implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.RoomDetails[i].Action,

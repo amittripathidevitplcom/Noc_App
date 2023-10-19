@@ -841,6 +841,60 @@ export class AgriPreViewByNodalOfficerComponent {
       }, 200);
     }
   }
+
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeDataList = data['Data'];
+          if (this.collegeDataList['CollegeStatus'] == 'New') {
+            this.CollegeType_IsExisting = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+  ViewTaril(ID: number, ActionType: string) {
+    debugger;
+    this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      this.commonMasterService.GetDocumentScritintyTaril(ID, this.SelectedApplyNOCID, this.SelectedCollageID, this.SelectedDepartmentID, ActionType)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.lstTarils = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public ShowHideNextRole: boolean = true;
+  public ShowHideNextUser: boolean = true;
+  public ShowHideNextAction: boolean = true;
   async GetRoleListForApporval() {
     this.UserRoleList = [];
     this.loaderService.requestStarted();
@@ -869,21 +923,29 @@ export class AgriPreViewByNodalOfficerComponent {
   async NextGetUserDetailsByRoleID() {
     this.UserListRoleWise = [];
     this.NextWorkFlowActionList = [];
+    this.NextUserID = 0;
+    this.NextActionID = 0
     this.loaderService.requestStarted();
     try {
-      await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.UserListRoleWise = data['Data'];
-            if (this.UserListRoleWise.length > 0) {
-              this.NextUserID = this.UserListRoleWise[0]['UId'];
-              await this.NextGetWorkFlowActionListByRole();
+      if (this.NextRoleID == 1) {
+        this.ShowHideNextUser = false;
+      }
+      else {
+        this.ShowHideNextUser = true;
+        await this.commonMasterService.GetUserDetailsByRoleID(this.NextRoleID, this.sSOLoginDataModel.DepartmentID)
+          .then(async (data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (data['Data'].length > 0) {
+              this.UserListRoleWise = data['Data'];
+              if (this.UserListRoleWise.length > 0) {
+                this.NextUserID = this.UserListRoleWise[0]['UId'];
+                await this.NextGetWorkFlowActionListByRole();
+              }
             }
-          }
-        })
+          })
+      }
     }
     catch (ex) { console.log(ex) }
     finally {
@@ -893,6 +955,7 @@ export class AgriPreViewByNodalOfficerComponent {
     }
   }
   async NextGetWorkFlowActionListByRole() {
+    this.NextActionID = 0;
     this.NextWorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
@@ -930,11 +993,21 @@ export class AgriPreViewByNodalOfficerComponent {
             if (this.WorkFlowActionList.length > 0) {
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-              if (IsNextAction == true) {
-                this.ShowHideNextRoleNextUser = true;
+              var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
+              if (IsNextAction == true && IsRevert == false) {
+                this.ShowHideNextUser = true;
+                this.ShowHideNextRole = true;
+                this.ShowHideNextAction = true;
               }
-              else {
-                this.ShowHideNextRoleNextUser = false;
+              else if (IsNextAction == false && IsRevert == false) {
+                this.ShowHideNextUser = false;
+                this.ShowHideNextRole = false;
+                this.ShowHideNextAction = false;
+              }
+              else if (IsNextAction == false && IsRevert == true) {
+                this.ShowHideNextUser = true;
+                this.ShowHideNextRole = true;
+                this.ShowHideNextAction = false;
               }
             }
           }
@@ -947,60 +1020,24 @@ export class AgriPreViewByNodalOfficerComponent {
       }, 200);
     }
   }
-  async GetCollageDetails() {
-    try {
-      this.loaderService.requestStarted();
-      await this.collegeService.GetData(this.SelectedCollageID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.collegeDataList = data['Data'];
-          if (this.collegeDataList['CollegeStatus'] == 'New') {
-            this.CollegeType_IsExisting = false;
-          }
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
   OnChangeCurrentAction() {
-    var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
-    if (IsNextAction == true) {
-      this.ShowHideNextRoleNextUser = true;
-    }
-    else {
-      this.ShowHideNextRoleNextUser = false;
-    }
-  }
-
-
-  ViewTaril(ID: number, ActionType: string) {
     debugger;
-    this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-    try {
-      this.loaderService.requestStarted();
-      this.commonMasterService.GetDocumentScritintyTaril(ID, this.SelectedApplyNOCID, this.SelectedCollageID, this.SelectedDepartmentID, ActionType)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.lstTarils = data['Data'][0]['data'];
-        }, error => console.error(error));
+    var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
+    var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
+    if (IsNextAction == true && IsRevert == false) {
+      this.ShowHideNextUser = true;
+      this.ShowHideNextRole = true;
+      this.ShowHideNextAction = true;
     }
-    catch (Ex) {
-      console.log(Ex);
+    else if (IsNextAction == false && IsRevert == false) {
+      this.ShowHideNextUser = false;
+      this.ShowHideNextRole = false;
+      this.ShowHideNextAction = false;
     }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
+    else if (IsNextAction == false && IsRevert == true) {
+      this.ShowHideNextUser = true;
+      this.ShowHideNextRole = true;
+      this.ShowHideNextAction = false;
     }
   }
 }

@@ -19,6 +19,7 @@ import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agri
   styleUrls: ['./agri-document-scrutiny-farm-land-details.component.css']
 })
 export class AgriDocumentScrutinyFarmLandDetailsComponent implements OnInit {
+  public isDisabledAction: boolean = false;
 
   public lstFarmLandDetails: any = [];
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -61,6 +62,10 @@ export class AgriDocumentScrutinyFarmLandDetailsComponent implements OnInit {
           this.lstFarmLandDetails = data['Data'][0]['FarmLandDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -144,22 +149,44 @@ export class AgriDocumentScrutinyFarmLandDetailsComponent implements OnInit {
       i.Action = ActionType;
       i.Remark = '';
     })
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.lstFarmLandDetails.length; i++) {
       if (i == idx) {
         this.lstFarmLandDetails[i].Remark = '';
       }
+      if (this.lstFarmLandDetails[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    
     }
   }
-
+  public isSubmitted: boolean = false;
   async SubmitFarmLandDetailsDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Farm Land Details';
     this.isRemarkValid = false;
@@ -178,6 +205,10 @@ export class AgriDocumentScrutinyFarmLandDetailsComponent implements OnInit {
       }
     }
 
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
+
     if (this.dsrequest.FinalRemark == '') {
       this.isRemarkValid = true;
       this.isFormvalid = false;
@@ -192,7 +223,7 @@ export class AgriDocumentScrutinyFarmLandDetailsComponent implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.lstFarmLandDetails[i].Action,
