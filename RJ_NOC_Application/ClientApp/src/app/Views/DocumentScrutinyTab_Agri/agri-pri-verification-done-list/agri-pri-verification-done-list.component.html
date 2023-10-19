@@ -30,7 +30,8 @@
                     <td>{{item.CollegeName}}</td>
                     <td>{{item.ApplicationNo}}</td>
                     <td>
-                      <a href="javascript:void(0)" title="View Application PreView" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'No')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'Yes')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                      <!--<a href="javascript:void(0)" title="View Application PreView" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'No')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>-->
                       <button type="button" class="btn btn-sm btn-info" title="View Committee Report" (click)="OpenActionPopUP(PreVerificationChecklist,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-check-circle-o"></i></button>
                       &nbsp;<button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
                       &nbsp;<button type="button" *ngIf="IsCommitteType && item.PVStage==2" class="btn btn-sm btn-primary" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>

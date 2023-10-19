@@ -146,19 +146,20 @@ export class ApplyNocpreviewAgricultureComponent implements OnInit {
   public CheckList_OldNocDetails: OldNocDetailsDataModel[] = [];
   public OldNOC_FinalRemarks: any = [];
   public CheckFinalRemark: string = '';
-  constructor(private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService,private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.GetCollageDetails();
-    this.CheckTabsEntry();
+    await this.GetCollageDetails();
+    await this.CheckTabsEntry();
+    debugger;
     if (this.tabGroup != null)
       this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
     else {
@@ -170,8 +171,9 @@ export class ApplyNocpreviewAgricultureComponent implements OnInit {
       }
     }
   }
-  NextStep() {
 
+  NextStep() {
+    debugger;
     if (this.selectedIndex != this.maxNumberOfTabs) {
       this.selectedIndex = this.selectedIndex + 1;
     }
@@ -180,6 +182,7 @@ export class ApplyNocpreviewAgricultureComponent implements OnInit {
     }
     this.CheckTabsEntry();
   }
+
   PreviousStep() {
     if (this.selectedIndex != 0) {
       this.selectedIndex = this.selectedIndex - 1;
@@ -187,7 +190,9 @@ export class ApplyNocpreviewAgricultureComponent implements OnInit {
 
     this.CheckTabsEntry();
   }
+
   onTabChange(event: MatTabChangeEvent) {
+    debugger;
     this.selectedIndex = event.index;
     if (this.selectedIndex == this.maxNumberOfTabs) {
       this.checkListDetailsComponent_New.ngOnInit();

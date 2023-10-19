@@ -19,6 +19,8 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
+import { FarmLandDetailDataModel } from '../../../Models/FarmLandDetailDataModel';
+import { AgricultureDocumentScrutinyService } from '../../../Services/AgricultureDocumentScrutiny/agriculture-document-scrutiny.service';
 
 
 @Injectable({
@@ -40,6 +42,7 @@ export class RevertCheckListDCEComponent implements OnInit {
   //@ViewChild('tabs') tabGroup!: MatTabGroup;
   public collegeDataList: any = [];
   sSOLoginDataModel = new SSOLoginDataModel();
+  public CheckList_FarmLandDetailsDataModel: FarmLandDetailDataModel[] = [];
 
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
@@ -206,15 +209,10 @@ export class RevertCheckListDCEComponent implements OnInit {
   OtherBoysCountFooter: number = 0
   OtherGirlsCountFooter: number = 0
   TotalFooter: number = 0
-
-
-
-  constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService,
     private dcedocumentscrutiny: DocumentScrutinyComponent) { }
-
-
 
   async ngOnInit() {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
@@ -239,11 +237,9 @@ export class RevertCheckListDCEComponent implements OnInit {
     this.GetCollegeWiseStudenetDetails();
     this.GetSubjectWiseStudenetDetails();
     this.GetRevertedTabData();
+    this.GetFarmLandDetailsList_DepartmentCollegeWise();
   }
-
-
   // Start Land Details
-
   async GetLandDetailsDataList() {
 
     try {
@@ -756,7 +752,32 @@ export class RevertCheckListDCEComponent implements OnInit {
 
   //end subject wise student detials
 
+  //Farm Land Details
+  async GetFarmLandDetailsList_DepartmentCollegeWise() {
+    try {
+      this.loaderService.requestStarted();
+      await this.agricultureDocumentScrutinyService.DocumentScrutiny_FarmLandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
 
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckList_FarmLandDetailsDataModel = data['Data'][0]['FarmLandDetails'];
+          this.FarmLandDetailsFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Farm Land Details
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
