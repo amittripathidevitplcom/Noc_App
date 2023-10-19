@@ -24,7 +24,7 @@ import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agri
   styleUrls: ['./agri-document-scrutiny-other-information.component.css']
 })
 export class AgriDocumentScrutinyOtherInformationComponent implements OnInit {
-
+  public isDisabledAction: boolean = false;
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -66,6 +66,10 @@ export class AgriDocumentScrutinyOtherInformationComponent implements OnInit {
           this.OtherInformation = data['Data'][0]['OtherInformations'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -82,13 +86,35 @@ export class AgriDocumentScrutinyOtherInformationComponent implements OnInit {
       i.Action = ActionType;
       i.Remark = '';
     })
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
-
+  //public isSubmitted: boolean = false;
   ClickOnAction(idx: number) {
+    this.isSubmitted = true;
+    var Count = 0;
     for (var i = 0; i < this.OtherInformation.length; i++) {
       if (i == idx) {
         this.OtherInformation[i].Remark = '';
       }
+      if (this.OtherInformation[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    
     }
   }
 
@@ -96,7 +122,7 @@ export class AgriDocumentScrutinyOtherInformationComponent implements OnInit {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Other Information';
     this.isRemarkValid = false;
@@ -114,7 +140,9 @@ export class AgriDocumentScrutinyOtherInformationComponent implements OnInit {
         }
       }
     }
-
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
     if (this.dsrequest.FinalRemark == '') {
       this.isRemarkValid = true;
       this.isFormvalid = false;
@@ -129,7 +157,7 @@ export class AgriDocumentScrutinyOtherInformationComponent implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.OtherInformation[i].Action,

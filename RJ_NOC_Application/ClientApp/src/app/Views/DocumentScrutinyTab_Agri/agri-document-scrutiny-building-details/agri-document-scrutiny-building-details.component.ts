@@ -18,7 +18,7 @@ import { ApplyNocpreviewAgricultureComponent } from '../../apply-nocpreview-agri
   styleUrls: ['./agri-document-scrutiny-building-details.component.css']
 })
 export class AgriDocumentScrutinyBuildingDetailsComponent implements OnInit {
-
+  public isDisabledAction: boolean = false;
   buildingdetails: any = {};
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
@@ -59,6 +59,10 @@ export class AgriDocumentScrutinyBuildingDetailsComponent implements OnInit {
           this.lstBuildingDetails = data['Data'][0]['BuildingDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -176,21 +180,42 @@ export class AgriDocumentScrutinyBuildingDetailsComponent implements OnInit {
       i.Action = ActionType;
       i.Remark = '';
     })
+    if (ActionType == 'No') {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
   }
 
   ClickOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.lstBuildingDetails.length; i++) {
       if (i == idx) {
         this.lstBuildingDetails[i].Remark = '';
       }
+      if (this.lstBuildingDetails[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    
     }
   }
-
+  public isSubmitted: boolean = false;
   async SubmitBuildingDetail_Onclick() {
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Building Documents';
     this.isRemarkValid = false;
@@ -208,6 +233,9 @@ export class AgriDocumentScrutinyBuildingDetailsComponent implements OnInit {
         }
       }
     }
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
 
     if (this.dsrequest.FinalRemark == '') {
       this.isRemarkValid = true;
@@ -223,7 +251,7 @@ export class AgriDocumentScrutinyBuildingDetailsComponent implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.lstBuildingDetails[i].Action,

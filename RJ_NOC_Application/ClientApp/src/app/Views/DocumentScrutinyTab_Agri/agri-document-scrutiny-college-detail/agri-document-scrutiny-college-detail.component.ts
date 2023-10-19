@@ -24,6 +24,7 @@ export class AgriDocumentScrutinyCollegeDetailComponent implements OnInit {
     private applyNocpreviewAgricultureComponent: ApplyNocpreviewAgricultureComponent, private agricultureDocumentScrutinyService: AgricultureDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private draftApplicationListService: DraftApplicationListService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) {
 
   }
+  public isDisabledAction: boolean = false;
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
@@ -83,6 +84,10 @@ export class AgriDocumentScrutinyCollegeDetailComponent implements OnInit {
           this.collegeNearestGovernmentHospitalsList = data['Data'][0]['CollegeNearestHospitalsDetails'][0];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          if (this.dsrequest.ActionID == 2) {
+            this.isDisabledAction = true;
+          }
           //console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));
     }
@@ -110,12 +115,13 @@ export class AgriDocumentScrutinyCollegeDetailComponent implements OnInit {
       }
     }
   }
-
+  public isSubmitted: boolean = false;
   async SubmitCollegeDetail_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'College Detail';
     this.isRemarkValid = false;
@@ -133,7 +139,9 @@ export class AgriDocumentScrutinyCollegeDetailComponent implements OnInit {
         }
       }
     }
-
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
     if (this.dsrequest.FinalRemark == '') {
       this.isRemarkValid = true;
       this.isFormvalid = false;
@@ -148,7 +156,7 @@ export class AgriDocumentScrutinyCollegeDetailComponent implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.collegeNearestGovernmentHospitalsList[i].Action,

@@ -48,7 +48,7 @@ export class AgriDocumentScrutinyLegalEntityComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public CollegeID: number = 0;
   public ModifyBy: number = 0;
-
+  public isDisabledAction: boolean = false;
   //
   public SSOID: string = '';
   public SelectedLegalEntityID: number = 0;
@@ -96,6 +96,10 @@ export class AgriDocumentScrutinyLegalEntityComponent implements OnInit {
             this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
 
             this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+            this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+            if (this.dsrequest.ActionID == 2) {
+              this.isDisabledAction = true;
+            }
           }
         }, (error: any) => console.error(error));
     }
@@ -113,37 +117,78 @@ export class AgriDocumentScrutinyLegalEntityComponent implements OnInit {
     await this.legalEntityMemberDetailData.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
+      if (ActionType == 'No') {
+        this.dsrequest.ActionID = 2;
+        this.isDisabledAction = true;
+      }
+      else {
+        this.dsrequest.ActionID = 0;
+        this.isDisabledAction = false;
+      }
     })
   }
-
   async selectInstituteAll(ActionType: string) {
     await this.legalEntityInstituteDetailData.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
+      if (ActionType == 'No') {
+        this.dsrequest.ActionID = 2;
+        this.isDisabledAction = true;
+      }
+      else {
+        this.dsrequest.ActionID = 0;
+        this.isDisabledAction = false;
+      }
     })
   }
 
-
   ClickMemberOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.legalEntityMemberDetailData.length; i++) {
       if (i == idx) {
         this.legalEntityMemberDetailData[i].Remark = '';
       }
+      if (this.legalEntityMemberDetailData[i].Action == 'No') {
+        Count++;
+      }
     }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
+    }
+
   }
   ClickInstituteOnAction(idx: number) {
+    var Count = 0;
     for (var i = 0; i < this.legalEntityInstituteDetailData.length; i++) {
       if (i == idx) {
         this.legalEntityInstituteDetailData[i].Remark = '';
       }
+      if (this.legalEntityInstituteDetailData[i].Action == 'No') {
+        Count++;
+      }
+    }
+    if (Count > 0) {
+      this.dsrequest.ActionID = 2;
+      this.isDisabledAction = true;
+    }
+    else {
+      this.dsrequest.ActionID = 0;
+      this.isDisabledAction = false;
     }
   }
 
+  public isSubmitted: boolean = false;
   async SubmitLegalEntity_Onclick() {
+    this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
-    this.dsrequest.UserID = 0;
+    this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
     this.dsrequest.TabName = 'Legal Entity';
     this.dsrequest.DocumentScrutinyDetail = [];
@@ -175,6 +220,9 @@ export class AgriDocumentScrutinyLegalEntityComponent implements OnInit {
         }
       }
     }
+    if (this.dsrequest.ActionID <= 0) {
+      this.isFormvalid = false;
+    }
     if (this.dsrequest.FinalRemark == '') {
       this.isRemarkValid = true;
       this.isFormvalid = false;
@@ -189,7 +237,7 @@ export class AgriDocumentScrutinyLegalEntityComponent implements OnInit {
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
           CollegeID: this.SelectedCollageID,
-          UserID: 0,
+          UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
           Action: this.legalEntityMemberDetailData[i].Action,
@@ -207,7 +255,7 @@ export class AgriDocumentScrutinyLegalEntityComponent implements OnInit {
             DocumentScrutinyID: 0,
             DepartmentID: this.SelectedDepartmentID,
             CollegeID: this.SelectedCollageID,
-            UserID: 0,
+            UserID: this.sSOLoginDataModel.UserID,
             RoleID: this.sSOLoginDataModel.RoleID,
             ApplyNOCID: this.SelectedApplyNOCID,
             Action: this.legalEntityInstituteDetailData[i].Action,
