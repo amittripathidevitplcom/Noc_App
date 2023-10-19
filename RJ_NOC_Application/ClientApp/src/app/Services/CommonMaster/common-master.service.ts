@@ -1234,5 +1234,15 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  
+  public async GetOldNOCCourseList_CollegeWise(CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetOldNOCCourseList_CollegeWise/" + CollegeID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

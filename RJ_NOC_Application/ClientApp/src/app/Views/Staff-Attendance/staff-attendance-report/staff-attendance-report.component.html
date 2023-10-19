@@ -48,7 +48,7 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsTeaching">
             <label for="txtCourse" class="form-label">Select Course <span style="color:red">*</span></label>
-            <select formControlName="ddlCourse" id="ddlCourse" class="form-select" [(ngModel)]="request.CourseID">
+            <select formControlName="ddlCourse" id="ddlCourse" class="form-select" [(ngModel)]="request.CourseID" (change)="ClearStaffAttendenceReport()">
               <option value="0" disabled>--Select Course--</option>
               <option [value]="item.CourseID" *ngFor="let item of courseDataList">
                 {{item.CourseName}}
@@ -60,7 +60,7 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="">From Date <span style="color:red">*</span></label>
-            <input class="form-control" type="date" id="txtFromDate" placeholder="Enter From Date" [(ngModel)]="request.FromDate" formControlName="txtFromDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+            <input class="form-control" type="date" id="txtFromDate" placeholder="Enter From Date" [(ngModel)]="request.FromDate" formControlName="txtFromDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" (change)="ClearStaffAttendenceReport()" />
             <div *ngIf="isSubmitted&&form.txtFromDate.errors" class="text-danger">
               <p *ngIf="form.txtFromDate.errors.required"> This field is required .!</p>
             </div>
@@ -68,7 +68,7 @@
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="">To Date <span style="color:red">*</span></label>
-            <input class="form-control" type="date" id="txtToDate" placeholder="Enter To Date" [(ngModel)]="request.ToDate" formControlName="txtToDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+            <input class="form-control" type="date" id="txtToDate" placeholder="Enter To Date" [(ngModel)]="request.ToDate" formControlName="txtToDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" (change)="ClearStaffAttendenceReport()"/>
             <div *ngIf="isSubmitted&&form.txtToDate.errors" class="text-danger">
               <p *ngIf="form.txtToDate.errors.required"> This field is required .!</p>
             </div>
@@ -76,7 +76,7 @@
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="txtStatus" class="form-label">Status <span style="color:red">*</span></label>
-            <select [ngModelOptions]="{standalone: true}" id="ddlStatus" class="form-select" [(ngModel)]="request.StatusID">
+            <select [ngModelOptions]="{standalone: true}" id="ddlStatus" class="form-select" [(ngModel)]="request.StatusID" (change)="ClearStaffAttendenceReport()">
               <option value="0">--All--</option>
               <option [value]="item.ID" *ngFor="let item of PresentStatusLst">
                 {{item.Name}}
@@ -95,7 +95,7 @@
 
       </div>
     </div>
-    <div *ngIf="StaffAttendanceReportList.length>0">
+    <div  *ngIf="IsStaffList">
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <b><i class="fa fa-th-list"></i>&nbsp;Staff Attendance Report List</b>
@@ -117,6 +117,9 @@
                   <td>{{row.Date | date:'dd-MM-yyyy'}}</td>
                   <td>{{row.StaffName}}</td>
                   <td>{{row.StatusName}}</td>
+                </tr>
+                <tr *ngIf="StaffAttendanceReportList.length<=0">
+                  <td colspan="10" class="text-danger">No Data Found.!</td>
                 </tr>
               </tbody>
             </table>

@@ -44,6 +44,7 @@ export class StaffAttendanceReportComponent implements OnInit {
   public is_disableDepartment: boolean = false;
   public MaxDate: Date = new Date();
   public IsTeaching: boolean = false;
+  public IsStaffList: boolean = false;
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private staffAttendanceService: StaffAttendanceService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder) {
 
@@ -76,8 +77,7 @@ export class StaffAttendanceReportComponent implements OnInit {
   async GetStaffType(SeletedStaffType: any) {
     this.StaffAttendanceReportList = [];
     this.request.CourseID = 0;
-    //this.request.FromDate = '';
-    //this.request.ToDate = '';
+    this.IsStaffList = false;
     this.request.StatusID = 0;
     if (SeletedStaffType == 'Teaching') {
       this.IsTeaching = true;
@@ -124,7 +124,7 @@ export class StaffAttendanceReportComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       this.request.CollegeID = SeletedCollegeID;
-      this.commonMasterService.GetCourseList_CollegeWise(SeletedCollegeID)
+      this.commonMasterService.GetOldNOCCourseList_CollegeWise(SeletedCollegeID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.courseDataList = data['Data'];
@@ -164,7 +164,7 @@ export class StaffAttendanceReportComponent implements OnInit {
 
   public isFormValid: boolean = true;
   async SearchData() {
-    debugger;
+    this.IsStaffList = true;
     this.isSubmitted = true;
     this.isFormValid = true;
     if (this.request.StaffType == 'Teaching') {
@@ -182,9 +182,6 @@ export class StaffAttendanceReportComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.StaffAttendanceReportList = data['Data'][0]['data'];
-          if (this.StaffAttendanceReportList.length == 0) {
-            this.toastr.warning('No Record Found !!!.');
-          }
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -212,8 +209,11 @@ export class StaffAttendanceReportComponent implements OnInit {
     this.request.StatusID = 0;
     this.courseDataList = [];
     this.StaffAttendanceReportList = [];
-
+    this.IsStaffList = false;
   }
 
-
+  async ClearStaffAttendenceReport() {
+    this.StaffAttendanceReportList = [];
+    this.IsStaffList = false;
+  }
 }
