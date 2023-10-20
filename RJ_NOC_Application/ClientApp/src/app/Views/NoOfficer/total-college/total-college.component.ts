@@ -233,6 +233,8 @@ export class TotalCollegeComponent implements OnInit {
     this.routers.navigate(['/addcollege' + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
 
+
+  public DTECollegeLevel: any = [];
   async ViewTotalCollegeDataByID(CollegeID: any) {
     try {
       this.loaderService.requestStarted();
@@ -247,6 +249,7 @@ export class TotalCollegeComponent implements OnInit {
           this.collegeListData = data['Data'][0]['data']['Table'][0];
           this.collegeContactDetailsList = data['Data'][0]['data']['Table1'];
           this.collegeNearestGovernmentHospitalsList = data['Data'][0]['data']['Table2'];
+          this.DTECollegeLevel = data['Data'][0]['data']['Table4'];
 
           //console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));

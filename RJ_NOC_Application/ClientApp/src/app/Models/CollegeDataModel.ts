@@ -54,6 +54,17 @@ export class CollegeDataModel {
   public ContactDetailsList: ContactDetailsDataModel[] = [];
   public NearestGovernmentHospitalsList: NearestGovernmentHospitalsDataModel[] = [];
   public CollegeLevelDetails: CollegeLevelDetailsDataModel[] = [];
+
+
+
+  // Medical Group 1
+  public AnnualIntakeStudents: number = null;
+  public SocietyCapitalAssets: number = null;
+  public SocietyIncome: number = null;
+  public TotalProjectCost: number = null;
+  public FundingSources: string = '';
+  public FundingSourcesPath: string = '';
+  public FundingSources_Dis_FileName: string = '';
 }
 export class ContactDetailsDataModel {
   public ContactID: number = 0;
