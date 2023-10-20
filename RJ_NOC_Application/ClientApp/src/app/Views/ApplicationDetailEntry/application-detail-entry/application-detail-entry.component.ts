@@ -436,6 +436,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   this.isCheck30Female = true;
                   return;
                 }
+                if (data['Data'][0]['data'][0]['Medicalexperts'] <= 0) {
+                  this.toastr.error('Add Medical experts in College Management Committee Members.');
+                  this.isCheck30Female = true;
+                  return;
+                }
               }
               else {
                 this.toastr.error(this.ErrorMessage)
@@ -571,8 +576,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
     //Medical Group 1
     if (this.SelectedDepartmentID == 5) {
-      if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0) {
-        // && this.CheckTabsEntryData['ClassWiseStatistics'] > 0
+      if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0)//&& this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0
+      {
         this.IsShowDraftFinalSubmit = false;
       }
     }
