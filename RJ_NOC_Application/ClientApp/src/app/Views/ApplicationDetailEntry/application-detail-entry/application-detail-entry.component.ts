@@ -172,26 +172,6 @@ export class ApplicationDetailEntryComponent implements OnInit {
   async DraftFinalSubmit(IsDraftSubmited: any) {
 
 
-    await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
-      .then((data: any) => {
-
-        this.State = data['State'];
-        this.SuccessMessage = data['SuccessMessage'];
-        this.ErrorMessage = data['ErrorMessage'];
-        console.log(this.State);
-        if (!this.State) {
-          this.toastr.success(this.SuccessMessage)
-
-          setTimeout(() => {
-            this.routers.navigate(['/draftapplicationlist']);
-          }, 500);
-
-        }
-        else {
-          this.toastr.error(this.ErrorMessage)
-        }
-      })
-
     let Femalepre = 0;
     this.isSubmitted = true;
     this.loaderService.requestStarted();
