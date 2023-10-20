@@ -120,7 +120,7 @@ export class DteAddCourseComponent {
   async GetAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, 0)
+      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, 0, this.request.CollegeID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -280,7 +280,7 @@ export class DteAddCourseComponent {
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
-      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, CollegeWiseCourseID)
+      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, CollegeWiseCourseID, this.request.CollegeID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.CollegeWiseCourseID = CollegeWiseCourseID;
