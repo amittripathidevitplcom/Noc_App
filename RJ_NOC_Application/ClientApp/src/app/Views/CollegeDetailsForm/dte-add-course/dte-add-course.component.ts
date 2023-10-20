@@ -72,9 +72,10 @@ export class DteAddCourseComponent {
       if (ddlDepartment) ddlDepartment.focus();
 
       this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-      this.SelectedDepartmentID = 4;//Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-      this.request.CollegeID = 4563;
-      //this.UniversityID = 117;
+      this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+      this.request.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+      ///this.SelectedDepartmentID = 4;//Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+      //this.request.CollegeID = 4563;
       this.UserID = 1;
       ///Edit Process
       await this.GetCollegeBasicDetails();
@@ -103,6 +104,7 @@ export class DteAddCourseComponent {
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.UniversityID = data['Data'][0]['data'][0]['UniversityID'];
+          //alert(this.UniversityID);
         }, error => console.error(error));
     }
     catch (Ex) {
