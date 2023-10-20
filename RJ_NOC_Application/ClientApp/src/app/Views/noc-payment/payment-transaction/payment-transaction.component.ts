@@ -88,6 +88,8 @@ export class PaymentTransactionComponent
         this.transactionStatusRequest.DepartmentID = item.DepartmentID;
         this.transactionStatusRequest.RPPTXNID = item.RPPTXNID;
         this.transactionStatusRequest.CreatedBy = this.sSOLoginDataModel.UserID;
+        this.transactionStatusRequest.SSOID = this.sSOLoginDataModel.SSOID;
+     
         await this.nocpaymentService.RPPTransactionRefund(this.transactionStatusRequest)
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
