@@ -31,6 +31,18 @@
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
 
+
+            <mat-tab *ngIf="SelectedDepartmentID==4">
+              <ng-template mat-tab-label>
+                <i class="fa fa-home icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CourseDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['CourseDetails']==0"></span>
+                <span>Course Details</span>
+              </ng-template>
+              <app-dte-add-course></app-dte-add-course>
+            </mat-tab>
+
+
             <!--OLD NOC Details Only for New-->
 
             <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5">
@@ -67,18 +79,7 @@
             </mat-tab>
 
 
-
-            <mat-tab *ngIf="SelectedDepartmentID==4">
-              <ng-template mat-tab-label>
-                <i class="fa fa-home icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['RoomDetails']==0"></span>
-                <span>Class Room Details</span>
-              </ng-template>
-              <app-dte-add-course></app-dte-add-course>
-            </mat-tab>
-
-            <mat-tab *ngIf="this.SelectedDepartmentID!= 5 && this.SelectedDepartmentID!= 4">
+            <mat-tab *ngIf="this.SelectedDepartmentID!= 5">
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>

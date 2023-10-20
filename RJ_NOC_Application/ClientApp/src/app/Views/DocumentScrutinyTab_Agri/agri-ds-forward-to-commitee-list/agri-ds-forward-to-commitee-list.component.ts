@@ -42,14 +42,6 @@ export class AgriDsForwardToCommiteeListComponent {
       this.CommitteType = EnumCommitteActionType.FTC;
       this.CommitteMemberType = EnumCommitteType.Pre;
     }
-    //else if (this.sSOLoginDataModel.RoleID == 14) {
-    //  this.CommitteType = EnumCommitteActionType.FTPIC; //'Forward To Physical Infrasturcture Commitee';
-    //  this.CommitteMemberType = EnumCommitteType.Post; //'PostVerification';
-    //}
-    //else if (this.sSOLoginDataModel.RoleID == 25) {
-    //  this.CommitteType = EnumCommitteActionType.FTPCPC;//'Forward To Physical Check Policy Commitee';
-    //  this.CommitteMemberType = EnumCommitteType.Final;//'FinalVerification';
-    //}
     await this.GeForwardCommiteeAgriList(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
 
   }

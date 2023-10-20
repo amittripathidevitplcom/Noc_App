@@ -72,9 +72,10 @@ export class DteAddCourseComponent {
       if (ddlDepartment) ddlDepartment.focus();
 
       this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-      this.SelectedDepartmentID = 4;//Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-      this.request.CollegeID = 4563;
-      //this.UniversityID = 117;
+      this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+      this.request.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+      ///this.SelectedDepartmentID = 4;//Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+      //this.request.CollegeID = 4563;
       this.UserID = 1;
       ///Edit Process
       await this.GetCollegeBasicDetails();
@@ -103,6 +104,7 @@ export class DteAddCourseComponent {
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.UniversityID = data['Data'][0]['data'][0]['UniversityID'];
+          //alert(this.UniversityID);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -118,7 +120,7 @@ export class DteAddCourseComponent {
   async GetAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, 0)
+      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, 0, this.request.CollegeID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -183,6 +185,7 @@ export class DteAddCourseComponent {
   };
 
   async GetCourseListByLevelID(CourseLevelID: number) {
+    this.courseDataList = []
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetCourseByStreamID(this.request.StreamID, this.SelectedDepartmentID, CourseLevelID, this.UniversityID)
@@ -278,16 +281,17 @@ export class DteAddCourseComponent {
     this.isSubmitted = false;
     try {
       this.loaderService.requestStarted();
-      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, CollegeWiseCourseID)
+      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, CollegeWiseCourseID, this.request.CollegeID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
+          debugger;
           this.request.CollegeWiseCourseID = CollegeWiseCourseID;
           this.request.DepartmentID = data['Data'][0]['data'][0]["DepartmentID"];
           this.request.CollegeID = data['Data'][0]['data'][0]["CollegeID"];
           this.request.StreamID = data['Data'][0]['data'][0]["StreamMasterID"];
           this.request.Enrollment = data['Data'][0]['data'][0]["NoOfEnrolledStudents"];
           this.request.CourseLevelID = data['Data'][0]['data'][0]["CourseLevelID"];
-          this.GetCourseListByLevelID(this.request.CourseLevelID);
+          await this.GetCourseListByLevelID(this.request.CourseLevelID);
           this.request.CourseID = data['Data'][0]['data'][0]["CourseID"];
           this.request.SuperNumerarySeats = data['Data'][0]['data'][0]["Seats"];
           this.request.UserID = data['Data'][0]['data'][0]["UserID"];
@@ -309,7 +313,7 @@ export class DteAddCourseComponent {
     finally {
       setTimeout(() => {
         this.loaderService.requestEnded();
-      }, 200);
+      }, 2000);
     }
 
   }
@@ -468,6 +472,7 @@ export class DteAddCourseComponent {
     this.request.ActiveStatus = true;
     this.request.DeleteStatus = false;
     this.ShowHideotherCourse = false;
+    this.courseDataList = [];
 
     const btnSave = document.getElementById('btnSave')
     if (btnSave) btnSave.innerHTML = "Save";

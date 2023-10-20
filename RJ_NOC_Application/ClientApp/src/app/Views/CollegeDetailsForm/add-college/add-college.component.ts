@@ -1228,6 +1228,9 @@ export class AddCollegeComponent implements OnInit {
               if (this.request.DepartmentID == 5) {
                 this.routers.navigate(['/totalcollege']);
               }
+              if (this.request.DepartmentID == 4) {
+                this.routers.navigate(['/societydetails']);
+              }
               else {
                 this.routers.navigate(['/addcourses']);
               }

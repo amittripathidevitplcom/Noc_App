@@ -97,6 +97,17 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetApplyNOCRevertReport(UserID: number, ActionName: string, RoleID: number, DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetApplyNOCRevertReport/" + UserID + "/" + ActionName + "/" + RoleID + "/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async GeForwardCommiteeAHList(UserID: number, ActionName: string, RoleID: number, DepartmentID: number) {
     const httpOptions = {
