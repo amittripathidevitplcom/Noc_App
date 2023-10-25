@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel, GenerateNOC_DataModel } from '../../Models/ApplyNOCApplicationDataModel';
+import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel, GenerateNOC_DataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../Models/DocumentScrutinyDataModel';
 
 import { GlobalConstants } from '../../Common/GlobalConstants';
@@ -217,6 +217,16 @@ export class ApplyNOCApplicationService {
     };
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + '/SubmitRevertApplication/', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetParameterFeeMaster(request: ParameterFeeMaster) {
+    debugger;
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/ParameterFeeMaster/', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

@@ -158,6 +158,7 @@ import {PaymentTransactionComponent } from './Views/noc-payment/payment-transact
 import { AgriPSNocApplicationListComponent } from './Views/DocumentScrutinyTab_Agri/agri-psnoc-application-list/agri-psnoc-application-list.component';
 import { DocumentScrutinyRevertedReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-reverted-report/document-scrutiny-reverted-report.component';
 import { DteAddCourseComponent } from './Views/CollegeDetailsForm/dte-add-course/dte-add-course.component';
+import { UpdateNocFeesComponent } from './Views/Admin/update-noc-fees/update-noc-fees.component';
 
 const routes: Routes = [
   {
@@ -696,6 +697,10 @@ const routes: Routes = [
       },
       {
         path: 'paymenttransactionlist', component: PaymentTransactionComponent,
+
+      }
+      , {
+        path: 'updatenocfees', component: UpdateNocFeesComponent,
 
       }
 

@@ -278,6 +278,7 @@ import { PaymentTransactionComponent } from './Views/noc-payment/payment-transac
 import { AgriPSNocApplicationListComponent } from './Views/DocumentScrutinyTab_Agri/agri-psnoc-application-list/agri-psnoc-application-list.component';
 import { DocumentScrutinyRevertedReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-reverted-report/document-scrutiny-reverted-report.component';
 import { DteAddCourseComponent } from './Views/CollegeDetailsForm/dte-add-course/dte-add-course.component';
+import { UpdateNocFeesComponent } from './Views/Admin/update-noc-fees/update-noc-fees.component';
 
 
 
@@ -548,6 +549,7 @@ import { DteAddCourseComponent } from './Views/CollegeDetailsForm/dte-add-course
     AgriPSNocApplicationListComponent,
     DocumentScrutinyRevertedReportComponent,
     DteAddCourseComponent,
+    UpdateNocFeesComponent,
   ],
   imports: [
     CommonModule,
