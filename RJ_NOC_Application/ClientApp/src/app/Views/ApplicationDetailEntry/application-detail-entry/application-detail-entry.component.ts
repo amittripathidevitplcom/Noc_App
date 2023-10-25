@@ -165,9 +165,33 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
   }
 
+
+
+
   isCheck30Female: boolean = false;
   async DraftFinalSubmit(IsDraftSubmited: any) {
-    
+
+
+    await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+      .then((data: any) => {
+
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        console.log(this.State);
+        if (!this.State) {
+          this.toastr.success(this.SuccessMessage)
+
+          setTimeout(() => {
+            this.routers.navigate(['/draftapplicationlist']);
+          }, 500);
+
+        }
+        else {
+          this.toastr.error(this.ErrorMessage)
+        }
+      })
+
     let Femalepre = 0;
     this.isSubmitted = true;
     this.loaderService.requestStarted();
@@ -412,6 +436,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   this.isCheck30Female = true;
                   return;
                 }
+                if (data['Data'][0]['data'][0]['Medicalexperts'] <= 0) {
+                  this.toastr.error('Add Medical experts in College Management Committee Members.');
+                  this.isCheck30Female = true;
+                  return;
+                }
               }
               else {
                 this.toastr.error(this.ErrorMessage)
@@ -442,6 +471,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
       }
 
       else {
+
         if (this.isCheck30Female == false) {
           await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
             .then((data: any) => {
@@ -546,16 +576,20 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
     //Medical Group 1
     if (this.SelectedDepartmentID == 5) {
-      if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0) {
-        // && this.CheckTabsEntryData['ClassWiseStatistics'] > 0
+      if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0)//&& this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HospitalDetails'] > 0
+      {
         this.IsShowDraftFinalSubmit = false;
       }
     }
+
+
+
+    //this.CheckTabsEntryData['StaffDetails'] > 0 &&
     if (this.SelectedDepartmentID == 4) {
       if (this.CollegeType_IsExisting == true) {
         if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
           this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 &&
-          this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0
+           this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0
           && this.CheckTabsEntryData['HostelDetails'] > 0 && this.CheckTabsEntryData['CourseDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }

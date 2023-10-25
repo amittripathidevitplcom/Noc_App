@@ -239,7 +239,7 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
       if (this.CollegeType_IsExisting == true) {
         if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
           this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 &&
-          this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0
+            this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0
           && this.CheckTabsEntryData['HostelDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
@@ -252,6 +252,25 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
         }
       }
     }
+
+
+    //if (this.SelectedDepartmentID == 4) {
+    //  if (this.CollegeType_IsExisting == true) {
+    //    if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
+    //      this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 &&
+    //      this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0
+    //      && this.CheckTabsEntryData['HostelDetails'] > 0) {
+    //      this.IsShowDraftFinalSubmit = false;
+    //    }
+    //  }
+    //  else {
+    //    if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
+    //      this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0
+    //      && this.CheckTabsEntryData['HostelDetails'] > 0) {
+    //      this.IsShowDraftFinalSubmit = false;
+    //    }
+    //  }
+    //}
 
 
 

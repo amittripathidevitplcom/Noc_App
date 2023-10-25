@@ -352,12 +352,22 @@ export class OldNOCDetailsComponent implements OnInit {
         })
       }
     }
+
+
+    if (this.SelectedDepartmentID != 4) {
+      this.oldNOCForm.get('ddlSubject')?.setValidators([DropdownValidators]);
+    }
+    else {
+      this.oldNOCForm.get('ddlSubject')?.clearValidators();
+    }
+    this.oldNOCForm.get('ddlSubject')?.updateValueAndValidity();
+
     this.isSubmitted = true;
     if (this.oldNOCForm.invalid) {
       this.IsFormValid = false;
     }
 
-    if (this.SubjectDataModel.length == 0 && this.SelectedDepartmentID != 2) {
+    if (this.SubjectDataModel.length == 0 && (this.SelectedDepartmentID != 2 && this.SelectedDepartmentID != 4)) {
       this.IsFormValid = false;
       this.SubjectRequried = true;
     }

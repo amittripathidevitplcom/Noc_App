@@ -80,6 +80,7 @@ export class AddCollegeComponent implements OnInit {
   public ProfileLogoValidationMessage: string = '';
   public AISHECodeValidationMessage: string = '';
   public NAACAccreditedCertificateValidationMessage: string = '';
+  public FundingSourcesValidationMessage: string = '';
   public NACCValidityDateValidationMessage: string = '';
   public HospitalDocumentValidationMessage: string = '';
   public QueryStringCollageID: number = 0;
@@ -402,6 +403,12 @@ export class AddCollegeComponent implements OnInit {
         this.request.NAACAccreditedCertificate = name;
         this.request.NAACAccreditedCertificatePath = path;
         this.request.NAACAccreditedCertificate_Dis_FileName = dis_Name;
+      }
+      else if (type == 'FundingSources') {
+        this.FundingSourcesValidationMessage = msg;
+        this.request.FundingSources = name;
+        this.request.FundingSourcesPath = path;
+        this.request.FundingSources_Dis_FileName = dis_Name;
       }
     }
     catch (Ex) {
@@ -1117,6 +1124,16 @@ export class AddCollegeComponent implements OnInit {
 
     console.log(this.CollegeDetailsForm);
     let isValid = true;
+
+    if (this.request.DepartmentID == 5) {
+      if (this.request.AnnualIntakeStudents == null || this.request.AnnualIntakeStudents == 0 || this.request.AnnualIntakeStudents == undefined || this.request.AnnualIntakeStudents.toString() == ''
+        || this.request.SocietyCapitalAssets == null || this.request.SocietyCapitalAssets == 0 || this.request.SocietyCapitalAssets == undefined || this.request.SocietyCapitalAssets.toString() == ''
+        || this.request.SocietyIncome == null || this.request.SocietyIncome == 0 || this.request.SocietyIncome == undefined || this.request.SocietyIncome.toString() == ''
+        || this.request.TotalProjectCost == null || this.request.TotalProjectCost == 0 || this.request.TotalProjectCost == undefined || this.request.TotalProjectCost.toString() == ''
+        || this.request.FundingSources == null || this.request.FundingSources == undefined || this.request.FundingSources == '') {
+        isValid = false;
+      }
+    }
     if (this.CollegeDetailsForm.invalid) {
       isValid = false;
     }

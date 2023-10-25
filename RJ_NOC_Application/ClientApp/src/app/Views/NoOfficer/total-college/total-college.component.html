@@ -162,6 +162,10 @@
                     <label>Department :</label>
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.DepartmentName_English}}" />
                   </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID ==5">
+                    <label>Type of College :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.TypeofCollege}}" />
+                  </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>College Status :</label>
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeStatus}}" />
@@ -183,9 +187,23 @@
                     <label>College Type :</label>
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeType}}" />
                   </div>
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==4">
+                    <label>Management Type :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.ManagementTypeName}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID!=4">
                     <label>College Level :</label>
                     <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeLevel}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==4">
+                    <label>College Level :</label>
+                      <div class="clearfix"></div>
+                      <div class="form-control disabled">
+                        <span *ngFor="let item of DTECollegeLevel let idx=index">
+                          {{idx==0?'':', '}}{{item.LevelName}}
+                        </span>
+                      </div>
+                  
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>College Code :</label>
@@ -499,64 +517,98 @@
             </div>
           </div>
         </div>
-        <!--<div class="row" *ngIf="collegeNearestGovernmentHospitalsList.length>0">
+        <div class="row" *ngIf="collegeListData.DepartmentID==5">
           <div class="col-md-12">
             <div class="card mb-0">
               <div class="card-header">
-                <b><i class="bi bi-table"></i> 10 Government hospitals nearest to the institution </b>
+                <b><i class="bi bi-table"></i> Other Information </b>
               </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="table-responsive">
-                  <table class="table table-bordered table-hover table-striped">
-                    <thead>
-                      <tr>
-                        <th>Sr. No.</th>
-                        <th>Hospital Name</th>
-                        <th>Hospital RegNo.</th>
-                        <th>Distance From Institute(KM)</th>
-                        <th>Area</th>-->
-        <!--<th>Address Line1</th>
-        <th>Address Line2</th>
-        <th>Area</th>
-        <th>Division</th>
-        <th>District</th>
-        <th>Tehsil</th>
-        <th>Panchyat Samiti</th>
-        <th>City/Town/Village</th>
-        <th>Pincode</th>-->
-        <!--<th>Address</th>
-            <th>Hospital Document</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of collegeNearestGovernmentHospitalsList; let indexOfelement=index;">
-            <td> {{indexOfelement+1}}</td>
-            <td>{{row.HospitalName}}</td>
-            <td>{{row.HospitalRegNo}}</td>
-            <td>{{row.HospitalDistance}}</td>
-            <td>{{row.RuralUrbanArea}}</td>-->
-        <!--<td>{{row.AddressLine1}}</td>
-        <td>{{row.AddressLine2}}</td>
-        <td>{{row.RuralUrbanArea}}</td>
-        <td>{{row.Division_English}}</td>
-        <td>{{row.District_Eng}}</td>
-        <td>{{row.TehsilName}}</td>
-        <td>{{row.PanchyatSamitiName}}</td>
-        <td>{{row.CityTownVillage}}</td>
-        <td>{{row.Pincode}}</td>-->
-        <!--<td>
-                          {{row.AddressLine1}}, {{row.AddressLine2}}, {{row.CityTownVillage}}, {{row.RuralUrbanArea=='Rural'?row.PanchyatSamitiName:row.CityName}}, {{row.TehsilName}},
-                          {{row.District_Eng}},  {{row.Division_English}},   {{row.Pincode}}
-                        </td>
-                        <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocumentPath}}" title="View Hospital Document"><i class="fa fa-eye"></i></a></td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Proposed annual intake of students :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AnnualIntakeStudents}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Society Capital Assets :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.SocietyCapitalAssets}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Society Income :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.SocietyIncome}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Total Project Cost :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.TotalProjectCost}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Funding Sources :</label><br />
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="collegeListData.FundingSourcesPath.includes('.pdf')" data-fancybox="gallery" href="{{collegeListData.FundingSourcesPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>-->
+        </div>
+        <!--<div class="row" *ngIf="collegeNearestGovernmentHospitalsList.length>0">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> 10 Government hospitals nearest to the institution </b>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Hospital Name</th>
+                  <th>Hospital RegNo.</th>
+                  <th>Distance From Institute(KM)</th>
+                  <th>Area</th>-->
+        <!--<th>Address Line1</th>
+  <th>Address Line2</th>
+  <th>Area</th>
+  <th>Division</th>
+  <th>District</th>
+  <th>Tehsil</th>
+  <th>Panchyat Samiti</th>
+  <th>City/Town/Village</th>
+  <th>Pincode</th>-->
+        <!--<th>Address</th>
+      <th>Hospital Document</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of collegeNearestGovernmentHospitalsList; let indexOfelement=index;">
+      <td> {{indexOfelement+1}}</td>
+      <td>{{row.HospitalName}}</td>
+      <td>{{row.HospitalRegNo}}</td>
+      <td>{{row.HospitalDistance}}</td>
+      <td>{{row.RuralUrbanArea}}</td>-->
+        <!--<td>{{row.AddressLine1}}</td>
+  <td>{{row.AddressLine2}}</td>
+  <td>{{row.RuralUrbanArea}}</td>
+  <td>{{row.Division_English}}</td>
+  <td>{{row.District_Eng}}</td>
+  <td>{{row.TehsilName}}</td>
+  <td>{{row.PanchyatSamitiName}}</td>
+  <td>{{row.CityTownVillage}}</td>
+  <td>{{row.Pincode}}</td>-->
+        <!--<td>
+                    {{row.AddressLine1}}, {{row.AddressLine2}}, {{row.CityTownVillage}}, {{row.RuralUrbanArea=='Rural'?row.PanchyatSamitiName:row.CityName}}, {{row.TehsilName}},
+                    {{row.District_Eng}},  {{row.Division_English}},   {{row.Pincode}}
+                  </td>
+                  <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocumentPath}}" title="View Hospital Document"><i class="fa fa-eye"></i></a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
         <div class="modal-footer">
           <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
         </div>
