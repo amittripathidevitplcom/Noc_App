@@ -5,7 +5,7 @@ export class ApplyNOCApplicationDataModel {
   public CollegeID: number = 0;
   public DepartmentName: string = '';
   public CollegeName: string = '';
-  }
+}
 export class CommiteeInspection_RNCCheckList_DataModel {
   public RNCCheckListID: number = 0;
   public ApplyNOCID: number = 0;
@@ -30,4 +30,15 @@ export class GenerateNOC_DataModel {
   public ApplyNocParameterID: number = 0;
   public NOCIssuedRemark: string = '';
 
+}
+
+export class ParameterFeeMaster {
+  public ParamterID: number = 0;
+  public DepartmentID: number = 0;
+  public ApplyNocFeeID: number = 0;
+  public OpenFromDate: string = '';
+  public OpenToDate: string = '';
+  public FeeAmount: number = 0;
+  public ActionName: string = '';
+  public ApplyNocName: string = '';
 }

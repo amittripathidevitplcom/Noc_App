@@ -1,0 +1,113 @@
+<app-loader></app-loader>
+<div class="card tabCard1 mb-0">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <b><i class="bi bi-table"></i>&nbsp;NOC Fee list</b>
+
+  </div>
+  <div class="card-body">
+    <div class="clearfix"></div>
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <b>NOC Fee list</b>
+        <a href="/dashboard" class="btn btn-sm btn-primary">Back to Dashboard</a>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Department</th>
+                    <th>Apply Noc Name</th>
+                    <th *ngIf="this.sSOLoginDataModel.DepartmentID==3">College Level</th>
+                    <th>Fee Amount</th>
+                    <th>Open From Date</th>
+                    <th>Open To Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of ApplyNocFeeDetails let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.DepartmentName}}</td>
+                    <td>{{item.ApplyNocName}}</td>
+                    <td *ngIf="this.sSOLoginDataModel.DepartmentID==3">{{item.CollegeLevelName}}</td>
+                    <td>{{item.FeeAmount}}</td>
+                    <td>{{item.OpenFromDate | date:'dd-MM-yyyy'}}</td>
+                    <td>{{item.OpenToDate | date:'dd-MM-yyyy'}}</td>
+                    <td>
+                      <button type="button" class="btn btn-sm btn-primary" title="View and Update" (click)="ViewandUpdateModel(mymodalviewandUpdate,item)"><i class="fa fa-edit"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="8" *ngIf="ApplyNocFeeDetails.length<=0" style="color:red"> No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--Modal Start For Assign Commettiee-->
+  <ng-template #mymodalviewandUpdate let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Fee Details</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+
+        <form class="form-horizontal" [formGroup]="ApplyNOCFee">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <b><i class="fa fa-plus"></i>&nbsp;Fee Details <span style="color:red;">*</span></b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtCMNameOfPerson" class="form-label">Apply NOC Name <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtApplyNOCName" [disabled]="IsDisabled" name="txtApplyNOCName" [(ngModel)]="request.ApplyNocName" formControlName="txtApplyNOCName">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtFeeAmount" class="form-label">Fee Amount <span style="color:red;">*</span></label>
+                  <input type="number" class="form-control" id="txtFeeAmount" name="txtFeeAmount" [(ngModel)]="request.FeeAmount" formControlName="txtFeeAmount">
+                  <div *ngIf="isSubmitted&&form_ApplyNOCFee.txtFeeAmount.errors" class="text-danger">
+                    <p *ngIf="form_ApplyNOCFee.txtFeeAmount.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtOpenFromDate" class="form-label">Open From Date <span style="color:red;">*</span></label>
+                  <input type="date" class="form-control" id="txtOpenFromDate" name="txtOpenFromDate" [(ngModel)]="request.OpenFromDate" formControlName="txtOpenFromDate">
+                  <div *ngIf="isSubmitted&&form_ApplyNOCFee.txtOpenFromDate.errors" class="text-danger">
+                    <p *ngIf="form_ApplyNOCFee.txtOpenFromDate.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtOpenToDate" class="form-label">Open To Date <span style="color:red;">*</span></label>
+                  <input type="date" class="form-control" id="txtSSOID" name="txtOpenToDate" [(ngModel)]="request.OpenToDate" formControlName="txtOpenToDate">
+                  <div *ngIf="isSubmitted&&form_ApplyNOCFee.txtOpenToDate.errors" class="text-danger">
+                    <p *ngIf="form_ApplyNOCFee.txtOpenToDate.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row  m-2">
+        <div class="col-md-12">
+          <button type="button" class="btn btn-primary" (click)="UpdateFeeData()" title="Submit">Submit</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <!--END MODAL-->
+</div>
