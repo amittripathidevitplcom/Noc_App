@@ -1108,11 +1108,14 @@ export class AddCollegeComponent implements OnInit {
 
     if (this.request.DepartmentID == 5) {
       this.CollegeDetailsForm.get('ddlTypeofCollege')?.setValidators([Validators.required]);
+      this.CollegeDetailsForm.get('CollegeNAACAccredited')?.clearValidators();
     }
     else {
       this.CollegeDetailsForm.get('ddlTypeofCollege')?.clearValidators();
+      this.CollegeDetailsForm.get('CollegeNAACAccredited')?.setValidators([Validators.required]);
     }
     this.CollegeDetailsForm.get('ddlTypeofCollege')?.updateValueAndValidity();
+    this.CollegeDetailsForm.get('CollegeNAACAccredited')?.updateValueAndValidity();
 
 
 
@@ -1226,15 +1229,15 @@ export class AddCollegeComponent implements OnInit {
             this.toastr.success(this.SuccessMessage)
             setTimeout(() => {
               if (this.request.DepartmentID == 5) {
-                this.routers.navigate(['/totalcollege']);
+                this.routers.navigate(['/societydetails']);
               }
-              if (this.request.DepartmentID == 4) {
+              else if (this.request.DepartmentID == 4) {
                 this.routers.navigate(['/societydetails']);
               }
               else {
-                this.routers.navigate(['/addcourses']);
+                this.routers.navigate(['/societydetails']);
               }
-            }, 500);
+            }, 200);
 
           }
           else {

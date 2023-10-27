@@ -292,7 +292,10 @@
           <div class="card-footer text-end">
             <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-save"></i> Save</button>
             <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
-            <button type="submit" class="btn btn-primary" id="btnProceedDraft" name="btnSave" (click)="Proceed_Draft()"> Proceed To Draft</button>
+            <button type="submit" class="btn btn-primary" id="btnProceedDraft" name="btnSave"
+                    (click)="Proceed_Draft()">
+              {{ProceedToNext}}
+            </button>
           </div>
 
         </div>

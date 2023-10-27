@@ -154,7 +154,7 @@ export class HospitalDetailComponent implements OnInit {
         txtAffiliationPsychiatricBeds: ['', [Validators.required, Validators.min(50)]],
         rbParentHospitalRelatedToOtherID: [''],
         txtInstitutionName: ['', Validators.required],
-        txtOrganizationPhone: ['', [Validators.required,Validators.pattern("^[6-9][0-9]{9}$")]], //, Validators.pattern(this.LandLineRegex)
+        txtOrganizationPhone: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]], //, Validators.pattern(this.LandLineRegex)
 
         txtCardioThoracicTotalBeds: ['', [Validators.required, Validators.min(50)]],
         txtCardioThoracicCCUBeds: [''],
@@ -458,18 +458,18 @@ export class HospitalDetailComponent implements OnInit {
       this.IsParentHospitalRelatedToOther = isParentRelatedToOther;
 
       //if (isParentRelatedToOther) {
-        this.request.InstitutionName = null;
-        this.request.OrganizationPhone = '';
-        this.request.AddressLine1_Other = '';
-        this.request.AddressLine2_Other = '';
-        this.request.RuralUrban_Other = null;
-        this.request.DivisionID_Other = 0;
-        this.request.DistrictID_Other = 0;
-        this.request.TehsilID_Other = 0;
-        this.request.PanchayatSamitiID_Other = 0;
-        this.request.CityTownVillage_Other = '';
-        this.request.Pincode_Other = null;
-        this.request.CityID_Other = 0;
+      this.request.InstitutionName = null;
+      this.request.OrganizationPhone = '';
+      this.request.AddressLine1_Other = '';
+      this.request.AddressLine2_Other = '';
+      this.request.RuralUrban_Other = null;
+      this.request.DivisionID_Other = 0;
+      this.request.DistrictID_Other = 0;
+      this.request.TehsilID_Other = 0;
+      this.request.PanchayatSamitiID_Other = 0;
+      this.request.CityTownVillage_Other = '';
+      this.request.Pincode_Other = null;
+      this.request.CityID_Other = 0;
 
       //}
       //else {
@@ -1030,6 +1030,20 @@ export class HospitalDetailComponent implements OnInit {
       this.request.CreatedBy = 1;
       this.request.ModifyBy = 1;
     }
+
+    if (this.QueryStringDepartmentID == 5) {
+      if ((Number(this.request.MedicalBeds) + Number(this.request.SurgicalBeds) + Number(this.request.ObstAndGynaecologyBeds) + Number(this.request.PediatricsBeds)
+        + Number(this.request.OrthoBeds) +
+        Number(this.request.OccupancyPercentegeBeds) +
+        Number(this.request.AffiliationPsychiatricBeds)) < 50) {
+        this.toastr.error("Minimum 50 beds required.!");
+        return;
+      }
+    }
+
+
+
+
     // save data
     try {
       this.loaderService.requestStarted();
@@ -1275,6 +1289,18 @@ export class HospitalDetailComponent implements OnInit {
     // parenthospitalid
     this.requestNot.ParentHospitalID = this.request.ParentHospitalID;
     this.requestNot.HospitalStatus = this.request.HospitalStatus;
+
+
+    if (this.QueryStringDepartmentID == 5) {
+      if ((Number(this.requestNot.MedicalBeds) + Number(this.requestNot.SurgicalBeds) + Number(this.requestNot.ObstAndGynaecologyBeds) + Number(this.requestNot.PediatricsBeds)
+        + Number(this.requestNot.OrthoBeds) +
+        Number(this.requestNot.OccupancyPercentegeBeds) +
+        Number(this.requestNot.AffiliationPsychiatricBeds)) < 50) {
+        this.toastr.error("Minimum 50 beds required.!");
+        return;
+      }
+    }
+
     // save data
     try {
       this.loaderService.requestStarted();
@@ -1969,7 +1995,7 @@ export class HospitalDetailComponent implements OnInit {
 
       if (this.request.ParentHospitalRelatedToOtherID == 1) {
         this.HospitalParentForm.get('txtInstitutionName')?.setValidators([Validators.required]);
-        this.HospitalParentForm.get('txtOrganizationPhone')?.setValidators([Validators.required,Validators.pattern("^[6-9][0-9]{9}$")]);
+        this.HospitalParentForm.get('txtOrganizationPhone')?.setValidators([Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]);
         this.HospitalParentForm.get('txtAddressLine1_Other')?.setValidators([Validators.required]);
         this.HospitalParentForm.get('txtCityTownVillage_Other')?.setValidators([Validators.required]);
         this.HospitalParentForm.get('txtPincode_Other')?.setValidators([Validators.required, Validators.pattern(this.PinNoRegex)]);

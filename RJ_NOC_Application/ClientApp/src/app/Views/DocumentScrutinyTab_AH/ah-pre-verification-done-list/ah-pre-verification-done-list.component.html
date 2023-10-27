@@ -115,7 +115,7 @@
           </div>
           <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-              <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
+              <label for="ddlAction" class="form-label">Action On Application <span style="color:red;">*</span></label>
               <select class="form-select" [disabled]="IsPreDisabled" #SeletedRole (change)="OnChangeCurrentAction(SeletedRole.value)" [(ngModel)]="ActionID">
                 <option value="0" disabled selected>--Select Action--</option>
                 <option value="1">Pre Verification Approved</option>

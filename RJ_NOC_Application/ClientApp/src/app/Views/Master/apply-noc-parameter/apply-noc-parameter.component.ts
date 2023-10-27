@@ -14,6 +14,7 @@ import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { Console } from 'console';
 import internal from 'stream';
 import { EnumDepartment } from '../../../Common/enum-noc';
+import { DraftApplicationListService } from '../../../Services/DraftApplicationList/draft-application-list.service';
 
 
 
@@ -30,6 +31,8 @@ export class ApplyNocParameterComponent implements OnInit {
   public isLoading: boolean = false;
   public isSubmitted: boolean = false;
   public isFormValid: boolean = true;
+  public draftApplicatoinListData: any = [];
+  public searchText: string = '';
 
   // model popup
   closeResult: string | undefined;
@@ -160,7 +163,12 @@ export class ApplyNocParameterComponent implements OnInit {
   public IsTermsChecked: boolean = false;
   public CollegeLableName: string = "College";
 
-  constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
+  public IsShowCollegeList: boolean = true;
+  public IsShowApplyNocForm: boolean = false;
+  public SelectedCollegeID: number = 0;
+  public SelectedDepartmentID: number = 0;
+
+  constructor(private draftApplicationListService: DraftApplicationListService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
     private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal, private cdref: ChangeDetectorRef) {
 
   }
@@ -168,7 +176,7 @@ export class ApplyNocParameterComponent implements OnInit {
   async ngOnInit() {
     this.ApplyNocParameterForm = this.formBuilder.group({
       rbApplicationType: ['', Validators.required],
-      ddlCollege: ['', [DropdownValidators]],
+      ddlCollege: [{ value: '', disabled: true }, [DropdownValidators]],
       /*cbNocFor: ['', Validators.required],*/
       cbCourse_TNOCExtension: [''],
       cbSubject_TNOCExtension: [''],
@@ -178,12 +186,54 @@ export class ApplyNocParameterComponent implements OnInit {
     // load
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
+    await this.GetApplicationList();
     this.loaderService.requestEnded();
 
   }
 
   get form() {
     return this.ApplyNocParameterForm.controls;
+  }
+  async ClickApplyNOC(DepartmentID: number, collegeID: number) {
+    this.SelectedCollegeID = collegeID;
+    this.SelectedDepartmentID = DepartmentID;
+    this.IsShowApplyNocForm = true;
+    this.IsShowCollegeList = false;
+    this.request.CollegeID = collegeID;
+    await this.College_ddlChange(null);
+  }
+  async BackToCollegeList() {
+    this.IsShowCollegeList = true;
+    this.IsShowApplyNocForm = false;
+    this.SelectedCollegeID = 0;
+    this.SelectedDepartmentID = 0;
+    this.request.CollegeID = 0;
+    await this.College_ddlChange(null);
+  }
+
+  async GetApplicationList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.draftApplicatoinListData = data['Data'][0]['data'];
+
+
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   async GetCollegeList() {

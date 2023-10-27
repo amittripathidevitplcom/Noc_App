@@ -86,13 +86,13 @@
             <p *ngIf="!form.ddlLandconvertedId.errors.DropdownValidators" class="mb-0"> This field is required .!</p>
           </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 " *ngIf="SelectedDepartmentID==5">
+        <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 " *ngIf="SelectedDepartmentID==5">
           <label>
             The name of the person from whom the land was purchased or allotted <span style="color:red;">*</span>
           </label>
           <input type="text" id="txtNameOfLandPurchasedAllotted" class="form-control" [(ngModel)]="request.NameOfLandPurchasedAllotted" formControlName="txtNameOfLandPurchasedAllotted" (keypress)="alphaOnly($event)" />
           <p *ngIf="isSubmitted&&request.NameOfLandPurchasedAllotted==''" class="text-danger"> This field is required .!</p>
-        </div>
+        </div>-->
 
         <div class="col-lg-12 col-md-12 col-sm-12 col-12 ">
           <label><strong>Detail of the Land (With Khasra No.): * </strong> </label>
@@ -257,7 +257,7 @@
           <p class="text-primay" *ngIf="item.DocumentName =='Land Document'">( Upload first and last page of land registered document )</p>
           <a class="text-primay" *ngIf="item.SampleDocument !=''&&item.DocumentName=='Land Title Certificate'" target="_blank" href="{{item.SampleDocument}}">(Download Annexure-13)</a>
           <a class="text-primay" *ngIf="item.SampleDocument !='' &&item.DocumentName=='Affidavit document for conversion'" target="_blank" href="{{item.SampleDocument}}">(Download Annexure-7)</a>
-          <div *ngIf="isSubmitted&&item.FileName == ''" class="text-danger">
+          <div *ngIf="isSubmitted&&item.IsMandatory==true&&item.FileName == ''" class="text-danger">
             <p>This field is required .!</p>
           </div>
 
@@ -283,7 +283,7 @@
           <th>Land Area</th>
           <th *ngIf="SelectedDepartmentID==5">Land Type</th>
           <th *ngIf="SelectedDepartmentID==5">Lease Date</th>
-          <th *ngIf="SelectedDepartmentID==5">Name Of Person Land Purchased or Allotted </th>
+          <!--<th *ngIf="SelectedDepartmentID==5">Name Of Person Land Purchased or Allotted </th>-->
           <th *ngIf="SelectedDepartmentID==5">Land Unit</th>
           <th>Action</th>
         </tr>
@@ -300,7 +300,7 @@
 
           <td *ngIf="SelectedDepartmentID==5">{{item.MedicalGroupOneLandType}}</td>
           <td *ngIf="SelectedDepartmentID==5">{{item.MedicalGroupOneLandType=='Lease for 99 years'?item.LeaseDate:'NA'}}</td>
-          <td *ngIf="SelectedDepartmentID==5">{{item.NameOfLandPurchasedAllotted}}</td>
+          <!--<td *ngIf="SelectedDepartmentID==5">{{item.NameOfLandPurchasedAllotted}}</td>-->
           <td *ngIf="SelectedDepartmentID==5">{{item.MedicalGroupOneLandUnit}}</td>
           <!--<td>{{item.BuildingHostelQuartersRoadArea}}</td>-->
           <td>
