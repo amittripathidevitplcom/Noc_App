@@ -53,6 +53,7 @@ export class PreviewCollegeComponent implements OnInit {
     // get college list
     await this.ViewTotalCollegeDataByID(this.SelectedCollageID);
   }
+  public DTECollegeLevel: any = [];
   async ViewTotalCollegeDataByID(CollegeID: any) {
     try {
       this.loaderService.requestStarted();
@@ -68,6 +69,7 @@ export class PreviewCollegeComponent implements OnInit {
           this.collegeContactDetailsList = data['Data'][0]['data']['Table1'];
           this.collegeNearestGovernmentHospitalsList = data['Data'][0]['data']['Table2'];
           this.CollegeGeoTaggingList = data['Data'][0]['data']['Table3'];
+          this.DTECollegeLevel = data['Data'][0]['data']['Table4'];
           if (this.CollegeGeoTaggingList.Image1 == '') {
 
           }

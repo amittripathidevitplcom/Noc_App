@@ -159,7 +159,8 @@ import { AgriPSNocApplicationListComponent } from './Views/DocumentScrutinyTab_A
 import { DocumentScrutinyRevertedReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-reverted-report/document-scrutiny-reverted-report.component';
 import { DteAddCourseComponent } from './Views/CollegeDetailsForm/dte-add-course/dte-add-course.component';
 import { UpdateNocFeesComponent } from './Views/Admin/update-noc-fees/update-noc-fees.component';
-
+import { PreviewLOIapplicationdetailEntryComponent } from './Views/PreviewTabs/preview-loiapplicationdetail-entry/preview-loiapplicationdetail-entry.component';
+import { LOIApplyEntryComponent } from './Views/NoOfficer/loiapply-entry/loiapply-entry.component';
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -702,7 +703,19 @@ const routes: Routes = [
       , {
         path: 'updatenocfees', component: UpdateNocFeesComponent,
 
-      }
+      },
+      {
+        path: 'LOIapplicationsummary/:DepartmentID/:CollegeID', component: PreviewLOIapplicationdetailEntryComponent
+      },
+      {
+        path: 'LOIapplyentry/:DepartmentID/:CollegeID', component: LOIApplyEntryComponent,
+        pathMatch: 'full'
+        // canActivate: [NeverActivate]
+        //canActivate: [RedirectGuard],
+        //data: {
+        //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
+        //}
+      },
 
     ]
     // ,canActivate: [SkipLocationChangeGuard],

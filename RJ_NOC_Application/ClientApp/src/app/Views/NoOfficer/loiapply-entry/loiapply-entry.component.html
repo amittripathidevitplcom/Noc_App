@@ -1,0 +1,91 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>LOI Apply Entry (<span style="color:forestgreen">{{CollegeName}})</span> </h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+
+            <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="DraftFinalSubmit(1)">
+              {{DraftbuttonName}}
+            </button>
+            <!--<button *ngIf="QueryStringStatus=='R'" [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="ResubmitApplication()">
+             ReSubmit Application
+            </button>-->
+          </li>
+          <li class="breadcrumb-item"><a href="#">Application</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Application Details</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+
+          <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
+
+
+            <!--Land Information-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LandInformation']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['LandInformation']==0"></span>
+                <span>Land Information</span>
+              </ng-template>
+              <app-land-details></app-land-details>
+            </mat-tab>
+
+            <!--Building Documents-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-building-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['BuildingDocuments']==0"></span>
+                <span>Building Documents</span>
+              </ng-template>
+              <app-building-details></app-building-details>
+            </mat-tab>
+
+            <!--Required Document-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-file-text-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RequiredDocument']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['RequiredDocument']==0"></span>
+                <span>Required Document</span>
+              </ng-template>
+              <app-required-document></app-required-document>
+            </mat-tab>
+
+
+            <!--Hospital Details-->
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-hospital-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HospitalDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['HospitalDetails']==0"></span>
+                <span>Hospital Details</span>
+              </ng-template>
+              <app-hospital-detail></app-hospital-detail>
+            </mat-tab>
+
+
+          </mat-tab-group>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
+          <button *ngIf="this.selectedIndex != 0" class="btn btn-primary" type="button" (click)="PreviousStep()"><< Previous</button>
+          <button *ngIf="this.selectedIndex != maxNumberOfTabs" class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left:20px">Next >></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
