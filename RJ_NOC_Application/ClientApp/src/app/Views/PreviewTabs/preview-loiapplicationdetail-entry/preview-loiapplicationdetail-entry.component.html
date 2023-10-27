@@ -1,0 +1,83 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>LOI Application Summary</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Application</a></li>
+          <li class="breadcrumb-item active" aria-current="page">LOI Application Summary</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents" id="LOIApplicationSummary">
+  <div class="row">
+    <div class="col-md-12">
+      <mat-stepper orientation="vertical">
+        <mat-step state="chat">
+          <ng-template matStepLabel>Legal Entity </ng-template>
+          <ng-template matStepContent>
+            <app-preview-legal-entity></app-preview-legal-entity>
+            <button mat-button matStepperNext>Next</button>
+          </ng-template>
+        </mat-step>
+        <mat-step state="chat">
+          <ng-template matStepLabel>College Detail</ng-template>
+          <ng-template matStepContent>
+            <app-preview-college></app-preview-college>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </ng-template>
+        </mat-step>
+
+        <mat-step state="chat">
+          <ng-template matStepLabel>Land Details</ng-template>
+          <app-preview-land-detail></app-preview-land-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step state="chat">
+          <ng-template matStepLabel>Required Document</ng-template>
+          <app-preview-required-document></app-preview-required-document>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step state="chat">
+          <ng-template matStepLabel>Building Documents</ng-template>
+          <app-preview-building-detail></app-preview-building-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step state="chat">
+          <ng-template matStepLabel>Hospital Details</ng-template>
+          <app-preview-hospital-detail></app-preview-hospital-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+
+        <mat-step state="chat">
+          <ng-template matStepLabel>Payment Details</ng-template>
+          <app-preview-payment-detail></app-preview-payment-detail>
+          <button mat-button matStepperPrevious>Back</button>
+        </mat-step>
+        <!-- Icon overrides. -->
+        <ng-template matStepperIcon="chat">
+          <mat-icon>forum</mat-icon>
+        </ng-template>
+      </mat-stepper>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
