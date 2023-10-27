@@ -14,8 +14,8 @@
   </div>
 </div>
 <div class="container-fluid mainContents">
- 
- 
+
+
   <div class="card mb-0">
     <div class="card-header">
       <b><i class="bi bi-table"></i> Total College List </b>
@@ -73,13 +73,24 @@
               </div>
 
               <a href="javascript:void(0)" (click)="ApplyLOI_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"
-                 *ngIf="row.DepartmentID==5 && row.IsLOI==false && row.IsDraftFinalSubmit==false">
+                 *ngIf="row.DepartmentID==5  && row.IsDraftFinalSubmit==false">
                 Apply LOI
               </a>
 
-              <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary" *ngIf="row.DepartmentID==5 && row.IsDraftFinalSubmit==true">
-                View
+              <!--<a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary" *ngIf="row.DepartmentID==5 && row.IsDraftFinalSubmit==true">
+                View LOI Application
               </a>
+              <br />
+
+              <a href="javascript:void(0)" (click)="ApplyLOI_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"
+                 *ngIf="row.DepartmentID==5 && row.IsDraftFinalSubmit==true">
+                Payment
+              </a>
+
+
+              <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
+                Payment
+              </a>-->
 
 
               <!--<div class="d-flex">
@@ -113,7 +124,7 @@
     </div>
   </div>
 
-    
+
 </div>
 <div class="modal fade" id="SSOIDMapping" tabindex="-1" aria-labelledby="SSOIDMapping" aria-hidden="true">
   <div class="modal-dialog">
@@ -200,13 +211,13 @@
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==4">
                     <label>College Level :</label>
-                      <div class="clearfix"></div>
-                      <div class="form-control disabled">
-                        <span *ngFor="let item of DTECollegeLevel let idx=index">
-                          {{idx==0?'':', '}}{{item.LevelName}}
-                        </span>
-                      </div>
-                  
+                    <div class="clearfix"></div>
+                    <div class="form-control disabled">
+                      <span *ngFor="let item of DTECollegeLevel let idx=index">
+                        {{idx==0?'':', '}}{{item.LevelName}}
+                      </span>
+                    </div>
+
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label>College Code :</label>
@@ -337,73 +348,73 @@
                   </div>
 
                   <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Email :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Email}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Division :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Division_English}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>District :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.District_Eng}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Subdivision :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.SubdivisionName}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Tehsil :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.TehsilName}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Area :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.RuralUrbanArea}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Urban'">
-    <label>City :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CityName}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
-    <label>Panchayat Samiti :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.PanchyatSamitiName}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Parliament Area :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.ParliamentAreaName}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Assembly Area :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AssemblyAreaName}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>City/Town/Village :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CityTownVillage}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Pincode :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Pincode}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Address Line 1 :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AddressLine1}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Address Line 2 :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AddressLine2}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
-    <label>Distance from City(km) :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.DistanceFromCity}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Year of Establishment :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.FinancialYearName}}" />
-  </div>
-  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-    <label>Website Link :</label>
-    <input class="form-control disabled mt-1" disabled value="{{collegeListData.WebsiteLink}}" />
-  </div>-->
+                    <label>Email :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Email}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Division :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Division_English}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>District :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.District_Eng}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Subdivision :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.SubdivisionName}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Tehsil :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.TehsilName}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Area :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.RuralUrbanArea}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Urban'">
+                    <label>City :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CityName}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                    <label>Panchayat Samiti :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.PanchyatSamitiName}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Parliament Area :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.ParliamentAreaName}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Assembly Area :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AssemblyAreaName}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>City/Town/Village :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.CityTownVillage}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Pincode :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.Pincode}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Address Line 1 :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AddressLine1}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Address Line 2 :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.AddressLine2}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                    <label>Distance from City(km) :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.DistanceFromCity}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Year of Establishment :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.FinancialYearName}}" />
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label>Website Link :</label>
+                    <input class="form-control disabled mt-1" disabled value="{{collegeListData.WebsiteLink}}" />
+                  </div>-->
                 </div>
               </div>
             </div>
@@ -555,63 +566,63 @@
           </div>
         </div>
         <!--<div class="row" *ngIf="collegeNearestGovernmentHospitalsList.length>0">
-    <div class="col-md-12">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b><i class="bi bi-table"></i> 10 Government hospitals nearest to the institution </b>
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped">
-              <thead>
-                <tr>
-                  <th>Sr. No.</th>
-                  <th>Hospital Name</th>
-                  <th>Hospital RegNo.</th>
-                  <th>Distance From Institute(KM)</th>
-                  <th>Area</th>-->
+        <div class="col-md-12">
+          <div class="card mb-0">
+            <div class="card-header">
+              <b><i class="bi bi-table"></i> 10 Government hospitals nearest to the institution </b>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Hospital Name</th>
+                      <th>Hospital RegNo.</th>
+                      <th>Distance From Institute(KM)</th>
+                      <th>Area</th>-->
         <!--<th>Address Line1</th>
-  <th>Address Line2</th>
-  <th>Area</th>
-  <th>Division</th>
-  <th>District</th>
-  <th>Tehsil</th>
-  <th>Panchyat Samiti</th>
-  <th>City/Town/Village</th>
-  <th>Pincode</th>-->
+        <th>Address Line2</th>
+        <th>Area</th>
+        <th>Division</th>
+        <th>District</th>
+        <th>Tehsil</th>
+        <th>Panchyat Samiti</th>
+        <th>City/Town/Village</th>
+        <th>Pincode</th>-->
         <!--<th>Address</th>
-      <th>Hospital Document</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of collegeNearestGovernmentHospitalsList; let indexOfelement=index;">
-      <td> {{indexOfelement+1}}</td>
-      <td>{{row.HospitalName}}</td>
-      <td>{{row.HospitalRegNo}}</td>
-      <td>{{row.HospitalDistance}}</td>
-      <td>{{row.RuralUrbanArea}}</td>-->
+            <th>Hospital Document</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of collegeNearestGovernmentHospitalsList; let indexOfelement=index;">
+            <td> {{indexOfelement+1}}</td>
+            <td>{{row.HospitalName}}</td>
+            <td>{{row.HospitalRegNo}}</td>
+            <td>{{row.HospitalDistance}}</td>
+            <td>{{row.RuralUrbanArea}}</td>-->
         <!--<td>{{row.AddressLine1}}</td>
-  <td>{{row.AddressLine2}}</td>
-  <td>{{row.RuralUrbanArea}}</td>
-  <td>{{row.Division_English}}</td>
-  <td>{{row.District_Eng}}</td>
-  <td>{{row.TehsilName}}</td>
-  <td>{{row.PanchyatSamitiName}}</td>
-  <td>{{row.CityTownVillage}}</td>
-  <td>{{row.Pincode}}</td>-->
+        <td>{{row.AddressLine2}}</td>
+        <td>{{row.RuralUrbanArea}}</td>
+        <td>{{row.Division_English}}</td>
+        <td>{{row.District_Eng}}</td>
+        <td>{{row.TehsilName}}</td>
+        <td>{{row.PanchyatSamitiName}}</td>
+        <td>{{row.CityTownVillage}}</td>
+        <td>{{row.Pincode}}</td>-->
         <!--<td>
-                    {{row.AddressLine1}}, {{row.AddressLine2}}, {{row.CityTownVillage}}, {{row.RuralUrbanArea=='Rural'?row.PanchyatSamitiName:row.CityName}}, {{row.TehsilName}},
-                    {{row.District_Eng}},  {{row.Division_English}},   {{row.Pincode}}
-                  </td>
-                  <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocumentPath}}" title="View Hospital Document"><i class="fa fa-eye"></i></a></td>
-                </tr>
-              </tbody>
-            </table>
+                          {{row.AddressLine1}}, {{row.AddressLine2}}, {{row.CityTownVillage}}, {{row.RuralUrbanArea=='Rural'?row.PanchyatSamitiName:row.CityName}}, {{row.TehsilName}},
+                          {{row.District_Eng}},  {{row.Division_English}},   {{row.Pincode}}
+                        </td>
+                        <td><a class="btn-outline-primary" target="_blank" href="{{row.HospitalDocumentPath}}" title="View Hospital Document"><i class="fa fa-eye"></i></a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>-->
+        </div>-->
         <div class="modal-footer">
           <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
         </div>
@@ -619,3 +630,73 @@
     </div>
   </div>
 </div>
+
+
+
+
+<!--model-->
+<ng-template #mymodalpayment let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-applynocpayment-title" style="font-size: 17px; font-weight: 600 !important;">
+      Apply Noc Application for <!--: {{ApplyNocApplicationDetail.ApplyNocApplicationID}}-->
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!--application details-->
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <label>
+          <b>
+            College :
+          </b>
+          {{ApplyNocApplicationDetail.CollegeName}}
+        </label>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <label>
+          <b>
+            Application Type :
+          </b>
+          {{ApplyNocApplicationDetail.ApplicationTypeName}}
+        </label>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <label>
+          <b>
+            Total fee Amount :
+          </b>
+          {{ApplyNocApplicationDetail.TotalFeeAmount}}
+        </label>
+      </div>
+    </div>
+    <!--end-->
+    <!--parameter detail-->
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <label>
+          <b>
+            Your Apply Noc Application Charges for followings :
+          </b>
+        </label>
+        <hr />
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let parameterDetail of ApplyNocApplicationDetail.ApplyNocApplicationParameterList;">
+          <label>
+            <b>
+              {{parameterDetail.ApplyNocFor}} :
+            </b>
+            {{parameterDetail.FeeAmount}}
+          </label>
+        </div>
+      </div>
+
+    </div>
+    <!--end-->
+  </div>
+  <div class="modal-footer text-end">
+    <button type="button" class="btn btn-primary" (click)="MakePayment_click(ApplyNocApplicationDetail)">Make Payment</button>
+  </div>
+</ng-template>
+<!--end-->
