@@ -116,7 +116,6 @@
     <Folder Include="ClientApp\src\app\Views\ClassWiseStudentDetails\" />
     <Folder Include="ClientApp\src\app\Views\DCE\" />
     <Folder Include="ClientApp\src\app\Views\DocumentScrutinyTab_Agri\" />
-    <Folder Include="ClientApp\src\app\Views\NoOfficer\LOI-application-detail-entry\" />
     <Folder Include="ClientApp\src\app\Views\Staff-Attendance\" />
     <Folder Include="ClientApp\src\app\Views\SubjectWiseStudentStatistics\" />
     <Folder Include="ClientApp\src\app\Views\VeterinaryHospital\" />
