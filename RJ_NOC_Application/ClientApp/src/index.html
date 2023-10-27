@@ -6,16 +6,25 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;600;700;800;900&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="assets/images/favIcon.png">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-
+  <script>
+    //Get Application API Setting
+    fetch('../../assets/appsettings.json')
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        window.config = {
+          apiurl: data['APIURL'],
+          backtossourl: data['BacktoSSOURL'],
+          imagepathurl: data['ImagePathURL'],
+          ssourl: data['SSOURL'],
+          applicationtitle: "ApplicationTitle",
+          rpprequsturl: data['RPPRequstURL']
+        }
+      });   
+  </script>
   <script type="text/javascript">
     function preventBack() {
       window.history.forward();
@@ -50,8 +59,7 @@
   <script>
     window['base-url'] = window.location.pathname;
   </script>
-
-  <script src="https://fellowtuts.com/tryit/uploads/js/gtransapi.js"></script>
+  <script src="assets/js/gtransapi.js"></script>
   <script type="text/javascript">
     google.load("elements", "1", { packages: "transliteration" });
     var control;

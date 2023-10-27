@@ -20,9 +20,9 @@
   <form [formGroup]="CollegeDetailsForm" class="form-horizontal">
     <div class="card">
       <!--<div class="card-header d-flex justify-content-between align-items-center">
-    <b>Basic Information</b>
-    <span class="text-danger">(*) Fields is compulsory</span>
-  </div>-->
+        <b>Basic Information</b>
+        <span class="text-danger">(*) Fields is compulsory</span>
+      </div>-->
 
 
       <div class="card-header d-flex justify-content-between align-items-center">
@@ -82,8 +82,8 @@
               </div>
             </div>
             <!--<div *ngIf="ProfileLogoValidationMessage!=''" class="text-danger">
-          <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
-        </div>-->
+              <p><i aria-hidden="true"></i>{{ProfileLogoValidationMessage}}</p>
+            </div>-->
           </div>
           <!---->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsExisting">
@@ -147,8 +147,8 @@
             <label for="txtCollegeCode" class="form-label">College Code </label>
             <input type="text" maxlength="15" class="form-control" id="txtCollegeCode" name="txtCollegeCode" [(ngModel)]="request.CollegeCode" formControlName="txtCollegeCode">
             <!--<div *ngIf="isSubmitted&&form.txtCollegeCode.errors" class="text-danger">
-          <p *ngIf="form.txtCollegeCode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-        </div>-->
+              <p *ngIf="form.txtCollegeCode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>-->
           </div>
 
 
@@ -166,7 +166,7 @@
               <p *ngIf="form.txtCollegeNameHi.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==5">
             <label class="form-label" style="margin-right:15px">IS Your College NAAC Accredited : <span style="color:red;">*</span></label>
             <div class="clearfix"></div>
             <div class="form-check form-check-inline">
@@ -413,8 +413,8 @@
             <label for="txtAddressLine2" class="form-label">Address Line 2 </label>
             <input type="text" class="form-control" maxlength="200" id="txtAddressLine2" name="txtAddressLine2" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2">
             <!--<div *ngIf="isSubmitted&&form.txtAddressLine2.errors" class="text-danger">
-          <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-        </div>-->
+              <p *ngIf="form.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>-->
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="!IsRural">
@@ -636,8 +636,8 @@
                 <label class="form-label">Address Line 2 </label>
                 <input type="text" class="form-control" maxlength="200" id="txtAddressLine2_Nearest" name="txtAddressLine2_Nearest" [(ngModel)]="request_NearestGovernmentHospitals.AddressLine2" formControlName="txtAddressLine2_Nearest">
                 <!--<div *ngIf="isSubmitted_NearestGovernmentHospitals&&form_NearestGovernmentHospitals.txtAddressLine2_Nearest.errors" class="text-danger">
-              <p *ngIf="form_NearestGovernmentHospitals.txtAddressLine2_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>-->
+                  <p *ngIf="form_NearestGovernmentHospitals.txtAddressLine2_Nearest.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>-->
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -809,9 +809,20 @@
           <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Proposed annual intake of students<span style="color:red;">*</span></label>
-              <input type="text" class="form-control" maxlength="10" id="txtintakestudents" name="txtintakestudents" [(ngModel)]="request.AnnualIntakeStudents" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}">
-              <p *ngIf="isSubmitted&&request.DepartmentID==5&&(request.AnnualIntakeStudents==null||request.AnnualIntakeStudents.toString()=='')" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
-              <p *ngIf="isSubmitted&&request.DepartmentID==5&&request.AnnualIntakeStudents==0" class="text-danger"><i aria-hidden="true"></i> Annual intake students grater then zero .!</p>
+
+
+              <!--<input type="text" class="form-control" maxlength="10" id="txtintakestudents" name="txtintakestudents" [(ngModel)]="request.AnnualIntakeStudents" (keypress)="numberOnly($event)" [ngModelOptions]="{standalone: true}">-->
+              <select class="form-select" id="txtintakestudents" name="txtintakestudents"
+                      [ngModelOptions]="{standalone: true}"
+                      [(ngModel)]="request.AnnualIntakeStudents">
+                <option value="0">--Select--</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="150">150</option>
+              </select>
+
+              <p *ngIf="isSubmitted&&request.DepartmentID==5&&(request.AnnualIntakeStudents==0 ||request.AnnualIntakeStudents.toString()=='')" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+              <!--<p *ngIf="isSubmitted&&request.DepartmentID==5&&request.AnnualIntakeStudents==0" class="text-danger"><i aria-hidden="true"></i> Annual intake students grater then zero .!</p>-->
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Society Capital Assets<span style="color:red;">*</span></label>
@@ -850,7 +861,7 @@
               <p *ngIf="request.DepartmentID==5&&(request.FundingSources==null || request.FundingSources=='')" class="text-danger"><i aria-hidden="true"></i> {{FundingSourcesValidationMessage}}</p>
             </div>
           </div>
-          
+
         </div>
       </div>
       <div class="card-footer text-end">

@@ -21,14 +21,13 @@
       <b><i class="bi bi-table"></i> Total College List </b>
     </div>
     <div class="card-body">
+      <div class="row">
+        <div class="col-sm-3 searchbox">
+          <i class="bi bi-search search"></i>
+          <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" id="txtsearchText" name="txtsearchText" />
 
-
-      <div class="d-flex align-items-center table-filter mr-15">
-        <i class="fa fa-search"></i>
-        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" id="txtsearchText" name="txtsearchText" />
+        </div>
       </div>
-
-
     </div>
     <div class="table-responsive" style="height: calc(100vh - 250px) !important;">
       <table class="table table-hover table-striped-columns">

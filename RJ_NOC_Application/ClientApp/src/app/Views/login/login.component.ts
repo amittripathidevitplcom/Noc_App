@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
+  public configUrl: any = [];
   /*Save Data Model*/
 
   public isLoading: boolean = false;
@@ -46,7 +47,7 @@ export class LoginComponent implements OnInit {
 
   }
   async ngOnInit() {
-
+     
     this.LoginForm = this.formBuilder.group(
       {
         txtUserID: ['', Validators.required],

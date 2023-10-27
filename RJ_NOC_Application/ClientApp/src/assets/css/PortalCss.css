@@ -1,5 +1,5 @@
 body, html {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Outfit', system-ui;
   font-size: 14px;
   background: #f4f4f4 !important;
 }
@@ -24,7 +24,9 @@ body, html {
     background: #555;
   }
 
-  .table th, .table td { white-space:nowrap;}
+.table th, .table td {
+  white-space: nowrap;
+}
 
 /*.table-responsive {
   height: calc(100vh - 268px) !important;
@@ -33,45 +35,64 @@ body, html {
   font-family: 'fontawesome';
   src: url('font-awesome/fonts/fontawesome-webfont.ttf') format('truetype');
 }
+
 button, input[type='button'], input[type='submit'], a {
-    cursor:pointer !important;
+  cursor: pointer !important;
 }
 
-.dropdown-menu-right { right:0 !important; left:auto}
+.dropdown-menu-right {
+  right: 0 !important;
+  left: auto
+}
+
 .mainPortal {
   width: 100%;
   float: left;
 }
-.designation { font-size:12px; font-style:italic;}
+
+.designation {
+  font-size: 12px;
+  font-style: italic;
+}
+
 .mainPortal.sideopen .sideBars {
   width: 250px;
   align-items: flex-start;
 }
-  .mainPortal.sideopen .MainDivs {
-    padding-left: 182px;
-    
+
+.mainPortal.sideopen .MainDivs {
+  padding-left: 182px;
+}
+
+.mainPortal.sideopen .sideBars .logo .largelogo {
+  display: block;
+}
+
+.mainPortal.sideopen .sideBars .logo .smallLogo {
+  display: none;
+}
+
+.mainPortal.sideopen .sideBars .navbar, .sideBars:hover .navbar-nav, .sideBars:hover .navbar-nav .dropdown-menu {
+  width: 100% !important;
+}
+
+  .mainPortal.sideopen .sideBars .navbar .navbar-nav .nav-item .nav-link span, .sideBars:hover .navbar .navbar-nav .nav-item .nav-link::after {
+    display: inline-block !important;
+    margin-left: 5px;
   }
-  .mainPortal.sideopen .sideBars .logo .largelogo {
-    display: block;
-  }
-  .mainPortal.sideopen .sideBars .logo .smallLogo {
-    display: none;
-  }
-  .mainPortal.sideopen .sideBars .navbar, .sideBars:hover .navbar-nav, .sideBars:hover .navbar-nav .dropdown-menu {
-    width: 100% !important;
-  }
-    .mainPortal.sideopen .sideBars .navbar .navbar-nav .nav-item .nav-link span, .sideBars:hover .navbar .navbar-nav .nav-item .nav-link::after {
-      display: inline-block !important;
-      margin-left: 5px;
-    }
-  .mainPortal.sideopen .navbar-nav { width:100%;}
+
+.mainPortal.sideopen .navbar-nav {
+  width: 100%;
+}
+
 .sidebarToggle {
   border: none;
   background: #f8a544;
   padding: 7px 12px;
   border-radius: 50px;
-  cursor:pointer !important;
+  cursor: pointer !important;
 }
+
 .sideBars {
   position: fixed;
   height: 100%;
@@ -139,7 +160,7 @@ button, input[type='button'], input[type='submit'], a {
 
   .sideBars:hover {
     width: 250px;
-    align-items: flex-start;   
+    align-items: flex-start;
   }
 
     .sideBars:hover .dropdown-menu.show {
@@ -170,28 +191,32 @@ button, input[type='button'], input[type='submit'], a {
 .sideBars li.nav-item {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
+
   .sideBars li.nav-item:hover {
     background: #f1894e;
-
   }
+
     .sideBars li.nav-item:hover .nav-link {
       color: #ffffff !important;
     }
+
 .sideBars .dropdown-item {
   padding: 0.5rem 1.2rem;
   border-bottom: 1px solid #132649;
 }
+
   .sideBars .dropdown-item:hover {
     background: #f1894e;
   }
 
 
-.sideBars .dropdown-item:hover .nav-link {
-  color: #ffffff !important;
+    .sideBars .dropdown-item:hover .nav-link {
+      color: #ffffff !important;
+    }
+
+.sideBars .dropdown-toggle.show::after {
+  content: "\f106" !important;
 }
-  .sideBars .dropdown-toggle.show::after {
-    content: "\f106" !important;
-  }
 
 
 
@@ -218,7 +243,7 @@ button, input[type='button'], input[type='submit'], a {
 
 .sideBars .logo {
   padding: 15px 0px;
-  margin:0px 15px;
+  margin: 0px 15px;
 }
 
   .sideBars .logo .largelogo {
@@ -609,49 +634,49 @@ ol.breadcrumb {
   margin-top: 25px;
 }*/
 
-  .tabUl1 ul {
-    list-style: none;
-    padding: 0px;
-    margin: 0px;
-    /*display: flex;
+.tabUl1 ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  /*display: flex;
     overflow: auto;*/
-   /* justify-content:space-between;*/
+  /* justify-content:space-between;*/
+}
+
+  .tabUl1 ul li {
+    /*float: left;*/
+    position: relative;
+    width: 100%;
   }
 
-    .tabUl1 ul li {
-      /*float: left;*/
-      position: relative;
-      width: 100%;
+    .tabUl1 ul li a {
+      padding: 10px 15px;
+      margin-right: 8px;
+      color: #132649;
+      text-decoration: none;
+      border-bottom: 0px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      white-space: pre;
     }
 
-      .tabUl1 ul li a {
-        padding: 10px 15px;
-        margin-right: 8px;
-        color: #132649;
-        text-decoration: none;
-        border-bottom: 0px;
+      .tabUl1 ul li a i {
+        font-size: 20px;
+        border: solid 1px;
+        width: 34px;
+        height: 34px;
+        justify-content: center;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        white-space: pre;
+        margin-bottom: 10px;
+        border-radius: 100%;
+        position: relative;
+        z-index: 1;
+        background: #f4f4f4;
       }
 
-        .tabUl1 ul li a i {
-          font-size: 20px;
-          border: solid 1px;
-          width: 34px;
-          height: 34px;
-          justify-content: center;
-          display: flex;
-          align-items: center;
-          margin-bottom: 10px;
-          border-radius: 100%;
-          position: relative;
-          z-index: 1;
-          background: #f4f4f4;
-        }
-
-      /*.tabUl1 ul li::after {
+    /*.tabUl1 ul li::after {
         position: absolute;
         background: #132649;
         width: 100%;
@@ -661,37 +686,37 @@ ol.breadcrumb {
         top: 26px;
       }*/
 
-      .tabUl1 ul li:hover a i {
-        background: linear-gradient(45deg, #132649, #96a7c7);
-        color: #fff;
-      }
+    .tabUl1 ul li:hover a i {
+      background: linear-gradient(45deg, #132649, #96a7c7);
+      color: #fff;
+    }
 
-      .tabUl1 ul li.tabActive a i {
-        background: linear-gradient(45deg, #45bae5, #0f6f8c) !important;
-        color: #fff;
-      }
+    .tabUl1 ul li.tabActive a i {
+      background: linear-gradient(45deg, #45bae5, #0f6f8c) !important;
+      color: #fff;
+    }
 
-      .tabUl1 ul li.tabActive::after {
-        background: #45bae5 !important;
-      }
+    .tabUl1 ul li.tabActive::after {
+      background: #45bae5 !important;
+    }
 
-      .tabUl1 ul li.tabComplete a i {
-        background: linear-gradient(45deg, #46b33e, #0f6f8c);
-        color: #fff;
-      }
+    .tabUl1 ul li.tabComplete a i {
+      background: linear-gradient(45deg, #46b33e, #0f6f8c);
+      color: #fff;
+    }
 
-      .tabUl1 ul li.tabComplete::after {
-        background: #46b33e;
-      }
+    .tabUl1 ul li.tabComplete::after {
+      background: #46b33e;
+    }
 
-      .tabUl1 ul li.tabOnProcess a i {
-        background: linear-gradient(45deg, #fe9800, #23667a);
-        color: #fff;
-      }
+    .tabUl1 ul li.tabOnProcess a i {
+      background: linear-gradient(45deg, #fe9800, #23667a);
+      color: #fff;
+    }
 
-      .tabUl1 ul li.tabOnProcess::after {
-        background: #fe9800;
-      }
+    .tabUl1 ul li.tabOnProcess::after {
+      background: #fe9800;
+    }
 
 
 
@@ -754,6 +779,7 @@ ol.breadcrumb {
           border-bottom: 42px solid transparent;
           border-left: 23px solid #999999;
         }
+
       .tabUl2 ul li::after {
         position: absolute;
         width: 100%;
@@ -784,7 +810,7 @@ ol.breadcrumb {
         color: #fff;
       }
 
-      
+
 
       .tabUl2 ul li.tabOnProcess a i {
         background: linear-gradient(45deg, #fe9800, #23667a);
@@ -799,8 +825,8 @@ ol.breadcrumb {
 
 
 
-      @media(max-width:640px) {
-        .topUlsControl {
+@media(max-width:640px) {
+  .topUlsControl {
     flex-direction: column !important;
   }
 
@@ -944,10 +970,12 @@ td .btn-info, td .btn-success {
   z-index: 99;
   background: rgb(255 255 255 / 24%);
   left: 0px !important;
- backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 }
 
-.contant { position:relative;}
+.contant {
+  position: relative;
+}
 
 .loader img {
   width: 50px;
@@ -1108,6 +1136,7 @@ td .btn-info, td .btn-success {
 .staticsCards .card-body {
   background: none !important
 }
+
 .staticsCards {
   background: #132649;
 }
@@ -1247,12 +1276,13 @@ td .btn-info, td .btn-success {
   }
 
 .saveCancelBtn .btn {
-    margin-left:5px;
+  margin-left: 5px;
 }
 
 .mat-tab-label::before {
   font-family: 'fontawesome';
 }
+
 .form-switch .form-check-input {
   width: 6em !important;
   position: relative;
@@ -1299,16 +1329,18 @@ td .btn-info, td .btn-success {
 }
 
 .fancybox__container {
-    z-index:9999 !important;
+  z-index: 9999 !important;
 }
 
 .modal-header {
-    background:#132649 !important;
-    color:#ffffff !important;
+  background: #132649 !important;
+  color: #ffffff !important;
 }
+
   .modal-header h4, .modal-header b {
-      color:#fff !important;
+    color: #fff !important;
   }
+
   .modal-header button {
     background: none !important;
     border: none;
@@ -1318,3 +1350,17 @@ td .btn-info, td .btn-success {
     font-size: 24px;
     line-height: 24px;
   }
+
+.searchbox {
+  position: relative;
+}
+
+  .searchbox input {
+    padding-right: 40px;
+  }
+
+.search {
+  right: 25px;
+  position: absolute;
+  top: 6px;
+}
