@@ -283,7 +283,7 @@
           <th>Land Area</th>
           <th *ngIf="SelectedDepartmentID==5">Land Type</th>
           <th *ngIf="SelectedDepartmentID==5">Lease Date</th>
-          <th *ngIf="SelectedDepartmentID==5">Name Of Person Land Purchased or Allotted </th>
+          <!--<th *ngIf="SelectedDepartmentID==5">Name Of Person Land Purchased or Allotted </th>-->
           <th *ngIf="SelectedDepartmentID==5">Land Unit</th>
           <th>Action</th>
         </tr>
@@ -300,7 +300,7 @@
 
           <td *ngIf="SelectedDepartmentID==5">{{item.MedicalGroupOneLandType}}</td>
           <td *ngIf="SelectedDepartmentID==5">{{item.MedicalGroupOneLandType=='Lease for 99 years'?item.LeaseDate:'NA'}}</td>
-          <td *ngIf="SelectedDepartmentID==5">{{item.NameOfLandPurchasedAllotted}}</td>
+          <!--<td *ngIf="SelectedDepartmentID==5">{{item.NameOfLandPurchasedAllotted}}</td>-->
           <td *ngIf="SelectedDepartmentID==5">{{item.MedicalGroupOneLandUnit}}</td>
           <!--<td>{{item.BuildingHostelQuartersRoadArea}}</td>-->
           <td>

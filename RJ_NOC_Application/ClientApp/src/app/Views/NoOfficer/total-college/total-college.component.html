@@ -71,10 +71,14 @@
                   <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>
                 </ul>
               </div>
-              
+
               <a href="javascript:void(0)" (click)="ApplyLOI_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"
-                 *ngIf="row.DepartmentID==5 && row.IsLOI==false && row.IsDraftFinalSubmit==false ">
+                 *ngIf="row.DepartmentID==5 && row.IsLOI==false && row.IsDraftFinalSubmit==false">
                 Apply LOI
+              </a>
+
+              <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary" *ngIf="row.DepartmentID==5 && row.IsDraftFinalSubmit==true">
+                View
               </a>
 
 

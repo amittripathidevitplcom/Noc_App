@@ -272,14 +272,17 @@ export class LandDetailsComponent implements OnInit {
   async GetLandconverted(DepartmentID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
+      this.LandConversionData = '';
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWises(DepartmentID, this.SelectedCollageID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.LandConversionData = data['Data'];
-          console.log(this.LandConversionData);
+        
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.LandConversionData = data['Data'];
+            console.log(this.LandConversionData);
+          
         }, error => console.error(error));
 
     }
@@ -593,11 +596,11 @@ export class LandDetailsComponent implements OnInit {
       if (this.request.MedicalGroupOneLandUnitID <= 0) {
         return
       }
-      if (this.request.NameOfLandPurchasedAllotted == '' || this.request.NameOfLandPurchasedAllotted == undefined || this.request.NameOfLandPurchasedAllotted == null) {
-        return
-      }
+      //if (this.request.NameOfLandPurchasedAllotted == '' || this.request.NameOfLandPurchasedAllotted == undefined || this.request.NameOfLandPurchasedAllotted == null) {
+      //  return
+      //}
       var LandTypeName = this.MedicalGroupOneLandType.find((x: { ID: number; }) => x.ID == this.request.MedicalGroupOneLandTypeID)?.Name;
-      if (LandTypeName == 'Lease for 99 years') {
+      if (LandTypeName == 'Lease for 99 years' || LandTypeName == 'Lease for 30 years') {
         if (this.request.LeaseDate == '' || this.request.LeaseDate == undefined || this.request.LeaseDate == null) {
           return;
         }
@@ -652,7 +655,7 @@ export class LandDetailsComponent implements OnInit {
 
 
     for (var i = 0; i < this.request.LandDetailDocument.length; i++) {
-      if (this.request.LandDetailDocument[i].FilePath == '' || this.request.LandDetailDocument[i].FilePath == undefined) {
+      if ((this.request.LandDetailDocument[i].IsMandatory == true) && (this.request.LandDetailDocument[i].FilePath == '' || this.request.LandDetailDocument[i].FilePath == undefined)) {
         message = 'Please choose ' + this.request.LandDetailDocument[i].DocumentName + ' document';
         this.toastr.warning(message);
         return;
@@ -1347,7 +1350,7 @@ export class LandDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
       if (this.request.MedicalGroupOneLandTypeID > 0) {
         var LandTypeName = this.MedicalGroupOneLandType.find((x: { ID: number; }) => x.ID == this.request.MedicalGroupOneLandTypeID)?.Name;
-        if (LandTypeName == 'Lease for 99 years') {
+        if (LandTypeName == 'Lease for 99 years' || LandTypeName == 'Lease for 30 years') {
           this.ShowLeaseDate = true;
         }
         else {

@@ -417,7 +417,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   return;
                 }
                 if (data['Data'][0]['data'][0]['Medicalexperts'] <= 0) {
-                  this.toastr.error('Add Medical experts in College Management Committee Members.');
+                  this.toastr.error('Add Medical Educationist in College Management Committee Members.');
                   this.isCheck30Female = true;
                   return;
                 }
@@ -438,7 +438,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   this.toastr.success('Apply LOI Successfully')
 
                   setTimeout(() => {
-                    this.routers.navigate(['/loiapplicationlist']);
+                    this.routers.navigate(['/totalcollege']);
                   }, 500);
 
                 }

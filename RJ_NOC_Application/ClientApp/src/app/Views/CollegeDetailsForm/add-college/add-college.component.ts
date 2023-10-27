@@ -1235,7 +1235,7 @@ export class AddCollegeComponent implements OnInit {
                 this.routers.navigate(['/societydetails']);
               }
               else {
-                this.routers.navigate(['/addcourses']);
+                this.routers.navigate(['/societydetails']);
               }
             }, 200);
 

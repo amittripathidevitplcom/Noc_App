@@ -264,9 +264,21 @@ export class TotalCollegeComponent implements OnInit {
     }
   }
   async ApplyLOI_OnClick(DepartmentID: number, CollegeID: number) {
-    this.routers.navigate(['/applicationdetailentry' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))], { skipLocationChange: true });
+    /*this.routers.navigate(['/applicationdetailentry' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))], { skipLocationChange: true });*/
+
+    this.routers.navigate(['/applicationdetailentry' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
   async EditCollegeData(CollegeID: number) {
-    this.routers.navigate(['/addcollege' + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))], { skipLocationChange: true });
+   /* this.routers.navigate(['/addcollege' + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))], { skipLocationChange: true });*/
+
+    this.routers.navigate(['/addcollege' + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+
+  }
+
+  async ApplicationSummary_OnClick(DepartmentID: number, CollegeID: number) {
+
+    window.open('/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())), '_blank')
+
+   /* this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);*/
   }
 }
