@@ -176,9 +176,9 @@
                               <th>Post</th>
                               <th>Aadhaar Number</th>
                               <th>Member Photo</th>
-                              <th>Member Sing</th>
+                              <th>Member Sign</th>
                               <th>Aadhaar Document</th>
-                              <th>Tarils</th>
+                              <th>Trails</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -239,7 +239,7 @@
                               <th>Designation</th>
                               <th>Contact Number</th>
                               <th>State</th>
-                              <th>Tarils</th>
+                              <th>Trails</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -625,7 +625,7 @@
                     <th>Designation </th>
                     <th>Occupation </th>
                     <th>Action</th>
-                    <th>Tarils</th>
+                    <th>Trails</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -814,7 +814,7 @@
                 <!--<th>Land Type</th>-->
                 <th>Owner Name</th>
                 <th>Action</th>
-                <th>Tarils</th>
+                <th>Trails</th>
               </tr>
             </thead>
             <tbody>
@@ -994,11 +994,11 @@
 
                   <th>Sr. No.</th>
                   <th>Facility Name</th>
-                  <th>Is Available</th>
-                  <th>No of </th>
+                  <th>Is Available(Y/N)</th>
+                  <th>No of Facility</th>
                   <th>Minimum Size</th>
                   <th>Image/File</th>
-                  <th>Tarils</th>
+                  <th>Trails</th>
                 </tr>
               </thead>
               <tbody>
@@ -1070,7 +1070,7 @@
                   <th>Sr. No.</th>
                   <th>Document Name</th>
                   <th>File</th>
-                  <th>Tarils</th>
+                  <th>Trails</th>
                 </tr>
               </thead>
               <tbody>
@@ -1136,7 +1136,7 @@
                   <th>Student Capacity</th>
                   <!--<th>No. Of Lab</th>-->
                   <th>Upload Image</th>
-                  <th>Tarils</th>
+                  <th>Trails</th>
                 </tr>
               </thead>
               <tbody>
@@ -1216,14 +1216,14 @@
                 <thead>
                   <tr>
                     <th>Sr. No.</th>
-                    <th>Course Name</th>
-                    <th>No. of Rooms</th>
+                    <th>Type of Facility</th>
+                    <th>No. of Facility</th>
                     <th>Minimum Size (Sq. Feet)</th>
                     <th>No of Computers</th>
                     <th>No of books</th>
                     <th>Upload Image</th>
                     <th>Book's Details Document</th>
-                    <th>Tarils</th>
+                    <th>Trails</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1312,7 +1312,7 @@
                 <th>Order Date</th>
                 <th>Expiring On</th>
                 <th>Action</th>
-                <th>Tarils</th>
+                <th>Trails</th>
               </tr>
             </thead>
             <tbody>
@@ -1707,7 +1707,7 @@
                     <th>Highest Qualification</th>
                     <th>Date of Birth</th>
                     <th>Action</th>
-                    <th>Tarils</th>
+                    <th>Trails</th>
 
                   </tr>
                 </thead>
@@ -1967,7 +1967,7 @@
                       <th>Session Year</th>
                       <th>NOC No.</th>
                       <th>NOC Received On</th>
-                      <th>Tarils</th>
+                      <th>Trails</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -2037,7 +2037,7 @@
                     <th>Passed Student</th>
                     <th>Failed Student</th>
                     <th>Other Student</th>
-                    <th>Tarils</th>
+                    <th>Trails</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2102,7 +2102,7 @@
                     <th>Sr. No.</th>
                     <th>Document Name</th>
                     <th>File</th>
-                    <th>Tarils</th>
+                    <th>Trails</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2169,7 +2169,7 @@
                     <th>Remark</th>
                     <th>Authorized Person</th>
                     <th>Action</th>
-                    <th>Tarils</th>
+                    <th>Trails</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2391,7 +2391,7 @@
 
     <div class="row m-2" *ngIf="PageStatus=='Yes'">
       <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-        <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
+        <label for="ddlAction" class="form-label">Action On Application<span style="color:red;">*</span></label>
         <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
           <option value="0" disabled selected>--Select Action--</option>
           <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>

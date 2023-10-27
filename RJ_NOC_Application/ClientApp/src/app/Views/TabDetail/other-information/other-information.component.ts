@@ -120,6 +120,7 @@ export class OtherInformationComponent implements OnInit {
 
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
+  public textHeading: string = '';
   constructor(private otherInformationService: OtherInformationService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute,
     private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
@@ -153,9 +154,12 @@ export class OtherInformationComponent implements OnInit {
     this.request.DepartmentID = this.SelectedDepartmentID;
     this.LoadMaster();
     this.GetOtherInformationAllList();
-
-
-
+    if (this.SelectedDepartmentID == 2) {
+      this.textHeading = 'Type of facility';
+    }
+    else {
+      this.textHeading = 'Course';
+    }
   }
   get form() { return this.OtherInformationForm.controls; }
 
@@ -185,7 +189,7 @@ export class OtherInformationComponent implements OnInit {
 
 
 
-    
+
 
     this.request.CourseID = SeletedCourseID;
     this.request.Width = 0;
@@ -216,7 +220,7 @@ export class OtherInformationComponent implements OnInit {
 
       if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
         if (OtherName == 'Laboratory') {
-         
+
           await this.GetCollegeLabInformationList("GetData");
           if (this.CollegeWiseLabSubject.length == null || this.CollegeWiseLabSubject.length == undefined || this.CollegeWiseLabSubject.length == 0) {
             this.ShowHideLabData = false;
@@ -225,8 +229,7 @@ export class OtherInformationComponent implements OnInit {
             this.ShowHideLabData = true;
           }
         }
-        else
-        {
+        else {
           this.CollegeWiseLabSubject = [];
           this.ShowHideLabData = false;
         }
@@ -236,7 +239,7 @@ export class OtherInformationComponent implements OnInit {
         this.CollegeWiseLabSubject = [];
         this.ShowHideLabData = false;
       }
-      
+
 
 
       this.loaderService.requestStarted();
@@ -576,7 +579,7 @@ export class OtherInformationComponent implements OnInit {
   async GetOtherInformationAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.otherInformationService.GetOtherInformationAllList(this.UserID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
+      await this.otherInformationService.GetOtherInformationAllList(this.UserID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -623,10 +626,8 @@ export class OtherInformationComponent implements OnInit {
     }
   }
 
-  async ViewLabDetails()
-  {
-    try
-    {
+  async ViewLabDetails() {
+    try {
       this.loaderService.requestStarted();
       await this.otherInformationService.GetCollegeLabInformationList(this.SelectedCollageID, "GetDataBYID")
         .then((data: any) => {
@@ -646,7 +647,7 @@ export class OtherInformationComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  
+
   }
 
   async txtNoOfRooms_change(Val: any) {
@@ -688,7 +689,7 @@ export class OtherInformationComponent implements OnInit {
           if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
             var OtherName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID)?.Name;
             if (OtherName == 'Laboratory') {
-          
+
               await this.GetCollegeLabInformationList("GetData");
               if (this.CollegeWiseLabSubject.length == null || this.CollegeWiseLabSubject.length == undefined || this.CollegeWiseLabSubject.length == 0) {
                 this.ShowHideLabData = false;
@@ -1063,8 +1064,7 @@ export class OtherInformationComponent implements OnInit {
             this.ErrorMessage = data['ErrorMessage'];
 
             console.log(this.State);
-            if (!this.State)
-            {
+            if (!this.State) {
               this.toastr.success(this.SuccessMessage)
               this.ResetControl();
               this.GetOtherInformationAllList();
@@ -1095,8 +1095,7 @@ export class OtherInformationComponent implements OnInit {
       for (var i = 0; i < this.CollegeWiseLabSubject.length; i++) {
 
 
-        if (this.CollegeWiseLabSubject[i].Width == '' || this.CollegeWiseLabSubject[i].Width == '0' || this.CollegeWiseLabSubject[i].Width < this.WidthMin)
-        {
+        if (this.CollegeWiseLabSubject[i].Width == '' || this.CollegeWiseLabSubject[i].Width == '0' || this.CollegeWiseLabSubject[i].Width < this.WidthMin) {
 
           message += 'Please Enter  Land Width \n';
           //this.CollegeWiseLabSubject[i].Width = '';
@@ -1105,7 +1104,7 @@ export class OtherInformationComponent implements OnInit {
 
         if (this.CollegeWiseLabSubject[i].Length == '' || this.CollegeWiseLabSubject[i].Length == '0' || this.CollegeWiseLabSubject[i].Length < this.LengthMin) {
 
-         // this.CollegeWiseLabSubject[i].Length = '';
+          // this.CollegeWiseLabSubject[i].Length = '';
         }
 
         if (this.CollegeWiseLabSubject[i].FileName == '' || this.CollegeWiseLabSubject[i].FileName == null) {
@@ -1113,8 +1112,7 @@ export class OtherInformationComponent implements OnInit {
           this.CollegeWiseLabSubject[i].FileName = '';
         }
 
-        if (this.CollegeWiseLabSubject[i].FileOtherName == '' || this.CollegeWiseLabSubject[i].FileOtherName == null)
-        {
+        if (this.CollegeWiseLabSubject[i].FileOtherName == '' || this.CollegeWiseLabSubject[i].FileOtherName == null) {
           message += 'Please Upload FileOtherName   \n';
           this.CollegeWiseLabSubject[i].FileOtherName = '';
         }

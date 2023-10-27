@@ -16,12 +16,86 @@
 </div>
 <div class="container-fluid mainContents">
 
-  <div class="card">
+  <div class="card" *ngIf="IsShowCollegeList">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i> Noc College List </b>
+    </div>
+    <div class="card-body">
+      <div class="d-flex align-items-center table-filter mr-15">
+        <i class="fa fa-search"></i>
+        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" id="txtsearchText" name="txtsearchText" />
+      </div>
+
+
+    </div>
+    <div class="table-responsive" style="height: calc(100vh - 250px) !important;">
+      <table class="table table-hover table-striped-columns">
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>Sr. No.</th>
+            <th>Society Name</th>
+            <th>College Application No.</th>
+            <th>College Code</th>
+            <th>College Name</th>
+            <th>Department Name</th>
+            <th>College Status</th>
+            <th>College Type</th>
+            <th>College Medium</th>
+            <th>University Name</th>
+            <th>College Mobile No.</th>
+            <th>College Landline No.</th>
+            <th>College Email</th>
+            <th>Full Address</th>
+            <th>Creation Date</th>
+            <th>Geo Tagging</th>
+
+          </tr>
+        </thead>
+        <tbody *ngIf="draftApplicatoinListData !=null && draftApplicatoinListData.length>0">
+
+          <tr *ngFor="let row of draftApplicatoinListData  | tableSearchFilter:searchText; let idx=index;">
+            <td style="display:flex">
+              <button *ngIf="row.PendingNOC==0" class="btn btn-primary" (click)="ClickApplyNOC(row.DepartmentID,row.CollegeID)" type="button" id="dropdownMenuButton1"
+                      style="background-color: #132649;">
+                Apply Noc
+              </button>
+
+              <span *ngIf="row.PendingNOC!=0">
+                Noc is already process
+              </span>
+            </td>
+            <td style="text-align:center;">{{idx+1}}</td>
+            <td>{{row.SocietyName}}</td>
+            <td>{{row.CollegeRegistrationNo}}</td>
+            <td>{{row.CollegeCode}}</td>
+            <td>{{row.CollegeName}}</td>
+            <td>{{row.DepartmentName}}</td>
+            <td>{{row.CollegeStatus}}</td>
+            <td>{{row.CollegeType}}</td>
+            <td>{{row.CollegeMedium}}</td>
+            <td>{{row.UniversityName}}</td>
+            <td>{{row.CollegeMobileNumber}}</td>
+            <td>{{row.CollegeLandlineNumber}}</td>
+            <td>{{row.CollegeEmail}}</td>
+            <td>{{row.FullAddress}}</td>
+            <td>{{row.CreateDate}}</td>
+            <td>{{row.GeoTagging}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="IsShowApplyNocForm">
+    <div class="card-header d-flex justify-content-end">
+      <button type="button" class="btn btn-primary" (click)="BackToCollegeList()"><i class="fa fa-arrow-left pa-2"></i> Back </button>
+    </div>
     <div class="card-body">
 
       <form [formGroup]="ApplyNocParameterForm" class="form-horizontal">
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-lg-12" *ngIf="SelectedDepartmentID !=2">
             <span id="blinker" style="color:red">
               TNOC/ PNOC प्राप्त वे संस्थाएं ही जिन्हे किसी भी प्रकरण हेतु NOC की आवश्यकता नहीं है
               केवल वे ही INSPECTION FEE मद पर क्लिक करें। केवल INSPECTION FEE मद पर आवेदन करने पर संस्था के किसी भी NOC प्रकरण को
@@ -37,7 +111,8 @@
           <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label for="ddlCollege" class="form-label">{{CollegeLableName}}<span style="color:red">*</span></label>
-              <select class="form-select" id="ddlCollege" name="ddlCollege" (change)="College_ddlChange($event)" formControlName="ddlCollege" [(ngModel)]="request.CollegeID">
+              <select class="form-select" id="ddlCollege" name="ddlCollege"  (change)="College_ddlChange($event)" formControlName="ddlCollege"
+                      [(ngModel)]="request.CollegeID">
                 <option value="0">--Select--</option>
                 <option *ngFor="let item of CollegeList_ddl" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
               </select>
@@ -51,6 +126,7 @@
               <div class="form-check form-check-inline" *ngFor="let item of ApplicationTypeList">
                 <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID" #SelectedApplicationTypeID
                        (change)="ApplyNocFor_rbChange($event,SelectedApplicationTypeID.value,item)">
+              
                 <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
               </div>
               <div *ngIf="isSubmitted&&form.rbApplicationType.errors" class="text-danger">
@@ -59,9 +135,9 @@
             </div>
             <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.CollegeID>0">
 
-              <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID">
-              <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
-            </div>-->
+            <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID">
+            <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
+          </div>-->
           </div>
           <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" *ngIf="ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">
             <label for="">Application Apply For</label>
@@ -901,7 +977,7 @@
 
             <div class="d-flex">
               <input type="file" style="display:none;" class="form-control" id="fExistingLetterofEOA" name="fExistingLetterofEOA"
-                     (change)="fExistingLetterofEOA_onFilechange($event)"  [ngModelOptions]="{standalone: true}">
+                     (change)="fExistingLetterofEOA_onFilechange($event)" [ngModelOptions]="{standalone: true}">
               <label class="btn upload" for="fExistingLetterofEOA">
                 <span class="filename">Choose file</span>
                 {{request.ExistingLetterofEOA === '' ? 'No File Choosen' : request.ExistingLetterofEOA_Dis_FileName}}
@@ -921,7 +997,7 @@
 
     <div class="card-body" *ngIf="HasData()">
 
-      <input type="checkbox" [(ngModel)]="IsTermsChecked" />&nbsp; I have accept terms & conditions.
+      <input type="checkbox" [(ngModel)]="IsTermsChecked" />&nbsp; I accept terms & conditions.
 
     </div>
     <div class="card-body">
@@ -933,7 +1009,7 @@
             <li>Once the application is submitted you have to print challan or download.</li>
             <li>Once you did the payment you need to upload proof of payment (receipt) from applied noc, <a href="#"> Upload Reciept</a></li>
             <li>Note: here only those subjects or courses will be visible for which draft is complete.</li>
-            <li>If NOC is for name change, location change, merger, coed to girl please fill details in <a href="#">College Amendment</a></li>
+            <li *ngIf="SelectedDepartmentID !=2">If NOC is for name change, location change, merger, coed to girl please fill details in <a href="#">College Amendment</a></li>
           </ol>
         </div>
       </div>
