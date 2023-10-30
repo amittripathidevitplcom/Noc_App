@@ -22,7 +22,7 @@
     </div>
     <div class="col-md-12">
       <mat-stepper orientation="vertical">
-        <mat-step state="chat">
+        <mat-step state="chat" *ngIf="IsManagmentType">
           <ng-template matStepLabel>Legal Entity </ng-template>
           <ng-template matStepContent>
             <app-preview-legal-entity></app-preview-legal-entity>
@@ -198,7 +198,7 @@
       <div class="col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card">
           <!--Legal entity-->
-          <div class="card-body">
+          <div class="card-body" *ngIf="IsManagmentType">
             <div class="row">
               <div class="table-responsive">
                 <table class="table table-hover table-striped-columns text-left" id="LegalBasicInfo" #content>
@@ -1140,8 +1140,8 @@
                     <th>Sr. No.</th>
                     <th>Course</th>
                     <th>Room No.</th>
-                    <th>Width (In Feet) Size</th>
-                    <th>Length (In Feet)</th>
+                    <th>Width (sq. ft) Size</th>
+                    <th>Length (sq. ft)</th>
                     <th>Room Size (sq. ft)</th>
                     <th>Student Capacity</th>
                     <!--<th>Upload Image</th>-->
@@ -1287,7 +1287,7 @@
                         Designation:- {{item.RoleName}}<br />
                         <span *ngIf="item.TeachingType=='Teaching'">Subject :- {{item.SubjectName}}</span><br />
                         Staff Status:- {{item.StaffStatus}}<br />
-                        Salary:- {{item.Salary}}<br />
+                        Annual Salary:- {{item.Salary}}<br />
                       </td>
                       <td>
                         Aadhaar No.:- {{item.AadhaarNo}}<br />
@@ -1419,9 +1419,11 @@
                       <th>Sr.No.</th>
                       <th>Course</th>
                       <th>NOC Type</th>
-                      <th>Session Year</th>
-                      <th>NOC No.</th>
+                      <th>NOC Issue on Session Year</th>
+                      <th>Issued for Year</th>
+                      <th>NOC Number</th>
                       <th>NOC Received On</th>
+                      <!--<th>NOC Expire Date</th>-->
                       <th>Subject Details</th>
                     </tr>
                     <tr *ngFor="let row of OldNocDetailslst;let idx=index;">
@@ -1429,8 +1431,10 @@
                       <td>{{row.CourseName}}</td>
                       <td>{{row.NOCTypeName}}</td>
                       <td>{{row.FinancialYearName}}</td>
+                      <td>{{row.IssuedYear}}</td>
                       <td>{{row.NOCNumber}}</td>
                       <td>{{row.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
+                      <!--<td>{{row.NOCExpireDate | date:'dd-MM-yyyy'}}</td>-->
                       <td>
                         <span *ngFor="let item of OldNocSubjectlst let idxe=index">
                           <span *ngIf="row.OldNocID == item.OldNocID">
