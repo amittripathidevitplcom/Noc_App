@@ -376,7 +376,7 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-
+  public isApplicationApplyFor: boolean = false;
   async ApplyNocFor_cbChange(event: any, SelectedApplyNocForID: string, item: any, index: any) {
     try {
       this.loaderService.requestStarted();
@@ -390,6 +390,23 @@ export class ApplyNocParameterComponent implements OnInit {
           await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
             if (item.ApplyNocID != rowitem.ApplyNocID) {
               rowitem.IsChecked = false;
+              
+            }
+            else {
+              rowitem.IsChecked = true;
+              
+            }
+          });
+        }
+      }
+
+      if (this.CollegeDepartmentID == 4) {
+        if (this.request.ApplyNocFor == 'Closure of Institute') {
+          this.isApplicationApplyFor = item.IsChecked;
+          await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
+            if (item.ApplyNocID != rowitem.ApplyNocID) {
+              rowitem.IsChecked = false;
+             
             }
             else {
               rowitem.IsChecked = true;

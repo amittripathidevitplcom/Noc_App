@@ -21,8 +21,8 @@ import { GlobalConstants } from '../../Common/GlobalConstants';
   styleUrls: ['./legal-entity.component.css']
 })
 export class LegalEntityComponent implements OnInit {
-  public DepartmentID: number = 0;
-  public DepartmentType: number = 0;
+  //public DepartmentID: number = 0;
+  //public DepartmentType: number = 0;
   public isDepartmentSubmitted: boolean = false;
   public DepartmentList: any = [];
   public IsDepartmentShowHide: boolean = true;
@@ -2125,22 +2125,22 @@ export class LegalEntityComponent implements OnInit {
     try {
       this.isFormValid = true;
       this.isDepartmentSubmitted = true;
-      if (this.DepartmentID <= 0) {
+      if (this.request.ProcessDepartmentID <= 0) {
         this.isFormValid = false;
       }
-      if (this.DepartmentID == 4) {
-        if (this.DepartmentType <= 0) {
-          this.isFormValid = false;
-        }
-      }
+      //if (this.request.ProcessDepartmentID == 4) {
+      //  if (this.request.DepartmentType == '0') {
+      //    this.isFormValid = false;
+      //  }
+      //}
       if (!this.isFormValid) {
         return;
       }
       this.loaderService.requestStarted();
-      if (this.DepartmentType == 1 && this.DepartmentID == 4) {
-        this.request = new LegalEntityDataModel();
+      if (this.request.ManagementType == 'Government' && this.request.ProcessDepartmentID == 4) {
+        //this.request = new LegalEntityDataModel();
         this.request.SSOID = this.sSOLoginDataModel.SSOID;
-        this.request.ElectionPresentManagementCommitteeDate = '';
+        //this.request.ElectionPresentManagementCommitteeDate = '';
         await this.legalEntityService.SaveData(this.request)
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
