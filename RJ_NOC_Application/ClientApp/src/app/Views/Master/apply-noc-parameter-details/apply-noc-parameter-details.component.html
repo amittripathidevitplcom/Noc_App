@@ -109,20 +109,14 @@
                       Final Submit
                     </a>
                   </li>
-
-                  <!--<li>
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger"
-                       *ngIf="item.IsNOCIssued==true && item.NOCFilePath !=''" title="View NOC PDF" target="_blank" href="{{item.NOCFilePath}}">
-                      View NOC PDF
+                  <li>
+                    <a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="AddFDR_click(item)">
+                     Add Offline Payment Details
                     </a>
-                  </li>-->
+                  </li>
 
                 </ul>
               </div>
-
-
-
-
             </td>
             <td>{{idx+1}}</td>
             <td>{{item.SocietyName}}</td>
@@ -139,9 +133,7 @@
             <td>{{item.FullAddress}}</td>
             <td>{{item.CreateDate}}</td>
             <td>{{item.GeoTagging}} </td>
-
             <td>{{item.ApplicationNo}}</td>
-
             <td>
               {{item.ApplicationTypeName}}
             </td>
@@ -149,7 +141,7 @@
               {{item.TotalFeeAmount}}
             </td>
             <td>
-            <a *ngIf="item.IsNOCIssued==true && item.NOCFilePath !=''" class="btn btn-primary" title="View NOC PDF" target="_blank" href="{{item.NOCFilePath}}"><i class="fa fa-eye"></i></a>
+              <a *ngIf="item.IsNOCIssued==true && item.NOCFilePath !=''" class="btn btn-primary" title="View NOC PDF" target="_blank" href="{{item.NOCFilePath}}"><i class="fa fa-eye"></i></a>
               <span *ngIf="item.IsNOCIssued==false || item.NOCFilePath ==''"><b>Under Process..</b> </span>
             </td>
             <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="GetApplicationTrail(Trailsmodal,item.ApplyNocApplicationID)"><i class="fa fa-bars"></i></button></td>
@@ -727,4 +719,61 @@
   </ng-template>
 
 </div>
+
+<!--Modal Start For Assign Commettiee-->
+<ng-template #mymodalAddOfflinePayment let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Payment information</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+
+      <form class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-plus"></i>&nbsp;Add Offline Payment <span style="color:red;">*</span></b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtBankName" class="form-label">Bank Name <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtBankName"  name="txtBankName" [(ngModel)]="request.BankName">
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtAmount" class="form-label">Amount(INR) <span style="color:red;">*</span></label>
+                <input type="number" class="form-control" id="txtAmount" name="txtAmount" [(ngModel)]="request.Amount">
+                <div *ngIf="isSubmitted&&form_AddOfflinePayment.txtAmount.errors" class="text-danger">
+                  <p *ngIf="form_AddOfflinePayment.txtAmount.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtDateofIssuance" class="form-label">Date of Issuance <span style="color:red;">*</span></label>
+                <input type="date" class="form-control" id="txtDateofIssuance" name="txtDateofIssuance" [(ngModel)]="request.DateofIssuance">
+                <div *ngIf="isSubmitted&&form_AddOfflinePayment.txtDateofIssuance.errors" class="text-danger">
+                  <p *ngIf="form_AddOfflinePayment.txtDateofIssuance.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label for="txtDateofExpiry" class="form-label">Date of Expiry <span style="color:red;">*</span></label>
+                <input type="date" class="form-control" id="txtDateofExpiry" name="txtDateofExpiry" [(ngModel)]="request.DateofExpiry">
+                <div *ngIf="isSubmitted&&form_AddOfflinePayment.txtDateofExpiry.errors" class="text-danger">
+                  <p *ngIf="form_AddOfflinePayment.txtDateofExpiry.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="row  m-2">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-primary" (click)="UpdateFeeData()" title="Submit">Submit</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!--END MODAL-->
 <!--end-->
