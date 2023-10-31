@@ -22,7 +22,7 @@
     </div>
     <div class="col-md-12">
       <mat-stepper orientation="vertical">
-        <mat-step state="chat">
+        <mat-step state="chat" *ngIf="IsManagmentType">
           <ng-template matStepLabel>Legal Entity </ng-template>
           <ng-template matStepContent>
             <app-preview-legal-entity></app-preview-legal-entity>
@@ -198,7 +198,7 @@
       <div class="col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card">
           <!--Legal entity-->
-          <div class="card-body">
+          <div class="card-body" *ngIf="IsManagmentType">
             <div class="row">
               <div class="table-responsive">
                 <table class="table table-hover table-striped-columns text-left" id="LegalBasicInfo" #content>
@@ -549,7 +549,7 @@
                       <td>
                         <label>Department :-{{collegeListData.DepartmentName_English}}</label>
                       </td>
-                      <td>
+                      <td *ngIf="collegeListData.DepartmentID==3">
                         <label>Type of College :-{{collegeListData.TypeofCollege}}</label>
                       </td>
                       <td>
@@ -579,17 +579,27 @@
                     </tr>
                     <br />
                     <tr>
-                      <td>
+                      <td *ngIf="collegeListData.DepartmentID==4">
+                        <label>Management Type :-{{collegeListData.ManagementTypeName}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.DepartmentID!=4">
                         <label>College Level :-{{collegeListData.CollegeLevel}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.DepartmentID==4">
+                        <label>
+                          College Level :-<span *ngFor="let item of DTECollegeLevel let idx=index">
+                            {{idx==0?'':', '}}{{item.LevelName}}
+                          </span>
+                        </label>
                       </td>
                       <td>
                         <label>College Code :-{{collegeListData.CollegeCode}}</label>
                       </td>
+                    </tr>
+                    <tr>
                       <td>
                         <label>IS Your College NAAC Accredited :-{{collegeListData.CollegeNAACAccredited}}</label>
                       </td>
-                    </tr>
-                    <tr>
                       <td *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
                         <label>NAAC Accredited Certificate :-{{collegeListData.NAACAccreditedCertificatePath}}</label>
                       </td>
@@ -994,10 +1004,14 @@
                         Land Area Situated:- {{item.LandAreaSituatedName}}<br />
                         Document Type Name:- {{item.LandDocumentTypeName}}<br />
                         Land Type Name:- {{item.LandTypeName}}<br />
+                        <span *ngIf="SelectedDepartmentID==5">Land Type :- {{item.MedicalGroupOneLandType}}</span>
                       </td>
                       <td>
                         Land Area:- {{item.LandArea}}<br />
                         Khasra No:- {{item.KhasraNo}}<br />
+                        <span *ngIf="SelectedDepartmentID==5">Lease Date :- {{item.MedicalGroupOneLandType=='Lease for 99 years'?item.LeaseDate:'NA'}}</span>
+                        <span *ngIf="SelectedDepartmentID==5">Name Of Person Land Purchased or Allotted :- {{item.NameOfLandPurchasedAllotted}}</span>
+                        <span *ngIf="SelectedDepartmentID==5">Land Unit :- {{item.MedicalGroupOneLandUnit}}</span>
                       </td>
                       <td>
                         Land Conversion Order Date:- {{item.LandConversionOrderDate}}<br />
@@ -1082,7 +1096,7 @@
                     <tr>
                       <th>Sr. No.</th>
                       <th>Facility Name</th>
-                      <th>Is Available</th>
+                      <th>Is Available(Y/N)</th>
                       <th>No of </th>
                       <th>Minimum Size</th>
                       <!--<th>Image/File</th>-->
@@ -1096,12 +1110,12 @@
                         {{item.MinSize}}
                       </td>
                       <!--<td>
-                                  <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>-->
+                                          <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>-->
                     </tr>
                   </tbody>
                 </table>
@@ -1126,8 +1140,8 @@
                     <th>Sr. No.</th>
                     <th>Course</th>
                     <th>Room No.</th>
-                    <th>Width (In Feet) Size</th>
-                    <th>Length (In Feet)</th>
+                    <th>Width (sq. ft) Size</th>
+                    <th>Length (sq. ft)</th>
                     <th>Room Size (sq. ft)</th>
                     <th>Student Capacity</th>
                     <!--<th>Upload Image</th>-->
@@ -1145,12 +1159,12 @@
                       <td> {{item.Length*item.Width}}</td>
                       <td> {{item.StudentCapacity}}</td>
                       <!--<td>
-                                  <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.ImageFilePath}}" alt="Image/File" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>-->
+                                          <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.ImageFilePath}}" alt="Image/File" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>-->
                     </tr>
 
                   </tbody>
@@ -1206,21 +1220,21 @@
                         {{item.NoofBooks}}
                       </td>
                       <!--<td>
-                                  <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.ImageFilePath}}" alt="Image File" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <label *ngIf="item.ImageFilePath=='N/A'">{{item.ImageFilePath}}</label>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>
-                                <td>
-                                  <a *ngIf="!item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.BookImageFilePath}}" alt="Image File" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>-->
+                                          <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.ImageFilePath}}" alt="Image File" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <label *ngIf="item.ImageFilePath=='N/A'">{{item.ImageFilePath}}</label>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>
+                                        <td>
+                                          <a *ngIf="!item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.BookImageFilePath}}" alt="Image File" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>-->
                     </tr>
                   </tbody>
                 </table>
@@ -1273,7 +1287,7 @@
                         Designation:- {{item.RoleName}}<br />
                         <span *ngIf="item.TeachingType=='Teaching'">Subject :- {{item.SubjectName}}</span><br />
                         Staff Status:- {{item.StaffStatus}}<br />
-                        Salary:- {{item.Salary}}<br />
+                        Annual Salary:- {{item.Salary}}<br />
                       </td>
                       <td>
                         Aadhaar No.:- {{item.AadhaarNo}}<br />
@@ -1405,9 +1419,11 @@
                       <th>Sr.No.</th>
                       <th>Course</th>
                       <th>NOC Type</th>
-                      <th>Session Year</th>
-                      <th>NOC No.</th>
+                      <th>NOC Issue on Session Year</th>
+                      <th>Issued for Year</th>
+                      <th>NOC Number</th>
                       <th>NOC Received On</th>
+                      <!--<th>NOC Expire Date</th>-->
                       <th>Subject Details</th>
                     </tr>
                     <tr *ngFor="let row of OldNocDetailslst;let idx=index;">
@@ -1415,8 +1431,10 @@
                       <td>{{row.CourseName}}</td>
                       <td>{{row.NOCTypeName}}</td>
                       <td>{{row.FinancialYearName}}</td>
+                      <td>{{row.IssuedYear}}</td>
                       <td>{{row.NOCNumber}}</td>
                       <td>{{row.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
+                      <!--<td>{{row.NOCExpireDate | date:'dd-MM-yyyy'}}</td>-->
                       <td>
                         <span *ngFor="let item of OldNocSubjectlst let idxe=index">
                           <span *ngIf="row.OldNocID == item.OldNocID">
@@ -1589,7 +1607,7 @@
                         </td>
                       </tr>
                     </tbody>
-      
+
                     <tbody>
                       <tr>
                         <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Distribution of beds in different areas : -</b></td>
@@ -1623,7 +1641,7 @@
 
                     <tbody *ngIf="IsShowSuperSpecialtyHospital">
                       <tr>
-                        <td >&nbsp;Super specialty hospital details :- </td>
+                        <td>&nbsp;Super specialty hospital details :- </td>
                       </tr>
                       <tr colspan="3" style="font-weight:800; font-size:18px;">Cardio Thoracic Nursing : - </tr>
                       <tr>
@@ -1939,8 +1957,8 @@
                 <table class="table table-hover table-striped-columns text-left" id="ParaHospitalDetailInfo" #content>
                   <thead>
                     <!--<tr *ngIf="HospitalData.ParentHospitalID==2">
-              <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Which affiliated hospitals would the organization like to associate with for clinical training</b></td>
-            </tr>-->
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Which affiliated hospitals would the organization like to associate with for clinical training</b></td>
+                    </tr>-->
                     <tr>
                       <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hospital Detail</b></td>
                     </tr>
@@ -2045,12 +2063,12 @@
                   </thead>
                   <tbody>
                     <!--<tr *ngFor="let item of ParamedicalHospitalBedValidationList ; let idx =index">
-              <td>
-                <label>
-                  {{item.ColumnName}} :- {{item.Istextordropdown==2?item.ColumnValue==1?'Yes':'No':item.ColumnValue}}
-                </label>
-              </td>
-            </tr>-->
+                      <td>
+                        <label>
+                          {{item.ColumnName}} :- {{item.Istextordropdown==2?item.ColumnValue==1?'Yes':'No':item.ColumnValue}}
+                        </label>
+                      </td>
+                    </tr>-->
                   </tbody>
                   <thead *ngIf="IsShowSuperSpecialtyHospital">
                     <tr>

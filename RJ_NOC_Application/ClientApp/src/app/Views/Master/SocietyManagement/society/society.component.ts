@@ -80,6 +80,7 @@ export class SocietyComponent implements OnInit {
   public ImageValidationMessage: string = '';
   public CollegeName: string = '';
   public DepartmentID: number = 0;
+  public IsLOI: boolean = false;
   public OccupationsName: string = '';
   public IsEducationists: boolean = false;
   public isValidProfilePhoto: boolean = false;
@@ -100,6 +101,7 @@ export class SocietyComponent implements OnInit {
   public IsOtherOccupation: boolean = false;
   public IsValidOtherOccupation: string = '';
   public file: any = '';
+  public ProceedToNext: string = 'Proceed To Draft';
   constructor(private societyService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
   async ngOnInit() {
     this.SocietyDetailsForm = this.formBuilder.group(
@@ -178,14 +180,36 @@ export class SocietyComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       await this.societyService.GetSocietyAllList(this.UserID, CollegeID)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.SocietyAllList = data['Data'][0]['data'];
-          this.CollegeName = this.CollegeList.find((x: { CollegeID: number; }) => x.CollegeID == this.request.CollegeID).CollegeName;
-          this.DepartmentID = this.CollegeList.find((x: { CollegeID: number; }) => x.CollegeID == CollegeID).DepartmentID;
+
+
+          await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
+            .then(async (data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              this.CollegeName = data['Data'][0]['data'][0]['CollegeNameEn'];
+              this.DepartmentID = data['Data'][0]['data'][0]['DepartmentID'];
+              this.IsLOI = data['Data'][0]['data'][0]['IsLOI'];
+
+              if (this.DepartmentID == 5 && this.IsLOI == false) {
+                this.ProceedToNext = "Proceed To LOI"
+              }
+              else {
+                this.ProceedToNext = "Proceed To Draft";
+              }
+
+            }, error => console.error(error));
+
+
+
+          // this.CollegeName = this.CollegeList.find((x: { CollegeID: number; }) => x.CollegeID == this.request.CollegeID).CollegeName;
+          //this.DepartmentID = this.CollegeList.find((x: { CollegeID: number; }) => x.CollegeID == CollegeID).DepartmentID;
+
+
           this.GetIsPrimary = this.SocietyAllList.find((x: { S_IsPrimary: string; }) => x.S_IsPrimary.replace(/^\r\n\s+|\s+$/g, '') == 'Yes')?.S_IsPrimary;
           if (this.GetIsPrimary == 'Yes') {
             this.isDisabledPrimary = true;
@@ -206,7 +230,7 @@ export class SocietyComponent implements OnInit {
     }
   }
   async Check30Female(CollegeID: number) {
-    try {      
+    try {
       this.loaderService.requestStarted();
       await this.commonMasterService.Check30Female(CollegeID)
         .then((data: any) => {
@@ -217,7 +241,7 @@ export class SocietyComponent implements OnInit {
           data = JSON.parse(JSON.stringify(data));
 
           if (!this.State) {
-            this.Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];          
+            this.Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -391,9 +415,9 @@ export class SocietyComponent implements OnInit {
         return
       }
     }
-   
+
     this.GetIsPrimary = this.SocietyAllList.find((x: { S_IsPrimary: string; }) => x.S_IsPrimary.replace(/^\r\n\s+|\s+$/g, '') == 'Yes')?.S_IsPrimary;
-   
+
     var Is_Primary = this.request.IsPrimary == true ? 'Yes' : 'No';
     console.log(this.request.SocietyID);
     if (this.request.SocietyID == 0) {
@@ -416,7 +440,7 @@ export class SocietyComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             // get saved society
-            //this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'Society');
+            this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'Society');
             this.GetAllDesignation();
             this.GetAllOccupation();
             this.GetSocietyAllList(this.request.CollegeID);//this.CollegeList[0]["CollegeID"]
@@ -494,7 +518,7 @@ export class SocietyComponent implements OnInit {
             //  this.file = document.getElementById('fSignatureDoc');
             //  this.file.value = '';
             //}
-            this.ResetFileAndValidation(Type,'', '', '', true);
+            this.ResetFileAndValidation(Type, '', '', '', true);
             return
           }
         }
@@ -517,7 +541,7 @@ export class SocietyComponent implements OnInit {
           //  this.file = document.getElementById('fSignatureDoc');
           //  this.file.value = '';
           //}
-          this.ResetFileAndValidation(Type,  '', '', '', true);
+          this.ResetFileAndValidation(Type, '', '', '', true);
           return
         }
 
@@ -529,7 +553,7 @@ export class SocietyComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
-            this.ResetFileAndValidation(Type,  data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], false);
+            this.ResetFileAndValidation(Type, data['Data'][0]["FileName"], data['Data'][0]["Dis_FileName"], data['Data'][0]["FilePath"], false);
             //if (Type == 'ProfilePhoto') {
             //  //this.showProfilePhoto = true;
             //  this.request.ProfilePhoto = data['Data'][0]["FileName"];
@@ -577,7 +601,7 @@ export class SocietyComponent implements OnInit {
           if (event.target.files[0].size > 2000000) {
             //event.target.value = '';
             this.ImageValidationMessage = 'Select less then 2MB File';
-            this.ResetFileAndValidation(Type,'', '', '', true);
+            this.ResetFileAndValidation(Type, '', '', '', true);
             //if (Type == 'AadhaarCard') {
             //  this.isValidAadhaarCard = true;
             //  this.request.AadhaarCard = '';
@@ -664,7 +688,7 @@ export class SocietyComponent implements OnInit {
             //  this.file = document.getElementById('fConsentLetter');
             //  this.file.value = '';
             //}
-            this.ResetFileAndValidation(Type,'', '', '', true);
+            this.ResetFileAndValidation(Type, '', '', '', true);
             return
           }
         }
@@ -786,9 +810,9 @@ export class SocietyComponent implements OnInit {
   DeleteImage(Type: string) {
     this.ResetFileAndValidation(Type, '', '', '', false);
     //try {
-      
+
     //  //this.loaderService.requestStarted();
-      
+
     //  //if (Type == 'ProfilePhoto') {
     //  //  //this.showProfilePhoto = false;
     //  //  this.request.ProfilePhoto = '';
@@ -980,7 +1004,7 @@ export class SocietyComponent implements OnInit {
           else {
             this.request.IsPrimary = data['Data'][0]["IsPrimary"];
             this.isDisabledPrimary = false;
-          }   
+          }
           this.isDisabledGrid = true;
 
           const btnSave = document.getElementById('btnSave')
@@ -1042,7 +1066,7 @@ export class SocietyComponent implements OnInit {
       this.request.ConsentLetter = '';
       this.request.Dis_ConsentLetter = '';
       this.request.ConsentLetterPath = '';
-      this.IsEducationists = false;      
+      this.IsEducationists = false;
     }
     if (this.OccupationsName == 'Others') {
       this.IsOtherOccupation = true;
@@ -1050,7 +1074,7 @@ export class SocietyComponent implements OnInit {
     else {
       this.IsOtherOccupation = false;
     }
-    
+
   }
 
   btnCopyTable_Click() {
@@ -1148,13 +1172,18 @@ export class SocietyComponent implements OnInit {
 
   }
 
-  async Proceed_Draft() { 
-    
+  async Proceed_Draft() {
+
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
-      this.routers.navigate(['/draftapplicationlist']);
+      if (this.ProceedToNext == "Proceed To LOI") {
+        this.routers.navigate(['/totalcollege']);
+      }
+      else {
+        this.routers.navigate(['/draftapplicationlist']);
+      }
     }
     catch (ex) { console.log(ex) }
     finally {

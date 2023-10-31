@@ -193,6 +193,9 @@ export class AddCollegeComponent implements OnInit {
     // query string
     this.QueryStringCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
 
+
+
+
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
     this.request.ContactDetailsList = [];
@@ -217,14 +220,26 @@ export class AddCollegeComponent implements OnInit {
     await this.GetAllDesignation();
 
     // get college by id
+
+
+
     if (this.QueryStringCollageID > 0) {
       await this.GetData();
       this.request.ModifyBy = 1;
+
     }
     else {
+
+      await this.CheckExistsDETGovernmentCollege(this.sSOLoginDataModel.SSOID);
+
       this.request.CreatedBy = 1;
       this.request.ModifyBy = 1;
     }
+
+
+
+
+
     // sso id
     this.request.ParentSSOID = this.sSOLoginDataModel.SSOID;
     this.request.MappingSSOID = this.sSOLoginDataModel.SSOID;
@@ -262,6 +277,30 @@ export class AddCollegeComponent implements OnInit {
 
 
 
+  }
+
+
+  async CheckExistsDETGovernmentCollege(SSOID: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.CheckExistsDETGovernmentCollege(SSOID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          console.log(data);
+
+          if (data['Data'][0][0]['Status'] == true) {
+            this.routers.navigate(['/totalcollege']);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
   //keyPressNumbers(event: any) {
@@ -758,7 +797,7 @@ export class AddCollegeComponent implements OnInit {
         }, error => console.error(error));
 
       //Management Type
-      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(departmentId, "DTEManagementType")
+      await this.commonMasterService.GetCommonMasterList_DTEManagementType(departmentId, "DTEManagementType", this.request.ParentSSOID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -1235,7 +1274,7 @@ export class AddCollegeComponent implements OnInit {
                 this.routers.navigate(['/societydetails']);
               }
               else {
-                this.routers.navigate(['/addcourses']);
+                this.routers.navigate(['/societydetails']);
               }
             }, 200);
 

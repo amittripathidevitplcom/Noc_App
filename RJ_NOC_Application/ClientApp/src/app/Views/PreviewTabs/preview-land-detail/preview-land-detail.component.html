@@ -14,8 +14,7 @@
               <th>Land Situated</th>
               <th>Land Doc Type</th>
               <th>Is Convereted</th>
-              <!--<th>Land Type</th>
-              <th>Khasra Number</th>-->
+              <th *ngIf="SelectedDepartmentID==5">Land Type</th>
               <th>Owner Name</th>
               <th>Action</th>
             </tr>
@@ -27,8 +26,7 @@
               <td>{{item.LandAreaSituatedName}}</td>
               <td>{{item.LandDocumentTypeName}}</td>
               <td>{{item.IsConvereted}}</td>
-              <!--<td>{{item.LandTypeName}}</td>
-              <td>{{item.KhasraNumber}}</td>-->
+              <td *ngIf="SelectedDepartmentID==5">{{item.MedicalGroupOneLandType}}</td>
               <td>{{item.LandOwnerName}}</td>
               <td>
                 <!--<button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewLandDetail(item.LandDetailID)"><i class="fa fa-eye"></i></button>-->
@@ -67,14 +65,28 @@
             <label><b>Is Your Land converted to Institution/Education :</b></label>
             <input class="form-control disabled" disabled value="{{request.IsConvereted}}" />
           </div>
-          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <!--Land detail for Department 5-->
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
             <label><b>Land Type :</b></label>
-            <input class="form-control disabled" disabled value="{{request.LandTypeName}}" />
+            <input class="form-control disabled" disabled value="{{request.MedicalGroupOneLandType}}" />
           </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+            <label><b>Lease Date :</b></label>
+            <input class="form-control disabled" disabled value="{{request.MedicalGroupOneLandType=='Lease for 99 years'?request.LeaseDate:'NA'}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+            <label><b>Name Of Person Land Purchased or Allotted :</b></label>
+            <input class="form-control disabled" disabled value="{{request.NameOfLandPurchasedAllotted}}" />
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="SelectedDepartmentID==5">
+            <label><b>Land Unit:</b></label>
+            <input class="form-control disabled" disabled value="{{request.MedicalGroupOneLandUnit}}" />
+          </div>
+
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label><b>Khasra Number :</b></label>
             <input class="form-control disabled" disabled value="{{request.KhasraNumber}}" />
-          </div>-->
+          </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
             <label><b>Name of Owner of Land :</b></label>
             <input class="form-control disabled" disabled value="{{request.LandOwnerName}}" />
@@ -83,18 +95,7 @@
             <label><b>Land Area (in {{request.AreaType !=''?request.AreaType:UnitOfLand}}) :</b></label>
             <input class="form-control disabled" disabled value="{{request.LandArea}}" />
           </div>
-          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label><b>Total Building Area (in {{UnitOfLand}}) :</b></label>
-            <input class="form-control disabled" disabled value="{{request.BuildingHostelQuartersRoadArea}}" />
-          </div>-->
-          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
-            <label><b> Land Conversion Order Date(DD/MM/YYYY) :</b></label>
-            <input class="form-control disabled" disabled value="{{request.LandConversionOrderDate | date:'dd-MM-yyyy'}}" />
-          </div>-->
-          <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='FCON' || request.Code=='PCON')">
-            <label><b>Land Conversion Order No :</b></label>
-            <input class="form-control disabled" disabled value="{{request.LandConversionOrderNo}}" />
-          </div>-->
+
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="(request.Code=='NCON' || request.Code=='PCON')">
             <label><b>Affidavit Date(DD/MM/YYYY) :</b></label>
             <input class="form-control disabled" disabled value="{{request.AffidavitDate | date:'dd-MM-yyyy'}}" />

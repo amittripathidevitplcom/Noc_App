@@ -137,14 +137,14 @@
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <label>
-                  Total Constructed Building Area ({{RangeType}}) <span style="color:red;">*</span>
+                  Total Constructed Building Area ({{RangeType}}) <!--<span style="color:red;">*</span>-->
                 </label>
                 <input type="text" id="txtBuildingHostelQuartersRoadArea" class="form-control" [(ngModel)]="buildingdetails.BuildingHostelQuartersRoadArea" formControlName="txtBuildingHostelQuartersRoadArea" (keypress)="numbersOnly($event)" maxlength="5" />
                 <p *ngIf="IstxtBuildingHostel" class="text-danger"><i aria-hidden="true"></i>Enter the Building/Hostel/Quarters/Road Area(A1) .!</p>
-                <div *ngIf="isSubmitted&&form.txtBuildingHostelQuartersRoadArea.errors" class="text-danger">
+                <!--<div *ngIf="isSubmitted&&form.txtBuildingHostelQuartersRoadArea.errors" class="text-danger">
                   <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.required">This field is required .!</p>
                   <p *ngIf="form.txtBuildingHostelQuartersRoadArea.errors.min">This field is required .!</p>
-                </div>
+                </div>-->
               </div>
 
 

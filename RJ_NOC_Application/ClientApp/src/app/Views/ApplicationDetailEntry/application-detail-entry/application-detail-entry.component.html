@@ -74,11 +74,9 @@
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntryData['BuildingDocuments']==0"></span>
                 <span>Building Documents</span>
-                <div class="clearfix"></div>
-                <div><br /></div>
                 <div *ngIf="this.SelectedDepartmentID == 5"> (If Building Exists)</div>
               </ng-template>
-              
+
               <app-building-details></app-building-details>
             </mat-tab>
 
@@ -143,7 +141,17 @@
 
 
             <!--Staff Details-->
-            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5">
+            <mat-tab *ngIf="CollegeType_IsExisting && SelectedDepartmentID!=5 && SelectedDepartmentID!=4">
+              <ng-template mat-tab-label>
+                <i class="fa fa-users icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['StaffDetails']==0"></span>
+                <span>Staff Details</span>
+              </ng-template>
+              <app-staff-details></app-staff-details>
+            </mat-tab>
+
+            <mat-tab *ngIf="SelectedDepartmentID==4">
               <ng-template mat-tab-label>
                 <i class="fa fa-users icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
@@ -245,7 +253,8 @@
         </div>
         <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
           <button *ngIf="this.selectedIndex != 0" class="btn btn-primary" type="button" (click)="PreviousStep()"><< Previous</button>
-          <button *ngIf="this.selectedIndex != maxNumberOfTabs" class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left:20px">Next >></button>
+          <button  class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left:20px">Next >></button>
+          <!--<button *ngIf="this.selectedIndex != maxNumberOfTabs" class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left:20px">Next >></button>-->
         </div>
       </div>
     </div>

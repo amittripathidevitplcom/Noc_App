@@ -279,6 +279,8 @@ import { AgriPSNocApplicationListComponent } from './Views/DocumentScrutinyTab_A
 import { DocumentScrutinyRevertedReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-reverted-report/document-scrutiny-reverted-report.component';
 import { DteAddCourseComponent } from './Views/CollegeDetailsForm/dte-add-course/dte-add-course.component';
 import { UpdateNocFeesComponent } from './Views/Admin/update-noc-fees/update-noc-fees.component';
+import { PreviewLOIapplicationdetailEntryComponent } from './Views/PreviewTabs/preview-loiapplicationdetail-entry/preview-loiapplicationdetail-entry.component';
+import { LOIApplyEntryComponent } from './Views/NoOfficer/loiapply-entry/loiapply-entry.component';
 
 
 
@@ -550,6 +552,8 @@ import { UpdateNocFeesComponent } from './Views/Admin/update-noc-fees/update-noc
     DocumentScrutinyRevertedReportComponent,
     DteAddCourseComponent,
     UpdateNocFeesComponent,
+    PreviewLOIapplicationdetailEntryComponent,
+    LOIApplyEntryComponent,
   ],
   imports: [
     CommonModule,

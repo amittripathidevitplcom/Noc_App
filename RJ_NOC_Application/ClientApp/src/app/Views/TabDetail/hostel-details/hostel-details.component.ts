@@ -202,6 +202,14 @@ export class HostelDetailsComponent implements OnInit {
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.LoadMaster();
+    if (this.SelectedDepartmentID != 4) {
+      this.isHostel = true;
+      this.request.IsHostel = 'Yes';
+    }
+    else {
+      this.isHostel = false;
+      this.request.IsHostel = '';
+    }
 
     // load
     //await this.GetCollageDetails();
@@ -559,6 +567,7 @@ export class HostelDetailsComponent implements OnInit {
     }
   }
   async SaveData() {
+    debugger;
     try {
       this.isFormValid = this.ValidateForm();
       if (this.HostelForm.invalid) {
@@ -642,7 +651,6 @@ export class HostelDetailsComponent implements OnInit {
         this.DocumentValidMessage = 'This field is required .!';
         this.isFormValid = false;
       }
-      //debugger
       if (this.isOwnerContactNo == false) {
         if (this.request.OwnerContactNo.length != 10) {
           this.isValidOwnerContactNo = true;
@@ -794,6 +802,8 @@ export class HostelDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.request = data['Data'][0];
+          this.isHostel = true;
+          this.request.IsHostel = data['Data'][0]['IsHostel'];
           this.request.IsHostelCampus = data['Data'][0]['IsHostelCampus'];
           this.holddata.AddressLine1 = data['Data'][0]['AddressLine1'];
           this.holddata.AddressLine2 = data['Data'][0]['AddressLine2'];
@@ -915,6 +925,7 @@ export class HostelDetailsComponent implements OnInit {
 
       this.request.HostelCategoryID = 0;
       this.request.HostelDetailID = 0;
+      this.request.IsHostel = '';
       this.request.IsHostelCampus = '';
       this.request.HostelName = '';
       this.request.HostelAddress = '';
@@ -972,7 +983,6 @@ export class HostelDetailsComponent implements OnInit {
   }
 
   async IsRuralOrUrban(section: string) {
-    debugger
     try {
       this.loaderService.requestStarted();
       if (this.request.IsRuralUrban == 'Rural') {
@@ -996,9 +1006,18 @@ export class HostelDetailsComponent implements OnInit {
       }, 200);
     }
   }
+  public isHostel: boolean = false;
+  async IsHostelYesorNO(IsChanged: boolean) {
+    if (this.request.IsHostel == 'Yes' && IsChanged) {
+      this.isHostel = true;
+    }
+    else {
+      this.isHostel = false;
+      this.ResetControl();
+    }
+  }
 
   async IsHostelCampusOrNot(IsChanged: boolean) {
-    //debugger
     try {
       this.loaderService.requestStarted();
       if (this.request.IsHostelCampus == 'No') {

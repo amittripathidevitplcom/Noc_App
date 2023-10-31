@@ -13,7 +13,7 @@ export class LegalEntityDataModel {
   public RegisteredActID: number = 0;
   public RegisteredActName: string = '';
   public SocietyRegistrationDate: string = '';
-  public ElectionPresentManagementCommitteeDate: any = null;
+  public ElectionPresentManagementCommitteeDate: string ='';
   public SocietyRegisteredAddress: string = '';
   public Pincode: string = '';
   public Dis_TrustLogoDocName: string = '';
@@ -41,6 +41,13 @@ export class LegalEntityDataModel {
 
   public MemberDetails: LegalEntityMemberDetailsDataModel[] = [];
   public InstituteDetails: LegalEntityInstituteDetailsDataModel[] = [];
+
+
+
+  public ProcessDepartmentID: number = 0;
+  public ManagementType: string = 'Private';
+
+
 }
 
 export class RegistrationDetail_LegalEntityDataModel {

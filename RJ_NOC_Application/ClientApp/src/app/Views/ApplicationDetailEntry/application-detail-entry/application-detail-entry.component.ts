@@ -10,7 +10,10 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
+import { DteAddCourseComponent } from '../../CollegeDetailsForm/dte-add-course/dte-add-course.component';
 import { AcademicInformationComponent } from '../../TabDetail/academic-information/academic-information.component';
+import { OldNOCDetailsComponent } from '../../TabDetail/old-nocdetails/old-nocdetails.component';
+import { RoomDetailsComponent } from '../../TabDetail/room-details/room-details.component';
 import { StaffDetailsComponent } from '../../TabDetail/staff-details/staff-details.component';
 
 @Component({
@@ -49,6 +52,14 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   @ViewChild(AcademicInformationComponent)
   private academicInformationComponent!: AcademicInformationComponent;
+
+  @ViewChild(OldNOCDetailsComponent)
+  private oldNOCDetailsComponent!: OldNOCDetailsComponent;
+
+  @ViewChild(RoomDetailsComponent)
+  private roomDetailsComponent!: RoomDetailsComponent;
+
+
 
   public DraftbuttonName: string = 'Save Draft';
 
@@ -99,6 +110,8 @@ export class ApplicationDetailEntryComponent implements OnInit {
     this.ShowDraftFinalSubmitBtn();
     this.staffDetailsComponent.GetCollegeWiseSubjectList(this.SelectedCollageID);
     this.academicInformationComponent.GetCourseList_CollegeWise(this.SelectedCollageID);
+    this.oldNOCDetailsComponent.GetCourseList();
+    this.roomDetailsComponent.LoadMaster();
 
   }
 
@@ -191,6 +204,16 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
             if (!this.State) {
               //No need Animal Husbandry Departement check member validation
+
+              if (this.SelectedDepartmentID == 4) {
+                if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
+                  this.toastr.error('Please Add One Principal in Staff details.')
+                  this.isCheck30Female = true;
+                  return;
+                }
+              }
+
+
               if (this.SelectedDepartmentID != 2) {
                 if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
                   this.toastr.error("Add Minimum 15 College Management Committee Members.")
@@ -417,7 +440,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   return;
                 }
                 if (data['Data'][0]['data'][0]['Medicalexperts'] <= 0) {
-                  this.toastr.error('Add Medical experts in College Management Committee Members.');
+                  this.toastr.error('Add Medical Educationist in College Management Committee Members.');
                   this.isCheck30Female = true;
                   return;
                 }
@@ -438,7 +461,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                   this.toastr.success('Apply LOI Successfully')
 
                   setTimeout(() => {
-                    this.routers.navigate(['/loiapplicationlist']);
+                    this.routers.navigate(['/totalcollege']);
                   }, 500);
 
                 }
@@ -569,15 +592,15 @@ export class ApplicationDetailEntryComponent implements OnInit {
       if (this.CollegeType_IsExisting == true) {
         if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
           this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 &&
-           this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0
-          && this.CheckTabsEntryData['HostelDetails'] > 0 && this.CheckTabsEntryData['CourseDetails'] > 0) {
+          this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0
+          && this.CheckTabsEntryData['CourseDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else {
         if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
           this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0
-          && this.CheckTabsEntryData['HostelDetails'] > 0 && this.CheckTabsEntryData['CourseDetails'] > 0) {
+          && this.CheckTabsEntryData['CourseDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
@@ -606,7 +629,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
       if (confirm("Are you sure you want to Resubmit application?")) {
 
-        await this.applyNOCApplicationService.SubmitRevertApplication(this.SelectedApplyNOCID,this.SelectedDepartmentID)
+        await this.applyNOCApplicationService.SubmitRevertApplication(this.SelectedApplyNOCID, this.SelectedDepartmentID)
           .then((data: any) => {
 
             this.State = data['State'];
