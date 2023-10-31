@@ -67,7 +67,7 @@
             <input class="form-control disabled" disabled value="{{request.CourseName}}" />
           </div>
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="SelectedDepartmentID ==2 || SelectedDepartmentID==4">
             <label><b>Subject :</b></label>
             <div class="clearfix"></div>
             <div class="form-control disabled">
