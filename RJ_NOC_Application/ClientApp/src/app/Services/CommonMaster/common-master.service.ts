@@ -307,6 +307,28 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetCommonMasterList_DTEManagementType(DepartmentID: number, Type: string, SSOID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCommonMasterList_DTEManagementType/" + DepartmentID + "/" + Type + "/" + SSOID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async CheckExistsDETGovernmentCollege(SSOID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/CheckExistsDETGovernmentCollege/" +SSOID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async GetStateList() {
     const httpOptions = {
@@ -1245,4 +1267,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetPaymentMode() {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetPaymentMode")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  } 
 }

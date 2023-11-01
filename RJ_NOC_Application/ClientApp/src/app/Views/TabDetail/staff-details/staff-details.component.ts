@@ -601,19 +601,23 @@ export class StaffDetailsComponent implements OnInit {
         }
       }
       if (this.request.TeachingType == 'Teaching' && this.IsCourseLevel == 'Yes') {
-        if (this.request.SubjectID == 0) {
-          this.isSubject = true;
-          this.FormValid = false;
-        }
-        if (this.request.SpecializationSubject == '') {
-          this.isSpecializationSubject = true;
-          this.FormValid = false;
+        if (this.SelectedDepartmentID != 4) {
+          if (this.request.SubjectID == 0) {
+            this.isSubject = true;
+            this.FormValid = false;
+          }
+
+          if (this.request.SpecializationSubject == '') {
+            this.isSpecializationSubject = true;
+            this.FormValid = false;
+          }
         }
       }
+
       if (this.request.TeachingType == 'Teaching') {
         if (this.request.Email == '' || this.request.Email == null) {
           this.FormValid = false;
-        }        
+        }
         if (this.request.PANCard == '') {
           this.isPANCard = true;
           this.FormValid = false;
@@ -879,7 +883,7 @@ export class StaffDetailsComponent implements OnInit {
   async GetStaffDetailList_DepartmentCollegeWise(DepartmentID: number, CollegeID: number, StaffDetailID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, StaffDetailID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
+      await this.staffDetailService.GetStaffDetailList_DepartmentCollegeWise(DepartmentID, CollegeID, StaffDetailID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));

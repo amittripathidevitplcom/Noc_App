@@ -226,7 +226,12 @@ export class OldNOCDetailsComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.lstNOCType = data['Data'];
-          if (this.SelectedDepartmentID != 3) {
+          if (this.SelectedDepartmentID == 4) {
+            this.lstNOCType = this.lstNOCType.filter((element: any) => {
+              return element.Name == "NOC";
+            });
+          }
+          else if (this.SelectedDepartmentID != 3) {
             this.lstNOCType = this.lstNOCType.filter((element: any) => {
               return element.Name == "PNOC";
             });

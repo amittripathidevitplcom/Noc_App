@@ -26,7 +26,8 @@
                 <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
                 <th>Sr. No.</th>
                 <th>Facility Name</th>
-                <th>No of </th>
+                <th>Is Available(Y/N)</th>
+                <th>No of Facility</th>
                 <th>Minimum Size</th>
                 <th>Image/File</th>
               </tr>
@@ -65,6 +66,7 @@
                 <td>
                   {{item.FacilitiesName}}
                 </td>
+                <td>{{item.IsAvailable}}</td>
                 <td>{{item.NoOf}}</td>
                 <td>
                   {{item.MinSize}}

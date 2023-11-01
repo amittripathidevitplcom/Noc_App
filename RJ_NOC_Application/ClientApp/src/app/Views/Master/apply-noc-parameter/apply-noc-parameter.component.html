@@ -147,8 +147,8 @@
 
               <div class="col-lg-4 col-md-4 col-sm-4 col-4" *ngFor="let item of ApplyNocParameterMasterList_ddl ;let idx=index;">
 
-                <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}">
-                  <input class="form-check-input" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}" id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked"
+                <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}" >
+                  <input class="form-check-input"  [attr.disabled]="isApplicationApplyFor ? true : null" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}" id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked"
                          [ngModelOptions]="{standalone: true}"> {{item.ApplyNocFor}}
                 </label>
                 <!--</div>-->

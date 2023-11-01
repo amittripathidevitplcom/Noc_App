@@ -1,4 +1,4 @@
-<div class="row">
+  <div class="row">
   <div class="col-md-12">
     <div class="card mb-0">
       <div class="card-header">
@@ -36,10 +36,25 @@
               <label>College Type :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeType}}" />
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==4">
+              <label>Management Type :</label>
+              <input class="form-control disabled mt-1" disabled value="{{collegeListData.ManagementTypeName}}" />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID!=4">
               <label>College Level :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeLevel}}" />
             </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==4">
+              <label>College Level :</label>
+              <div class="form-control disabled mt-1" style="background-color: #e9ecef ">
+                <span *ngFor="let item of DTECollegeLevel let idx=index" >
+                  {{idx==0?'':', '}}{{item.LevelName}}
+                </span>
+              </div>
+
+            </div>
+
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label>College Code :</label>
               <input class="form-control disabled mt-1" disabled value="{{collegeListData.CollegeCode}}" />
@@ -281,7 +296,7 @@
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="collegeNearestGovernmentHospitalsList.length>0">
+        <div class="row" *ngIf="collegeNearestGovernmentHospitalsList.length>0 && collegeListData.DepartmentID==6">
           <div class="col-md-12">
             <div class="card mb-0">
               <div class="card-header">

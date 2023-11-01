@@ -376,7 +376,7 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
 
-
+  public isApplicationApplyFor: boolean = false;
   async ApplyNocFor_cbChange(event: any, SelectedApplyNocForID: string, item: any, index: any) {
     try {
       this.loaderService.requestStarted();
@@ -385,11 +385,28 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.ApplyNocCode = item.ApplyNocCode;
 
 
-      if (this.CollegeDepartmentID == 2) {
-        if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length > 0) {
+      //if (this.CollegeDepartmentID == 2) {
+      //  if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length > 0) {
+      //    await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
+      //      if (item.ApplyNocID != rowitem.ApplyNocID) {
+      //        rowitem.IsChecked = false;
+              
+      //      }
+      //      else {
+      //        rowitem.IsChecked = true;
+              
+      //      }
+      //    });
+      //  }
+      //}
+
+      if (this.CollegeDepartmentID == 4) {
+        if (this.request.ApplyNocFor == 'Closure of Institute') {
+          this.isApplicationApplyFor = item.IsChecked;
           await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
             if (item.ApplyNocID != rowitem.ApplyNocID) {
               rowitem.IsChecked = false;
+             
             }
             else {
               rowitem.IsChecked = true;
@@ -397,7 +414,7 @@ export class ApplyNocParameterComponent implements OnInit {
           });
         }
       }
-
+     
 
       // await  this.SetPrimaryMember(item, index)
 
@@ -608,6 +625,18 @@ export class ApplyNocParameterComponent implements OnInit {
       for (var i = 0; i < this.ApplyNocParameterMasterList_ddl.length; i++) {
         if (this.ApplyNocParameterMasterList_ddl[i].IsChecked == true) {
           IfSelectedParamenter = true;
+        }
+      }
+      HasData = IfSelectedParamenter;
+    }
+    else if (this.request.DepartmentID == 2) {
+      let IfSelectedParamenter = true;
+      for (var i = 0; i < this.ApplyNocParameterMasterList_ddl.length; i++) {
+        if (this.ApplyNocParameterMasterList_ddl[i].IsChecked == true) {
+          //IfSelectedParamenter = true;
+        }
+        else {
+          IfSelectedParamenter = false;
         }
       }
       HasData = IfSelectedParamenter;
