@@ -59,6 +59,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   public lstPaymentMode: any = [];
   public lstOfflinePaymentDetails: any = [];
   public file: any = '';
+  public AddUpdatetext: string = 'Add';
 
 
   constructor(private fileUploadService: FileUploadService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private nocPaymentComponent: NocPaymentComponent) {
@@ -824,7 +825,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   }
 
   async ResetOfflinepaymentdetails() {
-
+    this.request.ID = 0;
     this.request.BankName = '';
     this.request.DateofExpiry = '';
     this.request.DateofIssuance = '';
@@ -836,6 +837,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     this.isSubmitted = false;
     this.file = document.getElementById('fileTransactionReceptDocument');
     this.file.value = '';
+    this.AddUpdatetext = 'Add';
   }
 
   async GetOfflinePaymentDetails(ApplyNocID: number, PaymentOfflineID: number, ActionName: string) {
@@ -871,6 +873,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       this.request.FileName = item.FileName;
       this.request.FilePath = item.FilePath;
       this.request.Dis_FileName = item.Dis_FileName;
+      this.AddUpdatetext = 'Update';
     }
     catch (Ex) {
       console.log(Ex);

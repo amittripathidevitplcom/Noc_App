@@ -62,18 +62,18 @@ export class AhApplyNocApplicationListComponent {
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //this.RoleID = this.sSOLoginDataModel.RoleID;
-    if (this.sSOLoginDataModel.RoleID == 11) {
+    if (this.sSOLoginDataModel.RoleID == 12) {
       this.CommitteType = EnumCommitteType.Pre;//'PreVerification';
       this.IsCommitteType = true;
     }
-    else if (this.sSOLoginDataModel.RoleID == 14) {
+    else if (this.sSOLoginDataModel.RoleID == 14 || this.sSOLoginDataModel.RoleID == 6) {
       this.CommitteType = EnumCommitteType.Post;//'PostVerification';
       this.IsCommitteType = true;
     }
-    else if (this.sSOLoginDataModel.RoleID == 25) {
-      this.CommitteType = EnumCommitteType.Final;//'FinalVerification';
-      this.IsCommitteType = true;
-    }
+    //else if (this.sSOLoginDataModel.RoleID == 25) {
+    //  this.CommitteType = EnumCommitteType.Final;//'FinalVerification';
+    //  this.IsCommitteType = true;
+    //}
     else {
       this.CommitteType = 'All';
       this.IsCommitteType = false;
