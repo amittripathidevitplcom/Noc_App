@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ApplyNocFDRDetailsDataModel, ApplyNocParameterDataModel } from '../../Models/ApplyNocParameterDataModel';
+import { ApplyNocFDRDetailsDataModel, ApplyNocOfflinePaymentModal, ApplyNocParameterDataModel } from '../../Models/ApplyNocParameterDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +78,7 @@ export class ApplyNocParameterService {
       ).toPromise();
   }
   public async SaveApplyNoc_FDRMasterDetail(request: ApplyNocFDRDetailsDataModel) {
-    
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -90,7 +90,7 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetApplyNocFDRDetails(ApplyNocFDRID: number, ApplyNocID:number){
+  public async GetApplyNocFDRDetails(ApplyNocFDRID: number, ApplyNocID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl + '/GetApplyNocFDRDetails/' + ApplyNocFDRID + "/" + ApplyNocID, httpOptions)
       .pipe(
@@ -104,7 +104,7 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  
+
   public async GetApplyNocApplicationByApplicationID(ApplyNocApplicationID: number) {
     return await this.http.get(this.APIUrl + "/GetApplyNocApplicationByApplicationID/" + ApplyNocApplicationID)
       .pipe(
@@ -129,7 +129,7 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  
+
 
   public async FinalSubmitApplyNocApplicationByApplicationID(ApplyNocApplicationID: number, ModifyBy: number) {
     const httpOptions = {
@@ -175,6 +175,27 @@ export class ApplyNocParameterService {
   }
   public async GetCourseSubjectByApplyNOCID(ApplyNOCID: number) {
     return await this.http.get(this.APIUrl + "/GetCourseSubjectByApplyNOCID/" + ApplyNOCID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async SaveOfflinePaymnetDetail(request: ApplyNocOfflinePaymentModal) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    let body = JSON.stringify(request)
+    return await this.http.post(this.APIUrl + "/SaveOfflinePaymnetDetail/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetOfflinePaymentDetails(ApplyNocApplicationID: number, PaymentOfflineID: number, ActionName: string) {
+    return await this.http.get(this.APIUrl + "/GetOfflinePaymentDetails/" + ApplyNocApplicationID + "/" + PaymentOfflineID + "/" + ActionName)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

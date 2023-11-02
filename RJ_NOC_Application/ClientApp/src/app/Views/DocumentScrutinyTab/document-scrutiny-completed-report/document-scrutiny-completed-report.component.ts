@@ -38,6 +38,12 @@ export class DocumentScrutinyCompletedReportComponent implements OnInit {
       if (RoleID == 28 && DepartmentID == EnumDepartment.Agriculture) {
         ActionName = EnumApplicationStatus.ApproveandForward;
       }
+      else if (RoleID == 25 && DepartmentID == EnumDepartment.Animal_Husbandry) {
+        ActionName = EnumApplicationStatus.ForwardToSecretary;
+      }
+      else if (RoleID == 15 && DepartmentID == EnumDepartment.Animal_Husbandry) {
+        ActionName = EnumApplicationStatus.ApproveandForward;
+      }
       this.loaderService.requestStarted();
       await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID, ActionName, RoleID, DepartmentID)
         .then((data: any) => {

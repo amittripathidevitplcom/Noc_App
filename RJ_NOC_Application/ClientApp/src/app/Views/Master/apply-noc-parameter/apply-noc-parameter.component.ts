@@ -385,20 +385,20 @@ export class ApplyNocParameterComponent implements OnInit {
       this.request.ApplyNocCode = item.ApplyNocCode;
 
 
-      if (this.CollegeDepartmentID == 2) {
-        if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length > 0) {
-          await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
-            if (item.ApplyNocID != rowitem.ApplyNocID) {
-              rowitem.IsChecked = false;
+      //if (this.CollegeDepartmentID == 2) {
+      //  if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length > 0) {
+      //    await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
+      //      if (item.ApplyNocID != rowitem.ApplyNocID) {
+      //        rowitem.IsChecked = false;
               
-            }
-            else {
-              rowitem.IsChecked = true;
+      //      }
+      //      else {
+      //        rowitem.IsChecked = true;
               
-            }
-          });
-        }
-      }
+      //      }
+      //    });
+      //  }
+      //}
 
       if (this.CollegeDepartmentID == 4) {
         if (this.request.ApplyNocFor == 'Closure of Institute') {
@@ -414,19 +414,7 @@ export class ApplyNocParameterComponent implements OnInit {
           });
         }
       }
-      //if (this.CollegeDepartmentID == 2) {
-      //  if (this.ApplyNocParameterMasterList_ddl.filter(f => f.IsChecked).length > 0) {
-      //    await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
-      //      if (item.ApplyNocID != rowitem.ApplyNocID) {
-      //        rowitem.IsChecked = false;
-      //      }
-      //      else {
-      //        rowitem.IsChecked = true;
-      //      }
-      //    });
-      //  }
-      //}
-
+     
 
       // await  this.SetPrimaryMember(item, index)
 

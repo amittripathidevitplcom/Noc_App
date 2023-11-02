@@ -153,7 +153,7 @@ import { AgriInsepctionPostVerificationComponent } from './Views/DocumentScrutin
 import { AgriPreViewByNodalOfficerComponent } from './Views/DocumentScrutinyTab_Agri/agri-pre-view-by-nodal-officer/agri-pre-view-by-nodal-officer.component';
 import { AgriPIForwardToCommiteeListComponent } from './Views/DocumentScrutinyTab_Agri/agri-piforward-to-commitee-list/agri-piforward-to-commitee-list.component';
 import { AgriPostVerificationDoneListComponent } from './Views/DocumentScrutinyTab_Agri/agri-post-verification-done-list/agri-post-verification-done-list.component';
-import {PaymentTransactionComponent } from './Views/noc-payment/payment-transaction/payment-transaction.component';
+import { PaymentTransactionComponent } from './Views/noc-payment/payment-transaction/payment-transaction.component';
 
 import { AgriPSNocApplicationListComponent } from './Views/DocumentScrutinyTab_Agri/agri-psnoc-application-list/agri-psnoc-application-list.component';
 import { DocumentScrutinyRevertedReportComponent } from './Views/DocumentScrutinyTab/document-scrutiny-reverted-report/document-scrutiny-reverted-report.component';
@@ -161,12 +161,17 @@ import { DteAddCourseComponent } from './Views/CollegeDetailsForm/dte-add-course
 import { UpdateNocFeesComponent } from './Views/Admin/update-noc-fees/update-noc-fees.component';
 import { PreviewLOIapplicationdetailEntryComponent } from './Views/PreviewTabs/preview-loiapplicationdetail-entry/preview-loiapplicationdetail-entry.component';
 import { LOIApplyEntryComponent } from './Views/NoOfficer/loiapply-entry/loiapply-entry.component';
+import { NocInformationComponent } from './Views/NocInformation/noc-information/noc-information.component';
+
 import { SeatInformationMasterComponent } from './Views/Master/seat-information-master/seat-information-master.component';
 import {LOIFeeMasterComponent } from './Views/Master/loifee-master/loifee-master.component'
 
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
+  }
+  , {
+    path: 'NocInformation/:SearchRecordID', component: NocInformationComponent,
   },
   {
     path: 'ssologin/:id1/:id2', component: SSOLoginComponent
@@ -743,7 +748,9 @@ const routes: Routes = [
   //},
   {
     path: '**', component: PageNotFoundComponent
-  },
+  }
+
+
 ];
 //const addLocationGuard = (r: Route): Route => r.redirectTo ? r : { ...r, canActivate: [SkipLocationChangeGuard] };
 //const addLocationGuard = (r: ActivatedRoute): ActivatedRoute => (r.redirectTo: any) ?r: { ...r, canActivate: [SkipLocationChangeGuard] };

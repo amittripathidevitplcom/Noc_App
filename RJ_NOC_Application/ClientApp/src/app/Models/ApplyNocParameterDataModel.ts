@@ -289,4 +289,20 @@ export class ApplyNocLateFeeDetailDataModal
   public EndDate: string = '';
 }
 
+export class ApplyNocOfflinePaymentModal {
+  public ID: number = 0;
+  public DepartmentID: number = 0;
+  public ApplyNOCID: number = 0;
+  public CollegeID: number = 0;
+  public PaymentMode: string = '';
+  public BankName: string = '';
+  public Amount: number = 0;
+  public DateofIssuance: string = '';
+  public DateofExpiry: string = '';
+  public FileName: string = '';
+  public Dis_FileName: string = '';
+  public FilePath: string = '';
+  public ActionName: string = '';
+}
+
 
