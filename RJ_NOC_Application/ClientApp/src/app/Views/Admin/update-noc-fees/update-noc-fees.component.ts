@@ -84,6 +84,7 @@ export class UpdateNocFeesComponent {
         this.request.FeeAmount = item.FeeAmount;
         this.request.ApplyNocFeeID = item.ApplyNocFeeID;
         this.request.ApplyNocName = item.ApplyNocName;
+        this.request.TableUpdateType = item.TableUpdateType;
         this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
