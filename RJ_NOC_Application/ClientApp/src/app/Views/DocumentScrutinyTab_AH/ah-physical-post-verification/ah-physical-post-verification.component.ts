@@ -196,15 +196,17 @@ export class AhPhysicalPostVerificationComponent {
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
     await this.GetCollageDetails(CollegeID);
-    await this.CheckTabsEntry(ApplyNOCID);
-    if (this.isFormvalid) {
-      this.ShowHideApplicationAction = true;
-      this.GetRNCCheckListByTypeDepartment(ApplyNOCID);
-    }
-    else {
-      this.toastr.warning('First of all, check and complete all the tabs of document scrutiny and then complete the check list.');
-      this.ShowHideApplicationAction = false;
-    }
+    this.ShowHideApplicationAction = true;
+    this.GetRNCCheckListByTypeDepartment(ApplyNOCID);
+    //await this.CheckTabsEntry(ApplyNOCID);
+    //if (this.isFormvalid) {
+    //  this.ShowHideApplicationAction = true;
+    //  this.GetRNCCheckListByTypeDepartment(ApplyNOCID);
+    //}
+    //else {
+    //  this.toastr.warning('First of all, check and complete all the tabs of document scrutiny and then complete the check list.');
+    //  this.ShowHideApplicationAction = false;
+    //}
   }
   async GetCollageDetails(CollegeID: number) {
     try {
