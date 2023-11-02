@@ -68,4 +68,17 @@ export class CollegeService {
       ).toPromise();
   }
 
+  public async RejectedApplicationList(LoginSSOID: string) {
+    const httpOptions =
+    {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/RejectedApplicationList/" + LoginSSOID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

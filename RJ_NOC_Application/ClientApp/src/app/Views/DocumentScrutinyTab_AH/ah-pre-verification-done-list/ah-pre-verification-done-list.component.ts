@@ -169,7 +169,6 @@ export class AhPreVerificationDoneListComponent {
 
       if (this.ActionID == 0) {
         this.isActionTypeValid = true;
-        this.CheckFinalRemark = 'Pre Verification Approved';
         return;
       }
       else {
@@ -182,6 +181,7 @@ export class AhPreVerificationDoneListComponent {
         }
         else {
           this.ActionName = 'Pre Verification Approved';
+          this.CheckFinalRemark = 'Pre Verification Approved';
         }
       }
       if (this.ActionName != '') {

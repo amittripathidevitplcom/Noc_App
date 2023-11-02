@@ -169,7 +169,6 @@ export class AhPostVerificationDoneListComponent {
     try {
 
       if (this.ActionID == 0) {
-        this.CheckFinalRemark="Approved Post Verification"
         this.isActionTypeValid = true;
         return;
       }
@@ -183,6 +182,7 @@ export class AhPostVerificationDoneListComponent {
         }
         else {
           this.ActionName = EnumOfficerActionType.PostVeriApproved;
+          this.CheckFinalRemark = "Post Verification Approved"
         }
       }
       if (this.ActionName != '') {
