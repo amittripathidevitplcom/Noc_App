@@ -31,7 +31,7 @@
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
 
-            <mat-tab *ngIf="SelectedDepartmentID!=4 && SelectedDepartmentID!=5">
+            <mat-tab *ngIf="SelectedDepartmentID!=4 &&  SelectedDepartmentID!=5">
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CourseDetails']>0"></i>
