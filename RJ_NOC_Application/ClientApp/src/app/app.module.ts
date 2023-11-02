@@ -281,6 +281,8 @@ import { DteAddCourseComponent } from './Views/CollegeDetailsForm/dte-add-course
 import { UpdateNocFeesComponent } from './Views/Admin/update-noc-fees/update-noc-fees.component';
 import { PreviewLOIapplicationdetailEntryComponent } from './Views/PreviewTabs/preview-loiapplicationdetail-entry/preview-loiapplicationdetail-entry.component';
 import { LOIApplyEntryComponent } from './Views/NoOfficer/loiapply-entry/loiapply-entry.component';
+import { SeatInformationMasterComponent } from './Views/Master/seat-information-master/seat-information-master.component';
+import { LOIFeeMasterComponent } from './Views/Master/loifee-master/loifee-master.component';
 
 
 
@@ -554,6 +556,8 @@ import { LOIApplyEntryComponent } from './Views/NoOfficer/loiapply-entry/loiappl
     UpdateNocFeesComponent,
     PreviewLOIapplicationdetailEntryComponent,
     LOIApplyEntryComponent,
+    SeatInformationMasterComponent,
+    LOIFeeMasterComponent,
   ],
   imports: [
     CommonModule,
