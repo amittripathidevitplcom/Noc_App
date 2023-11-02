@@ -1,3 +1,4 @@
+<app-loader></app-loader>
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
@@ -73,34 +74,23 @@
               </div>
 
               <a href="javascript:void(0)" (click)="ApplyLOI_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"
-                 *ngIf="row.DepartmentID==5  && row.IsDraftFinalSubmit==false">
+                 *ngIf="row.DepartmentID==5  && row.IsLOISubmited==false">
                 Apply LOI
               </a>
 
-              <!--<a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary" *ngIf="row.DepartmentID==5 && row.IsDraftFinalSubmit==true">
+              <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary" *ngIf="row.DepartmentID==5 && row.IsLOISubmited==true">
                 View LOI Application
               </a>
-              <br />
-
-              <a href="javascript:void(0)" (click)="ApplyLOI_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"
-                 *ngIf="row.DepartmentID==5 && row.IsDraftFinalSubmit==true">
-                Payment
+              <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
+                 *ngIf="row.DepartmentID==5 && row.IsLOISubmited==true && row.IsMakePayment_LOI==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,row.CollegeID,row.DepartmentID,row.CollegeName)">
+                LOI Payment
               </a>
 
+              <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
+                 *ngIf="row.DepartmentID==5 && row.IsLOISubmited==true && row.IsMakePayment_LOI==true && row.IsLOIFinalSubmited_LOI==false" title="Final Submit LOI Application" (click)="FinalSubmitApplyNocApplication_click(row)">
+               LOI Final Submit
+              </a>
 
-              <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
-                Payment
-              </a>-->
-
-
-              <!--<div class="d-flex">
-                <a href="/addcollege/{{row.CollegeID}}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-
-
-                <a href="javascript:void(0)" class="btn btn-sm btn-danger" (click)="DeleteData(row)"><i class="fa fa-trash"></i></a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO Id Mapping</a>
-                <a href="javascript:void(0)" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)"><i class="fa fa-eye"></i></a>
-              </div>-->
             </td>
             <td style="text-align:center;">{{idx+1}}</td>
             <td>{{row.SocietyName}}</td>
@@ -649,57 +639,35 @@
 <ng-template #mymodalpayment let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-applynocpayment-title" style="font-size: 17px; font-weight: 600 !important;">
-      Apply Noc Application for <!--: {{ApplyNocApplicationDetail.ApplyNocApplicationID}}-->
+      Apply LPI Application for  :  {{CollegeName}}
     </h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <i class="fa fa-close"></i>
     </button>
   </div>
   <div class="modal-body">
-    <!--application details-->
-    <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-        <label>
-          <b>
-            College :
-          </b>
-          {{ApplyNocApplicationDetail.CollegeName}}
-        </label>
-      </div>
-      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-        <label>
-          <b>
-            Application Type :
-          </b>
-          {{ApplyNocApplicationDetail.ApplicationTypeName}}
-        </label>
-      </div>
-      <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-        <label>
-          <b>
-            Total fee Amount :
-          </b>
-          {{ApplyNocApplicationDetail.TotalFeeAmount}}
-        </label>
-      </div>
-    </div>
-    <!--end-->
     <!--parameter detail-->
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-12">
         <label>
           <b>
-            Your Apply Noc Application Charges for followings :
+            Your Apply LOI Application Charges for followings :
           </b>
         </label>
         <hr />
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let parameterDetail of ApplyNocApplicationDetail.ApplyNocApplicationParameterList;">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let row of LOIFeeMasterData;">
           <label>
             <b>
-              {{parameterDetail.ApplyNocFor}} :
+              {{row.FeeType}} :
             </b>
-            {{parameterDetail.FeeAmount}}
+            {{row.Amount}}.00
           </label>
+        </div>
+        <div class="clearfix"></div>
+        <hr />
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+          <b> Total Fees</b> :  {{TotalLOIFees}}
         </div>
       </div>
 
@@ -707,7 +675,47 @@
     <!--end-->
   </div>
   <div class="modal-footer text-end">
-    <button type="button" class="btn btn-primary" (click)="MakePayment_click(ApplyNocApplicationDetail)">Make Payment</button>
+    <button type="button" class="btn btn-primary" (click)="MakePayment_click()">Make Payment</button>
   </div>
 </ng-template>
 <!--end-->
+<!--otp-->
+<div class="modal" id="ModalOtpVerify" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-md modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">OTP Verification</h5>
+        <button type="button" class="btn btn-danger" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+            <p>You have recieved a OTP Verification Message on <b>{{MaskedMobileNo}}</b></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+            <label class="mb-2" for="EnterOTP">Enter OTP</label>
+            <input type="text" class="form-control" id="EnterOTP" [(ngModel)]="UserOTP" autocomplete="off" (keypress)="numberOnly($event)" maxlength="6" />
+            <div *ngIf="isUserOTP" class="text-danger">
+              <p *ngIf="isUserOTP">This field is required .!</p>
+            </div>
+            <div *ngIf="isValidUserOTP" class="text-danger">
+              <p *ngIf="isValidUserOTP">Please Enter Correct OTP .!</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3 d-flex justify-content-center align-items-center">
+            <span *ngIf="ShowTimer">Please Wait.. {{DisplayTimer}}</span>
+            <button [attr.disabled]="isTimerDisabled ? true : null" type="button" id="ResendOTP" (click)="ResendOTP()" class="btn btn-link">Resend OTP</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">Cancel</span></button>
+        <button type="button" (click)="VerifyOTP()" class="btn btn-sm btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

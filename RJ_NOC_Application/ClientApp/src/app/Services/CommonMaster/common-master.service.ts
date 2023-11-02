@@ -904,6 +904,15 @@ export class CommonMasterService {
       ).toPromise();
   }
 
+  public async LOIFinalSubmit(CollegeID: string) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + '/LOIFinalSubmit/' + CollegeID , httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
   public async Check30Female(CollegeID: number) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.get(this.APIUrl_SocietyMaster + '/Check30Female/' + CollegeID, httpOptions)
@@ -1263,6 +1272,17 @@ export class CommonMasterService {
       })
     };
     return await this.http.get(this.APIUrl_CommonMaster + "/GetOldNOCCourseList_CollegeWise/" + CollegeID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async Get_LOIFeeMaster(DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/Get_LOIFeeMaster/" + DepartmentID )
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

@@ -169,7 +169,7 @@ export class LOIApplyEntryComponent implements OnInit {
 
 
   isCheck30Female: boolean = false;
-  async DraftFinalSubmit(IsDraftSubmited: any) {
+  async LOIFinalSubmit() {
 
 
     let Femalepre = 0;
@@ -206,7 +206,7 @@ export class LOIApplyEntryComponent implements OnInit {
               }
             })
           if (this.isCheck30Female == false) {
-            await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+            await this.commonMasterService.LOIFinalSubmit(this.SelectedCollageID.toString())
               .then((data: any) => {
 
                 this.State = data['State'];
@@ -217,7 +217,7 @@ export class LOIApplyEntryComponent implements OnInit {
                   this.toastr.success('Apply LOI Successfully')
 
                   setTimeout(() => {
-                    this.routers.navigate(['/loiapplicationlist']);
+                    this.routers.navigate(['/totalcollege']);
                   }, 500);
 
                 }
