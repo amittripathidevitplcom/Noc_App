@@ -169,6 +169,7 @@ export class AhPreVerificationDoneListComponent {
 
       if (this.ActionID == 0) {
         this.isActionTypeValid = true;
+        this.CheckFinalRemark = 'Pre Verification Approved';
         return;
       }
       else {
@@ -184,7 +185,7 @@ export class AhPreVerificationDoneListComponent {
         }
       }
       if (this.ActionName != '') {
-        await this.animalDocumentScrutinyService.FinalSubmitPreVerification(this.selectedApplyNOCID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID, this.ActionName)
+        await this.animalDocumentScrutinyService.FinalSubmitPreVerification(this.selectedApplyNOCID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.UserID, this.ActionName, this.CheckFinalRemark)
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
             this.State = data['State'];
