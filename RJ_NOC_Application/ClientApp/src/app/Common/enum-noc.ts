@@ -51,5 +51,6 @@ export enum EnumApplicationStatus {
   ForwardToCommissioner = "Forward To Commissioner",
   ReleaseNOC = "Release NOC",
   RejectNOC = "Reject NOC",
+  ForwardToSecretary = "Forward To Secretary",
 }
 

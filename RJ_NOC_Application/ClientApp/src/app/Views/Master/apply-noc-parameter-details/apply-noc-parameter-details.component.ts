@@ -3,13 +3,14 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { ApplyNocApplicationDataModel, ApplyNocOfflinePaymentModal } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { NocPaymentComponent } from '../../noc-payment/payment-request/noc-payment.component';
 import { ApplyNOCFDRDetailsComponent } from '../apply-nocfdrdetails/apply-nocfdrdetails.component';
+import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   public ApplyNocApplicationList: ApplyNocApplicationDataModel[] = [];
   // application view
   public ApplyNocApplicationDetail: ApplyNocApplicationDataModel = new ApplyNocApplicationDataModel();
+  public request: ApplyNocOfflinePaymentModal = new ApplyNocOfflinePaymentModal();
 
   // otp model
   public SelectedMobileNo: string = '';
@@ -54,9 +56,13 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   public PaymentHistoryDetails: any = [];
   public ApplicationPaymentHistoryDetails: any = [];
   public ApplicationTrailList: any = [];
+  public lstPaymentMode: any = [];
+  public lstOfflinePaymentDetails: any = [];
+  public file: any = '';
+  public AddUpdatetext: string = 'Add';
 
 
-  constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private nocPaymentComponent: NocPaymentComponent) {
+  constructor(private fileUploadService: FileUploadService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private nocPaymentComponent: NocPaymentComponent) {
   }
 
   async ngOnInit() {
@@ -64,16 +70,17 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     // load
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetApplyNocApplicationList();
+    await this.GetPaymentMode();
   }
 
   async GetApplyNocApplicationList() {
-    
+
     try {
       this.loaderService.requestStarted();
       // get
       await this.applyNocParameterService.GetApplyNocApplicationList(this.sSOLoginDataModel.SSOID)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -242,8 +249,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  async CheckStatus_click(item: any)
-  {
+  async CheckStatus_click(item: any) {
     try {
       this.loaderService.requestStarted();
       //debugger
@@ -258,8 +264,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       await this.nocPaymentComponent.GetTransactionStatus();
       this.GetRPPPaymentHistory(item.ApplyNocApplicationID);
     }
-    catch (Ex)
-    {
+    catch (Ex) {
       console.log(Ex);
     }
     finally {
@@ -269,7 +274,6 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }
 
   }
-
 
   async MakeEmitraPayment_click(item: any) {
     try {
@@ -516,11 +520,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }
   }
 
-
-
-
-  async GetRPPPaymentHistory(applyNocApplicationID: number)
-  {
+  async GetRPPPaymentHistory(applyNocApplicationID: number) {
     try {
       this.loaderService.requestStarted();
       // get
@@ -551,9 +551,6 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       }, 200);
     }
   }
-
-
-
 
   async PaymentHistoryNocApplication_click(content: any, applyNocApplicationID: number) {
     try {
@@ -653,5 +650,266 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
 
   async GetApplicationSummary(DepartmentID: number, CollegeID: number) {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))], { skipLocationChange: true });
+  }
+
+  async onFilechangeItem(event: any) {
+    try {
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type === 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.toastr.error('Select less then 2MB File')
+            return
+          }
+          if (this.file.size < 100000) {
+            this.toastr.error('Select more then 100kb File')
+            return
+          }
+        }
+        else {// type validation
+          this.toastr.error('Select Only pdf file')
+          return
+        }
+        // upload to server folder
+        this.loaderService.requestStarted();
+
+        await this.fileUploadService.UploadDocument(this.file)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.request.Dis_FileName = data['Data'][0]["Dis_FileName"];
+              this.request.FileName = data['Data'][0]["FileName"];
+              this.request.FilePath = data['Data'][0]["FilePath"];
+              event.target.value = null;
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async DeleteImageItem(FileName: any) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(FileName).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.request.FileName = '';
+          this.request.FilePath = '';
+          this.request.Dis_FileName = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async OpenOfflinePaymentActionPopUP(content: any, item: any,) {
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    this.request.ApplyNOCID = item.ApplyNocApplicationID;
+    this.request.CollegeID = item.CollegeID;
+    this.request.DepartmentID = item.DepartmentID;
+    this.GetOfflinePaymentDetails(this.request.ApplyNOCID, 0, 'GetOfflinePaymentDetails');
+  }
+
+  async AddOfflineFeeData() {
+
+    this.isSubmitted = true;
+    let isValid = true;
+    if ((this.request.Amount <= 0) || (this.request.Amount == 0)) {
+      isValid = false;
+    }
+    if ((this.request.BankName == '') || (this.request.BankName == null)) {
+      isValid = false;
+    }
+    if ((this.request.PaymentMode == '0') || (this.request.PaymentMode == null)) {
+      isValid = false;
+    }
+    if ((this.request.DateofIssuance == '') || (this.request.DateofIssuance == null)) {
+      isValid = false;
+    }
+    if ((this.request.DateofExpiry == '') || (this.request.DateofExpiry == null)) {
+      isValid = false;
+    }
+    if ((this.request.FileName == '') || (this.request.FileName == null)) {
+      isValid = false;
+    }
+    // check all
+    if (!isValid) {
+      return;
+    }
+
+    //Show Loading
+    this.loaderService.requestStarted();
+    try {
+      await this.applyNocParameterService.SaveOfflinePaymnetDetail(this.request)
+        .then(async (data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)
+            this.GetOfflinePaymentDetails(this.request.ApplyNOCID, 0, 'GetOfflinePaymentDetails');
+            this.ResetOfflinepaymentdetails();
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+
+  }
+  async GetPaymentMode() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetPaymentMode()
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.lstPaymentMode = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async ResetOfflinepaymentdetails() {
+    this.request.ID = 0;
+    this.request.BankName = '';
+    this.request.DateofExpiry = '';
+    this.request.DateofIssuance = '';
+    this.request.Amount = 0;
+    this.request.PaymentMode = '';
+    this.request.FileName = '';
+    this.request.FilePath = '';
+    this.request.Dis_FileName = '';
+    this.isSubmitted = false;
+    this.file = document.getElementById('fileTransactionReceptDocument');
+    this.file.value = '';
+    this.AddUpdatetext = 'Add';
+  }
+
+  async GetOfflinePaymentDetails(ApplyNocID: number, PaymentOfflineID: number, ActionName: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.applyNocParameterService.GetOfflinePaymentDetails(ApplyNocID, PaymentOfflineID, ActionName)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.lstOfflinePaymentDetails = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async EditOffLinePaymentDetails(item: any) {
+    try {
+      this.loaderService.requestStarted();
+      this.request.ID = item.PaymentOfflineID;
+      this.request.ApplyNOCID = item.ApplyNOCID;
+      this.request.PaymentMode = item.PaymentMode;
+      this.request.DepartmentID = item.DepartmentID;
+      this.request.BankName = item.BankName;
+      this.request.DateofExpiry = item.DateofIssuance;
+      this.request.DateofIssuance = item.DateofExpiry;
+      this.request.Amount = item.Amount;
+      this.request.FileName = item.FileName;
+      this.request.FilePath = item.FilePath;
+      this.request.Dis_FileName = item.Dis_FileName;
+      this.AddUpdatetext = 'Update';
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async DeleteOffLinePaymentDetails(ApplyNocID: number, PaymentOfflineID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.applyNocParameterService.GetOfflinePaymentDetails(ApplyNocID, PaymentOfflineID, "DeleteOfflinePayment")
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)
+            data = JSON.parse(JSON.stringify(data));
+            this.GetOfflinePaymentDetails(ApplyNocID, 0, 'GetOfflinePaymentDetails');
+          }
+          else {
+            this.toastr.success(this.ErrorMessage);
+          }
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

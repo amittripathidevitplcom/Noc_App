@@ -1276,6 +1276,19 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetPaymentMode() {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetPaymentMode")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  } 
   public async Get_LOIFeeMaster(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({

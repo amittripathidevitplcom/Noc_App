@@ -47,9 +47,8 @@
 
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="collegeListData.DepartmentID==4">
               <label>College Level :</label>
-              <div class="clearfix"></div>
-              <div class="form-control disabled">
-                <span *ngFor="let item of DTECollegeLevel let idx=index">
+              <div class="form-control disabled mt-1" style="background-color: #e9ecef ">
+                <span *ngFor="let item of DTECollegeLevel let idx=index" >
                   {{idx==0?'':', '}}{{item.LevelName}}
                 </span>
               </div>
