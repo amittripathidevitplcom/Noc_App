@@ -300,7 +300,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                 }
               }
 
-
+              //
               if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true) {
                 this.SeatValue = Number(data['Data'][0]['data'][0]['SeatsValue'])
                 if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
@@ -389,13 +389,6 @@ export class ApplicationDetailEntryComponent implements OnInit {
             }
           })
       }
-
-
-
-
-
-
-
 
       if (this.SelectedDepartmentID == 3) {
         if (confirm(DCPendingPoint + "\nAre you sure you want to save draft application ?")) {
@@ -562,7 +555,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
         }
       }
       else {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['OtherDocument'] > 0 && this.CheckTabsEntryData['VeterinaryHospital'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['OtherDocument'] > 0 && this.CheckTabsEntryData['VeterinaryHospital'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
