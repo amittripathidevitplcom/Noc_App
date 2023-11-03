@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
 
-            <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="DraftFinalSubmit(1)">
+            <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="LOIFinalSubmit()">
               {{DraftbuttonName}}
             </button>
             <!--<button *ngIf="QueryStringStatus=='R'" [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="ResubmitApplication()">
@@ -50,6 +50,7 @@
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntryData['BuildingDocuments']==0"></span>
                 <span>Building Documents</span>
+                <span style="color: green; ">(If Building Exists)</span>
               </ng-template>
               <app-building-details></app-building-details>
             </mat-tab>
@@ -73,6 +74,7 @@
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HospitalDetails']>0"></i>
                 <span class="badge pulse" *ngIf="CheckTabsEntryData['HospitalDetails']==0"></span>
                 <span>Hospital Details</span>
+                <span style="color: green; ">(If Hospital Exists)</span>
               </ng-template>
               <app-hospital-detail></app-hospital-detail>
             </mat-tab>

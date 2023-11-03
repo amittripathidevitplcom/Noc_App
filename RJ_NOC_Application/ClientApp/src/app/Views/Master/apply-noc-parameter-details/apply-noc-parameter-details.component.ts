@@ -336,8 +336,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
   }
 
   async FinalSubmitApplyNocApplication_click(item: any) {
-    // otp send and verify process then proceed
-    debugger
+    
     this.SelectedApplyNocApplicationID = item.ApplyNocApplicationID;
     this.SelectedMobileNo = item.CollegeMobileNo;
     await this.OpenOTPModel();

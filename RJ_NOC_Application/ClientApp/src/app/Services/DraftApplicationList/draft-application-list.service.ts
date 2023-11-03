@@ -60,4 +60,14 @@ export class DraftApplicationListService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async LOIFinalSubmit_OTPVerification(CollegeID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+    return await this.http.post(this.APIUrl_CommonMaster + '/LOIFinalSubmit_OTPVerification/' + CollegeID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+
+  }
 }

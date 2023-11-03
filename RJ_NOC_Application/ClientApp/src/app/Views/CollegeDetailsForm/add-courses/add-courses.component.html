@@ -1,6 +1,5 @@
-<app-loader></app-loader>
-
-<div class="container-fluid breadcrumbBox py-2">
+<!--<app-loader></app-loader>-->
+<!--<div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
       <h3>Add Course</h3>
@@ -14,204 +13,209 @@
       </nav>
     </div>
   </div>
-</div>
-<form [formGroup]="CourseMasterForm" class="form-horizontal">
-  <div class="container-fluid mainContents">
+</div>-->
+<div class="card tabCard1  mb-0" id="CourseMasterForm1">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <b><i class="bi bi-table"></i>&nbsp; Add College Course Details</b>
+  </div>
+  <form [formGroup]="CourseMasterForm" class="form-horizontal">
+    <!--<div class="container-fluid mainContents">-->
 
-        <div class="clearfix"></div>
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="ddlDepartment" class="form-label">Department <span style="color:red">*</span></label>
-                <select formControlName="ddlDepartment" id="ddlDepartment" [(ngModel)]="request.DepartmentID" class="form-control"
-                        #SeletedDepartmentID (change)="ddlDepartment_change($event, SeletedDepartmentID.value)">
-                  <option value="0">--Select--</option>
-                  <option [value]="item.DepartmentID" *ngFor="let item of departmentMasterData">
-                    {{item.DepartmentName}}
-                  </option>
-                </select>
-                <div *ngIf="isSubmitted&&form.ddlDepartment.errors" class="text-danger">
-                  <p *ngIf="!form.ddlDepartment.errors.DropdownValidators">This field is required .!</p>
-                </div>
+      <!--<div class="clearfix"></div>
+      <div class="card">-->
+        <!--<div class="card-header d-flex justify-content-between align-items-center">
+          <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
+        </div>-->
+        <div class="card-body">
+          <div class="row">
+            <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label for="ddlDepartment" class="form-label">Department <span style="color:red">*</span></label>
+              <select formControlName="ddlDepartment" id="ddlDepartment" [(ngModel)]="request.DepartmentID" class="form-control"
+                      #SeletedDepartmentID (change)="ddlDepartment_change($event, SeletedDepartmentID.value)">
+                <option value="0">--Select--</option>
+                <option [value]="item.DepartmentID" *ngFor="let item of departmentMasterData">
+                  {{item.DepartmentName}}
+                </option>
+              </select>
+              <div *ngIf="isSubmitted&&form.ddlDepartment.errors" class="text-danger">
+                <p *ngIf="!form.ddlDepartment.errors.DropdownValidators">This field is required .!</p>
+              </div>
+            </div>-->
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label for="txtCollege" class="form-label">College <span style="color:red">*</span></label>
+              <select [attr.disabled]="isDisabledGrid ? true : null" formControlName="ddlCollege" id="ddlCollege" [(ngModel)]="request.CollegeID" class="form-select"
+                      #SeletedCollegeID (change)="ddlCollege_change(SeletedCollegeID.value)">
+                <!--<option value="0">--Select--</option>-->
+                <option [value]="item.CollegeID" *ngFor="let item of collegeDataList">
+                  {{item.CollegeName}}
+                </option>
+              </select>
+              <div *ngIf="isSubmitted&&form.ddlCollege.errors" class="text-danger">
+                <p *ngIf="!form.ddlCollege.errors.DropdownValidators">This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="isShowStreambox">
+              <label for="ddlStreamID" class="form-label">Select Stream <span style="color:red;">*</span></label>
+              <select [attr.disabled]="isDisabledGrid ? true : null" class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID" #SeletedStreamID (change)="ddlSreamChangeReset(SeletedStreamID.value)">
+                <option value="0">--Select Stream--</option>
+                <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&request.DepartmentID==3&&request.StreamID==0" class="text-danger">
+                <p *ngIf="isSubmitted&&request.DepartmentID==3&&request.StreamID==0"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+              <!--<div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
+                <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
               </div>-->
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtCollege" class="form-label">College <span style="color:red">*</span></label>
-                <select [attr.disabled]="isDisabledGrid ? true : null" formControlName="ddlCollege" id="ddlCollege" [(ngModel)]="request.CollegeID" class="form-select"
-                        #SeletedCollegeID (change)="ddlCollege_change(SeletedCollegeID.value)">
-                  <option value="0">--Select--</option>
-                  <option [value]="item.CollegeID" *ngFor="let item of collegeDataList">
-                    {{item.CollegeName}}
-                  </option>
-                </select>
-                <div *ngIf="isSubmitted&&form.ddlCollege.errors" class="text-danger">
-                  <p *ngIf="!form.ddlCollege.errors.DropdownValidators">This field is required .!</p>
-                </div>
-              </div>
+            </div>
 
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="isShowStreambox">
-                <label for="ddlStreamID" class="form-label">Select Stream <span style="color:red;">*</span></label>
-                <select [attr.disabled]="isDisabledGrid ? true : null" class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID" formControlName="ddlStreamID" #SeletedStreamID (change)="ddlSreamChangeReset(SeletedStreamID.value)">
-                  <option value="0">--Select Stream--</option>
-                  <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
-                </select>
-                <div *ngIf="isSubmitted&&request.DepartmentID==3&&request.StreamID==0" class="text-danger">
-                  <p *ngIf="isSubmitted&&request.DepartmentID==3&&request.StreamID==0"><i aria-hidden="true"></i>This field is required .!</p>
-                </div>
-                <!--<div *ngIf="isSubmitted&&form.ddlStreamID.errors" class="text-danger">
-                  <p *ngIf="!form.ddlStreamID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                </div>-->
-              </div>
-
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="ddlCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
-                <select [attr.disabled]="isDisabledGrid ? true : null" class="form-select" id="ddlCourseLevelID" name="ddlCourseLevelID" [(ngModel)]="request.CourseLevelID" formControlName="ddlCourseLevelID" #SeletedCourseLevelID (change)="ddlCourseLevel_change(SeletedCourseLevelID.value)">
-                  <option value="0" disabled>--Select Course Level--</option>
-                  <option *ngFor="let item of CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
-                </select>
-                <div *ngIf="isSubmitted&&form.ddlCourseLevelID.errors" class="text-danger">
-                  <p *ngIf="!form.ddlCourseLevelID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-                </div>
-              </div>
-
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-
-                <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
-                <select [attr.disabled]="isDisabledGrid ? true : null" formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-select"
-                        #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
-                  <option value="0">--Select--</option>
-                  <option [value]="item.CourseID" *ngFor="let item of courseDataList">
-                    {{item.CourseName}}
-                  </option>
-                </select>
-
-                <div *ngIf="isSubmitted&&form.ddlCourse.errors" class="text-danger">
-                  <p *ngIf="!form.ddlCourse.errors.DropdownValidators">This field is required .!</p>
-                </div>
-              </div>
-
-
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==2">
-                <label for="ddlSubject" class="form-label">Subject <span style="color:red">*</span></label>
-                <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
-                                         [settings]="dropdownSettings"
-                                         [data]="subjectDataList"
-                                         [(ngModel)]="request.SelectedSubjectDetails">
-                </ng-multiselect-dropdown>
-                <div *ngIf="isSubmitted&&form.ddlSubject.errors" class="text-danger">
-                  <p *ngIf="form.ddlSubject.errors.required">This field is required .!</p>
-                </div>
-              </div>
-              
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'" >
-                <label for="ddlSeatInformation" class="form-label">Seat Information  <span style="color:red">*</span></label>
-                <select formControlName="ddlSeatInformation" id="ddlSeatInformation" [(ngModel)]="request.Seats" class="form-control">
-                  <option value="0">--Select Seat--</option>
-                  <option value="999999">0</option>
-                  <option [value]="item.ID" *ngFor="let item of seatInformationDataList">
-                    {{item.Value}}
-                  </option>
-                </select>
-                <div *ngIf="isSubmitted&&this.request.DepartmentID !=3" class="text-danger">
-                  <p *ngIf="isSubmitted&&this.request.DepartmentID !=3 && request.Seats==0">This field is required .!</p>
-                </div>
-              </div>
-
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID ==3">
-                <label for="txtNoOfEnrolledStudents" class="form-label">No Of Enrolled Students  <span style="color:red;">*</span>  </label>
-                <input type="text" class="form-control" id="txtNoOfEnrolledStudents" name="txtNoOfEnrolledStudents" [(ngModel)]="request.NoOfEnrolledStudents" formControlName="txtNoOfEnrolledStudents" (keypress)="numberOnly($event)">
-                <div *ngIf="isSubmitted&&this.request.DepartmentID ==3" class="text-danger">
-                  <p *ngIf="isSubmitted&&this.request.DepartmentID ==3 && (request.NoOfEnrolledStudents==null || request.NoOfEnrolledStudents.toString()=='')"><i aria-hidden="true"></i> This field is required .!</p>
-                  <!--<p *ngIf="this.request.DepartmentID ==3 && request.NoOfEnrolledStudents==0"><i aria-hidden="true"></i> Enter value greater than zero.!</p>-->
-                </div>
-                <!--<div *ngIf="isSubmitted&&form.txtNoOfEnrolledStudents.errors" class="text-danger">
-                  <p *ngIf="form.txtNoOfEnrolledStudents.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-                  <p *ngIf="form.txtNoOfEnrolledStudents.errors.min"><i aria-hidden="true"></i> Enter value greater than zero.!</p>
-                </div>-->
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <label for="ddlCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+              <select [attr.disabled]="isDisabledGrid ? true : null" class="form-select" id="ddlCourseLevelID" name="ddlCourseLevelID" [(ngModel)]="request.CourseLevelID" formControlName="ddlCourseLevelID" #SeletedCourseLevelID (change)="ddlCourseLevel_change(SeletedCourseLevelID.value)">
+                <option value="0" disabled>--Select Course Level--</option>
+                <option *ngFor="let item of CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&form.ddlCourseLevelID.errors" class="text-danger">
+                <p *ngIf="!form.ddlCourseLevelID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
               </div>
             </div>
-          </div>
-          <div class="card-footer text-end">
-            <button name="btnSave" id="btnSave" class="btn btn-primary" [disabled]="isLoading" (click)="SaveData()">
-              <img *ngIf="isLoading" style="width:17px" src="../../../assets/img/loader.gif" />
-              Save
-            </button>
-            <button type="button" class="btn btn-secondary" name="btnReset" id="btnReset" (click)="ResetControl()" style="margin-left:10px">
-              Reset
-            </button>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+
+              <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
+              <select [attr.disabled]="isDisabledGrid ? true : null" formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="request.CourseID" class="form-select"
+                      #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
+                <option value="0">--Select--</option>
+                <option [value]="item.CourseID" *ngFor="let item of courseDataList">
+                  {{item.CourseName}}
+                </option>
+              </select>
+
+              <div *ngIf="isSubmitted&&form.ddlCourse.errors" class="text-danger">
+                <p *ngIf="!form.ddlCourse.errors.DropdownValidators">This field is required .!</p>
+              </div>
+            </div>
 
 
-            <a class="btn btn-info" href="/societydetails" name="btnReset" id="btnReset" style="margin-left:10px">
-              College Management Society
-            </a>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==2">
+              <label for="ddlSubject" class="form-label">Subject <span style="color:red">*</span></label>
+              <ng-multiselect-dropdown [placeholder]="'--Select--'" formControlName="ddlSubject" id="ddlSubject"
+                                       [settings]="dropdownSettings"
+                                       [data]="subjectDataList"
+                                       [(ngModel)]="request.SelectedSubjectDetails">
+              </ng-multiselect-dropdown>
+              <div *ngIf="isSubmitted&&form.ddlSubject.errors" class="text-danger">
+                <p *ngIf="form.ddlSubject.errors.required">This field is required .!</p>
+              </div>
+            </div>
 
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID !=3 && CollegeStatus != 'New'">
+              <label for="ddlSeatInformation" class="form-label">Seat Information  <span style="color:red">*</span></label>
+              <select formControlName="ddlSeatInformation" id="ddlSeatInformation" [(ngModel)]="request.Seats" class="form-control">
+                <option value="0">--Select Seat--</option>
+                <option value="999999">0</option>
+                <option [value]="item.ID" *ngFor="let item of seatInformationDataList">
+                  {{item.Value}}
+                </option>
+              </select>
+              <div *ngIf="isSubmitted&&this.request.DepartmentID !=3" class="text-danger">
+                <p *ngIf="isSubmitted&&this.request.DepartmentID !=3 && request.Seats==0">This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="this.request.DepartmentID ==3">
+              <label for="txtNoOfEnrolledStudents" class="form-label">No Of Enrolled Students  <span style="color:red;">*</span>  </label>
+              <input type="text" class="form-control" id="txtNoOfEnrolledStudents" name="txtNoOfEnrolledStudents" [(ngModel)]="request.NoOfEnrolledStudents" formControlName="txtNoOfEnrolledStudents" (keypress)="numberOnly($event)">
+              <div *ngIf="isSubmitted&&this.request.DepartmentID ==3" class="text-danger">
+                <p *ngIf="isSubmitted&&this.request.DepartmentID ==3 && (request.NoOfEnrolledStudents==null || request.NoOfEnrolledStudents.toString()=='')"><i aria-hidden="true"></i> This field is required .!</p>
+                <!--<p *ngIf="this.request.DepartmentID ==3 && request.NoOfEnrolledStudents==0"><i aria-hidden="true"></i> Enter value greater than zero.!</p>-->
+              </div>
+              <!--<div *ngIf="isSubmitted&&form.txtNoOfEnrolledStudents.errors" class="text-danger">
+                <p *ngIf="form.txtNoOfEnrolledStudents.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                <p *ngIf="form.txtNoOfEnrolledStudents.errors.min"><i aria-hidden="true"></i> Enter value greater than zero.!</p>
+              </div>-->
+            </div>
           </div>
         </div>
-        <div class="card mb-0" *ngIf="AllCourseList.length>0">
-          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-            <b><i class="bi bi-table"></i> Course List </b>
-            <div class="d-flex align-items-center">
-              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
-                <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
-                <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
-              </div>
-              <div class="d-flex align-items-center table-filter mr-15">
-                <i class="fa fa-search"></i>
-                <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" formControlName="txtsearchText" name="txtsearchText" />
-              </div>
+        <div class="card-footer text-end">
+          <button name="btnSave" id="btnSave" class="btn btn-primary" [disabled]="isLoading" (click)="SaveData()">
+            <img *ngIf="isLoading" style="width:17px" src="../../../assets/img/loader.gif" />
+            Save
+          </button>
+          <button type="button" class="btn btn-secondary" name="btnReset" id="btnReset" (click)="ResetControl()" style="margin-left:10px">
+            Reset
+          </button>
+
+
+          <!--<a class="btn btn-info" href="/societydetails" name="btnReset" id="btnReset" style="margin-left:10px">
+            College Management Society
+          </a>-->
+
+        </div>
+      
+      <div class="card mb-0" *ngIf="AllCourseList.length>0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Course List </b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <i class="fa fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" formControlName="txtsearchText" name="txtsearchText" />
             </div>
           </div>
-         
-            <div class="table-responsive" *ngIf="AllCourseList.length>0">
-              <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
-                <thead>
-                  <tr>
-                    <th>Sr.No.</th>
-                    <th>Department</th>
-                    <th>College Name</th>
-                    <th>Course</th>
-                    <th>Stream</th>
-                    <th style="width:250px !important">Subject</th>
-                     
-                    <th *ngIf="this.request.DepartmentID !=3">Seat</th>
-                    <th *ngIf="this.request.DepartmentID ==3">No Of Enrolled Students</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let row of AllCourseList| tableSearchFilter:searchText; let idx=index;">
-                    <td style="width:40px !important"> {{idx+1}}</td>
-                    <td>{{row.DepartmentName}}</td>
-                    <td>{{row.CollageName}}</td>
-                    <td>{{row.CourseName}}</td>
-                    <td>{{row.StreamName}}</td>
-                    <td style="width:250px !important">{{row.SubjectDetails}}</td>
-
-                    
-                    <td *ngIf="this.request.DepartmentID !=3">{{row.Dis_Sits}}</td>
-                    <td *ngIf="this.request.DepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
-                    <td>
-                      <div class="d-flex">
-                        <button type="button" (click)="Edit_OnClick(row.CollegeWiseCourseID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"
-                                class="btn btn-sm btn-info">
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseCourseID)"
-                                [attr.disabled]="isDisabledGrid ? true : null">
-                          <i class="fa fa-trash"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          
         </div>
+
+        <div class="table-responsive" *ngIf="AllCourseList.length>0">
+          <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Department</th>
+                <th>College Name</th>
+                <th>Course</th>
+                <th>Stream</th>
+                <th style="width:250px !important">Subject</th>
+
+                <th *ngIf="this.request.DepartmentID !=3">Seat</th>
+                <th *ngIf="this.request.DepartmentID ==3">No Of Enrolled Students</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of AllCourseList| tableSearchFilter:searchText; let idx=index;">
+                <td style="width:40px !important"> {{idx+1}}</td>
+                <td>{{row.DepartmentName}}</td>
+                <td>{{row.CollageName}}</td>
+                <td>{{row.CourseName}}</td>
+                <td>{{row.StreamName}}</td>
+                <td style="width:250px !important">{{row.SubjectDetails}}</td>
+
+
+                <td *ngIf="this.request.DepartmentID !=3">{{row.Dis_Sits}}</td>
+                <td *ngIf="this.request.DepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
+                <td>
+                  <div class="d-flex">
+                    <button type="button" (click)="Edit_OnClick(row.CollegeWiseCourseID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"
+                            class="btn btn-sm btn-info">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseCourseID)"
+                            [attr.disabled]="isDisabledGrid ? true : null">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
       </div>
+     
 
-</form>
+  </form>
+</div>

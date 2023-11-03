@@ -41,6 +41,7 @@ export class ParameterFeeMaster {
   public FeeAmount: number = 0;
   public ActionName: string = '';
   public ApplyNocName: string = '';
+  public TableUpdateType: string = '';
 }
 
 export class NOCIssuedDataModel {

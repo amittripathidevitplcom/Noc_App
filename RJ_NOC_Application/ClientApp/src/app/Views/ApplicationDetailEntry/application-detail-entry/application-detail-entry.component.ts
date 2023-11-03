@@ -88,6 +88,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     await this.ShowDraftFinalSubmitBtn();
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+
   }
 
   NextStep() {
@@ -107,12 +108,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   onTabChange(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
-    this.ShowDraftFinalSubmitBtn();
-    this.staffDetailsComponent.GetCollegeWiseSubjectList(this.SelectedCollageID);
-    this.academicInformationComponent.GetCourseList_CollegeWise(this.SelectedCollageID);
-    this.oldNOCDetailsComponent.GetCourseList();
-    this.roomDetailsComponent.LoadMaster();
-
+   
+    try {
+      this.ShowDraftFinalSubmitBtn();
+    }
+    catch (Ex) { }
+    this.loaderService.requestEnded();
   }
 
   async GetCollageDetails() {
@@ -162,7 +163,6 @@ export class ApplicationDetailEntryComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.commonMasterService.CheckTabsEntry(this.SelectedCollageID.toString())
         .then(async (data: any) => {
-
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
           console.log(this.CheckTabsEntryData);
@@ -508,6 +508,23 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
   }
   async ShowDraftFinalSubmitBtn() {
+
+    try {
+      this.academicInformationComponent.GetCourseList_CollegeWise(this.SelectedCollageID);
+    }
+    catch (Ex) { }
+    try {
+      this.oldNOCDetailsComponent.GetCourseList();
+    }
+    catch (Ex) { }
+    try {
+      this.roomDetailsComponent.LoadMaster();
+    }
+    catch (Ex) { }
+    try {
+      this.staffDetailsComponent.GetCollegeWiseSubjectList(this.SelectedCollageID);
+    }
+    catch (Ex) { }
 
     await this.CheckTabsEntry();
     this.IsShowDraftFinalSubmit = true;

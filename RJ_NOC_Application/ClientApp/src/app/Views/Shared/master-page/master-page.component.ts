@@ -36,7 +36,7 @@ export class MasterPageComponent implements OnInit {
 
   constructor(private commonMasterService: CommonMasterService, private router: Router, private loaderService: LoaderService, private menuService: MenuService, private sanitizer: DomSanitizer, location: PlatformLocation, private idle: Idle, private modalService: NgbModal) {
     location.onPopState(() => {
-      console.log('pressed back in add!!!!!'); 
+      console.log('pressed back in add!!!!!');
     });
   }
   reset() {
@@ -55,7 +55,7 @@ export class MasterPageComponent implements OnInit {
     this.idle.onIdleEnd.subscribe(() => (this.idleState = "No longer idle."));
     this.idle.onTimeout.subscribe(() => {
       //this.modalService.open('#mymodalSessionExpired', { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' });
-      this.modalService.open(this.mymodalSessionExpired, {centered: true, backdrop: 'static',keyboard: false});
+      this.modalService.open(this.mymodalSessionExpired, { centered: true, backdrop: 'static', keyboard: false });
       this.idleState = "Timed out!";
       sessionStorage.removeItem('UserID');
       sessionStorage.removeItem('LoginID');
@@ -118,7 +118,7 @@ export class MasterPageComponent implements OnInit {
     }
   }
   async loadMenuByRoleID(SeletedUserId: any) {
-    
+
     this.loaderService.requestStarted();
 
     this.RoleID = this.lstUserRole.find((x: { UserID: number; }) => x.UserID == SeletedUserId).RoleID;;
@@ -264,13 +264,33 @@ export class MasterPageComponent implements OnInit {
   }
   ////////////End Load Menu///////
 
-  Logout() {
+  async Logout() {
     console.log("Logout...");
     sessionStorage.removeItem('UserID');
     sessionStorage.removeItem('LoginID');
     sessionStorage.clear();
     localStorage.clear();
-    window.open(GlobalConstants.SSOURL, "_self");
+
+
+    try {
+      await this.loaderService.requestStarted();
+      await this.menuService.SSOLogout();
+    }
+    catch (Ex) {
+      console.log(Ex);
+
+    }
+    finally {
+      await setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 2);
+    }
+
+    //setTimeout(() => {
+    //  window.open(GlobalConstants.SSOURL, "_self");
+    //}, 300);
+
+
     //window.open(GlobalConstants.SSOURL, "_self");
     //window.open("https://ssotest.rajasthan.gov.in/signin", "_self");
     // this.router.navigate(['/login']);

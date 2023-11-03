@@ -130,10 +130,10 @@ export class RoomDetailsComponent implements OnInit {
   get form() { return this.RoomDetailsForm.controls; }
 
 
-  LoadMaster() {
+  async LoadMaster() {
     try {
       this.loaderService.requestStarted();
-      this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID)
+      await this.commonMasterService.GetCourseList_CollegeWise(this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.courseDataList = data['Data'];

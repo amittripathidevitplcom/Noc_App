@@ -283,13 +283,13 @@ export class AnimalDocumentScrutinyService {
       ).toPromise();
   }
 
-  public async FinalSubmitPreVerification(ApplyNOCID: number, DepartmentID: number, UserID: Number, ActionName: string) {
+  public async FinalSubmitPreVerification(ApplyNOCID: number, DepartmentID: number, UserID: Number, ActionName: string, Remarks: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.post(this.APIUrl + "/FinalSubmitPreVerification/" + ApplyNOCID + "/" + DepartmentID + "/" + UserID + "/" + ActionName, httpOptions)
+    return await this.http.post(this.APIUrl + "/FinalSubmitPreVerification/" + ApplyNOCID + "/" + DepartmentID + "/" + UserID + "/" + ActionName + "/" + Remarks, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

@@ -359,7 +359,8 @@ export class OldNOCDetailsComponent implements OnInit {
     }
 
 
-    if (this.SelectedDepartmentID != 4) {
+   // if (this.SelectedDepartmentID != 4) {
+    if (this.SubjectDataModel.length == 0 && (this.SelectedDepartmentID != 2 && this.SelectedDepartmentID != 4)) {
       this.oldNOCForm.get('ddlSubject')?.setValidators([DropdownValidators]);
     }
     else {
