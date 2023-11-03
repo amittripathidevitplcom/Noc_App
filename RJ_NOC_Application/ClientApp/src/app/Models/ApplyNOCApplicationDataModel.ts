@@ -42,3 +42,11 @@ export class ParameterFeeMaster {
   public ActionName: string = '';
   public ApplyNocName: string = '';
 }
+
+export class NOCIssuedDataModel {
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public FromDate: string = '';
+  public ToDate: string = '';
+  
+}

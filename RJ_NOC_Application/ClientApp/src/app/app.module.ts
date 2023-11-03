@@ -284,6 +284,7 @@ import { LOIApplyEntryComponent } from './Views/NoOfficer/loiapply-entry/loiappl
 import { NocInformationComponent } from './Views/NocInformation/noc-information/noc-information.component';
 import { SeatInformationMasterComponent } from './Views/Master/seat-information-master/seat-information-master.component';
 import { LOIFeeMasterComponent } from './Views/Master/loifee-master/loifee-master.component';
+import { NOCIssuedReportComponent } from './Views/Admin/`Reports/nocissued-report/nocissued-report.component';
 
 
 
@@ -560,6 +561,7 @@ import { LOIFeeMasterComponent } from './Views/Master/loifee-master/loifee-maste
     NocInformationComponent,
     SeatInformationMasterComponent,
     LOIFeeMasterComponent,
+    NOCIssuedReportComponent,
   ],
   imports: [
     CommonModule,

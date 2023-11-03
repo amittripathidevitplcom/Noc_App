@@ -165,7 +165,7 @@ import { NocInformationComponent } from './Views/NocInformation/noc-information/
 
 import { SeatInformationMasterComponent } from './Views/Master/seat-information-master/seat-information-master.component';
 import {LOIFeeMasterComponent } from './Views/Master/loifee-master/loifee-master.component'
-
+import { NOCIssuedReportComponent } from './Views/Admin/`Reports/nocissued-report/nocissued-report.component';
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -730,7 +730,9 @@ const routes: Routes = [
       {
         path: 'loifeemaster', component: LOIFeeMasterComponent
       },
-
+      {
+        path: 'nocissuedreport', component: NOCIssuedReportComponent
+      },
     ]
     // ,canActivate: [SkipLocationChangeGuard],
   },

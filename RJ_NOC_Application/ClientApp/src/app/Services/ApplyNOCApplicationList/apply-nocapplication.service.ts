@@ -231,5 +231,16 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetNOCIssuedReportListForAdmin(UserID: number, ActionName: string, RoleID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetNOCIssuedReportListForAdmin/" + UserID + "/" + ActionName + "/" + RoleID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
 
