@@ -63,11 +63,11 @@ export class AhApplyNocApplicationListComponent {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //this.RoleID = this.sSOLoginDataModel.RoleID;
     if (this.sSOLoginDataModel.RoleID == 12) {
-      this.CommitteType = EnumCommitteType.Pre;//'PreVerification';
+      this.CommitteType = EnumCommitteType.Pre;
       this.IsCommitteType = true;
     }
     else if (this.sSOLoginDataModel.RoleID == 14 || this.sSOLoginDataModel.RoleID == 6) {
-      this.CommitteType = EnumCommitteType.Post;//'PostVerification';
+      this.CommitteType = EnumCommitteType.Post;
       this.IsCommitteType = true;
     }
     //else if (this.sSOLoginDataModel.RoleID == 25) {

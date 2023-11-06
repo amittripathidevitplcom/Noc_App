@@ -604,17 +604,17 @@
                 <a href="/AhFinalNocApplicationList/Pending" style="background: none;">{{dashboardDataModel.PendingNOC}}</a>
               </h2>
             </div>
-            <div class="dashCardContent  text-start" *ngIf="this.sSOLoginDataModel.RoleID !=15">
+            <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
               <a href="/AhFinalNocApplicationList/Rejected" style="background: none;"><h2>{{dashboardDataModel.TotalRejectApplication}}</h2></a>
             </div>
-            <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID!=15">
+            <div class="dashCardContent">
               <h4>Completed</h4>
               <a href="/AhFinalNocApplicationList/Completed" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
             </div>
             <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID==15">
               <h4>Forward To (DS/JS)</h4>
-              <a href="/documentscrutinycompletedreport" style="background: none;"><h2>{{dashboardDataModel.ApprovedAndForward}}</h2></a>
+              <a href="/forwardedApplications" style="background: none;"><h2>{{dashboardDataModel.ApprovedAndForward}}</h2></a>
             </div>
           </div>
         </div>

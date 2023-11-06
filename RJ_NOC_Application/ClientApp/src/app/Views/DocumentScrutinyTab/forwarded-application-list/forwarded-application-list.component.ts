@@ -9,13 +9,12 @@ import { CommonMasterService } from '../../../Services/CommonMaster/common-maste
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { EnumApplicationStatus, EnumDepartment } from '../../../Common/enum-noc';
-
 @Component({
-  selector: 'app-document-scrutiny-completed-report',
-  templateUrl: './document-scrutiny-completed-report.component.html',
-  styleUrls: ['./document-scrutiny-completed-report.component.css']
+  selector: 'app-forwarded-application-list',
+  templateUrl: './forwarded-application-list.component.html',
+  styleUrls: ['./forwarded-application-list.component.css']
 })
-export class DocumentScrutinyCompletedReportComponent implements OnInit {
+export class ForwardedApplicationListComponent {
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -35,14 +34,8 @@ export class DocumentScrutinyCompletedReportComponent implements OnInit {
   async GetDocumentScrutinyCompletedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {
     try {
       let ActionName = EnumApplicationStatus.Approve.toString();
-      if (RoleID == 28 && DepartmentID == EnumDepartment.Agriculture) {
+      if (RoleID == 15 && DepartmentID == EnumDepartment.Animal_Husbandry) {
         ActionName = EnumApplicationStatus.ApproveandForward;
-      }
-      else if (RoleID == 25 && DepartmentID == EnumDepartment.Animal_Husbandry) {
-        ActionName = EnumApplicationStatus.ForwardToSecretary;
-      }
-      else if ((RoleID == 13 || RoleID == 15) && DepartmentID == EnumDepartment.Animal_Husbandry) {
-        ActionName = EnumApplicationStatus.Forward;
       }
       this.loaderService.requestStarted();
       await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID, ActionName, RoleID, DepartmentID)

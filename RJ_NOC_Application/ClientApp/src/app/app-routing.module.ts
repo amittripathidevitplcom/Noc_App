@@ -167,6 +167,7 @@ import { SeatInformationMasterComponent } from './Views/Master/seat-information-
 import { LOIFeeMasterComponent } from './Views/Master/loifee-master/loifee-master.component'
 import { RejectedApplicationListComponent } from './Views/RejectedApplication/rejected-application-list/rejected-application-list.component';
 import { NOCIssuedReportComponent } from './Views/Admin/`Reports/nocissued-report/nocissued-report.component';
+import { ForwardedApplicationListComponent } from './Views/DocumentScrutinyTab/forwarded-application-list/forwarded-application-list.component';
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -736,6 +737,9 @@ const routes: Routes = [
       },
       {
         path: 'nocissuedreport', component: NOCIssuedReportComponent
+      },
+      {
+        path: 'forwardedApplications', component: ForwardedApplicationListComponent
       },
     ]
     // ,canActivate: [SkipLocationChangeGuard],

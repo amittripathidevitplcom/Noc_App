@@ -80,7 +80,7 @@
                     <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Delete Application"
                        (click)="DeleteApplyNocApplication_click(item)">Delete</a>
                   </li>
-                  <li>
+                  <li *ngIf="item.DepartmentID !=2">
                     <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add FDR" (click)="AddFDR_click(item)">
                       {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
                     </a>

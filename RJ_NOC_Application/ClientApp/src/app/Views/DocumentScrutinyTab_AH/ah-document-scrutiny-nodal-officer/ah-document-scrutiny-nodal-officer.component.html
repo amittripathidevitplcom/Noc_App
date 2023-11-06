@@ -2,7 +2,7 @@
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
-      <h3>Document Scrutiny (Application No : {{this.ApplicationNo}})</h3>
+      <h3><b>Document Scrutiny (Application No : {{this.ApplicationNo}})</b></h3>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
       <nav aria-label="breadcrumb">
@@ -16,9 +16,59 @@
 </div>
 <div class="container-fluid mainContents">
   <div class="card tabCard1 mb-0">
+    <div class="row m-2" *ngIf="PageStatus=='Yes'">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlAction" class="form-label">Action On Application<span style="color:red;">*</span></label>
+        <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
+          <option value="0" disabled selected>--Select Action--</option>
+          <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+        </select>
+        <div *ngIf="isActionTypeValid" class="text-danger">
+          <p *ngIf="isActionTypeValid"> This field is required .!</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+        <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
+
+        <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
+          <option value="0" selected>--Select Role--</option>
+          <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+        </select>
+
+
+        <div *ngIf="isNextRoleIDValid" class="text-danger">
+          <p *ngIf="isNextRoleIDValid"> This field is required .!</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
+        <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
+        <select class="form-select" [(ngModel)]="NextUserID">
+          <option value="0" selected>--Select User--</option>
+          <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
+        </select>
+        <div *ngIf="isNextUserIdValid" class="text-danger">
+          <p *ngIf="isNextUserIdValid"> This field is required .!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row  m-2" *ngIf="PageStatus=='Yes'">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+        <label>Remarks  <span style="color:red;">*</span></label>
+        <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
+        <div *ngIf="isRemarkValid" class="text-danger">
+          <p *ngIf="isRemarkValid"> This field is required .!</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="row  m-2" *ngIf="PageStatus=='Yes'">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
+      </div>
+    </div>
     <div class="card-header d-flex justify-content-between align-items-center">
-      <b><i class="bi bi-table"></i>&nbsp; Check List Details</b>
-      <!--<a href="/applynocapplicationlistAH" class="btn btn-sm btn-primary">Back to Application List</a>-->
+      <b>&nbsp; Document Scrutiny Summary Details</b>
     </div>
     <!--Legal Entity-->
     <div class="row">
@@ -2388,70 +2438,6 @@
       </div>
     </div>
     <!--End Veterinary Hospital-->
-
-    <div class="row m-2" *ngIf="PageStatus=='Yes'">
-      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-        <label for="ddlAction" class="form-label">Action On Application<span style="color:red;">*</span></label>
-        <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
-          <option value="0" disabled selected>--Select Action--</option>
-          <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-        </select>
-        <div *ngIf="isActionTypeValid" class="text-danger">
-          <p *ngIf="isActionTypeValid"> This field is required .!</p>
-        </div>
-      </div>
-
-      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
-        <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
-
-        <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
-          <option value="0" selected>--Select Role--</option>
-          <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
-        </select>
-
-
-        <div *ngIf="isNextRoleIDValid" class="text-danger">
-          <p *ngIf="isNextRoleIDValid"> This field is required .!</p>
-        </div>
-      </div>
-
-      <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
-        <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
-        <select class="form-select" [(ngModel)]="NextActionID">
-          <option value="0" disabled selected>--Select Action--</option>
-          <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-        </select>
-        <div *ngIf="isNextActionValid" class="text-danger">
-          <p *ngIf="isNextActionValid"> This field is required .!</p>
-        </div>
-      </div>-->
-
-      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRoleNextUser">
-        <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
-        <select class="form-select" [(ngModel)]="NextUserID">
-          <option value="0" selected>--Select User--</option>
-          <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
-        </select>
-        <div *ngIf="isNextUserIdValid" class="text-danger">
-          <p *ngIf="isNextUserIdValid"> This field is required .!</p>
-        </div>
-      </div>
-    </div>
-    <div class="row  m-2" *ngIf="PageStatus=='Yes'">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-        <label>Remarks  <span style="color:red;">*</span></label>
-        <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
-        <div *ngIf="isRemarkValid" class="text-danger">
-          <p *ngIf="isRemarkValid"> This field is required .!</p>
-        </div>
-      </div>
-
-    </div>
-    <div class="row  m-2" *ngIf="PageStatus=='Yes'">
-      <div class="col-md-12">
-        <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
-      </div>
-    </div>
   </div>
 
   <ng-template #TarilMymodal let-modal>
