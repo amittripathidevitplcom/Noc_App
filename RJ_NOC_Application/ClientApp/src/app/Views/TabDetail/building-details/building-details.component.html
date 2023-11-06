@@ -213,12 +213,12 @@
             </div>
            </div>
               <div class="card-header border-top d-flex justify-content-between align-items-center">
-                <b><i class="fa fa-filter"></i>{{Owin_RentDocTitle}}</b>
+                <b><i  *ngIf="SelectedDepartmentID!=4" class="fa fa-filter"></i>{{Owin_RentDocTitle}}</b>
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                    <label for="txtOwnBuildingOrderNo" class="form-label">Order No<span style="color:red;">*</span> </label>
+                    <label for="txtOwnBuildingOrderNo" class="form-label">Order No<span style="color:red;" *ngIf="!IsGovtCollege">*</span> </label>
                     <input type="text" autocomplete="off" class="form-control" id="txtOwnBuildingOrderNo" name="txtOwnBuildingOrderNo" [(ngModel)]="buildingdetails.OwnBuildingOrderNo" formControlName="txtOwnBuildingOrderNo">
 
                     <div *ngIf="isSubmitted&&form.txtOwnBuildingOrderNo.errors" class="text-danger">
@@ -227,14 +227,14 @@
                   </div>
 
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                    <label for="txtOwnBuildingOrderDate">Order Date<span style="color:red;">*</span></label>
+                    <label for="txtOwnBuildingOrderDate">Order Date<span *ngIf="!IsGovtCollege" style="color:red;">*</span></label>
                     <input class="form-control" type="date" id="txtOwnBuildingOrderDate" [(ngModel)]="buildingdetails.OwnBuildingOrderDate" formControlName="txtOwnBuildingOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
                     <div *ngIf="isSubmitted&&form.txtOwnBuildingOrderDate.errors" class="text-danger">
                       <p *ngIf="form.txtOwnBuildingOrderDate.errors.required"> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtOwnBuildingUpload" class="form-label">Upload Document<span style="color:red;">*</span></label>
+                    <label for="txtOwnBuildingUpload" class="form-label">Upload Document<span *ngIf="!IsGovtCollege" style="color:red;">*</span></label>
                     <div class="d-flex">
                       <input type="file" class="form-control" id="txtOwnBuildingUpload" style="display:none" formControlName="txtOwnBuildingUpload" (change)="ValidateUploadImage($event,'OwnBuildingFileUpload')" #txtOwnBuildingUpload />
                       <label class="btn upload" for="txtOwnBuildingUpload">
@@ -247,7 +247,7 @@
                       </div>
                     </div>
                     <a *ngIf="SampleDocument!=''" style="color: #3458c8;" target="_blank" href="{{SampleDocument}}">(Download Annexure-13)</a>
-                    <p *ngIf="isSubmitted&&buildingdetails.OwnBuildingFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <p *ngIf="isSubmitted&&buildingdetails.OwnBuildingFileUpload ==''&&!IsGovtCollege" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
                     <div *ngIf="isValidOwnBuildingFileUpload" class="text-danger">
                       <p *ngIf="isValidOwnBuildingFileUpload"> {{ImageValidationMessage}}</p>
                     </div>
@@ -261,7 +261,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                    <label for="txtFireNOCOrderNumber" class="form-label">Order No<span style="color:red;">*</span> </label>
+                    <label for="txtFireNOCOrderNumber" class="form-label">Order No<span *ngIf="!IsGovtCollege" style="color:red;">*</span> </label>
                     <input type="text" autocomplete="off" class="form-control" id="txtFireNOCOrderNumber" name="txtFireNOCOrderNumber" [(ngModel)]="buildingdetails.FireNOCOrderNumber" formControlName="txtFireNOCOrderNumber">
 
                     <div *ngIf="isSubmitted&&form.txtFireNOCOrderNumber.errors" class="text-danger">
@@ -284,7 +284,7 @@
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtFireNOCUpload" class="form-label">Upload Fire NOC Document<span style="color:red;">*</span></label>
+                    <label for="txtFireNOCUpload" class="form-label">Upload Fire NOC Document<span *ngIf="!IsGovtCollege" style="color:red;">*</span></label>
                     <div class="d-flex">
                       <input type="file" class="form-control" id="txtFireNOCUpload" style="display:none" formControlName="txtFireNOCUpload" (change)="ValidateUploadImage($event,'FireNOCFileUpload')" #txtFireNOCUpload />
                       <label class="btn upload" for="txtFireNOCUpload">
@@ -296,7 +296,7 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FireNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
-                    <p *ngIf="isSubmitted&&buildingdetails.FireNOCFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <p *ngIf="isSubmitted&&buildingdetails.FireNOCFileUpload ==''&&!IsGovtCollege" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
                     <div *ngIf="isValidFireNOCFileUpload" class="text-danger">
                       <p *ngIf="isValidFireNOCFileUpload"> {{ImageValidationMessage}}</p>
                     </div>
@@ -310,7 +310,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                    <label for="txtOrderNo" class="form-label">Order No<span style="color:red;">*</span> </label>
+                    <label for="txtOrderNo" class="form-label">Order No<span *ngIf="!IsGovtCollege" style="color:red;">*</span> </label>
                     <input type="text" autocomplete="off" class="form-control" id="txtOrderNo" name="txtOrderNo" [(ngModel)]="buildingdetails.OrderNo" formControlName="txtOrderNo" placeholder="Enter Order Number.">
 
                     <div *ngIf="isSubmitted&&form.txtOrderNo.errors" class="text-danger">
@@ -318,21 +318,22 @@
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                    <label for="txtOrderDate">Order Date<span style="color:red;">*</span></label>
+                    <label for="txtOrderDate">Order Date<span *ngIf="!IsGovtCollege" style="color:red;">*</span></label>
                     <input class="form-control" type="date" id="txtOrderDate" placeholder="Enter Order Date" [(ngModel)]="buildingdetails.OrderDate" formControlName="txtOrderDate" max="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
                     <div *ngIf="isSubmitted&&form.txtOrderDate.errors" class="text-danger">
                       <p *ngIf="form.txtOrderDate.errors.required"> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                    <label for="txtExpiringOn">Expiring On<span style="color:red;">*</span></label>
+                    <label for="txtExpiringOn">Expiring On<span *ngIf="!IsGovtCollege" style="color:red;">*</span></label>
                     <input class="form-control" type="date" id="txtExpiringOn" placeholder="Enter To Date" [(ngModel)]="buildingdetails.ExpiringOn" formControlName="txtExpiringOn" min="{{MaxDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
                     <div *ngIf="isSubmitted&&form.txtExpiringOn.errors" class="text-danger">
                       <p *ngIf="form.txtExpiringOn.errors.required"> This field is required .!</p>
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtPWDNOCFileUpload" class="form-label">Upload PWD NOC Document<span style="color:red;">*</span></label>
+                    <label *ngIf="SelectedDepartmentID!=4" for="txtPWDNOCFileUpload" class="form-label">Upload PWD NOC Document<span style="color:red;">*</span></label>
+                    <label *ngIf="SelectedDepartmentID==4" for="txtPWDNOCFileUpload" class="form-label">Upload Building Safety Document<span *ngIf="!IsGovtCollege" style="color:red;">*</span></label>
                     <div class="d-flex">
                       <input type="file" class="form-control" id="txtPWDNOCFileUpload" style="display:none" formControlName="txtPWDNOCFileUpload" (change)="ValidateUploadImage($event,'PWDNOCFileUpload')" #txtPWDNOCFileUpload />
                       <label class="btn upload" for="txtPWDNOCFileUpload">
@@ -344,7 +345,7 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PWDNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
-                    <p *ngIf="isSubmitted&&buildingdetails.PWDNOCFileUpload ==''" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <p *ngIf="isSubmitted&&buildingdetails.PWDNOCFileUpload ==''&&!IsGovtCollege" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
                     <div *ngIf="isValidPWDNOCFileUpload" class="text-danger">
                       <p *ngIf="isValidPWDNOCFileUpload"> {{ImageValidationMessage}}</p>
                     </div>
