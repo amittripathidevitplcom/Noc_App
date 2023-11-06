@@ -585,8 +585,7 @@ import { NOCIssuedReportComponent } from './Views/Admin/`Reports/nocissued-repor
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    RouterModule,
-  
+    RouterModule, 
     NgMultiSelectDropDownModule.forRoot(),
     //NgIdleModule.forRoot(),
     //NgIdleKeepaliveModule.forRoot(),
