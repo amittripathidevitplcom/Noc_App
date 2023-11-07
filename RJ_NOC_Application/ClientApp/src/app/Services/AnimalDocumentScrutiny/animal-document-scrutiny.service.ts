@@ -334,14 +334,14 @@ export class AnimalDocumentScrutinyService {
       ).toPromise();
   }
 
-  public async UpdateNOCPDFData(ActionType: string, DepartmentID: number, ApplyNocID: number, CollegeID: number) {
+  public async UpdateNOCPDFData(ActionType: string, DepartmentID: number, ApplyNocID: number, CollegeID: number, UserID: number, RoleID: number) {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/UpdateNOCPDFData/" + ApplyNocID + "/" + DepartmentID + "/" + CollegeID + "/" + ActionType)
+    return await this.http.get(this.APIUrl + "/UpdateNOCPDFData/" + ApplyNocID + "/" + DepartmentID + "/" + CollegeID + "/" + ActionType + "/" + UserID + "/" + RoleID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

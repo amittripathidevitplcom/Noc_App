@@ -13,7 +13,7 @@ import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
-import { EnumApplicationStatus } from '../../../Common/enum-noc';
+import { EnumApplicationStatus, EnumDepartment } from '../../../Common/enum-noc';
 
 @Component({
   selector: 'app-ah-final-noc-application-list',
@@ -188,7 +188,7 @@ export class AhFinalNocApplicationListComponent {
           this.ActionType = EnumApplicationStatus.ReleaseNOC.toString();
         else
           this.ActionType = EnumApplicationStatus.RejectNOC.toString();
-        await this.animalDocumentScrutinyService.FinalNOCRejectRelese(this.selectedApplyNOCID, 2, 0, this.sSOLoginDataModel.UserID, this.FinalRemark, this.ActionType)
+        await this.animalDocumentScrutinyService.FinalNOCRejectRelese(this.selectedApplyNOCID, EnumDepartment.Animal_Husbandry, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.FinalRemark, this.ActionType)
           .then((data: any) => {
             if (data != null && data != undefined) {
               data = JSON.parse(JSON.stringify(data));
@@ -215,7 +215,7 @@ export class AhFinalNocApplicationListComponent {
   async GenratePDF(ApplyNOCID: number, CollegeID: number) {
     this.loaderService.requestStarted();
     try {
-      await this.animalDocumentScrutinyService.UpdateNOCPDFData('GetDataForPDF', 2, ApplyNOCID, CollegeID)
+      await this.animalDocumentScrutinyService.UpdateNOCPDFData('SaveData', EnumDepartment.Animal_Husbandry, ApplyNOCID, CollegeID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
         .then((data: any) => {
           if (data != null && data != undefined) {
             data = JSON.parse(JSON.stringify(data));
