@@ -1,5 +1,40 @@
 <app-loader></app-loader>
 <div class="container-fluid mainContents">
+  <div class="card" *ngIf="LastAppliedNocInformationData!=null">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <b><i class="fa fa-filter"></i>&nbsp;NOC Information</b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td> Application No. </td>
+                  <td>{{LastAppliedNocInformationData.ApplicationNo}}</td>
+                  <td> Legal Entity </td>
+                  <td>{{LastAppliedNocInformationData.LegalEntityName}}</td>
+                </tr>
+                <tr>
+                  <td> University </td>
+                  <td>{{LastAppliedNocInformationData.UniversityName}}</td>
+                  <td> Stream </td>
+                  <td>{{LastAppliedNocInformationData.StreamName}}</td>
+                </tr>
+                <tr>
+                  <td> Subject </td>
+                  <td>{{LastAppliedNocInformationData.SubjectName}}</td>
+                  <td> Date </td>
+                  <td>{{LastAppliedNocInformationData.ModifyDate}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -55,13 +90,39 @@
             <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
           </div>
         </form>
-        <div class="card mb-0">
-          <div class="col-sm-12" style="padding: 0px !important;">
-            <div class="fixTableHead">
-
-              <table class="table table-bordered dataTable dtr-inline table-head-fixed text-nowrap">
+        <div class="card-body" *ngIf="importExcelData.length>0">
+          <div class="row" style="padding-bottom: 5px !important;">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns">
+                <thead>
+                  <tr>
+                    <th> S.No.</th>
+                    <th> Application ID</th>
+                    <th> District</th>
+                    <th> College Name</th>
+                    <th> AISHE Code</th>
+                    <th> Student Name</th>
+                    <th> Father's Name</th>
+                    <th> Gender</th>
+                    <th> Course Name</th>
+                    <th> Subject</th>
+                    <th> Class</th>
+                    <th> Category</th>
+                    <th> PH</th>
+                    <th> Minority</th>
+                    <th> Getting any Scholarship</th>
+                    <th> If Yes Name of Scholarship</th>
+                    <th> Date of Birth</th>
+                    <th> Mobile No. of Student</th>
+                    <th> Verified Email ID of Student</th>
+                    <th> Name of Principal</th>
+                    <th> Mobile No. of Principal</th>
+                    <th> College Email</th>
+                  </tr>
+                </thead>
                 <tbody>
                   <tr *ngFor="let row of importExcelData">
+                    <!--| slice:2-->
                     <td *ngFor="let val of row">
                       {{val}}
                     </td>
@@ -109,7 +170,7 @@
                     <td>{{item.FinancialYearName}}</td>
                     <td>{{item.FileName}}</td>
                     <td>{{item.TotalRecord}}</td>
-                    <td>{{item.CreatedDate | date:'dd-MM-yyyy'}}</td>
+                    <td>{{item.CreatedDate}}</td>
 
                     <td>
                       <div class="d-flex">
@@ -138,30 +199,47 @@
                     <table class="table table-hover table-striped-columns">
                       <thead>
                         <tr>
-                          <th>Sr.No.</th>
-                          <th>Course Name</th>
-                          <th>Subject Name</th>
-                          <th>Student Name</th>
-                          <th>Father Name</th>
-                          <th>Gender</th>
-                          <th>Date Of Birth</th>
-                          <th>Section</th>
-                          <th>Roll No</th>
-                          <th>Passing Year</th>
-                          <th>Cast Category</th>
-                          <th>Physical<br /> Handicap</th>
-                          <th>Minorty</th>
-                          <th>Created Date</th>
+                          <th> S.No.</th>
+                          <th> Application ID</th>
+                          <th> District</th>
+                          <th> College Name</th>
+                          <th> AISHE Code</th>
+                          <th> Student Name</th>
+                          <th> Father's Name</th>
+                          <th> Gender</th>
+                          <th> Course Name</th>
+                          <th> Subject</th>
+                          <th> Class</th>
+                          <th> Category</th>
+                          <th> PH</th>
+                          <th> Minority</th>
+                          <th> Getting any Scholarship</th>
+                          <th> If Yes Name of Scholarship</th>
+                          <th> Date of Birth</th>
+                          <th> Mobile No. of Student</th>
+                          <th> Verified Email ID of Student</th>
+                          <th> Name of Principal</th>
+                          <th> Mobile No. of Principal</th>
+                          <th> College Email</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr *ngFor="let item of request.Data let idx =index">
                           <td>{{idx+1}}</td>
-                          <td><input type="text" class="form-control" id="txtCourseName" name="txtCourseName" [(ngModel)]="item.Course"></td>
-                          <td><input type="text" class="form-control" id="txtSubject" name="txtSubject" [(ngModel)]="item.Subject"></td>
+
+                          <td><input type="text" class="form-control" id="txtApplicationID" name="txtApplicationID" [(ngModel)]="item.ApplicationID"></td>
+
+                          <td><input type="text" class="form-control" id="txtDistrict" name="txtDistrict" [(ngModel)]="item.District"></td>
+
+                          <td><input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" [(ngModel)]="item.CollegeName"></td>
+
+                          <td><input type="text" class="form-control" id="txtAISHECode" name="txtAISHECode" [(ngModel)]="item.AISHECode"></td>
+
                           <td><input type="text" class="form-control" id="txtStudentName" name="txtStudentName" [(ngModel)]="item.StudentName"></td>
+
                           <td><input type="text" class="form-control" id="txtFatherName" name="txtFatherName" [(ngModel)]="item.FatherName"></td>
+
                           <td>
                             <select class="form-select" id="ddlGenderId" name="ddlGender" [(ngModel)]="item.Gender">
                               <option value="0" disabled>--Select--</option>
@@ -169,43 +247,19 @@
                               <option value="F">Female</option>
                               <option value="T">Transgender</option>
                             </select>
-                            <!--<input type="text" class="form-control" id="txtGender" name="txtGender" [(ngModel)]="item.Gender">-->
                           </td>
-                          <td><input type="text" class="form-control" id="txtDOB" name="txtDOB" [(ngModel)]="item.DOB"></td>
+
                           <td>
-                            <select class="form-select" id="ddlSectionId" name="ddlSection" [(ngModel)]="item.Section">
-                              <option value="0" disabled>--Select--</option>
-                              <option value="A">A</option>
-                              <option value="B">B</option>
-                              <option value="C">C</option>
-                              <option value="D">D</option>
-                              <option value="E">E</option>
-                              <option value="F">F</option>
-                              <option value="G">G</option>
-                              <option value="H">H</option>
-                              <option value="I">I</option>
-                              <option value="J">J</option>
-                              <option value="K">K</option>
-                              <option value="L">L</option>
-                              <option value="M">M</option>
-                              <option value="N">N</option>
-                            </select>
-                            <!--<input type="text" class="form-control" id="txtSection" name="txtSection" [(ngModel)]="item.Section">-->
+                            <input type="text" class="form-control" id="txtCourse" name="txtCourse" [(ngModel)]="item.Course">
                           </td>
-                          <td><input type="text" class="form-control" id="txtRollno" name="txtRollno" [(ngModel)]="item.RollNo"></td>
-                          <td>
-                            <select id="ddlYearID" name="ddlYearID" [(ngModel)]="item.Year" class="form-select">
-                              <option value="0" disabled>--Select--</option>
-                              <option *ngFor="let item of YearData"
-                                      value="{{item.YearID}}">
-                                {{item.YearName}}
-                              </option>
-                            </select>
-                            <!--<input type="text" class="form-control" id="txtYear" name="txtYear" [(ngModel)]="item.Year">-->
-                          </td>
+
+                          <td><input type="text" class="form-control" id="txtSubject" name="txtSubject" [(ngModel)]="item.Subject">
+
+                          <td><input type="text" class="form-control" id="txtClass" name="txtClass" [(ngModel)]="item.Class">
+
                           <td>
                             <select class="form-select" id="ddlCastId" name="ddlCast" [(ngModel)]="item.Cast">
-                              <option value="0" disabled>--Select--</option>
+                              <option value="0">--Select--</option>
                               <option value="GEN">GEN</option>
                               <option value="OBC">OBC</option>
                               <option value="ST">ST</option>
@@ -213,26 +267,62 @@
                               <option value="EWS">EWS</option>
                               <option value="SBC">SBC</option>
                             </select>
-                            <!--<input type="text" class="form-control" id="txtCast" name="txtCast" [(ngModel)]="item.Cast">-->
                           </td>
+
                           <td>
                             <select class="form-select" id="ddlPHId" name="ddlPH" [(ngModel)]="item.PH">
-                              <option value="0" disabled>--Select--</option>
+                              <option value="0">--Select--</option>
                               <option value="YES">YES</option>
                               <option value="NO">NO</option>
                             </select>
-                            <!--<input type="text" class="form-control" id="txtPH" name="txtPH" [(ngModel)]="item.PH">-->
                           </td>
+
                           <td>
                             <select class="form-select" id="ddlMinortyId" name="ddlMinorty" [(ngModel)]="item.Minorty">
-                              <option value="0" disabled>--Select--</option>
+                              <option value="0">--Select--</option>
                               <option value="YES">YES</option>
                               <option value="NO">NO</option>
                             </select>
-                            <!--<input type="text" class="form-control" id="txtMinorty" name="txtMinorty" [(ngModel)]="item.Minorty">-->
                           </td>
-                          <td>{{item.CreatedDate | date:'dd-MM-yyyy'}}</td>
+
+                          <td>
+                            <select class="form-select" id="ddlHasScholarshipId" name="ddlHasScholarship" [(ngModel)]="item.HasScholarship">
+                              <option value="0">--Select--</option>
+                              <option value="YES">YES</option>
+                              <option value="NO">NO</option>
+                            </select>
+                          </td>
+
+                          <td>
+                            <input type="text" class="form-control" id="txtScholarshipName" name="txtScholarshipName" [(ngModel)]="item.ScholarshipName">
+                          </td>
+
+                          <td>
+                            <input type="text" class="form-control" id="txtDOB" name="txtDOB" [(ngModel)]="item.DOB" />
+                          </td>
+
+                          <td>
+                            <input type="text" class="form-control" id="txtStudentMobileNo" name="txtStudentMobileNo" [(ngModel)]="item.StudentMobileNo">
+                          </td>
+
+                          <td>
+                            <input type="text" class="form-control" id="txtStudentEmailId" name="txtStudentEmailId" [(ngModel)]="item.StudentEmailId">
+                          </td>
+
+                          <td>
+                            <input type="text" class="form-control" id="txtPrincipalName" name="txtPrincipalName" [(ngModel)]="item.PrincipalName">
+                          </td>
+
+                          <td>
+                            <input type="text" class="form-control" id="txtPrincipalMobileNo" name="txtPrincipalMobileNo" [(ngModel)]="item.PrincipalMobileNo">
+                          </td>
+
+                          <td>
+                            <input type="text" class="form-control" id="txtCollegeEmailId" name="txtCollegeEmailId" [(ngModel)]="item.CollegeEmailId">
+                          </td>
+
                           <td> <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="UpdateSingleRow(item)">Update</button> </td>
+
                         </tr>
                       </tbody>
                     </table>
@@ -266,38 +356,54 @@
               <table class="table table-hover table-striped-columns">
                 <thead>
                   <tr>
-                    <th>Sr.No.</th>
-                    <th>Course</th>
-                    <th>Subject</th>
-                    <th>Student Name</th>
-                    <th>Father Name</th>
-                    <th>Gender</th>
-                    <th>DOB</th>
-                    <th>Section</th>
-                    <th>RollNo</th>
-                    <th>Year</th>
-                    <th>Cast</th>
-                    <th>Physical Handicap</th>
-                    <th>Minorty</th>
-                    <th>Created Date</th>
+                    <th> S.No.</th>
+                    <th> Application ID</th>
+                    <th> District</th>
+                    <th> College Name</th>
+                    <th> AISHE Code</th>
+                    <th> Student Name</th>
+                    <th> Father's Name</th>
+                    <th> Gender</th>
+                    <th> Course Name</th>
+                    <th> Subject</th>
+                    <th> Class</th>
+                    <th> Category</th>
+                    <th> PH</th>
+                    <th> Minority</th>
+                    <th> Getting any Scholarship</th>
+                    <th> If Yes Name of Scholarship</th>
+                    <th> Date of Birth</th>
+                    <th> Mobile No. of Student</th>
+                    <th> Verified Email ID of Student</th>
+                    <th> Name of Principal</th>
+                    <th> Mobile No. of Principal</th>
+                    <th> College Email</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of lstImportFileDetails let idx =index">
                     <td>{{idx+1}}</td>
-                    <td>{{item.Course}}</td>
-                    <td>{{item.Subject}}</td>
+                    <td>{{item.ApplicationID}}</td>
+                    <td>{{item.District}}</td>
+                    <td>{{item.CollegeName}}</td>
+                    <td>{{item.AISHECode}}</td>
                     <td>{{item.StudentName}}</td>
                     <td>{{item.FatherName}}</td>
-                    <td>{{item.Gender}}</td>
-                    <td>{{item.DOB}}</td>
-                    <td>{{item.Section}}</td>
-                    <td>{{item.RollNo}}</td>
-                    <td>{{item.Year}}</td>
+                    <td>{{item.Gender == "M" ? "Male" : (item.Gender == "F" ? "Female" : "Transgender")}}</td>
+                    <td>{{item.Course}}</td>
+                    <td>{{item.Subject}}</td>
+                    <td>{{item.Class}}</td>
                     <td>{{item.Cast}}</td>
                     <td>{{item.PH}}</td>
                     <td>{{item.Minorty}}</td>
-                    <td>{{item.CreatedDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{item.HasScholarship}}</td>
+                    <td>{{item.ScholarshipName}}</td>
+                    <td>{{item.DOB}}</td>
+                    <td>{{item.StudentMobileNo}}</td>
+                    <td>{{item.StudentEmailId}}</td>
+                    <td>{{item.PrincipalName}}</td>
+                    <td>{{item.PrincipalMobileNo}}</td>
+                    <td>{{item.CollegeEmailId}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -320,103 +426,106 @@
         <div class="card-header">
           <b>Add Single Row Data</b>
         </div>
-        <div class="card-body">        
-            <div class="table-responsive">
-              <table class="table table-borderless">
-                <tbody>
-                  <tr>
-                    <td>Course Name</td>
-                    <td><input type="text" class="form-control" id="txtCourseName" name="txtCourseName" [(ngModel)]="MemberData.Course"></td>
-                    <td>Subject Name</td>
-                    <td><input type="text" class="form-control" id="txtSubject" name="txtSubject" [(ngModel)]="MemberData.Subject"></td>
-                    <td>Student Name</td>
-                    <td><input type="text" class="form-control" id="txtStudentName" name="txtStudentName" [(ngModel)]="MemberData.StudentName"></td>
-
-                  </tr>
-                  <tr>
-                    <td>Fatder Name</td>
-                    <td><input type="text" class="form-control" id="txtFatderName" name="txtFatherName" [(ngModel)]="MemberData.FatherName"></td>
-                    <td>Gender</td>
-                    <td>
-                      <select class="form-select" id="ddlGenderId" name="ddlGender" [(ngModel)]="MemberData.Gender">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="M">Male</option>
-                        <option value="F">Female</option>
-                        <option value="T">Transgender</option>
-                      </select>
-
-                    </td>
-                    <td>Date Of Birth <br /> (dd-MM-YYYY) </td>
-                    <td><input type="text" class="form-control" id="txtDOB" name="txtDOB" [(ngModel)]="MemberData.DOB"></td>
-                  </tr>
-                  <tr>
-                    <td>Section</td>
-                    <td>
-                      <select class="form-select" id="ddlSectionId" name="ddlSection" [(ngModel)]="MemberData.Section">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                        <option value="D">D</option>
-                        <option value="E">E</option>
-                        <option value="F">F</option>
-                        <option value="G">G</option>
-                        <option value="H">H</option>
-                        <option value="I">I</option>
-                        <option value="J">J</option>
-                        <option value="K">K</option>
-                        <option value="L">L</option>
-                        <option value="M">M</option>
-                        <option value="N">N</option>
-                      </select>
-
-                    </td>
-                    <td>Roll No</td>
-                    <td><input type="text" class="form-control" id="txtRollno" name="txtRollno" [(ngModel)]="MemberData.RollNo"></td>
-                    <td>Passing Year</td>
-                    <td>
-                      <select id="ddlYearID" name="ddlYearID" [(ngModel)]="MemberData.Year" class="form-select">
-                        <option value="0" disabled>--Select--</option>
-                        <option *ngFor="let item of YearData"
-                                value="{{item.YearID}}">
-                          {{item.YearName}}
-                        </option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Cast Category</td>
-                    <td>
-                      <select class="form-select" id="ddlCastId" name="ddlCast" [(ngModel)]="MemberData.Cast">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="GEN">GEN</option>
-                        <option value="OBC">OBC</option>
-                        <option value="ST">ST</option>
-                        <option value="SC">SC</option>
-                        <option value="EWS">EWS</option>
-                        <option value="SBC">SBC</option>
-                      </select>
-                    </td>
-                    <td>Physical<br /> Handicap</td>
-                    <td>
-                      <select class="form-select" id="ddlPHId" name="ddlPH" [(ngModel)]="MemberData.PH">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="YES">YES</option>
-                        <option value="NO">NO</option>
-                      </select>
-                    </td>
-                    <td>Minorty</td>
-                    <td>
-                      <select class="form-select" id="ddlMinortyId" name="ddlMinorty" [(ngModel)]="MemberData.Minorty">
-                        <option value="0" disabled>--Select--</option>
-                        <option value="YES">YES</option>
-                        <option value="NO">NO</option>
-                      </select>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>         
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-borderless">
+              <tbody>
+                <tr>
+                  <td>Application Id</td>
+                  <td><input type="text" class="form-control" id="txtApplicationID" name="txtApplicationID" [(ngModel)]="MemberData.ApplicationID"></td>
+                </tr>
+                <tr>
+                  <td>District</td>
+                  <td><input type="text" class="form-control" id="txtDistrict" name="txtDistrict" [(ngModel)]="MemberData.District"></td>
+                  <td>College Name</td>
+                  <td><input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" [(ngModel)]="MemberData.CollegeName"></td>
+                  <td>AISHE Code</td>
+                  <td><input type="text" class="form-control" id="txtAISHECode" name="txtAISHECode" [(ngModel)]="MemberData.AISHECode"></td>
+                </tr>
+                <tr>
+                  <td>Student Name</td>
+                  <td><input type="text" class="form-control" id="txtStudentName" name="txtStudentName" [(ngModel)]="MemberData.StudentName"></td>
+                  <td>Father's Name</td>
+                  <td><input type="text" class="form-control" id="txtFatherName" name="txtFatherName" [(ngModel)]="MemberData.FatherName"></td>
+                  <td>Gender</td>
+                  <td>
+                    <select class="form-select" id="ddlGenderId" name="ddlGender" [(ngModel)]="MemberData.Gender">
+                      <option value="0" disabled>--Select--</option>
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
+                      <option value="T">Transgender</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Course</td>
+                  <td><input type="text" class="form-control" id="txtCourse" name="txtCourse" [(ngModel)]="MemberData.Course"></td>
+                  <td>Subject</td>
+                  <td><input type="text" class="form-control" id="txtSubject" name="txtSubject" [(ngModel)]="MemberData.Subject"></td>
+                  <td>Class</td>
+                  <td><input type="text" class="form-control" id="txtClass" name="txtClass" [(ngModel)]="MemberData.Class"></td>
+                </tr>
+                <tr>
+                  <td>Cast Category</td>
+                  <td>
+                    <select class="form-select" id="ddlCastId" name="ddlCast" [(ngModel)]="MemberData.Cast">
+                      <option value="0" disabled>--Select--</option>
+                      <option value="GEN">GEN</option>
+                      <option value="OBC">OBC</option>
+                      <option value="ST">ST</option>
+                      <option value="SC">SC</option>
+                      <option value="EWS">EWS</option>
+                      <option value="SBC">SBC</option>
+                    </select>
+                  </td>
+                  <td>Physical<br /> Handicap</td>
+                  <td>
+                    <select class="form-select" id="ddlPHId" name="ddlPH" [(ngModel)]="MemberData.PH">
+                      <option value="0" disabled>--Select--</option>
+                      <option value="YES">YES</option>
+                      <option value="NO">NO</option>
+                    </select>
+                  </td>
+                  <td>Minorty</td>
+                  <td>
+                    <select class="form-select" id="ddlMinortyId" name="ddlMinorty" [(ngModel)]="MemberData.Minorty">
+                      <option value="0" disabled>--Select--</option>
+                      <option value="YES">YES</option>
+                      <option value="NO">NO</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>HasScholarship</td>
+                  <td>
+                    <select class="form-select" id="ddlHasScholarshipId" name="ddlHasScholarship" [(ngModel)]="MemberData.HasScholarship">
+                      <option value="0" disabled>--Select--</option>
+                      <option value="YES">YES</option>
+                      <option value="NO">NO</option>
+                    </select>
+                  </td>
+                  <td>Scholarship Name</td>
+                  <td><input type="text" class="form-control" id="txtScholarshipName" name="txtScholarshipName" [(ngModel)]="MemberData.ScholarshipName"></td>
+                  <td>Date of Birth</td>
+                  <td><input type="text" class="form-control" id="txtDOB" name="txtDOB" [(ngModel)]="MemberData.DOB"></td>
+                </tr>
+                <tr>
+                  <td>Student Mobile No.</td>
+                  <td><input type="text" class="form-control" id="txtStudentMobileNo" name="txtStudentMobileNo" [(ngModel)]="MemberData.StudentMobileNo"></td>
+                  <td>Student Email</td>
+                  <td><input type="text" class="form-control" id="txtStudentEmailId" name="txtStudentEmailId" [(ngModel)]="MemberData.StudentEmailId"></td>
+                  <td>Principal Name</td>
+                  <td><input type="text" class="form-control" id="txtPrincipalName" name="txtPrincipalName" [(ngModel)]="MemberData.PrincipalName"></td>
+                </tr>
+                <tr>
+                  <td>Principal Mobile No.</td>
+                  <td><input type="text" class="form-control" id="txtPrincipalMobileNo" name="txtPrincipalMobileNo" [(ngModel)]="MemberData.PrincipalMobileNo"></td>
+                  <td>College Email</td>
+                  <td><input type="text" class="form-control" id="txtCollegeEmailId" name="txtCollegeEmailId" [(ngModel)]="MemberData.CollegeEmailId"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="card-footer text-end saveCancelBtn">
           <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="AddSingleRow(MemberData)">Save</button>
