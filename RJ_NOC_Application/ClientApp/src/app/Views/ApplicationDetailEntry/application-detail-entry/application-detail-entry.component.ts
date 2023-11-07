@@ -88,6 +88,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
     await this.ShowDraftFinalSubmitBtn();
     this.loaderService.requestEnded();
     this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+
   }
 
   NextStep() {
@@ -107,12 +108,12 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   onTabChange(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
-    this.ShowDraftFinalSubmitBtn();
-    this.staffDetailsComponent.GetCollegeWiseSubjectList(this.SelectedCollageID);
-    this.academicInformationComponent.GetCourseList_CollegeWise(this.SelectedCollageID);
-    this.oldNOCDetailsComponent.GetCourseList();
-    this.roomDetailsComponent.LoadMaster();
-
+   
+    try {
+      this.ShowDraftFinalSubmitBtn();
+    }
+    catch (Ex) { }
+    this.loaderService.requestEnded();
   }
 
   async GetCollageDetails() {
@@ -162,7 +163,6 @@ export class ApplicationDetailEntryComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.commonMasterService.CheckTabsEntry(this.SelectedCollageID.toString())
         .then(async (data: any) => {
-
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
           console.log(this.CheckTabsEntryData);
@@ -214,34 +214,34 @@ export class ApplicationDetailEntryComponent implements OnInit {
               }
 
 
-              if (this.SelectedDepartmentID != 2) {
-                if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
-                  this.toastr.error("Add Minimum 15 College Management Committee Members.")
-                  DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "\n";
-                  this.isCheck30Female = true;
-                  if (this.SelectedDepartmentID != 3) {
-                    return;
-                  }
+              if (this.SelectedDepartmentID != 2 && this.SelectedDepartmentID != 4) {
+                  if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
+                    this.toastr.error("Add Minimum 15 College Management Committee Members.")
+                    DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "\n";
+                    this.isCheck30Female = true;
+                    if (this.SelectedDepartmentID != 3) {
+                      return;
+                    }
 
-                }
-                if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID == 3) {
-                  this.toastr.error("Add Minimum 2 Educationist College Management Committee Members.")
-                  DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "\n";
-                  this.isCheck30Female = true;
-                  if (this.SelectedDepartmentID != 3) {
-                    return;
                   }
-                }
-                Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
-                if (Femalepre < 30) {
-                  //this.toastr.error("Society in Female Member is not valid (30%)")
-                  this.toastr.error("Member list must have atleast 30% of Woman")
-                  DCPendingPoint += "Member list must have atleast 30% of Woman" + "\n";
-                  this.isCheck30Female = true;
-                  if (this.SelectedDepartmentID != 3) {
-                    return;
+                  if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID == 3) {
+                    this.toastr.error("Add Minimum 2 Educationist College Management Committee Members.")
+                    DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "\n";
+                    this.isCheck30Female = true;
+                    if (this.SelectedDepartmentID != 3) {
+                      return;
+                    }
                   }
-                }
+                  Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
+                  if (Femalepre < 30) {
+                    //this.toastr.error("Society in Female Member is not valid (30%)")
+                    this.toastr.error("Member list must have atleast 30% of Woman")
+                    DCPendingPoint += "Member list must have atleast 30% of Woman" + "\n";
+                    this.isCheck30Female = true;
+                    if (this.SelectedDepartmentID != 3) {
+                      return;
+                    }
+                  }
               }
 
               if (data['Data'][0]['data'][0]['PendingFacilities'] > 0) {
@@ -300,7 +300,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
                 }
               }
 
-
+              //
               if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true) {
                 this.SeatValue = Number(data['Data'][0]['data'][0]['SeatsValue'])
                 if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
@@ -389,13 +389,6 @@ export class ApplicationDetailEntryComponent implements OnInit {
             }
           })
       }
-
-
-
-
-
-
-
 
       if (this.SelectedDepartmentID == 3) {
         if (confirm(DCPendingPoint + "\nAre you sure you want to save draft application ?")) {
@@ -508,6 +501,23 @@ export class ApplicationDetailEntryComponent implements OnInit {
     }
   }
   async ShowDraftFinalSubmitBtn() {
+
+    try {
+      this.academicInformationComponent.GetCourseList_CollegeWise(this.SelectedCollageID);
+    }
+    catch (Ex) { }
+    try {
+      this.oldNOCDetailsComponent.GetCourseList();
+    }
+    catch (Ex) { }
+    try {
+      this.roomDetailsComponent.LoadMaster();
+    }
+    catch (Ex) { }
+    try {
+      this.staffDetailsComponent.GetCollegeWiseSubjectList(this.SelectedCollageID);
+    }
+    catch (Ex) { }
 
     await this.CheckTabsEntry();
     this.IsShowDraftFinalSubmit = true;

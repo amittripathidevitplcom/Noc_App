@@ -13,6 +13,7 @@ import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { AnimalDocumentScrutinyService } from '../../../Services/AnimalDocumentScrutiny/animal-document-scrutiny.service';
+import { EnumApplicationStatus } from '../../../Common/enum-noc';
 
 @Component({
   selector: 'app-ah-final-noc-application-list',
@@ -42,6 +43,7 @@ export class AhFinalNocApplicationListComponent {
   public ApplicationNO: string = '';
   public NOCFilePath: string = '';
   public btntext: string = 'Approved';
+  public ActionType: string = '';
 
   public ApplicationTrailList: any = [];
   public ApplyNocDetails: any = [];
@@ -182,7 +184,11 @@ export class AhFinalNocApplicationListComponent {
         return;
       }
       else {
-        await this.animalDocumentScrutinyService.FinalNOCRejectRelese(this.selectedApplyNOCID, 2, 0, this.sSOLoginDataModel.UserID, this.FinalRemark)
+        if (this.btntext == 'Approved')
+          this.ActionType = EnumApplicationStatus.ReleaseNOC.toString();
+        else
+          this.ActionType = EnumApplicationStatus.RejectNOC.toString();
+        await this.animalDocumentScrutinyService.FinalNOCRejectRelese(this.selectedApplyNOCID, 2, 0, this.sSOLoginDataModel.UserID, this.FinalRemark, this.ActionType)
           .then((data: any) => {
             if (data != null && data != undefined) {
               data = JSON.parse(JSON.stringify(data));
@@ -247,11 +253,37 @@ export class AhFinalNocApplicationListComponent {
       }, 100);
     }
   }
+  async ForwardToJSDS(ApplyNOCID: number) {
+    this.loaderService.requestStarted();
+    try {
+      this.FinalRemark = "Forward To DS/JS By Secretary";
+
+      await this.animalDocumentScrutinyService.FinalNOCRejectRelese(ApplyNOCID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.FinalRemark, EnumApplicationStatus.ApproveandForward.toString())
+        .then((data: any) => {
+          if (data != null && data != undefined) {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.toastr.success("Forward To DS/JS By Secretary");
+            this.modalService.dismissAll('After Success');
+            this.GetFinalNOCApplicationList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.UserID, Number(this.sSOLoginDataModel.RoleID), this.sSOLoginDataModel.DepartmentID, this.QueryStringStatus);
+          }
+        }, error => console.error(error));
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 100);
+    }
+  }
 
   async ApplicationPreview_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string, Status: string) {
     if (DepartmentID = 2) {
-      //this.routers.navigate(['/animalhusbandryappnocpreview' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
-      //this.routers.navigate(['/animalhusbandryappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString()))]);
       window.open('/animalhusbandryappnocviewByNodal' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(Status.toString())), "_blank");
     }
   }

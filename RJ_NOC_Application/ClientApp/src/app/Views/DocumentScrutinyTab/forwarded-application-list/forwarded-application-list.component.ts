@@ -1,0 +1,99 @@
+import { Component, OnInit, Input, Injectable, ViewChild, ElementRef } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { LoaderService } from '../../../Services/Loader/loader.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonMasterDataModel } from '../../../Models/CommonMasterDataModel';
+import { ToastrService } from 'ngx-toastr';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
+import { EnumApplicationStatus, EnumDepartment } from '../../../Common/enum-noc';
+@Component({
+  selector: 'app-forwarded-application-list',
+  templateUrl: './forwarded-application-list.component.html',
+  styleUrls: ['./forwarded-application-list.component.css']
+})
+export class ForwardedApplicationListComponent {
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  sSOLoginDataModel = new SSOLoginDataModel();
+  public State: number = -1;
+  public SuccessMessage: any = [];
+  public ErrorMessage: any = [];
+  public DocumentScrutinyCompleteList: any = [];
+  public ApplicationTrailList: any = [];
+
+  constructor(private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
+    private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private modalService: NgbModal) { }
+
+  async ngOnInit() {
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    await this.GetDocumentScrutinyCompletedReportUserWise(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
+  }
+  async GetDocumentScrutinyCompletedReportUserWise(UserID: number, RoleID: number, DepartmentID: number) {
+    try {
+      let ActionName = EnumApplicationStatus.Approve.toString();
+      if (RoleID == 15 && DepartmentID == EnumDepartment.Animal_Husbandry) {
+        ActionName = EnumApplicationStatus.ApproveandForward;
+      }
+      this.loaderService.requestStarted();
+      await this.applyNOCApplicationService.GetApplyNOCCompletedReport(UserID, ActionName, RoleID, DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'][0]['data'].length > 0) {
+            this.DocumentScrutinyCompleteList = data['Data'][0]['data'];
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async GetApplicationTrail(content: any, ApplyNOCID: number) {
+    this.ApplicationTrailList = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetApplicationTrail_DepartmentApplicationWise(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationTrailList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+}

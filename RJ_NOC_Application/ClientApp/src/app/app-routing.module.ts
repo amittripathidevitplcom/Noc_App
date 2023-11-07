@@ -163,6 +163,11 @@ import { PreviewLOIapplicationdetailEntryComponent } from './Views/PreviewTabs/p
 import { LOIApplyEntryComponent } from './Views/NoOfficer/loiapply-entry/loiapply-entry.component';
 import { NocInformationComponent } from './Views/NocInformation/noc-information/noc-information.component';
 
+import { SeatInformationMasterComponent } from './Views/Master/seat-information-master/seat-information-master.component';
+import { LOIFeeMasterComponent } from './Views/Master/loifee-master/loifee-master.component'
+import { RejectedApplicationListComponent } from './Views/RejectedApplication/rejected-application-list/rejected-application-list.component';
+import { NOCIssuedReportComponent } from './Views/Admin/`Reports/nocissued-report/nocissued-report.component';
+import { ForwardedApplicationListComponent } from './Views/DocumentScrutinyTab/forwarded-application-list/forwarded-application-list.component';
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -619,6 +624,9 @@ const routes: Routes = [
         path: 'revertedapplicationlist', component: RevertedApplicationListComponent
       },
       {
+        path: 'rejectedapplicationlist', component: RejectedApplicationListComponent
+      },
+      {
         path: 'AHinspectioncommitteephysicalverification/:Status', component: AhInspectionCommitteePhysicalVerificationComponent
       },
       {
@@ -721,7 +729,18 @@ const routes: Routes = [
         //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
         //}
       },
-
+      {
+        path: 'seatinformationmaster', component: SeatInformationMasterComponent
+      },
+      {
+        path: 'loifeemaster', component: LOIFeeMasterComponent
+      },
+      {
+        path: 'nocissuedreport', component: NOCIssuedReportComponent
+      },
+      {
+        path: 'forwardedApplications', component: ForwardedApplicationListComponent
+      },
     ]
     // ,canActivate: [SkipLocationChangeGuard],
   },

@@ -20,6 +20,7 @@ export class PaymentSuccessComponent implements OnInit {
   public Amount: string = '';
   public PaymentStatus: string = '';
   public PaymentModeBID: string = '';
+  public UDF2_PURPOSE: string = '';
 
   constructor(private router: ActivatedRoute, private loaderService: LoaderService, private nocpaymentService: NocpaymentService) { }
 
@@ -42,6 +43,7 @@ export class PaymentSuccessComponent implements OnInit {
           this.Amount = data['Data'][0]['AMOUNT'];
           this.PaymentStatus = data['Data'][0]['STATUS'];
           this.TransactionID = data['Data'][0]['RPPTXNID'];
+          this.UDF2_PURPOSE = data['Data'][0]['UDF2'];
           
         },
             (        error: any) => console.error(error));

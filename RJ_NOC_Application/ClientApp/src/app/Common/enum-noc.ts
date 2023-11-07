@@ -46,10 +46,12 @@ export enum EnumApplicationStatus {
   Rejected = "Rejected",
   Completed = "Completed",
   Approved = "Approved",
+  Forward = "Forward",
   Approve = "Approve",
   ApproveandForward = "Approve and Forward",
   ForwardToCommissioner = "Forward To Commissioner",
   ReleaseNOC = "Release NOC",
   RejectNOC = "Reject NOC",
+  ForwardToSecretary = "Forward To Secretary",
 }
 

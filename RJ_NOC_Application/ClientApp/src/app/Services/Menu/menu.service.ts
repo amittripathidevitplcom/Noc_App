@@ -85,7 +85,9 @@ export class MenuService {
   }
 
 
-
+  public SSOLogout() {
+    window.open(GlobalConstants.BacktoSSOURL_Logout, "_self");
+  }
   public BackToSSO() {
     window.open(GlobalConstants.BacktoSSOURL, "_self");
   }

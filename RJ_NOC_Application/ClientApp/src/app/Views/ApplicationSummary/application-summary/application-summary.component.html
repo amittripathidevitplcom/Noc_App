@@ -1,4 +1,5 @@
 <app-loader></app-loader>
+<!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
     <div class="col-md-6">
@@ -21,15 +22,15 @@
       <input type="button" value="Download PDF" class="btn btn-sm btn-primary pull-right mb-2" (click)="btnViewPDfPreview(myApplicationSummery)" />
     </div>
     <div class="col-md-12">
-      <mat-stepper orientation="vertical">
-        <mat-step state="chat" *ngIf="IsManagmentType">
+      <mat-stepper  orientation="vertical">
+        <mat-step [completed]="true" state="chat" *ngIf="IsManagmentType">
           <ng-template matStepLabel>Legal Entity </ng-template>
           <ng-template matStepContent>
             <app-preview-legal-entity></app-preview-legal-entity>
             <button mat-button matStepperNext>Next</button>
           </ng-template>
         </mat-step>
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>College Detail</ng-template>
           <ng-template matStepContent>
             <app-preview-college></app-preview-college>
@@ -37,7 +38,7 @@
             <button mat-button matStepperNext>Next</button>
           </ng-template>
         </mat-step>
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>Course Detail</ng-template>
           <ng-template matStepContent>
             <app-preview-course-detail></app-preview-course-detail>
@@ -45,129 +46,129 @@
             <button mat-button matStepperNext>Next</button>
           </ng-template>
         </mat-step>
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>College Management Society</ng-template>
           <app-college-management-society></app-college-management-society>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>Land Details</ng-template>
           <app-preview-land-detail></app-preview-land-detail>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>Facility</ng-template>
           <app-preview-facility-detail></app-preview-facility-detail>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>Required Document</ng-template>
           <app-preview-required-document></app-preview-required-document>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>Class Room Details</ng-template>
           <app-preview-room-detail></app-preview-room-detail>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel *ngIf="SelectedDepartmentID==6">Clinical Details</ng-template>
           <ng-template matStepLabel *ngIf="SelectedDepartmentID !=6">Other Information</ng-template>
           <app-preview-other-information></app-preview-other-information>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>Building Documents</ng-template>
           <app-preview-building-detail></app-preview-building-detail>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat" *ngIf="CollegeType_IsExisting">
+        <mat-step [completed]="false" state="chat" *ngIf="CollegeType_IsExisting">
           <ng-template matStepLabel>Staff Details</ng-template>
           <app-preview-staff-detail></app-preview-staff-detail>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step *ngIf="CollegeType_IsExisting" state="chat">
+        <mat-step [completed]="false" *ngIf="CollegeType_IsExisting" state="chat">
           <ng-template matStepLabel>OLD NOC Details</ng-template>
           <app-preview-old-nocdetail></app-preview-old-nocdetail>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step *ngIf="CollegeType_IsExisting" state="chat">
+        <mat-step [completed]="false" *ngIf="CollegeType_IsExisting" state="chat">
           <ng-template matStepLabel>Academic Information</ng-template>
           <app-preview-academic-information></app-preview-academic-information>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>Other Document</ng-template>
           <app-preview-other-document></app-preview-other-document>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat" *ngIf="SelectedDepartmentID==6">
+        <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==6">
           <ng-template matStepLabel>Hospital Details</ng-template>
           <app-preview-hospital-detail></app-preview-hospital-detail>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat" *ngIf="SelectedDepartmentID==9">
+        <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==9">
           <ng-template matStepLabel>Hospital Details</ng-template>
           <app-preview-paramedical-hospital-detail></app-preview-paramedical-hospital-detail>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
+        <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
           <ng-template matStepLabel>Hostel Details</ng-template>
           <app-preview-hostel-details></app-preview-hostel-details>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat" *ngIf="SelectedDepartmentID==2">
+        <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==2">
           <ng-template matStepLabel>Veterinary Hospital</ng-template>
           <app-preview-veterinary-hospital></app-preview-veterinary-hospital>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat" *ngIf="SelectedDepartmentID==1">
+        <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==1">
           <ng-template matStepLabel>Farm Land Details</ng-template>
           <app-preview-farm-land-details></app-preview-farm-land-details>
           <button mat-button matStepperPrevious>Back</button>
         </mat-step>
 
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>Apply Noc Details</ng-template>
           <app-preview-apply-noc-detail></app-preview-apply-noc-detail>
           <button mat-button matStepperPrevious>Back</button>
         </mat-step>
 
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>FDR Details</ng-template>
           <app-preview-fdr-detail></app-preview-fdr-detail>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>
 
-        <mat-step state="chat">
+        <mat-step [completed]="false" state="chat">
           <ng-template matStepLabel>Payment Details</ng-template>
           <app-preview-payment-detail></app-preview-payment-detail>
           <button mat-button matStepperPrevious>Back</button>

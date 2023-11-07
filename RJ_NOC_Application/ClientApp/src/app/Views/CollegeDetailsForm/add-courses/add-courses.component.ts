@@ -15,7 +15,8 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { EnumDepartment } from '../../../Common/enum-noc';
 import { Console } from 'console';
- 
+import { async } from 'rxjs';
+
 
 @Injectable()
 
@@ -63,6 +64,9 @@ export class AddCoursesComponent implements OnInit {
   public CourseLevelList: any = [];
   public streamDataList: any = [];
   public isShowStreambox: boolean = false;
+
+  public SelectedCollageID: number = 0;
+
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
     private clipboard: Clipboard) {
@@ -89,6 +93,8 @@ export class AddCoursesComponent implements OnInit {
 
       this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
       this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+      this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+      this.request.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
       this.UserID = 1;
       ///Edit Process
       await this.LoadMaster();
@@ -116,9 +122,17 @@ export class AddCoursesComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetCollageList_DepartmentAndSSOIDWise(0, this.sSOLoginDataModel.SSOID, "AddCourse")
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
+
+          this.collegeDataList = this.collegeDataList.filter((element: any) => {
+            return element.CollegeID == this.SelectedCollageID;
+          });
+
+          await this.ddlCollege_change(this.SelectedCollageID);
+
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -134,7 +148,7 @@ export class AddCoursesComponent implements OnInit {
   async ddlCollege_change(SeletedCollegeID: any) {
     this.request.Seats = 0;
     try {
-      this.request.CollegeID = SeletedCollegeID;
+      
       await this.commonMasterService.GetCollegeBasicDetails(SeletedCollegeID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -259,7 +273,7 @@ export class AddCoursesComponent implements OnInit {
   async GetAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.courseMasterService.GetList(this.UserID, this.sSOLoginDataModel.SSOID)
+      await this.courseMasterService.GetList(this.UserID, this.sSOLoginDataModel.SSOID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -304,16 +318,16 @@ export class AddCoursesComponent implements OnInit {
       this.isFormValid = false;
       return
     }
-    if (this.request.DepartmentID != EnumDepartment.CollegeEducation && this.CollegeStatus !='New') {
+    if (this.request.DepartmentID != EnumDepartment.CollegeEducation && this.CollegeStatus != 'New') {
       if (this.request.Seats <= 0) {
         this.isFormValid = false;
       }
     }
- 
+
 
     if (this.request.DepartmentID == EnumDepartment.CollegeEducation) {
-        if (this.request.NoOfEnrolledStudents == null || this.request.NoOfEnrolledStudents.toString() == '')
-          this.isFormValid = false;
+      if (this.request.NoOfEnrolledStudents == null || this.request.NoOfEnrolledStudents.toString() == '')
+        this.isFormValid = false;
     }
     if (!this.isFormValid) {
       return;
@@ -346,7 +360,7 @@ export class AddCoursesComponent implements OnInit {
         }
       }
     }
-     
+
     //Added by rishi kapooor
     if (this.request.NoOfEnrolledStudents == undefined || this.request.NoOfEnrolledStudents == null) {
       this.request.NoOfEnrolledStudents = 0;
@@ -393,9 +407,6 @@ export class AddCoursesComponent implements OnInit {
     if (ddlDepartment) ddlDepartment.focus();
     this.isSubmitted = false;
     this.request.CollegeWiseCourseID = 0;
-
-    this.request.DepartmentID = 0;
-    this.request.CollegeID = 0;
     this.ddlCollege_change(this.request.CollegeID);
     this.request.CourseID = 0;
     this.ddlCourse_change(this, this.request.CourseID);
@@ -445,7 +456,8 @@ export class AddCoursesComponent implements OnInit {
           }
 
           this.request.CourseLevelID = data['Data'][0]["CourseLevelID"];
-          if (this.request.DepartmentID == EnumDepartment.CollegeEducation || this.request.DepartmentID == EnumDepartment.Animal_Husbandry) {
+          if (this.request.DepartmentID == EnumDepartment.CollegeEducation || this.request.DepartmentID == EnumDepartment.Animal_Husbandry
+            || this.request.DepartmentID == EnumDepartment.MedicalGroup3 || this.request.DepartmentID == EnumDepartment.ParaMedical) {
             await this.ddlCourseLevel_change(this.request.CourseLevelID);
           }
 

@@ -41,4 +41,13 @@ export class ParameterFeeMaster {
   public FeeAmount: number = 0;
   public ActionName: string = '';
   public ApplyNocName: string = '';
+  public TableUpdateType: string = '';
+}
+
+export class NOCIssuedDataModel {
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public FromDate: string = '';
+  public ToDate: string = '';
+  
 }

@@ -359,7 +359,8 @@ export class OldNOCDetailsComponent implements OnInit {
     }
 
 
-    if (this.SelectedDepartmentID != 4) {
+   // if (this.SelectedDepartmentID != 4) {
+    if (this.SubjectDataModel.length == 0 && (this.SelectedDepartmentID != 2 && this.SelectedDepartmentID != 4)) {
       this.oldNOCForm.get('ddlSubject')?.setValidators([DropdownValidators]);
     }
     else {
@@ -382,9 +383,11 @@ export class OldNOCDetailsComponent implements OnInit {
     }
     var OldNOCtype = this.lstNOCType.find((x: { ID: any; }) => x.ID == this.request.NOCTypeID).Name;
     if (OldNOCtype != 'PNOC') {
-      if (this.request.NOCExpireDate == '') {
-        this.NOCExpireDateRequried = true;
-        this.IsFormValid = false;
+      if (this.SelectedDepartmentID != 4) {
+        if (this.request.NOCExpireDate == '') {
+          this.NOCExpireDateRequried = true;
+          this.IsFormValid = false;
+        }
       }
     }
     if (!this.IsFormValid) {

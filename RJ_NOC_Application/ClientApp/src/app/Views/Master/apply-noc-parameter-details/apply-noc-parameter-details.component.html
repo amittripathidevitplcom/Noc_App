@@ -62,12 +62,12 @@
           <tr *ngFor="let item of ApplyNocApplicationList | tableSearchFilter:searchText; let idx=index;">
             <td>
 
-              <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+              <!--<div class="dropdown">-->
+                <!--<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
                         style="background-color: #132649;">
                   Action
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                </button>-->
+                <ul class="dropdown-menu show" aria-labelledby="dropdownMenuButton1" style="position: relative !important;display:contents">
                   <li>
                     <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="View Apply Details"
                        (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)">View Apply Details</a>
@@ -80,7 +80,7 @@
                     <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Delete Application"
                        (click)="DeleteApplyNocApplication_click(item)">Delete</a>
                   </li>
-                  <li>
+                  <li *ngIf="item.DepartmentID !=2">
                     <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add FDR" (click)="AddFDR_click(item)">
                       {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
                     </a>
@@ -116,7 +116,7 @@
                   </li>
 
                 </ul>
-              </div>
+              <!--</div>-->
             </td>
             <td>{{idx+1}}</td>
             <td>{{item.SocietyName}}</td>
@@ -809,7 +809,7 @@
     </div>
     <div class="row  m-2">
       <div class="col-md-12">
-        <button type="button" class="btn btn-primary" (click)="AddOfflineFeeData()" title="Add">Add</button>
+        <button type="button" class="btn btn-primary" (click)="AddOfflineFeeData()" title="Add">{{AddUpdatetext}}</button>
       </div>
     </div>
   </div>
@@ -832,6 +832,7 @@
                   <th>Amount</th>
                   <th>Date of Issuance</th>
                   <th>Date of Expiry</th>
+                  <th>Transaction Recept</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -845,10 +846,10 @@
                   <td>{{item.Amount}}</td>
                   <td>{{item.DateofIssuance | date:'dd-MM-yyyy'}}</td>
                   <td>{{item.DateofExpiry | date:'dd-MM-yyyy'}}</td>
+                  <td><a class="btn btn-sm btn-primary" target="_blank" title="View Transaction Recept" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
                   <td>
                     <button type="button" class="btn btn-sm btn-primary" title="Edit" (click)="EditOffLinePaymentDetails(item)"><i class="fa fa-edit"></i></button>
-                    <a class="btn btn-outline-primary" target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="DeleteOffLinePaymentDetails(item.ApplyNOCID,item.PaymentOfflineID)"><i class="fa fa-trash-o"></i></button>
+                    &nbsp; <button type="button" class="btn btn-sm btn-danger" title="Delete Transaction" (click)="DeleteOffLinePaymentDetails(item.ApplyNOCID,item.PaymentOfflineID)"><i class="fa fa-trash-o"></i></button>
                   </td>
                 </tr>
               </tbody>
@@ -858,6 +859,7 @@
       </div>
     </div>
   </div>
+  <app-loader></app-loader>
 </ng-template>
 <!--END MODAL-->
 <!--end-->

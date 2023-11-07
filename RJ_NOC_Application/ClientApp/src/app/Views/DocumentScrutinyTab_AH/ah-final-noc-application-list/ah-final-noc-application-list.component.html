@@ -33,14 +33,16 @@
                     <td>{{item.ApplicationNo}}</td>
                     <td>
                       <a href="javascript:void(0)" (click)="ApplicationPreview_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo,'No')" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
-                      <!--<a href="/applicationsummary/{{item.DepartmentID}}/{{item.CollegeID}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>-->
                       <button type="button" class="btn btn-sm btn-info" title="Trails" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-bars"></i></button>
                       <a *ngIf="item.NOCFilePath !=''" class="btn btn-primary" title="View NOC PDF" target="_blank" href="{{item.NOCFilePath}}"><i class="fa fa-eye"></i></a>
                     </td>
                     <td>
-                      <button *ngIf="item.NOCFilePath==''" type="button" id="btnGenratePDF" class="btn btn-primary" (click)="GenratePDF(item.ApplyNOCID,item.CollegeID)" title="Genrate Darft PDF">Genrate PDF</button>
-                      <button *ngIf="IsBtnShowHide && item.NOCFilePath !=''" type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved')"><i class="fa fa-check"></i></button>
-                      <button *ngIf="item.NOCFilePath ==''" type="button" class="btn btn-danger" title="NOC Reject" style="margin-left:10px;" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Reject')"><i class="fa fa-times"></i></button>
+                      <button *ngIf="item.NOCFilePath=='' && IsBtnShowHide" type="button" id="btnGenratePDF" class="btn btn-primary" (click)="GenratePDF(item.ApplyNOCID,item.CollegeID)" title="Genrate Darft PDF">Genrate PDF</button>
+                      &nbsp;<button type="button" *ngIf="sSOLoginDataModel.RoleID==15 && IsBtnShowHide" id="btnFTCPDF" class="btn btn-primary" (click)="ForwardToJSDS(item.ApplyNOCID,item.CollegeID)" title="Forward To Joint Secretary/Deputy Secretary">Forward To JS/DS</button>
+
+                      <button *ngIf="IsBtnShowHide && item.NOCFilePath !='' && item.IsOfflinePayment" type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved')"><i class="fa fa-check"></i></button>
+                      <span *ngIf="IsBtnShowHide && item.NOCFilePath !=''  && !item.IsOfflinePayment"><b>Update Offline Payment Details</b></span>
+                      <button *ngIf="item.NOCFilePath =='' && IsBtnShowHide" type="button" class="btn btn-danger" title="NOC Reject" style="margin-left:10px;" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Reject')"><i class="fa fa-times"></i></button>
                     </td>
                   </tr>
                   <tr>

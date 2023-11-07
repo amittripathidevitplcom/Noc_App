@@ -38,7 +38,7 @@ export class AhDocumentScrutinyForwardCommetteComponent {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    if (this.sSOLoginDataModel.RoleID == 11) {
+    if (this.sSOLoginDataModel.RoleID == 12) {
       this.CommitteType = EnumCommitteActionType.FTRDC;//'Forward To Respective Document Commitee';
       this.CommitteMemberType = EnumCommitteType.Pre;//'PreVerification';
     }
@@ -46,10 +46,10 @@ export class AhDocumentScrutinyForwardCommetteComponent {
       this.CommitteType = EnumCommitteActionType.FTPIC; //'Forward To Physical Infrasturcture Commitee';
       this.CommitteMemberType = EnumCommitteType.Post; //'PostVerification';
     }
-    else if (this.sSOLoginDataModel.RoleID == 25) {
-      this.CommitteType = EnumCommitteActionType.FTPCPC;//'Forward To Physical Check Policy Commitee';
-      this.CommitteMemberType = EnumCommitteType.Final;//'FinalVerification';
-    }
+    //else if (this.sSOLoginDataModel.RoleID == 25) {
+    //  this.CommitteType = EnumCommitteActionType.FTPCPC;//'Forward To Physical Check Policy Commitee';
+    //  this.CommitteMemberType = EnumCommitteType.Final;//'FinalVerification';
+    //}
     await this.GeForwardCommiteeAHList(this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.DepartmentID);
 
   }

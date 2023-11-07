@@ -111,6 +111,7 @@
     <Folder Include="ClientApp\src\app\Services\ClassWiseStudentDetails\" />
     <Folder Include="ClientApp\src\app\Services\AgricultureDocumentScrutiny\" />
     <Folder Include="ClientApp\src\app\Services\VeterinaryHospital\" />
+    <Folder Include="ClientApp\src\app\Views\Admin\`Reports\" />
     <Folder Include="ClientApp\src\app\Views\DocumentScrutinyTab_AH\" />
     <Folder Include="ClientApp\src\app\Views\Master\SocietyManagement\" />
     <Folder Include="ClientApp\src\app\Views\ClassWiseStudentDetails\" />

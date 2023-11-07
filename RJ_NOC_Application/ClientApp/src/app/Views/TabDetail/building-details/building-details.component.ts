@@ -69,7 +69,7 @@ export class BuildingDetailsComponent implements OnInit {
   searchText: string = '';
   public isFormValid: boolean = false;
 
-  public ImageValidate: string = '';
+  public ImageValidate: string = 'This field is required .!';
   public CssClass_TextDangerWidth: string = '';
   public CssClass_TextDangerLength: string = '';
   public IstxtBuildingHostel: boolean = false;
@@ -133,7 +133,7 @@ export class BuildingDetailsComponent implements OnInit {
       this.cdRef.detectChanges();
     });
   }
-  ngOnInit(): void {
+  async ngOnInit() {
     this.Owin_RentDocTitle = 'Certificate of Own Building in own land in same campus Order No. & Order Date :'
     this.buildingdetailsForm = this.formBuilder.group(
       {
@@ -206,6 +206,11 @@ export class BuildingDetailsComponent implements OnInit {
       this.SampleDocument = '';
       this.RangeType = 'in Sq. Meter'
     }
+    else if (this.SelectedDepartmentID == 4) {
+      this.SampleDocument = '';
+      this.RangeType = 'in Sq. Meter';
+      this.Owin_RentDocTitle = '';
+    }
     else {
       this.SampleDocument = '';
       this.RangeType = 'in Sq. Ft'
@@ -213,6 +218,7 @@ export class BuildingDetailsComponent implements OnInit {
 
 
     this.buildingdetails.lstBuildingDocDetails = [];
+    await this.GetCollegeBasicDetails();
     this.GetBuildingTypeCheck();
     this.GetBuildingUploadDetails(this.SelectedDepartmentID);
     this.GetDivisionList();
@@ -353,6 +359,38 @@ export class BuildingDetailsComponent implements OnInit {
     this.CssClass_TextDangerLength = '';
     this.isSubmitted = true;
     this.isFormValid = true;
+
+    if (this.SelectedDepartmentID == 4) {
+      if (!this.IsGovtCollege) {
+        this.buildingdetailsForm.get('txtOwnBuildingOrderNo')?.setValidators([Validators.required]);
+        this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.setValidators([Validators.required]);
+        this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.setValidators([Validators.required]);
+        this.buildingdetailsForm.get('txtFromDate')?.setValidators([Validators.required]);
+        this.buildingdetailsForm.get('txtToDate')?.setValidators([Validators.required]);
+        this.buildingdetailsForm.get('txtOrderNo')?.setValidators([Validators.required]);
+        this.buildingdetailsForm.get('txtOrderDate')?.setValidators([Validators.required]);
+        this.buildingdetailsForm.get('txtExpiringOn')?.setValidators([Validators.required]);
+      }
+      else {
+        this.buildingdetailsForm.get('txtOwnBuildingOrderNo')?.clearValidators();
+        this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.clearValidators();
+        this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.clearValidators();
+        this.buildingdetailsForm.get('txtFromDate')?.clearValidators();
+        this.buildingdetailsForm.get('txtToDate')?.clearValidators();
+        this.buildingdetailsForm.get('txtOrderNo')?.clearValidators();
+        this.buildingdetailsForm.get('txtOrderDate')?.clearValidators();
+        this.buildingdetailsForm.get('txtExpiringOn')?.clearValidators();
+      }
+      this.buildingdetailsForm.get('txtOwnBuildingOrderNo')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtFromDate')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtToDate')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtOrderNo')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtOrderDate')?.updateValueAndValidity();
+      this.buildingdetailsForm.get('txtExpiringOn')?.updateValueAndValidity();
+    }
+
     if (this.buildingdetailsForm.invalid) {
       this.isFormValid = false;
     }
@@ -396,12 +434,15 @@ export class BuildingDetailsComponent implements OnInit {
         return;
       }
     }
-    
-    if (this.buildingdetails.FireNOCFileUpload == '') {
+    if (this.buildingdetails.OwnBuildingFileUpload == '' && !this.IsGovtCollege) {
       this.ImageValidate = 'This field is required .!';
       return
     }
-    if (this.buildingdetails.PWDNOCFileUpload == '') {
+    if (this.buildingdetails.FireNOCFileUpload == '' && !this.IsGovtCollege) {
+      this.ImageValidate = 'This field is required .!';
+      return
+    }
+    if (this.buildingdetails.PWDNOCFileUpload == '' && !this.IsGovtCollege) {
       this.ImageValidate = 'This field is required .!';
       return
     }
@@ -1494,5 +1535,31 @@ export class BuildingDetailsComponent implements OnInit {
       }, 200);
     }
 
+  }
+
+  public IsGovtCollege: boolean = false;
+  async GetCollegeBasicDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCollegeBasicDetails(this.buildingdetails.CollegeID.toString())
+        .then(async (data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data'][0]['data'][0]['ManagementType'] == 'Government' && this.SelectedDepartmentID==4) {
+            this.IsGovtCollege = true;
+          }
+          else {
+            this.IsGovtCollege = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

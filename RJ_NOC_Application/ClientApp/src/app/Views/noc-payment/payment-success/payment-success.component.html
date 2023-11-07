@@ -42,7 +42,8 @@
     </table>
 
 
-    <a routerLink="/applynocapplicationdetail" class="btn btn-success">Exit</a>
+    <a routerLink="/applynocapplicationdetail" *ngIf="UDF2_PURPOSE !='LOI Payment'" class="btn btn-success">Exit</a>
+    <a routerLink="/totalcollege" *ngIf="UDF2_PURPOSE =='LOI Payment'" class="btn btn-success">Exit</a>
 
   </div>
 </div>

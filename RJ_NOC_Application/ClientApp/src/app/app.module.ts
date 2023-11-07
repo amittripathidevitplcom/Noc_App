@@ -282,6 +282,11 @@ import { UpdateNocFeesComponent } from './Views/Admin/update-noc-fees/update-noc
 import { PreviewLOIapplicationdetailEntryComponent } from './Views/PreviewTabs/preview-loiapplicationdetail-entry/preview-loiapplicationdetail-entry.component';
 import { LOIApplyEntryComponent } from './Views/NoOfficer/loiapply-entry/loiapply-entry.component';
 import { NocInformationComponent } from './Views/NocInformation/noc-information/noc-information.component';
+import { SeatInformationMasterComponent } from './Views/Master/seat-information-master/seat-information-master.component';
+import { LOIFeeMasterComponent } from './Views/Master/loifee-master/loifee-master.component';
+import { RejectedApplicationListComponent } from './Views/RejectedApplication/rejected-application-list/rejected-application-list.component';
+import { NOCIssuedReportComponent } from './Views/Admin/`Reports/nocissued-report/nocissued-report.component';
+import { ForwardedApplicationListComponent } from './Views/DocumentScrutinyTab/forwarded-application-list/forwarded-application-list.component';
 
 
 
@@ -556,6 +561,11 @@ import { NocInformationComponent } from './Views/NocInformation/noc-information/
     PreviewLOIapplicationdetailEntryComponent,
     LOIApplyEntryComponent,
     NocInformationComponent,
+    SeatInformationMasterComponent,
+    LOIFeeMasterComponent,
+    RejectedApplicationListComponent,
+    NOCIssuedReportComponent,
+    ForwardedApplicationListComponent,
   ],
   imports: [
     CommonModule,
@@ -577,8 +587,7 @@ import { NocInformationComponent } from './Views/NocInformation/noc-information/
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    RouterModule,
-  
+    RouterModule, 
     NgMultiSelectDropDownModule.forRoot(),
     //NgIdleModule.forRoot(),
     //NgIdleKeepaliveModule.forRoot(),

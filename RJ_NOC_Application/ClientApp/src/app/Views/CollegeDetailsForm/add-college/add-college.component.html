@@ -465,7 +465,8 @@
       <form [formGroup]="CollegeDetailsForm_ContactDetails" class="form-horizontal">
 
         <div class="card-header border-top d-flex justify-content-between align-items-center">
-          <b>Contact Details <span style="color:red;">*</span></b>
+          <span *ngIf="request.DepartmentID!=4"><b>Contact Details <span style="color:red;">*</span></b></span>
+          <span *ngIf="request.DepartmentID==4"><b>Contact Details of Nodel Officer<span style="color:red;">*</span></b></span>
         </div>
         <div class="card-body">
           <div class="row">
