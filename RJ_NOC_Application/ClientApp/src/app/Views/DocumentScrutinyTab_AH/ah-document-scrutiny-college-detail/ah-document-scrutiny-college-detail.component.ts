@@ -74,7 +74,7 @@ export class AhDocumentScrutinyCollegeDetailComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-
+          debugger;
           // data
           this.collegeListData = data['Data'][0]['CollegeDetails'][0][0];
           this.collegeContactDetailsList = data['Data'][0]['CollegeContactDetails'][0];

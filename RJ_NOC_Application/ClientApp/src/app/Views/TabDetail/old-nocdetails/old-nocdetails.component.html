@@ -97,7 +97,7 @@
           </div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowOldNOCType">
-          <label>NOC Expire Date <span style="color:red;">*</span></label>
+          <label>NOC Expire Date <span style="color:red;" *ngIf="SelectedDepartmentID!=4">*</span></label>
           <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNOCExpireDate" [(ngModel)]="request.NOCExpireDate" formControlName="dtNOCExpireDate" min="{{ExpiryMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
           <div *ngIf="NOCExpireDateRequried" class="text-danger">
             <p *ngIf="NOCExpireDateRequried"> This field is required .!</p>

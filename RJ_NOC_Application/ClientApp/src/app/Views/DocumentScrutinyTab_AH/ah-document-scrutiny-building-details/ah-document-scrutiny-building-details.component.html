@@ -74,7 +74,7 @@
               </div>
             </td>
             <td>{{item.BuildingTypeName}}</td>
-            <td>{{item.OwnerName}}</td>
+            <td>{{item.BuildingTypeName == 'Owned'? 'N/A': item.OwnerName}}</td>
             <td>{{item.RuralUrban}}</td>
             <td>{{item.ContactNo}}</td>
             <td>{{item.FromDate}}</td>
