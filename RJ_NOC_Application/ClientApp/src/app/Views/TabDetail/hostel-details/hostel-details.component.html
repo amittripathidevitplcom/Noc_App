@@ -9,20 +9,8 @@
     </div>
     <form [formGroup]="HostelForm" class="form-horizontal">
       <div class="card-body">
-        <div class="row mb-2" *ngIf="SelectedDepartmentID==4">
+        <div class="row mb-2">
           <div class="col-md-4 mb-3">
-            <label for="rbIsHostel" class="form-label" style="margin-right:15px">Is Hostel <span style="color:red;">*</span> </label>
-            <div class="clearfix"></div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="rbIsHostel" id="rbIsHostelYes" value="Yes" [ngModelOptions]="{standalone: true}" [(ngModel)]="request.IsHostel" (change)="IsHostelYesorNO(true)">
-              <label class="form-check-label" for="YesHostel">Yes</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="rbIsHostel" id="rbIsHostelNo" value="No" [ngModelOptions]="{standalone: true}" [(ngModel)]="request.IsHostel" (change)="IsHostelYesorNO(false)">
-              <label class="form-check-label" for="NoHostel">No</label>
-            </div>
-          </div>
-          <div class="col-md-4 mb-3" *ngIf="isHostel">
             <label for="rbHostelCampus" class="form-label" style="margin-right:15px">Is Hostel In Campus <span style="color:red;">*</span> </label>
             <div class="clearfix"></div>
             <div class="form-check form-check-inline">
@@ -38,8 +26,7 @@
             </div>
           </div>
         </div>
-
-        <div *ngIf="isHostel">
+        <div>
           <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Hostel Category <span style="color:red;">*</span></label>
@@ -72,8 +59,8 @@
               <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
               <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [attr.disabled]="IsDisabledAddress ? true : null" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphanumbersOnly($event)">
               <!--<div *ngIf="isSubmitted&&Hform.txtAddressLine2.errors" class="text-danger">
-          <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-        </div>-->
+                <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+              </div>-->
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -263,7 +250,7 @@
       </div>
     </form>
     <div>
-      <form [formGroup]="HostelDetailsForm" class="form-horizontal" *ngIf="isHostel">
+      <form [formGroup]="HostelDetailsForm" class="form-horizontal">
         <div>
           <div class="card-body">
             <div class="card">
@@ -352,12 +339,11 @@
                       <p *ngIf="isImageFile"> {{DocumentValidMessage}}</p>
                     </div>
                   </div>
-                 
-                    <div class="card-footer text-end" *ngIf="isHostel">
-                      <button class="btn btn-primary" id="btnAdd" type="button" (click)="btnAdd_Click()"><i class="fa fa-plus"></i>&nbsp;Add</button>
-                      <button type="button" class="btn btn-danger" (click)="ResetHostelDetails()"> Reset</button>
-                    </div>
 
+                  <div class="card-footer text-end">
+                    <button class="btn btn-primary" id="btnAdd" type="button" (click)="btnAdd_Click()"><i class="fa fa-plus"></i>&nbsp;Add</button>
+                    <button type="button" class="btn btn-danger" (click)="ResetHostelDetails()"> Reset</button>
+                  </div>
                 </div>
                 <div class="row" *ngIf="request.HostelDetails.length>0">
                   <div class="col-md-12">
@@ -402,7 +388,7 @@
 
 
 
-      <div class="card-footer text-end" *ngIf="this.request.IsHostel == 'Yes'">
+      <div class="card-footer text-end">
         <button class="btn btn-primary" type="button" id="btnSave" (click)="SaveData()"> {{request.HostelDetailID>0?'Update':'Save'}}</button>
         <button type="button" class="btn btn-danger" (click)="ResetControl()"> Reset</button>
       </div>
