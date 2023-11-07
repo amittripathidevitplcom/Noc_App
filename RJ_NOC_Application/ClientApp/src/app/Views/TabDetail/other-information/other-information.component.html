@@ -41,7 +41,9 @@
           </div>
 
           <div class="col-md-3 mb-2" *ngIf="!ShowHideLabData">
-            <label>Minimum Size (Sq. Feet)<span style="color:red;">*</span></label>
+            <label>
+              Minimum Size ({{SelectedDepartmentID==4?'Sq. Meter':'Sq. Feet'}})<span style="color:red;">*</span>
+            </label>
             <input type="text" class="form-control" id="OtherInformation_txtWidth" name="OtherInformation_txtWidth" maxlength="5"
                    placeholder="Enter Width (In Feet)"
                    [(ngModel)]="request.Width" formControlName="OtherInformation_txtWidth" (keypress)="numberOnly($event)">
@@ -51,8 +53,9 @@
               <!--<p *ngIf="form.OtherInformation_txtWidth.errors.max">Minimum Size will be less than 500000 .!</p>-->
             </div>
             <div *ngIf="request.CourseID>0">
-              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} sq. ft</p>
-            </div>
+              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin ? '' : CssClass_TextDangerWidth
+              }}">Please Enter Min size : {{WidthMin}} {{SelectedDepartmentID==4?'Sq. mtr':'Sq. ft'}}</p>
+</div>
           </div>
           <!--<div class="col-md-3 mb-2">
       <label>Length (In Feet)<span style="color:red;">*</span></label>
@@ -288,8 +291,8 @@
                           <td>{{row.NoOfRooms}}</td>
                           <td>{{row.Width}}</td>
                           <!--<td>{{row.Length}}</td>-->
-                          <td>{{row.NoofBooks}}</td>
-                          <td>{{row.NoofComputers}}</td>
+                        <td>{{row.NoofBooks==0?'N/A':row.NoofBooks}}</td>
+                        <td>{{row.NoofComputers==0?'N/A':row.NoofComputers}}</td>
                           <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                           <td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                           <td>

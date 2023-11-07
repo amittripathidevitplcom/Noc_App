@@ -426,7 +426,7 @@
             </div>
           </div>
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-            <label for="TrustLogoDoc">Trust Logo</label>
+            <label for="TrustLogoDoc">{{request.IsLegalEntity=='1'?'Society':request.IsLegalEntity=='2'?'Trust':request.IsLegalEntity=='3'?'Company':'Other Entity'}} Logo</label>
             <div class="d-flex">
               <input class="form-control d-none" type="file" id="TrustLogoDoc" formControlName="TrustLogoDoc" (change)="ValidateImage($event,'TrustLogo')" />
               <label class="btn upload" for="TrustLogoDoc">

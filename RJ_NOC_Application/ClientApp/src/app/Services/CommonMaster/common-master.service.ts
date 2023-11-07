@@ -523,7 +523,17 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
+  public async OtherInformationList_DepartmentCollegeAndTypeWise(DepartmentID: number, CollegeID: number, OtherInformationID: number=0, Type: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/OtherInformationList_DepartmentCollegeAndTypeWise/" + DepartmentID + "/" + CollegeID + "/" + OtherInformationID + "/" + Type)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async GetOtherInformationSize(OtherInformationID: number) {
     const httpOptions = {
@@ -808,6 +818,18 @@ export class CommonMasterService {
       })
     };
     return await this.http.get(this.APIUrl_CommonMaster + "/GetFacilitiesMasterList_DepartmentAndTypeWise/" + DepartmentID + "/" + Type)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetFacilitiesMasterList_DepartmentCollegeAndTypeWise(DepartmentID: number, CollegeID: number=0, FacilitieID: number=0, Type: string) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetFacilitiesMasterList_DepartmentCollegeAndTypeWise/" + DepartmentID + "/" + CollegeID + "/" + FacilitieID + "/" + Type)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
