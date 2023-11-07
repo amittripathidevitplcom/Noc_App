@@ -587,8 +587,7 @@ import { ForwardedApplicationListComponent } from './Views/DocumentScrutinyTab/f
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    RouterModule,
-  
+    RouterModule, 
     NgMultiSelectDropDownModule.forRoot(),
     //NgIdleModule.forRoot(),
     //NgIdleKeepaliveModule.forRoot(),

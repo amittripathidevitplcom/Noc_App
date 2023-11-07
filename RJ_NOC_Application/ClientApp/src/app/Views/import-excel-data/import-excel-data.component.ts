@@ -49,9 +49,11 @@ export class ImportExcelDataComponent {
   public ShowHideEditApplicationAction: boolean = false;
   public isDisabled: boolean = false;
   public YearData: any = [];
+  public FinancialYearName: string = '';
+  public LastAppliedNocInformationData: any = null;
 
-  closeResult: string | undefined;
-  modalReference: NgbModalRef | undefined;
+  closeResult!: string;
+  modalReference!: NgbModalRef;
 
   constructor(private modalService: NgbModal, private importExcelDataService: ImportExcelDataService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private fileUploadService: FileUploadService) { }
@@ -72,6 +74,7 @@ export class ImportExcelDataComponent {
     this.GetImportExcelData();
     this.FillYearData();
     // this.DownloadExcelPath = GlobalConstants.ExcelPathURL + 'Statics_Sample.xlsx';
+    this.GetLastAppliedNocInformationData();
   }
   get form() {
     return this.ImportExcelDataForm.controls;
@@ -152,11 +155,14 @@ export class ImportExcelDataComponent {
     this.ShowHideEditApplicationAction = false;
     this.request.Data = [];
     this.isDisabled = false;
+    this.ShowFileDownload = false;
+    this.FinancialYearName = '';
   }
 
+  // save all data
   async SaveData() {
     ///Check Validators
-    debugger;
+    //debugger;
     this.isSubmitted = true;
     if (this.ImportExcelDataForm.invalid) {
       return
@@ -166,6 +172,9 @@ export class ImportExcelDataComponent {
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.SelectedDepartmentID;
       this.request.SSOID = this.sSOLoginDataModel.SSOID;
+      // for application id
+      this.request.FinancialYearName = this.ToNull(this.FinancialYearList.find((x: { FinancialYearName: string }) => x.FinancialYearName == '2022-2023')?.FinancialYearName);
+      // post
       await this.importExcelDataService.SaveData(this.request)
         .then((data: any) => {
           this.State = data['State'];
@@ -194,6 +203,7 @@ export class ImportExcelDataComponent {
     }
   }
 
+  // update all data
   async UpdateData() {
     ///Check Validators
     this.request.DataType = '';
@@ -201,11 +211,14 @@ export class ImportExcelDataComponent {
       let Data = this.request.Data;
       this.request.Data = [];
       this.loaderService.requestStarted();
-      this.request.Data.push(Data);
+      this.AdddInExcelModelFromModel(Data);
       this.request.DepartmentID = this.SelectedDepartmentID;
       this.request.SSOID = this.sSOLoginDataModel.SSOID;
+      // for application id
+      this.request.FinancialYearName = this.FinancialYearName;
+      // post
       await this.importExcelDataService.SaveData(this.request)
-        .then((data: any) => {
+        .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -213,7 +226,7 @@ export class ImportExcelDataComponent {
             this.importExcelData = [];
             this.toastr.success(this.SuccessMessage)
             this.ResetControl();
-            this.GetImportExcelData();
+            await this.GetImportExcelData();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -233,6 +246,7 @@ export class ImportExcelDataComponent {
     }
   }
 
+  // update single data
   async UpdateSingleRow(data: any) {
 
     try {
@@ -240,7 +254,7 @@ export class ImportExcelDataComponent {
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.SelectedDepartmentID;
       this.request.SSOID = this.sSOLoginDataModel.SSOID;
-      await this.importExcelDataService.UpdateSingleRow(this.MemberData)
+      await this.importExcelDataService.UpdateSingleRow(this.FinancialYearName, this.MemberData)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -267,6 +281,7 @@ export class ImportExcelDataComponent {
 
   }
 
+  // add single data
   async AddSingleRow(data: any) {
 
     try {
@@ -274,15 +289,15 @@ export class ImportExcelDataComponent {
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.SelectedDepartmentID;
       this.request.SSOID = this.sSOLoginDataModel.SSOID;
-      await this.importExcelDataService.UpdateSingleRow(this.MemberData)
-        .then((data: any) => {
+      await this.importExcelDataService.UpdateSingleRow(this.FinancialYearName, this.MemberData)
+        .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.modalService.dismissAll('After Success');
             this.toastr.success(this.SuccessMessage)
-            this.EditImportExcelFileDetailsByID(this.MemberData.ImportExcelID);
+            await this.EditImportExcelFileDetailsByID(this.MemberData.StaticsFileID);
             this.MemberData = new ExcelMemberDataModel();
           }
           else {
@@ -303,6 +318,7 @@ export class ImportExcelDataComponent {
 
   }
 
+  // all excel data
   async GetImportExcelData() {
     try {
       this.loaderService.requestStarted();
@@ -326,7 +342,7 @@ export class ImportExcelDataComponent {
     }
   }
 
-
+  // view single data by id 
   async GetImportExcelFileDetailsByID(content: any, StaticsFileID: number) {
     try {
       this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
@@ -360,14 +376,16 @@ export class ImportExcelDataComponent {
     this.request.Data = [];
   }
 
+  // edit single data by id
   async EditImportExcelFileDetailsByID(StaticsFileID: number) {
+    debugger;
     try {
       this.request.Data = [];
       this.loaderService.requestStarted();
       this.request.StaticsFileID = StaticsFileID;
       this.request.SSOID = this.sSOLoginDataModel.SSOID;
       await this.importExcelDataService.GetImprtExcelData(this.sSOLoginDataModel.SSOID, 0, 0, StaticsFileID, 'ImportExcelFileDetailsById')
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -375,6 +393,8 @@ export class ImportExcelDataComponent {
           this.ShowHideEditApplicationAction = true;
           this.isDisabled = true;
           this.request.Data = data['Data'][0]['data'];
+          // for application id
+          this.FinancialYearName = this.ToNull(this.lstImportFileData.find((x: { StaticsFileID: number }) => x.StaticsFileID == StaticsFileID)?.FinancialYearName);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -386,6 +406,7 @@ export class ImportExcelDataComponent {
       }, 200);
     }
   }
+
   async AddSingleRowByID(content: any, StaticsFileID: number) {
     try {
       this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
@@ -393,16 +414,15 @@ export class ImportExcelDataComponent {
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
-      this.MemberData = new ExcelMemberDataModel();
       this.loaderService.requestStarted();
-      this.MemberData.ImportExcelID = StaticsFileID;
+      this.MemberData = new ExcelMemberDataModel();
       this.MemberData.ID = 0;
-      this.MemberData.Section = '0';
+      this.MemberData.StaticsFileID = StaticsFileID;
+      this.MemberData.Gender = '0';
+      this.MemberData.Cast = '0';
       this.MemberData.PH = '0';
       this.MemberData.Minorty = '0';
-      this.MemberData.Year = '0';
-      this.MemberData.Cast = '0';
-      this.MemberData.Gender = '0';
+      this.MemberData.HasScholarship = '0';
     }
     catch (Ex) {
       console.log(Ex);
@@ -419,13 +439,13 @@ export class ImportExcelDataComponent {
       if (confirm("Are you sure you want to delete this ?")) {
         this.loaderService.requestStarted();
         await this.importExcelDataService.GetImprtExcelData(this.sSOLoginDataModel.SSOID, 0, 0, StaticsFileID, 'DeleteImportExcelFileDetailsById')
-          .then((data: any) => {
+          .then(async (data: any) => {
             data = JSON.parse(JSON.stringify(data));
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
             this.ResetControl()
-            this.GetImportExcelData();
+            await this.GetImportExcelData();
           }, error => console.error(error));
       }
     }
@@ -459,7 +479,8 @@ export class ImportExcelDataComponent {
   ddlCourseTypeSelected(value: string) {
     if (value == "All") {
       // this.DownloadExcelPath = GlobalConstants.ExcelPathURL + 'Statics_Sample.xlsx';
-      this.DownloadExcelPath = '../../../assets/ExcelFile/Statics_Sample.xlsx';
+      //this.DownloadExcelPath = '../../../assets/ExcelFile/Statics_Sample.xlsx';
+      this.DownloadExcelPath = '../../../assets/ExcelFile/PVT_COLLEGE_STUDENT.xlsx';
       this.ShowFileDownload = true;
     }
   }
@@ -519,9 +540,9 @@ export class ImportExcelDataComponent {
           //console.log(sheet);
           return initial;
         }, {});
-        //console.log(jsonData['Sheet1']);
-        const dataString = JSON.stringify(jsonData['Sheet1']);
-        this.request.Data.push(jsonData['Sheet1']);
+        //console.log(jsonData['Pvt_Student_Data']);
+        //const dataString = JSON.stringify(jsonData['Pvt_Student_Data']);
+        //this.request.Data.push(jsonData['Pvt_Student_Data']);
       }
       reader.readAsBinaryString(file);
 
@@ -537,9 +558,14 @@ export class ImportExcelDataComponent {
         /* grab first sheet */
         const wsname: string = wb.SheetNames[0];
         const ws: XLSX.WorkSheet = wb.Sheets[wsname];
-
+        //debugger;
         /* save data */
         this.importExcelData = <AOA>(XLSX.utils.sheet_to_json(ws, { header: 1 }));
+        this.importExcelData.shift();
+        this.importExcelData.shift();
+        this.AdddInExcelModelFromExcel(this.importExcelData);
+        console.log(this.importExcelData);
+        event.target.value = '';
       };
       reader1.readAsBinaryString(file1);
 
@@ -550,6 +576,102 @@ export class ImportExcelDataComponent {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
 
+  // add in excel model from excel
+  AdddInExcelModelFromExcel(data1: any) {
+    for (let i = 0; i < data1.length; i++) {
+      var data = data1[i];
+      this.request.Data.push({
+        ID: 0,
+        StaticsFileDetailsID: 0,
+        StaticsFileID: 0,
+        ApplicationID: this.ToNull(data[1]),
+        District: this.ToNull(data[2]),
+        CollegeName: this.ToNull(data[3]),
+        AISHECode: this.ToNull(data[4]),
+        StudentName: this.ToNull(data[5]),
+        FatherName: this.ToNull(data[6]),
+        Gender: this.ToNull(data[7]),
+        Course: this.ToNull(data[8]),
+        Subject: this.ToNull(data[9]),
+        Class: this.ToNull(data[10]),
+        Cast: this.ToNull(data[11]),
+        PH: this.ToNull(data[12]),
+        Minorty: this.ToNull(data[13]),
+        HasScholarship: this.ToNull(data[14]),
+        ScholarshipName: this.ToNull(data[15]),
+        DOB: this.ToNull(data[16]),
+        StudentMobileNo: this.ToNull(data[17]),
+        StudentEmailId: this.ToNull(data[18]),
+        PrincipalName: this.ToNull(data[19]),
+        PrincipalMobileNo: this.ToNull(data[20]),
+        CollegeEmailId: this.ToNull(data[21])
+      });
+    }
+  }
+
+  // add in excel model from model
+  AdddInExcelModelFromModel(data1: ExcelMemberDataModel[]) {
+    for (let i = 0; i < data1.length; i++) {
+      var data = data1[i];
+      this.request.Data.push({
+        ID: 0,
+        StaticsFileID: 0,
+        StaticsFileDetailsID: 0,
+        ApplicationID: this.ToNull(data.ApplicationID),
+        District: this.ToNull(data.District),
+        CollegeName: this.ToNull(data.CollegeName),
+        AISHECode: this.ToNull(data.AISHECode),
+        StudentName: this.ToNull(data.StudentName),
+        FatherName: this.ToNull(data.FatherName),
+        Gender: this.ToNull(data.Gender),
+        Course: this.ToNull(data.Course),
+        Subject: this.ToNull(data.Subject),
+        Class: this.ToNull(data.Class),
+        Cast: this.ToNull(data.Cast),
+        PH: this.ToNull(data.PH),
+        Minorty: this.ToNull(data.Minorty),
+        HasScholarship: this.ToNull(data.HasScholarship),
+        ScholarshipName: this.ToNull(data.ScholarshipName),
+        DOB: this.ToNull(data.DOB),
+        StudentMobileNo: this.ToNull(data.StudentMobileNo),
+        StudentEmailId: this.ToNull(data.StudentEmailId),
+        PrincipalName: this.ToNull(data.PrincipalName),
+        PrincipalMobileNo: this.ToNull(data.PrincipalMobileNo),
+        CollegeEmailId: this.ToNull(data.CollegeEmailId)
+      });
+    }
+  }
+
+  ToNull(val: any): any {
+    if (val == undefined)
+      return null;
+    return val;
+  }
+
+  // last applied noc information data
+  async GetLastAppliedNocInformationData() {
+    try {
+      this.loaderService.requestStarted();
+      await this.importExcelDataService.GetAppliedNocInformation(this.sSOLoginDataModel.SSOID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data']['data'].length > 0) {
+            this.LastAppliedNocInformationData = data['Data']['data'][0];
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

@@ -152,7 +152,7 @@ export class OtherInformationComponent implements OnInit {
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.request.DepartmentID = this.SelectedDepartmentID;
-    this.LoadMaster();
+    this.LoadMaster(0);
     this.GetOtherInformationAllList();
     if (this.SelectedDepartmentID == 2) {
       this.textHeading = 'Type of facility';
@@ -164,10 +164,11 @@ export class OtherInformationComponent implements OnInit {
   get form() { return this.OtherInformationForm.controls; }
 
 
-  LoadMaster() {
+  LoadMaster(OtherInformationID: number) {
     try {
       this.loaderService.requestStarted();
-      this.commonMasterService.OtherInformationList_DepartmentAndTypeWise(this.SelectedDepartmentID, "OtherInformation")
+      this.courseDataList = [];
+      this.commonMasterService.OtherInformationList_DepartmentCollegeAndTypeWise(this.SelectedDepartmentID, this.SelectedCollageID, OtherInformationID, "OtherInformation")
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.courseDataList = data['Data'];
@@ -506,7 +507,6 @@ export class OtherInformationComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             // get saved society
-            this.LoadMaster();
             this.GetOtherInformationAllList();
             this.ResetControl();
           }
@@ -531,7 +531,7 @@ export class OtherInformationComponent implements OnInit {
       this.loaderService.requestStarted();
       const ddlCourse_Room = document.getElementById('ddlCourse_Room')
       if (ddlCourse_Room) ddlCourse_Room.focus();
-
+      this.LoadMaster(0);
       this.isSubmitted = false;
       this.request.CollegeWiseOtherInfoID = 0;
       this.request.CourseID = 0;
@@ -683,6 +683,7 @@ export class OtherInformationComponent implements OnInit {
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.CollegeWiseOtherInfoID = data['Data'][0]["CollegeWiseOtherInfoID"];
+          await this.LoadMaster(data['Data'][0]["CourseID"]);
           this.request.CollegeID = data['Data'][0]["CollegeID"];
           this.request.CourseID = data['Data'][0]["CourseID"];
 
@@ -762,6 +763,7 @@ export class OtherInformationComponent implements OnInit {
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage)
               this.GetOtherInformationAllList();
+              this.ResetControl();
             }
             else {
               this.toastr.error(this.ErrorMessage)

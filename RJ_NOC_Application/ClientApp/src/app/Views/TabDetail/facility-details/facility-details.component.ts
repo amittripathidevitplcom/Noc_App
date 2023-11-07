@@ -110,8 +110,9 @@ export class FacilityDetailsComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
-    this.GetFacilities(this.SelectedDepartmentID, 'Facilities');
+    this.GetFacilities(this.SelectedDepartmentID, this.SelectedCollageID,0, 'Facilities');
     this.GetFacilityDetailAllList();
+    this.Unit = this.SelectedDepartmentID == 4 ? 'Sq.Meter' : 'Sq. Feet';
   }
   get form() { return this.FacilitiesForm.controls; }
 
@@ -123,18 +124,18 @@ export class FacilityDetailsComponent implements OnInit {
     }
     return true;
   }
-  async GetFacilities(DepartmentID: number, Type: string) {
+  async GetFacilities(DepartmentID: number, CollegeID: number, FacilityID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
       this.isLoading = true;
-      await this.commonMasterService.GetFacilitiesMasterList_DepartmentAndTypeWise(DepartmentID, Type)
+      this.FacilitiesData = [];
+      await this.commonMasterService.GetFacilitiesMasterList_DepartmentCollegeAndTypeWise(DepartmentID, CollegeID, FacilityID, Type)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(data);
           this.FacilitiesData = data['Data'];
         }, error => console.error(error));
     }
@@ -307,7 +308,7 @@ export class FacilityDetailsComponent implements OnInit {
     this.isFormValid = true;
     this.request.CollegeID = this.SelectedCollageID;
 
-    var IsYesNoOptionSave = this.FacilitiesData.find((x: { FID: number; }) => x.FID == this.request.FacilitiesID).IsYesNoOption;
+    var IsYesNoOptionSave = this.FacilitiesData.find((x: { FID: number; }) => x.FID == this.request.FacilitiesID)?.IsYesNoOption;
     var IsExit = this.FacilitiesDataAllList.find((x: { FacilitiesID: number; }) => x.FacilitiesID == this.request.FacilitiesID);
     if (IsExit != undefined || IsExit != null) {
       //console.log(IsExit);
@@ -385,7 +386,7 @@ export class FacilityDetailsComponent implements OnInit {
             this.toastr.success(this.SuccessMessage)
             // get saved society
             await this.ResetControl();
-
+            this.FacilitiesDataAllList();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -407,7 +408,7 @@ export class FacilityDetailsComponent implements OnInit {
       this.loaderService.requestStarted();
 
       
-
+      this.GetFacilities(this.SelectedDepartmentID, this.SelectedCollageID, 0, 'Facilities');
       const ddlFacilitiesId = document.getElementById('ddlFacilitiesId')
       if (ddlFacilitiesId) ddlFacilitiesId.focus();
       this.isValidFacilitiesUrl = true;
@@ -468,10 +469,10 @@ export class FacilityDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       await this.facilityDetailsService.GetfacilityDetailsByID(FacilityDetailID, this.UserID, this.SelectedCollageID)
-        .then((data: any) => {
+        .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.request.FacilityDetailID = data['Data'][0]["FacilityDetailID"];
-
+          await this.GetFacilities(this.SelectedDepartmentID, this.SelectedCollageID, data['Data'][0]["FacilitiesID"], 'Facilities');
           this.request.FacilitiesID = data['Data'][0]["FacilitiesID"];
           this.ddlFacilities_change(null, this.request.FacilitiesID);
           this.request.NoOf = data['Data'][0]["NoOf"];
@@ -511,6 +512,7 @@ export class FacilityDetailsComponent implements OnInit {
             if (this.State == 0) {
               this.toastr.success(this.SuccessMessage)
               this.GetFacilityDetailAllList();
+              this.ResetControl();
             }
             else {
               this.toastr.error(this.ErrorMessage)
