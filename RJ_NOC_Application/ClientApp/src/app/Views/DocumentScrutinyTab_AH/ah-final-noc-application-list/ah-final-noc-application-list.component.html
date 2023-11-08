@@ -40,9 +40,9 @@
                       <button *ngIf="item.NOCFilePath=='' && IsBtnShowHide" type="button" id="btnGenratePDF" class="btn btn-primary" (click)="GenratePDF(item.ApplyNOCID,item.CollegeID)" title="Genrate Darft PDF">Genrate PDF</button>
                       &nbsp;<button type="button" *ngIf="sSOLoginDataModel.RoleID==15 && IsBtnShowHide" id="btnFTCPDF" class="btn btn-primary" (click)="ForwardToJSDS(item.ApplyNOCID,item.CollegeID)" title="Forward To Joint Secretary/Deputy Secretary">Forward To JS/DS</button>
 
-                      <button *ngIf="IsBtnShowHide && item.NOCFilePath !='' && item.IsOfflinePayment" type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved')"><i class="fa fa-check"></i></button>
                       <span *ngIf="IsBtnShowHide && item.NOCFilePath !=''  && !item.IsOfflinePayment"><b>Update Offline Payment Details</b></span>
-                      <button *ngIf="item.NOCFilePath =='' && IsBtnShowHide" type="button" class="btn btn-danger" title="NOC Reject" style="margin-left:10px;" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Reject')"><i class="fa fa-times"></i></button>
+                      <button *ngIf="IsBtnShowHide && item.NOCFilePath !='' " type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved',item.NOCFileName)"><i class="fa fa-check"></i></button>
+                      <button *ngIf="IsBtnShowHide" type="button" class="btn btn-danger" title="NOC Reject" style="margin-left:10px;" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Reject',item.NOCFileName)"><i class="fa fa-times"></i></button>
                     </td>
                   </tr>
                   <tr>
@@ -142,16 +142,58 @@
                     <p *ngIf="isRemarkValid"> This field is required .!</p>
                   </div>
                 </div>
-                
+
 
                 <div class="row col-md-2">
-                  <button type="button" id="btnNOCRejectRelese" class="btn btn-primary" (click)="FinalNOCRejectRelese()" title="Submit">{{btntext}}</button>
+                  <button type="button" id="btnNOCRejectRelese" class="btn btn-primary" (click)="OpenOTPModel()" title="Submit">{{btntext}}</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </ng-template>
+    </div>
+
+
+    <div class="modal" id="ModalOtpVerify" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-md modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Aadhaar OTP Verification</h5>
+            <button type="button" class="btn btn-danger" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                <p>You have received a OTP Verification Message on Registered Mobile No.</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                <label class="mb-2" for="EnterOTP">Enter OTP</label>
+                <input type="text" class="form-control" id="EnterOTP" [(ngModel)]="UserOTP" autocomplete="off" (keypress)="numberOnly($event)" maxlength="6" />
+                <div *ngIf="isUserOTP" class="text-danger">
+                  <p *ngIf="isUserOTP">This field is required .!</p>
+                </div>
+                <div *ngIf="isValidUserOTP" class="text-danger">
+                  <p *ngIf="isValidUserOTP">Please Enter Correct OTP .!</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3 d-flex justify-content-center align-items-center">
+                <span *ngIf="ShowTimer">Please Wait.. {{DisplayTimer}}</span>
+                <button [attr.disabled]="isTimerDisabled ? true : null" type="button" id="ResendOTP" (click)="ResendOTP()" class="btn btn-link">Resend OTP</button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-secondary" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">Cancel</span></button>
+            <button type="button" (click)="VerifyOTP()" class="btn btn-sm btn-primary">Submit</button>
+          </div>
+        </div>
+        <app-loader></app-loader>
+      </div>
     </div>
   </div>
 </div>

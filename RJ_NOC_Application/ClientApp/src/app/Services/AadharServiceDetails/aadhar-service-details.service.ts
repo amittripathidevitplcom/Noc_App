@@ -30,6 +30,15 @@ export class AadharServiceDetails {
       ).toPromise();
   }
 
+  public async SendOtpByAadharNo_Esign(request: AadharServiceDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/SendOtpByAadharNo_Esign", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
   public async ValidateAadharOTP(request: AadharServiceDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
@@ -39,10 +48,32 @@ export class AadharServiceDetails {
       ).toPromise();
   }
 
+  public async ValidateAadharOTP_Esign(request: AadharServiceDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/ValidateAadharOTP_Esign", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
   public async GetAadharByVID(request: AadharServiceDataModel) {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/GetAadharByVID", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async eSignPDF(PDFFileName: string, OTPTransactionID: string) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/eSignPDF/" + PDFFileName + "/" + OTPTransactionID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
