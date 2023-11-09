@@ -21,165 +21,431 @@
       <!--<input type="button" value="Download PDF" class="btn btn-sm btn-primary pull-right mb-2" (click)="TestPDF()" />-->
       <input type="button" value="Download PDF" class="btn btn-sm btn-primary pull-right mb-2" (click)="btnViewPDfPreview(myApplicationSummery)" />
     </div>
-    <div class="col-md-12">
-      <mat-stepper  orientation="vertical">
-        <mat-step [completed]="true" state="chat" *ngIf="IsManagmentType">
-          <ng-template matStepLabel>Legal Entity </ng-template>
-          <ng-template matStepContent>
+
+    <div class="col-md-12" *ngIf="IsManagmentType">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Legal Entity </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
             <app-preview-legal-entity></app-preview-legal-entity>
-            <button mat-button matStepperNext>Next</button>
-          </ng-template>
-        </mat-step>
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>College Detail</ng-template>
-          <ng-template matStepContent>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> College Detail </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
             <app-preview-college></app-preview-college>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-          </ng-template>
-        </mat-step>
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>Course Detail</ng-template>
-          <ng-template matStepContent>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Course Detail </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
             <app-preview-course-detail></app-preview-course-detail>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-          </ng-template>
-        </mat-step>
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>College Management Society</ng-template>
-          <app-college-management-society></app-college-management-society>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>Land Details</ng-template>
-          <app-preview-land-detail></app-preview-land-detail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>Facility</ng-template>
-          <app-preview-facility-detail></app-preview-facility-detail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>Required Document</ng-template>
-          <app-preview-required-document></app-preview-required-document>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>Class Room Details</ng-template>
-          <app-preview-room-detail></app-preview-room-detail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel *ngIf="SelectedDepartmentID==6">Clinical Details</ng-template>
-          <ng-template matStepLabel *ngIf="SelectedDepartmentID !=6">Other Information</ng-template>
-          <app-preview-other-information></app-preview-other-information>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>Building Documents</ng-template>
-          <app-preview-building-detail></app-preview-building-detail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat" *ngIf="CollegeType_IsExisting">
-          <ng-template matStepLabel>Staff Details</ng-template>
-          <app-preview-staff-detail></app-preview-staff-detail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" *ngIf="CollegeType_IsExisting" state="chat">
-          <ng-template matStepLabel>OLD NOC Details</ng-template>
-          <app-preview-old-nocdetail></app-preview-old-nocdetail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" *ngIf="CollegeType_IsExisting" state="chat">
-          <ng-template matStepLabel>Academic Information</ng-template>
-          <app-preview-academic-information></app-preview-academic-information>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>Other Document</ng-template>
-          <app-preview-other-document></app-preview-other-document>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==6">
-          <ng-template matStepLabel>Hospital Details</ng-template>
-          <app-preview-hospital-detail></app-preview-hospital-detail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==9">
-          <ng-template matStepLabel>Hospital Details</ng-template>
-          <app-preview-paramedical-hospital-detail></app-preview-paramedical-hospital-detail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
-          <ng-template matStepLabel>Hostel Details</ng-template>
-          <app-preview-hostel-details></app-preview-hostel-details>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==2">
-          <ng-template matStepLabel>Veterinary Hospital</ng-template>
-          <app-preview-veterinary-hospital></app-preview-veterinary-hospital>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==1">
-          <ng-template matStepLabel>Farm Land Details</ng-template>
-          <app-preview-farm-land-details></app-preview-farm-land-details>
-          <button mat-button matStepperPrevious>Back</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>Apply Noc Details</ng-template>
-          <app-preview-apply-noc-detail></app-preview-apply-noc-detail>
-          <button mat-button matStepperPrevious>Back</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>FDR Details</ng-template>
-          <app-preview-fdr-detail></app-preview-fdr-detail>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </mat-step>
-
-        <mat-step [completed]="false" state="chat">
-          <ng-template matStepLabel>Payment Details</ng-template>
-          <app-preview-payment-detail></app-preview-payment-detail>
-          <button mat-button matStepperPrevious>Back</button>
-        </mat-step>
-        <!-- Icon overrides. -->
-        <ng-template matStepperIcon="chat">
-          <mat-icon>forum</mat-icon>
-        </ng-template>
-      </mat-stepper>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> College Management Society </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-college-management-society></app-college-management-society>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Land Details </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-land-detail></app-preview-land-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Facility </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-facility-detail></app-preview-facility-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Required Document </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-required-document></app-preview-required-document>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Class Room Details </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-room-detail></app-preview-room-detail>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header" *ngIf="SelectedDepartmentID==6">
+          <b><i class="bi bi-table"></i>  Clinical Details </b>
+        </div>
+        <div class="card-header" *ngIf="SelectedDepartmentID!=6">
+          <b><i class="bi bi-table"></i>  Other Information </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-other-information></app-preview-other-information>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>  Building Documents </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12">
+            <app-preview-building-detail></app-preview-building-detail>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  <div class="col-md-12" *ngIf="CollegeType_IsExisting">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>  Staff Details </b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-staff-detail></app-preview-staff-detail>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="CollegeType_IsExisting">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>OLD NOC Details</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-old-nocdetail></app-preview-old-nocdetail>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="CollegeType_IsExisting">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Academic Information</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-academic-information></app-preview-academic-information>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Other Document</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-other-document></app-preview-other-document>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==6">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Hospital Details</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-hospital-detail></app-preview-hospital-detail>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==9">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Hospital Details</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-paramedical-hospital-detail></app-preview-paramedical-hospital-detail>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Hostel Details</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-hostel-details></app-preview-hostel-details>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==2">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Veterinary Hospital</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-veterinary-hospital></app-preview-veterinary-hospital>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==1">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Farm Land Details</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-farm-land-details></app-preview-farm-land-details>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Apply Noc Details</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-apply-noc-detail></app-preview-apply-noc-detail>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="SelectedDepartmentID !=2">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>FDR Details</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-fdr-detail></app-preview-fdr-detail>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Payment Details</b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-payment-detail></app-preview-payment-detail>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<div class="col-md-12">-->
+    <!--<mat-stepper orientation="vertical">-->
+      <!--<mat-step [completed]="true" state="chat" *ngIf="IsManagmentType">
+        <ng-template matStepLabel>Legal Entity </ng-template>
+        <ng-template matStepContent>
+          <app-preview-legal-entity></app-preview-legal-entity>
+          <button mat-button matStepperNext>Next</button>
+        </ng-template>
+      </mat-step>-->
+      <!--<mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>College Detail</ng-template>
+        <ng-template matStepContent>
+          <app-preview-college></app-preview-college>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </ng-template>
+      </mat-step>-->
+      <!--<mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>Course Detail</ng-template>
+        <ng-template matStepContent>
+          <app-preview-course-detail></app-preview-course-detail>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </ng-template>
+      </mat-step>-->
+      <!--<mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>College Management Society</ng-template>
+        <app-college-management-society></app-college-management-society>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>-->
+      <!--<mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>Land Details</ng-template>
+        <app-preview-land-detail></app-preview-land-detail>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>-->
+      <!--<mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>Facility</ng-template>
+        <app-preview-facility-detail></app-preview-facility-detail>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>-->
+      <!--<mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>Required Document</ng-template>
+        <app-preview-required-document></app-preview-required-document>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>-->
+      <!--<mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>Class Room Details</ng-template>
+        <app-preview-room-detail></app-preview-room-detail>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>-->
+      <!--<mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel *ngIf="SelectedDepartmentID==6">Clinical Details</ng-template>
+        <ng-template matStepLabel *ngIf="SelectedDepartmentID !=6">Other Information</ng-template>
+        <app-preview-other-information></app-preview-other-information>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>-->
+      <!--<mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>Building Documents</ng-template>
+        <app-preview-building-detail></app-preview-building-detail>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>-->
+
+      <!--<mat-step [completed]="false" state="chat" *ngIf="CollegeType_IsExisting">
+        <ng-template matStepLabel>Staff Details</ng-template>
+        <app-preview-staff-detail></app-preview-staff-detail>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>
+
+      <mat-step [completed]="false" *ngIf="CollegeType_IsExisting" state="chat">
+        <ng-template matStepLabel>OLD NOC Details</ng-template>
+        <app-preview-old-nocdetail></app-preview-old-nocdetail>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>
+
+      <mat-step [completed]="false" *ngIf="CollegeType_IsExisting" state="chat">
+        <ng-template matStepLabel>Academic Information</ng-template>
+        <app-preview-academic-information></app-preview-academic-information>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>
+
+      <mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>Other Document</ng-template>
+        <app-preview-other-document></app-preview-other-document>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>
+
+      <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==6">
+        <ng-template matStepLabel>Hospital Details</ng-template>
+        <app-preview-hospital-detail></app-preview-hospital-detail>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>
+
+      <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==9">
+        <ng-template matStepLabel>Hospital Details</ng-template>
+        <app-preview-paramedical-hospital-detail></app-preview-paramedical-hospital-detail>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>
+
+      <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
+        <ng-template matStepLabel>Hostel Details</ng-template>
+        <app-preview-hostel-details></app-preview-hostel-details>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>
+
+      <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==2">
+        <ng-template matStepLabel>Veterinary Hospital</ng-template>
+        <app-preview-veterinary-hospital></app-preview-veterinary-hospital>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>
+
+      <mat-step [completed]="false" state="chat" *ngIf="SelectedDepartmentID==1">
+        <ng-template matStepLabel>Farm Land Details</ng-template>
+        <app-preview-farm-land-details></app-preview-farm-land-details>
+        <button mat-button matStepperPrevious>Back</button>
+      </mat-step>
+
+      <mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>Apply Noc Details</ng-template>
+        <app-preview-apply-noc-detail></app-preview-apply-noc-detail>
+        <button mat-button matStepperPrevious>Back</button>
+      </mat-step>
+
+      <mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>FDR Details</ng-template>
+        <app-preview-fdr-detail></app-preview-fdr-detail>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </mat-step>
+
+      <mat-step [completed]="false" state="chat">
+        <ng-template matStepLabel>Payment Details</ng-template>
+        <app-preview-payment-detail></app-preview-payment-detail>
+        <button mat-button matStepperPrevious>Back</button>
+      </mat-step>-->
+      <!-- Icon overrides. -->
+      <!--<ng-template matStepperIcon="chat">
+        <mat-icon>forum</mat-icon>
+      </ng-template>-->
+    <!--</mat-stepper>-->
+  <!--</div>-->
 </div>
 
 <!--// model pdf-->
@@ -196,11 +462,11 @@
   <div class="modal-body">
     <!--application details-->
     <div class="row">
-      <div class="col-lg-2 col-md-4 col-sm-4 float-end"  >
+      <div class="col-lg-2 col-md-4 col-sm-4 float-end">
         <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
       </div>
     </div>
-    
+
     <div class="row">
 
       <div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -1446,6 +1712,7 @@
                       <td>
                         <span *ngFor="let item of OldNocSubjectlst let idxe=index">
                           <span *ngIf="row.OldNocID == item.OldNocID">
+
                             {{idxe==0?'':' '}}{{item.SubjectName}}
                           </span>
 
@@ -2079,7 +2346,10 @@
                     </tr>-->
                   </tbody>
                   <thead *ngIf="IsShowSuperSpecialtyHospital">
+                    al
+                    t:
                     <tr>
+                      t:
                       <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Super specialty hospital details</b></td>
                     </tr>
                   </thead>
