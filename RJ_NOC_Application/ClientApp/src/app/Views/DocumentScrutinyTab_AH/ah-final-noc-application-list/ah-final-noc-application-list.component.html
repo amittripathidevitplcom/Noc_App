@@ -41,7 +41,7 @@
                       &nbsp;<button type="button" *ngIf="sSOLoginDataModel.RoleID==15 && IsBtnShowHide" id="btnFTCPDF" class="btn btn-primary" (click)="ForwardToJSDS(item.ApplyNOCID,item.CollegeID)" title="Forward To Joint Secretary/Deputy Secretary">Forward To JS/DS</button>
 
                       <span *ngIf="IsBtnShowHide && item.NOCFilePath !=''  && !item.IsOfflinePayment"><b>Update Offline Payment Details</b></span>
-                      <button *ngIf="IsBtnShowHide && item.NOCFilePath !='' " type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved',item.NOCFileName)"><i class="fa fa-check"></i></button>
+                      <button *ngIf="IsBtnShowHide && item.NOCFilePath !='' && item.IsOfflinePayment " type="button" class="btn btn-primary" style="margin-left:10px;" title="NOC Approve" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Approved',item.NOCFileName)"><i class="fa fa-check"></i></button>
                       <button *ngIf="IsBtnShowHide" type="button" class="btn btn-danger" title="NOC Reject" style="margin-left:10px;" (click)="NOCApproved_Rejected_Model(ReleceNOC,item.ApplyNOCID,item.CollegeID,item.ApplicationNo,'Reject',item.NOCFileName)"><i class="fa fa-times"></i></button>
                     </td>
                   </tr>
