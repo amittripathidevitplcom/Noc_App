@@ -204,6 +204,7 @@ export class AhFinalNocApplicationListComponent {
             this.ErrorMessage = data['ErrorMessage'];
             this.toastr.success(this.SuccessMessage);
             await this.CloseOTPModel();
+            this.modalService.dismissAll('After Success');
             await this.GetFinalNOCApplicationList(this.sSOLoginDataModel.SSOID, this.sSOLoginDataModel.UserID, Number(this.sSOLoginDataModel.RoleID), this.sSOLoginDataModel.DepartmentID, this.QueryStringStatus);
           }
         }, error => console.error(error));
