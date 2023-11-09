@@ -8,6 +8,7 @@ import { SubjectWiseStatisticsDetailsDataModel, PostSubjectWiseStatisticsDetails
 import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Component({
   selector: 'app-subject-wise-student-statistics',
@@ -52,7 +53,7 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
   modalReference: NgbModalRef | undefined
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
-  constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService) { }
+  constructor(private collegeService: CollegeService,private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService) { }
 
 
 
@@ -63,7 +64,8 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.GetSubjectWiseStudenetDetails(this.SelectedCollageID)
+    this.GetSubjectWiseStudenetDetails(this.SelectedCollageID);
+    await this.GetCollageDetails();
   }
 
   async GetSubjectWiseStudenetDetails(CollageID: number) {
@@ -197,5 +199,24 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
               + Number(DiplomaB) + Number(DiplomaG)
               + Number(OtherB) + Number(OtherG)
   }
+  public FinancialYear: string = '';
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.FinancialYear = data['Data']['FinancialYear']
 
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

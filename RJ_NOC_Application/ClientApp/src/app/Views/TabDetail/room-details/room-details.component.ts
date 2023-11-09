@@ -18,6 +18,7 @@ import { style } from '@angular/animations';
 import { debug } from 'console';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 
 @Injectable()
@@ -98,7 +99,7 @@ export class RoomDetailsComponent implements OnInit {
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
   constructor(private roomDetailsService: RoomDetailsService, private toastr: ToastrService, private loaderService: LoaderService,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute,
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private collegeService: CollegeService,
     private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
 
   async ngOnInit() {
@@ -109,7 +110,7 @@ export class RoomDetailsComponent implements OnInit {
         txtWidth_Room: ['', [Validators.required, Validators.min(1)]],
         txtLength_Room: ['', [Validators.required, Validators.min(1)]],
         txtStudentCapacity_Room: ['', [Validators.required, Validators.min(1)]],
-       // txtNoOfLab: ['', Validators.required],
+        // txtNoOfLab: ['', Validators.required],
         fileUploadImage: [''],
         txtsearchText: [''],
       })
@@ -124,8 +125,9 @@ export class RoomDetailsComponent implements OnInit {
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.request.DepartmentID = this.SelectedDepartmentID;
-    this.LoadMaster();
-    this.GetRoomDetailAllList();
+    await this.GetCollageDetails();
+    await this.LoadMaster();
+    await this.GetRoomDetailAllList();
   }
   get form() { return this.RoomDetailsForm.controls; }
 
@@ -163,24 +165,30 @@ export class RoomDetailsComponent implements OnInit {
     this.CssClass_TextDangerNoOfRooms = '';
     this.CssClass_TextDangerNoOfLab = '';
 
-
-    console.log(SeletedCourseID);
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetCourseRoomSize(this.request.CourseID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.RoomSizeDataList = data['Data'];
-
-          this.WidthMin = this.RoomSizeDataList[0]['WidthMin'];
-          this.WidthMin_Dis = this.RoomSizeDataList[0]['WidthMin'];
-          this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
-          this.LengthMin_Dis = this.RoomSizeDataList[0]['LengthMin'];
+          if (this.SelectedDepartmentID == 3) {
+            if (!this.CollegeType_IsExisting) {
+              this.WidthMin = this.RoomSizeDataList[0]['WidthMin'];
+              this.WidthMin_Dis = this.RoomSizeDataList[0]['WidthMin'];
+              this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
+              this.LengthMin_Dis = this.RoomSizeDataList[0]['LengthMin'];
+            }
+          }
+          else {
+            this.WidthMin = this.RoomSizeDataList[0]['WidthMin'];
+            this.WidthMin_Dis = this.RoomSizeDataList[0]['WidthMin'];
+            this.LengthMin = this.RoomSizeDataList[0]['LengthMin'];
+            this.LengthMin_Dis = this.RoomSizeDataList[0]['LengthMin'];
+          }
           this.MinNoOfRooms = this.RoomSizeDataList[0]['NoOfRooms'];
           this.NoofPredicalRooms = this.RoomSizeDataList[0]['NoofPredicalRooms'];
-          console.log(this.RoomSizeDataList);
         }, error => console.error(error));
-     
+
       let NoofStudents = 0;
       if (this.SelectedDepartmentID == 2) {
         await this.commonMasterService.GetCourseLevelByCollegeIDAndDepartmentID_CourseWise(this.SelectedCollageID, this.SelectedDepartmentID, this.request.CourseID)
@@ -366,7 +374,7 @@ export class RoomDetailsComponent implements OnInit {
       //    this.ErrorMessage = data['ErrorMessage'];
       //    NoofStudents = data['Data'][0]['data'][0].SeatsValue;
       //  }, error => console.error(error));
-       
+
       if ((this.request.Length * this.request.Width) < 800) {
         this.toastr.error('Minimum Room Size Required : 800 Sq.Feet');
         this.isformvalid = false;
@@ -456,7 +464,7 @@ export class RoomDetailsComponent implements OnInit {
   async GetRoomDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.roomDetailsService.GetRoomDetailAllList(this.UserID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
+      await this.roomDetailsService.GetRoomDetailAllList(this.UserID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -645,6 +653,29 @@ export class RoomDetailsComponent implements OnInit {
     }
     return true;
 
+  }
+
+  public CollegeType_IsExisting: boolean = true;
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          if (data['Data']['CollegeStatus'] == 'New') {
+            this.CollegeType_IsExisting = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
 

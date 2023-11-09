@@ -8,6 +8,7 @@ import { ClassWiseStudentDetailsDataModel, PostClassWiseStudentDetailsDataModel 
 import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Component({
   selector: 'app-class-wise-student-details',
@@ -59,7 +60,8 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
   public SelectedApplyNOCID: number = 0;
 
 
-  constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService) { }
+  constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService,
+    private collegeService: CollegeService) { }
 
   async ngOnInit() {
 
@@ -70,6 +72,7 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
     this.GetCollegeWiseStudenetDetails(this.SelectedCollageID)
+    await this.GetCollageDetails();
   }
 
   async GetCollegeWiseStudenetDetails(CollageID: number) {
@@ -193,5 +196,26 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  public FinancialYear: string = '';
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.FinancialYear=data['Data']['FinancialYear']
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

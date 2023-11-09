@@ -261,7 +261,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-4 col-12 mb-3">
-                    <label for="txtFireNOCOrderNumber" class="form-label">Order No<span *ngIf="!IsGovtCollege" style="color:red;">*</span> </label>
+                    <label for="txtFireNOCOrderNumber" class="form-label">Order No </label>
                     <input type="text" autocomplete="off" class="form-control" id="txtFireNOCOrderNumber" name="txtFireNOCOrderNumber" [(ngModel)]="buildingdetails.FireNOCOrderNumber" formControlName="txtFireNOCOrderNumber">
 
                     <div *ngIf="isSubmitted&&form.txtFireNOCOrderNumber.errors" class="text-danger">
@@ -284,7 +284,7 @@
                     </div>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <label for="txtFireNOCUpload" class="form-label">Upload Fire NOC Document<span *ngIf="!IsGovtCollege" style="color:red;">*</span></label>
+                    <label for="txtFireNOCUpload" class="form-label">Upload Fire NOC Document</label>
                     <div class="d-flex">
                       <input type="file" class="form-control" id="txtFireNOCUpload" style="display:none" formControlName="txtFireNOCUpload" (change)="ValidateUploadImage($event,'FireNOCFileUpload')" #txtFireNOCUpload />
                       <label class="btn upload" for="txtFireNOCUpload">
@@ -296,7 +296,7 @@
                         <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('FireNOCFileUpload')"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </div>
-                    <p *ngIf="isSubmitted&&buildingdetails.FireNOCFileUpload ==''&&!IsGovtCollege" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>
+                    <!--<p *ngIf="isSubmitted&&buildingdetails.FireNOCFileUpload ==''&&!IsGovtCollege" class="text-danger"><i aria-hidden="true"></i> {{ImageValidate}}</p>-->
                     <div *ngIf="isValidFireNOCFileUpload" class="text-danger">
                       <p *ngIf="isValidFireNOCFileUpload"> {{ImageValidationMessage}}</p>
                     </div>

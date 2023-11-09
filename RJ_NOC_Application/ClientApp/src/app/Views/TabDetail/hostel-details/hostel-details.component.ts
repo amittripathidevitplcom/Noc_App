@@ -202,14 +202,14 @@ export class HostelDetailsComponent implements OnInit {
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.LoadMaster();
-    if (this.SelectedDepartmentID != 4) {
-      this.isHostel = true;
-      this.request.IsHostel = 'Yes';
-    }
-    else {
-      this.isHostel = false;
-      this.request.IsHostel = '';
-    }
+    //if (this.SelectedDepartmentID != 4) {
+    //  this.isHostel = true;
+    //  this.request.IsHostel = 'Yes';
+    //}
+    //else {
+    //  this.isHostel = false;
+    //  this.request.IsHostel = '';
+    //}
 
     // load
     //await this.GetCollageDetails();
@@ -637,7 +637,7 @@ export class HostelDetailsComponent implements OnInit {
     this.CssClass_TextDangerWidth = '';
     this.CssClass_TextDangerLength = '';
 
-    if (this.request.HostelType == 'Rent') {
+    if (this.request.HostelType == 'Rent' && this.request.IsHostelCampus=='No') {
       if (this.request.OwnerName == '' || this.request.OwnerContactNo == '' || this.request.FromDate == '' || this.request.ToDate == '') {
         this.isOwnerName = this.request.OwnerName == '' ? true : false;
         this.isOwnerContactNo = this.request.OwnerContactNo == '' ? true : false;
@@ -803,7 +803,7 @@ export class HostelDetailsComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.request = data['Data'][0];
           this.isHostel = true;
-          this.request.IsHostel = data['Data'][0]['IsHostel'];
+          this.request.IsHostel = 'Yes';//data['Data'][0]['IsHostel']
           this.request.IsHostelCampus = data['Data'][0]['IsHostelCampus'];
           this.holddata.AddressLine1 = data['Data'][0]['AddressLine1'];
           this.holddata.AddressLine2 = data['Data'][0]['AddressLine2'];
@@ -1007,15 +1007,15 @@ export class HostelDetailsComponent implements OnInit {
     }
   }
   public isHostel: boolean = false;
-  async IsHostelYesorNO(IsChanged: boolean) {
-    if (this.request.IsHostel == 'Yes' && IsChanged) {
-      this.isHostel = true;
-    }
-    else {
-      this.isHostel = false;
-      this.ResetControl();
-    }
-  }
+  //async IsHostelYesorNO(IsChanged: boolean) {
+  //  if (this.request.IsHostel == 'Yes' && IsChanged) {
+  //    this.isHostel = true;
+  //  }
+  //  else {
+  //    this.isHostel = false;
+  //    this.ResetControl();
+  //  }
+  //}
 
   async IsHostelCampusOrNot(IsChanged: boolean) {
     try {
@@ -1115,8 +1115,6 @@ export class HostelDetailsComponent implements OnInit {
           if (this.viewhostel.HostelType == 'Rent') {
             this.showRentDocument = true;
           }
-          this.viewhostel.RentDocumentPath = this.imageUrlPath + this.request.RentDocument;
-
         }, error => console.error(error));
     }
     catch (Ex) {

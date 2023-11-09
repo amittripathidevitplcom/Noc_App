@@ -127,7 +127,7 @@ export class AddCollegeComponent implements OnInit {
         ddlCollegeMedium: ['', [DropdownValidators]],
         ddlUniversityID: ['', [DropdownValidators]],
         txtMobileNumber: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]],
-        txtCollegeLandlineNumber: ['', [Validators.required, Validators.pattern("^[0-9]{10,12}$")]],
+        txtCollegeLandlineNumber: ['', [Validators.pattern("^[0-9]{10,12}$")]],
 
         txtEmail: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
         txtAddressLine1: ['', Validators.required],
@@ -1263,8 +1263,7 @@ export class AddCollegeComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
-          if (!this.State) {
+          if (this.State == 0) {
             this.toastr.success(this.SuccessMessage)
             setTimeout(() => {
               if (this.request.DepartmentID == 5) {
@@ -1278,6 +1277,9 @@ export class AddCollegeComponent implements OnInit {
               }
             }, 200);
 
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
           }
           else {
             this.toastr.error(this.ErrorMessage)

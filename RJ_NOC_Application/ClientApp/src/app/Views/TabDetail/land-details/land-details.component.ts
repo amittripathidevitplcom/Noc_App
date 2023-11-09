@@ -1067,14 +1067,16 @@ export class LandDetailsComponent implements OnInit {
     if (WorkFlowDetailLength > 0) {
       for (var i = 0; i < this.request.CollegeLandTypeDetails.length; i++) {
         if (this.request.CollegeLandTypeDetails[i].IsLandSelected) {
-          if (this.request.CollegeLandTypeDetails[i].LandConversionOrderNo == '') {
-            message += 'Please Enter  Land ConversionOrderNo \n';
-            this.request.CollegeLandTypeDetails[i].LandConversionOrderNo = '';
-          }
-          if (this.request.CollegeLandTypeDetails[i].LandConversionOrderDate == '') {
-            message += 'Please select land conversion date \n';
-            this.request.CollegeLandTypeDetails[i].LandConversionOrderDate = '';
+          if (this.request.CollegeLandTypeDetails[i].LandTypeName != 'Agriculture') {
+            if (this.request.CollegeLandTypeDetails[i].LandConversionOrderNo == '') {
+              message += 'Please Enter  Land ConversionOrderNo \n';
+              this.request.CollegeLandTypeDetails[i].LandConversionOrderNo = '';
+            }
+            if (this.request.CollegeLandTypeDetails[i].LandConversionOrderDate == '') {
+              message += 'Please select land conversion date \n';
+              this.request.CollegeLandTypeDetails[i].LandConversionOrderDate = '';
 
+            }
           }
           if (this.request.CollegeLandTypeDetails[i].FileName == '' || this.request.CollegeLandTypeDetails[i].FileName == null) {
             message += 'Please Upload ConvertDocumet   \n';

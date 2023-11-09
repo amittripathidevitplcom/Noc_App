@@ -7,26 +7,40 @@
         <span style="margin-left:100px">Note : Upload only webp/jpg/jpeg/pdf files (Min.Size 100KB to Max.Size 2MB)</span>
       </b>
     </div>
-    <form [formGroup]="HostelForm" class="form-horizontal">
-      <div class="card-body">
-        <div class="row mb-2">
-          <div class="col-md-4 mb-3">
-            <label for="rbHostelCampus" class="form-label" style="margin-right:15px">Is Hostel In Campus <span style="color:red;">*</span> </label>
-            <div class="clearfix"></div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusYes" value="Yes" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus" (change)="IsHostelCampusOrNot(true)">
-              <label class="form-check-label" for="YesHostelCampus">Yes</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusNo" value="No" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus" (change)="IsHostelCampusOrNot(true)">
-              <label class="form-check-label" for="NoHostelCampus">No</label>
-            </div>
-            <div *ngIf="isSubmitted&&Hform.rbHostelCampus.errors" class="text-danger">
-              <p *ngIf="Hform.rbHostelCampus.errors.required"> This field is required .!</p>
-            </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="rbIsHostel" class="form-label" style="margin-right:15px">Is Hostel <span style="color:red;">*</span> </label>
+          <div class="clearfix"></div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbIsHostel" id="rbIsHostelYes" value="Yes" [ngModelOptions]="{standalone: true}" [(ngModel)]="request.IsHostel">
+            <label class="form-check-label" for="rbIsHostelYes">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbIsHostel" id="rbIsHostelNo" value="No" [ngModelOptions]="{standalone: true}" [(ngModel)]="request.IsHostel">
+            <label class="form-check-label" for="rbIsHostelNo">No</label>
           </div>
         </div>
-        <div>
+      </div>
+      <form [formGroup]="HostelForm" class="form-horizontal">
+        <div [hidden]="request.IsHostel!='Yes'">
+          <div class="row mb-2">
+            <div class="col-md-4 mb-3">
+              <label for="rbHostelCampus" class="form-label" style="margin-right:15px">Is Hostel In Campus <span style="color:red;">*</span> </label>
+              <div class="clearfix"></div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusYes" value="Yes" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus" (change)="IsHostelCampusOrNot(true)">
+                <label class="form-check-label" for="YesHostelCampus">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rbHostelCampus" id="rbHostelCampusNo" value="No" formControlName="rbHostelCampus" [(ngModel)]="request.IsHostelCampus" (change)="IsHostelCampusOrNot(true)">
+                <label class="form-check-label" for="NoHostelCampus">No</label>
+              </div>
+              <div *ngIf="isSubmitted&&Hform.rbHostelCampus.errors" class="text-danger">
+                <p *ngIf="Hform.rbHostelCampus.errors.required"> This field is required .!</p>
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Hostel Category <span style="color:red;">*</span></label>
@@ -59,8 +73,8 @@
               <label class="form-label">Address Line 2 <!--<span style="color:red;">*</span>--></label>
               <input type="text" class="form-control" id="txtAddressLine2" name="txtAddressLine2" [attr.disabled]="IsDisabledAddress ? true : null" [(ngModel)]="request.AddressLine2" formControlName="txtAddressLine2" (keypress)="alphanumbersOnly($event)">
               <!--<div *ngIf="isSubmitted&&Hform.txtAddressLine2.errors" class="text-danger">
-                <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-              </div>-->
+              <p *ngIf="Hform.txtAddressLine2.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>-->
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
               <label class="form-label">Select Area <span style="color:red;">*</span></label>
@@ -169,10 +183,6 @@
             </div>
             <div class="col-md-11 text-end"></div>
           </div>
-
-
-
-
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" *ngIf="request.IsHostelCampus =='No'">
               <label class="form-label" style="margin-right:15px">Select Type <span style="color:red;">*</span> :</label>
@@ -247,154 +257,174 @@
             </div>
           </div>
         </div>
-      </div>
-    </form>
-    <div>
+      </form>
+
       <form [formGroup]="HostelDetailsForm" class="form-horizontal">
-        <div>
-          <div class="card-body">
-            <div class="card">
-              <div class="card-header">
-                <b>Hostel Block Detail <span style="color:red;">*</span></b>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-3 col-3 mb-3">
-                    <label>Select Hostel Block <span style="color:red;">*</span></label>
-                    <select formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="hosteldetail.CourseID" class="form-control"
-                            #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
-                      <option value="0">--Select--</option>
-                      <option [value]="item.ID" *ngFor="let item of courseDataList">
-                        {{item.Name}}
-                      </option>
-                    </select>
-                    <div *ngIf="isHostelSubmitted&&form.ddlCourse.errors" class="text-danger">
-                      <p *ngIf="!form.ddlCourse.errors.DropdownValidators">This field is required .!</p>
-                    </div>
-
+        <div *ngIf="request.IsHostel=='Yes'">
+          <div class="card">
+            <div class="card-header">
+              <b>Hostel Block Detail <span style="color:red;">*</span></b>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-3 mb-3">
+                  <label>Select Hostel Block <span style="color:red;">*</span></label>
+                  <select formControlName="ddlCourse" id="ddlCourse" [(ngModel)]="hosteldetail.CourseID" class="form-control"
+                          #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
+                    <option value="0">--Select--</option>
+                    <option [value]="item.ID" *ngFor="let item of courseDataList">
+                      {{item.Name}}
+                    </option>
+                  </select>
+                  <div *ngIf="isHostelSubmitted&&form.ddlCourse.errors" class="text-danger">
+                    <p *ngIf="!form.ddlCourse.errors.DropdownValidators">This field is required .!</p>
                   </div>
 
-
-                  <div class="col-md-3 mb-2">
-                    <label>No. of <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="hosteldetail.NoOf" (keyup)="onKeyChange()" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)" maxlength="5">
-                    <div *ngIf="isHostelSubmitted&&form.txtNoOf.errors" class="text-danger">
-                      <p *ngIf="form.txtNoOf.errors.required">This field is required .!</p>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3 mb-2">
-                    <label>
-                      Area (In Sq Feet) <span style="color:red;">*</span>
-                    </label>
-
-                    <input type="text" class="form-control" id="txtWidth" name="txtWidth"
-                           [(ngModel)]="hosteldetail.Width" formControlName="txtWidth" min="0" (keypress)="numberOnly($event)" maxlength="9">
+                </div>
 
 
-
-                    <!--<p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Width More than or Equal to {{WidthMin}} ft</p>-->
-                    <div *ngIf="isHostelSubmitted&&form.txtWidth.errors" class="text-danger">
-                      <p *ngIf="form.txtWidth.errors.required">This field is required .!</p>
-                    </div>
-                    <p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size (W * L): {{WidthMin}} sq. ft</p>
-                  </div>
-
-                  <!--<div class="col-md-3 mb-2">
-                    <label>Length (In Feet) <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtLength" name="txtLength"
-                           [(ngModel)]="hosteldetail.Length" formControlName="txtLength" min="0" (keypress)="numberOnly($event)" maxlength="5">-->
-                  <!--<p *ngIf="LengthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerLength}}">
-                    Please Enter Length More than or Equal to {{LengthMin}} ft
-                  </p>-->
-                  <!--<div *ngIf="isHostelSubmitted&&form.txtLength.errors" class="text-danger">
-                    <p *ngIf="form.txtLength.errors.required">This field is required .!</p>
-                  </div>-->
-                  <!--<p *ngIf="WidthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{LengthMin}} sq. ft</p>-->
-                  <!--</div>-->
-
-                  <div class="col-md-3 mb-2">
-                    <label>Student Capacity <span style="color:red;">*</span></label>
-                    <input type="text" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity"
-                           [(ngModel)]="hosteldetail.StudentCapacity" formControlName="txtStudentCapacity" min="0" (keypress)="numberOnly($event)" maxlength="9">
-                    <div *ngIf="isHostelSubmitted&&form.txtStudentCapacity.errors" class="text-danger">
-                      <p *ngIf="form.txtStudentCapacity.errors.required">This field is required .!</p>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3 mb-2">
-                    <label>Image <span style="color:red;">*</span></label>
-                    <div class="d-flex">
-                      <input type="file" class="form-control" id="fImageUpload" style="display:none" formControlName="hostel_fileImageFileName" (change)="ValidateDocumentImage($event,'ImageFile')" />
-                      <label class="btn upload" for="fImageUpload">
-                        <span class="filename">Choose file</span>
-                        {{hosteldetail.ImageFileName === '' ? 'No File Choosen' : hosteldetail.Dis_FileName}}
-                      </label>
-                      <div class="btn-group" *ngIf="showImageFile">
-                        <a class="btn btn-outline-primary" target="_blank" href="{{hosteldetail.ImageFilePath}}"><i class="fa fa-eye"></i></a>
-                        <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ImageFile',hosteldetail.ImageFileName)"><i class="fa fa-trash-o"></i></button>
-                      </div>
-                    </div>
-                    <div *ngIf="isImageFile" class="text-danger">
-                      <p *ngIf="isImageFile"> {{DocumentValidMessage}}</p>
-                    </div>
-                  </div>
-
-                  <div class="card-footer text-end">
-                    <button class="btn btn-primary" id="btnAdd" type="button" (click)="btnAdd_Click()"><i class="fa fa-plus"></i>&nbsp;Add</button>
-                    <button type="button" class="btn btn-danger" (click)="ResetHostelDetails()"> Reset</button>
+                <div class="col-md-3 mb-2">
+                  <label>No. of <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtNoOf" name="txtNoOf" [(ngModel)]="hosteldetail.NoOf" (keyup)="onKeyChange()" formControlName="txtNoOf" min="0" (keypress)="numberOnly($event)" maxlength="5">
+                  <div *ngIf="isHostelSubmitted&&form.txtNoOf.errors" class="text-danger">
+                    <p *ngIf="form.txtNoOf.errors.required">This field is required .!</p>
                   </div>
                 </div>
-                <div class="row" *ngIf="request.HostelDetails.length>0">
-                  <div class="col-md-12">
-                    <div class="table-responsive">
-                      <table class="table table-hover table-striped">
-                        <thead>
-                          <tr>
-                            <th>Sr. No.</th>
-                            <th>Hostel Block</th>
-                            <th>No. of</th>
-                            <th>Area (In Sq Feet)</th>
-                            <!--<th>Length (In Feet)</th>-->
-                            <th>Image</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let row of request.HostelDetails | tableSearchFilter:searchText;let idx=index;">
-                            <td>{{idx+1}}</td>
-                            <td>{{row.CourseName}}</td>
-                            <td>{{row.NoOf}}</td>
-                            <td>{{row.Width}}</td>
-                            <!--<td>{{row.Length}}</td>-->
-                            <td>
-                              <a *ngIf="row.ImageFileName!=''" target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-paperclip"></i></a>
-                            </td>
-                            <td>
-                              <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary" (click)="EditHostelBlockDetail(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"><i class="fa fa-edit"></i></button>
-                              <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteHostelBlockDetail(idx)"><i class="fa fa-trash" [attr.disabled]="isDisabledGrid ? true : null"></i></button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+
+                <div class="col-md-3 mb-2">
+                  <label>
+                    Area (In Sq Feet) <span style="color:red;">*</span>
+                  </label>
+
+                  <input type="text" class="form-control" id="txtWidth" name="txtWidth"
+                         [(ngModel)]="hosteldetail.Width" formControlName="txtWidth" min="0" (keypress)="numberOnly($event)" maxlength="9">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  <!--<p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Width More than or Equal to {{WidthMin}} ft</p>-->
+                  <div *ngIf="isHostelSubmitted&&form.txtWidth.errors" class="text-danger">
+                    <p *ngIf="form.txtWidth.errors.required">This field is required .!</p>
+                  </div>
+                  <p *ngIf="WidthMin>0" class="{{hosteldetail.Width >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size (W * L): {{WidthMin}} sq. ft</p>
+                </div>
+
+
+
+
+
+
+
+                <!--<div class="col-md-3 mb-2">
+          <label>Length (In Feet) <span style="color:red;">*</span></label>
+          <input type="text" class="form-control" id="txtLength" name="txtLength"
+                 [(ngModel)]="hosteldetail.Length" formControlName="txtLength" min="0" (keypress)="numberOnly($event)" maxlength="5">-->
+                <!--<p *ngIf="LengthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerLength}}">
+            Please Enter Length More than or Equal to {{LengthMin}} ft
+          </p>-->
+                <!--<div *ngIf="isHostelSubmitted&&form.txtLength.errors" class="text-danger">
+            <p *ngIf="form.txtLength.errors.required">This field is required .!</p>
+          </div>-->
+                <!--<p *ngIf="WidthMin>0" class="{{hosteldetail.Length >= LengthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{LengthMin}} sq. ft</p>-->
+                <!--</div>-->
+
+                <div class="col-md-3 mb-2">
+                  <label>Student Capacity <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtStudentCapacity" name="txtStudentCapacity"
+                         [(ngModel)]="hosteldetail.StudentCapacity" formControlName="txtStudentCapacity" min="0" (keypress)="numberOnly($event)" maxlength="9">
+                  <div *ngIf="isHostelSubmitted&&form.txtStudentCapacity.errors" class="text-danger">
+                    <p *ngIf="form.txtStudentCapacity.errors.required">This field is required .!</p>
+                  </div>
+                </div>
+
+                <div class="col-md-3 mb-2">
+                  <label>Image <span style="color:red;">*</span></label>
+                  <div class="d-flex">
+                    <input type="file" class="form-control" id="fImageUpload" style="display:none" formControlName="hostel_fileImageFileName" (change)="ValidateDocumentImage($event,'ImageFile')" />
+                    <label class="btn upload" for="fImageUpload">
+                      <span class="filename">Choose file</span>
+                      {{hosteldetail.ImageFileName === '' ? 'No File Choosen' : hosteldetail.Dis_FileName}}
+                    </label>
+                    <div class="btn-group" *ngIf="showImageFile">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{hosteldetail.ImageFilePath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ImageFile',hosteldetail.ImageFileName)"><i class="fa fa-trash-o"></i></button>
                     </div>
+                  </div>
+                  <div *ngIf="isImageFile" class="text-danger">
+                    <p *ngIf="isImageFile"> {{DocumentValidMessage}}</p>
+                  </div>
+                </div>
+
+                <div class="card-footer text-end">
+                  <button class="btn btn-primary" id="btnAdd" type="button" (click)="btnAdd_Click()"><i class="fa fa-plus"></i>&nbsp;Add</button>
+                  <button type="button" class="btn btn-danger" (click)="ResetHostelDetails()"> Reset</button>
+                </div>
+              </div>
+              <div class="row" *ngIf="request.HostelDetails.length>0">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th>Sr. No.</th>
+                          <th>Hostel Block</th>
+                          <th>No. of</th>
+                          <th>Area (In Sq Feet)</th>
+                          <!--<th>Length (In Feet)</th>-->
+                          <th>Image</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of request.HostelDetails | tableSearchFilter:searchText;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>{{row.CourseName}}</td>
+                          <td>{{row.NoOf}}</td>
+                          <td>{{row.Width}}</td>
+
+
+
+
+
+                          <!--<td>{{row.Length}}</td>-->
+                          <td>
+                            
+
+                            <a *ngIf="row.ImageFileName!=''" target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-paperclip"></i></a>
+                          </td>
+                          <td>
+                            <button type="button" id="btnEdit_{{idx}}" class="btn btn-sm btn-primary" (click)="EditHostelBlockDetail(row,idx)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="DeleteHostelBlockDetail(idx)"><i class="fa fa-trash" [attr.disabled]="isDisabledGrid ? true : null"></i></button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </form>
-
-
-
-      <div class="card-footer text-end">
-        <button class="btn btn-primary" type="button" id="btnSave" (click)="SaveData()"> {{request.HostelDetailID>0?'Update':'Save'}}</button>
-        <button type="button" class="btn btn-danger" (click)="ResetControl()"> Reset</button>
-      </div>
+    <div class="card-footer text-end" *ngIf="request.IsHostel=='Yes'">
+      <button class="btn btn-primary" type="button" id="btnSave" (click)="SaveData()"> {{request.HostelDetailID>0?'Update':'Save'}}</button>
+      <button type="button" class="btn btn-danger" (click)="ResetControl()"> Reset</button>
     </div>
-  </div>
 
+  </div>
+  </div>
   <div class="card" *ngIf="hostelDataModel.length>0">
     <div class="card-header">
       <b>Hostel Details</b>
@@ -571,7 +601,7 @@
                       <td>{{row.CourseName}}</td>
                       <td>{{row.NoOf}}</td>
                       <td>{{row.Width}}</td>
-                      <!--<td>{{row.Length}}</td>-->
+                                      <!--<td>{{row.Length}}</td>-->
                       <td>
                         <a *ngIf="!row.ImageFileName.includes('.pdf')" data-fancybox="gallery" href="{{row.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
                           <img src="{{row.ImageFilePath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />

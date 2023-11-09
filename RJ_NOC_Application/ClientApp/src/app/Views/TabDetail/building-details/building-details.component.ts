@@ -152,9 +152,9 @@ export class BuildingDetailsComponent implements OnInit {
         txtContactNo_Owner: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(10), Validators.maxLength(10)]],
        // txtBuildingHostelQuartersRoadArea: ['', [Validators.required, Validators.min(1)]],
         txtBuildingHostelQuartersRoadArea: [''],
-        txtFromDate: ['', Validators.required],
-        txtFireNOCOrderNumber: ['', Validators.required],
-        txtToDate: ['', Validators.required],
+        txtFromDate: [''],//, Validators.required
+        txtFireNOCOrderNumber: [''],//, Validators.required
+        txtToDate: [''],//, Validators.required
         txtFireNOCUpload: [''],
         txtOrderNo: ['', Validators.required],
         txtOrderDate: ['', Validators.required],
@@ -364,9 +364,9 @@ export class BuildingDetailsComponent implements OnInit {
       if (!this.IsGovtCollege) {
         this.buildingdetailsForm.get('txtOwnBuildingOrderNo')?.setValidators([Validators.required]);
         this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.setValidators([Validators.required]);
-        this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.setValidators([Validators.required]);
-        this.buildingdetailsForm.get('txtFromDate')?.setValidators([Validators.required]);
-        this.buildingdetailsForm.get('txtToDate')?.setValidators([Validators.required]);
+        //this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.setValidators([Validators.required]);
+        //this.buildingdetailsForm.get('txtFromDate')?.setValidators([Validators.required]);
+        //this.buildingdetailsForm.get('txtToDate')?.setValidators([Validators.required]);
         this.buildingdetailsForm.get('txtOrderNo')?.setValidators([Validators.required]);
         this.buildingdetailsForm.get('txtOrderDate')?.setValidators([Validators.required]);
         this.buildingdetailsForm.get('txtExpiringOn')?.setValidators([Validators.required]);
@@ -374,18 +374,18 @@ export class BuildingDetailsComponent implements OnInit {
       else {
         this.buildingdetailsForm.get('txtOwnBuildingOrderNo')?.clearValidators();
         this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.clearValidators();
-        this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.clearValidators();
-        this.buildingdetailsForm.get('txtFromDate')?.clearValidators();
-        this.buildingdetailsForm.get('txtToDate')?.clearValidators();
+        //this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.clearValidators();
+        //this.buildingdetailsForm.get('txtFromDate')?.clearValidators();
+        //this.buildingdetailsForm.get('txtToDate')?.clearValidators();
         this.buildingdetailsForm.get('txtOrderNo')?.clearValidators();
         this.buildingdetailsForm.get('txtOrderDate')?.clearValidators();
         this.buildingdetailsForm.get('txtExpiringOn')?.clearValidators();
       }
       this.buildingdetailsForm.get('txtOwnBuildingOrderNo')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtOwnBuildingOrderDate')?.updateValueAndValidity();
-      this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.updateValueAndValidity();
-      this.buildingdetailsForm.get('txtFromDate')?.updateValueAndValidity();
-      this.buildingdetailsForm.get('txtToDate')?.updateValueAndValidity();
+      //this.buildingdetailsForm.get('txtFireNOCOrderNumber')?.updateValueAndValidity();
+      //this.buildingdetailsForm.get('txtFromDate')?.updateValueAndValidity();
+      //this.buildingdetailsForm.get('txtToDate')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtOrderNo')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtOrderDate')?.updateValueAndValidity();
       this.buildingdetailsForm.get('txtExpiringOn')?.updateValueAndValidity();
@@ -438,10 +438,10 @@ export class BuildingDetailsComponent implements OnInit {
       this.ImageValidate = 'This field is required .!';
       return
     }
-    if (this.buildingdetails.FireNOCFileUpload == '' && !this.IsGovtCollege) {
-      this.ImageValidate = 'This field is required .!';
-      return
-    }
+    //if (this.buildingdetails.FireNOCFileUpload == '' && !this.IsGovtCollege) {
+    //  this.ImageValidate = 'This field is required .!';
+    //  return
+    //}
     if (this.buildingdetails.PWDNOCFileUpload == '' && !this.IsGovtCollege) {
       this.ImageValidate = 'This field is required .!';
       return

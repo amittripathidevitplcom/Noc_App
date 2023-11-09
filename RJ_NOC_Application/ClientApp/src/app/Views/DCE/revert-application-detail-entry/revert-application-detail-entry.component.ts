@@ -317,7 +317,7 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
                 if (data['Data'][0]['data'][0]['Educationist'] < 2 && this.SelectedDepartmentID == 3) {
                   this.toastr.error("Add Minimum 2 Educationist College Management Committee Members.")
                   DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "\n";
-                  this.isCheck30Female = false;
+                  this.isCheck30Female = true;
                   return;
                 }
                 Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];

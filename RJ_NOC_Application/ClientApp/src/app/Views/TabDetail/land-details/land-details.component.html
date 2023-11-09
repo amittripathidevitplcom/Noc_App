@@ -124,18 +124,19 @@
                   </div>
                 </td>
                 <td *ngIf="ShowConversionOrderNo">
-                  <label class="d-block" id="basic-addon1">Land Conversion Order No:</label>
-                  <input type="text" id="txtLandConversionOrderNo{{idx}}" [disabled]="!item.IsLandSelected" maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
-                  <div class="text-danger">
-                    <p *ngIf="item.IsLandSelected && item.LandConversionOrderNo=='' "> This field is required .!</p>
-                  </div>
+                  <div [hidden]="item.LandTypeName=='Agriculture'">
+                    <label class="d-block" id="basic-addon1">Land Conversion Order No:</label></div>
+                    <input type="text" id="txtLandConversionOrderNo{{idx}}" [hidden]="item.LandTypeName=='Agriculture'" [disabled]="!item.IsLandSelected" maxlength="50" [ngModelOptions]="{standalone: true}" class="form-control" [(ngModel)]="item.LandConversionOrderNo" />
+                    <div class="text-danger" [hidden]="item.LandTypeName=='Agriculture'">
+                      <p *ngIf="item.IsLandSelected && item.LandConversionOrderNo=='' "> This field is required .!</p>
+                    </div>
                 </td>
 
 
                 <td *ngIf="ShowConversionOrderNo" width="13%">
-                  <label class="d-block" id="basic-addon1">Order Date:</label>
-                  <input type="date" id="dtLandConversionOrderDate{{idx}}" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
-                  <div class="text-danger">
+                  <div [hidden]="item.LandTypeName=='Agriculture'"><label class="d-block" id="basic-addon1">Order Date:</label></div>
+                  <input type="date" id="dtLandConversionOrderDate{{idx}}"  [hidden]="item.LandTypeName=='Agriculture'" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
+                  <div class="text-danger"  [hidden]="item.LandTypeName=='Agriculture'">
                     <p *ngIf="item.IsLandSelected && item.LandConversionOrderDate==''"> This field is required .!</p>
                   </div>
                 </td>

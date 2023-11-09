@@ -442,7 +442,7 @@
 
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="txtCollegeLandlineNumber" class="form-label">College Landline Number <span style="color:red;">*</span></label>
+            <label for="txtCollegeLandlineNumber" class="form-label">College Landline Number with std code </label>
             <input class="form-control" id="txtCollegeLandlineNumber" name="txtCollegeLandlineNumber" [(ngModel)]="request.CollegeLandlineNumber" formControlName="txtCollegeLandlineNumber" maxlength="10" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtCollegeLandlineNumber.errors" class="text-danger">
               <p *ngIf="form.txtCollegeLandlineNumber.errors.pattern"><i aria-hidden="true"></i> College Landline number is not valid .!</p>
@@ -572,7 +572,7 @@
       </form>
 
       <div class="card-header border-top d-flex justify-content-between align-items-center">
-        <b>General Contact Details</b>
+        <b>Additional Contact Details</b>
       </div>
       <div class="card-body">
         <div class="row">
