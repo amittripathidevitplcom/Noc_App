@@ -8,13 +8,17 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="assets/images/favIcon.png">
-  <script>
+  <script type="text/javascript">
     //Get Application API Setting
     fetch('../../assets/appsettings.json')
       .then((res) => {
+        
         return res.json();
       })
       .then((data) => {
+        console.log("window config start");
+        console.log((new Date()).toLocaleString());
+        console.log(data);
         window.config = {
           apiurl: data['APIURL'],
           backtossourl: data['BacktoSSOURL'],
@@ -24,6 +28,8 @@
           applicationtitle: "ApplicationTitle",
           rpprequsturl: data['RPPRequstURL']
         }
+        console.log(window.config);
+        console.log("window config end");
       });   
   </script>
   <script type="text/javascript">
