@@ -15,6 +15,7 @@ import { AcademicInformationComponent } from '../../TabDetail/academic-informati
 import { OldNOCDetailsComponent } from '../../TabDetail/old-nocdetails/old-nocdetails.component';
 import { RoomDetailsComponent } from '../../TabDetail/room-details/room-details.component';
 import { StaffDetailsComponent } from '../../TabDetail/staff-details/staff-details.component';
+import { VeterinaryHospitalComponent } from '../../VeterinaryHospital/veterinary-hospital/veterinary-hospital.component';
 
 @Component({
   selector: 'app-application-detail-entry',
@@ -58,6 +59,9 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   @ViewChild(RoomDetailsComponent)
   private roomDetailsComponent!: RoomDetailsComponent;
+
+  @ViewChild(VeterinaryHospitalComponent)
+  private veterinaryHospitalComponent!: VeterinaryHospitalComponent;
 
 
 
@@ -516,6 +520,11 @@ export class ApplicationDetailEntryComponent implements OnInit {
     catch (Ex) { }
     try {
       this.staffDetailsComponent.GetCollegeWiseSubjectList(this.SelectedCollageID);
+    }
+    catch (Ex) { }
+
+    try {
+      this.veterinaryHospitalComponent.GetSeatInformationByCourse();
     }
     catch (Ex) { }
 
