@@ -332,13 +332,12 @@ export class AhFinalNocApplicationListComponent {
     this.isValidUserOTP == false;
   }
 
-
   async SendOTP() {
     try {
       this.loaderService.requestStarted();
       if (this.AadhaarNo != undefined) {
         if (this.AadhaarNo.length > 12) {
-          this.AadharRequest.AadharNo = this.AadhaarNo;
+          this.AadharRequest.AadharID = this.AadhaarNo;
           await this.aadharServiceDetails.GetAadharByVID(this.AadharRequest)
             .then((data: any) => {
               data = JSON.parse(JSON.stringify(data));
@@ -383,7 +382,7 @@ export class AhFinalNocApplicationListComponent {
       else {
         this.toastr.warning("Aadhaar number is not registered in the SSO you are using. Please update your Aadhaar number in your SSO and then login.");
         return;
-      }     
+      }
     }
     catch (Ex) {
       console.log(Ex);
@@ -397,27 +396,53 @@ export class AhFinalNocApplicationListComponent {
 
   async ResendOTP() {
     try {
-      this.AadharRequest = new AadharServiceDataModel();
       this.loaderService.requestStarted();
-      if (this.AadhaarNo != undefined && this.AadhaarNo.length == 12) {
-        this.AadharRequest.AadharNo = this.AadhaarNo;
-        this.TransactionNo = '';
-        await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
-          .then((data: any) => {
-            if (data[0].status == "0") {
-              this.TransactionNo = data[0].data;
-              this.toastr.success("OTP Resend Successfully");
-            }
-            else {
-              if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
-                this.toastr.warning("Server IP address is not whiteListed");
-                return;
+      if (this.AadhaarNo != undefined) {
+        if (this.AadhaarNo.length > 12) {
+          this.AadharRequest.AadharID = this.AadhaarNo;
+          await this.aadharServiceDetails.GetAadharByVID(this.AadharRequest)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              if (data[0].status == "0") {
+                this.AadhaarNo = data[0].data;
               }
-            }
-          }, error => console.error(error));
+              else {
+                this.AadhaarNo = '';
+              }
+            }, error => console.error(error));
+        }
+        console.log(this.AadhaarNo);
+        if (this.AadhaarNo.length == 12) {
+          this.AadharRequest.AadharNo = this.AadhaarNo;
+          this.AadharRequest.TransactionNo = '';
+          await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
+            .then((data: any) => {
+              if (data[0].status == "0") {
+                this.TransactionNo = data[0].data;
+                this.modalService.dismissAll('After Success');
+                const display = document.getElementById('ModalOtpVerify')
+                if (display) display.style.display = "block";
+                this.toastr.success("OTP send Successfully");
+                this.timer(1);
+              }
+              else {
+                if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                  this.toastr.warning("Server IP address is not whiteListed");
+                }
+                else {
+                  this.toastr.warning(data[0].message);
+                }
+
+              }
+            }, error => console.error(error));
+        }
+        else {
+          this.toastr.warning("Aadhaar No. is not correct.please contact to admin department.");
+          return;
+        }
       }
       else {
-        this.toastr.warning("Aadhaar No. is null.please login again.");
+        this.toastr.warning("Aadhaar number is not registered in the SSO you are using. Please update your Aadhaar number in your SSO and then login.");
         return;
       }
     }
