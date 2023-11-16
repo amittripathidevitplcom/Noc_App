@@ -169,7 +169,6 @@ export class SSOLoginComponent implements OnInit {
         window.open(GlobalConstants.SSOURL, "_self");
         //this.router.navigate(['/login']);
       }
-      
       await this.sSOLoginService.GetSSOUserLogionDetails(this.sSOLandingDataDataModel)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
