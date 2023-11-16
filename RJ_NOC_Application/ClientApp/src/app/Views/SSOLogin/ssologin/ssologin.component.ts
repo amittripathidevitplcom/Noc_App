@@ -124,6 +124,10 @@ export class SSOLoginComponent implements OnInit {
 
 
   async ngOnInit() {
+
+
+
+
     this.loaderService.requestStarted();
     //this.Username = this.router.snapshot.queryParams.id1;
     //this.LoginRoleType = this.router.snapshot.queryParams.id2;
