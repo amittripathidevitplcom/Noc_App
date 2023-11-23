@@ -332,4 +332,16 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async DCEPdfEsign(ApplyNOCID: number, ParameterID: number, CreatedBy: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/DCEPdfEsign/" + ApplyNOCID + "/" + ParameterID + "/" + CreatedBy, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

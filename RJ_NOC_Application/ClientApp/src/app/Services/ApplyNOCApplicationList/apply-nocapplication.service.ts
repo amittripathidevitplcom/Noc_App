@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel, GenerateNOC_DataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
+import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel, GenerateNOC_DataModel, NOCIssuedRequestDataModel, ParameterFeeMaster } from '../../Models/ApplyNOCApplicationDataModel';
 import { DocumentScrutinyDataModel, DocumentScrutinyList_DataModel } from '../../Models/DocumentScrutinyDataModel';
 
 import { GlobalConstants } from '../../Common/GlobalConstants';
@@ -171,7 +171,7 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GenerateNOCForDCE(request: GenerateNOC_DataModel[]) {
+  public async GenerateNOCForDCE(request:NOCIssuedRequestDataModel) {
     const headers = { 'content-type': 'application/json' }
     //const body = JSON.stringify({ ApplyNOCID: ApplyNOCID, DepartmentID: DepartmentID, RoleID: RoleID, UserID: UserID, NOCIssuedRemark: NOCIssuedRemark });
     return await this.http.post(this.APIUrl + '/GenerateNOCForDCE/', request, { 'headers': headers })
@@ -237,6 +237,17 @@ export class ApplyNOCApplicationService {
       })
     };
     return await this.http.get(this.APIUrl + "/GetNOCIssuedReportListForAdmin/" + UserID + "/" + ActionName + "/" + RoleID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetAppliedParameterNOCForByApplyNOCID(ApplyNOCID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetAppliedParameterNOCForByApplyNOCID/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

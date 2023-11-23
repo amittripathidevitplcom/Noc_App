@@ -28,7 +28,7 @@ export class GenerateNOC_DataModel {
   public SubjectID: number = 0;
   public SubjectName: string = '';
   public ApplyNocParameterID: number = 0;
-  public NOCIssuedRemark: string = '';
+  public NOCIssuedRemark?: string = '';
 
 }
 
@@ -50,4 +50,14 @@ export class NOCIssuedDataModel {
   public FromDate: string = '';
   public ToDate: string = '';
   
+}
+export class NOCIssuedForDataModel {
+  public ApplyNOCID: number = 0;
+  public ParameterID: number = 0;
+  public CreatedBy: number = 0;
+  public Remark: string = '';
+}
+export class NOCIssuedRequestDataModel {
+  public NOCDetails: GenerateNOC_DataModel[] = [];
+  public AppliedNOCFor: NOCIssuedForDataModel[] = [];
 }

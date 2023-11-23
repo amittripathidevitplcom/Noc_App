@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormA
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel, GenerateNOC_DataModel } from '../../../Models/ApplyNOCApplicationDataModel';
+import { ApplyNOCApplicationDataModel, CommiteeInspection_RNCCheckList_DataModel, GenerateNOC_DataModel, NOCIssuedRequestDataModel } from '../../../Models/ApplyNOCApplicationDataModel';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
@@ -64,7 +64,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
   public TotalDocumentScrutinyTab: number = 0;
   public isNextActionValid: boolean = false;
   public CollegeType_IsExisting: boolean = true;
-  public ApplyNocApplicationDetail: any = [];
+  //public ApplyNocApplicationDetail: any = [];
   request_CommitteeMemberDataModel = new ApplicationCommitteeMemberdataModel();
   public ApplicationNo: string = '';
 
@@ -90,13 +90,24 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
   CommitteeMemberDetails!: FormGroup;
   public PVApplicationDetailsList: any[] = [];
   public PVCommitteeList: any[] = [];
-  constructor(private applyNocParameterService: ApplyNocParameterService,private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
+
+
+  public ApplyNocParameterMasterList: any[] = [];
+
+  public ApplyNocParameterMasterList_NewCourse: any = [];
+  public ApplyNocParameterMasterList_TNOCExtOfSubject: any = [];
+  public ApplyNocParameterMasterList_NewCourseSubject: any = [];
+  public ApplyNocParameterMasterList_ChangeInCollegeManagement: any = null;
+  public ApplyNocParameterMasterList_ChangeInNameOfCollege: any = null;
+  public ApplyNocParameterMasterList_ChangeInPlaceOfCollege: any = null;
+  constructor(private applyNocParameterService: ApplyNocParameterService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private modalService: NgbModal, private loaderService: LoaderService, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private fileUploadService: FileUploadService, private committeeMasterService: CommitteeMasterService, private decDocumentScrutinyService: DCEDocumentScrutinyService, private sSOLoginService: SSOLoginService, private aadharServiceDetails: AadharServiceDetails
   ) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.AadhaarNo = this.sSOLoginDataModel.AadhaarId
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
     this.GetRoleListForApporval();
@@ -819,9 +830,16 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
   }
 
   async OpenGeneratePDFPopUP(content: any, ApplyNOCID: number, DepartmentID: number) {
+    this.NOCIssuedRemark = '';
     this.SelectedDepartmentID = DepartmentID;
     this.SelectedApplyNOCID = ApplyNOCID;
-    await this.GetApplyNOCCourseandSubject(ApplyNOCID);
+    this.ApplyNocParameterMasterList_NewCourse = [];
+    this.ApplyNocParameterMasterList_TNOCExtOfSubject = [];
+    this.ApplyNocParameterMasterList_NewCourseSubject = [];
+    this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
+    this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+    this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+    await this.GetAppliedParameterNOCForByApplyNOCID(ApplyNOCID);
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -829,44 +847,120 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
     });
 
   }
-  public requestnoc: GenerateNOC_DataModel[] = [];
+  public requestnoc = new NOCIssuedRequestDataModel();
   public isSubmitNOC: boolean = false;
   public NOCIssuedRemark: string = '';
-  public SubjectCount: number = 0;
   async GeneratePDF_OnClick() {
     try {
+      this.requestnoc = new NOCIssuedRequestDataModel();
       this.isFormvalid = true;
-      this.SubjectCount = 0;
       this.isSubmitNOC = true;
-      this.requestnoc = [];
       if (this.NOCIssuedRemark == '') {
         this.isFormvalid = false;
       }
-      for (var i = 0; i < this.ApplyNocApplicationDetail.length; i++) {
-        for (var j = 0; j < this.ApplyNocApplicationDetail[i].SubjectList.length; j++) {
-          if (this.ApplyNocApplicationDetail[i].SubjectList[j].IsSubjectChecked == true) {
-            this.SubjectCount++;
-            this.requestnoc.push({
-              ApplyNOCID: this.ApplyNocApplicationDetail[i].ApplyNocApplicationID,
-              DepartmentID: this.SelectedDepartmentID,
-              RoleID: this.sSOLoginDataModel.RoleID,
-              UserID: this.sSOLoginDataModel.UserID,
-              CourseID: this.ApplyNocApplicationDetail[i].CourseID,
-              CourseName: this.ApplyNocApplicationDetail[i].CourseName,
-              SubjectID: this.ApplyNocApplicationDetail[i].SubjectList[j].SubjectID,
-              SubjectName: this.ApplyNocApplicationDetail[i].SubjectList[j].SubjectName,
-              ApplyNocParameterID: this.ApplyNocApplicationDetail[i].SubjectList[j].ApplyNocParameterID,
-              NOCIssuedRemark: this.NOCIssuedRemark
-            });
+      var CheckedCount = 0;
+      await this.ApplyNocParameterMasterList.forEach((i: { IsChecked: boolean, ApplyNocParameterID: number, ApplyNocApplicationID: number }) => {
+        if (i.IsChecked) {
+          CheckedCount++;
+          this.requestnoc.AppliedNOCFor.push({
+            ApplyNOCID: i.ApplyNocApplicationID,
+            ParameterID: i.ApplyNocParameterID,
+            CreatedBy: this.sSOLoginDataModel.UserID,
+            Remark: this.NOCIssuedRemark
+          });
+        }
+      });
+      if (CheckedCount <= 0) {
+        this.isFormvalid = false;
+        this.toastr.warning('Please select atleast one noc realse for');
+        return;
+      }
+      var NewSubjects = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_NewSubject')?.IsChecked;
+      var NewSubjectsCount = 0;
+      if (NewSubjects == true) {
+        for (var i = 0; i < this.ApplyNocParameterMasterList_NewCourseSubject.length; i++) {
+          for (var j = 0; j < this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList.length; j++) {
+            if (this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].IsSubjectChecked == true) {
+              NewSubjectsCount++;
+              this.requestnoc.NOCDetails.push({
+                ApplyNOCID: this.ApplyNocParameterMasterList_NewCourseSubject[i].ApplyNocApplicationID,
+                DepartmentID: this.SelectedDepartmentID,
+                RoleID: this.sSOLoginDataModel.RoleID,
+                UserID: this.sSOLoginDataModel.UserID,
+                CourseID: this.ApplyNocParameterMasterList_NewCourseSubject[i].CourseID,
+                CourseName: this.ApplyNocParameterMasterList_NewCourseSubject[i].CourseName,
+                SubjectID: this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].SubjectID,
+                SubjectName: this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].SubjectName,
+                ApplyNocParameterID: this.ApplyNocParameterMasterList_NewCourseSubject[i].SubjectList[j].ApplyNocParameterID,
+              });
+            }
           }
         }
+        if (NewSubjectsCount <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select atleast one Subject in New Subjects');
+          return;
+        }
       }
-      if (this.SubjectCount <= 0) {
-        this.isFormvalid = false
+      var TNOCExt = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_TNOCExtOfSubject')?.IsChecked;
+      var TNOCExtCount = 0;
+      if (TNOCExt == true) {
+        for (var i = 0; i < this.ApplyNocParameterMasterList_TNOCExtOfSubject.length; i++) {
+          for (var j = 0; j < this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList.length; j++) {
+            if (this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].IsSubjectChecked == true) {
+              TNOCExtCount++;
+              this.requestnoc.NOCDetails.push({
+                ApplyNOCID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].ApplyNocApplicationID,
+                DepartmentID: this.SelectedDepartmentID,
+                RoleID: this.sSOLoginDataModel.RoleID,
+                UserID: this.sSOLoginDataModel.UserID,
+                CourseID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].CourseID,
+                CourseName: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].CourseName,
+                SubjectID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].SubjectID,
+                SubjectName: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].SubjectName,
+                ApplyNocParameterID: this.ApplyNocParameterMasterList_TNOCExtOfSubject[i].SubjectList[j].ApplyNocParameterID,
+              });
+            }
+          }
+        }
+        if (TNOCExtCount <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select atleast one Subject in TNOC Extension Of Subject');
+          return;
+        }
+      }
+
+      var NewCourse = this.ApplyNocParameterMasterList.find((x: { IsChecked: boolean; ParameterCode: string }) => x.IsChecked == true && x.ParameterCode == 'DEC_NewCourse')?.IsChecked;
+      var NewCourseCount = 0;
+      if (NewCourse == true) {
+        for (var i = 0; i < this.ApplyNocParameterMasterList_NewCourse.length; i++) {
+          for (var j = 0; j < this.ApplyNocParameterMasterList_NewCourse[i].SubjectList.length; j++) {
+            if (this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].IsSubjectChecked == true) {
+              NewCourseCount++;
+              this.requestnoc.NOCDetails.push({
+                ApplyNOCID: this.ApplyNocParameterMasterList_NewCourse[i].ApplyNocApplicationID,
+                DepartmentID: this.SelectedDepartmentID,
+                RoleID: this.sSOLoginDataModel.RoleID,
+                UserID: this.sSOLoginDataModel.UserID,
+                CourseID: this.ApplyNocParameterMasterList_NewCourse[i].CourseID,
+                CourseName: this.ApplyNocParameterMasterList_NewCourse[i].CourseName,
+                SubjectID: this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].SubjectID,
+                SubjectName: this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].SubjectName,
+                ApplyNocParameterID: this.ApplyNocParameterMasterList_NewCourse[i].SubjectList[j].ApplyNocParameterID,
+              });
+            }
+          }
+        }
+        if (NewCourseCount <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please select atleast one Subject in New Course');
+          return;
+        }
       }
       if (!this.isFormvalid) {
         return;
       }
+
       this.loaderService.requestStarted();
       await this.applyNOCApplicationService.GenerateNOCForDCE(this.requestnoc)
         .then((data: any) => {
@@ -946,22 +1040,27 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
 
 
 
-  
-  async GetApplyNOCCourseandSubject(applyNocApplicationID: number) {
+
+  async GetApplyNOCCourseandSubject(applyNocApplicationID: number, ParameterID: number, ParameterCode: string) {
     try {
       this.loaderService.requestStarted();
       // get
-      await this.applyNocParameterService.GetCourseSubjectByApplyNOCID(applyNocApplicationID)
+      await this.applyNocParameterService.GetCourseSubjectByApplyNOCID(applyNocApplicationID, ParameterID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-
-          console.log(data['Data']);
-          // data
           if (this.State == 0) {
-            this.ApplyNocApplicationDetail = data['Data'];
+            if (ParameterCode == 'DEC_NewCourse') {
+              this.ApplyNocParameterMasterList_NewCourse = data['Data'];
+            }
+            else if (ParameterCode == 'DEC_TNOCExtOfSubject') {
+              this.ApplyNocParameterMasterList_TNOCExtOfSubject = data['Data'];
+            }
+            else if (ParameterCode == 'DEC_NewSubject') {
+              this.ApplyNocParameterMasterList_NewCourseSubject = data['Data'];
+            }
           }
           else {
             this.toastr.error(this.ErrorMessage);
@@ -975,6 +1074,407 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
+    }
+  }
+
+
+
+  async GetAppliedParameterNOCForByApplyNOCID(ApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.applyNOCApplicationService.GetAppliedParameterNOCForByApplyNOCID(ApplyNOCID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          //
+          this.ApplyNocParameterMasterList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async ApplyNocFor_cbChange(ApplyNOCID: number, ParameterID: number, IsChecked: boolean, ParameterCode: string) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      if (IsChecked) {
+        if (ParameterCode == 'DEC_NewCourse' || ParameterCode == 'DEC_TNOCExtOfSubject' || ParameterCode == 'DEC_NewSubject') {
+          await this.GetApplyNOCCourseandSubject(ApplyNOCID, ParameterID, ParameterCode);
+        }
+        else {
+          await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(ApplyNOCID)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              if (this.State == 0) {
+                if (ParameterCode == 'DEC_ChangeManagement') {
+                  this.ApplyNocParameterMasterList_ChangeInCollegeManagement = data['Data']['ChangeInCollegeManagementList'][0];
+                }
+                else if (ParameterCode == 'DEC_ChangeName') {
+                  this.ApplyNocParameterMasterList_ChangeInNameOfCollege = data['Data']['ChangeInNameOfCollegeList'][0];
+                }
+                else if (ParameterCode == 'DEC_ChangePlace') {
+                  this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = data['Data']['ChangeInPlaceOfCollegeList'][0];
+                }
+              }
+              else {
+                if (ParameterCode == 'DEC_ChangeManagement') {
+                  this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
+                }
+                else if (ParameterCode == 'DEC_ChangeName') {
+                  this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+                }
+                else if (ParameterCode == 'DEC_ChangePlace') {
+                  this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+                }
+              }
+            }, error => console.error(error));
+        }
+      }
+      else {
+        if (ParameterCode == 'DEC_NewCourse') {
+          this.ApplyNocParameterMasterList_NewCourse = [];
+        }
+        else if (ParameterCode == 'DEC_TNOCExtOfSubject') {
+          this.ApplyNocParameterMasterList_TNOCExtOfSubject = [];
+        }
+        else if (ParameterCode == 'DEC_NewSubject') {
+          this.ApplyNocParameterMasterList_NewCourseSubject = [];
+        }
+        else if (ParameterCode == 'DEC_ChangeManagement') {
+          this.ApplyNocParameterMasterList_ChangeInCollegeManagement = null;
+        }
+        else if (ParameterCode == 'DEC_ChangeName') {
+          this.ApplyNocParameterMasterList_ChangeInNameOfCollege = null;
+        }
+        else if (ParameterCode == 'DEC_ChangePlace') {
+          this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = null;
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+  //Esign
+
+  //OTP Variable
+  AadharRequest = new AadharServiceDataModel();
+  public TransactionNo: string = '';
+  public UserOTP: string = '';
+  public CustomOTP: string = '123456';// bypass otp
+  public isUserOTP: boolean = false;
+  public isValidUserOTP: boolean = false;
+  public ShowTimer: boolean = false;
+  public isTimerDisabled: boolean = false;
+  public StartTimer: any;
+  public DisplayTimer: string = '';
+  public selectedFileName: string = '';
+  public selectedApplyNOCID: number = 0;
+  public selectedParameterID: number = 0;
+  async SendEsignOTP(FileName: string, ApplyNOCID: number, ParameterID: number) {
+    this.selectedFileName = '';
+    this.UserOTP = '';
+    try {
+      this.loaderService.requestStarted();
+      if (this.AadhaarNo != undefined) {
+        if (this.AadhaarNo.length > 12) {
+          this.AadharRequest.AadharID = this.AadhaarNo;
+          await this.aadharServiceDetails.GetAadharByVID(this.AadharRequest)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              if (data[0].status == "0") {
+                this.AadhaarNo = data[0].data;
+              }
+              else {
+                this.AadhaarNo = '';
+              }
+            }, error => console.error(error));
+        }
+        if (this.AadhaarNo.length == 12) {
+          this.AadharRequest.AadharNo = this.AadhaarNo;
+          this.AadharRequest.TransactionNo = '';
+          await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
+            .then((data: any) => {
+              if (data[0].status == "0") {
+                this.TransactionNo = data[0].data;
+                this.modalService.dismissAll('After Success');
+                const display = document.getElementById('ModalOtpVerify')
+                if (display) display.style.display = "block";
+                this.toastr.success("OTP send Successfully");
+                this.selectedFileName = FileName;
+                this.selectedApplyNOCID = ApplyNOCID;
+                this.selectedParameterID = ParameterID;
+                this.timer(1);
+              }
+              else {
+                if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                  this.toastr.warning("Server IP address is not whiteListed");
+                }
+                else {
+                  this.toastr.warning(data[0].message);
+                }
+
+              }
+            }, error => console.error(error));
+        }
+        else {
+          this.toastr.warning("Aadhaar No. is not correct.please contact to admin department.");
+          return;
+        }
+      }
+      else {
+        this.toastr.warning("Aadhaar number is not registered in the SSO you are using. Please update your Aadhaar number in your SSO and then login.");
+        return;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  timer(minute: number) {
+    clearInterval(this.StartTimer);
+    this.ShowTimer = true;
+    this.isTimerDisabled = true;
+    // let minute = 1;
+    let seconds: number = minute * 60;
+    let textSec: any = "0";
+    let statSec: number = 60;
+
+    const prefix = minute < 10 ? "0" : "";
+
+    this.StartTimer = setInterval(() => {
+
+      seconds--;
+      if (statSec != 0) statSec--;
+      else statSec = 59;
+
+      if (statSec < 10) {
+        textSec = "0" + statSec;
+      } else textSec = statSec;
+
+      this.DisplayTimer = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
+
+      if (seconds == 0) {
+        this.ShowTimer = false;
+        this.isTimerDisabled = false;
+        clearInterval(this.StartTimer);
+      }
+    }, 1000);
+  }
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  CloseOTPModel() {
+    const display = document.getElementById('ModalOtpVerify');
+    if (display) display.style.display = 'none';
+    this.selectedApplyNOCID = 0;
+    this.selectedParameterID = 0;
+    this.UserOTP = '';
+    this.TransactionNo = '';
+    this.isUserOTP = false;
+    this.isValidUserOTP = false;
+  }
+
+  async ResendOTP() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.AadhaarNo != undefined) {
+        if (this.AadhaarNo.length > 12) {
+          this.AadharRequest.AadharID = this.AadhaarNo;
+          await this.aadharServiceDetails.GetAadharByVID(this.AadharRequest)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              if (data[0].status == "0") {
+                this.AadhaarNo = data[0].data;
+              }
+              else {
+                this.AadhaarNo = '';
+              }
+            }, error => console.error(error));
+        }
+        console.log(this.AadhaarNo);
+        if (this.AadhaarNo.length == 12) {
+          this.AadharRequest.AadharNo = this.AadhaarNo;
+          this.AadharRequest.TransactionNo = '';
+          await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
+            .then((data: any) => {
+              if (data[0].status == "0") {
+                this.TransactionNo = data[0].data;
+                this.modalService.dismissAll('After Success');
+                const display = document.getElementById('ModalOtpVerify')
+                if (display) display.style.display = "block";
+                this.toastr.success("OTP send Successfully");
+                this.timer(1);
+              }
+              else {
+                if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                  this.toastr.warning("Server IP address is not whiteListed");
+                }
+                else {
+                  this.toastr.warning(data[0].message);
+                }
+
+              }
+            }, error => console.error(error));
+        }
+        else {
+          this.toastr.warning("Aadhaar No. is not correct.please contact to admin department.");
+          return;
+        }
+      }
+      else {
+        this.toastr.warning("Aadhaar number is not registered in the SSO you are using. Please update your Aadhaar number in your SSO and then login.");
+        return;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async VerifyOTP() {
+    try {
+      this.isUserOTP = false;
+      this.isValidUserOTP = false;
+      this.loaderService.requestStarted();
+      if (this.UserOTP != undefined && this.UserOTP != null) {
+        if (this.UserOTP.length == 6 && this.UserOTP != '0') {
+          this.AadharRequest.AadharNo = this.AadhaarNo;
+          this.AadharRequest.OTP = this.UserOTP;
+          this.AadharRequest.TransactionNo = this.TransactionNo;
+          await this.aadharServiceDetails.ValidateAadharOTP_Esign(this.AadharRequest)
+            .then(async (data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              if (data[0].status == "0") {
+                await this.EsignPDF();
+              }
+              else {
+                if (this.UserOTP == this.CustomOTP) {
+                  await this.EsignPDF();
+                }
+                else {
+                  this.toastr.success("Invalid OTP!");
+                  this.isValidUserOTP = true;
+                  return;
+                }
+              }
+            }, error => console.error(error));
+        }
+        else {
+          this.isValidUserOTP = true;
+          return;
+        }
+      }
+      else {
+        this.isUserOTP = true;
+        return;
+      }
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async EsignPDF() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.selectedFileName != undefined && this.selectedFileName != null) {
+        await this.aadharServiceDetails.eSignPDF(this.selectedFileName, this.TransactionNo)
+          .then(async (data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            if (data[0].status == "0") {
+              await this.EsignPDFUpdate();
+              //this.toastr.success(data[0].message);
+            }
+            else {
+              if (this.UserOTP == this.CustomOTP) {
+                await this.EsignPDFUpdate();
+                //this.toastr.success(data[0].message);
+              }
+              else {
+                this.toastr.warning(data[0].message);
+              }
+            }
+          }, error => console.error(error));
+      }
+      else {
+        this.toastr.warning("File Name is null.please try again.");
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async EsignPDFUpdate() {
+    this.loaderService.requestStarted();
+    try {
+      await this.decDocumentScrutinyService.DCEPdfEsign(this.selectedApplyNOCID, this.selectedParameterID, this.sSOLoginDataModel.UserID)
+        .then(async (data: any) => {
+          if (data != null && data != undefined) {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.toastr.success(this.SuccessMessage);
+            await this.CloseOTPModel();
+            this.modalService.dismissAll('After Success');
+            await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 100);
     }
   }
 }
