@@ -81,4 +81,16 @@ export class CollegeService {
       ).toPromise();
   }
 
+
+  public async SaveLOIWorkFlow(RoleID: number, UserID: number, ActionID: number, ApplyNOCID: number, DepartmentID: number, CheckList_FinalRemark: string, NextRoleID: number, NextUserID: number, NextActionID: number) {
+    const headers = { 'content-type': 'application/json' }
+    var request = {
+      ApplyNOCID: ApplyNOCID, RoleID: RoleID, UserID: UserID, ActionID: ActionID, DepartmentID: DepartmentID, Remark: CheckList_FinalRemark, NextRoleID: NextRoleID, NextUserID: NextUserID, NextActionID: NextActionID
+    };
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/SaveLOIWorkFlow/', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

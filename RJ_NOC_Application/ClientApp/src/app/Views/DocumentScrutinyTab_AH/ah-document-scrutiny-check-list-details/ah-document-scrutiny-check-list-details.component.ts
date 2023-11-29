@@ -876,7 +876,7 @@ export class AhDocumentScrutinyCheckListDetailsComponent implements OnInit {
   async CheckTabsEntry() {
     try {
       this.loaderService.requestStarted();
-      await this.animalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+      await this.animalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];

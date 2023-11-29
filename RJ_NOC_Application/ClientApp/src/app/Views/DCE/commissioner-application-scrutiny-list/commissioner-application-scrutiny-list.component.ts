@@ -510,7 +510,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
   async CheckDocumentScrutinyTabsData() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID)
+      await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.TotalDocumentScrutinyTab = data['Data'];

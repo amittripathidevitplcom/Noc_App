@@ -287,6 +287,19 @@ import { LOIFeeMasterComponent } from './Views/Master/loifee-master/loifee-maste
 import { RejectedApplicationListComponent } from './Views/RejectedApplication/rejected-application-list/rejected-application-list.component';
 import { NOCIssuedReportComponent } from './Views/Admin/`Reports/nocissued-report/nocissued-report.component';
 import { ForwardedApplicationListComponent } from './Views/DocumentScrutinyTab/forwarded-application-list/forwarded-application-list.component';
+import { MG1DocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab_MG1/mg1-document-scrutiny-legal-entity/mg1-document-scrutiny-legal-entity.component';
+import { MG1DocumentScrutinyCollegeDetailComponent } from './Views/DocumentScrutinyTab_MG1/mg1-document-scrutiny-college-detail/mg1-document-scrutiny-college-detail.component';
+import { MG1DocumentScrutinyCMSComponent } from './Views/DocumentScrutinyTab_MG1/mg1-document-scrutiny-cms/mg1-document-scrutiny-cms.component';
+import { MG1DocumentScrutinyLandDetailComponent } from './Views/DocumentScrutinyTab_MG1/mg1-document-scrutiny-land-detail/mg1-document-scrutiny-land-detail.component';
+import { MG1DocumentScrutinyBuildingDetailComponent } from './Views/DocumentScrutinyTab_MG1/mg1-document-scrutiny-building-detail/mg1-document-scrutiny-building-detail.component';
+import { MG1DocumentScrutinyRequiredDocumentComponent } from './Views/DocumentScrutinyTab_MG1/mg1-document-scrutiny-required-document/mg1-document-scrutiny-required-document.component';
+import { MG1DocumentScrutinyHospitalDetailComponent } from './Views/DocumentScrutinyTab_MG1/mg1-document-scrutiny-hospital-detail/mg1-document-scrutiny-hospital-detail.component';
+import { DocumentScrutinyCheckListMGOneComponent } from './Views/DocumentScrutinyTab_MG1/document-scrutiny-check-list-mgone/document-scrutiny-check-list-mgone.component';
+import { DocumentScrutinyMGOneComponent } from './Views/DocumentScrutinyTab_MG1/document-scrutiny-mgone/document-scrutiny-mgone.component';
+import { DocumentScrutinyListMGOneComponent } from './Views/Medical Group 1/document-scrutiny-list-mgone/document-scrutiny-list-mgone.component';
+import { NodalSecretaryApplicationListMGOneComponent } from './Views/Medical Group 1/nodal-secretary-application-list-mgone/nodal-secretary-application-list-mgone.component';
+import { ApplicationFinalCheckListMGOneComponent } from './Views/Medical Group 1/application-final-check-list-mgone/application-final-check-list-mgone.component';
+import { OSDApplicationListMGOneComponent } from './Views/Medical Group 1/osdapplication-list-mgone/osdapplication-list-mgone.component';
 
 
 
@@ -566,6 +579,19 @@ import { ForwardedApplicationListComponent } from './Views/DocumentScrutinyTab/f
     RejectedApplicationListComponent,
     NOCIssuedReportComponent,
     ForwardedApplicationListComponent,
+    MG1DocumentScrutinyLegalEntityComponent,
+    MG1DocumentScrutinyCollegeDetailComponent,
+    MG1DocumentScrutinyCMSComponent,
+    MG1DocumentScrutinyLandDetailComponent,
+    MG1DocumentScrutinyBuildingDetailComponent,
+    MG1DocumentScrutinyRequiredDocumentComponent,
+    MG1DocumentScrutinyHospitalDetailComponent,
+    DocumentScrutinyCheckListMGOneComponent,
+    DocumentScrutinyMGOneComponent,
+    DocumentScrutinyListMGOneComponent,
+    NodalSecretaryApplicationListMGOneComponent,
+    ApplicationFinalCheckListMGOneComponent,
+    OSDApplicationListMGOneComponent,
   ],
   imports: [
     CommonModule,

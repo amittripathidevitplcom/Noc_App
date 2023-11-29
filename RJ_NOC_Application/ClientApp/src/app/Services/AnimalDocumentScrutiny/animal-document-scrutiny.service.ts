@@ -168,13 +168,13 @@ export class AnimalDocumentScrutinyService {
       ).toPromise();
   }
 
-  public async CheckDocumentScrutinyTabsData(ApplyNOCID: number, RoleID: number) {
+  public async CheckDocumentScrutinyTabsData(ApplyNOCID: number, RoleID: number, CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/CheckDocumentScrutinyTabsData/" + ApplyNOCID + "/" + RoleID)
+    return await this.http.get(this.APIUrl + "/CheckDocumentScrutinyTabsData/" + ApplyNOCID + "/" + RoleID + "/" + CollegeID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
