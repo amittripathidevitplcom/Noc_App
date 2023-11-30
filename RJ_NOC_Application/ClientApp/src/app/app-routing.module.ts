@@ -181,6 +181,10 @@ import { DocumentScrutinyListMGOneComponent } from './Views/Medical Group 1/docu
 import { NodalSecretaryApplicationListMGOneComponent } from './Views/Medical Group 1/nodal-secretary-application-list-mgone/nodal-secretary-application-list-mgone.component';
 import { OSDApplicationListMGOneComponent } from './Views/Medical Group 1/osdapplication-list-mgone/osdapplication-list-mgone.component';
 import { ApplicationFinalCheckListMGOneComponent } from './Views/Medical Group 1/application-final-check-list-mgone/application-final-check-list-mgone.component';
+import { ForwardByMinisterListMGOneComponent } from './Views/Medical Group 1/forward-by-minister-list-mgone/forward-by-minister-list-mgone.component';
+import { DeputySecretaryListMGOneComponent } from './Views/Medical Group 1/deputy-secretary-list-mgone/deputy-secretary-list-mgone.component';
+import { GenerateLOIReportMGOneComponent } from './Views/Medical Group 1/generate-loireport-mgone/generate-loireport-mgone.component';
+import { IssuedLOIReportMGOneComponent } from './Views/Medical Group 1/issued-loireport-mgone/issued-loireport-mgone.component';
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -748,6 +752,18 @@ const routes: Routes = [
       },
       {
         path: 'osdapplicationlistmgone/:Status', component: OSDApplicationListMGOneComponent
+      },
+      {
+        path: 'forwardbyministerlistmgone/:Status', component: ForwardByMinisterListMGOneComponent
+      },
+      {
+        path: 'deputysecretarylistmgone/:Status', component: DeputySecretaryListMGOneComponent
+      },
+      {
+        path: 'generateloireportmgone/:Status', component: GenerateLOIReportMGOneComponent
+      },
+      {
+        path: 'issuedloireportmgone', component: IssuedLOIReportMGOneComponent
       },
       {
         path: 'LOIapplyentry/:DepartmentID/:CollegeID', component: LOIApplyEntryComponent,

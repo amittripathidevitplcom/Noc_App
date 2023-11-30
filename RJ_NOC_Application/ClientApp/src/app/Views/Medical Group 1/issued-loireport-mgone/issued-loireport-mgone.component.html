@@ -1,0 +1,112 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Application List</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Application List</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="card tabCard1 mb-0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i>&nbsp;Application List</b>
+    </div>
+    <div class="card-body">
+      <div class="clearfix"></div>
+      <div class="card">
+        <div class="card-header">
+          <b>&nbsp;Application List</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Department Name</th>
+                      <th>College Name</th>
+                      <th>Application No.</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let items of LOIApplicationDetails let idx =index">
+                      <td>{{idx+1}}</td>
+                      <td>{{items.DepartmentName}}</td>
+                      <td>{{items.CollegeName}}</td>
+                      <td>{{items.ApplicationNo}}</td>
+                      <td>
+                        <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(items.DepartmentID,items.CollegeID)" title="Application Summary" class="btn btn-sm btn-secondary">
+                          <i class="fa fa-eye"></i>
+                        </a>
+                        <a  class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill m-1" href="{{items.NOCFilePath}}" title="Pdf" target="_blank"></a>
+
+                        &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,items.LOIID)"><i class="fa fa-list"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="10" *ngIf="LOIApplicationDetails.length<=0" style="color:red"> No Data Found.!</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #mymodal let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="card">
+                <div class="card-header">
+                  <b>Application Trail</b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-striped-columns">
+                        <thead>
+                          <tr>
+                            <th>Sr.No.</th>
+                            <th>User Name</th>
+                            <th>Next User & Role</th>
+                            <th>Action</th>
+                            <th>Action Date</th>
+                            <th>Remark</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of ApplicationTrailList let idx =index">
+                            <td>{{idx+1}}</td>
+                            <td>{{item.ActionUser}}</td>
+                            <td>{{item.NextUserName}} ({{item.NextRoleName}})</td>
+                            <td>{{item.ActionName}}</td>
+                            <td>{{item.ActionDate}}</td>
+                            <td>{{item.Remark}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

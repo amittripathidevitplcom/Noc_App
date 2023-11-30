@@ -1074,7 +1074,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==7">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==7">
       <div class="card staticsCards">
         <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
         <div class="card-body">
@@ -1090,10 +1090,19 @@
               <h4>Completed</h4>
               <a href="/osdapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.secretary_Completed}}</h2></a>
             </div>
+            <div class="dashCardContent">
+              <h4>Forwarded By Minister</h4>
+              <a href="/forwardbyministerlistmgone/Pending" style="background: none;"><h2>{{dashboardDataModel.SectionOffs_Pending}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>Forwarded to Joint Secretary</h4>
+              <a href="/forwardbyministerlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.SectionOffs_Completed}}</h2></a>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    
   </div>
 </div>
 
@@ -1165,9 +1174,47 @@
               <h4>Forwarded</h4>
               <a href="/documentscrutinylistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
             </div>
-            <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID==14">
-              <h4>NOC Issued</h4>
-              <a href="#" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==14">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>LOI</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/generateloireportmgone/Pending" style="background: none;">{{dashboardDataModel.PendingNOC}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent">
+              <h4>LOI Generated</h4>
+              <a href="/issuedloireportmgone" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==6">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application LOI</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Forwarded by Secretary</h4>
+              <h2>
+                <a href="/deputysecretarylistmgone/Pending" style="background: none;">{{dashboardDataModel.JointSecretary_Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent">
+              <h4>Forwarded to Deputy Secretary</h4>
+              <a href="/deputysecretarylistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Completed}}</h2></a>
+            </div>
+            <div class="dashCardContent">
+              <h4>LOI Issued</h4>
+              <a href="/issuedloireportmgone" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
             </div>
           </div>
         </div>

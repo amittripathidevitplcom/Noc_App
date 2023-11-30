@@ -9,11 +9,11 @@ import { MGOneDocumentScrutinyService } from '../../../Services/MGOneDocumentScr
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-osdapplication-list-mgone',
-  templateUrl: './osdapplication-list-mgone.component.html',
-  styleUrls: ['./osdapplication-list-mgone.component.css']
+  selector: 'app-generate-loireport-mgone',
+  templateUrl: './generate-loireport-mgone.component.html',
+  styleUrls: ['./generate-loireport-mgone.component.css']
 })
-export class OSDApplicationListMGOneComponent implements OnInit {
+export class GenerateLOIReportMGOneComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -46,7 +46,7 @@ export class OSDApplicationListMGOneComponent implements OnInit {
   async GetLOIApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Approve and Forward,Forward To Secretary By Minister,Reject and Forward,Revert' : Status == 'Pending' ? 'Approve and Forward,Forward,Forward To Secretary' : '';
+      ActionName = Status == 'Completed' ? 'Release NOC' : Status == 'Pending' ? 'Forward To Deputy Secretary,Forward To Joint Secretary' : '';
 
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.GetLOIApplicationList(RoleId, UserID, Status, ActionName)
@@ -66,10 +66,6 @@ export class OSDApplicationListMGOneComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  }
-
-  async DocumentScrutiny_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
-    this.routers.navigate(['/finalchecklistmgone' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + this.QueryStringStatus]);
   }
 
   closeResult: string | undefined;
@@ -116,5 +112,54 @@ export class OSDApplicationListMGOneComponent implements OnInit {
     window.open('/LOIapplicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())), '_blank')
   }
 
+  public SelectedLOIID: number = 0;
+  public SelectedDepartmentID: number = 0;
+  async OpenGeneratePDFPopUP(content: any, LOIID: number, DepartmentID: number) {
+    this.SelectedDepartmentID = DepartmentID;
+    this.SelectedLOIID = LOIID;
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+
+  }
+  public NOCIssuedRemark: string = '';
+  public isFormvalid: boolean = true;
+  public isRemarkValid: boolean = false;
+  async GeneratePDF_OnClick() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.NOCIssuedRemark == '') {
+        this.isRemarkValid = true;
+        this.isFormvalid = false;
+      }
+      if (!this.isFormvalid) {
+        return;
+      }
+      await this.mg1DocumentScrutinyService.GeneratePDF_MedicalGroupLOI(this.SelectedLOIID,  this.sSOLoginDataModel.UserID, this.NOCIssuedRemark)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage);
+            this.modalService.dismissAll('After Success');
+            window.location.reload();
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
 

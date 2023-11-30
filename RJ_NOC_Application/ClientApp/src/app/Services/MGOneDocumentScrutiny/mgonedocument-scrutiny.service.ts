@@ -130,4 +130,29 @@ export class MGOneDocumentScrutinyService {
       ).toPromise();
   }
 
+  public async GeneratePDF_MedicalGroupLOI(LOIID: number, UserID: number, LOIRemark: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    var request = { LOIID: LOIID, UserID: UserID, Remark: LOIRemark }
+    return await this.http.post(this.APIUrl + "/GeneratePDF_MedicalGroupLOIC/", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async MedicalGroupLOIIssuedReport(LoginUserID: number, RoleID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/MedicalGroupLOIIssuedReport/" + LoginUserID + "/" + RoleID )
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

@@ -9,11 +9,11 @@ import { MGOneDocumentScrutinyService } from '../../../Services/MGOneDocumentScr
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-osdapplication-list-mgone',
-  templateUrl: './osdapplication-list-mgone.component.html',
-  styleUrls: ['./osdapplication-list-mgone.component.css']
+  selector: 'app-issued-loireport-mgone',
+  templateUrl: './issued-loireport-mgone.component.html',
+  styleUrls: ['./issued-loireport-mgone.component.css']
 })
-export class OSDApplicationListMGOneComponent implements OnInit {
+export class IssuedLOIReportMGOneComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -40,22 +40,21 @@ export class OSDApplicationListMGOneComponent implements OnInit {
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
-    await this.GetLOIApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
+    await this.GetLOIApplicationList(this.sSOLoginDataModel.RoleID,this.sSOLoginDataModel.UserID);
   }
 
-  async GetLOIApplicationList(RoleId: number, UserID: number, Status: string) {
+  async GetLOIApplicationList(RoleId: number, UserID: number) {
     try {
-      let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Approve and Forward,Forward To Secretary By Minister,Reject and Forward,Revert' : Status == 'Pending' ? 'Approve and Forward,Forward,Forward To Secretary' : '';
-
       this.loaderService.requestStarted();
-      await this.mg1DocumentScrutinyService.GetLOIApplicationList(RoleId, UserID, Status, ActionName)
+      await this.mg1DocumentScrutinyService.MedicalGroupLOIIssuedReport(UserID, RoleId)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.LOIApplicationDetails = data['Data'];
+          this.LOIApplicationDetails = data['Data'][0];
+          console.log(this.LOIApplicationDetails);
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -66,10 +65,6 @@ export class OSDApplicationListMGOneComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  }
-
-  async DocumentScrutiny_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
-    this.routers.navigate(['/finalchecklistmgone' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + this.QueryStringStatus]);
   }
 
   closeResult: string | undefined;
