@@ -1074,8 +1074,29 @@
         </div>
       </div>
     </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==7">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/osdapplicationlistmgone/Pending" style="background: none;">{{dashboardDataModel.secretary_Pending}}</a>
+              </h2>
+            </div>
+
+            <div class="dashCardContent">
+              <h4>Completed</h4>
+              <a href="/osdapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.secretary_Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
 
 <div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==2 || this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==30 )">
   <div class="row">
@@ -1103,7 +1124,7 @@
 
 
 
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==31 || this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==30 )">
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==31 || this.sSOLoginDataModel.RoleID==32)">
   <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -1119,6 +1140,34 @@
             <div class="dashCardContent">
               <h4>Completed</h4>
               <a href="/osdapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==14 || this.sSOLoginDataModel.RoleID==6 )">
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div class="dashCardContent text-start">
+              <h4>Pending</h4>
+              <h2>
+                <a href="/documentscrutinylistmgone/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+              </h2>
+            </div>
+            <div class="dashCardContent">
+              <h4>Forwarded</h4>
+              <a href="/documentscrutinylistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+            </div>
+            <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID==14">
+              <h4>NOC Issued</h4>
+              <a href="#" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
             </div>
           </div>
         </div>

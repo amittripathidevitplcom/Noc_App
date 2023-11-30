@@ -46,7 +46,7 @@ export class OSDApplicationListMGOneComponent implements OnInit {
   async GetLOIApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Approve and Forward' : Status == 'Pending' ? 'Approve and Forward,Forward' : '';
+      ActionName = Status == 'Completed' ? 'Approve and Forward' : Status == 'Pending' ? 'Approve and Forward,Forward,Forward To Secretary' : '';
 
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.GetLOIApplicationList(RoleId, UserID, Status, ActionName)
