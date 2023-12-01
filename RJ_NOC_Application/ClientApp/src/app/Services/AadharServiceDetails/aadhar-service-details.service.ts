@@ -66,14 +66,14 @@ export class AadharServiceDetails {
       ).toPromise();
   }
 
-  public async eSignPDF(PDFFileName: string, OTPTransactionID: string) {
+  public async eSignPDF(PDFFileName: string, OTPTransactionID: string, DepartmentID: number, ParamID: number) {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/eSignPDF/" + PDFFileName + "/" + OTPTransactionID)
+    return await this.http.get(this.APIUrl + "/eSignPDF/" + PDFFileName + "/" + OTPTransactionID + "/" + DepartmentID + "/" + ParamID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
