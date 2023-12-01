@@ -355,7 +355,7 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       if (this.selectedFileName != undefined && this.selectedFileName != null) {
-        await this.aadharServiceDetails.eSignPDF(this.selectedFileName, this.TransactionNo)
+        await this.aadharServiceDetails.eSignPDF(this.selectedFileName, this.TransactionNo, this.sSOLoginDataModel.DepartmentID,0)
           .then(async (data: any) => {
             data = JSON.parse(JSON.stringify(data));
             if (data[0].status == "0") {
