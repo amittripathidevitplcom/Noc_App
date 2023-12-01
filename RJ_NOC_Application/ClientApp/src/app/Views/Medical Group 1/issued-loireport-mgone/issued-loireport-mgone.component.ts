@@ -396,7 +396,7 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
-            if (data[0].status == "0") {
+            if (this.State == 0) {
               this.toastr.success(this.SuccessMessage);
             }
             else {
