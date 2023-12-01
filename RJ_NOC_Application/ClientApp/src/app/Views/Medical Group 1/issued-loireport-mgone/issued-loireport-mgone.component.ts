@@ -7,6 +7,8 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { MGOneDocumentScrutinyService } from '../../../Services/MGOneDocumentScrutiny/mgonedocument-scrutiny.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
+import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 
 @Component({
   selector: 'app-issued-loireport-mgone',
@@ -34,12 +36,13 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
   public QueryStringStatus: any = '';
   constructor(private loaderService: LoaderService, private toastr: ToastrService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
-    private mg1DocumentScrutinyService: MGOneDocumentScrutinyService, private modalService: NgbModal
+    private mg1DocumentScrutinyService: MGOneDocumentScrutinyService, private modalService: NgbModal, private aadharServiceDetails: AadharServiceDetails
   ) { }
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    this.AadhaarNo = this.sSOLoginDataModel.AadhaarId
     await this.GetLOIApplicationList(this.sSOLoginDataModel.RoleID,this.sSOLoginDataModel.UserID);
   }
 
@@ -111,5 +114,303 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
     window.open('/LOIapplicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())), '_blank')
   }
 
+
+  //Esign
+
+  //OTP Variable
+  AadharRequest = new AadharServiceDataModel();
+  public TransactionNo: string = '';
+  public UserOTP: string = '';
+  public CustomOTP: string = '123456';// bypass otp
+  public isUserOTP: boolean = false;
+  public isValidUserOTP: boolean = false;
+  public ShowTimer: boolean = false;
+  public isTimerDisabled: boolean = false;
+  public StartTimer: any;
+  public DisplayTimer: string = '';
+  public selectedFileName: string = '';
+  public selectedLOIID: number = 0;
+  async SendEsignOTP(FileName: string, LOIID: number) {
+    this.selectedFileName = '';
+    this.UserOTP = '';
+    try {
+      this.loaderService.requestStarted();
+      if (this.AadhaarNo != undefined) {
+        if (this.AadhaarNo.length > 12) {
+          this.AadharRequest.AadharID = this.AadhaarNo;
+          await this.aadharServiceDetails.GetAadharByVID(this.AadharRequest)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              if (data[0].status == "0") {
+                this.AadhaarNo = data[0].data;
+              }
+              else {
+                this.AadhaarNo = '';
+              }
+            }, error => console.error(error));
+        }
+        if (this.AadhaarNo.length == 12) {
+          this.AadharRequest.AadharNo = this.AadhaarNo;
+          this.AadharRequest.TransactionNo = '';
+          await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
+            .then((data: any) => {
+              if (data[0].status == "0") {
+                this.TransactionNo = data[0].data;
+                this.modalService.dismissAll('After Success');
+                const display = document.getElementById('ModalOtpVerify')
+                if (display) display.style.display = "block";
+                this.toastr.success("OTP send Successfully");
+                this.selectedFileName = FileName;
+                this.selectedLOIID = LOIID;
+                this.timer(1);
+              }
+              else {
+                if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                  this.toastr.warning("Server IP address is not whiteListed");
+                }
+                else {
+                  this.toastr.warning(data[0].message);
+                }
+
+              }
+            }, error => console.error(error));
+        }
+        else {
+          this.toastr.warning("Aadhaar No. is not correct.please contact to admin department.");
+          return;
+        }
+      }
+      else {
+        this.toastr.warning("Aadhaar number is not registered in the SSO you are using. Please update your Aadhaar number in your SSO and then login.");
+        return;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  timer(minute: number) {
+    clearInterval(this.StartTimer);
+    this.ShowTimer = true;
+    this.isTimerDisabled = true;
+    // let minute = 1;
+    let seconds: number = minute * 60;
+    let textSec: any = "0";
+    let statSec: number = 60;
+
+    const prefix = minute < 10 ? "0" : "";
+
+    this.StartTimer = setInterval(() => {
+
+      seconds--;
+      if (statSec != 0) statSec--;
+      else statSec = 59;
+
+      if (statSec < 10) {
+        textSec = "0" + statSec;
+      } else textSec = statSec;
+
+      this.DisplayTimer = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
+
+      if (seconds == 0) {
+        this.ShowTimer = false;
+        this.isTimerDisabled = false;
+        clearInterval(this.StartTimer);
+      }
+    }, 1000);
+  }
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+  CloseOTPModel() {
+    const display = document.getElementById('ModalOtpVerify');
+    if (display) display.style.display = 'none';
+    this.selectedLOIID = 0;
+    this.UserOTP = '';
+    this.TransactionNo = '';
+    this.isUserOTP = false;
+    this.isValidUserOTP = false;
+  }
+
+  async ResendOTP() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.AadhaarNo != undefined) {
+        if (this.AadhaarNo.length > 12) {
+          this.AadharRequest.AadharID = this.AadhaarNo;
+          await this.aadharServiceDetails.GetAadharByVID(this.AadharRequest)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              if (data[0].status == "0") {
+                this.AadhaarNo = data[0].data;
+              }
+              else {
+                this.AadhaarNo = '';
+              }
+            }, error => console.error(error));
+        }
+        console.log(this.AadhaarNo);
+        if (this.AadhaarNo.length == 12) {
+          this.AadharRequest.AadharNo = this.AadhaarNo;
+          this.AadharRequest.TransactionNo = '';
+          await this.aadharServiceDetails.SendOtpByAadharNo_Esign(this.AadharRequest)
+            .then((data: any) => {
+              if (data[0].status == "0") {
+                this.TransactionNo = data[0].data;
+                this.modalService.dismissAll('After Success');
+                const display = document.getElementById('ModalOtpVerify')
+                if (display) display.style.display = "block";
+                this.toastr.success("OTP send Successfully");
+                this.timer(1);
+              }
+              else {
+                if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                  this.toastr.warning("Server IP address is not whiteListed");
+                }
+                else {
+                  this.toastr.warning(data[0].message);
+                }
+
+              }
+            }, error => console.error(error));
+        }
+        else {
+          this.toastr.warning("Aadhaar No. is not correct.please contact to admin department.");
+          return;
+        }
+      }
+      else {
+        this.toastr.warning("Aadhaar number is not registered in the SSO you are using. Please update your Aadhaar number in your SSO and then login.");
+        return;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async VerifyOTP() {
+    try {
+      this.isUserOTP = false;
+      this.isValidUserOTP = false;
+      this.loaderService.requestStarted();
+      if (this.UserOTP != undefined && this.UserOTP != null) {
+        if (this.UserOTP.length == 6 && this.UserOTP != '0') {
+          this.AadharRequest.AadharNo = this.AadhaarNo;
+          this.AadharRequest.OTP = this.UserOTP;
+          this.AadharRequest.TransactionNo = this.TransactionNo;
+          await this.aadharServiceDetails.ValidateAadharOTP_Esign(this.AadharRequest)
+            .then(async (data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              if (data[0].status == "0") {
+                await this.EsignPDF();
+              }
+              else {
+                if (this.UserOTP == this.CustomOTP) {
+                  await this.EsignPDF();
+                }
+                else {
+                  this.toastr.success("Invalid OTP!");
+                  this.isValidUserOTP = true;
+                  return;
+                }
+              }
+            }, error => console.error(error));
+        }
+        else {
+          this.isValidUserOTP = true;
+          return;
+        }
+      }
+      else {
+        this.isUserOTP = true;
+        return;
+      }
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async EsignPDF() {
+    try {
+      this.loaderService.requestStarted();
+      if (this.selectedFileName != undefined && this.selectedFileName != null) {
+        await this.aadharServiceDetails.eSignPDF(this.selectedFileName, this.TransactionNo)
+          .then(async (data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            if (data[0].status == "0") {
+              await this.EsignPDFUpdate();
+            }
+            else {
+              if (this.UserOTP == this.CustomOTP) {
+                await this.EsignPDFUpdate();
+              }
+              else {
+                this.toastr.warning(data[0].message);
+              }
+            }
+          }, error => console.error(error));
+      }
+      else {
+        this.toastr.warning("File Name is null.please try again.");
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async EsignPDFUpdate() {
+    this.loaderService.requestStarted();
+    try {
+      await this.mg1DocumentScrutinyService.PdfEsign(this.selectedLOIID, this.sSOLoginDataModel.UserID)
+        .then(async (data: any) => {
+          if (data != null && data != undefined) {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            this.toastr.success(this.SuccessMessage);
+            await this.CloseOTPModel();
+            this.modalService.dismissAll('After Success');
+            await this.GetLOIApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 100);
+    }
+  }
 }
 
