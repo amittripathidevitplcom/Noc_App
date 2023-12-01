@@ -209,7 +209,7 @@ export class SSOLoginComponent implements OnInit {
       localStorage.setItem('SSOLoginUser', JSON.stringify(this.sSOLoginDataModel))
       /// localStorage.setItem('SSOLoginUser', this.SSOjson)
 
-      console.log(this.SSOjson);
+      //console.log(this.SSOjson);
 
       try {
         this.loaderService.requestStarted();
