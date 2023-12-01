@@ -43,7 +43,7 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.AadhaarNo = this.sSOLoginDataModel.AadhaarId
-    await this.GetLOIApplicationList(this.sSOLoginDataModel.RoleID,this.sSOLoginDataModel.UserID);
+    await this.GetLOIApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
   }
 
   async GetLOIApplicationList(RoleId: number, UserID: number) {
@@ -355,7 +355,7 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
       if (this.selectedFileName != undefined && this.selectedFileName != null) {
-        await this.aadharServiceDetails.eSignPDF(this.selectedFileName, this.TransactionNo, this.sSOLoginDataModel.DepartmentID,0)
+        await this.aadharServiceDetails.eSignPDF(this.selectedFileName, this.TransactionNo, this.sSOLoginDataModel.DepartmentID, 0)
           .then(async (data: any) => {
             data = JSON.parse(JSON.stringify(data));
             if (data[0].status == "0") {
@@ -396,7 +396,12 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
             this.State = data['State'];
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
-            this.toastr.success(this.SuccessMessage);
+            if (data[0].status == "0") {
+              this.toastr.success(this.SuccessMessage);
+            }
+            else {
+              this.toastr.warning(data[0].message);
+            }
             await this.CloseOTPModel();
             this.modalService.dismissAll('After Success');
             await this.GetLOIApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID);
