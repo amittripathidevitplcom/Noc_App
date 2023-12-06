@@ -304,6 +304,15 @@ import { ForwardByMinisterListMGOneComponent } from './Views/Medical Group 1/for
 import { DeputySecretaryListMGOneComponent } from './Views/Medical Group 1/deputy-secretary-list-mgone/deputy-secretary-list-mgone.component';
 import { GenerateLOIReportMGOneComponent } from './Views/Medical Group 1/generate-loireport-mgone/generate-loireport-mgone.component';
 import { IssuedLOIReportMGOneComponent } from './Views/Medical Group 1/issued-loireport-mgone/issued-loireport-mgone.component';
+import { RevertApplicationDetailEntryMGOneComponent } from './Views/Medical Group 1/revert-application-detail-entry-mgone/revert-application-detail-entry-mgone.component';
+import { LegalEntityRevertComponent } from './Views/legal-entity-revert/legal-entity-revert.component';
+import { CollegeRevertComponent } from './Views/college-revert/college-revert.component';
+import { CollegeManagementSocietyRevertComponent } from './Views/college-management-society-revert/college-management-society-revert.component';
+import { CheckListMGOneComponent } from './Views/DocumentScrutinyTab_MG1/check-list-mgone/check-list-mgone.component';
+import { ClassWiseStaticReportDCEComponent } from './Views/DCE/class-wise-static-report-dce/class-wise-static-report-dce.component';
+import { SubjectWiseStaticReportDCEComponent } from './Views/DCE/subject-wise-static-report-dce/subject-wise-static-report-dce.component';
+import { StatisticsEntryComponent } from './Views/Statistics/statistics-entry/statistics-entry.component';
+import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-college-list/statistics-college-list.component';
 //import { PreviewTabsComponent } from './Views/PreviewTabs/preview-tabs/preview-tabs.component';
 import { PreviewClasswiseStaticComponent } from './Views/PreviewTabs/preview-classwise-static/preview-classwise-static.component';
 import { PreviewSubjectwiseStaticComponent } from './Views/PreviewTabs/preview-subjectwise-static/preview-subjectwise-static.component';
@@ -603,6 +612,15 @@ import { PreviewSubjectwiseStaticComponent } from './Views/PreviewTabs/preview-s
     DeputySecretaryListMGOneComponent,
     GenerateLOIReportMGOneComponent,
     IssuedLOIReportMGOneComponent,
+    RevertApplicationDetailEntryMGOneComponent,
+    LegalEntityRevertComponent,
+    CollegeRevertComponent,
+    CollegeManagementSocietyRevertComponent,
+    CheckListMGOneComponent,
+    ClassWiseStaticReportDCEComponent,
+    SubjectWiseStaticReportDCEComponent,
+    StatisticsEntryComponent,
+    StatisticsCollegeListComponent,
     //PreviewTabsComponent,
     PreviewClasswiseStaticComponent,
     PreviewSubjectwiseStaticComponent,

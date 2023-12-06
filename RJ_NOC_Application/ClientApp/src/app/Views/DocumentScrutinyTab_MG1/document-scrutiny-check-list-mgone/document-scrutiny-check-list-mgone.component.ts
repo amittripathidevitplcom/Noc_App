@@ -202,6 +202,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
     this.GetWorkFlowActionListByRole();
     this.GetCollageDetails();
     this.CheckTabsEntry();
+    this.GetRNCCheckListByTypeDepartment(this.SelectedApplyNOCID, 0);
   }
 
 
@@ -381,8 +382,9 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
   async GetHospitalDataList() {
     this.loaderService.requestStarted();
     try {
-      await this.medicalDocumentScrutinyService.DocumentScrutiny_HospitalDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.mg1documentScrutinyService.DocumentScrutiny_HospitalDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then(async (data: any) => {
+          debugger;
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -700,4 +702,32 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
       }, 200);
     }
   }
+
+  public CheckListData: any[] = [];
+  public FinalRemark: string = '';
+  public FinalCheckListData: any[] = [];
+  async GetRNCCheckListByTypeDepartment(ApplyNOCID: number, CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.mg1documentScrutinyService.GetRNCCheckListByTypeDepartment('LOI', this.sSOLoginDataModel.DepartmentID, ApplyNOCID, this.sSOLoginDataModel.UserID, this.sSOLoginDataModel.RoleID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckListData = data['Data'].filter((x: { IsCheckList: number }) => x.IsCheckList == 0);
+          this.FinalCheckListData = data['Data'].filter((x: { IsCheckList: number }) => x.IsCheckList == 1);
+          this.FinalRemark = this.CheckListData[0].FinalRemark;
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }

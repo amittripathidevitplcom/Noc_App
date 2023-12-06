@@ -1,0 +1,385 @@
+<app-loader></app-loader>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="SocietyDetailsForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b>College Management Committee Details</b>
+            <span class="text-danger">(*) Fields is compulsory</span>
+          </div>
+
+
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b>Committee Member Detail</b>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlCollegeID" class="form-label">College <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlCollegeID" name="ddlCollegeID" [(ngModel)]="request.CollegeID" formControlName="ddlCollegeID" [disabled]="true" >
+                  <option value="0" disabled>--Select College--</option>
+                  <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlCollegeID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlCollegeID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="txtPersonName" class="form-label">Name of Person <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtPersonName" name="txtPersonName" [(ngModel)]="request.PersonName" formControlName="txtPersonName" (keypress)="alphaOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtPersonName.errors" class="text-danger">
+                  <p *ngIf="form.txtPersonName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="fProfilePhoto" class="form-label">Profile Photo <span style="color:red;"> * </span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fProfilePhoto" style="display:none" formControlName="fProfilePhoto" (change)="ValidateImage($event,'ProfilePhoto')" #fProfilePhoto />
+                  <label class="btn upload" for="fProfilePhoto">
+                    <span class="filename">Choose file</span>
+                    {{request.ProfilePhoto === '' ? 'No File Choosen' : request.Dis_ProfilePhoto}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.ProfilePhoto!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.ProfilePhotoPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ProfilePhoto')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&request.ProfilePhoto ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isValidProfilePhoto" class="text-danger">
+                  <p *ngIf="isValidProfilePhoto"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlDesignationID" class="form-label">Designation <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlDesignationID" name="ddlDesignationID" [(ngModel)]="request.DesignationID" formControlName="ddlDesignationID">
+                  <option value="0">--Select Designation--</option>
+                  <option *ngFor="let item of DesignationList" value="{{item.DesignationID}}">{{item.DesignationName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDesignationID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDesignationID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlOccupationID" class="form-label">Occupation <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlOccupationID" name="ddlOccupationID" [(ngModel)]="request.OccupationID" formControlName="ddlOccupationID" (change)="SelectOccupation_Educationist_Change()">
+                  <option value="0">--Select Occupation--</option>
+                  <option *ngFor="let item of OccupationList" value="{{item.OccupationID}}">{{item.OccupationName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlOccupationID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlOccupationID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="IsOtherOccupation">
+                <label for="txtOtherOccupation" class="form-label">Other Occupation <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtOtherOccupation" name="txtOtherOccupation" [(ngModel)]="request.OtherOccupation" formControlName="txtOtherOccupation" (keypress)="alphaOnly($event)" />
+                <div *ngIf="IsOtherOccupation">
+                  <p *ngIf="isSubmitted&&request.OtherOccupation ==''" class="text-danger"><i aria-hidden="true"></i>{{IsValidOtherOccupation}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="DepartmentID!=2">
+                <label class="form-label" style="margin-right:15px">Does Management Committee Should have at least two educationists <span style="color:red;">*</span></label>
+                <div class="clearfix"></div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="Yes" id="rbEducationistsYes" name="Educationists" [(ngModel)]="request.Educationists" formControlName="Educationists" [attr.disabled]="IsEducationists ? true : null">
+                  <label class="form-check-label" for="rbEducationistsYes">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="No" id="rbEducationistsNo" name="Educationists" [(ngModel)]="request.Educationists" formControlName="Educationists" [attr.disabled]="IsEducationists ? true : null">
+                  <label class="form-check-label" for="rbEducationistsNo">No</label>
+                </div>
+                <div *ngIf="DepartmentID!=2">
+                  <p *ngIf="isSubmitted&&request.Educationists ==''" class="text-danger"><i aria-hidden="true"></i>{{IsValidEducationists}}</p>
+                </div>
+                <!--<div *ngIf="isSubmitted&&form.Educationists.errors" class="text-danger">
+                  <p *ngIf="form.Educationists.errors.required"> This field is required .!</p>
+                </div>-->
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="txtMobileNo" class="form-label">Mobile No <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtMobileNo" name="txtMobileNo" [(ngModel)]="request.MobileNo" formControlName="txtMobileNo" maxlength="10" (keypress)="numberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtMobileNo.errors" class="text-danger">
+                  <p *ngIf="form.txtMobileNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtMobileNo.errors.pattern || form.txtMobileNo.errors.maxlength || form.txtMobileNo.errors.minlength">Invalid Mobile number</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="txtEmail" class="form-label">Email <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtEmail" name="txtEmail" [(ngModel)]="request.Email" formControlName="txtEmail">
+                <div *ngIf="isSubmitted&&form.txtEmail.errors" class="text-danger">
+                  <p *ngIf="form.txtEmail.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtEmail.errors.pattern">Email ID is invalid</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlGender" class="form-label">Gender <span style="color:red;">*</span></label>
+                <select class="form-select" id="ddlGender" name="ddlGender" [(ngModel)]="request.Gender" formControlName="ddlGender">
+                  <option value="">--Select Gender--</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlGender.errors" class="text-danger">
+                  <p *ngIf="form.ddlGender.errors.required"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="txtFatherName" class="form-label">Father Name <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtFatherName" name="txtFatherName" [(ngModel)]="request.FatherName" formControlName="txtFatherName" (keypress)="alphaOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtFatherName.errors" class="text-danger">
+                  <p *ngIf="form.txtFatherName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="txtAadhaarNo" class="form-label">Aadhaar Number <span style="color:red;">*</span></label>
+                <input type="text" class="form-control" id="txtAadhaarNo" name="txtAadhaarNo" [(ngModel)]="request.AadhaarNo" formControlName="txtAadhaarNo" maxlength="12" (keypress)="numberOnly($event)">
+                <div *ngIf="isSubmitted&&form.txtAadhaarNo.errors" class="text-danger">
+                  <p *ngIf="form.txtAadhaarNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtAadhaarNo.errors.pattern || form.txtAadhaarNo.errors.maxlength || form.txtAadhaarNo.errors.minlength"> Invalid Aadhaar No.</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="fAadhaarCard" class="form-label">Aadhaar Card<span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fAadhaarCard" style="display:none" formControlName="fAadhaarCard" (change)="ValidatePdf($event,'AadhaarCard')" #fAadhaarCard />
+                  <label class="btn upload" for="fAadhaarCard">
+                    <span class="filename">Choose file</span>
+                    {{request.AadhaarCard === '' ? 'No File Choosen' : request.Dis_AadhaarCard}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.AadhaarCard!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.AadhaarCardPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AadhaarCard')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&request.AadhaarCard ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isValidAadhaarCard" class="text-danger">
+                  <p *ngIf="isValidAadhaarCard"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="fSignatureDoc" class="form-label">Signature Document<span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fSignatureDoc" style="display:none" formControlName="fSignatureDoc" (change)="ValidateImage($event,'SignatureDoc')" #fSignatureDoc />
+                  <label class="btn upload" for="fSignatureDoc">
+                    <span class="filename">Choose file</span>
+                    {{request.SignatureDoc === '' ? 'No File Choosen' : request.Dis_SignatureDoc}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.SignatureDoc!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.SignatureDocPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('SignatureDoc')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&request.SignatureDoc ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isValidSignatureDoc" class="text-danger">
+                  <p *ngIf="isValidSignatureDoc"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="txtPANNo" class="form-label">PAN Number <span style="color:red;"> *</span></label>
+                <input type="text" class="form-control" id="txtPANNo" name="txtPANNo" [(ngModel)]="request.PANNo" formControlName="txtPANNo" maxlength="10" (ngModelChange)="request.PANNo = $event.toUpperCase()">
+                <div *ngIf="isSubmitted&&form.txtPANNo.errors" class="text-danger">
+                  <p *ngIf="form.txtPANNo.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  <p *ngIf="form.txtPANNo.errors.pattern || form.txtPANNo.errors.maxlength || form.txtPANNo.errors.minlength"> Invalid PAN No.</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="fPANCard" class="form-label">PAN Card <span style="color:red;"> *</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fPANCard" style="display:none" formControlName="fPANCard" (change)="ValidatePdf($event,'PANCard')" #fPANCard />
+                  <label class="btn upload" for="fPANCard">
+                    <span class="filename">Choose file</span>
+                    {{request.PANCard === '' ? 'No File Choosen' : request.Dis_PANCard}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.PANCard!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.PANCardPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('PANCard')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&request.PANCard ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isValidPANCard" class="text-danger">
+                  <p *ngIf="isValidPANCard"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" value="1" id="ckIsPrimary" name="IsPrimary" [(ngModel)]="request.IsPrimary" formControlName="ckIsPrimary" [attr.disabled]="isDisabledPrimary ? true : null">
+                  <label class="form-check-label" for="ckIsPrimary">Is Primary</label>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" value="1" id="ckIsAuthorized" name="IsAuthorized" [(ngModel)]="request.IsAuthorized" formControlName="ckIsAuthorized" (change)="IsAuthorizedOrNot($event)">
+                  <label class="form-check-label" for="ckIsAuthorized">Is Authorized</label>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="isAuthorizedOrNot">
+                <label for="fAuthorizedDocument" class="form-label">Upload Authorized Document <span style="color:red;"> *</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fAuthorizedDocument" style="display:none" formControlName="fAuthorizedDocument" (change)="ValidatePdf($event,'AuthorizedDocument')" #fAuthorizedDocument />
+                  <label class="btn upload" for="fAuthorizedDocument">
+                    <span class="filename">Choose file</span>
+                    {{request.AuthorizedDocument === '' ? 'No File Choosen' : request.Dis_AuthorizedDocument}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.AuthorizedDocument!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.AuthorizedDocumentPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('AuthorizedDocument')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&request.AuthorizedDocument ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isValidAuthorizedDocument" class="text-danger">
+                  <p *ngIf="isValidAuthorizedDocument"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="IsEducationists">
+                <label for="fEducationProof" class="form-label">Education Proof <span style="color:red;"> *</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fEducationProof" style="display:none" formControlName="fEducationProof" (change)="ValidatePdf($event,'EducationProof')" #fEducationProof />
+                  <label class="btn upload" for="fEducationProof">
+                    <span class="filename">Choose file</span>
+                    {{request.EducationProof === '' ? 'No File Choosen' : request.Dis_EducationProof}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.EducationProof!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.EducationProofPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('EducationProof')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="IsEducationists">
+                  <p *ngIf="isSubmitted&&request.EducationProof ==''" class="text-danger"><i aria-hidden="true"></i>{{IsValidEducationist}}</p>
+                </div>
+                <div *ngIf="isValidEducationProof" class="text-danger">
+                  <p *ngIf="isValidEducationProof"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="IsEducationists">
+                <label for="fConsentLetter" class="form-label">Consent Letter <span style="color:red;"> *</span></label>
+                <div class="d-flex">
+                  <input type="file" class="form-control" id="fConsentLetter" style="display:none" formControlName="fConsentLetter" (change)="ValidatePdf($event,'ConsentLetter')" #fConsentLetter />
+                  <label class="btn upload" for="fConsentLetter">
+                    <span class="filename">Choose file</span>
+                    {{request.ConsentLetter === '' ? 'No File Choosen' : request.Dis_ConsentLetter}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.ConsentLetter!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.ConsentLetterPath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('ConsentLetter')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <div *ngIf="    ">
+                  <p *ngIf="isSubmitted&&request.ConsentLetter ==''" class="text-danger"><i aria-hidden="true"></i>{{IsValidEducationist}}</p>
+                </div>
+                <div *ngIf="isValidConsentLetter" class="text-danger">
+                  <p *ngIf="isValidConsentLetter"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-save"></i> Save</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+            <button type="submit" class="btn btn-primary" id="btnProceedDraft" name="btnSave"
+                    (click)="Proceed_Draft()">
+              {{ProceedToNext}}
+            </button>
+          </div>
+
+        </div>
+        <div class="card mb-0" *ngIf="SocietyAllList.length>0">
+          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+            <b><i class="fa fa-plus"></i>&nbsp;Management Committee Members Details (Total Female Is {{Femalepre}}%)</b>
+            <div class="d-flex align-items-center">
+              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+                <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+                <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+              </div>
+              <div class="d-flex align-items-center table-filter mr-15">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" formControlName="txtsearchText" name="txtsearchText" />
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>SNo</th>
+                  <!--<th>College</th>-->
+                  <th>Name</th>
+                  <th>Designation</th>
+                  <th>Occupation</th>
+                  <th>Other Occupation</th>
+                  <th>Management Committee Should have at least two educationists</th>
+                  <th>Father Name</th>
+                  <th>Mobile No</th>
+                  <th>Gender</th>
+                  <th>Email</th>
+                  <th>Aadhaar</th>
+                  <th>Pan</th>
+                  <th>PAN Card Document</th>
+                  <th>Aadhaar Card Document</th>
+                  <th>Member Signature</th>
+                  <th>Profile Photo</th>
+                  <th>Authorized Document</th>
+                  <th>Education Proof</th>
+                  <th>Consent Letter</th>
+                  <th>Is Primary</th>
+                  <th>Is Authorize</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!--<tr *ngFor="let row of SocietyAllList;let idx=index;">-->
+                <tr *ngFor="let row of SocietyAllList | tableSearchFilter:searchText;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <!--<td>{{CollegeName}}</td>-->
+                  <td>{{row.PersonName}}</td>
+                  <td>{{row.DesignationName}}</td>
+                  <td>{{row.OccupationName}}</td>
+                  <td>{{row.OtherOccupation}}</td>
+                  <td>{{row.Educationists}}</td>
+                  <td>{{row.FatherName}}</td>
+                  <td>{{row.MobileNo}}</td>
+                  <td>{{row.Gender}}</td>
+                  <td>{{row.Email}}</td>
+                  <td>{{row.AadhaarNo}}</td>
+                  <td>{{row.PANNo}}</td>
+                  <td><a target="_blank" href="{{row.PANCardPath}}"><i class="fa fa-eye"></i></a></td>
+                  <td><a target="_blank" href="{{row.AadhaarCardPath}}"><i class="fa fa-eye"></i></a></td>
+                  <td><a target="_blank" href="{{row.SignatureDocPath}}"><i class="fa fa-eye"></i></a></td>
+                  <td><a target="_blank" href="{{row.ProfilePhotoPath}}"><i class="fa fa-eye"></i></a></td>
+                  <td>
+                    <a *ngIf="row.AuthorizedDocumentPath!='N/A'" target="_blank" href="{{row.AuthorizedDocumentPath}}"><i class="fa fa-eye"></i></a>
+                    <label *ngIf="row.AuthorizedDocumentPath=='N/A'">{{row.AuthorizedDocumentPath}}</label>
+                  </td>
+                  <td>
+                    <a *ngIf="row.EducationProofPath!='N/A'" target="_blank" href="{{row.EducationProofPath}}"><i class="fa fa-eye"></i></a>
+                    <label *ngIf="row.EducationProofPath=='N/A'">{{row.EducationProofPath}}</label>
+                  </td>
+                  <td>
+                    <a *ngIf="row.ConsentLetterPath!='N/A'" target="_blank" href="{{row.ConsentLetterPath}}"><i class="fa fa-eye"></i></a>
+                    <label *ngIf="row.ConsentLetterPath=='N/A'">{{row.ConsentLetterPath}}</label>
+                  </td>
+                  <td>{{row.S_IsPrimary}}</td>
+                  <td>{{row.S_IsAuthorized}}</td>
+                  <td>
+                    <div class="d-flex">
+                      <button type="button" (click)="Edit_OnClick(row.SocietyID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                      <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.SocietyID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+</div>
+

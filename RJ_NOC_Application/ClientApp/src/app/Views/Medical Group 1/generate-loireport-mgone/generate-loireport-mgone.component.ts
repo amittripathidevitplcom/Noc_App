@@ -32,6 +32,7 @@ export class GenerateLOIReportMGOneComponent implements OnInit {
 
   public isLoading: boolean = false;
   public QueryStringStatus: any = '';
+  public IsLOIIssued: number = 0;
   constructor(private loaderService: LoaderService, private toastr: ToastrService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private mg1DocumentScrutinyService: MGOneDocumentScrutinyService, private modalService: NgbModal
@@ -127,17 +128,23 @@ export class GenerateLOIReportMGOneComponent implements OnInit {
   public NOCIssuedRemark: string = '';
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
+  public isSubmitted: boolean = false;
   async GeneratePDF_OnClick() {
     try {
-      this.loaderService.requestStarted();
+      this.isSubmitted = true;
+
       if (this.NOCIssuedRemark == '') {
         this.isRemarkValid = true;
+        this.isFormvalid = false;
+      }
+      if (this.IsLOIIssued <=0) {
         this.isFormvalid = false;
       }
       if (!this.isFormvalid) {
         return;
       }
-      await this.mg1DocumentScrutinyService.GeneratePDF_MedicalGroupLOI(this.SelectedLOIID,  this.sSOLoginDataModel.UserID, this.NOCIssuedRemark)
+      this.loaderService.requestStarted();
+      await this.mg1DocumentScrutinyService.GeneratePDF_MedicalGroupLOI(this.SelectedLOIID, this.sSOLoginDataModel.UserID, this.NOCIssuedRemark, this.IsLOIIssued)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

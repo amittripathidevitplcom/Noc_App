@@ -324,7 +324,7 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/CheckExistsDETGovernmentCollege/" +SSOID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/CheckExistsDETGovernmentCollege/" + SSOID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -523,7 +523,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async OtherInformationList_DepartmentCollegeAndTypeWise(DepartmentID: number, CollegeID: number, OtherInformationID: number=0, Type: string) {
+  public async OtherInformationList_DepartmentCollegeAndTypeWise(DepartmentID: number, CollegeID: number, OtherInformationID: number = 0, Type: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -822,7 +822,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetFacilitiesMasterList_DepartmentCollegeAndTypeWise(DepartmentID: number, CollegeID: number=0, FacilitieID: number=0, Type: string) {
+  public async GetFacilitiesMasterList_DepartmentCollegeAndTypeWise(DepartmentID: number, CollegeID: number = 0, FacilitieID: number = 0, Type: string) {
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -928,7 +928,7 @@ export class CommonMasterService {
 
   public async LOIFinalSubmit(CollegeID: string) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return await this.http.post(this.APIUrl_CommonMaster + '/LOIFinalSubmit/' + CollegeID , httpOptions)
+    return await this.http.post(this.APIUrl_CommonMaster + '/LOIFinalSubmit/' + CollegeID, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1244,7 +1244,7 @@ export class CommonMasterService {
   }
 
   public async GetCollegeLandConversionDetail(DepartmentID: number, LandDetailsID: number, Type: string) {
-    
+
     return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeLandConversionDetail/" + DepartmentID + "/" + LandDetailsID + "/" + Type)
       .pipe(
         catchError(this.handleErrorObservable)
@@ -1293,7 +1293,7 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetOldNOCCourseList_CollegeWise/" + CollegeID )
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetOldNOCCourseList_CollegeWise/" + CollegeID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1310,14 +1310,25 @@ export class CommonMasterService {
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
-  } 
+  }
   public async Get_LOIFeeMaster(DepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/Get_LOIFeeMaster/" + DepartmentID )
+    return await this.http.get(this.APIUrl_CommonMaster + "/Get_LOIFeeMaster/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetCollegeID_SearchRecordIDWise(SearchRecordID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCollegeID_SearchRecordIDWise/" + SearchRecordID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

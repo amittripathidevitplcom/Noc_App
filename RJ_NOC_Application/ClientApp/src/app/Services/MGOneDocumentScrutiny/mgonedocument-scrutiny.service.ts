@@ -5,6 +5,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { LandDetailDataModel } from '../../Models/LandDetailDataModel';
 
 import { GlobalConstants } from '../../Common/GlobalConstants';
+import { CommiteeInspection_RNCCheckList_DataModel } from '../../Models/ApplyNOCApplicationDataModel';
+import { SearchFilterDataModel } from '../../Models/TabDetailDataModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -130,13 +132,13 @@ export class MGOneDocumentScrutinyService {
       ).toPromise();
   }
 
-  public async GeneratePDF_MedicalGroupLOI(LOIID: number, UserID: number, LOIRemark: string) {
+  public async GeneratePDF_MedicalGroupLOI(LOIID: number, UserID: number, LOIRemark: string, IsLOIIssued: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    var request = { LOIID: LOIID, UserID: UserID, Remark: LOIRemark }
+    var request = { LOIID: LOIID, UserID: UserID, Remark: LOIRemark, IsLOIIssued: IsLOIIssued }
     return await this.http.post(this.APIUrl + "/GeneratePDF_MedicalGroupLOIC/", request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
@@ -162,6 +164,57 @@ export class MGOneDocumentScrutinyService {
       })
     };
     return await this.http.post(this.APIUrl + "/PdfEsign/" + LOIID + "/" + CreatedBy, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetRNCCheckListByTypeDepartment(Type: string, DepartmentID: number, ApplyNOCID: number, CreatedBy: number, RoleID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetRNCCheckListByTypeDepartment/" + Type + "/" + DepartmentID + "/" + ApplyNOCID + "/" + CreatedBy + "/" + RoleID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async SaveCommiteeInspectionRNCCheckList(request: CommiteeInspection_RNCCheckList_DataModel[]) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/SaveCommiteeInspectionRNCCheckList/', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetRNCCheckListByRole(Type: string,  ApplyNOCID: number, RoleID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetRNCCheckListByRole/" + Type + "/"  + ApplyNOCID + "/" + RoleID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async SubmitRevertApplication(LOIID: number, DepartmentID: number, CollegeID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl + '/SubmitRevertApplication/' + LOIID + "/" + DepartmentID + "/" + CollegeID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetRevertApllicationRemark(DepartmentID: number, ApplicationID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetRevertApllicationRemark/" + DepartmentID + "/" + ApplicationID )
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

@@ -282,7 +282,7 @@ export class BuildingDetailsDataModel {
   public Dis_buildingOtherDoc1FileUpload: string = '';
   public buildingOtherDoc1FileUploadPath: string = '';
 
-   public UserID: number = 0;
+  public UserID: number = 0;
   public ActiveStatus: boolean = true;
   public DeleteStatus: boolean = false;
   public Action: string = '';
@@ -331,4 +331,14 @@ export class DocuemntBuildingDetailsDataModel {
   public FileName: string = '';
   public Dis_FileName: string = '';
   public Isfile: boolean = false;
+}
+
+export class SearchFilterDataModel {
+  public InstitutionID: number = 0;
+  public DivisionID: number = 0;
+  public DistrictID: number = 0;
+  public SubdivisionID: number = 0;
+  public TehsilID: number = 0;
+  public ParliamentAreaID: number = 0;
+
 }

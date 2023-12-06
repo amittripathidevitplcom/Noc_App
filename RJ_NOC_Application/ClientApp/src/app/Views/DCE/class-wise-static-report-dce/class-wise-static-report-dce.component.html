@@ -1,0 +1,162 @@
+<app-loader></app-loader>
+<div class="card mb-0">
+  <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+    <b><i class="bi bi-table"></i> Class Wise Static Report</b>
+    
+  </div>
+  <div class="card-body">
+
+    <div class="row">
+      
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlDivisionID" class="form-label">Institution <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlInstitutionID" name="ddlInstitutionID" [(ngModel)]="request.InstitutionID">
+            <option value="0">All</option>
+            <option *ngFor="let item of InstitutionList" value="{{item.CollegeID}}">{{item.CollegeNameEn}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlDivisionID" class="form-label">Division <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL($event,SelectedDivisionID.value)">
+            <option value="0">All</option>
+            <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL($event,SelectedDistrictID.value)">
+            <option value="0">All</option>
+            <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlSubdivisionID" class="form-label">Subdivision <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlSubdivisionID" name="ddlSubdivisionID" [(ngModel)]="request.SubdivisionID">
+            <option value="0">All</option>
+            <option *ngFor="let item of SuvdivisionList" value="{{item.SuvdivisionID}}">{{item.SubdivisionName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlTehsilID" class="form-label">Tehsil <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID">
+            <option value="0">All</option>
+            <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label for="ddlParliamentAreaID" class="form-label">Parliament Area <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlParliamentAreaID" name="ddlParliamentAreaID" [(ngModel)]="request.ParliamentAreaID">
+            <option value="0">All</option>
+            <option *ngFor="let item of ParliamentAreaList" value="{{item.ParliamentAreaID}}">{{item.ParliamentAreaName}}</option>
+          </select>
+        </div>
+
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <button type="button" class="btn btn-primary" (click)="OnClick_Search()"><i class="fa fa-search"></i> Serach</button>&nbsp;
+        <button type="button" class="btn btn-danger" (click)="ResetControl()"><i class="bi bi-bootstrap-reboot"></i> Reset</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Class Wise Static Report</b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+              <!--<button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" ><i class="fa fa-file-pdf-o"></i></button>-->
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <i class="fa fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover   table-bordered" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th colspan="21"></th>
+                  <th colspan="4" class="text-center">Minority (Out of Total)</th>
+                  <th colspan="4" class="text-center">PH (Out of Total)</th>
+                </tr>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Institue Name</th>
+                  <th>District</th>
+                  <th>Course Name</th>
+                  <th>Class</th>
+                  <th>Section</th>
+                  <th>SC Boys</th>
+                  <th>SC Girls</th>
+                  <th>ST Boys</th>
+                  <th>ST Girls</th>
+                  <th>OBC Boys</th>
+                  <th>OBC Girls</th>
+                  <th>MBC Boys</th>
+                  <th>MBC Girls</th>
+                  <th>Gen Boys</th>
+                  <th>Gen Girls</th>
+                  <th>EWS Boys</th>
+                  <th>EWS  Girls</th>
+                  <th>Total Boys</th>
+                  <th>Total Girls</th>
+                  <th>Total</th>
+                  <th>Boys</th>
+                  <th>Girls</th>
+                  <th>Transgender</th>
+                  <th>Total</th>
+                  <th>Boys</th>
+                  <th>Girls</th>
+                  <th>Transgender</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+             
+              <tbody>
+                <tr *ngFor="let row of ClassWiseStaticReportLst | tableSearchFilter:searchText;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.CollegeNameEn}}</td>
+                  <td>{{row.District_Eng}}</td>
+                  <td>{{row.CourseName}}</td>
+                  <td>{{row.Class}}</td>
+                  <td>{{row.Section}}</td>
+                  <td>{{row.SCBoysCount}}</td>
+                  <td>{{row.SCGirlsCount}}</td>
+                  <td>{{row.STBoysCount}}</td>
+                  <td>{{row.STGirlsCount}}</td>
+                  <td>{{row.OBCBoysCount}}</td>
+                  <td>{{row.OBCGirlsCount}}</td>
+                  <td>{{row.MBCBoysCount}}</td>
+                  <td>{{row.MBCGirlsCount}}</td>
+                  <td>{{row.GenBoysCount}}</td>
+                  <td>{{row.GenGirlsCount}}</td>
+                  <td>{{row.EWSBoysCount}}</td>
+                  <td>{{row.EWSGirlsCount}}</td>
+
+                  <td>{{row.TotalBoys}}</td>
+                  <td>{{row.TotalGirls}}</td>
+                  <td>{{row.Total}}</td>
+
+
+
+                  <td>{{row.OFTotalMinorityBoys}}</td>
+                  <td>{{row.OFTotalMinorityGirls}}</td>
+                  <td>{{row.OFTotalMinorityTransgender}}</td>
+                  <td>{{row.MinorityTotal}}</td>
+                  <td>{{row.OFTotalPHBoys}}</td>
+                  <td>{{row.OFTotalPHGirls}}</td>
+                  <td>{{row.OFTotalPHTransgender}}</td>
+                  <td>{{row.PHTotal}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

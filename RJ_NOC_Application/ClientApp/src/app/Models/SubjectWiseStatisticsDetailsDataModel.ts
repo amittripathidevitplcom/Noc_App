@@ -32,4 +32,10 @@ export class PostSubjectWiseStatisticsDetailsDataModel {
   public SubjectWiseStatisticsDetails: SubjectWiseStatisticsDetailsDataModel[] = [];
 }
 
+export class StatisticsFinalSubmitDataModel {
+  public CollegeID: number = 0
+  public SSOID: string = ''
+  public Confirmation: string = '0'
+}
+
 

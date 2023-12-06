@@ -18,12 +18,13 @@ export class DashboardComponent implements OnInit {
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
-  constructor(private loaderService: LoaderService, private toastr: ToastrService,private commonMasterService: CommonMasterService) { }
+  constructor(private loaderService: LoaderService, private toastr: ToastrService, private commonMasterService: CommonMasterService) { }
 
-  ngOnInit(): void {
-    debugger;
+  async ngOnInit() {
+    this.loaderService.requestStarted();
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    this.GetDashboardDataSSOWise(this.sSOLoginDataModel.SSOID);
+    await this.GetDashboardDataSSOWise(this.sSOLoginDataModel.SSOID);
+    this.loaderService.requestEnded();
   }
 
   async GetDashboardDataSSOWise(SSOID: string) {
@@ -31,7 +32,7 @@ export class DashboardComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetDashboardDataSSOWise(SSOID, this.sSOLoginDataModel.DepartmentID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID)
         .then((data: any) => {
-          
+
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

@@ -29,17 +29,17 @@
       <button class="btn btn-soft-primary borderRadius0"><i class="fa fa-search"></i></button>
     </div>-->
         </div>
-        <div class="col-md-1"></div>
+        <div class="col-md-4"></div>
 
-        <div class="col-md-3  d-flex align-items-center justify-content-end offset-3">
+        <div class="col-md-3 d-flex align-items-center">
 
-          <label for="DepartmentName" class="d-inline mr-5">Role&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-          <select id="ddlRole" name="ddlRoleID" class="form-select d-inline" [(ngModel)]="RoleID"
+          <label for="DepartmentName" class="d-inline me-2">Role</label>
+          <select id="ddlRole" name="ddlRoleID" class="form-select d-inline" style="width:calc(100% - 100px)" [(ngModel)]="RoleID"
                   #SeletedRole (change)="loadMenuByRoleID(SeletedRole.value)">
-            <option *ngFor="let item of lstUserRole"
-                    value="{{item.UserID}}">
-              {{item.RoleName}}
-            </option>
+                <option *ngFor="let item of lstUserRole"
+                        value="{{item.UserID}}">
+                  {{item.RoleName}}
+                </option>
           </select>
         </div>
 

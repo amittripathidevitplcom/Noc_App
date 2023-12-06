@@ -44,6 +44,7 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
   public OtherBoysCountFooter: number = 0
   public OtherGirlsCountFooter: number = 0
   public TotalFooter: number = 0
+  public SearchRecordID: string = '';
 
 
 
@@ -60,7 +61,22 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
   async ngOnInit()
   {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.SelectedCollageID = data['Data']['CollegeID'];
+          if (this.SelectedCollageID == null || this.SelectedCollageID == 0 || this.SelectedCollageID == undefined) {
+            this.routers.navigate(['/statisticscollegelist']);
+          }
+        }, error => console.error(error));
+    }
+    else {
+      this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    }
+
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));

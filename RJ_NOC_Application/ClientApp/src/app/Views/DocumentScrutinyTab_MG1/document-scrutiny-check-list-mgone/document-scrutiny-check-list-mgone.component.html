@@ -1,6 +1,6 @@
 <div class="card tabCard1 mb-0">
   <div class="card-header">
-    <b><i class="bi bi-table"></i>&nbsp; Check List Details</b>
+    <b><i class="bi bi-table"></i>&nbsp; Scrutiny Submit</b>
   </div>
   <!--Legal Entity-->
   <div class="card-header">
@@ -968,8 +968,6 @@
 
                 <th>Compliance</th>
                 <th>Remark</th>
-                <th *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">Clerk Action</th>
-                <th *ngIf="sSOLoginDataModel.RoleID==5">Section Officer Action</th>
                 <th>Sr.No.</th>
                 <th>Whether the institution is a parent hospital or not</th>
                 <th>Hospital Area</th>
@@ -984,14 +982,6 @@
 
                 <td>{{row.Action}} </td>
                 <td>{{row.Action =='No'?row.Remark:''}}</td>
-                <td *ngIf="sSOLoginDataModel.RoleID==3 || sSOLoginDataModel.RoleID==5">
-                  Compliance: {{row.C_Action}}<br />
-                  <p [hidden]="row.C_Action !='No'">Remark : {{row.C_Remark}}</p>
-                </td>
-                <td *ngIf="sSOLoginDataModel.RoleID==5">
-                  Compliance: {{row.S_Action}}<br />
-                  <p [hidden]="row.S_Action !='No'">Remark : {{row.S_Remark}}</p>
-                </td>
                 <td>{{idx+1}}</td>
                 <td>{{row.ParentHospitalID==1?'Yes':'No'}}</td>
                 <td>{{row.HospitalAreaName}}</td>
@@ -1035,68 +1025,146 @@
 <!--End Hospital Details-->
 
 
+ <!--Check List Details-->
+<div class="card tabCard1 mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp; Check List Details</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Name</th>
+                <th>
+                  <!--<input type="checkbox" id="checkboxSelectAll" class="" [checked]="All_U_Select"
+                  #checkboxSelectAll (change)="checkboxthAll_checkboxchange($event,checkboxSelectAll.checked)">-->
+                  Yes / No / Not Applicable
+                </th>
+                <th></th>
 
-<div class="row m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
-  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-    <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
-    <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
-      <option value="0" disabled selected>--Select Action--</option>
-      <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-    </select>
-    <div *ngIf="isActionTypeValid&&ActionID<=0" class="text-danger">
-      <p *ngIf="isActionTypeValid&&ActionID<=0"> This field is required .!</p>
+                <th>FileUpload</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of CheckListData let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item.RNCCheckListName}}</td>
+                <td>
+                  <input [disabled]="true" class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistYes{{idx}}" value="1" [(ngModel)]="item.IsChecked">
+                  &nbsp;<label class="form-check-label" for="rdChecklistYes{{idx}}">Yes</label>&nbsp;&nbsp;
+                  <input [disabled]="true" class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNo{{idx}}" value="2" [(ngModel)]="item.IsChecked">
+                  &nbsp;<label class="form-check-label" for="rdChecklistNo{{idx}}"> No</label>&nbsp;&nbsp;
+                  <input [disabled]="true" class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNotapplicable{{idx}}" value="3" [(ngModel)]="item.IsChecked">
+                  &nbsp;<label class="form-check-label" for="rdChecklistNotapplicable{{idx}}"> Not Applicable</label>
+                </td>
+                <td>
+                  <div *ngIf="item.IsChecked==2">
+                    <textarea [disabled]="true" type="text" id="txtRemark{{idx}}" placeholder="Remark*" name="txtRemark{{idx}}" class="form-control" [(ngModel)]="item.Remark" (keypress)="alphanumbersOnly($event)"></textarea>
+                  </div>
+                </td>
+                <!--<td><input type="checkbox" class="checkboxSelect" [checked]="item.IsChecked" [(ngModel)]="item.IsChecked" id="IsChecked{{idx+1}}" name="IsChecked{{idx+1}}"></td>-->
+
+
+
+
+
+                <td>
+
+                  <div class="d-flex" *ngIf="item.FileUpload">
+                    <input type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)" />
+                    <label class="btn upload" for="fileUpload{{idx+1}}">
+                      <span class="filename">Choose file</span>
+                      {{item.FileUploadName === '' || item.FileUploadName == undefined ? 'No File Choosen' : item.FileUploadName_Dis_FileName}}
+                    </label>
+                    <div class="btn-group" *ngIf="item.FileUploadName!=undefined &&item.FileUploadName!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{item.FileUploadNamePath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" [disabled]="true" class="btn btn-outline-danger" (click)="DeleteImage(idx)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
-    <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
-
-    <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
-      <option value="0" selected>--Select Role--</option>
-      <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
-    </select>
-
-
-    <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
-      <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="txtFinalRemark" class="form-label">Remarks <span style="color:red">*</span></label>
+        <textarea [disabled]="true" type="text" id="txtFinalRemark" name="txtFinalRemark" class="form-control" [(ngModel)]="FinalRemark"></textarea>
+      </div>
     </div>
-  </div>
-
-  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
-    <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
-    <select class="form-select" [(ngModel)]="NextActionID">
-      <option value="0" disabled selected>--Select Action--</option>
-      <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-    </select>
-    <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
-      <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
     </div>
-  </div>
-
-  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
-    <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
-    <select class="form-select" [(ngModel)]="NextUserID">
-      <option value="0" selected>--Select User--</option>
-      <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
-    </select>
-    <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
-      <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
     </div>
-  </div>
-</div>
-<div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
-  <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-    <label>Remarks  <span style="color:red;">*</span></label>
-    <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
-    <div *ngIf="isRemarkValid&&CheckFinalRemark==''" class="text-danger">
-      <p *ngIf="isRemarkValid&&CheckFinalRemark==''"> This field is required .!</p>
-    </div>
-  </div>
 
-</div>
-<div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
-  <div class="col-md-12">
-    <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
-  </div>
-</div>
+
+    <div class="row m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
+        <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
+          <option value="0" disabled selected>--Select Action--</option>
+          <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+        </select>
+        <div *ngIf="isActionTypeValid&&ActionID<=0" class="text-danger">
+          <p *ngIf="isActionTypeValid&&ActionID<=0"> This field is required .!</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
+        <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
+
+        <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
+          <option value="0" selected>--Select Role--</option>
+          <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+        </select>
+
+
+        <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
+          <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
+        <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
+        <select class="form-select" [(ngModel)]="NextActionID">
+          <option value="0" disabled selected>--Select Action--</option>
+          <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+        </select>
+        <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
+          <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
+        <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
+        <select class="form-select" [(ngModel)]="NextUserID">
+          <option value="0" selected>--Select User--</option>
+          <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
+        </select>
+        <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
+          <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
+        </div>
+      </div>
+    </div>
+    <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+        <label>Remarks  <span style="color:red;">*</span></label>
+        <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
+        <div *ngIf="isRemarkValid&&CheckFinalRemark==''" class="text-danger">
+          <p *ngIf="isRemarkValid&&CheckFinalRemark==''"> This field is required .!</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
+      </div>
+    </div>
 

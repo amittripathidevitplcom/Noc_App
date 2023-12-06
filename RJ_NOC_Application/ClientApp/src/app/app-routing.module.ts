@@ -185,6 +185,13 @@ import { ForwardByMinisterListMGOneComponent } from './Views/Medical Group 1/for
 import { DeputySecretaryListMGOneComponent } from './Views/Medical Group 1/deputy-secretary-list-mgone/deputy-secretary-list-mgone.component';
 import { GenerateLOIReportMGOneComponent } from './Views/Medical Group 1/generate-loireport-mgone/generate-loireport-mgone.component';
 import { IssuedLOIReportMGOneComponent } from './Views/Medical Group 1/issued-loireport-mgone/issued-loireport-mgone.component';
+import { RevertApplicationDetailEntryMGOneComponent } from './Views/Medical Group 1/revert-application-detail-entry-mgone/revert-application-detail-entry-mgone.component';
+import { CollegeManagementSocietyRevertComponent } from './Views/college-management-society-revert/college-management-society-revert.component';
+import { ClassWiseStaticReportDCEComponent } from './Views/DCE/class-wise-static-report-dce/class-wise-static-report-dce.component';
+import { SubjectWiseStaticReportDCEComponent } from './Views/DCE/subject-wise-static-report-dce/subject-wise-static-report-dce.component';
+import { StatisticsEntryComponent } from './Views/Statistics/statistics-entry/statistics-entry.component';
+import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-college-list/statistics-college-list.component';
+
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -373,6 +380,10 @@ const routes: Routes = [
         //data: {
         //  externalUrl: "http://localhost:4200/applicationdetailentry/3/1"
         //}
+      },
+      {
+        path: 'applicationdetailentrymgone/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: RevertApplicationDetailEntryMGOneComponent,
+        pathMatch: 'full'
       },
       {
         path: 'applynoc', component: ApplyNOCComponent
@@ -766,6 +777,12 @@ const routes: Routes = [
         path: 'issuedloireportmgone', component: IssuedLOIReportMGOneComponent
       },
       {
+        path: 'classwisestaticreport', component: ClassWiseStaticReportDCEComponent
+      },
+      {
+        path: 'subjectwisestaticreport', component: SubjectWiseStaticReportDCEComponent
+      },
+      {
         path: 'LOIapplyentry/:DepartmentID/:CollegeID', component: LOIApplyEntryComponent,
         pathMatch: 'full'
         // canActivate: [NeverActivate]
@@ -785,6 +802,13 @@ const routes: Routes = [
       },
       {
         path: 'forwardedApplications', component: ForwardedApplicationListComponent
+      },
+      {
+        path: 'statisticsentry/:DepartmentID/:CollegeID', component: StatisticsEntryComponent
+      },
+
+      {
+        path: 'statisticscollegelist', component: StatisticsCollegeListComponent
       },
     ]
     // ,canActivate: [SkipLocationChangeGuard],

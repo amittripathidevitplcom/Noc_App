@@ -11,16 +11,16 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
+import { MGOneDocumentScrutinyService } from '../../../Services/MGOneDocumentScrutiny/mgonedocument-scrutiny.service';
 
 @Injectable()
 
-  @Component({
-    selector: 'app-reverted-application-list',
-    templateUrl: './reverted-application-list.component.html',
-    styleUrls: ['./reverted-application-list.component.css']
-  })
-export class RevertedApplicationListComponent implements OnInit
-{
+@Component({
+  selector: 'app-reverted-application-list',
+  templateUrl: './reverted-application-list.component.html',
+  styleUrls: ['./reverted-application-list.component.css']
+})
+export class RevertedApplicationListComponent implements OnInit {
   //Add FormBuilder
   ProjectMasterForm!: FormGroup;
   public State: number = -1;
@@ -33,23 +33,21 @@ export class RevertedApplicationListComponent implements OnInit
   searchText: string = '';
   sSOLoginDataModel = new SSOLoginDataModel();
   closeResult: string | undefined;
+  public RevertRemarks: string = '';
 
 
-  constructor(private committeeMasterService: CommitteeMasterService,private collegeservice: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private modalService: NgbModal,
-    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private decDocumentScrutinyService: DCEDocumentScrutinyService) {
+  constructor(private committeeMasterService: CommitteeMasterService, private collegeservice: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private modalService: NgbModal,
+    private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private decDocumentScrutinyService: DCEDocumentScrutinyService, private mg1DocumentScrutinyService: MGOneDocumentScrutinyService) {
 
   }
 
-  async ngOnInit()
-  {
+  async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.RevertedApplicationList();
   }
 
-  async RevertedApplicationList()
-  {
-    try
-    {
+  async RevertedApplicationList() {
+    try {
       this.loaderService.requestStarted();
       await this.collegeservice.RevertedApplicationList(this.sSOLoginDataModel.SSOID)
         .then((data: any) => {
@@ -58,7 +56,6 @@ export class RevertedApplicationListComponent implements OnInit
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.draftApplicatoinListData = data['Data'][0]['data'];
-          console.log(this.draftApplicatoinListData);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -72,14 +69,30 @@ export class RevertedApplicationListComponent implements OnInit
   }
 
   async DraftEdit_OnClick(DepartmentID: number, CollegeID: number, ApplyNocApplicationID: number) {
-    this.routers.navigate(['/applicationdetailentry' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())) + "/R"], { skipLocationChange: true });
+    if (DepartmentID == 5) {
+
+      this.routers.navigate(['/applicationdetailentrymgone' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())) + "/R"]);
+    }
+    else {
+      this.routers.navigate(['/applicationdetailentry' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())) + "/R"]);
+    }
   }
   async ApplicationSummary_OnClick(DepartmentID: number, CollegeID: number) {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
 
-  async CheckList_OnClick(DepartmentID: number, CollegeID: number, ApplyNocApplicationID: number) {
-    this.routers.navigate([]).then(result => { window.open('/revertchecklistdce' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())), '_blank'); });
+  async CheckList_OnClick(content: any, DepartmentID: number, CollegeID: number, ApplyNocApplicationID: number) {
+    if (DepartmentID == 5) {
+      await this.GetRevertApllicationRemark(DepartmentID, ApplyNocApplicationID);
+      this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+    }
+    else {
+      this.routers.navigate([]).then(result => { window.open('/revertchecklistdce' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())), '_blank'); });
+    }
   }
 
 
@@ -94,6 +107,7 @@ export class RevertedApplicationListComponent implements OnInit
   }
 
   async ViewApplicationPvDetails(content: any, ApplyNOCID: number, DepartmentID: number, CollegeID: number, ApplicationNo: string) {
+
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -162,6 +176,30 @@ export class RevertedApplicationListComponent implements OnInit
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.WorkFlowRemarks = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetRevertApllicationRemark(DepartmentID: number, ApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.mg1DocumentScrutinyService.GetRevertApllicationRemark(DepartmentID, ApplicationID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (data['Data'][0].length > 0) {
+            this.RevertRemarks = data['Data'][0][0]['Remark'];
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
