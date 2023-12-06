@@ -82,7 +82,8 @@ export class ClassWiseStaticReportDCEComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.InstitutionList = data['Data'];
+          console.log(data['Data'][0]);
+          this.InstitutionList = data['Data'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
