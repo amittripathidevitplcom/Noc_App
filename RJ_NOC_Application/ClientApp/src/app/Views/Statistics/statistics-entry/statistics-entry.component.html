@@ -1,0 +1,105 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Statistics Entry (<span style="color:forestgreen">{{CollegeName}})</span> </h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+
+            <!--<button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="StatisticsFinalSubmit()">
+              Statistics Final Submit
+            </button>-->
+            <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button"
+
+                    (click)="OpenModulPopup_click(mymodalpayment)">
+              Statistics Final Submit
+            </button>
+          </li>
+          <li class="breadcrumb-item"><a href="#">Statistics</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Statistics Entry</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+
+          <mat-tab-group mat-align-tabs="left" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['ClassWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['ClassWiseStatistics']==0"></span>
+                <span>Class Wise Statistics</span>
+              </ng-template>
+              <app-class-wise-student-details></app-class-wise-student-details>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['SubjectWiseStatistics']==0"></span>
+                <span>Subject Wise Statistics</span>
+              </ng-template>
+              <app-subject-wise-student-statistics></app-subject-wise-student-statistics>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-6 col-12 text-end">
+          <button *ngIf="this.selectedIndex != 0" class="btn btn-primary" type="button" (click)="PreviousStep()"><< Previous</button>
+          <button class="btn btn-primary" type="button" (click)="NextStep()" style="margin-left: 20px; margin-right: 30px !important;">Next >></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--model-->
+<ng-template #mymodalpayment let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-applynocpayment-title" style="font-size: 17px; font-weight: 400 !important;">
+      {{CollegeName}}
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!--Confrmation-->
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <label>
+          <b>
+            Are you satisfied with the data of the previous portal?
+          </b>
+        </label>
+
+
+        <div class="clearfix"></div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3 mt-3">
+          <select class="form-select" id="ddlConfirmation" name="ddlConfirmation" [(ngModel)]="request.Confirmation" >
+            <option value="0" disabled>--Select--</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+         
+        </div>
+
+      </div>
+
+    </div>
+    <!--end-->
+  </div>
+  <div class="modal-footer text-end">
+    <button type="button" class="btn btn-primary" (click)="StatisticsFinalSubmit()">Submit</button>
+  </div>
+</ng-template>
+<!--end-->

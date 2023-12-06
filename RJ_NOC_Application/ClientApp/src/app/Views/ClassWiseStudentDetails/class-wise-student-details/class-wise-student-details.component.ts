@@ -18,9 +18,6 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 export class ClassWiseStudentDetailsComponent implements OnInit {
 
 
-  //public ClassWiseStudentDetailsList: any = [];
-
-  public ClassWiseStudentDetailsList: any[] = [];
 
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
@@ -51,13 +48,24 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
 
   TotalBoysFooter: number = 0
   TotalGirlsFooter: number = 0
+  TotalBoys_GirlsFooter: number = 0
   OFTotalMinorityBoysFooter: number = 0
   OFTotalMinorityGirlsFooter: number = 0
   OFTotalPHBoysFooter: number = 0
   OFTotalPHGirlsFooter: number = 0
 
+
+
+  TotalTotalBoys_GirlsFooter: number = 0
+  TotalOFTotalMinorityTransgenderFooter: number = 0
+  TotalMinorityTotalFooter: number = 0
+  TotalOFTotalPHTransgenderFooter: number = 0
+  TotalPHMinorityTotalFooter: number = 0
+
+
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
+  public SearchRecordID: string = '';
 
 
   constructor(private loaderService: LoaderService, private router: ActivatedRoute, private commonMasterService: CommonMasterService, private routers: Router, private formBuilder: FormBuilder, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private toastr: ToastrService,
@@ -65,8 +73,25 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
 
   async ngOnInit() {
 
+    this.request.ClassWiseStudentDetails = [];
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.SelectedCollageID = data['Data']['CollegeID'];
+          if (this.SelectedCollageID == null || this.SelectedCollageID == 0 || this.SelectedCollageID == undefined) {
+            this.routers.navigate(['/statisticscollegelist']);
+          }
+        }, error => console.error(error));
+    }
+    else {
+      this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    }
+
+
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -79,14 +104,14 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(CollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
+      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(CollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.ClassWiseStudentDetailsList = data['Data'];
+          this.request.ClassWiseStudentDetails = data['Data'];
           this.TotalFooterSum();
 
         }, error => console.error(error));
@@ -106,7 +131,7 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
     this.isLoading = true;
     this.request.CollegeID = this.SelectedCollageID;
     this.request.UserID = this.sSOLoginDataModel.UserID;
-    this.request.ClassWiseStudentDetails = this.ClassWiseStudentDetailsList;
+    //this.request.ClassWiseStudentDetails = this.request.ClassWiseStudentDetails;
     try {
       await this.classWiseStudentDetailsServiceService.SaveData(this.request)
         .then((data: any) => {
@@ -133,7 +158,7 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
       }, 200);
     }
   }
-  CalculateAll(item: any, index: any) {
+  async CalculateAll(item: ClassWiseStudentDetailsDataModel, index: any) {
 
     //boys section
     let vSCB = item.SCBoysCount == undefined ? 0 : item.SCBoysCount;
@@ -154,39 +179,58 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
 
     item.TotalBoys = Number(vSCB) + Number(vSTB) + Number(vOBC) + Number(vMBCB) + Number(vGENB) + Number(vEWSB);
     item.TotalGirls = Number(vSCG) + Number(vSTG) + Number(vOBG) + Number(vMBCG) + Number(vGENG) + Number(vEWSG);
+    item.Total = Number(item.TotalBoys) + Number(item.TotalGirls);
 
+    let MinorityB = item.OFTotalMinorityBoys == undefined ? 0 : item.OFTotalMinorityBoys;
+    let MinorityG = item.OFTotalMinorityGirls == undefined ? 0 : item.OFTotalMinorityGirls;
+    let MinorityT = item.OFTotalMinorityTransgender == undefined ? 0 : item.OFTotalMinorityTransgender;
+    item.MinorityTotal = Number(MinorityB) + Number(MinorityG) + Number(MinorityT);
 
+    let PHB = item.OFTotalPHBoys == undefined ? 0 : item.OFTotalPHBoys;
+    let PHG = item.OFTotalPHGirls == undefined ? 0 : item.OFTotalPHGirls;
+    let PHT = item.OFTotalPHTransgender == undefined ? 0 : item.OFTotalPHTransgender;
+    item.PHTotal = Number(PHB) + Number(PHG) + Number(PHT);
+
+    await this.TotalFooterSum();
   }
 
 
   TotalFooterSum() {
 
     //Boys
-    this.SCBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.SCBoysCount).reduce((acc, value) => acc + value, 0)
-    this.STBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.STBoysCount).reduce((acc, value) => acc + value, 0);
-    this.OBCBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.OBCBoysCount).reduce((acc, value) => acc + value, 0)
-    this.MBCBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.MBCBoysCount).reduce((acc, value) => acc + value, 0);
-    this.GenBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.GenBoysCount).reduce((acc, value) => acc + value, 0);
-    this.EWSBoysCountFooter = this.ClassWiseStudentDetailsList.map(t => t.EWSBoysCount).reduce((acc, value) => acc + value, 0);
-    //Girls Footer SUM
-    this.SCGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.SCGirlsCount).reduce((acc, value) => acc + value, 0)
-    this.STGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.STGirlsCount).reduce((acc, value) => acc + value, 0);
-    this.OBCGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.OBCGirlsCount).reduce((acc, value) => acc + value, 0)
-    this.MBCGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.MBCGirlsCount).reduce((acc, value) => acc + value, 0);
-    this.GenGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.GenGirlsCount).reduce((acc, value) => acc + value, 0);
-    this.EWSGirlsCountFooter = this.ClassWiseStudentDetailsList.map(t => t.EWSGirlsCount).reduce((acc, value) => acc + value, 0);
+    // this.SCBoysCountFooter = this.request.ClassWiseStudentDetails.map(t => t.SCBoysCount).reduce((acc, value) => acc + value, 0)
+    this.SCBoysCountFooter = this.request.ClassWiseStudentDetails.map(t => t.SCBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0)
+
+    this.STBoysCountFooter = this.request.ClassWiseStudentDetails.map(t => t.STBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.OBCBoysCountFooter = this.request.ClassWiseStudentDetails.map(t => t.OBCBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0)
+    this.MBCBoysCountFooter = this.request.ClassWiseStudentDetails.map(t => t.MBCBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.GenBoysCountFooter = this.request.ClassWiseStudentDetails.map(t => t.GenBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.EWSBoysCountFooter = this.request.ClassWiseStudentDetails.map(t => t.EWSBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0);
+    //Girls Footer SU
+    this.SCGirlsCountFooter = this.request.ClassWiseStudentDetails.map(t => t.SCGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0)
+    this.STGirlsCountFooter = this.request.ClassWiseStudentDetails.map(t => t.STGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.OBCGirlsCountFooter = this.request.ClassWiseStudentDetails.map(t => t.OBCGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0)
+    this.MBCGirlsCountFooter = this.request.ClassWiseStudentDetails.map(t => t.MBCGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.GenGirlsCountFooter = this.request.ClassWiseStudentDetails.map(t => t.GenGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.EWSGirlsCountFooter = this.request.ClassWiseStudentDetails.map(t => t.EWSGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0);
 
     //
-    this.TotalBoysFooter=  this.ClassWiseStudentDetailsList.map(t => t.TotalBoys).reduce((acc, value) => acc + value, 0)
-    this.TotalGirlsFooter = this.ClassWiseStudentDetailsList.map(t => t.TotalGirls).reduce((acc, value) => acc + value, 0);
+    this.TotalBoysFooter = this.request.ClassWiseStudentDetails.map(t => t.TotalBoys).reduce((acc, value) => Number(acc) + Number(value), 0)
+    this.TotalGirlsFooter = this.request.ClassWiseStudentDetails.map(t => t.TotalGirls).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.TotalTotalBoys_GirlsFooter = this.request.ClassWiseStudentDetails.map(t => t.Total).reduce((acc, value) => Number(acc) + Number(value), 0);
 
 
-    this.OFTotalMinorityBoysFooter =this.ClassWiseStudentDetailsList.map(t => t.OFTotalMinorityBoys).reduce((acc, value) => acc + value, 0)
-    this.OFTotalMinorityGirlsFooter = this.ClassWiseStudentDetailsList.map(t => t.OFTotalMinorityGirls).reduce((acc, value) => acc + value, 0);
+    this.OFTotalMinorityBoysFooter = this.request.ClassWiseStudentDetails.map(t => t.OFTotalMinorityBoys).reduce((acc, value) => Number(acc) + Number(value), 0)
+    this.OFTotalMinorityGirlsFooter = this.request.ClassWiseStudentDetails.map(t => t.OFTotalMinorityGirls).reduce((acc, value) => Number(acc) + Number(value), 0);
 
-    this.OFTotalPHBoysFooter= this.ClassWiseStudentDetailsList.map(t => t.OFTotalPHBoys).reduce((acc, value) => acc + value, 0)
-    this.OFTotalPHGirlsFooter =this.ClassWiseStudentDetailsList.map(t => t.OFTotalPHGirls).reduce((acc, value) => acc + value, 0);
+    this.TotalOFTotalMinorityTransgenderFooter = this.request.ClassWiseStudentDetails.map(t => t.OFTotalMinorityTransgender).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.TotalMinorityTotalFooter = this.request.ClassWiseStudentDetails.map(t => t.MinorityTotal).reduce((acc, value) => Number(acc) + Number(value), 0);
 
+    this.OFTotalPHBoysFooter = this.request.ClassWiseStudentDetails.map(t => t.OFTotalPHBoys).reduce((acc, value) => Number(acc) + Number(value), 0)
+    this.OFTotalPHGirlsFooter = this.request.ClassWiseStudentDetails.map(t => t.OFTotalPHGirls).reduce((acc, value) => Number(acc) + Number(value), 0);
+
+    this.TotalOFTotalPHTransgenderFooter = this.request.ClassWiseStudentDetails.map(t => t.OFTotalPHTransgender).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.TotalPHMinorityTotalFooter = this.request.ClassWiseStudentDetails.map(t => t.PHTotal).reduce((acc, value) => Number(acc) + Number(value), 0);
 
   }
   //validattions
@@ -205,7 +249,7 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
       await this.collegeService.GetData(this.SelectedCollageID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
-          this.FinancialYear=data['Data']['FinancialYear']
+          this.FinancialYear = data['Data']['FinancialYear']
 
         }, error => console.error(error));
     }

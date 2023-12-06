@@ -189,6 +189,9 @@ import { RevertApplicationDetailEntryMGOneComponent } from './Views/Medical Grou
 import { CollegeManagementSocietyRevertComponent } from './Views/college-management-society-revert/college-management-society-revert.component';
 import { ClassWiseStaticReportDCEComponent } from './Views/DCE/class-wise-static-report-dce/class-wise-static-report-dce.component';
 import { SubjectWiseStaticReportDCEComponent } from './Views/DCE/subject-wise-static-report-dce/subject-wise-static-report-dce.component';
+import { StatisticsEntryComponent } from './Views/Statistics/statistics-entry/statistics-entry.component';
+import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-college-list/statistics-college-list.component';
+
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -799,6 +802,13 @@ const routes: Routes = [
       },
       {
         path: 'forwardedApplications', component: ForwardedApplicationListComponent
+      },
+      {
+        path: 'statisticsentry/:DepartmentID/:CollegeID', component: StatisticsEntryComponent
+      },
+
+      {
+        path: 'statisticscollegelist', component: StatisticsCollegeListComponent
       },
     ]
     // ,canActivate: [SkipLocationChangeGuard],

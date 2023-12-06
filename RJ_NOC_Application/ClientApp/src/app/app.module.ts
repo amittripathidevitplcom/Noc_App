@@ -311,6 +311,8 @@ import { CollegeManagementSocietyRevertComponent } from './Views/college-managem
 import { CheckListMGOneComponent } from './Views/DocumentScrutinyTab_MG1/check-list-mgone/check-list-mgone.component';
 import { ClassWiseStaticReportDCEComponent } from './Views/DCE/class-wise-static-report-dce/class-wise-static-report-dce.component';
 import { SubjectWiseStaticReportDCEComponent } from './Views/DCE/subject-wise-static-report-dce/subject-wise-static-report-dce.component';
+import { StatisticsEntryComponent } from './Views/Statistics/statistics-entry/statistics-entry.component';
+import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-college-list/statistics-college-list.component';
 
 
 
@@ -614,6 +616,8 @@ import { SubjectWiseStaticReportDCEComponent } from './Views/DCE/subject-wise-st
     CheckListMGOneComponent,
     ClassWiseStaticReportDCEComponent,
     SubjectWiseStaticReportDCEComponent,
+    StatisticsEntryComponent,
+    StatisticsCollegeListComponent,
   ],
   imports: [
     CommonModule,

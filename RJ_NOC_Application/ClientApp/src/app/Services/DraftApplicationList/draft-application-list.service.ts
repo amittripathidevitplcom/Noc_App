@@ -30,6 +30,17 @@ export class DraftApplicationListService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async StatisticsCollegeList(LoginSSOID: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/StatisticsCollegeList/" + LoginSSOID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async CollegeDetails(LoginSSOID: string) {
     const httpOptions = {
