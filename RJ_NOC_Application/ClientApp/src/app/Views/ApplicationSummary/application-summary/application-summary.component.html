@@ -231,6 +231,30 @@
       </div>
     </div>
   </div>
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==3">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Class Wise Statistics </b>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-classwise-static></app-preview-classwise-static>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12" *ngIf="SelectedDepartmentID==3">
+    <div class="card mb-0">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Subject Wise Statistics </b> 
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <app-preview-subjectwise-static></app-preview-subjectwise-static>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="col-md-12" *ngIf="SelectedDepartmentID==2">
     <div class="card mb-0">
       <div class="card-header">
