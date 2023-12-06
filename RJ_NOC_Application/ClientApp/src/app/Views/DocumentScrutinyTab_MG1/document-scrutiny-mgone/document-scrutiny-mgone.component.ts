@@ -100,7 +100,7 @@ export class DocumentScrutinyMGOneComponent implements OnInit {
       this.maxNumberOfTabs = await this.tabGroup._tabs.length - 1;
     }
     catch (Ex) {
-      this.maxNumberOfTabs = 7;
+      this.maxNumberOfTabs = 8;
     }
 
   }

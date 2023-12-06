@@ -132,17 +132,24 @@ export class DeputySecretaryListMGOneComponent implements OnInit {
   public NOCIssuedRemark: string = '';
   public isFormvalid: boolean = true;
   public isRemarkValid: boolean = false;
+  public isSubmitted: boolean = false;
+  public IsLOIIssued: number = 0;
   async GeneratePDF_OnClick() {
     try {
-      this.loaderService.requestStarted();
+      this.isSubmitted = true;
+
       if (this.NOCIssuedRemark == '') {
         this.isRemarkValid = true;
+        this.isFormvalid = false;
+      }
+      if (this.IsLOIIssued <= 0) {
         this.isFormvalid = false;
       }
       if (!this.isFormvalid) {
         return;
       }
-      await this.mg1DocumentScrutinyService.GeneratePDF_MedicalGroupLOI(this.SelectedLOIID, this.sSOLoginDataModel.UserID, this.NOCIssuedRemark)
+      this.loaderService.requestStarted();
+      await this.mg1DocumentScrutinyService.GeneratePDF_MedicalGroupLOI(this.SelectedLOIID, this.sSOLoginDataModel.UserID, this.NOCIssuedRemark, this.IsLOIIssued)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];

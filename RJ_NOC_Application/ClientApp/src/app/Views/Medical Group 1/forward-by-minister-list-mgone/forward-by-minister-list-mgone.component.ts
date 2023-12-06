@@ -46,7 +46,7 @@ export class ForwardByMinisterListMGOneComponent implements OnInit {
   async GetLOIApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Forward To Joint Secretary' : Status == 'Pending' ? 'Forward To Secretary By Minister,Reject and Forward' : '';
+      ActionName = Status == 'Completed' ? 'Forward To Joint Secretary,Forward To Deputy Secretary' : Status == 'Pending' ? 'Minister Forward To,Reject and Forward' : '';
 
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.GetLOIApplicationList(RoleId, UserID, Status, ActionName)

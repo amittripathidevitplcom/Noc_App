@@ -115,7 +115,16 @@
             </div>
             <div class="modal-body py-4">
               <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                  <input class="form-check-input" type="radio" name="rdLOIIssue" id="rdrdLOIIssueYes" value="1" [(ngModel)]="IsLOIIssued">
+                  &nbsp;<label class="form-check-label" for="rdrdLOIIssueYes">Approved</label>&nbsp;&nbsp;
+                  <input class="form-check-input" type="radio" name="rdLOIIssue" id="rdrdLOIIssueNo" value="2" [(ngModel)]="IsLOIIssued">
+                  &nbsp;<label class="form-check-label" for="rdrdLOIIssueNo">Reject</label>&nbsp;&nbsp;
+                  <p *ngIf="isSubmitted&&IsLOIIssued==0" class="text-danger"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
                   <label>NOC Issued Remark</label>
                   <textarea id="NOCIssuedRemark" class="form-control" [(ngModel)]="NOCIssuedRemark"></textarea>
                   <div *ngIf="isRemarkValid" class="text-danger">

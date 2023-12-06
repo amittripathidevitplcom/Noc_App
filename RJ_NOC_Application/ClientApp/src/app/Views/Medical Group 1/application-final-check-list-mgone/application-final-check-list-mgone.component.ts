@@ -201,6 +201,7 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
     this.GetWorkFlowActionListByRole();
     this.GetCollageDetails();
     this.CheckTabsEntry();
+    this.GetRNCCheckListByTypeDepartment(this.SelectedApplyNOCID);
   }
 
 
@@ -484,7 +485,7 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/documentscrutinylistmgone/Pending']);
+            this.routers.navigate(['/osdapplicationlistmgone/Pending']);
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -704,6 +705,58 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.lstTarils = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public CheckListData: any[] = [];
+  public FinalRemark: string = '';
+  public AssitantSecretaryCheckListData: any[] = [];
+  public AssSecFinalRemark: string = '';
+  public AccountOfficerCheckListData: any[] = [];
+  public AccountOfficerFinalRemark: string = '';
+  async GetRNCCheckListByTypeDepartment(ApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+
+      //clerk
+      await this.mg1documentScrutinyService.GetRNCCheckListByRole('LOI',  ApplyNOCID,  2)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CheckListData = data['Data'].filter((x: { IsCheckList: number }) => x.IsCheckList == 0);
+          this.FinalRemark = this.CheckListData[0].FinalRemark;
+        }, error => console.error(error));
+      //Assistant sec
+      await this.mg1documentScrutinyService.GetRNCCheckListByRole('LOI', ApplyNOCID, 5)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.AssitantSecretaryCheckListData = data['Data'].filter((x: { IsCheckList: number }) => x.IsCheckList == 0);
+          this.AssSecFinalRemark = this.AssitantSecretaryCheckListData[0].FinalRemark;
+        }, error => console.error(error));
+      //Account Officer
+      await this.mg1documentScrutinyService.GetRNCCheckListByRole('LOI', ApplyNOCID, 30)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.AccountOfficerCheckListData = data['Data'].filter((x: { IsCheckList: number }) => x.IsCheckList == 0);
+          this.AccountOfficerFinalRemark = this.AccountOfficerCheckListData[0].FinalRemark;
         }, error => console.error(error));
     }
     catch (Ex) {

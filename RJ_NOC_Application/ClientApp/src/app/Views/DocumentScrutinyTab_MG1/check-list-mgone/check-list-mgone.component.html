@@ -1,0 +1,82 @@
+<div class="card tabCard1 mb-0" id="LandDetails1">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp; Check List Details</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Name</th>
+                <th>
+                  <!--<input type="checkbox" id="checkboxSelectAll" class="" [checked]="All_U_Select"
+                  #checkboxSelectAll (change)="checkboxthAll_checkboxchange($event,checkboxSelectAll.checked)">-->
+                  Yes / No / Not Applicable
+                </th>
+                <th></th>
+
+                <th>FileUpload</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of CheckListData let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item.RNCCheckListName}}</td>
+                <td>
+                  <input [disabled]="IsDisabled" class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistYes{{idx}}" value="1" [(ngModel)]="item.IsChecked">
+                  &nbsp;<label class="form-check-label" for="rdChecklistYes{{idx}}">Yes</label>&nbsp;&nbsp;
+                  <input class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNo{{idx}}" value="2" [(ngModel)]="item.IsChecked">
+                  &nbsp;<label class="form-check-label" for="rdChecklistNo{{idx}}"> No</label>&nbsp;&nbsp;
+                  <input [disabled]="IsDisabled" class="form-check-input" type="radio" name="rdChecklistYesNo{{idx}}" id="rdChecklistNotapplicable{{idx}}" value="3" [(ngModel)]="item.IsChecked">
+                  &nbsp;<label class="form-check-label" for="rdChecklistNotapplicable{{idx}}"> Not Applicable</label>
+                </td>
+                <td>
+                  <div *ngIf="item.IsChecked==2">
+                    <textarea [disabled]="IsDisabled" type="text" id="txtRemark{{idx}}" placeholder="Remark*" name="txtRemark{{idx}}" class="form-control" [(ngModel)]="item.Remark" (keypress)="alphanumbersOnly($event)"></textarea>
+                  </div>
+                </td>
+                <!--<td><input type="checkbox" class="checkboxSelect" [checked]="item.IsChecked" [(ngModel)]="item.IsChecked" id="IsChecked{{idx+1}}" name="IsChecked{{idx+1}}"></td>-->
+
+
+
+
+
+                <td>
+
+                  <div class="d-flex" *ngIf="item.FileUpload">
+                    <input [disabled]="IsDisabled" type="file" style="display:none" name="fileUpload{{idx+1}}" id="fileUpload{{idx+1}}" class="form-control" (change)="ValidateDocumentImage($event,idx)" />
+                    <label class="btn upload" for="fileUpload{{idx+1}}">
+                      <span class="filename">Choose file</span>
+                      {{item.FileUploadName === '' || item.FileUploadName == undefined ? 'No File Choosen' : item.FileUploadName_Dis_FileName}}
+                    </label>
+                    <div class="btn-group" *ngIf="item.FileUploadName!=undefined &&item.FileUploadName!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{item.FileUploadNamePath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" [disabled]="IsDisabled" class="btn btn-outline-danger" (click)="DeleteImage(idx)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="txtFinalRemark" class="form-label">Remarks <span style="color:red">*</span></label>
+        <textarea [disabled]="IsDisabled" type="text" id="txtFinalRemark" name="txtFinalRemark" class="form-control" [(ngModel)]="FinalRemark" (keypress)="alphanumbersOnly($event)"></textarea>
+        <p class="text-danger" *ngIf="isSubmit&&(FinalRemark=='' || FinalRemark==null)"> This field is required .!</p>
+      </div>
+    </div>
+    <div class="row  m-2">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-primary" *ngIf="QueryStringStatus == 'Pending'" (click)="SaveData()" title="Submit">Submit</button>
+      </div>
+    </div>
+  </div>
+  </div>

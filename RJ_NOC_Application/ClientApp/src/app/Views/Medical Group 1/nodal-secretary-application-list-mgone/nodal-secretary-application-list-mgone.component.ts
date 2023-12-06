@@ -50,7 +50,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
   async GetLOIApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Forward' : Status == 'Pending' ? 'Apply LOI,Forward' : '';
+      ActionName = Status == 'Completed' ? 'Forward' : Status == 'Pending' ? 'Apply LOI,Forward,ReSubmit Application' : '';
 
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.GetLOIApplicationList(RoleId, UserID, Status, ActionName)
