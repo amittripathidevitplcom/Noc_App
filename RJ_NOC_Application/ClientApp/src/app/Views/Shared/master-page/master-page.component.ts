@@ -83,12 +83,14 @@ export class MasterPageComponent implements OnInit {
     console.log(this.sSOLoginDataModel);
     if (this.sSOLoginDataModel) {
       if (this.sSOLoginDataModel.SSOID == null && this.sSOLoginDataModel.SSOID == '' && this.sSOLoginDataModel.SSOID == undefined) {
-        window.open(GlobalConstants.SSOURL, "_self");
+        //window.open(GlobalConstants.SSOURL, "_self");
+        await this.Logout();
         // this.router.navigate(['/login']);
       }
     }
     else {
-      window.open(GlobalConstants.SSOURL, "_self");
+     // window.open(GlobalConstants.SSOURL, "_self");
+      await this.Logout();
       // this.router.navigate(['/login']);
     }
     this.RoleID = this.sSOLoginDataModel.UserID;
@@ -263,8 +265,10 @@ export class MasterPageComponent implements OnInit {
     return GetSubMenu_Level3str;
   }
   ////////////End Load Menu///////
-
+  public configUrl: any = "";
   async Logout() {
+    this.configUrl = window['window'];
+    var LogoutURL = this.configUrl["config"]['backtossourl_logout'];
     console.log("Logout...");
     sessionStorage.removeItem('UserID');
     sessionStorage.removeItem('LoginID');
@@ -274,7 +278,7 @@ export class MasterPageComponent implements OnInit {
 
     try {
       await this.loaderService.requestStarted();
-      await this.menuService.SSOLogout();
+      await this.menuService.SSOLogout(LogoutURL?.toString());
     }
     catch (Ex) {
       console.log(Ex);
@@ -298,6 +302,8 @@ export class MasterPageComponent implements OnInit {
   }
 
   async BackToSSO() {
+    this.configUrl = window['window'];
+    var backtossour= this.configUrl["config"]['backtossourl'];
     console.log("BAck to SSO...");
     sessionStorage.removeItem('UserID');
     sessionStorage.removeItem('LoginID');
@@ -306,7 +312,7 @@ export class MasterPageComponent implements OnInit {
 
     try {
       this.loaderService.requestStarted();
-      await this.menuService.BackToSSO();
+      await this.menuService.BackToSSO(backtossour?.toString());
     }
     catch (Ex) {
       console.log(Ex);

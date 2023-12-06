@@ -85,11 +85,12 @@ export class MenuService {
   }
 
 
-  public SSOLogout() {
-    window.open(GlobalConstants.BacktoSSOURL_Logout, "_self");
+  public SSOLogout(LogoutURL: string) {
+    //window.open(GlobalConstants.BacktoSSOURL_Logout, "_self");
+    window.open(LogoutURL, "_self");
   }
-  public BackToSSO() {
-    window.open(GlobalConstants.BacktoSSOURL, "_self");
+  public BackToSSO(backtossour: string) {
+    window.open(backtossour, "_self");
   }
   public SaveData(request: MenuDataModel): Observable<any> {
     const headers = { 'content-type': 'application/json' }
