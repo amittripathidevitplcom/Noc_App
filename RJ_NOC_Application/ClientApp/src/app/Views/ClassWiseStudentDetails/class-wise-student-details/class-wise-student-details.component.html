@@ -34,22 +34,24 @@
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+            <table class="table table-hover   table-bordered" id="tabellist" #content>
               <thead>
+                <tr>
+                  <th colspan="19"></th>
+                  <th colspan="4" class="text-center">Minority (Out of Total)</th>
+                  <th colspan="4" class="text-center">PH (Out of Total)</th>
+                </tr>
                 <tr>
                   <th>Sr. No</th>
                   <th>Faculty</th>
                   <th>Class</th>
-
                   <th>Section</th>
-
                   <th>SC Boys</th>
                   <th>SC Girls</th>
                   <th>ST Boys</th>
                   <th>ST Girls</th>
                   <th>OBC Boys</th>
                   <th>OBC Girls</th>
-
                   <th>MBC Boys</th>
                   <th>MBC Girls</th>
                   <th>Gen Boys</th>
@@ -58,14 +60,19 @@
                   <th>EWS  Girls</th>
                   <th>Total Boys</th>
                   <th>Total Girls</th>
-                  <th>Total Minority Boys</th>
-                  <th>Total Minority Girls</th>
-                  <th>Total PH Boys</th>
-                  <th>Total PH Girls</th>
+                  <th>Total</th>
+                  <th>Boys</th>
+                  <th>Girls</th>
+                  <th>Transgender</th>
+                  <th>Total</th>
+                  <th>Boys</th>
+                  <th>Girls</th>
+                  <th>Transgender</th>
+                  <th>Total</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of ClassWiseStudentDetailsList let idx=index;">
+                <tr *ngFor="let item of request.ClassWiseStudentDetails let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>
                     {{item.CourseName}}
@@ -119,7 +126,7 @@
                     <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txEWSBoysTotal{{idx}}" name="txEWSBoysTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.EWSBoysCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
                   </td>
                   <td>
-                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txEWSGirlsTotal{{idx}}" name="txEWSGirlsTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.EWSGirlsCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'"> 
+                    <input type="text" class="form-control" (blur)="CalculateAll(item,idx)" id="txEWSGirlsTotal{{idx}}" name="txEWSGirlsTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.EWSGirlsCount" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
                   </td>
                   <td>
                     <input type="text" class="form-control" disabled id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.TotalBoys" autocomplete="off">
@@ -128,20 +135,38 @@
                     <input type="text" class="form-control" disabled id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.TotalGirls" autocomplete="off">
 
                   </td>
-
                   <td>
-                    <input type="text" class="form-control" id="txOFTotalMinorityBoys{{idx}}" (keypress)="numberOnly($event)" name="txOFTotalMinorityBoys{{idx}}" [(ngModel)]="item.OFTotalMinorityBoys" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
-                  </td>
-                  <td>
-                    <input type="text" class="form-control" id="txOFTotalMinorityGirls{{idx}}" (keypress)="numberOnly($event)" name="txOFTotalMinorityGirls{{idx}}" [(ngModel)]="item.OFTotalMinorityGirls" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
+                    <input type="text" class="form-control" disabled id="txTotal{{idx}}" name="txTotal{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.Total" autocomplete="off" style="width: 80px !important;">
                   </td>
 
                   <td>
-                    <input type="text" class="form-control" id="txOFTotalPHBoys{{idx}}" (keypress)="numberOnly($event)" name="txOFTotalPHBoys{{idx}}" [(ngModel)]="item.OFTotalPHBoys" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
+                    <input type="text" class="form-control" id="txOFTotalMinorityBoys{{idx}}" (blur)="CalculateAll(item,idx)" (keypress)="numberOnly($event)" name="txOFTotalMinorityBoys{{idx}}" [(ngModel)]="item.OFTotalMinorityBoys" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'" style="width: 80px !important;">
                   </td>
                   <td>
-                    <input type="text" class="form-control" id="txOFTotalPHGirls{{idx}}" (keypress)="numberOnly($event)" name="txOFTotalPHGirls{{idx}}" [(ngModel)]="item.OFTotalPHGirls" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
+                    <input type="text" class="form-control" id="txOFTotalMinorityGirls{{idx}}" (blur)="CalculateAll(item,idx)" (keypress)="numberOnly($event)" name="txOFTotalMinorityGirls{{idx}}" [(ngModel)]="item.OFTotalMinorityGirls" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'" style="width: 80px !important;">
                   </td>
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalMinorityTransgender{{idx}}" (blur)="CalculateAll(item,idx)" (keypress)="numberOnly($event)" name="txOFTotalMinorityTransgender{{idx}}" [(ngModel)]="item.OFTotalMinorityTransgender" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'" style="width: 80px !important;">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txtMinorityTotal{{idx}}" (keypress)="numberOnly($event)" name="txtMinorityTotal{{idx}}" [(ngModel)]="item.MinorityTotal" disabled autocomplete="off" style="width: 80px !important;">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalPHBoys{{idx}}" (blur)="CalculateAll(item,idx)" (keypress)="numberOnly($event)" name="txOFTotalPHBoys{{idx}}" [(ngModel)]="item.OFTotalPHBoys" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'" style="width: 80px !important;">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalPHGirls{{idx}}" (blur)="CalculateAll(item,idx)" (keypress)="numberOnly($event)" name="txOFTotalPHGirls{{idx}}" [(ngModel)]="item.OFTotalPHGirls" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'" style="width: 80px !important;">
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="txOFTotalPHTransgender{{idx}}" (blur)="CalculateAll(item,idx)" (keypress)="numberOnly($event)" name="txOFTotalPHTransgender{{idx}}" [(ngModel)]="item.OFTotalPHTransgender" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'" style="width: 80px !important;">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" id="txtPHTotal{{idx}}" (keypress)="numberOnly($event)" name="txtPHTotal{{idx}}" [(ngModel)]="item.PHTotal" disabled autocomplete="off" style="width: 80px !important;">
+                  </td>
+
                 </tr>
               </tbody>
               <tfoot>
@@ -164,10 +189,15 @@
                   <td>{{EWSGirlsCountFooter}}</td>
                   <td>{{TotalBoysFooter}}</td>
                   <td>{{TotalGirlsFooter}}</td>
+                  <td>{{TotalBoys_GirlsFooter}}</td>
                   <td>{{OFTotalMinorityBoysFooter}}</td>
                   <td>{{OFTotalMinorityGirlsFooter}}</td>
+                  <td>{{TotalOFTotalMinorityTransgenderFooter}}</td>
+                  <td>{{TotalMinorityTotalFooter}}</td>
                   <td>{{OFTotalPHBoysFooter}}</td>
                   <td>{{OFTotalPHGirlsFooter}}</td>
+                  <td>{{TotalOFTotalPHTransgenderFooter}}</td>
+                  <td>{{TotalPHMinorityTotalFooter}}</td>
                 </tr>
               </tfoot>
             </table>

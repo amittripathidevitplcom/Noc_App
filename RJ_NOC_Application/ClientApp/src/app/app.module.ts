@@ -304,6 +304,8 @@ import { ForwardByMinisterListMGOneComponent } from './Views/Medical Group 1/for
 import { DeputySecretaryListMGOneComponent } from './Views/Medical Group 1/deputy-secretary-list-mgone/deputy-secretary-list-mgone.component';
 import { GenerateLOIReportMGOneComponent } from './Views/Medical Group 1/generate-loireport-mgone/generate-loireport-mgone.component';
 import { IssuedLOIReportMGOneComponent } from './Views/Medical Group 1/issued-loireport-mgone/issued-loireport-mgone.component';
+import { StatisticsEntryComponent } from './Views/Statistics/statistics-entry/statistics-entry.component';
+import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-college-list/statistics-college-list.component';
 
 
 
@@ -600,6 +602,8 @@ import { IssuedLOIReportMGOneComponent } from './Views/Medical Group 1/issued-lo
     DeputySecretaryListMGOneComponent,
     GenerateLOIReportMGOneComponent,
     IssuedLOIReportMGOneComponent,
+    StatisticsEntryComponent,
+    StatisticsCollegeListComponent,
   ],
   imports: [
     CommonModule,

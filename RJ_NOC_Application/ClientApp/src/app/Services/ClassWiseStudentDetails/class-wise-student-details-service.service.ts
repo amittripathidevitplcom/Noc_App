@@ -5,7 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { AadharServiceDataModel } from '../../Models/AadharServiceDataModel';
 import { PostClassWiseStudentDetailsDataModel } from '../../Models/ClassWiseStudentDetailsDataModel';
-import { PostSubjectWiseStatisticsDetailsDataModel } from '../../Models/SubjectWiseStatisticsDetailsDataModel';
+import { PostSubjectWiseStatisticsDetailsDataModel, StatisticsFinalSubmitDataModel } from '../../Models/SubjectWiseStatisticsDetailsDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +61,14 @@ export class ClassWiseStudentDetailsServiceService {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + "/SaveDataSubjectWise", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async StatisticsFinalSubmit_Save(request: StatisticsFinalSubmitDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/StatisticsFinalSubmit_Save", body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
