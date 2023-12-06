@@ -187,6 +187,8 @@ import { GenerateLOIReportMGOneComponent } from './Views/Medical Group 1/generat
 import { IssuedLOIReportMGOneComponent } from './Views/Medical Group 1/issued-loireport-mgone/issued-loireport-mgone.component';
 import { RevertApplicationDetailEntryMGOneComponent } from './Views/Medical Group 1/revert-application-detail-entry-mgone/revert-application-detail-entry-mgone.component';
 import { CollegeManagementSocietyRevertComponent } from './Views/college-management-society-revert/college-management-society-revert.component';
+import { ClassWiseStaticReportDCEComponent } from './Views/DCE/class-wise-static-report-dce/class-wise-static-report-dce.component';
+import { SubjectWiseStaticReportDCEComponent } from './Views/DCE/subject-wise-static-report-dce/subject-wise-static-report-dce.component';
 const routes: Routes = [
   {
     path: 'login', component: LoginComponent
@@ -770,6 +772,12 @@ const routes: Routes = [
       },
       {
         path: 'issuedloireportmgone', component: IssuedLOIReportMGOneComponent
+      },
+      {
+        path: 'classwisestaticreport', component: ClassWiseStaticReportDCEComponent
+      },
+      {
+        path: 'subjectwisestaticreport', component: SubjectWiseStaticReportDCEComponent
       },
       {
         path: 'LOIapplyentry/:DepartmentID/:CollegeID', component: LOIApplyEntryComponent,

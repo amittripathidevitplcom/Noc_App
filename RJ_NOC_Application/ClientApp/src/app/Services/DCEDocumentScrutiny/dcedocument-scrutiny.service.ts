@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { LandDetailDataModel } from '../../Models/LandDetailDataModel';
 
 import { GlobalConstants } from '../../Common/GlobalConstants';
+import { SearchFilterDataModel } from '../../Models/TabDetailDataModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -340,6 +341,13 @@ export class DCEDocumentScrutinyService {
       })
     };
     return await this.http.post(this.APIUrl + "/DCEPdfEsign/" + ApplyNOCID + "/" + ParameterID + "/" + CreatedBy, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetClassWiseStaticReport(request: SearchFilterDataModel) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl + '/GetClassWiseStaticReport/', request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

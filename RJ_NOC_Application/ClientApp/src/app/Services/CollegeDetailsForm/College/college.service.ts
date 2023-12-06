@@ -93,4 +93,11 @@ export class CollegeService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetCollegesByDepartmentID(DepartmentID: number) {
+    const headers = { 'content-type': 'application/json' }
+    return await this.http.get(this.APIUrl + "/GetCollegesByDepartmentID/" + DepartmentID, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

@@ -6,6 +6,7 @@ import { LandDetailDataModel } from '../../Models/LandDetailDataModel';
 
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { CommiteeInspection_RNCCheckList_DataModel } from '../../Models/ApplyNOCApplicationDataModel';
+import { SearchFilterDataModel } from '../../Models/TabDetailDataModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -218,4 +219,5 @@ export class MGOneDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
 }
