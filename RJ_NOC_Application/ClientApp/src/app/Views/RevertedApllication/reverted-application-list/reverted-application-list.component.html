@@ -73,12 +73,12 @@
                       <a href="javascript:void(0)" (click)="DraftEdit_OnClick(row.DepartmentID,row.CollegeID,row.ApplyNocApplicationID)" class="btn btn-sm btn-info">
                         <i title="Edit Application" class="fa fa-edit"></i>
                       </a>
-                      <a href="javascript:void(0)" (click)="CheckList_OnClick(row.DepartmentID,row.CollegeID,row.ApplyNocApplicationID)" class="btn btn-sm btn-info">
+                      <a href="javascript:void(0)" (click)="CheckList_OnClick(RevertRemarkModel,row.DepartmentID,row.CollegeID,row.ApplyNocApplicationID)" class="btn btn-sm btn-info">
                         <i title="Application Comments" class="fa fa-list"></i>
                       </a> 
-                      <a href="javascript:void(0)" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,row.ApplyNocApplicationID,row.DepartmentID,row.CollegeID,row.ApplicationNo)" class="btn btn-sm btn-info">
+                      <!--<a href="javascript:void(0)" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,row.ApplyNocApplicationID,row.DepartmentID,row.CollegeID,row.ApplicationNo)" class="btn btn-sm btn-info">
                         <i title="Physical Verification Details" class="fa fa-list"></i>
-                      </a>
+                      </a>-->
                     </div>
                   </td>
                 </tr>
@@ -257,6 +257,26 @@
               </tr>-->
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #RevertRemarkModel let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Reverted Reason</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <!--<div class="card-header">
+        <b>Reverted Reason</b>
+      </div>-->
+      <div class="card-body">
+        <div class="row">
+          {{RevertRemarks}}
         </div>
       </div>
     </div>

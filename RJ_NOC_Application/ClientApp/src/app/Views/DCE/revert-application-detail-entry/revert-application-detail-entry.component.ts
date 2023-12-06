@@ -413,7 +413,7 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
   async GetRevertedTabData() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.GetRevertedTabData(this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.GetRevertedTabData(this.SelectedApplyNOCID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.RevertedTabData = data['Data'][0]['data'][0];

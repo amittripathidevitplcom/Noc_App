@@ -46,8 +46,12 @@ export class OSDApplicationListMGOneComponent implements OnInit {
   async GetLOIApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Approve and Forward,Forward To Secretary By Minister,Reject and Forward,Revert' : Status == 'Pending' ? 'Approve and Forward,Forward,Forward To Secretary' : '';
-
+      if (this.sSOLoginDataModel.RoleID == 14 || this.sSOLoginDataModel.RoleID == 6) {
+        ActionName = Status == 'Completed' ? 'Approve and Forward,Forward To' : Status == 'Pending' ? 'Approve and Forward,Forward' : Status == 'Revert' ? 'Revert' : '';
+      }
+      else {
+        ActionName = Status == 'Completed' ? 'Approve and Forward,Minister Forward To,Reject and Forward,Revert' : Status == 'Pending' ? 'Approve and Forward,Forward,Forward To' : '';
+      }
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.GetLOIApplicationList(RoleId, UserID, Status, ActionName)
         .then((data: any) => {

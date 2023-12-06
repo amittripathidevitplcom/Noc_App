@@ -321,13 +321,13 @@ export class DCEDocumentScrutinyService {
       ).toPromise();
   }
 
-  public async GetRevertedTabData(ApplyNOCID: number) {
+  public async GetRevertedTabData(ApplyNOCID: number, CollegeID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetRevertedTabData/" + ApplyNOCID )
+    return await this.http.get(this.APIUrl + "/GetRevertedTabData/" + ApplyNOCID + "/" + CollegeID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

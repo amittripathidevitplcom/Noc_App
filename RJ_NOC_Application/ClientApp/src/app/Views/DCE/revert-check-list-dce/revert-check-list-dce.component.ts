@@ -532,10 +532,6 @@ export class RevertCheckListDCEComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.CheckList_DocumentDetails = data['Data'][0]['CollegeDocument'][0];
           this.RequiredDocument_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          console.log('college Document');
-          console.log(data['Data'][0]['CollegeDocument']);
-          console.log('college Document');
-
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -823,7 +819,7 @@ export class RevertCheckListDCEComponent implements OnInit {
   async GetRevertedTabData() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.GetRevertedTabData(this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.GetRevertedTabData(this.SelectedApplyNOCID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.RevertedTabData = data['Data'][0]['data'][0];
