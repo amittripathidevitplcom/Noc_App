@@ -48,7 +48,7 @@ export class ClassWiseStaticReportDCEComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-    //await this.GetClassWiseStaticReportList();
+    await this.GetClassWiseStaticReportList();
     await this.GetDivisionList();
     await this.GetCollegesByDepartmentID();
   }
@@ -311,5 +311,11 @@ export class ClassWiseStaticReportDCEComponent implements OnInit {
   //  }
 
   //}
+
+
+  async ResetControl() {
+    this.request = new SearchFilterDataModel();
+    await this.GetClassWiseStaticReportList();
+  }
 }
 

@@ -352,4 +352,11 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetSubjectWiseStaticReport(request: SearchFilterDataModel) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl + '/GetSubjectWiseStaticReport/', request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

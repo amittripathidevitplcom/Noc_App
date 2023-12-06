@@ -1,1 +1,146 @@
-<p>subject-wise-static-report-dce works!</p>
+<app-loader></app-loader>
+<div class="card mb-0">
+  <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+    <b><i class="bi bi-table"></i> Subject Wise Static Report</b>
+
+  </div>
+  <div class="card-body">
+
+    <div class="row">
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlDivisionID" class="form-label">Institution <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlInstitutionID" name="ddlInstitutionID" [(ngModel)]="request.InstitutionID">
+          <option value="0">All</option>
+          <option *ngFor="let item of InstitutionList" value="{{item.CollegeID}}">{{item.CollegeNameEn}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlDivisionID" class="form-label">Division <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL($event,SelectedDivisionID.value)">
+          <option value="0">All</option>
+          <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL($event,SelectedDistrictID.value)">
+          <option value="0">All</option>
+          <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlSubdivisionID" class="form-label">Subdivision <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlSubdivisionID" name="ddlSubdivisionID" [(ngModel)]="request.SubdivisionID">
+          <option value="0">All</option>
+          <option *ngFor="let item of SuvdivisionList" value="{{item.SuvdivisionID}}">{{item.SubdivisionName}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlTehsilID" class="form-label">Tehsil <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID">
+          <option value="0">All</option>
+          <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlParliamentAreaID" class="form-label">Parliament Area <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlParliamentAreaID" name="ddlParliamentAreaID" [(ngModel)]="request.ParliamentAreaID">
+          <option value="0">All</option>
+          <option *ngFor="let item of ParliamentAreaList" value="{{item.ParliamentAreaID}}">{{item.ParliamentAreaName}}</option>
+        </select>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <button type="button" class="btn btn-primary" (click)="OnClick_Search()"><i class="fa fa-search"></i> Serach</button>&nbsp;
+        <button type="button" class="btn btn-danger" (click)="ResetControl()"><i class="bi bi-bootstrap-reboot"></i> Reset</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Subject Wise Static Report</b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+              <!--<button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" ><i class="fa fa-file-pdf-o"></i></button>-->
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <i class="fa fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover   table-bordered" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Institution Name</th>
+                  <th>District Name</th>
+                  <th>Course Name</th>
+                  <th>SubjectName</th>
+
+                  <th>1st Year Boys</th>
+                  <th>1st Year Girls</th>
+
+                  <th>2nd Year Boys</th>
+                  <th>2nd Year Girls </th>
+
+                  <th>3rd Year Boys</th>
+                  <th>3rd Year Girls</th>
+
+                  <th>PG Previous Boys</th>
+                  <th>PG Previous Girls</th>
+
+                  <th>PG Final Boys</th>
+                  <th>PG Final Girls</th>
+
+                  <th>Diploma Boys</th>
+                  <th>Diploma Girls</th>
+
+                  <th>Other Boys</th>
+                  <th>Other Girls</th>
+
+                  <th>Total</th>
+
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let row of SubjectWiseStaticReportLst | tableSearchFilter:searchText;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.CollegeNameEn}}</td>
+                  <td>{{row.District_Eng}}</td>
+                  <td>{{row.CourseName}}</td>
+                  <td>{{row.SubjectName}}</td>
+
+                  <td>{{row.FirstYearBoysCount}}</td>
+                  <td>{{row.FirstYearGirlsCount}}</td>
+                  <td>{{row.SecYearBoysCount}}</td>
+                  <td>{{row.SecYearGirlsCount}}</td>
+                  <td>{{row.ThirdYearBoysCount}}</td>
+                  <td>{{row.ThirdYearGirlsCount}}</td>
+                  <td>{{row.PervYearBoysCount}}</td>
+                  <td>{{row.PervYearGirlsCount}}</td>
+                  <td>{{row.FinalYearBoysCount}}</td>
+                  <td>{{row.FinalYearGirlsCount}}</td>
+                  <td>{{row.DiplomaBoysCount}}</td>
+                  <td>{{row.DiplomaGirlsCount}}</td>
+                  <td>{{row.OtherBoysCount}}</td>
+                  <td>{{row.OtherGirlsCount}}</td>
+                  <td>{{row.Total}}</td>
+                 
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
