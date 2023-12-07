@@ -25,6 +25,7 @@ import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
+import { ClassWiseStudentDetailsServiceService } from '../../../Services/ClassWiseStudentDetails/class-wise-student-details-service.service';
 
 
 @Injectable({
@@ -219,7 +220,7 @@ export class PreviewSubjectwiseStaticComponent implements OnInit {
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService,
-    private dcedocumentscrutiny: DocumentScrutinyComponent) { }
+    private dcedocumentscrutiny: DocumentScrutinyComponent,private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService) { }
 
 
 
@@ -238,7 +239,7 @@ export class PreviewSubjectwiseStaticComponent implements OnInit {
   async GetSubjectWiseStudenetDetails() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_SubjectWiseStudentDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.classWiseStudentDetailsServiceService.GetSubjectWiseStudenetDetails(this.SelectedCollageID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -246,9 +247,7 @@ export class PreviewSubjectwiseStaticComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
 
-          this.CheckList_SubjectWiseStudentDetailsList = data['Data'][0]['SubjectWiseStudentDetails'];
-          this.SubjectWiseStudentFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          this.dsrequest.FinalRemark = this.SubjectWiseStudentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.CheckList_SubjectWiseStudentDetailsList = data['Data'];
 
           this.TotalFooterSum();
 

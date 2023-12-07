@@ -31,11 +31,11 @@
                 <th>3rd Year Boys</th>
                 <th>3rd Year Girls</th>
 
-                <th>Previous Boys</th>
-                <th>Previous Girls</th>
+                <th>PG Previous Boys</th>
+                <th>PG Previous Girls</th>
 
-                <th>Final Boys</th>
-                <th>Final Girls</th>
+                <th>PG Final Boys</th>
+                <th>PG Final Girls</th>
 
                 <th>Diploma Boys</th>
                 <th>Diploma Girls</th>
@@ -44,7 +44,7 @@
                 <th>Other Girls</th>
 
                 <th>Total</th>
-                <th>Trails</th>
+
               </tr>
             </thead>
             <tbody>
@@ -61,60 +61,59 @@
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}" [(ngModel)]="item.FirstYearBoysCount" autocomplete="off">
+                  {{item.FirstYearBoysCount}}
 
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" [(ngModel)]="item.FirstYearGirlsCount" autocomplete="off">
+                  {{item.FirstYearGirlsCount}}
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.SecYearBoysCount" autocomplete="off">
+                  {{item.SecYearBoysCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.SecYearGirlsCount" autocomplete="off">
+                  {{item.SecYearGirlsCount}}
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}" [(ngModel)]="item.ThirdYearBoysCount" autocomplete="off">
+                  {{item.ThirdYearBoysCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}" [(ngModel)]="item.ThirdYearGirlsCount" autocomplete="off">
+                  {{item.ThirdYearGirlsCount}}
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.PervYearBoysCount" autocomplete="off">
+                  {{item.PervYearBoysCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.PervYearGirlsCount" autocomplete="off">
+                  {{item.PervYearGirlsCount}}
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}" [(ngModel)]="item.FinalYearBoysCount" autocomplete="off">
+                  {{item.FinalYearBoysCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}" [(ngModel)]="item.FinalYearGirlsCount" autocomplete="off">
+                  {{item.FinalYearGirlsCount}}
                 </td>
 
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}" [(ngModel)]="item.DiplomaBoysCount" autocomplete="off">
+                  {{item.DiplomaBoysCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.DiplomaGirlsCount" autocomplete="off">
+                  {{item.DiplomaGirlsCount}}
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txOtherBoysCount{{idx}}" name="txTotalBoys{{idx}}" [(ngModel)]="item.OtherBoysCount" autocomplete="off">
+                  {{item.OtherBoysCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txOtherGirlsCount{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.OtherGirlsCount" autocomplete="off">
+                  {{item.OtherGirlsCount}}
                 </td>
 
                 <td>
-                  <input type="text" class="form-control" disabled id="txTotal{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.Total" autocomplete="off">
+                  {{item.Total}}
                 </td>
-                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.SubjectStaticsID,'SubjectWiseStudentTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
 
               </tr>
             </tbody>
