@@ -189,7 +189,8 @@ export class ClassWiseStudentDetailsComponent implements OnInit {
     let PHB = item.OFTotalPHBoys == undefined ? 0 : item.OFTotalPHBoys;
     let PHG = item.OFTotalPHGirls == undefined ? 0 : item.OFTotalPHGirls;
     let PHT = item.OFTotalPHTransgender == undefined ? 0 : item.OFTotalPHTransgender;
-    item.PHTotal = Number(PHB) + Number(PHG) + Number(PHT);
+    //item.PHTotal = Number(PHB) + Number(PHG) + Number(PHT);
+    item.PHTotal = Number(PHB) + Number(PHG);
 
     await this.TotalFooterSum();
   }

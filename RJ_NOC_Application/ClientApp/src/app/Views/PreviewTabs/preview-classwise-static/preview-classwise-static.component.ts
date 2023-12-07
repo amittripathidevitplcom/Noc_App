@@ -25,6 +25,7 @@ import { TrusteeGeneralInfoService } from '../../../Services/TrusteeGeneralInfo/
 import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { DocumentScrutinyComponent } from '../../DCE/document-scrutiny/document-scrutiny.component';
+import { ClassWiseStudentDetailsServiceService } from '../../../Services/ClassWiseStudentDetails/class-wise-student-details-service.service';
 
 
 @Injectable({
@@ -214,12 +215,19 @@ export class PreviewClasswiseStaticComponent implements OnInit {
   OtherGirlsCountFooter: number = 0
   TotalFooter: number = 0
 
+  TotalBoys_GirlsFooter: number = 0
+  TotalTotalBoys_GirlsFooter: number = 0
+  TotalOFTotalMinorityTransgenderFooter: number = 0
+  TotalMinorityTotalFooter: number = 0
+  TotalOFTotalPHTransgenderFooter: number = 0
+  TotalPHMinorityTotalFooter: number = 0
+
 
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DCEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService,
-    private dcedocumentscrutiny: DocumentScrutinyComponent) { }
+    private dcedocumentscrutiny: DocumentScrutinyComponent, private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService) { }
 
 
 
@@ -237,16 +245,14 @@ export class PreviewClasswiseStaticComponent implements OnInit {
     try {
 
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_ClassWiseStudentDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.classWiseStudentDetailsServiceService.GetCollegeWiseStudenetDetails(this.SelectedCollageID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.CheckList_ClassWiseStudentDetailsList = data['Data'][0]['ClassWiseStudentDetails'];
-          this.ClassWiseStudentFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          this.dsrequest.FinalRemark = this.ClassWiseStudentFinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
+          this.CheckList_ClassWiseStudentDetailsList = data['Data'];
           this.TotalClassWiseStudentFooterSum();
         }, error => console.error(error));
     }

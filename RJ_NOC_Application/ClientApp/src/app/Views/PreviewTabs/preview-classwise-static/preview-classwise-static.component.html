@@ -16,19 +16,21 @@
           <table class="table table-hover table-striped-columns" id="tabellist" #content>
             <thead>
               <tr>
+                <th colspan="19"></th>
+                <th colspan="3" class="text-center">Minority (Out of Total)</th>
+                <th colspan="3" class="text-center">PH (Out of Total)</th>
+              </tr>
+              <tr>
                 <th>Sr. No</th>
                 <th>Faculty</th>
                 <th>Class</th>
-
                 <th>Section</th>
-
                 <th>SC Boys</th>
                 <th>SC Girls</th>
                 <th>ST Boys</th>
                 <th>ST Girls</th>
                 <th>OBC Boys</th>
                 <th>OBC Girls</th>
-
                 <th>MBC Boys</th>
                 <th>MBC Girls</th>
                 <th>Gen Boys</th>
@@ -37,11 +39,15 @@
                 <th>EWS  Girls</th>
                 <th>Total Boys</th>
                 <th>Total Girls</th>
-                <th>Total Minority Boys</th>
-                <th>Total Minority Girls</th>
-                <th>Total PH Boys</th>
-                <th>Total PH Girls</th>
-                <th>Trails</th>
+                <th>Total</th>
+                <th>Boys</th>
+                <th>Girls</th>
+                <!--<th>Transgender</th>-->
+                <th>Total</th>
+                <th>Boys</th>
+                <th>Girls</th>
+                <th>Total</th>
+                <th>Transgender</th>
               </tr>
             </thead>
             <tbody>
@@ -55,80 +61,97 @@
                   {{item.Class}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txSCSection{{idx}}" name="txSection{{idx}}" [(ngModel)]="item.Section" autocomplete="off">
-
-                </td>
-
-                <td>
-                  <input type="text" disabled class="form-control" id="txSCBoysTotal{{idx}}" name="txSCBoysTotal{{idx}}" [(ngModel)]="item.SCBoysCount" autocomplete="off">
-
+                  {{item.Section}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txSCGirlsTotal{{idx}}" name="txSCGirlsTotal{{idx}}" [(ngModel)]="item.SCGirlsCount" autocomplete="off">
+                  {{item.SCBoysCount}}
+                </td>
+                <td>
+                  {{item.SCGirlsCount}}
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.STBoysCount" autocomplete="off">
+                  {{item.STBoysCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txSTBoysTotal{{idx}}" name="txSTBoysTotal{{idx}}" [(ngModel)]="item.STGirlsCount" autocomplete="off">
+                  {{item.STGirlsCount}}
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txOBCBoysTotal{{idx}}" name="txOBCBoysTotal{{idx}}" [(ngModel)]="item.OBCBoysCount" autocomplete="off">
+                  {{item.OBCBoysCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txOBCGirlsCount{{idx}}" name="txOBCGirlsCount{{idx}}" [(ngModel)]="item.OBCGirlsCount" autocomplete="off">
+                  {{item.OBCGirlsCount}}
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.MBCBoysCount" autocomplete="off">
+                  {{item.MBCBoysCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txMBCBoysTotal{{idx}}" [(ngModel)]="item.MBCGirlsCount" autocomplete="off">
+                  {{item.MBCGirlsCount}}
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenBoysTotal{{idx}}" [(ngModel)]="item.GenBoysCount" autocomplete="off">
+                  {{item.GenBoysCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txMBCBoysTotal{{idx}}" name="txGenGirlsTotal{{idx}}" [(ngModel)]="item.GenGirlsCount" autocomplete="off">
+                  {{item.GenGirlsCount}}
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txEWSBoysTotal{{idx}}" name="txEWSBoysTotal{{idx}}" [(ngModel)]="item.EWSBoysCount" autocomplete="off">
+                  {{item.EWSBoysCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txEWSGirlsTotal{{idx}}" name="txEWSGirlsTotal{{idx}}" [(ngModel)]="item.EWSGirlsCount" autocomplete="off">
+                  {{item.EWSGirlsCount}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txTotalBoys{{idx}}" name="txTotalBoys{{idx}}" [(ngModel)]="item.TotalBoys" autocomplete="off">
+                  {{item.TotalBoys}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txTotalGirls{{idx}}" name="txTotalGirls{{idx}}" [(ngModel)]="item.TotalGirls" autocomplete="off">
+                  {{item.TotalGirls}}
 
                 </td>
-
                 <td>
-                  <input type="text" disabled class="form-control" id="txOFTotalMinorityBoys{{idx}}" name="txOFTotalMinorityBoys{{idx}}" [(ngModel)]="item.OFTotalMinorityBoys" autocomplete="off">
-                </td>
-                <td>
-                  <input type="text" disabled class="form-control" id="txOFTotalMinorityGirls{{idx}}" name="txOFTotalMinorityGirls{{idx}}" [(ngModel)]="item.OFTotalMinorityGirls" autocomplete="off">
+                  {{item.Total}}
                 </td>
 
                 <td>
-                  <input type="text" disabled class="form-control" id="txOFTotalPHBoys{{idx}}" name="txOFTotalPHBoys{{idx}}" [(ngModel)]="item.OFTotalPHBoys" autocomplete="off">
+                  {{item.OFTotalMinorityBoys}}
                 </td>
                 <td>
-                  <input type="text" disabled class="form-control" id="txOFTotalPHGirls{{idx}}" name="txOFTotalPHGirls{{idx}}" [(ngModel)]="item.OFTotalPHGirls" autocomplete="off">
+                  {{item.OFTotalMinorityGirls}}
                 </td>
-                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.ClassStatisticID,'ClassWiseStudentTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                <!--<td>
+                  {{item.OFTotalMinorityTransgender}}
+                </td>-->
+
+                <td>
+                  {{item.MinorityTotal}}
+                </td>
+
+                <td>
+                  {{item.OFTotalPHBoys}}
+                </td>
+                <td>
+                  {{item.OFTotalPHGirls}}
+                </td>
+
+
+                <td>
+                  {{item.PHTotal}}
+                </td>
+                <td>
+                  {{item.OFTotalPHTransgender}}
+                </td>
+
               </tr>
             </tbody>
             <tfoot>
               <tr class="fw-bold">
                 <td colspan="4">Total</td>
-
+                <!--<td></td>
+  <td></td>
+  <td></td>-->
                 <td>{{SCBoysCountFooter}}</td>
                 <td>{{SCGirlsCountFooter}}</td>
                 <td>{{STBoysCountFooter}}</td>
@@ -143,11 +166,16 @@
                 <td>{{EWSGirlsCountFooter}}</td>
                 <td>{{TotalBoysFooter}}</td>
                 <td>{{TotalGirlsFooter}}</td>
+                <td>{{TotalBoys_GirlsFooter}}</td>
                 <td>{{OFTotalMinorityBoysFooter}}</td>
                 <td>{{OFTotalMinorityGirlsFooter}}</td>
+                <!--<td>{{TotalOFTotalMinorityTransgenderFooter}}</td>-->
+                <td>{{TotalMinorityTotalFooter}}</td>
                 <td>{{OFTotalPHBoysFooter}}</td>
                 <td>{{OFTotalPHGirlsFooter}}</td>
 
+                <td>{{TotalPHMinorityTotalFooter}}</td>
+                <td>{{TotalOFTotalPHTransgenderFooter}}</td>
               </tr>
             </tfoot>
           </table>
