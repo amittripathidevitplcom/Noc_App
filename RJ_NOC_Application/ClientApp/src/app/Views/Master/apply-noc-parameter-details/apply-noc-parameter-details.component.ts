@@ -343,6 +343,37 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     // success is in verifyotp()
   }
 
+
+  async MakeGrassPayment_click(item: any) {
+    try {
+      this.loaderService.requestStarted();
+      debugger;
+      // payment request
+      this.nocPaymentComponent.request.ApplyNocApplicationID = item.ApplyNocApplicationID;
+      this.nocPaymentComponent.request.AMOUNT = item.TotalFeeAmount;
+      this.nocPaymentComponent.request.USEREMAIL = item.CollegeEmail;
+      this.nocPaymentComponent.request.USERNAME = item.CollegeName.substring(0, 49).replace(/[^a-zA-Z ]/g, "");
+      this.nocPaymentComponent.request.USERMOBILE = item.CollegeMobileNo;
+      this.nocPaymentComponent.request.PURPOSE = "Noc Payment";
+      this.nocPaymentComponent.request.DepartmentID = item.DepartmentID;
+      this.nocPaymentComponent.request.CreatedBy = this.sSOLoginDataModel.UserID;
+      this.nocPaymentComponent.request.SSOID = this.sSOLoginDataModel.SSOID;
+      // post
+      await this.nocPaymentComponent.EgrassPaymentRequest()
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
   // mobile otp
   CloseOTPModel() {
     const display = document.getElementById('ModalOtpVerify');

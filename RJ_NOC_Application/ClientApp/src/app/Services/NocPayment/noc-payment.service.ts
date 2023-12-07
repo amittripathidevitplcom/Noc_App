@@ -122,5 +122,16 @@ export class NocpaymentService
       ).toPromise();
   }
 
+  public async GRAS_PaymentRequest(request: RequestDetails) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/GRAS_PaymentRequest", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
+
 
 }

@@ -222,9 +222,6 @@ export class NocPaymentComponent implements OnInit {
       }, 200);
     }
   }
-
-
-
   RedirectEmitraPaymentRequest(pMERCHANTCODE: any, pENCDATA: any, pServiceURL: any)
   {
 
@@ -259,4 +256,76 @@ export class NocPaymentComponent implements OnInit {
 
   }
 
+
+
+
+
+  async EgrassPaymentRequest()
+  {
+    //debugger
+    this.loaderService.requestStarted();
+    try {
+      await this.nocpaymentService.GRAS_PaymentRequest(this.request)
+        .then((data: any) =>
+        {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (!this.State)
+          {
+            this.RedirectEgrassPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL, data.Data.AUIN)
+          }
+          else
+          {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  RedirectEgrassPaymentRequest(pMERCHANTCODE: any, pENCDATA: any, pServiceURL: any, pAUIN:any)
+  {
+
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", pServiceURL);
+
+    var hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", "ENCDATA");
+    hiddenField.setAttribute("value", pENCDATA);
+    form.appendChild(hiddenField);
+
+    var hiddenFieldService = document.createElement("input");
+    hiddenFieldService.setAttribute("type", "hidden");
+    hiddenFieldService.setAttribute("name", "SERVICEID");
+    hiddenFieldService.setAttribute("value", "8184");
+    form.appendChild(hiddenFieldService);
+
+    var MERCHANTCODE = document.createElement("input");
+    MERCHANTCODE.setAttribute("type", "hidden");
+    MERCHANTCODE.setAttribute("name", "Merchant_code");
+    MERCHANTCODE.setAttribute("value", pMERCHANTCODE);
+    form.appendChild(MERCHANTCODE);
+
+
+    var AUIN = document.createElement("input");
+    AUIN.setAttribute("type", "hidden");
+    AUIN.setAttribute("name", "AUIN");
+    AUIN.setAttribute("value", pAUIN);
+    form.appendChild(AUIN);
+
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+
+  }
 }
