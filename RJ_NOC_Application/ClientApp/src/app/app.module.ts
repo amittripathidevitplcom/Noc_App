@@ -316,6 +316,7 @@ import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-co
 //import { PreviewTabsComponent } from './Views/PreviewTabs/preview-tabs/preview-tabs.component';
 import { PreviewClasswiseStaticComponent } from './Views/PreviewTabs/preview-classwise-static/preview-classwise-static.component';
 import { PreviewSubjectwiseStaticComponent } from './Views/PreviewTabs/preview-subjectwise-static/preview-subjectwise-static.component';
+import { HomeComponent } from './Views/home/home.component';
 
 
 
@@ -624,6 +625,7 @@ import { PreviewSubjectwiseStaticComponent } from './Views/PreviewTabs/preview-s
     //PreviewTabsComponent,
     PreviewClasswiseStaticComponent,
     PreviewSubjectwiseStaticComponent,
+    HomeComponent,
   ],
   imports: [
     CommonModule,
