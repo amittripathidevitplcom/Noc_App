@@ -157,7 +157,7 @@ export class StatisticsEntryComponent implements OnInit {
     }
 
 
-    if (confirm("Are you sure you want to save final save statistics data ?")) {
+    if (confirm("Are you sure you want to save final statistics data ?")) {
       this.isSubmitted = true;
       this.loaderService.requestStarted();
       this.isLoading = true;
