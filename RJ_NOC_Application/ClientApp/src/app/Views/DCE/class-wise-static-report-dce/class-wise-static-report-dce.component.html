@@ -76,7 +76,20 @@
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-hover   table-bordered" id="tabellist" #content>
+
+            <!--<ejs-grid  
+                      [dataSource]='ClassWiseStaticReportLst' [allowSorting]='true'  [allowResizing]='true'
+                      [pageSettings]='pageSettings' [allowPaging]="true" [allowReordering]='true'
+                      [toolbar]='toolbarOptions' [showColumnChooser]= 'true' id="tabellist">
+              <e-columns>
+                <e-column field='CollegeNameEn' headerText='Institue Name'></e-column>
+                <e-column field='District_Eng' headerText='District'></e-column>
+                <e-column field='CourseName' headerText='Course Name'></e-column>
+              </e-columns>
+            </ejs-grid>-->
+
+
+            <table class="table table-hover   table-bordered"  #content    id="tabellist">
               <thead>
                 <tr>
                   <th colspan="21"></th>
@@ -116,7 +129,7 @@
                   <th>Transgender</th>
                 </tr>
               </thead>
-             
+
               <tbody>
                 <tr *ngFor="let row of ClassWiseStaticReportLst | tableSearchFilter:searchText;let idx=index;">
                   <td>{{idx+1}}</td>
