@@ -191,6 +191,7 @@ import { ClassWiseStaticReportDCEComponent } from './Views/DCE/class-wise-static
 import { SubjectWiseStaticReportDCEComponent } from './Views/DCE/subject-wise-static-report-dce/subject-wise-static-report-dce.component';
 import { StatisticsEntryComponent } from './Views/Statistics/statistics-entry/statistics-entry.component';
 import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-college-list/statistics-college-list.component';
+import { HomeComponent } from './Views/home/home.component';
 
 const routes: Routes = [
   {
@@ -216,6 +217,9 @@ const routes: Routes = [
   },
   {
     path: 'paymentstatus/:TransID', component: EmitraPaymentResponseComponent
+  },
+  {
+    path: 'home', component: HomeComponent
   },
   {
     path: '', component: MasterPageComponent,
