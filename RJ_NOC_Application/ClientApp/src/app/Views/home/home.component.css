@@ -4,8 +4,7 @@ body { background:#ffffff !important;}
   box-shadow: 0 0 9px 0 #999;
   background: #fafafa;
   padding: 15px;
-  border-radius: 13px;
-  height: 330px;
+  border-radius: 13px; 
 }
 
 .boxsCat:hover, .boxsCat.active {
