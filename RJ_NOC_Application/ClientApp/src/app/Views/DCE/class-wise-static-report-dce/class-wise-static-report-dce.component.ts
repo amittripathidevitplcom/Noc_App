@@ -14,6 +14,7 @@ import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster
 import { MGOneDocumentScrutinyService } from '../../../Services/MGOneDocumentScrutiny/mgonedocument-scrutiny.service';
 import { SearchFilterDataModel } from '../../../Models/TabDetailDataModel';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { ToolbarItems } from '@syncfusion/ej2-angular-grids';
 
 @Injectable()
 
@@ -39,7 +40,9 @@ export class ClassWiseStaticReportDCEComponent implements OnInit {
   public TehsilList: any = [];
   public ParliamentAreaList: any = [];
 
-  request =new SearchFilterDataModel()
+  request = new SearchFilterDataModel()
+  public pageSettings?: Object;
+  public toolbarOptions?: ToolbarItems[];
 
   constructor(private clipboard: Clipboard,private dceDocumentScrutinyService: DCEDocumentScrutinyService, private collegeservice: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private modalService: NgbModal,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private decDocumentScrutinyService: DCEDocumentScrutinyService, private mg1DocumentScrutinyService: MGOneDocumentScrutinyService) {
@@ -47,6 +50,9 @@ export class ClassWiseStaticReportDCEComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.pageSettings = { pageSizes: true, pageSize: 10 };
+    this.toolbarOptions = ['ColumnChooser'];
+
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetClassWiseStaticReportList();
     await this.GetDivisionList();

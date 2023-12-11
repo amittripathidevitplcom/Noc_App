@@ -18,6 +18,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 /*import { NgShortcutModule, NgShortcutConfig } from 'ng-shortcut';*/
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { GridModule } from '@syncfusion/ej2-angular-grids';
+import {
+  PageService, SortService, ToolbarService, FilterService, GroupService, EditService, ColumnChooserService,
+  ResizeService, ReorderService
+} from '@syncfusion/ej2-angular-grids';
+
 
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
 import { CollegeDetailsComponent } from './Views/college-details/college-details.component';
@@ -653,6 +659,7 @@ import { HomeComponent } from './Views/home/home.component';
     //NgIdleKeepaliveModule.forRoot(),
     AutocompleteLibModule,
     NgIdleModule.forRoot(),
+    GridModule,
     //NgShortcutModule.forRoot()  ,
     
 
@@ -671,7 +678,8 @@ import { HomeComponent } from './Views/home/home.component';
   //exports: [TableSearchFilterPipe],
   //exports: [LoaderModule],
   //providers: [],
-  providers: [
+  providers: [PageService, SortService, FilterService, GroupService, EditService, ToolbarService, ColumnChooserService, ResizeService,
+    ReorderService,
     {
       provide: [STEPPER_GLOBAL_OPTIONS],
       useValue: { displayDefaultIndicatorType: false },
