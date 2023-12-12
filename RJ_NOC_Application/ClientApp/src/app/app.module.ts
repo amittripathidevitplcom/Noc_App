@@ -18,6 +18,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 /*import { NgShortcutModule, NgShortcutConfig } from 'ng-shortcut';*/
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { GridModule } from '@syncfusion/ej2-angular-grids';
+import {
+  PageService, SortService, ToolbarService, FilterService, GroupService, EditService, ColumnChooserService,
+  ResizeService, ReorderService
+} from '@syncfusion/ej2-angular-grids';
+
 
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
 import { CollegeDetailsComponent } from './Views/college-details/college-details.component';
@@ -316,6 +322,7 @@ import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-co
 //import { PreviewTabsComponent } from './Views/PreviewTabs/preview-tabs/preview-tabs.component';
 import { PreviewClasswiseStaticComponent } from './Views/PreviewTabs/preview-classwise-static/preview-classwise-static.component';
 import { PreviewSubjectwiseStaticComponent } from './Views/PreviewTabs/preview-subjectwise-static/preview-subjectwise-static.component';
+import { HomeComponent } from './Views/home/home.component';
 
 import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.component';
 
@@ -626,6 +633,7 @@ import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.com
     //PreviewTabsComponent,
     PreviewClasswiseStaticComponent,
     PreviewSubjectwiseStaticComponent,
+    HomeComponent,
     
     DCENOCReportComponent,
   ],
@@ -655,6 +663,7 @@ import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.com
     //NgIdleKeepaliveModule.forRoot(),
     AutocompleteLibModule,
     NgIdleModule.forRoot(),
+    GridModule,
     //NgShortcutModule.forRoot()  ,
     
 
@@ -673,7 +682,8 @@ import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.com
   //exports: [TableSearchFilterPipe],
   //exports: [LoaderModule],
   //providers: [],
-  providers: [
+  providers: [PageService, SortService, FilterService, GroupService, EditService, ToolbarService, ColumnChooserService, ResizeService,
+    ReorderService,
     {
       provide: [STEPPER_GLOBAL_OPTIONS],
       useValue: { displayDefaultIndicatorType: false },

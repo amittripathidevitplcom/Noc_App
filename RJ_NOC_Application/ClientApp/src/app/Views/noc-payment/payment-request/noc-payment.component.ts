@@ -293,21 +293,17 @@ export class NocPaymentComponent implements OnInit {
   RedirectEgrassPaymentRequest(pMERCHANTCODE: any, pENCDATA: any, pServiceURL: any, pAUIN:any)
   {
 
+   // pServiceURL = "http://164.100.153.101/egrassectest/samplemerchantprelogin.aspx";
+
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", pServiceURL);
 
     var hiddenField = document.createElement("input");
     hiddenField.setAttribute("type", "hidden");
-    hiddenField.setAttribute("name", "ENCDATA");
+    hiddenField.setAttribute("name", "encData");
     hiddenField.setAttribute("value", pENCDATA);
     form.appendChild(hiddenField);
-
-    var hiddenFieldService = document.createElement("input");
-    hiddenFieldService.setAttribute("type", "hidden");
-    hiddenFieldService.setAttribute("name", "SERVICEID");
-    hiddenFieldService.setAttribute("value", "8184");
-    form.appendChild(hiddenFieldService);
 
     var MERCHANTCODE = document.createElement("input");
     MERCHANTCODE.setAttribute("type", "hidden");

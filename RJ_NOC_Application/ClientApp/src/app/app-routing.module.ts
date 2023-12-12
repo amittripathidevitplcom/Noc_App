@@ -192,6 +192,7 @@ import { SubjectWiseStaticReportDCEComponent } from './Views/DCE/subject-wise-st
 import { StatisticsEntryComponent } from './Views/Statistics/statistics-entry/statistics-entry.component';
 import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-college-list/statistics-college-list.component';
 import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.component';
+import { HomeComponent } from './Views/home/home.component';
 
 const routes: Routes = [
   {
@@ -217,6 +218,11 @@ const routes: Routes = [
   },
   {
     path: 'paymentstatus/:TransID', component: EmitraPaymentResponseComponent
+  },
+  {
+    path: 'home', component: HomeComponent
+  },{
+    path: '', component: HomeComponent
   },
   {
     path: '', component: MasterPageComponent,
