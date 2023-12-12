@@ -1,0 +1,204 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Noc Application</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Society</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Add College</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="container-fluid mainContents">
+
+    <div class="clearfix"></div>
+    <form [formGroup]="DCENocReportForm" class="form-horizontal">
+
+      <div class="card">
+
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b>Search Colleges</b>
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlUniversityID" class="form-label">
+                <span> University</span>
+                <span style="color:red;">*</span>
+              </label>
+
+
+              <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID" formControlName="ddlUniversityID" #selectuniversityid (change)="GetRegistrationDistrictListByRegistrationStateID(RegistrationState)">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
+              </select>
+              <div *ngIf="isSubmitted&&form.ddlUniversityID.errors" class="text-danger">
+                <p *ngIf="!form.ddlUniversityID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">
+              <span> District / RMC </span>
+              <span>District</span>
+               <span style="color:red;">*</span>
+              </label>
+
+
+              <select class="form-select" id="ddlDistrictlist" name="ddlRegistrationDistrict" [(ngModel)]="RegistrationDistrict" formControlName="ddlRegistrationDistrict">
+                <option value="0">--Select--</option>
+                <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+              </select>
+             
+              </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyCollegeName" class="form-label">Search By College Name:</label>
+              <select class="form-select" id="ddlSearchbyCollegeName" name="ddlSearchbyCollegeName">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="SearchbyCollegeEmail" class="form-label">Search By College Email:</label>
+              <select class="form-select" id="SearchbyCollegeEmail" name="SearchbyCollegeEmail">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyNocStatus" class="form-label">Search By Noc Status:</label>
+              <select class="form-select" id="ddlSearchbyNocStatus" name="ddlSearchbyNocStatus">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyStatus" class="form-label">Search By Status:</label>
+              <select class="form-select" id="ddlSearchbyStatus" name="ddlSearchbyStatus">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyNodalofficer" class="form-label">Search By Nodalofficere:</label>
+              <select class="form-select" id="ddlSearchbyNodalofficer" name="ddlSearchbyNodalofficer">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyCollegeType" class="form-label">Search By College Type:</label>
+              <select class="form-select" id="ddlSearchbyCollegeType" name="ddlSearchbyCollegeType">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbySubmittedDate" class="form-label">Search By Submitted Date:</label>
+              <select class="form-select" id="ddlSearchbySubmittedDate" name="ddlSearchbySubmittedDate">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlApplicationType" class="form-label">Application Type:</label>
+              <select class="form-select" id="ddlApplicationType" name="ddlApplicationType">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyApplicationStatus" class="form-label">Search By Application Status:</label>
+              <select class="form-select" id="ddlSearchbyApplicationStatus" name="ddlSearchbyApplicationStatus">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyThisYearNewExisting" class="form-label">Search By This Year New Existing:</label>
+              <select class="form-select" id="ddlSearchbyThisYearNewExisting" name="ddlSearchbyThisYearNewExisting">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyStatistics" class="form-label">Search By Statistics:</label>
+              <select class="form-select" id="ddlSearchbyStatistics" name="ddlSearchbyStatistics">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyApplicationID" class="form-label">Search By Application Id:</label>
+              <select class="form-select" id="ddlSearchbyApplicationID" name="ddlSearchbyApplicationID">
+                <option value="">--Select--</option>
+                <option value="Medical">Medical</option>
+                <option value="Dental">Dental</option>
+                <option value="Pharmacy">Pharmacy</option>
+              </select>
+            </div>
+
+
+
+
+
+          </div>
+
+        </div>
+
+        <div class="card-footer text-end">
+          <button type="submit" (click)="SearchData()" class="btn btn-success" >Search</button>
+          <button type="submit" (click)="ResetData()" class="btn btn-success">Reset</button>
+          <button type="submit" (click)="ExportData()" class="btn btn-success">Export Record</button>
+        </div>
+
+      </div>
+</form>
+
+
+  </div>
+
+</div>
+

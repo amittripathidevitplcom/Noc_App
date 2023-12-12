@@ -317,6 +317,8 @@ import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-co
 import { PreviewClasswiseStaticComponent } from './Views/PreviewTabs/preview-classwise-static/preview-classwise-static.component';
 import { PreviewSubjectwiseStaticComponent } from './Views/PreviewTabs/preview-subjectwise-static/preview-subjectwise-static.component';
 
+import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.component';
+
 
 
 
@@ -624,6 +626,8 @@ import { PreviewSubjectwiseStaticComponent } from './Views/PreviewTabs/preview-s
     //PreviewTabsComponent,
     PreviewClasswiseStaticComponent,
     PreviewSubjectwiseStaticComponent,
+    
+    DCENOCReportComponent,
   ],
   imports: [
     CommonModule,
