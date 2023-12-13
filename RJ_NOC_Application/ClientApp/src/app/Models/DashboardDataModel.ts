@@ -77,4 +77,17 @@ export class DashboardDataModel {
   public PVCommittee_Completed: number = 0;
 
 
+
+
+  public TotalSubmittedApplication: number = 0;
+  public ApplicationsAfterStatisticsInformation: number = 0;
+  public PendingtoSubmit: number = 0;
+  public PendingtoReceive: number = 0;
+  public PendingInspectionByNodal: number = 0;
+  public DeficiencyMarked: number = 0;
+  public DefaulterApplication: number = 0;
+  public PendingtoReportOL1: number = 0;
+  public PendingtoInspectionByOL1: number = 0;
+  public PendingtoReporttoOL2: number = 0;
+  public PendingtoInspectionByOL2: number = 0;
 }

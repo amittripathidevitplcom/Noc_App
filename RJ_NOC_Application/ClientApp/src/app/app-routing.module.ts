@@ -788,7 +788,7 @@ const routes: Routes = [
       },
 
       {
-        path: 'dcenocreport', component: DCENOCReportComponent
+        path: 'dcenocreport/:Status', component: DCENOCReportComponent
       },
 
       {

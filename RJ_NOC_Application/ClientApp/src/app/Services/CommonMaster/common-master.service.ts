@@ -1333,4 +1333,37 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetWorkFlowStatusbyDepartment(DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetWorkFlowStatusbyDepartment/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetUsersByRoleDepartment(DepartmentID: number, RoleID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(`${this.APIUrl_CommonMaster}/GetUsersByRoleDepartment/${DepartmentID}/${ RoleID}`)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetApplyNOCParameterbyDepartment(DepartmentID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(`${this.APIUrl_CommonMaster}/GetApplyNOCParameterbyDepartment/${DepartmentID}`)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
