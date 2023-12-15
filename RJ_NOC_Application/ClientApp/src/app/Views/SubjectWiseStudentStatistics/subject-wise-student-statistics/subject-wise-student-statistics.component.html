@@ -114,7 +114,7 @@
 
 
                   <td>
-                    <input type="text" class="form-control" disabled id="txTotal{{idx}}" name="txTotalGirls{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.Total" autocomplete="off">
+                    <input type="text" class="form-control" disabled id="txTotal{{idx}}" style="width:100px !important" name="txTotalGirls{{idx}}" (keypress)="numberOnly($event)" [(ngModel)]="item.Total" autocomplete="off">
                   </td>
 
                 </tr>
@@ -145,7 +145,7 @@
 
                   <td>{{OtherBoysCountFooter}}</td>
                   <td>{{OtherGirlsCountFooter}}</td>
-                  <td>{{TotalFooter}}</td>
+                  <td style="width:100px !important">{{TotalFooter}}</td>
 
                 </tr>
               </tfoot>

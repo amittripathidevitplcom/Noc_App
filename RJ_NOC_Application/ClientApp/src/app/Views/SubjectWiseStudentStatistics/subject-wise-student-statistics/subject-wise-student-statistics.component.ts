@@ -113,34 +113,34 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
 
 
     //Boys
-    this.FirstYearBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.FirstYearBoysCount).reduce((acc, value) => acc + value, 0)
-    this.FirstYearGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.FirstYearGirlsCount).reduce((acc, value) => acc + value, 0);
+    this.FirstYearBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.FirstYearBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0)
+    this.FirstYearGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.FirstYearGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0);
 
-    this.SecYearBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.SecYearBoysCount).reduce((acc, value) => acc + value, 0)
-    this.SecYearGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.SecYearGirlsCount).reduce((acc, value) => acc + value, 0);
+    this.SecYearBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.SecYearBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0)
+    this.SecYearGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.SecYearGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0);
 
-    this.ThirdYearBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.ThirdYearBoysCount).reduce((acc, value) => acc + value, 0);
-    this.ThirdYearGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.ThirdYearGirlsCount).reduce((acc, value) => acc + value, 0);
-
-    //Girls Footer SUM
-    this.FinalYearBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.FinalYearBoysCount).reduce((acc, value) => acc + value, 0)
-    this.FinalYearGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.FinalYearGirlsCount).reduce((acc, value) => acc + value, 0);
-
-
+    this.ThirdYearBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.ThirdYearBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.ThirdYearGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.ThirdYearGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0);
 
     //Girls Footer SUM
-    this.PervYearBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.PervYearBoysCount).reduce((acc, value) => acc + value, 0)
-    this.PervYearGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.PervYearBoysCount).reduce((acc, value) => acc + value, 0);
-
-    this.DiplomaBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.DiplomaBoysCount).reduce((acc, value) => acc + value, 0)
-    this.DiplomaGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.DiplomaGirlsCount).reduce((acc, value) => acc + value, 0);
+    this.FinalYearBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.FinalYearBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0)
+    this.FinalYearGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.FinalYearGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0);
 
 
-    this.OtherBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.OtherBoysCount).reduce((acc, value) => acc + value, 0);
-    this.OtherGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.OtherGirlsCount).reduce((acc, value) => acc + value, 0);
+
+    //Girls Footer SUM
+    this.PervYearBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.PervYearBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0)
+    this.PervYearGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.PervYearBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0);
+
+    this.DiplomaBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.DiplomaBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0)
+    this.DiplomaGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.DiplomaGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0);
+
+
+    this.OtherBoysCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.OtherBoysCount).reduce((acc, value) => Number(acc) + Number(value), 0);
+    this.OtherGirlsCountFooter = this.SubjectWiseStudentDetailsList.map(t => t.OtherGirlsCount).reduce((acc, value) => Number(acc) + Number(value), 0);
 
     //
-    this.TotalFooter = this.SubjectWiseStudentDetailsList.map(t => t.Total).reduce((acc, value) => acc + value, 0)
+    this.TotalFooter = this.SubjectWiseStudentDetailsList.map(t => t.Total).reduce((acc, value) => Number(acc) + Number(value), 0)
    
 
 
@@ -189,7 +189,7 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
     return true;
   }
 
-  CalculateAll(item: any, index: any)
+  async CalculateAll(item: any, index: any)
   {
 
     let frstB = item.FirstYearBoysCount == undefined ? 0 : Number(item.FirstYearBoysCount);
@@ -208,12 +208,14 @@ export class SubjectWiseStudentStatisticsComponent implements OnInit {
     let OtherG = item.OtherGirlsCount == undefined ? 0 : Number(item.OtherGirlsCount);
 
     item.Total = Number(frstB) + Number(frstG)
-              + Number(SecG) + Number(SecB)
-              + Number(ThirdB) + Number(ThirdG)
-              + Number(PervB) + Number(PervG)
-              + Number(FinalB) + Number(FinalG)
-              + Number(DiplomaB) + Number(DiplomaG)
-              + Number(OtherB) + Number(OtherG)
+      + Number(SecG) + Number(SecB)
+      + Number(ThirdB) + Number(ThirdG)
+      + Number(PervB) + Number(PervG)
+      + Number(FinalB) + Number(FinalG)
+      + Number(DiplomaB) + Number(DiplomaG)
+      + Number(OtherB) + Number(OtherG);
+
+    await this.TotalFooterSum();
   }
   public FinancialYear: string = '';
   async GetCollageDetails() {
