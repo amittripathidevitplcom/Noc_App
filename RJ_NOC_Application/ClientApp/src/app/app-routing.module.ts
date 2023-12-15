@@ -191,6 +191,7 @@ import { ClassWiseStaticReportDCEComponent } from './Views/DCE/class-wise-static
 import { SubjectWiseStaticReportDCEComponent } from './Views/DCE/subject-wise-static-report-dce/subject-wise-static-report-dce.component';
 import { StatisticsEntryComponent } from './Views/Statistics/statistics-entry/statistics-entry.component';
 import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-college-list/statistics-college-list.component';
+import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.component';
 import { HomeComponent } from './Views/home/home.component';
 
 const routes: Routes = [
@@ -762,6 +763,11 @@ const routes: Routes = [
       {
         path: 'classwisestaticreport', component: ClassWiseStaticReportDCEComponent
       },
+
+      {
+        path: 'dcenocreport/:Status', component: DCENOCReportComponent
+      },
+
       {
         path: 'subjectwisestaticreport', component: SubjectWiseStaticReportDCEComponent
       },

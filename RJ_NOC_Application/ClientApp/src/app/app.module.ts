@@ -324,6 +324,8 @@ import { PreviewClasswiseStaticComponent } from './Views/PreviewTabs/preview-cla
 import { PreviewSubjectwiseStaticComponent } from './Views/PreviewTabs/preview-subjectwise-static/preview-subjectwise-static.component';
 import { HomeComponent } from './Views/home/home.component';
 
+import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.component';
+
 
 
 
@@ -632,6 +634,8 @@ import { HomeComponent } from './Views/home/home.component';
     PreviewClasswiseStaticComponent,
     PreviewSubjectwiseStaticComponent,
     HomeComponent,
+    
+    DCENOCReportComponent,
   ],
   imports: [
     CommonModule,

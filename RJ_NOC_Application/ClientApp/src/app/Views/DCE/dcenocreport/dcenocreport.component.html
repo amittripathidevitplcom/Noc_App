@@ -1,0 +1,208 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>NOC Application</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">NOC Application</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Search Colleges</b>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlUniversityID" class="form-label">
+                <span> University</span>
+              </label>
+              <select class="form-select" id="ddlUniversityID" name="ddlUniversityID" [(ngModel)]="request.UniversityID">
+                <option value="0">All</option>
+                <option *ngFor="let item of UniversityList" value="{{item.UniversityID}}">{{item.UniversityName}}</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlDistrictID" class="form-label">
+                <span>District</span>
+              </label>
+              <select class="form-select" id="ddlDistrictlist" name="ddlRegistrationDistrict" [(ngModel)]="request.DistrictID">
+                <option value="0">All</option>
+                <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+              </select>
+
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtCollegeName" class="form-label">Search By College Name:</label>
+              <input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" [(ngModel)]="request.CollegeName" autocomplete="off">
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtCollegeEmail" class="form-label">Search By College Email:</label>
+              <input type="text" class="form-control" id="txtCollegeEmail" name="txtCollegeEmail" [(ngModel)]="request.CollegeEmail" autocomplete="off">
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyNocStatus" class="form-label">Search By Noc Status:</label>
+              <select class="form-select" id="ddlCollegeStatus" name="ddlCollegeStatus" [(ngModel)]="request.NOCStatusID">
+                <option value="0">All</option>
+                <option *ngFor="let item of CollegeStatusList" value="{{item.ID}}">{{item.Name}}</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyStatus" class="form-label">Search By Status:</label>
+              <select class="form-select" id="ddlWorkFlowStatus" name="ddlWorkFlowStatus" [(ngModel)]="request.WorkFlowActionID">
+                <option value="0">All</option>
+                <option *ngFor="let item of WorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyNodalofficer" class="form-label">Search By Nodal Officer:</label>
+              <select class="form-select" id="ddlSearchbyNodalofficer" name="ddlSearchbyNodalofficer" [(ngModel)]="request.NodelOfficerID">
+                <option value="0">All</option>
+                <option *ngFor="let item of NodalOfficerList" value="{{item.UId}}">{{item.Name}} ( {{item.SSOID}} )</option>
+              </select>
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyCollegeType" class="form-label">Search By College Type:</label>
+              <select class="form-select" id="ddlSearchbyCollegeType" name="ddlSearchbyCollegeType" [(ngModel)]="request.CollegeTypeID">
+                <option value="0">All</option>
+                <option *ngFor="let item of CollegeTypeList" value="{{item.ID}}">{{item.Name}}</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="dtfromSubmittedDate" class="form-label">From Submitted Date:</label>
+              <input type="date" id="dtfromSubmittedDate" name="dtfromSubmittedDate" class="form-control" [(ngModel)]="request.FromSubmitDate" onkeypress="return false;" />
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="dttoSubmittedDate" class="form-label">To Submitted Date:</label>
+              <input type="date" id="dttoSubmittedDate" name="dttoSubmittedDate" class="form-control" [(ngModel)]="request.ToSubmitDate" onkeypress="return false;" />
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlApplicationType" class="form-label">Application Type:</label>
+              <select class="form-select" id="ddlApplicationType" name="ddlApplicationType" [(ngModel)]="request.ApplicationTypeID">
+                <option value="0">All</option>
+                <option *ngFor="let item of ApplicationTypeList" value="{{item.ApplyNocID}}">{{item.ApplyNocFor}}</option>
+              </select>
+            </div>
+
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyApplicationStatus" class="form-label">Search By Application Status:</label>
+              <select class="form-select" id="ddlSearchbyApplicationStatus" name="ddlSearchbyApplicationStatus" [(ngModel)]="request.ApplicationStatusID">
+                <option value="0">All</option>
+                <option value="1">Existing Defaulter</option>
+                <option value="2">Fresh Defaulter</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyThisYearNewExisting" class="form-label">Search By This Year New Existing:</label>
+              <select class="form-select" id="ddlSearchbyThisYearNewExisting" name="ddlSearchbyThisYearNewExisting" [(ngModel)]="request.YearNewExistingID">
+                <option value="0">All</option>
+                <option value="1">Yes</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyStatistics" class="form-label">Search By Statistics:</label>
+              <select class="form-select" id="ddlSearchbyStatistics" name="ddlSearchbyStatistics" [(ngModel)]="request.SearchStaticsID">
+                <option value="0">All</option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="ddlSearchbyApplicationID" class="form-label">Search By Application Id:</label>
+              <input type="text" class="form-control" id="ddlSearchbyApplicationID" name="ddlSearchbyApplicationID" [(ngModel)]="request.ApplicationID" autocomplete="off" (keypress)="numberOnly($event)">
+            </div>
+
+
+
+
+
+          </div>
+        </div>
+        <div class="card-footer text-end">
+          <button type="submit" (click)="GetDCENOCReportData()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+          <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+          <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+
+<div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+  <b></b>
+  <div class="d-flex align-items-center table-filter mr-15">
+    <i class="fa fa-search"></i>
+    <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+  </div>
+</div>
+
+
+<div class="card-body">
+  <div class="row">
+    <table class="table table-hover   table-bordered" #content id="tabellist">
+      <thead>
+        <tr>
+          <th>Sr. No</th>
+          <th>SSO ID</th>
+          <th>Application Id</th>
+          <th>College</th>
+          <th>Nodal Officer</th>
+          <th>NOC Status</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let row of ApplicationList | tableSearchFilter:searchText; let idx=index;">
+          <td>{{idx+1}}</td>
+          <td>{{row.SSOID}}</td>
+          <td>{{row.ApplicationId}}</td>
+          <td>{{row.CollegeName}}</td>
+          <td>{{row.NodelOfficer}}</td>
+          <td>{{row.NOCStatus}}</td>
+          <td>{{row.Status}}</td>
+          <td>
+            <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
+              <i class="fa fa-eye"></i>
+            </a>
+          </td>
+          
+        </tr>
+        <tr *ngIf="ApplicationList.length<=0">
+          <td colspan="10" style="color:red;text-align:center">No Data Found.!</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

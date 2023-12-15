@@ -14,7 +14,7 @@
   </div>
 </div>
 <!--admin-->
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.RoleID==10">
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.RoleID==10 && this.sSOLoginDataModel.DepartmentID !=3">
   <div class="row">
     <div class="col-lg-2 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards ">
@@ -120,6 +120,223 @@
   </div>
 </div>
 
+
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.RoleID==10 && this.sSOLoginDataModel.DepartmentID==3">
+  <div class="row">
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards ">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-book"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Total Application</h4>
+              <h2>{{dashboardDataModel.TotalApplication}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="/dcenocreport/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-lock"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Submitted Applications</h4>
+              <h2>{{dashboardDataModel.TotalSubmittedApplication}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="/dcenocreport/Submit">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+
+
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-lock"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Applications After Statistics Information</h4>
+              <h2>{{dashboardDataModel.ApplicationsAfterStatisticsInformation}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="/dcenocreport/StatisticsInformation">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-hourglass-end"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Pending to Submit</h4>
+              <h2>{{dashboardDataModel.PendingtoSubmit}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="/dcenocreport/PendingSubmit">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-hourglass-end"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Pending to Receive</h4>
+              <h2>{{dashboardDataModel.PendingtoReceive}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="/dcenocreport/PendingRecieve">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-hourglass-end"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Pending Inspection By Nodal</h4>
+              <h2>{{dashboardDataModel.PendingInspectionByNodal}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="/dcenocreport/PendingInspection">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-hourglass-end"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Pending to Report OL1</h4>
+              <h2>{{dashboardDataModel.PendingtoReportOL1}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-hourglass-end"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Pending to Inspection By OL1</h4>
+              <h2>{{dashboardDataModel.PendingtoInspectionByOL1}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-hourglass-end"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Pending to Report to OL2</h4>
+              <h2>{{dashboardDataModel.PendingtoReporttoOL2}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-hourglass-end"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Pending to Inspection By OL2</h4>
+              <h2>{{dashboardDataModel.PendingtoInspectionByOL2}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-check"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>NOC Issued</h4>
+              <h2>{{dashboardDataModel.NOCIssued}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="/dcenocreport/NOCIssued">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-times"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Deficiency Marked</h4>
+              <h2>{{dashboardDataModel.DeficiencyMarked}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="/dcenocreport/DeficiencyMarked">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-body">
+          <div class="">
+            <div class="dashCardIcon">
+              <i class="fa fa-folder-open"></i>
+            </div>
+            <div class="dashCardContent">
+              <h4>Defaulter Application</h4>
+              <h2>{{dashboardDataModel.DefaulterApplication}}</h2>
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0)">View more <i class="fa fa-chevron-circle-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
 <!--admin-->
 
 <div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.RoleID==0 || this.sSOLoginDataModel.RoleID==1">

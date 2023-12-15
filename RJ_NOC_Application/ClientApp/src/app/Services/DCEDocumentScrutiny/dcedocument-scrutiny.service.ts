@@ -6,6 +6,7 @@ import { LandDetailDataModel } from '../../Models/LandDetailDataModel';
 
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { SearchFilterDataModel } from '../../Models/TabDetailDataModel';
+import { DCENOCReportSearchFilterDataModel } from '../../Models/SearchFilterDataModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -355,6 +356,13 @@ export class DCEDocumentScrutinyService {
   public async GetSubjectWiseStaticReport(request: SearchFilterDataModel) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
     return await this.http.post(this.APIUrl + '/GetSubjectWiseStaticReport/', request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetDCENOCReportData(request: DCENOCReportSearchFilterDataModel) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl + '/GetDCENOCReportData/', request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

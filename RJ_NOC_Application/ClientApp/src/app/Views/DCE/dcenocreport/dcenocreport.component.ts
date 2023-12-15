@@ -1,0 +1,184 @@
+import { Component, OnInit, Input, Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { LoaderService } from '../../../Services/Loader/loader.service';
+import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { __rest } from 'tslib';
+import { DCENOCReportSearchFilterDataModel } from '../../../Models/SearchFilterDataModel';
+import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
+import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as XLSX from 'xlsx';
+
+@Injectable()
+
+@Component({
+  selector: 'app-dcenocreport',
+  templateUrl: './dcenocreport.component.html',
+  styleUrls: ['./dcenocreport.component.css']
+})
+export class DCENOCReportComponent implements OnInit {
+  request = new DCENOCReportSearchFilterDataModel();
+  sSOLoginDataModel = new SSOLoginDataModel();
+  public State: number = -1;
+  public SuccessMessage: any = [];
+  public ErrorMessage: any = [];
+  //Add FormBuilder
+  public DistrictList: any = [];
+  public UniversityList: any = [];
+  public CollegeStatusList: any = [];
+  public WorkFlowActionList: any = [];
+  public NodalOfficerList: any = [];
+  public CollegeTypeList: any = [];
+  public ApplicationTypeList: any = [];
+  public ApplicationList: any = [];
+  public QueryStringStatus: string = '';
+  public searchText: string = '';
+
+  constructor(private routers: Router,private router: ActivatedRoute,private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
+  }
+
+  async ngOnInit() {
+    this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.QueryStringStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('Status')?.toString());
+
+    this.request.ReportStatus = this.QueryStringStatus;
+    await this.LoadMaster();
+    await this.GetDCENOCReportData();
+  }
+
+
+  async LoadMaster() {
+    try {
+      this.DistrictList = [];
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetDistrictListByStateID(6)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.DistrictList = data['Data'];
+        }, error => console.error(error));
+      await this.commonMasterService.GetUniversityByDepartmentId(3)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.UniversityList = data['Data'];
+        }, error => console.error(error));
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "CourseType")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeStatusList = data['Data'];
+        }, error => console.error(error));
+      await this.commonMasterService.GetWorkFlowStatusbyDepartment(3)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.WorkFlowActionList = data['Data'][0]['data'];
+        }, error => console.error(error));
+      await this.commonMasterService.GetUsersByRoleDepartment(3,17)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.NodalOfficerList = data['Data'][0]['data'];
+        }, error => console.error(error));
+      await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWise(3, "CollegeType")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+            this.CollegeTypeList = data['Data'];
+        }, error => console.error(error));
+
+      await this.commonMasterService.GetApplyNOCParameterbyDepartment(3)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.ApplicationTypeList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
+
+  async GetDCENOCReportData() {
+    try {
+      this.request.ApplicationID = this.request.ApplicationID == null || this.request.ApplicationID.toString() == '' || this.request.ApplicationID == undefined ? 0 : this.request.ApplicationID;
+      if (this.request.ReportStatus == null || this.request.ReportStatus == undefined) {
+        this.request.ReportStatus =  '';
+      }
+
+      this.ApplicationList = [];
+      this.loaderService.requestStarted();
+      await this.dceDocumentScrutinyService.GetDCENOCReportData(this.request)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationList = data['Data'][0]['data'];
+        }, error => console.error(error));
+      
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async ApplicationSummary_OnClick(DepartmentID: number, CollegeID: number) {
+    this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+  }
+
+  public isLoadingExport: boolean = false;
+  btnExportTable_Click(): void {
+    this.loaderService.requestStarted();
+    if (this.ApplicationList.length > 0) {
+      try {
+        this.isLoadingExport = true;
+        /* table id is passed over here */
+        let element = document.getElementById('tabellist');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        //Hide Column
+        ws['!cols'] = [];
+        ws['!cols'][8] = { hidden: true };
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        /* save to file */
+        XLSX.writeFile(wb, "NOCApplicationList.xlsx");
+      }
+      catch (Ex) {
+        console.log(Ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+          this.isLoadingExport = false;
+        }, 200);
+      }
+    }
+    else {
+      this.toastr.warning("No Record Found.!");
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoadingExport = false;
+      }, 200);
+    }
+  }
+  async ResetControl() {
+    this.request = new DCENOCReportSearchFilterDataModel();
+  }
+}
