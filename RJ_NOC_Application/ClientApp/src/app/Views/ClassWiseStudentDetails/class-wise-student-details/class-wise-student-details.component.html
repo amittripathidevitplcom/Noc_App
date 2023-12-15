@@ -84,7 +84,7 @@
                     {{item.Class}}
                   </td>
                   <td>
-                    <input type="text" class="form-control" id="txSCSection{{idx}}" name="txSection{{idx}}" [(ngModel)]="item.Section" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
+                    <input type="text" class="form-control" id="txSCSection{{idx}}" name="txSection{{idx}}"  (keypress)="numberOnly($event)" [(ngModel)]="item.Section" autocomplete="off" [disabled]="QueryStringStatus=='R'&&item.Action=='Yes'">
 
                   </td>
 
