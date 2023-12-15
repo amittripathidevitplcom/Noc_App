@@ -195,32 +195,9 @@ import { HomeComponent } from './Views/home/home.component';
 
 const routes: Routes = [
   {
-    path: 'login', component: LoginComponent
-  }
-  , {
-    path: 'NocInformation/:SearchRecordID', component: NocInformationComponent,
-  },
-  {
-    path: 'ssologin/:id1/:id2', component: SSOLoginComponent
-  },
-  {
-    path: 'ssologin/:id1', component: SSOLoginComponent
-  },
-  {
-    path: 'ssologin', component: SSOLoginComponent
-  },
-  {
-    path: 'paymentsuccess/:TransID', component: PaymentSuccessComponent
-  },
-  {
-    path: 'paymentfailed/:TransID', component: PaymentSuccessComponent
-  },
-  {
-    path: 'paymentstatus/:TransID', component: EmitraPaymentResponseComponent
-  },
-  {
     path: 'home', component: HomeComponent
-  },{
+  },
+  {
     path: '', component: HomeComponent
   },
   {
@@ -754,7 +731,7 @@ const routes: Routes = [
       {
         path: 'LOIapplicationsummary/:DepartmentID/:CollegeID', component: PreviewLOIapplicationdetailEntryComponent
       },
-     
+
       {
         path: 'documentscrutinymgone/:DepartmentID/:CollegeID/:LOIID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyMGOneComponent
       },
@@ -818,6 +795,30 @@ const routes: Routes = [
       },
     ]
     // ,canActivate: [SkipLocationChangeGuard],
+  },
+  {
+    path: 'login', component: LoginComponent
+  }
+  , {
+    path: 'NocInformation/:SearchRecordID', component: NocInformationComponent,
+  },
+  {
+    path: 'ssologin/:id1/:id2', component: SSOLoginComponent
+  },
+  {
+    path: 'ssologin/:id1', component: SSOLoginComponent
+  },
+  {
+    path: 'ssologin', component: SSOLoginComponent
+  },
+  {
+    path: 'paymentsuccess/:TransID', component: PaymentSuccessComponent
+  },
+  {
+    path: 'paymentfailed/:TransID', component: PaymentSuccessComponent
+  },
+  {
+    path: 'paymentstatus/:TransID', component: EmitraPaymentResponseComponent
   },
 
 

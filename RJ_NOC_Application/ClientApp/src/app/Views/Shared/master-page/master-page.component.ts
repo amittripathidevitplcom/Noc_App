@@ -267,18 +267,14 @@ export class MasterPageComponent implements OnInit {
   ////////////End Load Menu///////
   public configUrl: any = "";
   async Logout() {
-    this.configUrl = window['window'];
-    var LogoutURL = this.configUrl["config"]['backtossourl_logout'];
     console.log("Logout...");
     sessionStorage.removeItem('UserID');
     sessionStorage.removeItem('LoginID');
     sessionStorage.clear();
     localStorage.clear();
-
-
     try {
       await this.loaderService.requestStarted();
-      await this.menuService.SSOLogout(LogoutURL?.toString());
+      await this.menuService.SSOLogout(GlobalConstants.BacktoSSOURL_Logout?.toString());
     }
     catch (Ex) {
       console.log(Ex);
@@ -302,17 +298,16 @@ export class MasterPageComponent implements OnInit {
   }
 
   async BackToSSO() {
-    this.configUrl = window['window'];
-    var backtossour= this.configUrl["config"]['backtossourl'];
+   // this.configUrl = window['window'];
+   // var backtossour= this.configUrl["config"]['backtossourl'];
     console.log("BAck to SSO...");
     sessionStorage.removeItem('UserID');
     sessionStorage.removeItem('LoginID');
     sessionStorage.clear();
     localStorage.clear();
-
     try {
       this.loaderService.requestStarted();
-      await this.menuService.BackToSSO(backtossour?.toString());
+      await this.menuService.BackToSSO(GlobalConstants.BacktoSSOURL?.toString());
     }
     catch (Ex) {
       console.log(Ex);
