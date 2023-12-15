@@ -193,6 +193,8 @@ import { StatisticsEntryComponent } from './Views/Statistics/statistics-entry/st
 import { StatisticsCollegeListComponent } from './Views/Statistics/statistics-college-list/statistics-college-list.component';
 import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.component';
 import { HomeComponent } from './Views/home/home.component';
+import { CollegeReportDCEComponent } from './Views/DCE/college-report-dce/college-report-dce.component';
+import { TotalCollegeDepartmentWiseReportsComponent } from './Views/total-college-department-wise-reports/total-college-department-wise-reports.component';
 
 const routes: Routes = [
   {
@@ -798,6 +800,12 @@ const routes: Routes = [
 
       {
         path: 'statisticscollegelist', component: StatisticsCollegeListComponent
+      },
+      {
+        path: 'collegereportdce', component: CollegeReportDCEComponent
+      },
+      {
+        path: 'totalcollegereports', component: TotalCollegeDepartmentWiseReportsComponent
       },
     ]
     // ,canActivate: [SkipLocationChangeGuard],

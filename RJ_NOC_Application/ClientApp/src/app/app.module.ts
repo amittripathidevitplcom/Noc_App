@@ -325,6 +325,8 @@ import { PreviewSubjectwiseStaticComponent } from './Views/PreviewTabs/preview-s
 import { HomeComponent } from './Views/home/home.component';
 
 import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.component';
+import { CollegeReportDCEComponent } from './Views/DCE/college-report-dce/college-report-dce.component';
+import { TotalCollegeDepartmentWiseReportsComponent } from './Views/total-college-department-wise-reports/total-college-department-wise-reports.component';
 
 
 
@@ -636,6 +638,8 @@ import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.com
     HomeComponent,
     
     DCENOCReportComponent,
+          CollegeReportDCEComponent,
+          TotalCollegeDepartmentWiseReportsComponent,
   ],
   imports: [
     CommonModule,

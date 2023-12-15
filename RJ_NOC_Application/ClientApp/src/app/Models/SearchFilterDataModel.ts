@@ -16,3 +16,11 @@ export class DCENOCReportSearchFilterDataModel {
   public ApplicationStatusID: number = 0
   public YearNewExistingID: number = 0
 }
+
+
+export class TotalCollegeReportSearchFilter {
+  public DepartmentID: number = 0
+  public UniversityID: number = 0
+  public DivisionID: number = 0
+  public DistrictID: number = 0
+}
