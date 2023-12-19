@@ -103,7 +103,6 @@ export class NewGrievanceComponent implements OnInit {
     }
     finally {
       setTimeout(() => {
-        event.value = '';
         this.loaderService.requestEnded();
       }, 200);
     }
