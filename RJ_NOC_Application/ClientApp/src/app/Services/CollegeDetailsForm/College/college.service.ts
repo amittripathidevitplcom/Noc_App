@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { CollegeDataModel, ContactDetailsDataModel } from '../../../Models/CollegeDataModel';
 import { GlobalConstants } from '../../../Common/GlobalConstants';
-import { TotalCollegeReportSearchFilter } from '../../../Models/SearchFilterDataModel';
+import { DCECollegesReportSearchFilter, TotalCollegeReportSearchFilter } from '../../../Models/SearchFilterDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -105,6 +105,14 @@ export class CollegeService {
     const headers = { 'content-type': 'application/json' }
     const body = JSON.stringify(request);
     return await this.http.post(this.APIUrl + '/TotalCollegeDetailsByDepartment/', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async CollegesReport(request: DCECollegesReportSearchFilter) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/CollegesReport/', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

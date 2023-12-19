@@ -39,7 +39,7 @@ h3::before {
   width: 70px;
   height: 6px;
   border-radius: 26px;
-  bottom: -16px;
+  bottom: -2px;
   left: 40px;
 }
 h3::after {
@@ -51,24 +51,26 @@ h3::after {
   height: 6px;
   border-radius: 26px;
   left: 0;
-  bottom: -16px;
+  bottom: -2px;
 }
+
+table td {
+  vertical-align: middle;
+}
+
+.bi { font-size:20px;}
 
 .btncomn {
   background: #234197;
   color: #fff;
   padding: 10px 30px;
   border-radius: 100px;
-  margin-right: 8px;
-  margin-bottom: 20px;
+  margin-right: 8px;  
   display: inline-block;
   font-size: 14px;
   text-decoration:none;
 }
 
-.clientLogo {
-  text-align: center;
-}
   .clientLogo a {
     display: inline-block;
     border: 1px solid #ebe8e8;
