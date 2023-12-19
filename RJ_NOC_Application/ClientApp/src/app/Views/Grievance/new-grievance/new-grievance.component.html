@@ -47,7 +47,18 @@
                   <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                 </div>
               </div>
-               
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlDepartmentID" class="form-label">Colleg<span style="color:red;">*</span></label>
+                <select class="form-control" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID">
+                  <option value="0" selected>--Select--</option>
+                  <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+
               <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-12">
                 <label for="txtAnimalName" class="form-label">Subject<span style="color:red;">*</span></label>
                 <input type="text" id="txtAnimalName" formControlName="txtAnimalName" maxlength="500" class="form-control" [(ngModel)]="request.AnimalName" autocomplete="off">
@@ -74,11 +85,11 @@
                     <span class="filename">Choose file</span>
                     {{request.AttachmentFile === '' ? 'No File Choosen' : request.AttachmentFile_Dis_FileName}}
                   </label>
-                  <div class="btn-group"  *ngIf="request.AttachmentFile != ''">
+                  <div class="btn-group" *ngIf="request.AttachmentFile != ''">
                     <a class="btn btn-outline-primary" target="_blank" href="{{request.AttachmentFilePath}}"><i class="fa fa-eye"></i></a>
                     <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.AttachmentFilePath)"><i class="fa fa-trash-o"></i></button>
                   </div>
-                </div> 
+                </div>
               </div>
 
 
