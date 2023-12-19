@@ -195,6 +195,7 @@ import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.com
 import { HomeComponent } from './Views/home/home.component';
 import { CollegeReportDCEComponent } from './Views/DCE/college-report-dce/college-report-dce.component';
 import { TotalCollegeDepartmentWiseReportsComponent } from './Views/total-college-department-wise-reports/total-college-department-wise-reports.component';
+import { NewGrievanceComponent } from './Views/Grievance/new-grievance/new-grievance.component';
 
 const routes: Routes = [
   {
@@ -768,6 +769,9 @@ const routes: Routes = [
 
       {
         path: 'dcenocreport/:Status', component: DCENOCReportComponent
+      },
+       {
+         path: 'newgrievance', component: NewGrievanceComponent
       },
 
       {

@@ -1,0 +1,143 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Grievance</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Grievance</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Submit Grievance</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="AnimalMasterForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-plus"></i>&nbsp;Grievance</b>
+            <span class="text-danger">(*) Fields is compulsory</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlBugFrom" class="form-label">Bug From</label>
+                <select class="form-control" id="ddlBugFrom" name="ddlBugFrom" [(ngModel)]="request.BugFrom" formControlName="ddlBugFrom">
+                  <option value="Web Portal">Web Portal</option>
+                  <option value="Mobile Application">Mobile Application</option>
+                </select>
+
+              </div>
+
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlDepartmentID" class="form-label">Department<span style="color:red;">*</span></label>
+                <select class="form-control" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID">
+                  <option value="0" selected>--Select--</option>
+                  <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+               
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-12">
+                <label for="txtAnimalName" class="form-label">Subject<span style="color:red;">*</span></label>
+                <input type="text" id="txtAnimalName" formControlName="txtAnimalName" maxlength="500" class="form-control" [(ngModel)]="request.AnimalName" autocomplete="off">
+                <div *ngIf="isSubmitted&&form.txtAnimalName.errors" class="text-danger">
+                  <p *ngIf="form.txtAnimalName.errors.required">This field is required .!</p>
+                  <p *ngIf="form.txtAnimalName.errors.maxlength">Animal Name is too big .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-12">
+                <label for="txtAnimalName" class="form-label">Description<span style="color:red;">*</span></label>
+                <textarea type="text" id="txtAnimalName" formControlName="txtAnimalName" maxlength="2000" class="form-control" [(ngModel)]="request.AnimalName" autocomplete="off" style="height:250px !important"></textarea>
+                <div *ngIf="isSubmitted&&form.txtAnimalName.errors" class="text-danger">
+                  <p *ngIf="form.txtAnimalName.errors.required">This field is required .!</p>
+                  <p *ngIf="form.txtAnimalName.errors.maxlength">Animal Name is too big .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <label class="form-label">Attach File</label>
+                <div class="d-flex">
+                  <input type="file" style="display:none;" class="form-control" id="fileAttachmentFile" name="fileAttachmentFile" (change)="onFilechange($event)" formControlName="fileAttachmentFile">
+                  <label class="btn upload" for="fileAttachmentFile">
+                    <span class="filename">Choose file</span>
+                    {{request.AttachmentFile === '' ? 'No File Choosen' : request.AttachmentFile_Dis_FileName}}
+                  </label>
+                  <div class="btn-group"  *ngIf="request.AttachmentFile != ''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.AttachmentFilePath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.AttachmentFilePath)"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div> 
+              </div>
+
+
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </div>
+      </form>
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Animal List </b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <i class="fa fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Department Name</th>
+                  <th>Animal Name</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of AnimalMasterData | tableSearchFilter:searchText;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.DepartmentName}}</td>
+                  <td>{{row.AnimalName}}</td>
+                  <td>{{row.ActiveDeactive}}</td>
+                  <td>
+                    <div class="d-flex">
+                      <button type="button" (click)="Edit_OnClick(row.AnimalMasterID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                      <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.AnimalMasterID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

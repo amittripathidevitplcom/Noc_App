@@ -327,6 +327,8 @@ import { HomeComponent } from './Views/home/home.component';
 import { DCENOCReportComponent } from './Views/DCE/dcenocreport/dcenocreport.component';
 import { CollegeReportDCEComponent } from './Views/DCE/college-report-dce/college-report-dce.component';
 import { TotalCollegeDepartmentWiseReportsComponent } from './Views/total-college-department-wise-reports/total-college-department-wise-reports.component';
+import { NewGrievanceModule } from './Views/Grievance/new-grievance/new-grievance.module';
+import { NewGrievanceComponent } from './Views/Grievance/new-grievance/new-grievance.component';
 
 
 
@@ -640,6 +642,7 @@ import { TotalCollegeDepartmentWiseReportsComponent } from './Views/total-colleg
     DCENOCReportComponent,
           CollegeReportDCEComponent,
           TotalCollegeDepartmentWiseReportsComponent,
+          NewGrievanceComponent,
   ],
   imports: [
     CommonModule,
@@ -679,7 +682,8 @@ import { TotalCollegeDepartmentWiseReportsComponent } from './Views/total-colleg
       timeOut: 3000,
       positionClass: 'toast-top-right',
       preventDuplicates: true
-    })
+    }),
+    NewGrievanceModule
 
 
   ],

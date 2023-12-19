@@ -174,7 +174,7 @@ export class TotalCollegeDepartmentWiseReportsComponent implements OnInit {
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
         ws['!cols'] = [];
-        ws['!cols'][8] = { hidden: true };
+        ws['!cols'][0] = { hidden: true };
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "TotalCollegeList.xlsx");
