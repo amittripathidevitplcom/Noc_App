@@ -20,7 +20,7 @@ export class SubjectWiseStatisticsDetailsDataModel {
   public OtherBoysCount: number = 0
   public OtherGirlsCount: number = 0
   public Total: number = 0
-  public Action:string=''
+  public Action: string = ''
   public Remark: string = ''
 }
 
@@ -39,3 +39,9 @@ export class StatisticsFinalSubmitDataModel {
 }
 
 
+export class CollegeList_StatisticsFinalSubmitedDataModel_Filter {
+  public DepartmentID: number = 0
+  public UniversityID: number = 0
+  public DivisionID: number = 0
+  public DistrictID: number = 0
+}

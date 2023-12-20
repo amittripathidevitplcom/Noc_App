@@ -196,6 +196,7 @@ import { HomeComponent } from './Views/home/home.component';
 import { CollegeReportDCEComponent } from './Views/DCE/college-report-dce/college-report-dce.component';
 import { TotalCollegeDepartmentWiseReportsComponent } from './Views/total-college-department-wise-reports/total-college-department-wise-reports.component';
 import { NewGrievanceComponent } from './Views/Grievance/new-grievance/new-grievance.component';
+import { CollegeSubmitStatisticsReportDCEComponent } from './Views/DCE/college-submit-statistics-report-dce/college-submit-statistics-report-dce.component';
 
 const routes: Routes = [
   {
@@ -810,6 +811,9 @@ const routes: Routes = [
       },
       {
         path: 'totalcollegereports', component: TotalCollegeDepartmentWiseReportsComponent
+      },
+      {
+        path: 'collegesubmitstatisticsreport', component: CollegeSubmitStatisticsReportDCEComponent
       },
     ]
     // ,canActivate: [SkipLocationChangeGuard],
