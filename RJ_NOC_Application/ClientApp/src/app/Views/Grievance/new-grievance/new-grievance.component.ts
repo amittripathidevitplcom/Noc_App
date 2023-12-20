@@ -5,13 +5,14 @@ import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ToastrService } from 'ngx-toastr';
-import { AnimalmasterService } from '../../../Services/Master/AnimalMaster/animalmaster.service'
 import { GrievanceDataModel } from '../../../Models/GrievanceDataModel'
 import { Clipboard } from '@angular/cdk/clipboard';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import * as XLSX from 'xlsx';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { GrievanceService } from '../../../Services/Grievance/grievance.service';
 
 @Injectable()
 @Component({
@@ -24,6 +25,7 @@ export class NewGrievanceComponent implements OnInit {
   public State: number = -1;
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
+  public CollegeDataList: any = [];
   /*Save Data Model*/
   request = new GrievanceDataModel();
   public isDisabledGrid: boolean = false;
@@ -39,16 +41,31 @@ export class NewGrievanceComponent implements OnInit {
   public checked: boolean = true;
   searchText: string = '';
   public ActiveStatus: boolean = true;
+  public isMobileEntry: boolean = false;
   public file!: File;
+  sSOLoginDataModel = new SSOLoginDataModel();
 
-  constructor(private animalmasterService: AnimalmasterService, private toastr: ToastrService, private loaderService: LoaderService,
+  constructor(private grievanceService: GrievanceService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private clipboard: Clipboard, private fileUploadService: FileUploadService) { }
   async ngOnInit() {
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.request.MobileNo = this.sSOLoginDataModel.MobileNo;
+
+    if (this.request.MobileNo == null || this.request.MobileNo == undefined || this.request.MobileNo == '') {
+      this.isMobileEntry = true;
+    }
+    else {
+      this.isMobileEntry = false;
+    }
+
     this.AnimalMasterForm = this.formBuilder.group(
       {
         ddlBugFrom: [''],
         ddlDepartmentID: ['', [DropdownValidators]],
-        txtAnimalName: ['', [Validators.required, Validators.maxLength(100)]],
+        ddlCollegeID: [''],
+        txtSubject: ['', [Validators.required]],
+        txtDescription: ['', [Validators.required]],
+        txtMobileNo: ['', [Validators.required]],
         chkActiveStatus: [''],
         fileAttachmentFile: [''],
       }
@@ -56,7 +73,7 @@ export class NewGrievanceComponent implements OnInit {
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
     await this.GetDepartmentList();
-    await this.GetAllAnimalList();
+    await this.GetGrievanceList();
     this.ActiveStatus = true;
   }
   async onFilechange(event: any) {
@@ -82,7 +99,7 @@ export class NewGrievanceComponent implements OnInit {
               this.request.AttachmentFile = data['Data'][0]["FileName"];
               this.request.AttachmentFile_Dis_FileName = data['Data'][0]["Dis_FileName"];
               this.request.AttachmentFilePath = data['Data'][0]["FilePath"];
-             
+
             }
             if (this.State == 1) {
               this.toastr.error(this.ErrorMessage)
@@ -160,16 +177,36 @@ export class NewGrievanceComponent implements OnInit {
       }, 200);
     }
   };
-  async GetAllAnimalList() {
+
+
+  async ddlDepartment_textChange(SeletedDepartmentID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.animalmasterService.GetAllAnimalList(this.UserID)
+      await this.commonMasterService.GetCollageList_DepartmentAndSSOIDWise(SeletedDepartmentID, this.sSOLoginDataModel.SSOID, "Grievance")
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CollegeDataList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  };
+  async GetGrievanceList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.grievanceService.GetGrievance_AddedSSOIDWise(this.sSOLoginDataModel.SSOID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.AnimalMasterData = data['Data'][0]['data'];
+          this.AnimalMasterData = data['Data'][0];
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -188,8 +225,11 @@ export class NewGrievanceComponent implements OnInit {
     }
     this.loaderService.requestStarted();
     this.isLoading = true;
+
+    this.request.SSOID = this.sSOLoginDataModel.SSOID;
+    
     try {
-      await this.animalmasterService.SaveData(this.request)
+      await this.grievanceService.SaveData(this.request)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -198,7 +238,7 @@ export class NewGrievanceComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.ResetControl();
-            this.GetAllAnimalList();
+            this.GetGrievanceList();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -218,69 +258,23 @@ export class NewGrievanceComponent implements OnInit {
     const ddlDepartmentID = document.getElementById('ddlDepartmentID')
     if (ddlDepartmentID) ddlDepartmentID.focus();
     this.isSubmitted = false;
-    this.request.AnimalMasterID = 0;
-    this.request.DepartmentID = 0;
-    this.request.AnimalName = '';
-    this.request.UserID = 0;
-    this.request.ActiveStatus = true;
     this.isDisabledGrid = false;
+    this.request.GrievanceID = 0;
+    this.request.SSOID = '';
+    this.request.MobileNo = '';
+    this.request.BugFrom = 'Web Portal';
+    this.request.DepartmentID = 0;
+    this.request.CollegeID = 0;
+    this.request.Subject = '';
+    this.request.Description = '';
+    this.request.AttachmentFile = '';
+    this.request.AttachmentFile_Dis_FileName = '';
+    this.request.AttachmentFilePath = '';
+
     const btnSave = document.getElementById('btnSave')
-    if (btnSave) btnSave.innerHTML = "Save";
+    if (btnSave) btnSave.innerHTML = "Submit";
     const btnReset = document.getElementById('')
     if (btnReset) btnReset.innerHTML = "Reset";
-  }
-  async Edit_OnClick(AnimalMasterID: number) {
-
-    this.isSubmitted = false;
-    try {
-      this.loaderService.requestStarted();
-      await this.animalmasterService.GetByID(AnimalMasterID, this.UserID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.request.AnimalMasterID = data['Data'][0]["AnimalMasterID"];
-          this.request.DepartmentID = data['Data'][0]["DepartmentID"];
-          this.request.AnimalName = data['Data'][0]["AnimalName"];
-          this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
-          this.isDisabledGrid = true;
-          const btnSave = document.getElementById('btnSave')
-          if (btnSave) btnSave.innerHTML = "Update";
-          const btnReset = document.getElementById('btnReset')
-          if (btnReset) btnReset.innerHTML = "Cancel";
-        }, error => console.error(error));
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
-  async Delete_OnClick(AnimalMasterID: number) {
-    this.isSubmitted = false;
-    try {
-      if (confirm("Are you sure you want to delete this ?")) {
-        this.loaderService.requestStarted();
-        await this.animalmasterService.DeleteData(AnimalMasterID, this.UserID)
-          .then((data: any) => {
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            if (this.State == 0) {
-              this.toastr.success(this.SuccessMessage)
-              this.GetAllAnimalList();
-            }
-            else {
-              this.toastr.error(this.ErrorMessage)
-            }
-          })
-      }
-    }
-    catch (ex) { }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
   }
   btnCopyTable_Click() {
     const tabellist = document.getElementById('tabellist')
@@ -323,77 +317,7 @@ export class NewGrievanceComponent implements OnInit {
       }, 200);
     }
   }
-  @ViewChild('content') content: ElementRef | any;
-  btnSavePDF_Click(): void {
-
-    this.loaderService.requestStarted();
-    if (this.AnimalMasterData.length > 0) {
-      try {
 
 
-        let doc = new jsPDF('p', 'mm', [432, 279])
-        let pDFData: any = [];
-        for (var i = 0; i < this.AnimalMasterData.length; i++) {
-          pDFData.push({
-            "S.No.": i + 1,
-            "DepartmentName": this.AnimalMasterData[i]['DepartmentName'],
-            "AnimalName": this.AnimalMasterData[i]['AnimalName'],
-            "Status": this.AnimalMasterData[i]['ActiveDeactive']
-          })
-        }
-
-        let values: any;
-        let privados = ['S.No.', "DepartmentName", "AnimalName", "Status"];
-        let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
-        values = pDFData.map((elemento: any) => Object.values(elemento));
-
-        doc.setFontSize(16);
-        doc.text("Animal Master", 100, 10, { align: 'center', maxWidth: 100 });
-
-        autoTable(doc,
-          {
-            head: [header],
-            body: values,
-            styles: { fontSize: 8 },
-            headStyles: {
-              fillColor: '#3f51b5',
-              textColor: '#fff',
-              halign: 'center'
-            },
-            bodyStyles: {
-              halign: 'center'
-            },
-            margin: {
-              left: 5,
-              right: 5,
-              top: 15
-            },
-            tableLineWidth: 0,
-
-          }
-        )
-
-        doc.save("AnimalMaster" + '.pdf');
-
-      }
-      catch (Ex) {
-        console.log(Ex);
-      }
-      finally {
-        setTimeout(() => {
-          this.loaderService.requestEnded();
-          this.isLoadingExport = false;
-        }, 200);
-      }
-    }
-    else {
-      this.toastr.warning("No Record Found.!");
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-        this.isLoadingExport = false;
-      }, 200);
-    }
-
-  }
 }
 
