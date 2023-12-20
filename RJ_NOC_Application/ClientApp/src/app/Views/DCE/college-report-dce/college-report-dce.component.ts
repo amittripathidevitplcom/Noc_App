@@ -284,7 +284,8 @@ export class CollegeReportDCEComponent implements OnInit {
   async GetCollegeReport() {
     try {
 
-      // subdivision list
+      this.loaderService.requestStarted();
+      this.request.DepartmentID = 3;
       await this.collegeservice.CollegesReport(this.request)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));

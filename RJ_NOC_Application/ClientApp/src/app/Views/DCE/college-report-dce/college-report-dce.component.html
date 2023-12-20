@@ -14,302 +14,459 @@
   </div>
 </div>
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card mb-0">
-        <div class="card-header">
-          <b>
-            <i class="bi bi-table"></i> Search Fields
-          </b>
+  <div class="card mb-2">
+    <div class="card-header">
+      <b>
+        <i class="bi bi-table"></i> Search Fields
+      </b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtCollegeName" class="form-label">College Name:</label>
+          <input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" autocomplete="off" [(ngModel)]="request.CollegeName">
         </div>
-        <div class="card-body">
-          <div class="row">
-
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtCollegeName" class="form-label">College Name:</label>
-              <input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" autocomplete="off" [(ngModel)]="request.CollegeName">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlNocStatus" class="form-label">Noc Status:</label>
-              <select class="form-select" id="ddlNocStatus" name="ddlNocStatus" [(ngModel)]="request.NOCStatusID">
-                <option value="0">All</option>
-                <option *ngFor="let item of NOCStatusList" value="{{item.ID}}">{{item.Name}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlApplicationStatus" class="form-label">Application Status:</label>
-              <select class="form-select" id="ddlApplicationStatus" name="ddlApplicationStatus" [(ngModel)]="request.ApplicationStatusID">
-                <option value="0">All</option>
-                <option *ngFor="let item of ApplicationStatusList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-              </select>
-            </div>
-
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="dtfromSubmittedDate" class="form-label">From Submitted Date:</label>
-              <input type="date" id="dtfromSubmittedDate" name="dtfromSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.FromSubmittedDate"/>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="dttoSubmittedDate" class="form-label">To Submitted Date:</label>
-              <input type="date" id="dttoSubmittedDate" name="dttoSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.ToSubmittedDate"/>
-            </div>
-
-
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlCollegeType" class="form-label">College Type:</label>
-              <select class="form-select" id="ddlCollegeType" name="ddlCollegeType" [(ngModel)]="request.CollegeTypeID">
-                <option value="0">All</option>
-                <option *ngFor="let item of CollegeTypeList" value="{{item.ID}}">{{item.Name}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtCollegeMobile" class="form-label">College Mobile:</label>
-              <input type="text" class="form-control" id="txtCollegeMobile" name="txtCollegeMobile" autocomplete="off" [(ngModel)]="request.CollegeMobileNo">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtCollegeEmail" class="form-label">College Email:</label>
-              <input type="text" class="form-control" id="txtCollegeEmail" name="txtCollegeEmail" autocomplete="off" [(ngModel)]="request.CollegeEmail">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlStatusofCollege" class="form-label">Status Of College:</label>
-              <select class="form-select" id="ddlStatusofCollege" name="ddlStatusofCollege" [(ngModel)]="request.StatusOfCollegeID">
-                <option value="0">All</option>
-                <option *ngFor="let item of StatusOfCollegeList" value="{{item.ID}}">{{item.Name}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlCollegeLevel" class="form-label">College Level:</label>
-              <select class="form-select" id="ddlCollegeLevel" name="ddlCollegeLevel" [(ngModel)]="request.CollegeLevelID">
-                <option value="0">All</option>
-                <option *ngFor="let item of CollegeLevelList" value="{{item.ID}}">{{item.Name}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlDivisionID" class="form-label">Division:</label>
-              <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value)" [(ngModel)]="request.DivisionID">
-                <option value="0">All</option>
-                <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlDistrictID" class="form-label">District:</label>
-              <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL(SelectedDistrictID.value)" [(ngModel)]="request.DistrictID">
-                <option value="0">All</option>
-                <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlSubdivisionID" class="form-label">Sub Division:</label>
-              <select class="form-select" id="ddlSubdivisionID" name="ddlSubdivisionID" [(ngModel)]="request.SubDivisionID">
-                <option value="0">All</option>
-                <option *ngFor="let item of SuvdivisionList" value="{{item.SuvdivisionID}}">{{item.SubdivisionName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlTehsilID" class="form-label">Tehsil :</label>
-              <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID">
-                <option value="0">All</option>
-                <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlParliamentAreaID" class="form-label">Parliament Area :</label>
-              <select class="form-select" id="ddlParliamentAreaID" name="ddlParliamentAreaID" [(ngModel)]="request.ParliamentID">
-                <option value="0">All</option>
-                <option *ngFor="let item of ParliamentAreaList" value="{{item.ParliamentAreaID}}">{{item.ParliamentAreaName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlAssemblyAreaID" class="form-label">Assembly Area :</label>
-              <select class="form-select" id="ddlAssemblyAreaID" name="ddlAssemblyAreaID" [(ngModel)]="request.AssemblyID">
-                <option value="0">All</option>
-                <option *ngFor="let item of AssembelyAreaList" value="{{item.AssemblyAreaID}}">{{item.AssemblyAreaName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtPermanentAddress" class="form-label">Permanent Address:</label>
-              <input type="text" class="form-control" id="txtPermanentAddress" name="txtPermanentAddress" autocomplete="off" [(ngModel)]="request.PermanentAddress">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtCityTownVillage" class="form-label">City/Town/Village:</label>
-              <input type="text" class="form-control" id="txtCityTownVillage" name="txtCityTownVillage" autocomplete="off" [(ngModel)]="request.CityTownVillage">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtPincode" class="form-label">Pincode:</label>
-              <input type="text" class="form-control" id="txtPincode" name="txtPincode" autocomplete="off" [(ngModel)]="request.PinCode">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtLandlineNumber" class="form-label">Landline Number:</label>
-              <input type="text" class="form-control" id="txtLandlineNumber" name="txtLandlineNumber" autocomplete="off" [(ngModel)]="request.LandlineNo">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtAdditionalMobile" class="form-label">Additional Mobile:</label>
-              <input type="text" class="form-control" id="txtAdditionalMobile" name="txtAdditionalMobile" autocomplete="off" [(ngModel)]="request.AdditionalMobileNo">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtFaxNumber" class="form-label">Fax Number:</label>
-              <input type="text" class="form-control" id="txtFaxNumber" name="txtFaxNumber" autocomplete="off" [(ngModel)]="request.FaxNo">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtWebsite" class="form-label">Website:</label>
-              <input type="text" class="form-control" id="txtWebsite" name="txtWebsite" autocomplete="off" [(ngModel)]="request.Website">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlNodalOfficer" class="form-label">Nodal Officer:</label>
-              <select class="form-select" id="ddlNodalOfficer" name="ddlNodalOfficer" [(ngModel)]="request.NodalOfficerID">
-                <option value="0">All</option>
-                <option *ngFor="let item of NodalOfficerList" value="{{item.UId}}">{{item.Name}} ( {{item.SSOID}} )</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlEstablishmentYear" class="form-label">Establishment Year:</label>
-              <select class="form-select" id="ddlEstablishmentYear" name="ddlEstablishmentYear" [(ngModel)]="request.EstablishmentYearID">
-                <option value="0">All</option>
-                <option *ngFor="let item of FinancialYearList" value="{{item.FinancialYearID}}">{{item.FinancialYearName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlApplicationType" class="form-label">Application Type:</label>
-              <select class="form-select" id="ddlApplicationType" name="ddlApplicationType" [(ngModel)]="request.ApplicationTypeID">
-                <option value="0">All</option>
-                <option *ngFor="let item of ApplicationTypeList" value="{{item.ApplyNocID}}">{{item.ApplyNocFor}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlLandAreaSituated" class="form-label">Land Area Situated in:</label>
-              <select class="form-select" id="ddlLandAreaSituated" name="ddlLandAreaSituated" [(ngModel)]="request.LandAreaID">
-                <option value="0">All</option>
-                <option *ngFor="let item of LandAreaList" value="{{item.LandAreaID}}">{{item.LandAreaName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlLandDocumentType" class="form-label">Land Document Type:</label>
-              <select class="form-select" id="ddlLandDocumentType" name="ddlLandDocumentType" [(ngModel)]="request.LandDocumentID">
-                <option value="0">All</option>
-                <option *ngFor="let item of LandDocumentTypeList" value="{{item.LandDocumentTypeID}}">{{item.LandDocumentTypeName}}</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlLandConversion" class="form-label">Land Conversion:</label>
-              <select class="form-select" id="ddlLandConversion" name="ddlLandConversion" [(ngModel)]="request.LandConversionID">
-                <option value="0">All</option>
-                <option *ngFor="let item of LandConversionList"
-                        value="{{item.ID}}">
-                  {{item.Name}}
-                </option>
-              </select>
-            </div>
-
-
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtAgricultureLandArea" class="form-label">Agriculture Land Area:</label>
-              <input type="text" class="form-control" id="txtAgricultureLandArea" name="txtAgricultureLandArea" autocomplete="off" [(ngModel)]="request.AgricultureLandArea">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtCommercialLandArea" class="form-label">Commercial Land Area:</label>
-              <input type="text" class="form-control" id="txtCommercialLandArea" name="txtCommercialLandArea" autocomplete="off" [(ngModel)]="request.CommercialLandArea">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtInstitutionalLandArea" class="form-label">Institutional Land Area:</label>
-              <input type="text" class="form-control" id="txtInstitutionalLandArea" name="txtInstitutionalLandArea" autocomplete="off" [(ngModel)]="request.InstitutionalLandArea">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtResidentialLandArea" class="form-label">Residential Land Area:</label>
-              <input type="text" class="form-control" id="txtResidentialLandArea" name="txtResidentialLandArea" autocomplete="off" [(ngModel)]="request.ResidentialLandArea">
-            </div>
-
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtAgricultureKhasraNo" class="form-label">Agriculture Khasra No:</label>
-              <input type="text" class="form-control" id="txtAgricultureKhasraNo" name="txtAgricultureKhasraNo" autocomplete="off" [(ngModel)]="request.AgricultureKhasraNo">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtCommercialKhasraNo" class="form-label">Commercial Khasra No:</label>
-              <input type="text" class="form-control" id="txtCommercialKhasraNo" name="txtCommercialKhasraNo" autocomplete="off" [(ngModel)]="request.CommercialKhasraNo">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtInstitutionalKhasraNo" class="form-label">Institutional Khasra No:</label>
-              <input type="text" class="form-control" id="txtInstitutionalKhasraNo" name="txtInstitutionalKhasraNo" autocomplete="off" [(ngModel)]="request.InstitutionalKhasraNo">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtResidentialKhasraNo" class="form-label">Residential Khasra No:</label>
-              <input type="text" class="form-control" id="txtResidentialKhasraNo" name="txtResidentialKhasraNo" autocomplete="off" [(ngModel)]="request.ResidentialKhasraNo">
-            </div>
-
-
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="dtfromAffidavitDate" class="form-label">From Affidavit Date:</label>
-              <input type="date" id="dtfromAffidavitDate" name="dtfromAffidavitDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.FromAffidavitDate" />
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="dttoAffidavitDate" class="form-label">To Affidavit Date:</label>
-              <input type="date" id="dttoAffidavitDate" name="dttoAffidavitDate" class="form-control" onkeypress="return false;"  [(ngModel)]="request.ToAffidavitDate"/>
-            </div>
-
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlUniversities" class="form-label">Universities:</label>
-              <select class="form-select" id="ddlUniversities" name="ddlUniversities" [(ngModel)]="request.UniversityID">
-                <option value="0">All</option>
-                <option *ngFor="let item of UniversityList"
-                        value="{{item.UniversityID}}">
-                  {{item.UniversityName}}
-                </option>
-              </select>
-            </div>
-
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlCourses" class="form-label">Courses:</label>
-              <select class="form-select" id="ddlCourses" name="ddlCourses" #SelectedCourseID (change)="GetSubjectList(SelectedCourseID.value)" [(ngModel)]="request.CourseID">
-                <option value="0">All</option>
-                <option *ngFor="let item of CoursesList"
-                        value="{{item.CourseID}}">
-                  {{item.CourseName}}
-                </option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlSubjects" class="form-label">Subjects:</label>
-              <select class="form-select" id="ddlSubjects" name="ddlSubjects" [(ngModel)]="request.SubjectID">
-                <option value="0">All</option>
-                <option *ngFor="let item of SubjectList"
-                        value="{{item.SubjectID}}">
-                  {{item.SubjectName}}
-                </option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlUrbanRural" class="form-label">Urban Rural:</label>
-              <select class="form-select" id="ddlUrbanRural" name="ddlUrbanRural" [(ngModel)]="request.UrbanRuralID">
-                <option value="0">All</option>
-                <option value="1">Rural</option>
-                <option value="2">Urban</option>
-              </select>
-            </div>
-
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="ddlCollegeNAAC" class="form-label">College NAAC Accredited:</label>
-              <select class="form-select" id="ddlCollegeNAAC" name="ddlCollegeNAAC" [(ngModel)]="request.CollegeNAACID">
-                <option value="0">All</option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
-              </select>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtAISHECode" class="form-label">AISHE Code:</label>
-              <input type="text" class="form-control" id="txtAISHECode" name="txtAISHECode" autocomplete="off" [(ngModel)]="request.AISHECode">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
-              <label for="txtApplicationId" class="form-label">Last Application Id:</label>
-              <input type="text" class="form-control" id="txtApplicationId" name="txtApplicationId" autocomplete="off" [(ngModel)]="request.ApplicationId">
-            </div>
-
-          </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlNocStatus" class="form-label">Noc Status:</label>
+          <select class="form-select" id="ddlNocStatus" name="ddlNocStatus" [(ngModel)]="request.NOCStatusID">
+            <option value="0">All</option>
+            <option *ngFor="let item of NOCStatusList" value="{{item.ID}}">{{item.Name}}</option>
+          </select>
         </div>
-        <div class="card-footer text-end">
-          <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
-          <button type="submit" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
-          <button type="submit" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlApplicationStatus" class="form-label">Application Status:</label>
+          <select class="form-select" id="ddlApplicationStatus" name="ddlApplicationStatus" [(ngModel)]="request.ApplicationStatusID">
+            <option value="0">All</option>
+            <option *ngFor="let item of ApplicationStatusList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+          </select>
         </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="dtfromSubmittedDate" class="form-label">From Submitted Date:</label>
+          <input type="date" id="dtfromSubmittedDate" name="dtfromSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.FromSubmittedDate" />
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="dttoSubmittedDate" class="form-label">To Submitted Date:</label>
+          <input type="date" id="dttoSubmittedDate" name="dttoSubmittedDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.ToSubmittedDate" />
+        </div>
+
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlCollegeType" class="form-label">College Type:</label>
+          <select class="form-select" id="ddlCollegeType" name="ddlCollegeType" [(ngModel)]="request.CollegeTypeID">
+            <option value="0">All</option>
+            <option *ngFor="let item of CollegeTypeList" value="{{item.ID}}">{{item.Name}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtCollegeMobile" class="form-label">College Mobile:</label>
+          <input type="text" class="form-control" id="txtCollegeMobile" name="txtCollegeMobile" autocomplete="off" [(ngModel)]="request.CollegeMobileNo">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtCollegeEmail" class="form-label">College Email:</label>
+          <input type="text" class="form-control" id="txtCollegeEmail" name="txtCollegeEmail" autocomplete="off" [(ngModel)]="request.CollegeEmail">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlStatusofCollege" class="form-label">Status Of College:</label>
+          <select class="form-select" id="ddlStatusofCollege" name="ddlStatusofCollege" [(ngModel)]="request.StatusOfCollegeID">
+            <option value="0">All</option>
+            <option *ngFor="let item of StatusOfCollegeList" value="{{item.ID}}">{{item.Name}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlCollegeLevel" class="form-label">College Level:</label>
+          <select class="form-select" id="ddlCollegeLevel" name="ddlCollegeLevel" [(ngModel)]="request.CollegeLevelID">
+            <option value="0">All</option>
+            <option *ngFor="let item of CollegeLevelList" value="{{item.ID}}">{{item.Name}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlDivisionID" class="form-label">Division:</label>
+          <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL(SelectedDivisionID.value)" [(ngModel)]="request.DivisionID">
+            <option value="0">All</option>
+            <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlDistrictID" class="form-label">District:</label>
+          <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL(SelectedDistrictID.value)" [(ngModel)]="request.DistrictID">
+            <option value="0">All</option>
+            <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlSubdivisionID" class="form-label">Sub Division:</label>
+          <select class="form-select" id="ddlSubdivisionID" name="ddlSubdivisionID" [(ngModel)]="request.SubDivisionID">
+            <option value="0">All</option>
+            <option *ngFor="let item of SuvdivisionList" value="{{item.SuvdivisionID}}">{{item.SubdivisionName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlTehsilID" class="form-label">Tehsil :</label>
+          <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID">
+            <option value="0">All</option>
+            <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlParliamentAreaID" class="form-label">Parliament Area :</label>
+          <select class="form-select" id="ddlParliamentAreaID" name="ddlParliamentAreaID" [(ngModel)]="request.ParliamentID">
+            <option value="0">All</option>
+            <option *ngFor="let item of ParliamentAreaList" value="{{item.ParliamentAreaID}}">{{item.ParliamentAreaName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlAssemblyAreaID" class="form-label">Assembly Area :</label>
+          <select class="form-select" id="ddlAssemblyAreaID" name="ddlAssemblyAreaID" [(ngModel)]="request.AssemblyID">
+            <option value="0">All</option>
+            <option *ngFor="let item of AssembelyAreaList" value="{{item.AssemblyAreaID}}">{{item.AssemblyAreaName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtPermanentAddress" class="form-label">Permanent Address:</label>
+          <input type="text" class="form-control" id="txtPermanentAddress" name="txtPermanentAddress" autocomplete="off" [(ngModel)]="request.PermanentAddress">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtCityTownVillage" class="form-label">City/Town/Village:</label>
+          <input type="text" class="form-control" id="txtCityTownVillage" name="txtCityTownVillage" autocomplete="off" [(ngModel)]="request.CityTownVillage">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtPincode" class="form-label">Pincode:</label>
+          <input type="text" class="form-control" id="txtPincode" name="txtPincode" autocomplete="off" [(ngModel)]="request.PinCode">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtLandlineNumber" class="form-label">Landline Number:</label>
+          <input type="text" class="form-control" id="txtLandlineNumber" name="txtLandlineNumber" autocomplete="off" [(ngModel)]="request.LandlineNo">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtAdditionalMobile" class="form-label">Additional Mobile:</label>
+          <input type="text" class="form-control" id="txtAdditionalMobile" name="txtAdditionalMobile" autocomplete="off" [(ngModel)]="request.AdditionalMobileNo">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtFaxNumber" class="form-label">Fax Number:</label>
+          <input type="text" class="form-control" id="txtFaxNumber" name="txtFaxNumber" autocomplete="off" [(ngModel)]="request.FaxNo">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtWebsite" class="form-label">Website:</label>
+          <input type="text" class="form-control" id="txtWebsite" name="txtWebsite" autocomplete="off" [(ngModel)]="request.Website">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlNodalOfficer" class="form-label">Nodal Officer:</label>
+          <select class="form-select" id="ddlNodalOfficer" name="ddlNodalOfficer" [(ngModel)]="request.NodalOfficerID">
+            <option value="0">All</option>
+            <option *ngFor="let item of NodalOfficerList" value="{{item.UId}}">{{item.Name}} ( {{item.SSOID}} )</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlEstablishmentYear" class="form-label">Establishment Year:</label>
+          <select class="form-select" id="ddlEstablishmentYear" name="ddlEstablishmentYear" [(ngModel)]="request.EstablishmentYearID">
+            <option value="0">All</option>
+            <option *ngFor="let item of FinancialYearList" value="{{item.FinancialYearID}}">{{item.FinancialYearName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlApplicationType" class="form-label">Application Type:</label>
+          <select class="form-select" id="ddlApplicationType" name="ddlApplicationType" [(ngModel)]="request.ApplicationTypeID">
+            <option value="0">All</option>
+            <option *ngFor="let item of ApplicationTypeList" value="{{item.ApplyNocID}}">{{item.ApplyNocFor}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlLandAreaSituated" class="form-label">Land Area Situated in:</label>
+          <select class="form-select" id="ddlLandAreaSituated" name="ddlLandAreaSituated" [(ngModel)]="request.LandAreaID">
+            <option value="0">All</option>
+            <option *ngFor="let item of LandAreaList" value="{{item.LandAreaID}}">{{item.LandAreaName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlLandDocumentType" class="form-label">Land Document Type:</label>
+          <select class="form-select" id="ddlLandDocumentType" name="ddlLandDocumentType" [(ngModel)]="request.LandDocumentID">
+            <option value="0">All</option>
+            <option *ngFor="let item of LandDocumentTypeList" value="{{item.LandDocumentTypeID}}">{{item.LandDocumentTypeName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlLandConversion" class="form-label">Land Conversion:</label>
+          <select class="form-select" id="ddlLandConversion" name="ddlLandConversion" [(ngModel)]="request.LandConversionID">
+            <option value="0">All</option>
+            <option *ngFor="let item of LandConversionList"
+                    value="{{item.ID}}">
+              {{item.Name}}
+            </option>
+          </select>
+        </div>
+
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtAgricultureLandArea" class="form-label">Agriculture Land Area:</label>
+          <input type="text" class="form-control" id="txtAgricultureLandArea" name="txtAgricultureLandArea" autocomplete="off" [(ngModel)]="request.AgricultureLandArea">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtCommercialLandArea" class="form-label">Commercial Land Area:</label>
+          <input type="text" class="form-control" id="txtCommercialLandArea" name="txtCommercialLandArea" autocomplete="off" [(ngModel)]="request.CommercialLandArea">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtInstitutionalLandArea" class="form-label">Institutional Land Area:</label>
+          <input type="text" class="form-control" id="txtInstitutionalLandArea" name="txtInstitutionalLandArea" autocomplete="off" [(ngModel)]="request.InstitutionalLandArea">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtResidentialLandArea" class="form-label">Residential Land Area:</label>
+          <input type="text" class="form-control" id="txtResidentialLandArea" name="txtResidentialLandArea" autocomplete="off" [(ngModel)]="request.ResidentialLandArea">
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtAgricultureKhasraNo" class="form-label">Agriculture Khasra No:</label>
+          <input type="text" class="form-control" id="txtAgricultureKhasraNo" name="txtAgricultureKhasraNo" autocomplete="off" [(ngModel)]="request.AgricultureKhasraNo">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtCommercialKhasraNo" class="form-label">Commercial Khasra No:</label>
+          <input type="text" class="form-control" id="txtCommercialKhasraNo" name="txtCommercialKhasraNo" autocomplete="off" [(ngModel)]="request.CommercialKhasraNo">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtInstitutionalKhasraNo" class="form-label">Institutional Khasra No:</label>
+          <input type="text" class="form-control" id="txtInstitutionalKhasraNo" name="txtInstitutionalKhasraNo" autocomplete="off" [(ngModel)]="request.InstitutionalKhasraNo">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtResidentialKhasraNo" class="form-label">Residential Khasra No:</label>
+          <input type="text" class="form-control" id="txtResidentialKhasraNo" name="txtResidentialKhasraNo" autocomplete="off" [(ngModel)]="request.ResidentialKhasraNo">
+        </div>
+
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="dtfromAffidavitDate" class="form-label">From Affidavit Date:</label>
+          <input type="date" id="dtfromAffidavitDate" name="dtfromAffidavitDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.FromAffidavitDate" />
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="dttoAffidavitDate" class="form-label">To Affidavit Date:</label>
+          <input type="date" id="dttoAffidavitDate" name="dttoAffidavitDate" class="form-control" onkeypress="return false;" [(ngModel)]="request.ToAffidavitDate" />
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlUniversities" class="form-label">Universities:</label>
+          <select class="form-select" id="ddlUniversities" name="ddlUniversities" [(ngModel)]="request.UniversityID">
+            <option value="0">All</option>
+            <option *ngFor="let item of UniversityList"
+                    value="{{item.UniversityID}}">
+              {{item.UniversityName}}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlCourses" class="form-label">Courses:</label>
+          <select class="form-select" id="ddlCourses" name="ddlCourses" #SelectedCourseID (change)="GetSubjectList(SelectedCourseID.value)" [(ngModel)]="request.CourseID">
+            <option value="0">All</option>
+            <option *ngFor="let item of CoursesList"
+                    value="{{item.CourseID}}">
+              {{item.CourseName}}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlSubjects" class="form-label">Subjects:</label>
+          <select class="form-select" id="ddlSubjects" name="ddlSubjects" [(ngModel)]="request.SubjectID">
+            <option value="0">All</option>
+            <option *ngFor="let item of SubjectList"
+                    value="{{item.SubjectID}}">
+              {{item.SubjectName}}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlUrbanRural" class="form-label">Urban Rural:</label>
+          <select class="form-select" id="ddlUrbanRural" name="ddlUrbanRural" [(ngModel)]="request.UrbanRuralID">
+            <option value="0">All</option>
+            <option value="1">Rural</option>
+            <option value="2">Urban</option>
+          </select>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="ddlCollegeNAAC" class="form-label">College NAAC Accredited:</label>
+          <select class="form-select" id="ddlCollegeNAAC" name="ddlCollegeNAAC" [(ngModel)]="request.CollegeNAACID">
+            <option value="0">All</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtAISHECode" class="form-label">AISHE Code:</label>
+          <input type="text" class="form-control" id="txtAISHECode" name="txtAISHECode" autocomplete="off" [(ngModel)]="request.AISHECode">
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-2 mb-3">
+          <label for="txtApplicationId" class="form-label">Last Application Id:</label>
+          <input type="text" class="form-control" id="txtApplicationId" name="txtApplicationId" autocomplete="off" [(ngModel)]="request.ApplicationId">
+        </div>
+
       </div>
+    </div>
+    <div class="card-footer text-end">
+      <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+      <button type="submit" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+      <button type="submit" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <h4></h4>
+      <div class="d-flex align-items-center table-filter mr-15">
+        <i class="fa fa-search"></i>
+        <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+      </div>
+    </div>
+    <div class="table-responsive mb-5">
+      <table class="table table-bordered mb-0" #content id="tabellist">
+        <thead>
+          <tr>
+            <th>Application Id</th>
+            <th>College Name</th>
+            <th>College Name Hindi</th>
+            <th>Noc Status</th>
+            <th>Application Status</th>
+            <th>Submitted Date</th>
+            <th>College Type</th>
+            <th>Phone</th>
+            <th>Email Address</th>
+            <th>Status Of College</th>
+            <th>College Level</th>
+            <th>Division</th>
+            <th>District</th>
+            <th>Sub Division</th>
+            <th>Tehsil</th>
+            <th>Parliament Area</th>
+            <th>Assembly Area</th>
+            <th>Permanent Address</th>
+            <th>City/Town/Village</th>
+            <th>Pincode</th>
+            <th>Landline Number</th>
+            <th>Additional Mobile</th>
+            <th>Fax Number</th>
+            <th>Website</th>
+            <th>Nodal Officer</th>
+            <th>Establishment Year</th>
+            <th>Application Type</th>
+            <th>Land Area Situated in</th>
+            <th>Land Document Type</th>
+            <th>Land Conversion</th>
+            <th>Agriculture Land Area</th>
+            <th>Commercial Land Area</th>
+            <th>Institutional Land Area</th>
+            <th>Residential Land Area</th>
+            <th>Agriculture Khasra No</th>
+            <th>Commercial Khasra No</th>
+            <th>Institutional Khasra No</th>
+            <th>Residential Khasra No</th>
+            <th>Land Conversion Order No. & Date</th>
+            <th>Receipt Number of Conversion Fee & Date</th>
+            <th>Affidavit Date</th>
+            <th>Universities</th>
+            <th>Courses And Subject Info</th>
+            <th>College NAAC Accredited</th>
+            <th>Name of Society</th>
+            <th>Secretary Name</th>
+            <th>Secretary Mobile No.</th>
+            <th>Secretary Aadhar</th>
+            <th>Secretary Email</th>
+            <th>President Name</th>
+            <th>President Mobile No.</th>
+            <th>President Aadhar</th>
+            <th>President Email</th>
+            <th>Academic Info</th>
+            <th>Received Date</th>
+            <th>Inspection Date</th>
+            <th>Report Sent Date</th>
+            <th>FDR Number</th>
+            <th>FDR Amount</th>
+            <th>FDR Date</th>
+            <th>Teaching Faculity Details</th>
+            <th>Nodal Officer Mobile</th>
+            <th>Nodal Officer Email</th>
+            <th>Principal Detail</th>
+            <th>AISHE Code</th>
+            <th>Last Application Id</th>
+          </tr>
+        </thead>
 
+        <tbody>
+          <tr *ngFor="let row of CollegeList | tableSearchFilter:searchText; let idx=index;">
+            <td>{{row.CollegeID}}</td>
+            <td>{{row.CollegeNameEn}}</td>
+            <td>{{row.CollegeNameHi}}</td>
+            <td>{{row.NOCStatus}}</td>
+            <td></td>
+            <td></td>
+            <td>{{row.CollegeType}}</td>
+            <td>{{row.MobileNumber}}</td>
+            <td>{{row.Email}}</td>
+            <td>{{row.StatusofCollege}}</td>
+            <td>{{row.CollegeLevel}}</td>
+            <td>{{row.Division_English}}</td>
+            <td>{{row.District_Eng}}</td>
+            <td>{{row.SubdivisionName}}</td>
+            <td>{{row.TehsilName}}</td>
+            <td>{{row.ParliamentAreaName}}</td>
+            <td>{{row.AssembelyAreaName}}</td>
+            <td>{{row.PermanentAddress}}</td>
+            <td>{{row.CityTownVillage}}</td>
+            <td>{{row.Pincode}}</td>
+            <td>{{row.CollegeLandlineNumber}}</td>
+            <td></td>
+            <td></td>
+            <td>{{row.WebsiteLink}}</td>
+            <td></td>
+            <td>{{row.FinancialYearName}}</td>
+            <td>{{row.ApplyNocFor}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{row.Agr_LandArea}}</td>
+            <td>{{row.Com_LandArea}}</td>
+            <td>{{row.Ins_LandArea}}</td>
+            <td>{{row.Res_LandArea}}</td>
+            <td>{{row.Agr_KhasraNo}}</td>
+            <td>{{row.Com_KhasraNo}}</td>
+            <td>{{row.Ins_KhasraNo}}</td>
+            <td>{{row.Res_KhasraNo}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{row.UniversityName}}</td>
+            <td>{{row.CoursesAndSubjectInfo}}</td>
+            <td></td>
+            <td>{{row.SocietyName}}</td>
+            <td>{{row.SecretaryName}}</td>
+            <td>{{row.SecretaryMobile}}</td>
+            <td>{{row.SecretaryAadhar}}</td>
+            <td>{{row.SecretaryEmail}}</td>
+            <td>{{row.PresidentName}}</td>
+            <td>{{row.PresidentMobile}}</td>
+            <td>{{row.PresidentAadhar}}</td>
+            <td>{{row.PresidentEmail}}</td>
+            <td>{{row.AcademicInfo}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{row.FDRNumber}}</td>
+            <td>{{row.FDRAmount}}</td>
+            <td>{{row.FDRDate}}</td>
+            <td>{{row.TeachingFaculityDetails}}</td>
+            <td></td>
+            <td></td>
+            <td>Name:{{row.PrincipalName}},Mobile:{{row.PrincipalMobile}}</td>
+            <td>{{row.AISHECode}}</td>
+            <td>{{row.ApplyNocApplicationID}}</td>
+          </tr>
+          <tr *ngIf="CollegeList.length<=0">
+            <td colspan="100" style="color:red;text-align:center">No Data Found.!</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
+
+
+  <div class="col-md-12 col-md-12 col-sm-12 col-12 mb-3">
+    
+  </div>

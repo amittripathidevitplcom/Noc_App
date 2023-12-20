@@ -329,6 +329,7 @@ import { CollegeReportDCEComponent } from './Views/DCE/college-report-dce/colleg
 import { TotalCollegeDepartmentWiseReportsComponent } from './Views/total-college-department-wise-reports/total-college-department-wise-reports.component';
 import { NewGrievanceModule } from './Views/Grievance/new-grievance/new-grievance.module';
 import { NewGrievanceComponent } from './Views/Grievance/new-grievance/new-grievance.component';
+import { CollegeSubmitStatisticsReportDCEComponent } from './Views/DCE/college-submit-statistics-report-dce/college-submit-statistics-report-dce.component';
 
 
 
@@ -643,6 +644,7 @@ import { NewGrievanceComponent } from './Views/Grievance/new-grievance/new-griev
           CollegeReportDCEComponent,
           TotalCollegeDepartmentWiseReportsComponent,
           NewGrievanceComponent,
+          CollegeSubmitStatisticsReportDCEComponent,
   ],
   imports: [
     CommonModule,
