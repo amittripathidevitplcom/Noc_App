@@ -7,6 +7,7 @@ import { GlobalConstants } from '../../Common/GlobalConstants';
 
 import * as CryptoJS from 'crypto-js';
 import internal from 'stream';
+import { CommonDataModel_TotalApplicationSearchFilter } from '../../Models/CommonMasterDataModel';
 
 
 
@@ -1362,6 +1363,13 @@ export class CommonMasterService {
       })
     };
     return await this.http.get(`${this.APIUrl_CommonMaster}/GetApplyNOCParameterbyDepartment/${DepartmentID}`)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetTotalApplicationListByDepartment(request: CommonDataModel_TotalApplicationSearchFilter) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.post(this.APIUrl_CommonMaster + '/GetTotalApplicationListByDepartment' ,request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

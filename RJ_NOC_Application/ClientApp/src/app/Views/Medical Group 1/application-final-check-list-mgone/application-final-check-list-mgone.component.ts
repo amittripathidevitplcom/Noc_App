@@ -485,7 +485,12 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/osdapplicationlistmgone/Pending']);
+            if (this.sSOLoginDataModel.RoleID == 7) {
+              this.routers.navigate(['/forwardbyministerlistmgone/Pending']);
+            }
+            else {
+              this.routers.navigate(['/osdapplicationlistmgone/Pending']);
+            }
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -575,6 +580,14 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (data['Data'].length > 0) {
             this.NextWorkFlowActionList = data['Data'];
+
+            //remove next Action
+            if (this.sSOLoginDataModel.RoleID == 6 && this.NextRoleID == 7) {
+              this.NextWorkFlowActionList = this.NextWorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 49);
+            }
+            if (this.sSOLoginDataModel.RoleID == 32 && this.NextRoleID == 7) {
+              this.NextWorkFlowActionList = this.NextWorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 49);
+            }
             if (this.NextWorkFlowActionList.length > 0) {
               this.NextActionID = this.NextWorkFlowActionList[0]['ActionID'];
             }
@@ -600,6 +613,10 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
+
+              if (this.sSOLoginDataModel.RoleID == 7) {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID !=45);
+              }
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
               var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
@@ -729,7 +746,7 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
       this.loaderService.requestStarted();
 
       //clerk
-      await this.mg1documentScrutinyService.GetRNCCheckListByRole('LOI',  ApplyNOCID,  2)
+      await this.mg1documentScrutinyService.GetRNCCheckListByRole('LOI',  ApplyNOCID,  33)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

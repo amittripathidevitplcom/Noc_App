@@ -50,7 +50,7 @@ export class OSDApplicationListMGOneComponent implements OnInit {
         ActionName = Status == 'Completed' ? 'Approve and Forward,Forward To' : Status == 'Pending' ? 'Approve and Forward,Forward' : Status == 'Revert' ? 'Revert' : '';
       }
       else {
-        ActionName = Status == 'Completed' ? 'Approve and Forward,Minister Forward To,Reject and Forward,Revert' : Status == 'Pending' ? 'Approve and Forward,Forward,Forward To' : '';
+        ActionName = Status == 'Completed' ? 'Compliant and Forward,Approve and Forward,Minister Forward To,Reject and Forward,Revert' : Status == 'Pending' ? 'Compliant and Forward,Forward,Forward To,Approve and Forward' : '';
       }
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.GetLOIApplicationList(RoleId, UserID, Status, ActionName)

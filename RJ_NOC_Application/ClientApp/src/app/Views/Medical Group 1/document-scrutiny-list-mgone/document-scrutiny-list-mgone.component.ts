@@ -46,7 +46,7 @@ export class DocumentScrutinyListMGOneComponent implements OnInit {
   async GetLOIApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Approve and Forward,Forward To' : Status == 'Pending' ? 'Approve and Forward,Forward' : '';
+      ActionName = Status == 'Completed' ? 'Compliant and Forward,Forward To' : Status == 'Pending' ? 'Compliant and Forward,Forward' : '';
       
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.GetLOIApplicationList(RoleId, UserID, Status, ActionName)

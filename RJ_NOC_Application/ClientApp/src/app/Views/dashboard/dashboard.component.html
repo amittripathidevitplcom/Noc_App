@@ -1351,12 +1351,26 @@
         </div>
       </div>
     </div>
-    
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==7">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application</h5></div>
+        <div class="card-body">
+          <div class="justify-content-between">
+            <div class="dashCardContent">
+              <h4>Total Application</h4>
+              <h2>
+                <a href="/totalapplicationlist" style="background: none;">{{dashboardDataModel.TotalApplication}}</a>
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 
-<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==2 || this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==30 )">
+<div class="container-fluid mainContents" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==33 || this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==30 )">
   <div class="row">
     <div class="col-lg-3 col-md-4 col-sm-6 col-12">
       <div class="card staticsCards">
@@ -1398,6 +1412,21 @@
             <div class="dashCardContent">
               <h4>Completed</h4>
               <a href="/osdapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application</h5></div>
+        <div class="card-body">
+          <div class="justify-content-between">
+            <div class="dashCardContent">
+              <h4>Total Application</h4>
+              <h2>
+                <a href="/totalapplicationlist" style="background: none;">{{dashboardDataModel.TotalApplication}}</a>
+              </h2>
             </div>
           </div>
         </div>
@@ -1461,13 +1490,28 @@
                 <a href="/deputysecretarylistmgone/Pending" style="background: none;">{{dashboardDataModel.JointSecretary_Pending}}</a>
               </h2>
             </div>
-            <div class="dashCardContent">
-              <h4>Forwarded to Deputy Secretary</h4>
-              <a href="/deputysecretarylistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Completed}}</h2></a>
-            </div>
+            <!--<div class="dashCardContent">
+            <h4>Forwarded to Deputy Secretary</h4>
+            <a href="/deputysecretarylistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Completed}}</h2></a>
+          </div>-->
             <div class="dashCardContent">
               <h4>LOI Issued</h4>
               <a href="/issuedloireportmgone" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==14 ||this.sSOLoginDataModel.RoleID==6">
+      <div class="card staticsCards">
+        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application</h5></div>
+        <div class="card-body">
+          <div class="justify-content-between">
+            <div class="dashCardContent">
+              <h4>Total Application</h4>
+              <h2>
+                <a href="/totalapplicationlist" style="background: none;">{{dashboardDataModel.TotalApplication}}</a>
+              </h2>
             </div>
           </div>
         </div>

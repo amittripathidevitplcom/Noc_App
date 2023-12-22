@@ -8,3 +8,6 @@ export class CommonMasterDataModel {
   public ActiveDeactive: string = '';
   public DeleteStatus: boolean = false;
 }
+export class CommonDataModel_TotalApplicationSearchFilter {
+  public DepartmentID: number = 0;
+}

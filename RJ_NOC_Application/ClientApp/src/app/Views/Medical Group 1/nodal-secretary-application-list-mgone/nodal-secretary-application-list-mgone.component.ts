@@ -158,7 +158,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
     //  this.isRemarkValid = true;
     //  this.isFormvalid = false;
     //}
-      if (confirm("Are you sure you want to delete this ?")) {
+      if (confirm("Are you sure you want to forward this application?")) {
         this.loaderService.requestStarted();
         if (this.ActionID <= 0) {
           this.isActionTypeValid = true;
@@ -211,7 +211,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
             this.SuccessMessage = data['SuccessMessage'];
             this.ErrorMessage = data['ErrorMessage'];
             if (this.State == 0) {
-              this.toastr.success(this.SuccessMessage);
+              this.toastr.success('forwarded successfully');//this.SuccessMessage
               this.modalService.dismissAll('After Success');
               this.routers.navigate(['/dashboard']);
             }
@@ -334,6 +334,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
+              this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID == 45);
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
               var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;

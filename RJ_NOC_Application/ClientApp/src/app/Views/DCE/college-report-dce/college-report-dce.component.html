@@ -302,9 +302,9 @@
       </div>
     </div>
     <div class="card-footer text-end">
-      <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
-      <button type="submit" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
-      <button type="submit" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
+      <button type="submit" (click)="GetCollegeReport()" class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button>
+      <button type="submit" (click)="ResetControl()" class="btn btn-danger"><i class="bi bi-bootstrap-reboot"></i>&nbsp;Reset</button>
+      <button type="submit" (click)="btnExportTable_Click()" class="btn btn-success"><i class="fa fa-file-excel-o"></i> &nbsp;Export Record</button>
     </div>
   </div>
   <div class="card">
@@ -319,6 +319,7 @@
       <table class="table table-bordered mb-0" #content id="tabellist">
         <thead>
           <tr>
+            <th>SrNo.</th>
             <th>Application Id</th>
             <th>College Name</th>
             <th>College Name Hindi</th>
@@ -390,12 +391,13 @@
 
         <tbody>
           <tr *ngFor="let row of CollegeList | tableSearchFilter:searchText; let idx=index;">
+            <td>{{idx+1}}</td>
             <td>{{row.CollegeID}}</td>
             <td>{{row.CollegeNameEn}}</td>
             <td>{{row.CollegeNameHi}}</td>
             <td>{{row.NOCStatus}}</td>
-            <td></td>
-            <td></td>
+            <td>{{row.ApplicationStatus}}</td>
+            <td>{{row.SubmittedDate}}</td>
             <td>{{row.CollegeType}}</td>
             <td>{{row.MobileNumber}}</td>
             <td>{{row.Email}}</td>
@@ -414,12 +416,12 @@
             <td></td>
             <td></td>
             <td>{{row.WebsiteLink}}</td>
-            <td></td>
+            <td>{{row.NodalOfficer}}</td>
             <td>{{row.FinancialYearName}}</td>
             <td>{{row.ApplyNocFor}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{row.LandAreaName}}</td>
+            <td>{{row.LandDocumentTypeName}}</td>
+            <td>{{row.LandConverted}}</td>
             <td>{{row.Agr_LandArea}}</td>
             <td>{{row.Com_LandArea}}</td>
             <td>{{row.Ins_LandArea}}</td>
@@ -428,12 +430,12 @@
             <td>{{row.Com_KhasraNo}}</td>
             <td>{{row.Ins_KhasraNo}}</td>
             <td>{{row.Res_KhasraNo}}</td>
+            <td>{{row.LandConversion}}</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td>{{row.UniversityName}}</td>
+            <td>{{row.AffidavitDate}}</td>
+            <td>{{row.UniversityName }}</td>
             <td>{{row.CoursesAndSubjectInfo}}</td>
-            <td></td>
+            <td>{{row.CollegeNAACAccredited}}</td>
             <td>{{row.SocietyName}}</td>
             <td>{{row.SecretaryName}}</td>
             <td>{{row.SecretaryMobile}}</td>
@@ -451,8 +453,8 @@
             <td>{{row.FDRAmount}}</td>
             <td>{{row.FDRDate}}</td>
             <td>{{row.TeachingFaculityDetails}}</td>
-            <td></td>
-            <td></td>
+            <td>{{row.NodalMobile}}</td>
+            <td>{{row.NodalEmail}}</td>
             <td>Name:{{row.PrincipalName}},Mobile:{{row.PrincipalMobile}}</td>
             <td>{{row.AISHECode}}</td>
             <td>{{row.ApplyNocApplicationID}}</td>

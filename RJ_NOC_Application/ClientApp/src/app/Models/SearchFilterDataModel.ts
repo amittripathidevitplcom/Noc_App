@@ -49,8 +49,8 @@ export class DCECollegesReportSearchFilter {
   public AdditionalMobileNo: string = '';
   public FaxNo: string = '';
   public Website: string = '';
-  public NodalOfficerID: string = '';
-  public EstablishmentYearID: string = '';
+  public NodalOfficerID: number=0;
+  public EstablishmentYearID: number = 0;
   public ApplicationTypeID: number=0;
   public LandAreaID: number=0;
   public LandDocumentID: number=0;
