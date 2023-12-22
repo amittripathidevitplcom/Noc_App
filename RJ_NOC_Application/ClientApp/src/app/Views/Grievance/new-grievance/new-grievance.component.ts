@@ -58,6 +58,7 @@ export class NewGrievanceComponent implements OnInit {
       this.isMobileEntry = false;
     }
 
+
     this.AnimalMasterForm = this.formBuilder.group(
       {
         ddlBugFrom: [''],
@@ -65,7 +66,7 @@ export class NewGrievanceComponent implements OnInit {
         ddlCollegeID: [''],
         txtSubject: ['', [Validators.required]],
         txtDescription: ['', [Validators.required]],
-        txtMobileNo: ['', [Validators.required]],
+        txtMobileNo: ['', [Validators.required, Validators.pattern("^[6-9][0-9]{9}$")]],
         chkActiveStatus: [''],
         fileAttachmentFile: [''],
       }
@@ -76,13 +77,20 @@ export class NewGrievanceComponent implements OnInit {
     await this.GetGrievanceList();
     this.ActiveStatus = true;
   }
+  numberOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
   async onFilechange(event: any) {
 
     try {
       this.loaderService.requestStarted();
       this.file = event.target.files[0];
       if (this.file) {
-        if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg') {
+      /*  if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg') {*/
           //size validation
           if (this.file.size > 5000000) {
             this.request.AttachmentFile = '';
@@ -113,7 +121,7 @@ export class NewGrievanceComponent implements OnInit {
           this.toastr.warning('Select File Format.!');
           return
         }
-      }
+     /* }*/
     }
     catch (Ex) {
       console.log(Ex);
