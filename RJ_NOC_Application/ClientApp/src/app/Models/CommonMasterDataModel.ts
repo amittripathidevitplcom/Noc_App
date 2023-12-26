@@ -10,4 +10,5 @@ export class CommonMasterDataModel {
 }
 export class CommonDataModel_TotalApplicationSearchFilter {
   public DepartmentID: number = 0;
+
 }

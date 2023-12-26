@@ -11,6 +11,7 @@ import * as XLSX from 'xlsx';
 import { DraftApplicationListService } from '../../../Services/DraftApplicationList/draft-application-list.service';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { CommonDataModel_TotalApplicationSearchFilter } from '../../../Models/CommonMasterDataModel';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 
@@ -36,7 +37,7 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
 
 
 
-  constructor(private collegeservice: CollegeService, private draftApplicationListService: DraftApplicationListService, private routers: Router, private router: ActivatedRoute, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
+  constructor(private modalService: NgbModal, private draftApplicationListService: DraftApplicationListService, private routers: Router, private router: ActivatedRoute, private dceDocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private commonMasterService: CommonMasterService, private applyNocParameterService: ApplyNocParameterService) {
   }
 
   async ngOnInit() {
@@ -166,5 +167,50 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
   }
   async ResetControl() {
     this.request = new CommonDataModel_TotalApplicationSearchFilter();
+  }
+
+
+  closeResult: string | undefined;
+  modalReference: NgbModalRef | undefined;
+  public ApplicationTrailList: any = [];
+  async GetApplicationTrail(content: any, ApplyNOCID: number) {
+    this.ApplicationTrailList = [];
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetApplicationTrail_DepartmentApplicationWise(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationTrailList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+  async ApplicationSummary_OnClick(DepartmentID: number, CollegeID: number) {
+    window.open('/LOIapplicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())), '_blank')
   }
 }
