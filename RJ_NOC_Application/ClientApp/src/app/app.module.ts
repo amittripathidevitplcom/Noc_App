@@ -332,6 +332,8 @@ import { NewGrievanceComponent } from './Views/Grievance/new-grievance/new-griev
 import { CollegeSubmitStatisticsReportDCEComponent } from './Views/DCE/college-submit-statistics-report-dce/college-submit-statistics-report-dce.component';
 import { TotalApplicationListByDepartmentComponent } from './Views/Reports/total-application-list-by-department/total-application-list-by-department.component';
 import { StatisticsDraftCollgerReportComponent } from './Views/DCE/statistics-draft-collger-report/statistics-draft-collger-report.component';
+import { DTEDocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab_DTE/dtedocument-scrutiny-legal-entity/dtedocument-scrutiny-legal-entity.component';
+import { DocumentScrutinyDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-dte/document-scrutiny-dte.component';
 
 
 
@@ -649,6 +651,8 @@ import { StatisticsDraftCollgerReportComponent } from './Views/DCE/statistics-dr
           CollegeSubmitStatisticsReportDCEComponent,
           TotalApplicationListByDepartmentComponent,
           StatisticsDraftCollgerReportComponent,
+          DTEDocumentScrutinyLegalEntityComponent,
+          DocumentScrutinyDTEComponent,
   ],
   imports: [
     CommonModule,
