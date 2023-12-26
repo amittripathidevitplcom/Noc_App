@@ -82,5 +82,14 @@ export class ClassWiseStudentDetailsServiceService {
       ).toPromise();
   }
 
+  public async CollegeList_StatisticsDraftSubmited(request: CollegeList_StatisticsFinalSubmitedDataModel_Filter) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/CollegeList_StatisticsDraftSubmited", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }
 

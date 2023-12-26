@@ -331,6 +331,7 @@ import { NewGrievanceModule } from './Views/Grievance/new-grievance/new-grievanc
 import { NewGrievanceComponent } from './Views/Grievance/new-grievance/new-grievance.component';
 import { CollegeSubmitStatisticsReportDCEComponent } from './Views/DCE/college-submit-statistics-report-dce/college-submit-statistics-report-dce.component';
 import { TotalApplicationListByDepartmentComponent } from './Views/Reports/total-application-list-by-department/total-application-list-by-department.component';
+import { StatisticsDraftCollgerReportComponent } from './Views/DCE/statistics-draft-collger-report/statistics-draft-collger-report.component';
 
 
 
@@ -647,6 +648,7 @@ import { TotalApplicationListByDepartmentComponent } from './Views/Reports/total
           NewGrievanceComponent,
           CollegeSubmitStatisticsReportDCEComponent,
           TotalApplicationListByDepartmentComponent,
+          StatisticsDraftCollgerReportComponent,
   ],
   imports: [
     CommonModule,

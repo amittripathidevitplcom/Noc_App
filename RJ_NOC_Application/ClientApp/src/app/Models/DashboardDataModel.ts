@@ -92,5 +92,6 @@ export class DashboardDataModel {
   public PendingtoInspectionByOL2: number = 0;
 
   public TotalApplication: number = 0;
-  public TotalFinatSubmitStatistics: number = 0;
+  public TotalFinalSubmitStatistics: number = 0;
+  public TotalDraftSubmitStatistics: number = 0;
 }
