@@ -346,6 +346,7 @@ import { DocumentScrutinyStaffDetailsDTEComponent } from './Views/DocumentScruti
 import { DocumentScrutinyOtherDocumentDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-other-document-dte/document-scrutiny-other-document-dte.component';
 import { DocumentScrutinyFacilityDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-facility-dte/document-scrutiny-facility-dte.component';
 import { DocumentScrutinyRequiredDocumentDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-required-document-dte/document-scrutiny-required-document-dte.component';
+import { DocumentScrutinyRoomDetailsDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-room-details-dte/document-scrutiny-room-details-dte.component';
 
 
 
@@ -677,6 +678,7 @@ import { DocumentScrutinyRequiredDocumentDTEComponent } from './Views/DocumentSc
           DocumentScrutinyOtherDocumentDTEComponent,
           DocumentScrutinyFacilityDTEComponent,
           DocumentScrutinyRequiredDocumentDTEComponent,
+          DocumentScrutinyRoomDetailsDTEComponent,
   ],
   imports: [
     CommonModule,
