@@ -340,6 +340,12 @@ import { DocumentScrutinyOLDNOCDetailsDTEComponent } from './Views/DocumentScrut
 import { DocumentScrutinyLandDetailDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-land-detail-dte/document-scrutiny-land-detail-dte.component';
 import { DocumentScrutinyBuildingDetailDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-building-detail-dte/document-scrutiny-building-detail-dte.component';
 import { DocumentScrutinyCourseDetailDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-course-detail-dte/document-scrutiny-course-detail-dte.component';
+import { DocumentScrutinyHostalDetailsComponentDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-hostal-details-component-dte/document-scrutiny-hostal-details-component-dte.component';
+import { DocumentScrutinyAcademicInformationDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-academic-information-dte/document-scrutiny-academic-information-dte.component';
+import { DocumentScrutinyStaffDetailsDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-staff-details-dte/document-scrutiny-staff-details-dte.component';
+import { DocumentScrutinyOtherDocumentDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-other-document-dte/document-scrutiny-other-document-dte.component';
+import { DocumentScrutinyFacilityDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-facility-dte/document-scrutiny-facility-dte.component';
+import { DocumentScrutinyRequiredDocumentDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-required-document-dte/document-scrutiny-required-document-dte.component';
 
 
 
@@ -665,6 +671,12 @@ import { DocumentScrutinyCourseDetailDTEComponent } from './Views/DocumentScruti
           DocumentScrutinyLandDetailDTEComponent,
           DocumentScrutinyBuildingDetailDTEComponent,
           DocumentScrutinyCourseDetailDTEComponent,
+          DocumentScrutinyHostalDetailsComponentDTEComponent,
+          DocumentScrutinyAcademicInformationDTEComponent,
+          DocumentScrutinyStaffDetailsDTEComponent,
+          DocumentScrutinyOtherDocumentDTEComponent,
+          DocumentScrutinyFacilityDTEComponent,
+          DocumentScrutinyRequiredDocumentDTEComponent,
   ],
   imports: [
     CommonModule,
