@@ -30,6 +30,54 @@
               </ng-template>
               <app-dtedocument-scrutiny-legal-entity></app-dtedocument-scrutiny-legal-entity>
             </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-graduation-cap icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CollegeDetail']>0"></i>
+                <span>College Detail</span>
+              </ng-template>
+              <app-document-scrutiny-college-detail-dte></app-document-scrutiny-college-detail-dte>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-building-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CollegeManagementSociety']>0"></i>
+                <span>College Management Society</span>
+              </ng-template>
+              <app-document-scrutiny-college-management-society-dte></app-document-scrutiny-college-management-society-dte>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-home icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
+                <span>Course Detail</span>
+              </ng-template>
+              <app-document-scrutiny-course-detail-dte></app-document-scrutiny-course-detail-dte>
+            </mat-tab>
+            <mat-tab *ngIf="CollegeType_IsExisting">
+              <ng-template mat-tab-label>
+                <i class="fa fa-address-card-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OLDNOCDetails']>0"></i>
+                <span>OLD NOC Details</span>
+              </ng-template>
+              <app-document-scrutiny-oldnocdetails-dte></app-document-scrutiny-oldnocdetails-dte>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-location-arrow icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LandInformation']>0"></i>
+                <span>Land Information</span>
+              </ng-template>
+              <app-document-scrutiny-land-detail-dte></app-document-scrutiny-land-detail-dte>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-building-o icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['BuildingDocuments']>0"></i>
+                <span>Building Documents</span>
+              </ng-template>
+              <app-document-scrutiny-building-detail-dte></app-document-scrutiny-building-detail-dte>
+            </mat-tab>
 
             <mat-tab>
               <ng-template mat-tab-label>

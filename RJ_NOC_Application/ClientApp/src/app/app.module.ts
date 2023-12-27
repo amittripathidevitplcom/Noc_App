@@ -334,6 +334,12 @@ import { TotalApplicationListByDepartmentComponent } from './Views/Reports/total
 import { StatisticsDraftCollgerReportComponent } from './Views/DCE/statistics-draft-collger-report/statistics-draft-collger-report.component';
 import { DTEDocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab_DTE/dtedocument-scrutiny-legal-entity/dtedocument-scrutiny-legal-entity.component';
 import { DocumentScrutinyDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-dte/document-scrutiny-dte.component';
+import { DocumentScrutinyCollegeDetailDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-college-detail-dte/document-scrutiny-college-detail-dte.component';
+import { DocumentScrutinyCollegeManagementSocietyDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-college-management-society-dte/document-scrutiny-college-management-society-dte.component';
+import { DocumentScrutinyOLDNOCDetailsDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-oldnocdetails-dte/document-scrutiny-oldnocdetails-dte.component';
+import { DocumentScrutinyLandDetailDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-land-detail-dte/document-scrutiny-land-detail-dte.component';
+import { DocumentScrutinyBuildingDetailDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-building-detail-dte/document-scrutiny-building-detail-dte.component';
+import { DocumentScrutinyCourseDetailDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-course-detail-dte/document-scrutiny-course-detail-dte.component';
 import { DocumentScrutinyHostalDetailsComponentDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-hostal-details-component-dte/document-scrutiny-hostal-details-component-dte.component';
 import { DocumentScrutinyAcademicInformationDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-academic-information-dte/document-scrutiny-academic-information-dte.component';
 import { DocumentScrutinyStaffDetailsDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-staff-details-dte/document-scrutiny-staff-details-dte.component';
@@ -660,6 +666,12 @@ import { DocumentScrutinyOtherInfrastuctureDTEComponent } from './Views/Document
           StatisticsDraftCollgerReportComponent,
           DTEDocumentScrutinyLegalEntityComponent,
           DocumentScrutinyDTEComponent,
+          DocumentScrutinyCollegeDetailDTEComponent,
+          DocumentScrutinyCollegeManagementSocietyDTEComponent,
+          DocumentScrutinyOLDNOCDetailsDTEComponent,
+          DocumentScrutinyLandDetailDTEComponent,
+          DocumentScrutinyBuildingDetailDTEComponent,
+          DocumentScrutinyCourseDetailDTEComponent,
           DocumentScrutinyHostalDetailsComponentDTEComponent,
           DocumentScrutinyAcademicInformationDTEComponent,
           DocumentScrutinyStaffDetailsDTEComponent,
