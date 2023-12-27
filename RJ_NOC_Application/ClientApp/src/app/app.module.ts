@@ -334,6 +334,12 @@ import { TotalApplicationListByDepartmentComponent } from './Views/Reports/total
 import { StatisticsDraftCollgerReportComponent } from './Views/DCE/statistics-draft-collger-report/statistics-draft-collger-report.component';
 import { DTEDocumentScrutinyLegalEntityComponent } from './Views/DocumentScrutinyTab_DTE/dtedocument-scrutiny-legal-entity/dtedocument-scrutiny-legal-entity.component';
 import { DocumentScrutinyDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-dte/document-scrutiny-dte.component';
+import { DocumentScrutinyHostalDetailsComponentDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-hostal-details-component-dte/document-scrutiny-hostal-details-component-dte.component';
+import { DocumentScrutinyAcademicInformationDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-academic-information-dte/document-scrutiny-academic-information-dte.component';
+import { DocumentScrutinyStaffDetailsDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-staff-details-dte/document-scrutiny-staff-details-dte.component';
+import { DocumentScrutinyOtherDocumentDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-other-document-dte/document-scrutiny-other-document-dte.component';
+import { DocumentScrutinyFacilityDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-facility-dte/document-scrutiny-facility-dte.component';
+import { DocumentScrutinyRequiredDocumentDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-required-document-dte/document-scrutiny-required-document-dte.component';
 
 
 
@@ -653,6 +659,12 @@ import { DocumentScrutinyDTEComponent } from './Views/DocumentScrutinyTab_DTE/do
           StatisticsDraftCollgerReportComponent,
           DTEDocumentScrutinyLegalEntityComponent,
           DocumentScrutinyDTEComponent,
+          DocumentScrutinyHostalDetailsComponentDTEComponent,
+          DocumentScrutinyAcademicInformationDTEComponent,
+          DocumentScrutinyStaffDetailsDTEComponent,
+          DocumentScrutinyOtherDocumentDTEComponent,
+          DocumentScrutinyFacilityDTEComponent,
+          DocumentScrutinyRequiredDocumentDTEComponent,
   ],
   imports: [
     CommonModule,
