@@ -9,6 +9,7 @@ import { CommonMasterService } from '../../../Services/CommonMaster/common-maste
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
+import { DTEDocumentScrutinyService } from '../../../Services/DTEDocumentScrutiny/dtedocument-scrutiny.service';
 
 @Injectable({
   providedIn: 'root'
@@ -81,7 +82,7 @@ export class DocumentScrutinyDTEComponent implements OnInit {
 
   public CheckFinalRemark: string = '';
   @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
-  constructor(private toastr: ToastrService, private loaderService: LoaderService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService,
+  constructor(private toastr: ToastrService, private loaderService: LoaderService, private dteDocumentScrutinyService: DTEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private modalService: NgbModal) { }
 
 
@@ -89,7 +90,7 @@ export class DocumentScrutinyDTEComponent implements OnInit {
   async ngOnInit() {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LOIID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.CheckTabsEntry();
@@ -136,11 +137,11 @@ export class DocumentScrutinyDTEComponent implements OnInit {
   async CheckTabsEntry() {
     try {
       this.loaderService.requestStarted();
-      //await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
-      //  .then((data: any) => {
-      //    data = JSON.parse(JSON.stringify(data));
-      //    this.CheckTabsEntryData = data['Data'][0]['data'][0];
-      //  }, error => console.error(error));
+      await this.dteDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.CheckTabsEntryData = data['Data'][0]['data'][0];
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);

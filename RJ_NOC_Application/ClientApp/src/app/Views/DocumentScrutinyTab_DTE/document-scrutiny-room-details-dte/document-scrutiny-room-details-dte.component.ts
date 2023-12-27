@@ -8,17 +8,17 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { RoomDetailsDataModel_RoomDetails } from '../../../Models/RoomDetailsDataModel';
 import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.service';
-import { DTEDocumentScrutinyService } from '../../../Services/DTEDocumentScrutiny/dtedocument-scrutiny.service';
 import { DocumentScrutinyDTEComponent } from '../document-scrutiny-dte/document-scrutiny-dte.component';
+import { DTEDocumentScrutinyService } from '../../../Services/DTEDocumentScrutiny/dtedocument-scrutiny.service';
 
 
 @Component({
-  selector: 'app-document-scrutiny-course-detail-dte',
-  templateUrl: './document-scrutiny-course-detail-dte.component.html',
-  styleUrls: ['./document-scrutiny-course-detail-dte.component.css']
+  selector: 'app-document-scrutiny-room-details-dte',
+  templateUrl: './document-scrutiny-room-details-dte.component.html',
+  styleUrls: ['./document-scrutiny-room-details-dte.component.css']
 })
-export class DocumentScrutinyCourseDetailDTEComponent implements OnInit {
-  public AllCourseList: any = [];
+export class DocumentScrutinyRoomDetailsDTEComponent implements OnInit {
+  public RoomDetails: RoomDetailsDataModel_RoomDetails[] = [];
   sSOLoginDataModel = new SSOLoginDataModel();
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
@@ -37,25 +37,24 @@ export class DocumentScrutinyCourseDetailDTEComponent implements OnInit {
     private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService, private roomDetailsService: RoomDetailsService, private dtedocumentscrutiny: DocumentScrutinyDTEComponent) { }
 
   async ngOnInit() {
-    this.AllCourseList = [];
+    this.RoomDetails = [];
     this.dsrequest = new DocumentScrutinyDataModel();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
-    await this.GetCourseDetailAllList();
+    await this.GetRoomDetailAllList();
   }
 
-  async GetCourseDetailAllList() {
+  async GetRoomDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.dtedocumentScrutinyService.DocumentScrutiny_CourseDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dtedocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
-          this.AllCourseList = data['Data'][0]['CourseDetails'][0];
-      
+          this.RoomDetails = data['Data'][0]['RoomDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
           this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
           this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
@@ -75,7 +74,7 @@ export class DocumentScrutinyCourseDetailDTEComponent implements OnInit {
   }
 
   async selectAll(ActionType: string) {
-    await this.AllCourseList.forEach((i: { Action: string, Remark: string }) => {
+    await this.RoomDetails.forEach((i: { Action: string, Remark: string }) => {
       i.Action = ActionType;
       i.Remark = '';
     });
@@ -91,11 +90,11 @@ export class DocumentScrutinyCourseDetailDTEComponent implements OnInit {
 
   ClickOnAction(idx: number) {
     var Count = 0;
-    for (var i = 0; i < this.AllCourseList.length; i++) {
+    for (var i = 0; i < this.RoomDetails.length; i++) {
       if (i == idx) {
-        this.AllCourseList[i].Remark = '';
+        this.RoomDetails[i].Remark = '';
       }
-      if (this.AllCourseList[i].Action == 'No') {
+      if (this.RoomDetails[i].Action == 'No') {
         Count++;
       }
     }
@@ -109,24 +108,24 @@ export class DocumentScrutinyCourseDetailDTEComponent implements OnInit {
     }
   }
   public isSubmitted: boolean = false;
-  async SubmitCourseDetail_Onclick() {
+  async SubmitRoomDetail_Onclick() {
     this.isSubmitted = true;
     this.dsrequest.DepartmentID = this.SelectedDepartmentID;
     this.dsrequest.CollegeID = this.SelectedCollageID;
     this.dsrequest.ApplyNOCID = this.SelectedApplyNOCID;
     this.dsrequest.UserID = this.sSOLoginDataModel.UserID;
     this.dsrequest.RoleID = this.sSOLoginDataModel.RoleID;
-    this.dsrequest.TabName = 'Course Details';
+    this.dsrequest.TabName = 'Room Details';
     this.isRemarkValid = false;
     this.isFormvalid = true;
     this.dsrequest.DocumentScrutinyDetail = [];
-    for (var i = 0; i < this.AllCourseList.length; i++) {
-      if (this.AllCourseList[i].Action == '' || this.AllCourseList[i].Action == undefined) {
+    for (var i = 0; i < this.RoomDetails.length; i++) {
+      if (this.RoomDetails[i].Action == '' || this.RoomDetails[i].Action == undefined) {
         this.toastr.warning('Please take Action on all records');
         return;
       }
-      if (this.AllCourseList[i].Action == 'No') {
-        if (this.AllCourseList[i].Remark == '' || this.AllCourseList[i].Remark == undefined) {
+      if (this.RoomDetails[i].Action == 'No') {
+        if (this.RoomDetails[i].Remark == '' || this.RoomDetails[i].Remark == undefined) {
           this.toastr.warning('Please enter remark');
           return;
         }
@@ -142,9 +141,9 @@ export class DocumentScrutinyCourseDetailDTEComponent implements OnInit {
     if (!this.isFormvalid) {
       return;
     }
-    if (this.AllCourseList.length > 0) {
-      for (var i = 0; i < this.AllCourseList.length; i++) {
-        console.log(this.AllCourseList[i]);
+    if (this.RoomDetails.length > 0) {
+      for (var i = 0; i < this.RoomDetails.length; i++) {
+        console.log(this.RoomDetails[i]);
         this.dsrequest.DocumentScrutinyDetail.push({
           DocumentScrutinyID: 0,
           DepartmentID: this.SelectedDepartmentID,
@@ -152,9 +151,9 @@ export class DocumentScrutinyCourseDetailDTEComponent implements OnInit {
           UserID: this.sSOLoginDataModel.UserID,
           RoleID: this.sSOLoginDataModel.RoleID,
           ApplyNOCID: this.SelectedApplyNOCID,
-          Action: this.AllCourseList[i].Action,
-          Remark: this.AllCourseList[i].Remark,
-          TabRowID: this.AllCourseList[i].CollegeWiseCourseID,
+          Action: this.RoomDetails[i].Action,
+          Remark: this.RoomDetails[i].Remark,
+          TabRowID: this.RoomDetails[i].CollegeWiseRoomID,
           SubTabName: ''
         });
       }

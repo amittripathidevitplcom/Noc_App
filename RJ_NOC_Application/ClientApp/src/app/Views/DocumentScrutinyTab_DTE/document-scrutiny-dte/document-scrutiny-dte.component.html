@@ -49,7 +49,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CourseDetails']>0"></i>
                 <span>Course Detail</span>
               </ng-template>
               <app-document-scrutiny-course-detail-dte></app-document-scrutiny-course-detail-dte>
@@ -78,18 +78,25 @@
               </ng-template>
               <app-document-scrutiny-building-detail-dte></app-document-scrutiny-building-detail-dte>
             </mat-tab>
-
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <i class="fa fa-home icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RoomDetails']>0"></i>
+                <span>Class Room Details</span>
+              </ng-template>
+              <app-document-scrutiny-room-details-dte></app-document-scrutiny-room-details-dte>
+            </mat-tab>
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherInformation']>0"></i>
                 <span>Other Infrastucture</span>
               </ng-template>
               <app-document-scrutiny-other-infrastucture-dte></app-document-scrutiny-other-infrastucture-dte>
             </mat-tab> <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Facility']>0"></i>
                 <span>Facility</span>
               </ng-template>
               <app-document-scrutiny-facility-dte></app-document-scrutiny-facility-dte>
@@ -98,7 +105,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['RequiredDocument']>0"></i>
                 <span>Required Document</span>
               </ng-template>
               <app-document-scrutiny-required-document-dte></app-document-scrutiny-required-document-dte>
@@ -108,7 +115,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['OtherDocument']>0"></i>
                 <span>Other Document</span>
               </ng-template>
               <app-document-scrutiny-other-document-dte></app-document-scrutiny-other-document-dte>
@@ -117,7 +124,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['StaffDetails']>0"></i>
                 <span>Staff Details</span>
               </ng-template>
               <app-document-scrutiny-staff-details-dte></app-document-scrutiny-staff-details-dte>
@@ -126,7 +133,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['AcademicInformation']>0"></i>
                 <span>Academic Information</span>
               </ng-template>
               <app-document-scrutiny-academic-information-dte></app-document-scrutiny-academic-information-dte>
@@ -135,7 +142,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['HostelDetails']>0"></i>
                 <span>Hostel Details</span>
               </ng-template>
               <app-document-scrutiny-hostal-details-component-dte></app-document-scrutiny-hostal-details-component-dte>
