@@ -11,7 +11,7 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
 import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataModel';
 import { DTEDocumentScrutinyService } from '../../../Services/DTEDocumentScrutiny/dtedocument-scrutiny.service';
-import { DocumentScrutinyMGOneComponent } from '../../DocumentScrutinyTab_MG1/document-scrutiny-mgone/document-scrutiny-mgone.component';
+import { DocumentScrutinyDTEComponent } from '../document-scrutiny-dte/document-scrutiny-dte.component';
 @Component({
   selector: 'app-dtedocument-scrutiny-legal-entity',
   templateUrl: './dtedocument-scrutiny-legal-entity.component.html',
@@ -19,7 +19,7 @@ import { DocumentScrutinyMGOneComponent } from '../../DocumentScrutinyTab_MG1/do
 })
 export class DTEDocumentScrutinyLegalEntityComponent implements OnInit {
 
-  constructor(private dteDocumentScrutinyService: DTEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
+  constructor(private dtedocumentscrutiny: DocumentScrutinyDTEComponent,private dteDocumentScrutinyService: DTEDocumentScrutinyService, private applyNOCApplicationService: ApplyNOCApplicationService, private legalEntityListService: LegalEntityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private collegeService: CollegeService, private sSOLoginService: SSOLoginService) { }
   public QueryStringStatus: any = '';
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -292,6 +292,6 @@ export class DTEDocumentScrutinyLegalEntityComponent implements OnInit {
     }
   }
   ViewTaril(ID: number, ActionType: string) {
-    //this.mg1documentscrutiny.ViewTarilCommon(ID, ActionType);
+    this.dtedocumentscrutiny.ViewTarilCommon(ID, ActionType);
   }
 }
