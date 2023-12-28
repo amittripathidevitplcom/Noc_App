@@ -198,5 +198,27 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetApplyNOCApplicationList(RoleId: number, UserID: number, Status: string, ActionName: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetApplyNOCApplicationList/" + RoleId + "/" + UserID + "/" + Status + "/" + ActionName)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
+  public async WorkflowInsertDTE(RoleID: number, UserID: number, ActionID: number, ApplyNOCID: number, DepartmentID: number, CheckList_FinalRemark: string, NextRoleID: number, NextUserID: number, NextActionID: number) {
+    const headers = { 'content-type': 'application/json' }
+    var request = {
+      ApplyNOCID: ApplyNOCID, RoleID: RoleID, UserID: UserID, ActionID: ActionID, DepartmentID: DepartmentID, Remark: CheckList_FinalRemark, NextRoleID: NextRoleID, NextUserID: NextUserID, NextActionID: NextActionID
+    };
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + '/WorkflowInsertDTE/', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

@@ -202,6 +202,7 @@ import { TotalApplicationListByDepartmentComponent } from './Views/Reports/total
 import { StatisticsDraftCollgerReportComponent } from './Views/DCE/statistics-draft-collger-report/statistics-draft-collger-report.component';
 
 import { DocumentScrutinyDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-dte/document-scrutiny-dte.component';
+import { ApplicationLandingDetailsDTEComponent } from './Views/DocumentScrutinyTab_DTE/application-landing-details-dte/application-landing-details-dte.component';
 
 const routes: Routes = [
   {
@@ -830,6 +831,9 @@ const routes: Routes = [
       },
       {
         path: 'documentscrutinydte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyDTEComponent
+      },
+      {
+        path: 'applicationlandingdetailsdte/:Status', component: ApplicationLandingDetailsDTEComponent
       },
     ]
     // ,canActivate: [SkipLocationChangeGuard],
