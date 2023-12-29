@@ -350,6 +350,9 @@ import { DocumentScrutinyRoomDetailsDTEComponent } from './Views/DocumentScrutin
 import { DocumentScrutinyOtherInfrastuctureDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-other-infrastucture-dte/document-scrutiny-other-infrastucture-dte.component';
 import { DocumentScrutinyCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-check-list-dte/document-scrutiny-check-list-dte.component';
 import { ApplicationLandingDetailsDTEComponent } from './Views/DocumentScrutinyTab_DTE/application-landing-details-dte/application-landing-details-dte.component';
+import { DocumentScrutinyApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-application-list-dte/document-scrutiny-application-list-dte.component';
+import { JSApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/jsapplication-list-dte/jsapplication-list-dte.component';
+import { RevertApplicationDetailEntryDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-application-detail-entry-dte/revert-application-detail-entry-dte.component';
 
 
 
@@ -685,6 +688,9 @@ import { ApplicationLandingDetailsDTEComponent } from './Views/DocumentScrutinyT
           DocumentScrutinyOtherInfrastuctureDTEComponent,
           DocumentScrutinyCheckListDTEComponent,
           ApplicationLandingDetailsDTEComponent,
+          DocumentScrutinyApplicationListDTEComponent,
+          JSApplicationListDTEComponent,
+          RevertApplicationDetailEntryDTEComponent,
   ],
   imports: [
     CommonModule,
