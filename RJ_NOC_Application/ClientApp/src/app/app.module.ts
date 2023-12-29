@@ -350,6 +350,7 @@ import { DocumentScrutinyRoomDetailsDTEComponent } from './Views/DocumentScrutin
 import { DocumentScrutinyOtherInfrastuctureDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-other-infrastucture-dte/document-scrutiny-other-infrastucture-dte.component';
 import { DocumentScrutinyCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-check-list-dte/document-scrutiny-check-list-dte.component';
 import { ApplicationLandingDetailsDTEComponent } from './Views/DocumentScrutinyTab_DTE/application-landing-details-dte/application-landing-details-dte.component';
+import { DTECommitteeMasterComponent } from './Views/dtecommittee-master/dtecommittee-master.component';
 import { DocumentScrutinyApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-application-list-dte/document-scrutiny-application-list-dte.component';
 import { JSApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/jsapplication-list-dte/jsapplication-list-dte.component';
 import { RevertApplicationDetailEntryDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-application-detail-entry-dte/revert-application-detail-entry-dte.component';
@@ -688,6 +689,7 @@ import { RevertApplicationDetailEntryDTEComponent } from './Views/DocumentScruti
           DocumentScrutinyOtherInfrastuctureDTEComponent,
           DocumentScrutinyCheckListDTEComponent,
           ApplicationLandingDetailsDTEComponent,
+          DTECommitteeMasterComponent,
           DocumentScrutinyApplicationListDTEComponent,
           JSApplicationListDTEComponent,
           RevertApplicationDetailEntryDTEComponent,
