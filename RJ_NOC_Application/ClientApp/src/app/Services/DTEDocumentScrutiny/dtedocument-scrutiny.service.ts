@@ -13,6 +13,7 @@ import { DCENOCReportSearchFilterDataModel } from '../../Models/SearchFilterData
 export class DTEDocumentScrutinyService {
 
   readonly APIUrl = GlobalConstants.apiURL + "DepartmentOfTechnicalDocumentScrutiny";
+  readonly DTEAPIUrl = GlobalConstants.apiURL + "DTECommitteeMaster";
   constructor(private http: HttpClient) { }
 
   extractData(res: Response) {
@@ -245,4 +246,13 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetApplicationCommitteeList(DTECommitteeMasterID: number) {
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    return await this.http.get(this.DTEAPIUrl + '/GetDTECommitteeMasterList/' + DTECommitteeMasterID, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

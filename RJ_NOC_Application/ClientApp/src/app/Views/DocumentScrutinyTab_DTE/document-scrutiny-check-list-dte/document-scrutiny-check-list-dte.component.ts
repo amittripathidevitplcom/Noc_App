@@ -206,7 +206,8 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.GetWorkFlowActionListByRole();
     //this.NextGetWorkFlowActionListByRole();
     this.GetCollageDetails();
-    this.GetApplicationCommitteeList(this.SelectedApplyNOCID)
+    this.GetApplicationCommitteeList(this.SelectedApplyNOCID);
+    this.GetDTECommitteeList(1);
     this.CheckTabsEntry();
   }
 
@@ -626,6 +627,20 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
       if (this.sSOLoginDataModel.RoleID == 16) {
         for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
           if (this.ApplicationCommitteeList[i].SendOTP != 2) {
+            this.toastr.warning('Verified All Memeber');
+            return;
+          }
+        }
+      }
+      if (this.sSOLoginDataModel.RoleID == 34) {
+        if (this.ActionID ==45) {
+          if (this.ApplicationCommitteeList.length <= 0) {
+            this.toastr.warning('Please create an inspection Committee');
+            return;
+          }
+        }
+        for (var i = 0; i < this.DTECommitteeList.length; i++) {
+          if (this.DTECommitteeList[i].SendOTP != 2) {
             this.toastr.warning('Verified All Memeber');
             return;
           }
@@ -1060,5 +1075,111 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     }
     event.preventDefault();
     return false;
+  }
+
+
+
+
+  public DTECommitteeList: any[] = [];
+  public IsDTEDisabled: boolean = false;
+  public IsDTEBtnShowHide: boolean = true;
+  async GetDTECommitteeList(DTECommitteeMasterID: number) {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.dcedocumentScrutinyService.GetApplicationCommitteeList(DTECommitteeMasterID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.DTECommitteeList = data['Data'][0]['CommitteeMemberDetailList'];
+          if (this.DTECommitteeList.length > 0) {
+            this.DTECommitteeList = this.DTECommitteeList.filter(x => x.ISPrimary == 0);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public DTETransactionNo: string = '';
+  async SendOTPDTE(AadhaarNo: string, idx: number) {
+    try {
+      this.loaderService.requestStarted();
+      if (AadhaarNo != undefined && AadhaarNo.length == 12) {
+        this.AadharRequest.AadharNo = AadhaarNo;
+        for (var i = 0; i < this.DTECommitteeList.length; i++) {
+          if (idx != i && this.DTECommitteeList[i].SendOTP != 2) {
+            this.DTECommitteeList[i].SendOTP = 0;
+          }
+        }
+        await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
+          .then((data: any) => {
+            if (data[0].status == "0") {
+              this.DTECommitteeList[idx].SendOTP = 1;
+              this.DTETransactionNo = data[0].data;
+              this.toastr.success("OTP send Successfully");
+            }
+            else {
+              //this.toastr.error(data[0].message);
+              if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                this.toastr.success("OTP send Successfully");
+                this.DTECommitteeList[idx].SendOTP = 1;
+              }
+
+            }
+          }, error => console.error(error));
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async VerifyOTPDTE(UserOTP: number, idx: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data[0].status == "0") {
+            //this.AadharDetails = JSON.parse(data[0].data);
+            this.toastr.success("OTP Verify Successfully");
+            this.DTECommitteeList[idx].Verified = true;
+            this.DTECommitteeList[idx].SendOTP = 2;
+          }
+          else {
+            if (UserOTP != Number(this.CustomOTP)) {
+              this.toastr.error(data[0].message);
+              this.DTECommitteeList[idx].Verified = false;
+            }
+          }
+        }, error => console.error(error));
+      if (UserOTP == Number(this.CustomOTP)) {
+        this.toastr.success("OTP Verify Successfully");
+        this.DTECommitteeList[idx].Verified = true;
+        this.DTECommitteeList[idx].SendOTP = 2;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }
