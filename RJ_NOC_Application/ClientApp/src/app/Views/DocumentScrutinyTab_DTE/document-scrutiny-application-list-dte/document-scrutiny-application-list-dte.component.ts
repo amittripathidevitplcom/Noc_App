@@ -46,7 +46,13 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
   async GetApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Forward To Joint Secretary,Forward' : Status == 'Pending' ? 'Forward' : Status == 'Revert' ? 'Revert' : Status == 'Reject' ? 'Reject' : '';
+      if (this.sSOLoginDataModel.RoleID == 17) {
+        ActionName = Status == 'Completed' ? 'Forward To Joint Secretary' : Status == 'Pending' ? 'Forward' : Status == 'Revert' ? 'Revert' : Status == 'Reject' ? 'Reject' : '';
+      }
+      else {
+        ActionName = Status == 'Completed' ? 'Forward To Joint Secretary,Forward' : Status == 'Pending' ? 'Forward' : Status == 'Revert' ? 'Revert' : Status == 'Reject' ? 'Reject' : '';
+      }
+      
       this.loaderService.requestStarted();
       await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
         .then((data: any) => {
