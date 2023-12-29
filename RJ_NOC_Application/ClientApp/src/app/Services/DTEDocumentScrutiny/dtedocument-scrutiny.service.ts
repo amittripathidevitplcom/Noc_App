@@ -221,4 +221,28 @@ export class DTEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GeneratePDF_DTENOC(NOCID: number, UserID: number, NOCRemark: string, IsNOCIssued: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    var request = { ApplyNOCID: NOCID, UserID: UserID, Remark: NOCRemark, IsNOCIssued: IsNOCIssued }
+    return await this.http.post(this.APIUrl + "/GeneratePDF_DTENOC/", request, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async PdfEsign(ApplyNOCID: number, CreatedBy: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.post(this.APIUrl + "/PdfEsign/" + ApplyNOCID + "/" + CreatedBy, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

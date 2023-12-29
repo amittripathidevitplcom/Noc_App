@@ -10,6 +10,7 @@ import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { DTEDocumentScrutinyService } from '../../../Services/DTEDocumentScrutiny/dtedocument-scrutiny.service';
+import { DocumentScrutinyCheckListDTEComponent } from '../document-scrutiny-check-list-dte/document-scrutiny-check-list-dte.component';
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +79,8 @@ export class DocumentScrutinyDTEComponent implements OnInit {
 
 
 
-
+  @ViewChild(DocumentScrutinyCheckListDTEComponent)
+  private checkListDetailsComponent_New!: DocumentScrutinyCheckListDTEComponent;
 
   public CheckFinalRemark: string = '';
   @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
@@ -98,7 +100,7 @@ export class DocumentScrutinyDTEComponent implements OnInit {
       this.maxNumberOfTabs = await this.tabGroup._tabs.length - 1;
     }
     catch (Ex) {
-      this.maxNumberOfTabs = 8;
+      this.maxNumberOfTabs = 14;
     }
 
   }
@@ -110,7 +112,7 @@ export class DocumentScrutinyDTEComponent implements OnInit {
     }
 
     if (this.selectedIndex == this.maxNumberOfTabs) {
-      //,this.checkListDetailsComponent_New.ngOnInit();
+     this.checkListDetailsComponent_New.ngOnInit();
     }
 
 
@@ -129,7 +131,7 @@ export class DocumentScrutinyDTEComponent implements OnInit {
     this.selectedIndex = event.index;
 
     if (this.selectedIndex == this.maxNumberOfTabs) {
-     // this.checkListDetailsComponent_New.ngOnInit();
+     this.checkListDetailsComponent_New.ngOnInit();
     }
 
   }

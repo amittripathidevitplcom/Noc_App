@@ -1,0 +1,146 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Application List</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Application List</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="card tabCard1 mb-0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i>&nbsp;Application List</b>
+    </div>
+    <div class="card-body">
+      <div class="clearfix"></div>
+      <div class="card">
+        <div class="card-header">
+          <b>&nbsp;Application List</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Department Name</th>
+                      <th>College Name</th>
+                      <th>Application No.</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of ApplicationDetails let idx =index">
+                      <td>{{idx+1}}</td>
+                      <td>{{item.DepartmentName}}</td>
+                      <td>{{item.CollegeName}}</td>
+                      <td>{{item.ApplicationNo}}</td>
+                      <td>
+                        <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(item.DepartmentID,item.CollegeID)" title="Application Summary" class="btn btn-sm btn-secondary">
+                          <i class="fa fa-eye"></i>
+                        </a>
+                        &nbsp;<button *ngIf="QueryStringStatus=='Pending'" type="button" class="btn btn-sm btn-primary" title="Issue NOC" (click)="OpenGeneratePDFPopUP(ViewOpenGeneratePDFPopUP,item.ApplyNOCID,item.DepartmentID)"><i class="bi bi-file-text"></i></button>
+                        <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill m-1" *ngIf="item.IsNOCIssued==1" href="{{item.NOCFilePath}}" title="Pdf" target="_blank"></a>
+
+                        &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
+                        &nbsp; <a *ngIf="item.IsEsign==0 && item.IsNOCIssued==1" class="btn btn-sm btn-success" title="Esign" (click)="SendEsignOTP(item.FileName,item.ApplyNOCID)" target="_blank"><i class="bi bi-pen"></i>Esign</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="10" *ngIf="ApplicationDetails.length<=0" style="color:red"> No Data Found.!</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #mymodal let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fa fa-close"></i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="card">
+                <div class="card-header">
+                  <b>Application Trail</b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-striped-columns">
+                        <thead>
+                          <tr>
+                            <th>Sr.No.</th>
+                            <th>User Name</th>
+                            <th>Next User & Role</th>
+                            <th>Action</th>
+                            <th>Action Date</th>
+                            <th>Remark</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of ApplicationTrailList let idx =index">
+                            <td>{{idx+1}}</td>
+                            <td>{{item.ActionUser}}</td>
+                            <td>{{item.NextUserName}} ({{item.NextRoleName}})</td>
+                            <td>{{item.ActionName}}</td>
+                            <td>{{item.ActionDate}}</td>
+                            <td>{{item.Remark}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template #ViewOpenGeneratePDFPopUP let-modal>
+            <app-loader></app-loader>
+            <div class="modal-header">
+              <h5 class="modal-title">Generate PDF</h5>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"><i class="fa fa-close"></i></button>
+            </div>
+            <div class="modal-body py-4">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                  <input class="form-check-input" type="radio" name="rdLOIIssue" id="rdrdLOIIssueYes" value="1" [(ngModel)]="IsNOCIssued">
+                  &nbsp;<label class="form-check-label" for="rdrdLOIIssueYes">Approved</label>&nbsp;&nbsp;
+                  <input class="form-check-input" type="radio" name="rdLOIIssue" id="rdrdLOIIssueNo" value="2" [(ngModel)]="IsNOCIssued">
+                  &nbsp;<label class="form-check-label" for="rdrdLOIIssueNo">Reject</label>&nbsp;&nbsp;
+                  <p *ngIf="isSubmitted&&IsNOCIssued==0" class="text-danger"> This field is required .!</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
+                  <label>NOC Issued Remark</label>
+                  <textarea id="NOCIssuedRemark" class="form-control" [(ngModel)]="NOCIssuedRemark"></textarea>
+                  <div *ngIf="isRemarkValid" class="text-danger">
+                    <p *ngIf="isRemarkValid"> This field is required .!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" (click)="GeneratePDF_OnClick()" title="Generate PDF" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancel</button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

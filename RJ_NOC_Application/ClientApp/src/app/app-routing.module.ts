@@ -203,6 +203,9 @@ import { StatisticsDraftCollgerReportComponent } from './Views/DCE/statistics-dr
 
 import { DocumentScrutinyDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-dte/document-scrutiny-dte.component';
 import { ApplicationLandingDetailsDTEComponent } from './Views/DocumentScrutinyTab_DTE/application-landing-details-dte/application-landing-details-dte.component';
+import { DocumentScrutinyApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-application-list-dte/document-scrutiny-application-list-dte.component';
+import { RevertApplicationDetailEntryDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-application-detail-entry-dte/revert-application-detail-entry-dte.component';
+import { JSApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/jsapplication-list-dte/jsapplication-list-dte.component';
 
 const routes: Routes = [
   {
@@ -377,6 +380,10 @@ const routes: Routes = [
       },
       {
         path: 'applicationdetailentrymgone/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: RevertApplicationDetailEntryMGOneComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'applicationdetailentrydte/:DepartmentID/:CollegeID/:ApplyNOCID/:Status', component: RevertApplicationDetailEntryDTEComponent,
         pathMatch: 'full'
       },
       {
@@ -834,6 +841,12 @@ const routes: Routes = [
       },
       {
         path: 'applicationlandingdetailsdte/:Status', component: ApplicationLandingDetailsDTEComponent
+      },
+      {
+        path: 'documentscrutinyapplicationlistdte/:Status', component: DocumentScrutinyApplicationListDTEComponent
+      },
+      {
+        path: 'jsapplicationlistdte/:Status', component: JSApplicationListDTEComponent
       },
     ]
     // ,canActivate: [SkipLocationChangeGuard],

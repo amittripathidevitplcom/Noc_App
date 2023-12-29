@@ -1,3 +1,4 @@
+<app-loader></app-loader>
 <div class="card tabCard1 mb-0">
   <div class="card-header">
     <b><i class="bi bi-table"></i>&nbsp; Check List Details</b>
@@ -1479,7 +1480,7 @@
   <!--End Hostel Detail-->
 
 
-  <div class="row m-2" [hidden]="sSOLoginDataModel.RoleID==16 || sSOLoginDataModel.RoleID==0">
+  <div class="row m-2" *ngIf="QueryStringStatus == 'Pending'">
     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
       <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
       <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
@@ -1491,7 +1492,7 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
+    <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
       <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
 
       <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
@@ -1525,9 +1526,9 @@
       <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
         <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
       </div>
-    </div>
+    </div>-->
   </div>
-  <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || sSOLoginDataModel.RoleID==0">
+  <div class="row  m-2" *ngIf="QueryStringStatus == 'Pending'">
     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
       <label>Remarks  <span style="color:red;">*</span></label>
       <textarea id="CheckFinalRemark" class="form-control" [(ngModel)]="CheckFinalRemark"></textarea>
@@ -1537,46 +1538,92 @@
     </div>
 
   </div>
-  <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || sSOLoginDataModel.RoleID==0">
+  <div class="row m-2">
+    <div class="card tabCard1 mb-0" *ngIf="this.sSOLoginDataModel.RoleID==16">
+      <div class="card-header">
+        <b><i class="bi bi-table"></i>Committee Member List</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>
+                      SSOID
+                    </th>
+                    <th>Name</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of ApplicationCommitteeList let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.SSOID}}</td>
+                    <td>{{item.NameOfPerson}}</td>
+                    <td>
+                      <button *ngIf="(item.SendOTP==undefined || item.SendOTP==0)&& IsBtnShowHide" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTP(item.AadhaarNo,idx)">Send OTP</button>
+                      <div class="row" *ngIf="IsBtnShowHide">
+                        <div class="col-sm-9 col-md-9">
+                          <input *ngIf="item.SendOTP==1" type="text" id="txtUserOTP{{idx}}" placeholder="OTP*" name="txtUserOTP{{idx}}" class="form-control" [(ngModel)]="item.UserOTP" (keypress)="numbersOnly($event)" maxlength="6" />
+                        </div>
+                        <div class="col-sm-3 col-md-3">
+                          <button *ngIf="item.SendOTP==1" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="VerifyOTP(item.UserOTP,idx)">Verify</button>
+                        </div>
+                      </div>
+                      <span *ngIf="item.SendOTP==2 || IsDisabled"><i class="fa fa-check text-success"></i></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row  m-2" *ngIf="QueryStringStatus == 'Pending'">
     <div class="col-md-12">
       <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
     </div>
   </div>
 </div>
 
-<ng-template #TarilMymodal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Trails</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <i class="fa fa-close"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="card-body">
-      <div class="row" *ngIf="lstTarils.length>0">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped">
-              <thead>
-                <tr>
-                  <th>Sr. No.</th>
-                  <th>Compliance</th>
-                  <th>Remark</th>
-                  <th>Action By</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of lstTarils ; let indexOfelement=index;">
-                  <td> {{indexOfelement+1}}</td>
-                  <td>{{item.Action}}</td>
-                  <td>{{item.Remark}}</td>
-                  <td>{{item.RoleName}}</td>
-                </tr>
-              </tbody>
-            </table>
+  <ng-template #TarilMymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Trails</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <i class="fa fa-close"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card-body">
+        <div class="row" *ngIf="lstTarils.length>0">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Compliance</th>
+                    <th>Remark</th>
+                    <th>Action By</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of lstTarils ; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{item.Action}}</td>
+                    <td>{{item.Remark}}</td>
+                    <td>{{item.RoleName}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</ng-template>
+  </ng-template>

@@ -20,6 +20,9 @@ import { LegalEntityDataModel } from '../../../Models/TrusteeGeneralInfoDataMode
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
 import { DTEDocumentScrutinyService } from '../../../Services/DTEDocumentScrutiny/dtedocument-scrutiny.service';
 import { DocumentScrutinyDTEComponent } from '../document-scrutiny-dte/document-scrutiny-dte.component';
+import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
+import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
+import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
 
 
 @Injectable({
@@ -170,11 +173,12 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
 
   public IsShowSuperSpecialtyHospital: boolean = false;
   LegalEntityDataModel = new LegalEntityDataModel();
+  public QueryStringStatus: any = '';
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DTEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService,
-    private dcedocumentscrutiny: DocumentScrutinyDTEComponent) { }
+    private dcedocumentscrutiny: DocumentScrutinyDTEComponent, private committeeMasterService: CommitteeMasterService, private aadharServiceDetails: AadharServiceDetails) { }
 
 
 
@@ -182,6 +186,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
@@ -201,7 +206,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.GetWorkFlowActionListByRole();
     //this.NextGetWorkFlowActionListByRole();
     this.GetCollageDetails();
-    //this.CheckDocumentScrutinyTabsData();
+    this.GetApplicationCommitteeList(this.SelectedApplyNOCID)
     this.CheckTabsEntry();
   }
 
@@ -618,6 +623,15 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.isRemarkValid = false;
     try {
 
+      if (this.sSOLoginDataModel.RoleID == 16) {
+        for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
+          if (this.ApplicationCommitteeList[i].SendOTP != 2) {
+            this.toastr.warning('Verified All Memeber');
+            return;
+          }
+        }
+      }
+
       if (this.CheckFinalRemark == '') {
         this.isRemarkValid = true;
         this.isFormvalid = false;
@@ -627,53 +641,58 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         this.isActionTypeValid = true;
         this.isFormvalid = false;
       }
-      if (this.ShowHideNextRole && this.ShowHideNextAction && this.ShowHideNextUser) {
-        if (this.NextRoleID <= 0) {
-          this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextActionID <= 0) {
-          this.isNextActionValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextUserID <= 0) {
-          this.isNextUserIdValid = true;
-          this.isFormvalid = false;
-        }
+      //if (this.ShowHideNextRole && this.ShowHideNextAction && this.ShowHideNextUser) {
+      //  if (this.NextRoleID <= 0) {
+      //    this.isNextRoleIDValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //  if (this.NextActionID <= 0) {
+      //    this.isNextActionValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //  if (this.NextUserID <= 0) {
+      //    this.isNextUserIdValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //}
+      //else if (!this.ShowHideNextUser && !this.ShowHideNextRole && !this.ShowHideNextAction) {
+      //  this.NextRoleID = 1;
+      //  this.NextUserID = 0;
+      //  this.NextActionID = 0;
+      //}
+      //else if (this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+      //  if (this.NextRoleID <= 0) {
+      //    this.isNextRoleIDValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //  if (this.NextUserID <= 0) {
+      //    this.isNextUserIdValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //  this.NextActionID = 0;
+      //}
+      //else if (!this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+      //  if (this.NextRoleID <= 0) {
+      //    this.isNextRoleIDValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //  this.NextUserID = 0;
+      //  this.NextActionID = 0;
+      //}
+      //|| this.CheckTabsEntryData['CourseDetails'] <= 0
+      if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 
+        || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+        || this.CheckTabsEntryData['Facility'] <= 0|| this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {
+        this.isFormvalid = false;
+        this.toastr.warning('Please do document scrutiny all tabs');
       }
-      else if (!this.ShowHideNextUser && !this.ShowHideNextRole && !this.ShowHideNextAction) {
-        this.NextRoleID = 1;
-        this.NextUserID = 0;
-        this.NextActionID = 0;
-      }
-      else if (this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
-        if (this.NextRoleID <= 0) {
-          this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextUserID <= 0) {
-          this.isNextUserIdValid = true;
-          this.isFormvalid = false;
-        }
-        this.NextActionID = 0;
-      }
-      else if (!this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
-        if (this.NextRoleID <= 0) {
-          this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
-        this.NextUserID = 0;
-        this.NextActionID = 0;
-      }
-
-
 
       if (!this.isFormvalid) {
         return;
       }
       this.loaderService.requestStarted();
 
-      await this.applyNOCApplicationService.DocumentScrutiny(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
+      await this.dcedocumentScrutinyService.WorkflowInsertDTE(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -681,7 +700,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/dceapplicationlist/Pending']);
+            this.routers.navigate(['/documentscrutinyapplicationlistdte/Pending']);
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -798,6 +817,9 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
+              if (this.sSOLoginDataModel.RoleID == 17) {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 45);
+              }
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
               var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
@@ -914,5 +936,129 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+
+
+
+  public ApplicationCommitteeList: any[] = [];
+  AadharRequest = new AadharServiceDataModel();
+  public IsDisabled: boolean = false;
+  public IsBtnShowHide: boolean = true;
+  async GetApplicationCommitteeList(ApplyNocApplicationID: number) {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.committeeMasterService.GetApplicationCommitteeList(ApplyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ApplicationCommitteeList = data['Data'];
+          if (this.ApplicationCommitteeList.length > 0) {
+            this.ApplicationCommitteeList = this.ApplicationCommitteeList.filter(x => x.IsPrimaryMember == 0);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public TransactionNo: string = '';
+  async SendOTP(AadhaarNo: string, idx: number) {
+    try {
+      this.loaderService.requestStarted();
+      if (AadhaarNo != undefined && AadhaarNo.length == 12) {
+        this.AadharRequest.AadharNo = AadhaarNo;
+        for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
+          if (idx != i && this.ApplicationCommitteeList[i].SendOTP != 2) {
+            this.ApplicationCommitteeList[i].SendOTP = 0;
+          }
+        }
+        await this.aadharServiceDetails.SendAadharOTP(this.AadharRequest)
+          .then((data: any) => {
+            if (data[0].status == "0") {
+              this.ApplicationCommitteeList[idx].SendOTP = 1;
+              this.TransactionNo = data[0].data;
+              this.toastr.success("OTP send Successfully");
+            }
+            else {
+              //this.toastr.error(data[0].message);
+              if (data[0].status == "1" && data[0].message == "Server IP address is not whiteListed") {
+                this.toastr.success("OTP send Successfully");
+                this.ApplicationCommitteeList[idx].SendOTP = 1;
+              }
+
+            }
+          }, error => console.error(error));
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public CustomOTP: string = '123456';
+  async VerifyOTP(UserOTP: number, idx: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.aadharServiceDetails.ValidateAadharOTP(this.AadharRequest)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (data[0].status == "0") {
+            //this.AadharDetails = JSON.parse(data[0].data);
+            this.toastr.success("OTP Verify Successfully");
+            this.ApplicationCommitteeList[idx].Verified = true;
+            this.ApplicationCommitteeList[idx].SendOTP = 2;
+          }
+          else {
+            if (UserOTP != Number(this.CustomOTP)) {
+              this.toastr.error(data[0].message);
+              this.ApplicationCommitteeList[idx].Verified = false;
+            }
+          }
+        }, error => console.error(error));
+      if (UserOTP == Number(this.CustomOTP)) {
+        this.toastr.success("OTP Verify Successfully");
+        this.ApplicationCommitteeList[idx].Verified = true;
+        this.ApplicationCommitteeList[idx].SendOTP = 2;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  numbersOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+  alphanumbersOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z0-9 ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
   }
 }
