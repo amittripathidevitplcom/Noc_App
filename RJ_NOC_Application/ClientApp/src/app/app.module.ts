@@ -350,6 +350,7 @@ import { DocumentScrutinyRoomDetailsDTEComponent } from './Views/DocumentScrutin
 import { DocumentScrutinyOtherInfrastuctureDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-other-infrastucture-dte/document-scrutiny-other-infrastucture-dte.component';
 import { DocumentScrutinyCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-check-list-dte/document-scrutiny-check-list-dte.component';
 import { ApplicationLandingDetailsDTEComponent } from './Views/DocumentScrutinyTab_DTE/application-landing-details-dte/application-landing-details-dte.component';
+import { DTECommitteeMasterComponent } from './Views/dtecommittee-master/dtecommittee-master.component';
 
 
 
@@ -685,6 +686,7 @@ import { ApplicationLandingDetailsDTEComponent } from './Views/DocumentScrutinyT
           DocumentScrutinyOtherInfrastuctureDTEComponent,
           DocumentScrutinyCheckListDTEComponent,
           ApplicationLandingDetailsDTEComponent,
+          DTECommitteeMasterComponent,
   ],
   imports: [
     CommonModule,
