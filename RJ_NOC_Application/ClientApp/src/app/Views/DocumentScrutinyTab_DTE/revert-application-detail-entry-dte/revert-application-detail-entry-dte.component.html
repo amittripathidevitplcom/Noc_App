@@ -29,7 +29,7 @@
 
 
             <!--Legal Entity-->
-            <mat-tab>
+            <mat-tab *ngIf="RevertedTabData['LegalEntity']>0">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon"></i>
                 <i class="fa fa-check text-success" aria-hidden="true"></i>
@@ -39,7 +39,7 @@
               <app-legal-entity-revert></app-legal-entity-revert>
             </mat-tab>
             <!--College Details-->
-            <mat-tab>
+            <mat-tab *ngIf="RevertedTabData['CollegeDetail']>0">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon"></i>
                 <i class="fa fa-check text-success" aria-hidden="true"></i>
@@ -49,7 +49,7 @@
               <app-college-revert></app-college-revert>
             </mat-tab>
             <!--College Management Society Details-->
-            <mat-tab>
+            <mat-tab *ngIf="RevertedTabData['CollegeManagementSociety']>0">
               <ng-template mat-tab-label>
                 <i class="fa fa-globe icon"></i>
                 <i class="fa fa-check text-success" aria-hidden="true"></i>
