@@ -41,6 +41,7 @@ export class JSApplicationListDTEComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.AadhaarNo = this.sSOLoginDataModel.AadhaarId;
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     await this.GetApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
   }
@@ -199,6 +200,7 @@ export class JSApplicationListDTEComponent implements OnInit {
     this.UserOTP = '';
     try {
       this.loaderService.requestStarted();
+      debugger;
       if (this.AadhaarNo != undefined) {
         if (this.AadhaarNo.length > 12) {
           this.AadharRequest.AadharID = this.AadhaarNo;
