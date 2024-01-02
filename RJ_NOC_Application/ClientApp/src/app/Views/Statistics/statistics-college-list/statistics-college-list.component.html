@@ -7,7 +7,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item active" aria-current="page">Statistics Entry</li>
-</ol>
+        </ol>
       </nav>
     </div>
   </div>
@@ -59,7 +59,11 @@
                       <a href="javascript:void(0)" title="View Application" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
                         <i class="fa fa-eye"></i>
                       </a>
-                      <a href="javascript:void(0)" title="Statistics Entry" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info" *ngIf="row.IsStatisticsFinalSubmit==0"> 
+                      <a *ngIf="row.IsStatisticsFinalSubmit!=0" class="btn btn-info" href="javascript:void(0)"
+                         title="View Statistics Data" (click)="PreviewStatistics_click(row.CollegeID)">
+                        <i class="fa fa-list"></i>
+                      </a>
+                      <a href="javascript:void(0)" title="Statistics Entry" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info" *ngIf="row.IsStatisticsFinalSubmit==0">
                         <i class="fa fa-edit"></i>
                       </a>
                     </div>
@@ -87,6 +91,391 @@
       </div>
 
     </div>
+
+
+
   </div>
 </div>
+
+<div style="z-index: 1055;" aria-hidden="true" class="modal-backdrop fade show"  *ngIf="IsShowStaticData==true"></div>
+<div role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-basic-title" class="d-block modal fade show" *ngIf="IsShowStaticData==true">
+  <div role="document" class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-applynocpayment-title" style="font-size: 17px; font-weight: 600 !important;">
+          Statistics Details
+        </h4>
+        <button type="button" (click)="closeModel()">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-md-12">
+
+          <button type="button" class="btn btn-outline-primary"
+                  style=" text-align: right; float: right; margin-bottom: 10px;"
+                  title="Excel" id="btnExportTable" (click)="btnExportTable_Click()">Export to Excel  <i class="fa fa-file-excel-o"></i></button>
+
+          <div class="clearfix"></div>
+          <div class="card mb-0">
+            <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+              <b><i class="bi bi-table"></i> Class Wise Statistics </b>
+              <div class="d-flex align-items-center">
+                <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                </div>
+                <div class="d-flex align-items-center table-filter mr-15">
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div class="table-responsive">
+
+                <table class="table table-hover table-striped-columns" id="ClassWiseStatistics" #content>
+                  <thead>
+                    <tr>
+                      <th colspan="19"></th>
+                      <th colspan="3" class="text-center">Minority (Out of Total)</th>
+                      <th colspan="3" class="text-center">PH (Out of Total)</th>
+                      <th></th>
+                    </tr>
+                    <tr>
+                      <th>Sr. No</th>
+                      <th>Faculty</th>
+                      <th>Class</th>
+                      <th>Section</th>
+                      <th>SC Boys</th>
+                      <th>SC Girls</th>
+                      <th>ST Boys</th>
+                      <th>ST Girls</th>
+                      <th>OBC Boys</th>
+                      <th>OBC Girls</th>
+                      <th>MBC Boys</th>
+                      <th>MBC Girls</th>
+                      <th>Gen Boys</th>
+                      <th>Gen Girls</th>
+                      <th>EWS Boys</th>
+                      <th>EWS  Girls</th>
+                      <th>Total Boys</th>
+                      <th>Total Girls</th>
+                      <th>Total</th>
+                      <th>Boys</th>
+                      <th>Girls</th>
+                      <!--<th>Transgender</th>-->
+                      <th>Total</th>
+                      <th>Boys</th>
+                      <th>Girls</th>
+
+                      <th>Total</th>
+
+                      <th>Transgender</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of CheckList_ClassWiseStudentDetailsList let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>
+                        {{item.CourseName}}
+
+                      </td>
+                      <td>
+                        {{item.Class}}
+                      </td>
+                      <td>
+                        {{item.Section}}
+                      </td>
+                      <td>
+                        {{item.SCBoysCount}}
+                      </td>
+                      <td>
+                        {{item.SCGirlsCount}}
+                      </td>
+
+                      <td>
+                        {{item.STBoysCount}}
+                      </td>
+                      <td>
+                        {{item.STGirlsCount}}
+                      </td>
+
+                      <td>
+                        {{item.OBCBoysCount}}
+                      </td>
+                      <td>
+                        {{item.OBCGirlsCount}}
+                      </td>
+
+                      <td>
+                        {{item.MBCBoysCount}}
+                      </td>
+                      <td>
+                        {{item.MBCGirlsCount}}
+                      </td>
+
+                      <td>
+                        {{item.GenBoysCount}}
+                      </td>
+                      <td>
+                        {{item.GenGirlsCount}}
+                      </td>
+
+                      <td>
+                        {{item.EWSBoysCount}}
+                      </td>
+                      <td>
+                        {{item.EWSGirlsCount}}
+                      </td>
+                      <td>
+                        {{item.TotalBoys}}
+                      </td>
+                      <td>
+                        {{item.TotalGirls}}
+
+                      </td>
+                      <td>
+                        {{item.Total}}
+                      </td>
+
+                      <td>
+                        {{item.OFTotalMinorityBoys}}
+                      </td>
+                      <td>
+                        {{item.OFTotalMinorityGirls}}
+                      </td>
+                      <!--<td>
+                {{item.OFTotalMinorityTransgender}}
+              </td>-->
+
+                      <td>
+
+                        {{item.MinorityTotal}}
+                      </td>
+
+                      <td>
+                        {{item.OFTotalPHBoys}}
+                      </td>
+                      <td>
+                        {{item.OFTotalPHGirls}}
+                      </td>
+
+
+                      <td>
+                        {{item.PHTotal}}
+                      </td>
+                      <td>
+                        {{item.OFTotalPHTransgender}}
+                      </td>
+
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr class="fw-bold">
+                      <td colspan="4">Total</td>
+                      <!--<td></td>
+              <td></td>
+              <td></td>-->
+                      <td>{{SCBoysCountFooter}}</td>
+                      <td>{{SCGirlsCountFooter}}</td>
+                      <td>{{STBoysCountFooter}}</td>
+                      <td>{{STGirlsCountFooter}}</td>
+                      <td>{{OBCBoysCountFooter}}</td>
+                      <td>{{OBCGirlsCountFooter}}</td>
+                      <td>{{MBCBoysCountFooter}}</td>
+                      <td>{{MBCGirlsCountFooter}}</td>
+                      <td>{{GenBoysCountFooter}}</td>
+                      <td>{{GenGirlsCountFooter}}</td>
+                      <td>{{EWSBoysCountFooter}}</td>
+                      <td>{{EWSGirlsCountFooter}}</td>
+                      <td>{{TotalBoysFooter}}</td>
+                      <td>{{TotalGirlsFooter}}</td>
+                      <td>{{TotalBoys_GirlsFooter}}</td>
+                      <td>{{OFTotalMinorityBoysFooter}}</td>
+                      <td>{{OFTotalMinorityGirlsFooter}}</td>
+                      <!--<td>{{TotalOFTotalMinorityTransgenderFooter}}</td>-->
+                      
+
+                      it
+                      <td>{{TotalMinorityTotalFooter}}</td>
+                      <td>{{OFTotalPHBoysFooter}}</td>
+                      <td>{{OFTotalPHGirlsFooter}}</td>
+
+                      <td>{{TotalPHMinorityTotalFooter}}</td>
+                      <td>{{TotalOFTotalPHTransgenderFooter}}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="clearfix"></div>
+          <div class="card mb-0">
+            <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+              <b><i class="bi bi-table"></i>Subject Wise Student Statistics </b>
+              <div class="d-flex align-items-center">
+                <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+
+                </div>
+                <div class="d-flex align-items-center table-filter mr-15">
+
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped-columns" id="SubjectWiseStudentStatistics" #content>
+                  <thead>
+                    <tr>
+                      <th>Sr. No</th>
+                      <th>Faculty</th>
+                      <th>SubjectName</th>
+
+                      <th>1st Year Boys</th>
+                      <th>1st Year Girls</th>
+
+                      <th>2nd Year Boys</th>
+                      <th>2nd Year Girls </th>
+
+                      <th>3rd Year Boys</th>
+                      <th>3rd Year Girls</th>
+
+                      <th>PG Previous Boys</th>
+                      <th>PG Previous Girls</th>
+
+                      <th>PG Final Boys</th>
+                      <th>PG Final Girls</th>
+
+                      <th>Diploma Boys</th>
+                      <th>Diploma Girls</th>
+
+                      <th>Other Boys</th>
+                      <th>Other Girls</th>
+
+                      <th>Total</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of CheckList_SubjectWiseStudentDetailsList let idx=index;">
+
+
+                      <td>{{idx+1}}</td>
+                      <td>
+                        {{item.CourseName}}
+
+                      </td>
+                      <td>
+                        {{item.SubjectName}}
+                      </td>
+
+                      <td>
+                        {{item.FirstYearBoysCount}}
+
+                      </td>
+                      <td>
+                        {{item.FirstYearGirlsCount}}
+                      </td>
+
+                      <td>
+                        {{item.SecYearBoysCount}}
+                      </td>
+                      <td>
+                        {{item.SecYearGirlsCount}}
+                      </td>
+
+                      <td>
+                        {{item.ThirdYearBoysCount}}
+                      </td>
+                      <td>
+                        {{item.ThirdYearGirlsCount}}
+                      </td>
+
+                      <td>
+                        {{item.PervYearBoysCount}}
+                      </td>
+                      <td>
+                        {{item.PervYearGirlsCount}}
+                      </td>
+
+                      <td>
+                        {{item.FinalYearBoysCount}}
+                      </td>
+                      <td>
+                        {{item.FinalYearGirlsCount}}
+                      </td>
+
+
+                      <td>
+                        {{item.DiplomaBoysCount}}
+                      </td>
+                      <td>
+                        {{item.DiplomaGirlsCount}}
+                      </td>
+
+                      <td>
+                        {{item.OtherBoysCount}}
+                      </td>
+                      <td>
+                        {{item.OtherGirlsCount}}
+                      </td>
+
+                      <td>
+                        {{item.Total}}
+                      </td>
+
+                    </tr>
+                  </tbody>
+
+                  <tfoot>
+                    <tr class="fw-bold">
+                      <td colspan="2">Total</td>
+
+                      <td></td>
+                      <td>{{FirstYearBoysCountFooter}}</td>
+                      <td>{{FirstYearGirlsCountFooter}}</td>
+
+                      <td>{{SecYearBoysCountFooter}}</td>
+                      <td>{{SecYearGirlsCountFooter}}</td>
+
+                      <td>{{ThirdYearBoysCountFooter}}</td>
+                      <td>{{ThirdYearGirlsCountFooter}}</td>
+
+                      <td>{{PervYearBoysCountFooter}}</td>
+                      <td>{{PervYearGirlsCountFooter}}</td>
+
+                      <td>{{FinalYearBoysCountFooter}}</td>
+                      <td>{{FinalYearGirlsCountFooter}}</td>
+
+                      <td>{{DiplomaBoysCountFooter}}</td>
+                      <td>{{DiplomaGirlsCountFooter}}</td>
+
+                      <td>{{OtherBoysCountFooter}}</td>
+                      <td>{{OtherGirlsCountFooter}}</td>
+                      <td>{{TotalFooter}}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+
+
+
+
+
+
+            </div>
+            <div class="card-footer text-end">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
 
