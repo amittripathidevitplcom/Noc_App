@@ -13,4 +13,6 @@ export class CommonDataModel_TotalApplicationSearchFilter {
   public UniversityID: number = 0;
   public DivisionID: number = 0;
   public DistrictID: number = 0;
+  public Status: string = 'ALL';
+  public CollegeName: string = '';
 }

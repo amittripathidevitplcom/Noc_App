@@ -837,6 +837,9 @@ const routes: Routes = [
         path: 'totalapplicationlist', component: TotalApplicationListByDepartmentComponent
       },
       {
+        path: 'totalapplicationlist/:Status', component: TotalApplicationListByDepartmentComponent
+      },
+      {
         path: 'documentscrutinydte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyDTEComponent
       },
       {

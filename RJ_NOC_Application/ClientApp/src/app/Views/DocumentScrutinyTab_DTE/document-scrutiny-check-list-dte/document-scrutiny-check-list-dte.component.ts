@@ -23,6 +23,9 @@ import { DocumentScrutinyDTEComponent } from '../document-scrutiny-dte/document-
 import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
 import { AadharServiceDataModel } from '../../../Models/AadharServiceDataModel';
 import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aadhar-service-details.service';
+import { ApplicationCommitteeMemberdataModel, PostApplicationCommitteeMemberdataModel } from '../../../Models/ApplicationCommitteeMemberdataModel';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 
 
 @Injectable({
@@ -176,9 +179,10 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   public QueryStringStatus: any = '';
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
-    private dcedocumentScrutinyService: DTEDocumentScrutinyService,
+    private dcedocumentScrutinyService: DTEDocumentScrutinyService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService,
-    private dcedocumentscrutiny: DocumentScrutinyDTEComponent, private committeeMasterService: CommitteeMasterService, private aadharServiceDetails: AadharServiceDetails) { }
+    private dcedocumentscrutiny: DocumentScrutinyDTEComponent, private committeeMasterService: CommitteeMasterService
+    , private sSOLoginService: SSOLoginService, private aadharServiceDetails: AadharServiceDetails  ) { }
 
 
 
@@ -209,8 +213,14 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.GetApplicationCommitteeList(this.SelectedApplyNOCID);
     this.GetDTECommitteeList(1);
     this.CheckTabsEntry();
+    this.CommitteeMemberDetails = this.formBuilder.group(
+      {
+        txtCMNameOfPerson: ['', Validators.required],
+        txtCMMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
+        txtSSOID: ['', Validators.required]
+      })
   }
-
+  get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
 
   // Start Land Details
 
@@ -633,7 +643,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         }
       }
       if (this.sSOLoginDataModel.RoleID == 34) {
-        if (this.ActionID ==45) {
+        if (this.ActionID ==52) {
           if (this.ApplicationCommitteeList.length <= 0) {
             this.toastr.warning('Please create an inspection Committee');
             return;
@@ -1181,5 +1191,268 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
+  }
+
+
+
+
+
+
+
+
+
+
+
+  sSOVerifyDataModel = new SSOLoginDataModel();
+
+  SsoValidationMessage: string = '';
+  SsoSuccessMessage: string = '';
+  AadhaarNo: string = '';
+
+  public isLoading: boolean = false;
+
+  CommitteeMemberDetails!: FormGroup;
+  public MobileNoRegex = new RegExp(/^((\\+91-?)|0)?[0-9]{10}$/)
+  request_MemberList = new PostApplicationCommitteeMemberdataModel();
+  request_CommitteeMemberDataModel = new ApplicationCommitteeMemberdataModel();
+  async OpenAsignCommitteePopUP(content: any) {
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+
+    this.GetApplicationInspectionCommitteeList();
+
+  }
+
+  async GetApplicationInspectionCommitteeList() {
+
+    try {
+      this.loaderService.requestStarted();
+      await this.committeeMasterService.GetApplicationCommitteeList(this.SelectedApplyNOCID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.request_MemberList.ApplicationCommitteeList = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public isSubmitted: boolean = false;
+  public isSubmitted_MemberDetails: boolean = false;
+  async SaveData() {
+    this.isSubmitted = true;
+
+    let isValid = true;
+    if (this.form_CommitteeMember.invalid) {
+      isValid = false;
+      return;
+    }
+    if (this.request_MemberList.ApplicationCommitteeList.length == 0) {
+      this.toastr.error("Please add Member Details");
+      isValid = false;
+    }
+    if (this.request_MemberList.ApplicationCommitteeList.length < 3) {
+      this.toastr.error("Please add three Member Details");
+      isValid = false;
+    }
+    let ifPrimaryExits = this.request_MemberList.ApplicationCommitteeList.find(f => f.IsPrimaryMember == true);
+    if (ifPrimaryExits?.IsPrimaryMember == undefined) {
+      this.toastr.error("Atleast one primary member required");
+      isValid = false;
+    }
+
+    if (!isValid) {
+      return;
+    }
+    //console.log(this.request_MemberList.ApplicationCommitteeList);
+    this.request_MemberList.ApplyNocApplicationID = this.SelectedApplyNOCID;
+    this.request_MemberList.UserID = this.sSOLoginDataModel.UserID;
+    console.log(this.request_MemberList);
+    //Show Loading
+    this.loaderService.requestStarted();
+    this.isLoading = true;
+    try {
+      await this.committeeMasterService.SaveApplicationCommitteeData(this.request_MemberList)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          console.log(this.State);
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)
+            this.modalService.dismissAll('After Success');
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+        this.isLoading = false;
+
+      }, 200);
+    }
+  }
+
+  async AddMemberDetail() {
+    this.isSubmitted_MemberDetails = true;
+    if (this.CommitteeMemberDetails.invalid) {
+      return
+    }
+    //rest
+    this.AadhaarNo = '';
+
+    var isValidate = this.request_MemberList.ApplicationCommitteeList.find(e => e.SSOID === this.request_CommitteeMemberDataModel.SSOID);
+    var isValidateMobile = this.request_MemberList.ApplicationCommitteeList.find(e => e.MobileNumber === this.request_CommitteeMemberDataModel.MobileNumber);
+    if (!isValidate && !isValidateMobile) {
+      await this.VerifySSOID(this.request_CommitteeMemberDataModel.SSOID);
+      if (this.AadhaarNo.length > 0) {
+        this.request_MemberList.ApplicationCommitteeList.push({
+          CommitteeMemberID: 0,
+          ApplyNocApplicationID: this.SelectedApplyNOCID,
+          NameOfPerson: this.request_CommitteeMemberDataModel.NameOfPerson,
+          MobileNumber: this.request_CommitteeMemberDataModel.MobileNumber,
+          SSOID: this.request_CommitteeMemberDataModel.SSOID,
+          RoleID: 0,
+          IsPrimaryMember: false,
+          ActiveStatus: true,
+          DeleteStatus: false,
+          AadhaarNo: this.AadhaarNo,
+        });
+        this.request_CommitteeMemberDataModel.NameOfPerson = '';
+        this.request_CommitteeMemberDataModel.MobileNumber = '';
+        this.request_CommitteeMemberDataModel.SSOID = '';
+        this.request_CommitteeMemberDataModel.IsPrimaryMember = false;
+        this.isSubmitted_MemberDetails = false;
+      }
+      else {
+        this.toastr.warning('SSOID Invalid')
+      }
+    }
+    else {
+      this.toastr.warning(isValidate ? 'This User Alaready Exists' : 'this Mobile Number Exists');
+    }
+    // reset
+
+
+
+
+  }
+  DelMemberDetail(item: any, index: any) {
+
+    //  const index: number = this.request_MemberList.ApplicationCommitteeList.indexOf(item);
+
+
+    let chkIsPrimary = this.request_MemberList.ApplicationCommitteeList[index].IsPrimaryMember;
+    this.isSubmitted = false;
+    try {
+      if (confirm("Are you sure you want to delete this ?")) {
+        if (!chkIsPrimary) {
+          this.loaderService.requestStarted();
+          this.request_MemberList.ApplicationCommitteeList.splice(index, 1)
+        }
+        else {
+          this.toastr.warning("You can't delete primary member")
+        }
+      }
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+  }
+  async VerifySSOID(SSOID: any) {
+    //Show Loading
+    debugger;
+    //verify ssoid
+    await this.CheckMappingSSOID(SSOID);
+    if (this.sSOVerifyDataModel != null && SSOID.toLowerCase() == this.sSOVerifyDataModel.SSOID.toLowerCase()) {
+      let d = new AadharServiceDataModel();
+      d.AadharID = this.sSOVerifyDataModel.AadhaarId;
+      await this.GetAadharByVID(d);
+      this.SsoValidationMessage = 'd';
+      this.SsoSuccessMessage = 'SSO Id Verified Successfully';
+
+
+    }
+    else {
+      this.SsoValidationMessage = ''
+      this.SsoValidationMessage = 'SSO Id Invalid !';
+    }
+  }
+
+  async CheckMappingSSOID(ssoid: any) {
+    try {
+      this.loaderService.requestStarted();
+      await this.sSOLoginService.CheckMappingSSOID(ssoid)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.sSOVerifyDataModel = data['Data'];
+          console.log(this.sSOVerifyDataModel);
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetAadharByVID(data: any) {
+    await this.aadharServiceDetails.GetAadharByVID(data)
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        if (data[0].status == "0") {
+          this.AadhaarNo = data[0].data;
+        }
+        else {
+          this.AadhaarNo = '';
+        }
+      }, error => console.error(error));
+  }
+  SetPrimaryMember(item: any, index: any) {
+    let oldArr = this.request_MemberList.ApplicationCommitteeList;
+    let newArr = oldArr.map(obj => ({ ...obj, ['IsPrimaryMember']: false }));
+    newArr[index].IsPrimaryMember = true;
+    this.request_MemberList.ApplicationCommitteeList = newArr;
+  }
+  alphaOnly(event: any): boolean {  // Accept only alpha numerics, not special characters 
+    var regex = new RegExp("^[a-zA-Z ]+$");
+    var str = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    if (regex.test(str)) {
+      return true;
+    }
+    event.preventDefault();
+    return false;
+  }
+
+  modelclose() {
+    this.modalService.dismissAll('Close Model');
+    this.GetApplicationCommitteeList(this.SelectedApplyNOCID);
   }
 }

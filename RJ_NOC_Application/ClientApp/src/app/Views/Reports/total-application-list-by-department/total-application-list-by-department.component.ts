@@ -34,6 +34,8 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
   public DistrictList: any = [];
   public TotalApplicationList: any = [];
 
+  public QueryStringStatus: any = 'ALL';
+
 
 
 
@@ -42,6 +44,8 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
 
   async ngOnInit() {
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    this.request.Status = this.QueryStringStatus;
     await this.LoadMaster();
     await this.GetTotalApplicationList();
   }

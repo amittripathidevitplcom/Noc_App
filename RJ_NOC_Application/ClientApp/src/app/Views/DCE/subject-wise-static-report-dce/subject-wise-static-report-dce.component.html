@@ -86,6 +86,7 @@
                 <tr>
                   <th>Sr. No</th>
                   <th>Institution Name</th>
+                  <th>Last Year Application ID</th>
                   <th>District Name</th>
                   <th>Course Name</th>
                   <th>SubjectName</th>
@@ -120,6 +121,7 @@
                 <tr *ngFor="let row of SubjectWiseStaticReportLst | tableSearchFilter:searchText;let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>{{row.CollegeNameEn}}</td>
+                  <td>{{row.LastYearApplyNocApplication}}</td>
                   <td>{{row.District_Eng}}</td>
                   <td>{{row.CourseName}}</td>
                   <td>{{row.SubjectName}}</td>

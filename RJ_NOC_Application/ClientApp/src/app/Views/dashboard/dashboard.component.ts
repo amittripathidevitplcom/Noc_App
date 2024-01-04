@@ -13,7 +13,8 @@ import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  dashboardDataModel = new DashboardDataModel();
+  dashboardDataModel: any;
+  OtherdashboardDataModel: any;
   sSOLoginDataModel = new SSOLoginDataModel();
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -37,7 +38,11 @@ export class DashboardComponent implements OnInit {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          this.dashboardDataModel = data['Data'][0];
+          console.log(data['Data']);
+          this.dashboardDataModel = data['Data'][0]['DashBoardCount'][0];
+          if (data['Data'][0]['AllDepartmentCommonCount'] != null) {
+            this.OtherdashboardDataModel = data['Data'][0]['AllDepartmentCommonCount'][0];
+          }
         }, error => console.error(error));
     }
     catch (Ex) {

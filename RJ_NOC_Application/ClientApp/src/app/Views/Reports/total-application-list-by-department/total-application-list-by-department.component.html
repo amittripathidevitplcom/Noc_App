@@ -47,6 +47,10 @@
                 <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
               </select>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+              <label for="txtCollegeName" class="form-label">College Name:</label>
+              <input type="text" id="txtCollegeName" maxlength="100" class="form-control" [(ngModel)]="request.CollegeName">
+            </div>
           </div>
         </div>
         <div class="card-footer text-end">
@@ -76,10 +80,11 @@
               <th>ApplicationID</th>
               <th>ApplicationNo</th>
               <th>University Name</th>
-              <th>CollegeName</th>
-              <th>CollegeEmail</th>
-              <th>CollegeMobileNumber</th>
-              <th>FullAddress</th>
+              <th>College Name</th>
+              <th>Distict Name</th>
+              <th>College Email</th>
+              <th>College Mobile Number</th>
+              <th>Full Address</th>
               <th>ApplicationStatus</th>
               <th>Next User & Role</th>
             </tr>
@@ -97,6 +102,7 @@
               <td>{{row.ApplicationNo}}</td>
               <td>{{row.UniversityName}}</td>
               <td>{{row.CollegeName}}</td>
+              <td>{{row.DistrictName}}</td>
               <td>{{row.CollegeEmail}}</td>
               <td>{{row.CollegeMobileNumber}}</td>
               <td>{{row.FullAddress}}</td>

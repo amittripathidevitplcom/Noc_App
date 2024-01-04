@@ -50,7 +50,7 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
         ActionName = Status == 'Completed' ? 'Forward To Joint Secretary' : Status == 'Pending' ? 'Forward' : Status == 'Revert' ? 'Revert' : Status == 'Reject' ? 'Reject' : '';
       }
       else {
-        ActionName = Status == 'Completed' ? 'Forward To Joint Secretary,Forward' : Status == 'Pending' ? 'Forward' : Status == 'Revert' ? 'Revert' : Status == 'Reject' ? 'Reject' : '';
+        ActionName = Status == 'Completed' ? 'Forward To Joint Secretary,Forward,Forward to Inspection Committee' : Status == 'Pending' ? 'Forward,Forward to Inspection Committee' : Status == 'Revert' ? 'Revert' : Status == 'Reject' ? 'Reject' : '';
       }
       
       this.loaderService.requestStarted();

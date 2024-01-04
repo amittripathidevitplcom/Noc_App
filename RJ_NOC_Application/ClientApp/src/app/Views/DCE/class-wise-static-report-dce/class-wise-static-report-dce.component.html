@@ -103,6 +103,7 @@
                 <tr>
                   <th>Sr. No</th>
                   <th>Institue Name</th>
+                  <th>Last Year Application ID</th>
                   <th>District</th>
                   <th>Course Name</th>
                   <th>Class</th>
@@ -138,6 +139,7 @@
                 <tr *ngFor="let row of ClassWiseStaticReportLst | tableSearchFilter:searchText;let idx=index;">
                   <td>{{idx+1}}</td>
                   <td>{{row.CollegeNameEn}}</td>
+                  <td>{{row.LastYearApplyNocApplication}}</td>
                   <td>{{row.District_Eng}}</td>
                   <td>{{row.CourseName}}</td>
                   <td>{{row.Class}}</td>
