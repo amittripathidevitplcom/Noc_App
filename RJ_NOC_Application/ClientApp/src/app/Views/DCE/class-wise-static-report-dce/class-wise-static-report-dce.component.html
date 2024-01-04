@@ -7,49 +7,53 @@
   <div class="card-body">
 
     <div class="row">
-      
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-          <label for="ddlDivisionID" class="form-label">Institution <span style="color:red;">*</span></label>
-          <select class="form-select" id="ddlInstitutionID" name="ddlInstitutionID" [(ngModel)]="request.InstitutionID">
-            <option value="0">All</option>
-            <option *ngFor="let item of InstitutionList" value="{{item.CollegeID}}">{{item.CollegeNameEn}}</option>
-          </select>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-          <label for="ddlDivisionID" class="form-label">Division <span style="color:red;">*</span></label>
-          <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL($event,SelectedDivisionID.value)">
-            <option value="0">All</option>
-            <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
-          </select>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-          <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
-          <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL($event,SelectedDistrictID.value)">
-            <option value="0">All</option>
-            <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
-          </select>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-          <label for="ddlSubdivisionID" class="form-label">Subdivision <span style="color:red;">*</span></label>
-          <select class="form-select" id="ddlSubdivisionID" name="ddlSubdivisionID" [(ngModel)]="request.SubdivisionID">
-            <option value="0">All</option>
-            <option *ngFor="let item of SuvdivisionList" value="{{item.SuvdivisionID}}">{{item.SubdivisionName}}</option>
-          </select>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-          <label for="ddlTehsilID" class="form-label">Tehsil <span style="color:red;">*</span></label>
-          <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID">
-            <option value="0">All</option>
-            <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
-          </select>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-          <label for="ddlParliamentAreaID" class="form-label">Parliament Area <span style="color:red;">*</span></label>
-          <select class="form-select" id="ddlParliamentAreaID" name="ddlParliamentAreaID" [(ngModel)]="request.ParliamentAreaID">
-            <option value="0">All</option>
-            <option *ngFor="let item of ParliamentAreaList" value="{{item.ParliamentAreaID}}">{{item.ParliamentAreaName}}</option>
-          </select>
-        </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlDivisionID" class="form-label">Institution <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlInstitutionID" name="ddlInstitutionID" [(ngModel)]="request.InstitutionID">
+          <option value="0">All</option>
+          <option *ngFor="let item of InstitutionList" value="{{item.CollegeID}}">{{item.CollegeNameEn}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlDivisionID" class="form-label">Division <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlDivisionID" name="ddlDivisionID" [(ngModel)]="request.DivisionID" #SelectedDivisionID (change)="FillDivisionRelatedDDL($event,SelectedDivisionID.value)">
+          <option value="0">All</option>
+          <option *ngFor="let item of DivisionList" value="{{item.DivisionID}}">{{item.DivisionName}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlDistrictID" class="form-label">District <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlDistrictID" name="ddlDistrictID" [(ngModel)]="request.DistrictID" #SelectedDistrictID (change)="FillDistrictRelatedDDL($event,SelectedDistrictID.value)">
+          <option value="0">All</option>
+          <option *ngFor="let item of DistrictList" value="{{item.DistrictID}}">{{item.DistrictName}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlSubdivisionID" class="form-label">Subdivision <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlSubdivisionID" name="ddlSubdivisionID" [(ngModel)]="request.SubdivisionID">
+          <option value="0">All</option>
+          <option *ngFor="let item of SuvdivisionList" value="{{item.SuvdivisionID}}">{{item.SubdivisionName}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlTehsilID" class="form-label">Tehsil <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlTehsilID" name="ddlTehsilID" [(ngModel)]="request.TehsilID">
+          <option value="0">All</option>
+          <option *ngFor="let item of TehsilList" value="{{item.TehsilID}}">{{item.TehsilName}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlParliamentAreaID" class="form-label">Parliament Area <span style="color:red;">*</span></label>
+        <select class="form-select" id="ddlParliamentAreaID" name="ddlParliamentAreaID" [(ngModel)]="request.ParliamentAreaID">
+          <option value="0">All</option>
+          <option *ngFor="let item of ParliamentAreaList" value="{{item.ParliamentAreaID}}">{{item.ParliamentAreaName}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+        <label for="ddlDistrictID" class="form-label">College Name</label>
+        <input type="text" class="form-control" id="txtCollegeName" name="txtCollegeName" [(ngModel)]="request.CollegeName">
+      </div>
 
     </div>
     <div class="row">

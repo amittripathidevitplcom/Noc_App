@@ -340,5 +340,5 @@ export class SearchFilterDataModel {
   public SubdivisionID: number = 0;
   public TehsilID: number = 0;
   public ParliamentAreaID: number = 0;
-
+  public CollegeName: string = '';
 }

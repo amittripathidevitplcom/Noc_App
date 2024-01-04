@@ -23,6 +23,8 @@ import {
   PageService, SortService, ToolbarService, FilterService, GroupService, EditService, ColumnChooserService,
   ResizeService, ReorderService
 } from '@syncfusion/ej2-angular-grids';
+ 
+ 
 
 
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
@@ -354,6 +356,9 @@ import { DTECommitteeMasterComponent } from './Views/dtecommittee-master/dtecomm
 import { DocumentScrutinyApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-application-list-dte/document-scrutiny-application-list-dte.component';
 import { JSApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/jsapplication-list-dte/jsapplication-list-dte.component';
 import { RevertApplicationDetailEntryDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-application-detail-entry-dte/revert-application-detail-entry-dte.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 
 
@@ -702,6 +707,9 @@ import { RevertApplicationDetailEntryDTEComponent } from './Views/DocumentScruti
     ReactiveFormsModule,
     BrowserAnimationsModule,
     NgbPopoverModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
     //DataTablesModule,
     //AutocompleteLibModule,
     MatTabsModule,
