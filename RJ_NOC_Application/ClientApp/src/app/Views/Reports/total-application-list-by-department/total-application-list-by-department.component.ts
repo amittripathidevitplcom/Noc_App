@@ -215,6 +215,11 @@ export class TotalApplicationListByDepartmentComponent implements OnInit {
     }
   }
   async ApplicationSummary_OnClick(DepartmentID: number, CollegeID: number) {
-    window.open('/LOIapplicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())), '_blank')
+    if (DepartmentID == 5) {
+      window.open('/LOIapplicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())), '_blank')
+    }
+    else {
+      window.open('/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())), '_blank')
+    }
   }
 }
