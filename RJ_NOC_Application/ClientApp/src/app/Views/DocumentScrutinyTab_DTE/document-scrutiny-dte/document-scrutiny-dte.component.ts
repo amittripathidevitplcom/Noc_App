@@ -11,6 +11,7 @@ import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boo
 import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { DTEDocumentScrutinyService } from '../../../Services/DTEDocumentScrutiny/dtedocument-scrutiny.service';
 import { DocumentScrutinyCheckListDTEComponent } from '../document-scrutiny-check-list-dte/document-scrutiny-check-list-dte.component';
+import { ASTWithName } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,7 @@ export class DocumentScrutinyDTEComponent implements OnInit {
   RejectCount: number = 0;
   TotalCount: number = 0;
   public AllTabDocumentScrutinyData: any = [];
+  public CheckList_legalEntityListData1: any = [];
   public DocumentScrutinyButtonText: string = '';
   public ApplicationNo: string = '';
   public lstTarils: any = [];
@@ -85,7 +87,8 @@ export class DocumentScrutinyDTEComponent implements OnInit {
   public CheckFinalRemark: string = '';
   @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private dteDocumentScrutinyService: DTEDocumentScrutinyService,
-    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private modalService: NgbModal) { }
+    private commonMasterService: CommonMasterService, private router: ActivatedRoute, private modalService: NgbModal,
+    private dcedocumentScrutinyService: DTEDocumentScrutinyService) { }
 
 
 
@@ -96,6 +99,7 @@ export class DocumentScrutinyDTEComponent implements OnInit {
     this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.CheckTabsEntry();
+    await this.ViewlegalEntityDataByID();
     try {
       this.maxNumberOfTabs = await this.tabGroup._tabs.length - 1;
     }
@@ -188,4 +192,31 @@ export class DocumentScrutinyDTEComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+
+  //Legal Entity
+  async ViewlegalEntityDataByID() {
+    try {
+      this.loaderService.requestStarted();
+      await this.dcedocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          if (data['Data'].length > 0) {
+            this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
+          }
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Legal Entity
 }
