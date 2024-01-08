@@ -258,7 +258,7 @@ export class AddCollegeComponent implements OnInit {
           if (data['Data'][0]['data']['Table'].length == 0) {
             this.toastr.warning("Add Legal Entity After Add College.!");
             setTimeout(() => {
-              //this.routers.navigate(['/legalentity']);
+              this.routers.navigate(['/legalentity']);
             }, 500);
 
           }
