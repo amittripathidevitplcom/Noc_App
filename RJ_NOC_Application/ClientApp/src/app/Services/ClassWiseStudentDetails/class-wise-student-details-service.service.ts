@@ -5,7 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { AadharServiceDataModel } from '../../Models/AadharServiceDataModel';
 import { PostClassWiseStudentDetailsDataModel } from '../../Models/ClassWiseStudentDetailsDataModel';
-import { CollegeList_StatisticsFinalSubmitedDataModel_Filter, PostSubjectWiseStatisticsDetailsDataModel, StatisticsFinalSubmitDataModel } from '../../Models/SubjectWiseStatisticsDetailsDataModel';
+import { CollegeList_StatisticsFinalSubmitedDataModel_Filter, PostSubjectWiseStatisticsDetailsDataModel, StatisticsFinalSubmitDataModel, TotalNotFilledStatics_DataModel_Filter } from '../../Models/SubjectWiseStatisticsDetailsDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -90,6 +90,18 @@ export class ClassWiseStudentDetailsServiceService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+
+  public async CollegeList_StatisticsNotFilledReport(request: TotalNotFilledStatics_DataModel_Filter) {
+
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    return await this.http.post(this.APIUrl + "/CollegeList_StatisticsNotFilledReport", body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 
 }
 
