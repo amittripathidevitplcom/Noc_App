@@ -54,7 +54,7 @@
             <p *ngIf="form.txtMinSize.errors.max">Minimum size is too big !</p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.IsAvailable=='Yes' || isInputOptionType==true">
           <label for="fileUploadImage" class="form-label">Upload Facility Image (Only jpeg/jpg file.)(Min.Size 100KB)(Max.Size 2MB)<span style="color:red;">*</span></label>
           <div class="d-flex">
 

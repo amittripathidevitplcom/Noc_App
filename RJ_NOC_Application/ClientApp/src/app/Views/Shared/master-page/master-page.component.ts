@@ -95,7 +95,7 @@ export class MasterPageComponent implements OnInit {
     }
     this.RoleID = this.sSOLoginDataModel.UserID;
     await this.GetUserRoleList();
-    await this.LoadMenu(this.sSOLoginDataModel.RoleID);
+    await this.LoadMenu(this.sSOLoginDataModel.UserID);
 
   }
 

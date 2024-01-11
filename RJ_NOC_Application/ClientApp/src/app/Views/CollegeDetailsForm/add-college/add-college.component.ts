@@ -659,6 +659,11 @@ export class AddCollegeComponent implements OnInit {
             return element.Name != "PG";
           });
         }
+        else if (this.request.DepartmentID == 4) {
+          //this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
+          //  return element.Name != "PG";
+          //});
+        }
         else {
           this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
             return element.Name == "UG";
