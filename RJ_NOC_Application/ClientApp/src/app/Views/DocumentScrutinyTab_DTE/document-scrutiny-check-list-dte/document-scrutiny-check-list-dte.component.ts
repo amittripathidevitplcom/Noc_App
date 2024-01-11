@@ -26,6 +26,7 @@ import { AadharServiceDetails } from '../../../Services/AadharServiceDetails/aad
 import { ApplicationCommitteeMemberdataModel, PostApplicationCommitteeMemberdataModel } from '../../../Models/ApplicationCommitteeMemberdataModel';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
+import { elementAt } from 'rxjs';
 
 
 @Injectable({
@@ -283,6 +284,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // data
           if (data['Data'].length > 0) {
+
             this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
             if (this.CheckList_legalEntityListData1 != null) {
               this.CheckList_legalEntityInstituteDetailData = data['Data'][0]['legalEntity']['InstituteDetails'];
@@ -292,6 +294,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
             if (data['Data'][0]['DocumentScrutinyFinalRemarkList'] != null) {
               this.LegalEntityFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
             }
+            console.log(this.CheckList_legalEntityListData1);
           }
         }, (error: any) => console.error(error));
     }
@@ -666,50 +669,24 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         this.isActionTypeValid = true;
         this.isFormvalid = false;
       }
-      //if (this.ShowHideNextRole && this.ShowHideNextAction && this.ShowHideNextUser) {
-      //  if (this.NextRoleID <= 0) {
-      //    this.isNextRoleIDValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //  if (this.NextActionID <= 0) {
-      //    this.isNextActionValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //  if (this.NextUserID <= 0) {
-      //    this.isNextUserIdValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //}
-      //else if (!this.ShowHideNextUser && !this.ShowHideNextRole && !this.ShowHideNextAction) {
-      //  this.NextRoleID = 1;
-      //  this.NextUserID = 0;
-      //  this.NextActionID = 0;
-      //}
-      //else if (this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
-      //  if (this.NextRoleID <= 0) {
-      //    this.isNextRoleIDValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //  if (this.NextUserID <= 0) {
-      //    this.isNextUserIdValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //  this.NextActionID = 0;
-      //}
-      //else if (!this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
-      //  if (this.NextRoleID <= 0) {
-      //    this.isNextRoleIDValid = true;
-      //    this.isFormvalid = false;
-      //  }
-      //  this.NextUserID = 0;
-      //  this.NextActionID = 0;
-      //}
-      //|| this.CheckTabsEntryData['CourseDetails'] <= 0
-      if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 
-        || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-        || this.CheckTabsEntryData['Facility'] <= 0|| this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {
-        this.isFormvalid = false;
-        this.toastr.warning('Please do document scrutiny all tabs');
+      if (this.CollegeType_IsExisting) {
+        var LegalEntity = 0;
+        LegalEntity = this.CheckList_legalEntityListData1.ManagementType == 'Private' && this.CheckTabsEntryData['LegalEntity'] <= 0 ? 0 : 1;
+        if (LegalEntity <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0
+          || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please do document scrutiny all tabs');
+        }
+      }
+      else {
+        LegalEntity = this.CheckList_legalEntityListData1.ManagementType == 'Private' && this.CheckTabsEntryData['LegalEntity'] <= 0 ? 0 : 1;
+        if (LegalEntity <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0
+          ||  this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 ||  this.CheckTabsEntryData['HostelDetails'] <= 0) {
+          this.isFormvalid = false;
+          this.toastr.warning('Please do document scrutiny all tabs');
+        }
       }
 
       if (!this.isFormvalid) {

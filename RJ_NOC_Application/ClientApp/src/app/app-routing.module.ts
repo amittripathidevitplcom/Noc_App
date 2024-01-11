@@ -206,6 +206,7 @@ import { ApplicationLandingDetailsDTEComponent } from './Views/DocumentScrutinyT
 import { DocumentScrutinyApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-application-list-dte/document-scrutiny-application-list-dte.component';
 import { RevertApplicationDetailEntryDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-application-detail-entry-dte/revert-application-detail-entry-dte.component';
 import { JSApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/jsapplication-list-dte/jsapplication-list-dte.component';
+import { TotalNotFilledStaticsReportComponent } from './Views/DCE/total-not-filled-statics-report/total-not-filled-statics-report.component';
 
 const routes: Routes = [
   {
@@ -851,6 +852,10 @@ const routes: Routes = [
       {
         path: 'jsapplicationlistdte/:Status', component: JSApplicationListDTEComponent
       },
+
+      {
+        path: 'totalnotfilledstatisticsreport', component: TotalNotFilledStaticsReportComponent
+      },
     ]
     // ,canActivate: [SkipLocationChangeGuard],
   },
@@ -893,6 +898,7 @@ const routes: Routes = [
   {
     path: '**', component: PageNotFoundComponent
   }
+
 
 
 ];

@@ -359,6 +359,7 @@ import { RevertApplicationDetailEntryDTEComponent } from './Views/DocumentScruti
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { TotalNotFilledStaticsReportComponent } from './Views/DCE/total-not-filled-statics-report/total-not-filled-statics-report.component';
 
 
 
@@ -698,6 +699,7 @@ import { MatSortModule } from '@angular/material/sort';
           DocumentScrutinyApplicationListDTEComponent,
           JSApplicationListDTEComponent,
           RevertApplicationDetailEntryDTEComponent,
+          TotalNotFilledStaticsReportComponent,
   ],
   imports: [
     CommonModule,
