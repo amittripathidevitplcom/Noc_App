@@ -89,12 +89,17 @@
               <th>College Mobile No.</th>
               <th>College Email</th>
               <th>Full Address</th>
+              <th>Nodal Name</th>
+              <th>Nodal Mobile</th>
+              <th>Nodal SSO</th>
+              <th>Nodal CollegeName</th>
+
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let row of TotalListNotFilledStaticsReport  | tableSearchFilter:searchText; let idx=index;">
               <td style="text-align:center;">{{idx+1}}</td>
-            
+
               <td>{{row.SSOID}}</td>
               <td>{{row.CollegeName}}</td>
               <td>{{row.DistrictName}}</td>
@@ -103,6 +108,10 @@
               <td>{{row.CollegeMobileNumber}}</td>
               <td>{{row.CollegeEmail}}</td>
               <td>{{row.FullAddress}}</td>
+              <td>{{row.NodalName}}</td>
+              <td>{{row.NodalMobile}}</td>
+              <td>{{row.NodalSSO}}</td>
+              <td>{{row.NodalCollegeName}}</td>
 
             </tr>
             </tbody>
