@@ -110,7 +110,7 @@ export class FacilityDetailsComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
-    this.GetFacilities(this.SelectedDepartmentID, this.SelectedCollageID,0, 'Facilities');
+    this.GetFacilities(this.SelectedDepartmentID, this.SelectedCollageID, 0, 'Facilities');
     this.GetFacilityDetailAllList();
     this.Unit = this.SelectedDepartmentID == 4 ? 'Sq.Meter' : 'Sq. Feet';
   }
@@ -353,11 +353,12 @@ export class FacilityDetailsComponent implements OnInit {
       this.CssClass_TextDangerWidth = 'text-danger';
       this.isFormValid = false;
     }
-    if (this.request.FacilitiesUrl == '') {
-      this.ImageValidate = 'This field is required .!';
-      this.isFormValid = false;
+    if (this.request.IsAvailable == 'Yes' || this.isInputOptionType == true) {
+      if (this.request.FacilitiesUrl == '') {
+        this.ImageValidate = 'This field is required .!';
+        this.isFormValid = false;
+      }
     }
-
 
 
 
@@ -407,7 +408,7 @@ export class FacilityDetailsComponent implements OnInit {
     try {
       this.loaderService.requestStarted();
 
-      
+
       this.GetFacilities(this.SelectedDepartmentID, this.SelectedCollageID, 0, 'Facilities');
       const ddlFacilitiesId = document.getElementById('ddlFacilitiesId')
       if (ddlFacilitiesId) ddlFacilitiesId.focus();
@@ -444,7 +445,7 @@ export class FacilityDetailsComponent implements OnInit {
   async GetFacilityDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.facilityDetailsService.GetFacilityDetailAllList(this.UserID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID:0)
+      await this.facilityDetailsService.GetFacilityDetailAllList(this.UserID, this.SelectedCollageID, this.SelectedApplyNOCID > 0 ? this.SelectedApplyNOCID : 0)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -624,5 +625,14 @@ export class FacilityDetailsComponent implements OnInit {
   }
 
   async ddlIsAvailable_change(SeletedIsAvailable: any) {
+    if (this.isInputOptionType == true) {
+      if (SeletedIsAvailable == 'Yes') {
+        this.isValidFacilitiesUrl = false;
+      }
+      else {
+        this.isValidFacilitiesUrl = false;
+      }
+    }
+
   }
 }

@@ -139,7 +139,7 @@ export class CreateUserComponent implements OnInit {
   async GetRoleList() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetRoleList()
+      await this.commonMasterService.GetRoleList_CreateUser()
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

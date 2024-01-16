@@ -408,6 +408,10 @@ export class DteAddCourseComponent {
         this.isFormValid = false;
       }
     }
+    if (Number(this.request.Enrollment) > Number(this.request.Intake) + Number(this.request.SuperNumerarySeats)) {
+      this.isFormValid = false;
+      this.toastr.warning('No of Enrollment not grater then Intake + Super Numerary Seats');
+    }
 
     if (!this.isFormValid) {
       return;

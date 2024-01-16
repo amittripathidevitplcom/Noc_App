@@ -84,13 +84,13 @@
                     </div>
                   </div>
 
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="!IsDeptAnimlaHusbandry">
+                  <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" [hidden]="!IsDeptAnimlaHusbandry">
                     <label for="ddlCommitteeID" class="form-label">Select Committee</label>
                     <select class="form-select" id="ddlCommitteeID" name="ddlCommitteeID" [(ngModel)]="request.CommitteeID" formControlName="ddlCommitteeID">
                       <option value="0">--None--</option>
                       <option *ngFor="let item of CommitteeList" value="{{item.CommitteeID}}">{{item.CommitteeName}}</option>
                     </select>
-                  </div>
+                  </div>-->
 
                   <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                     <label class="form-label">Select Member Type <span style="color:red;">*</span></label>
@@ -192,9 +192,9 @@
                   <th>
                     Role
                   </th>
-                  <th>
+                  <!--<th>
                     Committee
-                  </th>
+                  </th>-->
                   <th>
                     Member Type
                   </th>
@@ -224,14 +224,14 @@
                     {{row.Name}}
                   </td>
                   <td>
-                    {{row.DepartmentName}}
+                    {{row.DepartmentName_English}}
                   </td>
                   <td>
                     {{row.RoleName}}
                   </td>
-                  <td>
+                  <!--<td>
                     {{row.CommitteeName}}
-                  </td>
+                  </td>-->
                   <td>
                     {{row.MemberType}}
                   </td>

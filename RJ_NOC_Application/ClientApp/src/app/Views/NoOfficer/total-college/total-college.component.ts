@@ -73,6 +73,7 @@ export class TotalCollegeComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // data
           this.draftApplicatoinListData = data['Data'][0]['data'];
+          console.log(this.draftApplicatoinListData);
         }, (error: any) => console.error(error));
     }
     catch (Ex) {
