@@ -360,6 +360,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { TotalNotFilledStaticsReportComponent } from './Views/DCE/total-not-filled-statics-report/total-not-filled-statics-report.component';
+import { DtcoursemasterComponent } from './Views/Master/DT_CourseMaster/dtcoursemaster/dtcoursemaster.component';
+
 
 
 
@@ -700,6 +702,8 @@ import { TotalNotFilledStaticsReportComponent } from './Views/DCE/total-not-fill
           JSApplicationListDTEComponent,
           RevertApplicationDetailEntryDTEComponent,
           TotalNotFilledStaticsReportComponent,
+          DtcoursemasterComponent,
+
   ],
   imports: [
     CommonModule,
