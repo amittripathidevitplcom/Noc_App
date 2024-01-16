@@ -50,7 +50,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
   async GetLOIApplicationList(RoleId: number, UserID: number, Status: string) {
     try {
       let ActionName = '';
-      ActionName = Status == 'Completed' ? 'Forward' : Status == 'Pending' ? 'Apply LOI,Forward,ReSubmit Application' : '';
+      ActionName = Status == 'Completed' ? 'Forward' : Status == 'Pending' ? 'Forward,ReSubmit Application' : '';
 
       this.loaderService.requestStarted();
       await this.mg1DocumentScrutinyService.GetLOIApplicationList(RoleId, UserID, Status, ActionName)
@@ -84,7 +84,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
     });
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetApplicationTrail_DepartmentApplicationWise(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetLOIApplicationTrail(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));
@@ -123,7 +123,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
   public isRemarkValid: boolean = false;
   public ShowHideNextRole: boolean = true;
   public ShowHideNextUser: boolean = true;
-  public ShowHideNextAction: boolean = true;
+  //public ShowHideNextAction: boolean = true;
   public isActionTypeValid: boolean = false;
   public isNextActionValid: boolean = false;
   public isNextRoleIDValid: boolean = false;
@@ -158,52 +158,54 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
     //  this.isRemarkValid = true;
     //  this.isFormvalid = false;
     //}
-      if (confirm("Are you sure you want to forward this application?")) {
-        this.loaderService.requestStarted();
+
         if (this.ActionID <= 0) {
           this.isActionTypeValid = true;
           this.isFormvalid = false;
         }
-        if (this.ShowHideNextRole && this.ShowHideNextAction && this.ShowHideNextUser) {
+        if (this.ShowHideNextRole && this.ShowHideNextUser) {  //&& this.ShowHideNextAction
           if (this.NextRoleID <= 0) {
             this.isNextRoleIDValid = true;
             this.isFormvalid = false;
           }
-          if (this.NextActionID <= 0) {
-            this.isNextActionValid = true;
-            this.isFormvalid = false;
-          }
+          //if (this.NextActionID <= 0) {
+          //  this.isNextActionValid = true;
+          //  this.isFormvalid = false;
+          //}
           if (this.NextUserID <= 0) {
             this.isNextUserIdValid = true;
             this.isFormvalid = false;
           }
         }
-        else if (!this.ShowHideNextUser && !this.ShowHideNextRole && !this.ShowHideNextAction) {
+        else if (!this.ShowHideNextUser && !this.ShowHideNextRole) {//&& !this.ShowHideNextAction
           this.NextRoleID = 1;
           this.NextUserID = 0;
           this.NextActionID = 0;
         }
-        else if (this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
-          if (this.NextRoleID <= 0) {
-            this.isNextRoleIDValid = true;
-            this.isFormvalid = false;
-          }
-          if (this.NextUserID <= 0) {
-            this.isNextUserIdValid = true;
-            this.isFormvalid = false;
-          }
-          this.NextActionID = 0;
-        }
-        else if (!this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+        //else if (this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+        //  if (this.NextRoleID <= 0) {
+        //    this.isNextRoleIDValid = true;
+        //    this.isFormvalid = false;
+        //  }
+        //  if (this.NextUserID <= 0) {
+        //    this.isNextUserIdValid = true;
+        //    this.isFormvalid = false;
+        //  }
+        //  this.NextActionID = 0;
+        //}
+        else if (!this.ShowHideNextUser && this.ShowHideNextRole) {//&& !this.ShowHideNextAction
           if (this.NextRoleID <= 0) {
             this.isNextRoleIDValid = true;
             this.isFormvalid = false;
           }
           this.NextUserID = 0;
           this.NextActionID = 0;
-        }
-
-
+      }
+      if (!this.isFormvalid) {
+        return;
+      }
+      if (confirm("Are you sure you want to forward this application?")) {
+        this.loaderService.requestStarted();
         await this.collegeservice.SaveLOIWorkFlow(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedLOIID, 5, '', this.NextRoleID, this.NextUserID, this.NextActionID)
           .then((data: any) => {
             data = JSON.parse(JSON.stringify(data));
@@ -284,7 +286,7 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
               this.UserListRoleWise = data['Data'];
               if (this.UserListRoleWise.length > 0) {
                 this.NextUserID = this.UserListRoleWise[0]['UId'];
-                await this.NextGetWorkFlowActionListByRole();
+                //await this.NextGetWorkFlowActionListByRole();
               }
             }
           })
@@ -297,31 +299,31 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
       }, 200);
     }
   }
-  async NextGetWorkFlowActionListByRole() {
-    this.NextActionID = 0;
-    this.NextWorkFlowActionList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next", this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.NextWorkFlowActionList = data['Data'];
-            if (this.NextWorkFlowActionList.length > 0) {
-              this.NextActionID = this.NextWorkFlowActionList[0]['ActionID'];
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  //async NextGetWorkFlowActionListByRole() {
+  //  this.NextActionID = 0;
+  //  this.NextWorkFlowActionList = [];
+  //  this.loaderService.requestStarted();
+  //  try {
+  //    await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next", this.sSOLoginDataModel.DepartmentID)
+  //      .then(async (data: any) => {
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        if (data['Data'].length > 0) {
+  //          this.NextWorkFlowActionList = data['Data'];
+  //          if (this.NextWorkFlowActionList.length > 0) {
+  //            this.NextActionID = this.NextWorkFlowActionList[0]['ActionID'];
+  //          }
+  //        }
+  //      })
+  //  }
+  //  catch (ex) { console.log(ex) }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
   async GetWorkFlowActionListByRole() {
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
@@ -341,17 +343,17 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
               if (IsNextAction == true && IsRevert == false) {
                 this.ShowHideNextUser = true;
                 this.ShowHideNextRole = true;
-                this.ShowHideNextAction = true;
+                //this.ShowHideNextAction = true;
               }
               else if (IsNextAction == false && IsRevert == false) {
                 this.ShowHideNextUser = false;
                 this.ShowHideNextRole = false;
-                this.ShowHideNextAction = false;
+                //this.ShowHideNextAction = false;
               }
               else if (IsNextAction == false && IsRevert == true) {
                 this.ShowHideNextUser = true;
                 this.ShowHideNextRole = true;
-                this.ShowHideNextAction = false;
+                //this.ShowHideNextAction = false;
               }
             }
           }
@@ -372,17 +374,17 @@ export class NodalSecretaryApplicationListMGOneComponent implements OnInit {
     if (IsNextAction == true && IsRevert == false) {
       this.ShowHideNextUser = true;
       this.ShowHideNextRole = true;
-      this.ShowHideNextAction = true;
+      //this.ShowHideNextAction = true;
     }
     else if (IsNextAction == false && IsRevert == false) {
       this.ShowHideNextUser = false;
       this.ShowHideNextRole = false;
-      this.ShowHideNextAction = false;
+      //this.ShowHideNextAction = false;
     }
     else if (IsNextAction == false && IsRevert == true) {
       this.ShowHideNextUser = true;
       this.ShowHideNextRole = true;
-      this.ShowHideNextAction = false;
+      //this.ShowHideNextAction = false;
     }
   }
 

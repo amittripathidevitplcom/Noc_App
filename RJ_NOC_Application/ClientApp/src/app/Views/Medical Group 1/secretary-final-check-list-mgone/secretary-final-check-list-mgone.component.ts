@@ -31,11 +31,11 @@ import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumen
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-application-final-check-list-mgone',
-  templateUrl: './application-final-check-list-mgone.component.html',
-  styleUrls: ['./application-final-check-list-mgone.component.css']
+  selector: 'app-secretary-final-check-list-mgone',
+  templateUrl: './secretary-final-check-list-mgone.component.html',
+  styleUrls: ['./secretary-final-check-list-mgone.component.css']
 })
-export class ApplicationFinalCheckListMGOneComponent implements OnInit {
+export class SecretaryFinalCheckListMGOneComponent implements OnInit {
   @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
   public State: number = -1;
   public SuccessMessage: any = [];
@@ -177,7 +177,7 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
 
   public QueryStringStatus: any = '';
 
-  constructor( private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
+  constructor(private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private landDetailsService: LandDetailsService, private mg1documentScrutinyService: MGOneDocumentScrutinyService, private facilityDetailsService: FacilityDetailsService,
     private roomDetailsService: RoomDetailsService, private staffDetailService: StaffDetailService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService) { }
@@ -485,12 +485,7 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.toastr.success(this.SuccessMessage);
-            if (this.sSOLoginDataModel.RoleID == 7) {
-              this.routers.navigate(['/forwardbyministerlistmgone/Pending']);
-            }
-            else {
               this.routers.navigate(['/osdapplicationlistmgone/Pending']);
-            }
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -615,7 +610,7 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
             if (this.WorkFlowActionList.length > 0) {
 
               if (this.sSOLoginDataModel.RoleID == 7) {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 45 && x.ActionID!=44);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 45 && x.ActionID != 6 && x.ActionID!=48);
               }
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
@@ -746,7 +741,7 @@ export class ApplicationFinalCheckListMGOneComponent implements OnInit {
       this.loaderService.requestStarted();
 
       //clerk
-      await this.mg1documentScrutinyService.GetRNCCheckListByRole('LOI',  ApplyNOCID,  33)
+      await this.mg1documentScrutinyService.GetRNCCheckListByRole('LOI', ApplyNOCID, 33)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

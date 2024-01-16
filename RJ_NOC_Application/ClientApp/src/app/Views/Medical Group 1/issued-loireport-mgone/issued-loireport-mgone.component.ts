@@ -82,7 +82,7 @@ export class IssuedLOIReportMGOneComponent implements OnInit {
     });
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetApplicationTrail_DepartmentApplicationWise(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetLOIApplicationTrail(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));

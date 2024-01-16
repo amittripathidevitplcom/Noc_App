@@ -166,7 +166,7 @@ export class MG1DocumentScrutinyCMSComponent implements OnInit {
     }
     try {
       this.loaderService.requestStarted();
-      await this.applyNOCApplicationService.SaveDocumentScrutiny(this.dsrequest)
+      await this.applyNOCApplicationService.SaveDocumentScrutinyLOI(this.dsrequest)
         .then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
