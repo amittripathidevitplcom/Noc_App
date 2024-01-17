@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
-import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_ChangeinNameofSociety, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
@@ -185,6 +185,9 @@ export class ApplyNocParameterComponent implements OnInit {
   /*Merger of Institutions under the same Trust / Society / Company*/
   public isValidDTE_InstituteID2: boolean = false;
   public isValidDTE_MergeInstituteID: boolean = false;
+  /*Change in the name of Trust / Society / Company*/
+  public isValidDTE_NewName: boolean = false;
+
 
 
 
@@ -208,6 +211,8 @@ export class ApplyNocParameterComponent implements OnInit {
     //Dte added Rishi Kapoor
     this.request.DTE_BankDetails = new ApplyNocParameterMasterList_BankDetails();
     this.request.DTE_MergerofInstitutions = new ApplyNocParameterMasterList_MergerofInstitutions();
+    this.request.DTE_ChangeinNameofSociety = new ApplyNocParameterMasterList_ChangeinNameofSociety();
+
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
@@ -283,7 +288,7 @@ export class ApplyNocParameterComponent implements OnInit {
           this.CollegeList = data['Data'];
           console.log(this.State);
         });
-
+      
     }
     catch (Ex) {
       console.log(Ex);
@@ -494,6 +499,25 @@ export class ApplyNocParameterComponent implements OnInit {
         if (item.IsChecked == true) {
           this.request.DTE_MergerofInstitutions.ApplyNocID = Number(SelectedApplyNocForID);
           this.request.DTE_MergerofInstitutions.FeeAmount = item.FeeAmount
+        }
+      }
+      /*Change in the name of Trust / Society / Company*/
+      if (this.request.ApplyNocCode == 'DTE_ChangeinNameofSociety') {
+        this.request.DTE_ChangeinNameofSociety_View = item.IsChecked;
+        this.request.DTE_ChangeinNameofSociety.CurrentName = '';
+
+
+        await this.commonMasterService.GetSocietyByCollege(this.request.CollegeID)
+          .then((data: any) => {
+            debugger;
+            this.request.DTE_ChangeinNameofSociety.CurrentName = data['Data'][0]['data'][0]['SocietyName'];
+          });
+
+        this.request.DTE_ChangeinNameofSociety.NewName = '';
+        this.request.DTE_ChangeinNameofSociety.FeeAmount = 0;
+        if (item.IsChecked == true) {
+          this.request.DTE_ChangeinNameofSociety.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_ChangeinNameofSociety.FeeAmount = item.FeeAmount
         }
       }
       // await  this.SetPrimaryMember(item, index)
@@ -1442,9 +1466,19 @@ export class ApplyNocParameterComponent implements OnInit {
         this.isValidDTE_MergeInstituteID = false;
       }
     }
-    //Merger of Institutions under the same Trust/ Society/ Company
+    //Merger of Institutions under the same Trust/ Society/ Company end
 
-
+    /*Change in the name of Trust / Society / Company*/
+    if (this.request.DTE_ChangeinNameofSociety_View == true) {
+      if (this.request.DTE_ChangeinNameofSociety.NewName == '') {
+        this.isValidDTE_NewName = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidDTE_NewName = false;
+      }
+    }
+    /*Change in the name of Trust / Society / Company end */
     //DTE Validation End
 
     return this.isFormValid

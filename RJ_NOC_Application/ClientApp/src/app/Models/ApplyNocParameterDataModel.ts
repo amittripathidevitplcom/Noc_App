@@ -57,9 +57,11 @@ export class ApplyNocParameterDataModel {
   public DTE_MergerofInstitutions!: ApplyNocParameterMasterList_MergerofInstitutions;
   public DTE_MergerofInstitutions_View: boolean = false;
 
+  /*Change in the name of Trust/Society/Company*/
+  public DTE_ChangeinNameofSociety!: ApplyNocParameterMasterList_ChangeinNameofSociety;
+  public DTE_ChangeinNameofSociety_View: boolean = false;
   
   
-
 }
 
 export class ApplyNocParameterMasterListDataModel {
@@ -348,3 +350,13 @@ export class ApplyNocParameterMasterList_MergerofInstitutions {
   public FeeAmount: number = 0;
 }
 
+export class ApplyNocParameterMasterList_ChangeinNameofSociety{
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+
+  public CurrentName: string = '';
+  public NewName: string = '';
+  public FeeAmount: number = 0;
+}
