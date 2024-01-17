@@ -60,8 +60,12 @@ export class ApplyNocParameterDataModel {
   /*Change in the name of Trust/Society/Company*/
   public DTE_ChangeinNameofSociety!: ApplyNocParameterMasterList_ChangeinNameofSociety;
   public DTE_ChangeinNameofSociety_View: boolean = false;
-  
-  
+
+  /*Change in the name of Trust/Society/Company*/
+  public DTE_IncreaseinIntakeAdditionofCourse!: ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse;
+  public DTE_IncreaseinIntakeAdditionofCourse_List: ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse[] = [];
+  public DTE_IncreaseinIntakeAdditionofCourse_View: boolean = false;
+
 }
 
 export class ApplyNocParameterMasterListDataModel {
@@ -335,7 +339,7 @@ export class ApplyNocParameterMasterList_BankDetails {
   public OldAccountNumber: string = '';
   public NewAccountNumber: string = '';
   public FeeAmount: number = 0;
-  
+
 }
 
 export class ApplyNocParameterMasterList_MergerofInstitutions {
@@ -346,11 +350,11 @@ export class ApplyNocParameterMasterList_MergerofInstitutions {
 
   public InstituteID1: number = 0;
   public InstituteID2: number = 0;
-  public MergeInstituteID: number = 0; 
+  public MergeInstituteID: number = 0;
   public FeeAmount: number = 0;
 }
 
-export class ApplyNocParameterMasterList_ChangeinNameofSociety{
+export class ApplyNocParameterMasterList_ChangeinNameofSociety {
   public DetailID: number = 0;
   public ApplyNocID: number = 0;
   public DepartmentID: number = 0;
@@ -358,5 +362,15 @@ export class ApplyNocParameterMasterList_ChangeinNameofSociety{
 
   public CurrentName: string = '';
   public NewName: string = '';
+  public FeeAmount: number = 0;
+}
+export class ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourseName: string = '';
+  public CourseID: number = 0;
+  public Intake: number = 0;
   public FeeAmount: number = 0;
 }

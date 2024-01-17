@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
-import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_ChangeinNameofSociety, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_ChangeinNameofSociety, ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
@@ -64,6 +64,8 @@ export class ApplyNocParameterComponent implements OnInit {
   totalTNOCSubjectFees: number = 0;
   totalPNOCSubjectFees: number = 0;
   TNOCParameterFees: number = 0;
+
+  public DTE_CourseDataList: any = [];
 
   public ApplyNocParameterMasterList_TNOCExtension: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_AdditionOfNewSeats60: ApplyNocParameterMaster_AdditionOfNewSeats60DataModel = null;
@@ -212,7 +214,8 @@ export class ApplyNocParameterComponent implements OnInit {
     this.request.DTE_BankDetails = new ApplyNocParameterMasterList_BankDetails();
     this.request.DTE_MergerofInstitutions = new ApplyNocParameterMasterList_MergerofInstitutions();
     this.request.DTE_ChangeinNameofSociety = new ApplyNocParameterMasterList_ChangeinNameofSociety();
-
+    this.request.DTE_IncreaseinIntakeAdditionofCourse = new ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse();
+    this.request.DTE_IncreaseinIntakeAdditionofCourse_List = [];
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
@@ -288,7 +291,7 @@ export class ApplyNocParameterComponent implements OnInit {
           this.CollegeList = data['Data'];
           console.log(this.State);
         });
-      
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -509,7 +512,6 @@ export class ApplyNocParameterComponent implements OnInit {
 
         await this.commonMasterService.GetSocietyByCollege(this.request.CollegeID)
           .then((data: any) => {
-            debugger;
             this.request.DTE_ChangeinNameofSociety.CurrentName = data['Data'][0]['data'][0]['SocietyName'];
           });
 
@@ -518,6 +520,26 @@ export class ApplyNocParameterComponent implements OnInit {
         if (item.IsChecked == true) {
           this.request.DTE_ChangeinNameofSociety.ApplyNocID = Number(SelectedApplyNocForID);
           this.request.DTE_ChangeinNameofSociety.FeeAmount = item.FeeAmount
+        }
+      }
+
+      /*//Increase in Intake / Addition of Course*/
+      if (this.request.ApplyNocCode == 'DTE_IncreaseinIntakeAdditionofCourse') {
+        this.request.DTE_IncreaseinIntakeAdditionofCourse_View = item.IsChecked;
+        this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID = 0;
+        this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount = 0;
+        this.request.DTE_IncreaseinIntakeAdditionofCourse_List = [];
+
+        await this.commonMasterService.GetCourseList_CollegeWise(this.request.CollegeID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.DTE_CourseDataList = data['Data'];
+            console.log(this.DTE_CourseDataList);
+          }, error => console.error(error));
+
+        if (item.IsChecked == true) {
+          this.request.DTE_IncreaseinIntakeAdditionofCourse.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount = item.FeeAmount
         }
       }
       // await  this.SetPrimaryMember(item, index)
@@ -934,6 +956,13 @@ export class ApplyNocParameterComponent implements OnInit {
             this.toastr.warning('Invalid Merge to Institute');
             return;
           }
+        }
+      }
+      //Increase in Intake / Addition of Course
+      if (this.request.DTE_IncreaseinIntakeAdditionofCourse_View == true) {
+        if (this.request.DTE_IncreaseinIntakeAdditionofCourse_List.length == 0) {
+          this.toastr.warning('Add Increase in Intake / Addition of Course');
+          return;
         }
       }
 
@@ -1472,13 +1501,13 @@ export class ApplyNocParameterComponent implements OnInit {
     if (this.request.DTE_ChangeinNameofSociety_View == true) {
       if (this.request.DTE_ChangeinNameofSociety.NewName == '') {
         this.isValidDTE_NewName = true;
-        this.isFormValid = false;
+        this.isFormValid = false;//
       }
       else {
         this.isValidDTE_NewName = false;
       }
     }
-    /*Change in the name of Trust / Society / Company end */
+
     //DTE Validation End
 
     return this.isFormValid
@@ -2446,6 +2475,61 @@ export class ApplyNocParameterComponent implements OnInit {
           this.toastr.warning(this.ErrorMessage)
         }
       });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  Add_IncreaseinIntake() {
+
+    if (this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID==0) {
+      this.toastr.error("Select Course.!");
+      return;
+    }
+    if (this.request.DTE_IncreaseinIntakeAdditionofCourse.Intake == 0) {
+      this.toastr.error("Enter intake greater than zero.!");
+      return;
+    }
+
+
+    var CourseExit = this.request.DTE_IncreaseinIntakeAdditionofCourse_List.filter((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID);
+    if (CourseExit.length > 0) {
+      this.toastr.warning("Course Already Added.!");
+      return;
+    }
+
+
+    this.request.DTE_IncreaseinIntakeAdditionofCourse_List.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      CourseID: this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID,
+      CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID).CourseName,
+      Intake: this.request.DTE_IncreaseinIntakeAdditionofCourse.Intake,
+      FeeAmount: this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount
+    });
+    this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID = 0;
+    this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseName = '';
+    this.request.DTE_IncreaseinIntakeAdditionofCourse.Intake = 0;
+
+  }
+  Delete_IncreaseinIntake(item: ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse) {
+    try {
+      this.loaderService.requestStarted();
+      //debugger
+      if (confirm("Are you sure you want to delete this ?")) {
+        const index: number = this.request.DTE_IncreaseinIntakeAdditionofCourse_List.indexOf(item);
+        if (index != -1) {
+          this.request.DTE_IncreaseinIntakeAdditionofCourse_List.splice(index, 1)
+        }
+      }
     }
     catch (Ex) {
       console.log(Ex);
