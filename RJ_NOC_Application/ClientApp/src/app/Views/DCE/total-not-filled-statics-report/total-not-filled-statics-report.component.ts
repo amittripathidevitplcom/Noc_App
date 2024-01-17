@@ -110,8 +110,7 @@ export class TotalNotFilledStaticsReportComponent implements OnInit {
         /* generate workbook and add the worksheet */
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         //Hide Column
-        ws['!cols'] = [];
-        ws['!cols'][1] = { hidden: true };
+      
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         /* save to file */
         XLSX.writeFile(wb, "TotalStatisticsNotFilledReport.xlsx");

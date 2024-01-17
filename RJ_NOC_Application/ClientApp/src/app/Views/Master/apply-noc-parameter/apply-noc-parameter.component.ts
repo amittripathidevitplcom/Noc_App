@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
-import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
@@ -55,6 +55,8 @@ export class ApplyNocParameterComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   // model
   request = new ApplyNocParameterDataModel();
+  
+  
 
   totalNewSubjectFees: number = 0;
 
@@ -72,8 +74,6 @@ export class ApplyNocParameterComponent implements OnInit {
   public ApplyNocParameterMasterList_MergerCollege: ApplyNocParameterMasterList_MergerCollege = null;
   public ApplyNocParameterMasterList_NewCourse: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_NewCourseSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
-
-
   public ApplyNocParameterMasterList_TNOCExtOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_PNOCOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
 
@@ -168,6 +168,19 @@ export class ApplyNocParameterComponent implements OnInit {
   public SelectedCollegeID: number = 0;
   public SelectedDepartmentID: number = 0;
 
+  //DTE Validation Prop
+  //Change in the Name of the Bank
+  public isValidOldBankName: boolean = false;
+  public isValidNewBankName: boolean = false;
+  public isValidOldBranchName: boolean = false;
+  public isValidNewBranchName: boolean = false;
+  public isValidOldIFSC: boolean = false;
+  public isValidNewIFSC: boolean = false;
+  public isValidOldAccountNumber: boolean = false;
+  public isValidNewAccountNumber: boolean = false;
+
+
+
   constructor(private draftApplicationListService: DraftApplicationListService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
     private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal, private cdref: ChangeDetectorRef) {
 
@@ -184,6 +197,9 @@ export class ApplyNocParameterComponent implements OnInit {
       ddlCourse: ['', 0]
     });
     // load
+    //Dte added Rishi Kapoor
+    this.request.DTE_BankDetails = new ApplyNocParameterMasterList_BankDetails();
+
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
     await this.GetApplicationList();
@@ -390,23 +406,23 @@ export class ApplyNocParameterComponent implements OnInit {
       //    await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
       //      if (item.ApplyNocID != rowitem.ApplyNocID) {
       //        rowitem.IsChecked = false;
-              
+
       //      }
       //      else {
       //        rowitem.IsChecked = true;
-              
+
       //      }
       //    });
       //  }
       //}
-
+      ///Department 4 (DTE)
       if (this.CollegeDepartmentID == 4) {
         if (this.request.ApplyNocFor == 'Closure of Institute') {
           this.isApplicationApplyFor = item.IsChecked;
           await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
             if (item.ApplyNocID != rowitem.ApplyNocID) {
               rowitem.IsChecked = false;
-             
+
             }
             else {
               rowitem.IsChecked = true;
@@ -414,7 +430,29 @@ export class ApplyNocParameterComponent implements OnInit {
           });
         }
       }
-     
+      //Adde by rishi kapoor DTE 15 Cases
+
+      if (this.request.ApplyNocCode == 'DTE_BankDetails') {
+        this.request.DTE_BankDetails_View = item.IsChecked;
+        this.request.DTE_BankDetails.BankDetailID = 0;
+        this.request.DTE_BankDetails.ApplyNocID = 0;
+        this.request.DTE_BankDetails.DepartmentID = 0;
+        this.request.DTE_BankDetails.CollegeID = 0;
+        this.request.DTE_BankDetails.OldBankName = '';
+        this.request.DTE_BankDetails.NewBankName = '';
+        this.request.DTE_BankDetails.OldBranchName = '';
+        this.request.DTE_BankDetails.NewBranchName = '';
+        this.request.DTE_BankDetails.OldIFSC = '';
+        this.request.DTE_BankDetails.NewIFSC = '';
+        this.request.DTE_BankDetails.OldAccountNumber = '';
+        this.request.DTE_BankDetails.NewAccountNumber = '';
+        this.request.DTE_BankDetails.FeeAmount = 0;
+        if (item.IsChecked == true) {
+          this.request.DTE_BankDetails.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_BankDetails.FeeAmount = item.FeeAmount
+        } 
+      }
+
 
       // await  this.SetPrimaryMember(item, index)
 
@@ -654,28 +692,19 @@ export class ApplyNocParameterComponent implements OnInit {
   public isSave: boolean = true;
   async SaveApplyNoc_click() {
 
-    if (this.CollegeDepartmentID == 4) {
-      if (this.request.ExistingLetterofEOA == '') {
-        this.toastr.warning('Upload Existing Letter of EOA');
-        return;
-      }
-    }
    
+
     //this.isSave = false; 
     try {
       let isValid = true;
       if (this.ApplyNocParameterForm.invalid) {
         isValid = false;
       }
-      if (!this.IsTermsChecked) {
-        this.toastr.warning('Please accept terms and condition');
-        isValid = false;
-      }
+      
+      
+     
+      
       // check all
-      if (!isValid) {
-        return;
-      }
-
 
       this.isSubmitted = true;
       //set
@@ -827,6 +856,23 @@ export class ApplyNocParameterComponent implements OnInit {
       if (!this.isFormValid) {
         return;
       }
+      //Departemt 4 DTE
+      if (this.CollegeDepartmentID == 4) {
+        if (this.request.ExistingLetterofEOA == '') {
+          this.toastr.warning('Upload Existing Letter of EOA');
+          return;
+        }
+      }
+
+      if (!this.IsTermsChecked) {
+        this.toastr.warning('Please accept terms and condition');
+        isValid = false;
+      }
+
+      if (!isValid) {
+        return;
+      }
+
       this.loaderService.requestStarted();
       //post
       await this.applyNocParameterService.SaveApplyNocApplication(this.request)
@@ -1237,8 +1283,80 @@ export class ApplyNocParameterComponent implements OnInit {
         this.isStaffInformation = true;
         this.isFormValid = false;
       }
+     
 
     }
+
+
+    //DTE Validation
+    //Change Bank Name
+    if (this.request.DTE_BankDetails_View == true) {
+      if (this.request.DTE_BankDetails.OldBankName == '') {
+        this.isValidOldBankName = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidOldBankName = false;
+      }
+
+      if (this.request.DTE_BankDetails.OldBranchName == '') {
+        this.isValidOldBranchName = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidOldBranchName = false;
+      }
+
+      if (this.request.DTE_BankDetails.OldIFSC == '') {
+        this.isValidOldIFSC = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidOldIFSC = false;
+      }
+
+      if (this.request.DTE_BankDetails.OldAccountNumber == '') {
+        this.isValidOldAccountNumber = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidOldAccountNumber = false;
+      }
+      if (this.request.DTE_BankDetails.NewBankName == '') {
+        this.isValidNewBankName = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidNewBankName = false;
+      }
+
+      if (this.request.DTE_BankDetails.NewBranchName == '') {
+        this.isValidNewBranchName = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidNewBranchName = false;
+      }
+
+      if (this.request.DTE_BankDetails.NewIFSC == '') {
+        this.isValidNewIFSC = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidNewIFSC = false;
+      }
+
+      if (this.request.DTE_BankDetails.NewAccountNumber == '') {
+        this.isValidNewAccountNumber = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidNewAccountNumber = false;
+      }
+
+    }
+    //Change Bank Name End
+    //DTE Validation End
 
     return this.isFormValid
   }
@@ -2092,24 +2210,24 @@ export class ApplyNocParameterComponent implements OnInit {
   async DeleteImage(file: string) {
     try {
 
-        this.loaderService.requestStarted();
-        // delete from server folder
-        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.request.ExistingLetterofEOA = '';
-            this.request.ExistingLetterofEOA_Dis_FileName = '';
-            this.request.ExistingLetterofEOA_Path = '';
-          }
-          if (this.State == 1) {
-            this.toastr.error(this.ErrorMessage)
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-        });
+      this.loaderService.requestStarted();
+      // delete from server folder
+      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.request.ExistingLetterofEOA = '';
+          this.request.ExistingLetterofEOA_Dis_FileName = '';
+          this.request.ExistingLetterofEOA_Path = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
     }
     catch (Ex) {
       console.log(Ex);

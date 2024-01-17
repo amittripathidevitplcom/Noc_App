@@ -111,7 +111,7 @@
           <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label for="ddlCollege" class="form-label">{{CollegeLableName}}<span style="color:red">*</span></label>
-              <select class="form-select" id="ddlCollege" name="ddlCollege"  (change)="College_ddlChange($event)" formControlName="ddlCollege"
+              <select class="form-select" id="ddlCollege" name="ddlCollege" (change)="College_ddlChange($event)" formControlName="ddlCollege"
                       [(ngModel)]="request.CollegeID">
                 <option value="0">--Select--</option>
                 <option *ngFor="let item of CollegeList_ddl" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
@@ -126,7 +126,7 @@
               <div class="form-check form-check-inline" *ngFor="let item of ApplicationTypeList">
                 <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID" #SelectedApplicationTypeID
                        (change)="ApplyNocFor_rbChange($event,SelectedApplicationTypeID.value,item)">
-              
+
                 <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
               </div>
               <div *ngIf="isSubmitted&&form.rbApplicationType.errors" class="text-danger">
@@ -147,8 +147,8 @@
 
               <div class="col-lg-4 col-md-4 col-sm-4 col-4" *ngFor="let item of ApplyNocParameterMasterList_ddl ;let idx=index;">
 
-                <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}" >
-                  <input class="form-check-input"  [attr.disabled]="isApplicationApplyFor ? true : null" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}" id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked"
+                <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}">
+                  <input class="form-check-input" [attr.disabled]="isApplicationApplyFor ? true : null" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}" id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked"
                          [ngModelOptions]="{standalone: true}"> {{item.ApplyNocFor}}
                 </label>
                 <!--</div>-->
@@ -963,6 +963,95 @@
     </div>
     <!--END Late Fee-->
     <!--Department 4 Specal condition-->
+    <!--DTE_BankDetails-->
+    <div *ngIf="request.DTE_BankDetails_View==true">
+      <div class="card-header border-top">
+        <b>Change in the Name of the Bank :₹ {{this.request.DTE_BankDetails.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Old Bank Name<span style="color:red;"> *</span> </label>
+            <input name="txtOldBankName" id="txtOldBankName" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_BankDetails.OldBankName" />
+            <div *ngIf="this.request.DTE_BankDetails.OldBankName == '' && isValidOldBankName" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.OldBankName == '' && isValidOldBankName"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Branch Name<span style="color:red;"> *</span> </label>
+            <input name="txtOldBranchName" id="txtOldBranchName" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_BankDetails.OldBranchName" />
+            <div *ngIf="this.request.DTE_BankDetails.OldBranchName == '' && isValidOldBranchName" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.OldBranchName == '' && isValidOldBranchName"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Old IFSC<span style="color:red;"> *</span> </label>
+            <input name="txtOldIFSC" id="txtOldIFSC" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_BankDetails.OldIFSC" />
+            <div *ngIf="this.request.DTE_BankDetails.OldIFSC == '' && isValidOldIFSC" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.OldIFSC == '' && isValidOldIFSC"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Old Account Number<span style="color:red;"> *</span> </label>
+            <input type="number" name="txtOldAccountNumber" id="txtOldAccountNumber" class="form-control mt-1"   maxlength="25"
+                   [(ngModel)]="request.DTE_BankDetails.OldAccountNumber" />
+            <div *ngIf="this.request.DTE_BankDetails.OldAccountNumber == '' && isValidOldAccountNumber" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.OldAccountNumber == '' && isValidOldAccountNumber"> This field is required .!</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Bank Name<span style="color:red;"> *</span> </label>
+            <input name="txtNewBankName" id="txtNewBankName" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_BankDetails.NewBankName" />
+            <div *ngIf="this.request.DTE_BankDetails.NewBankName == '' && isValidNewBankName" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.NewBankName == '' && isValidNewBankName"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Branch Name<span style="color:red;"> *</span> </label>
+            <input name="txtNewBranchName" id="txtNewBranchName" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_BankDetails.NewBranchName" />
+            <div *ngIf="this.request.DTE_BankDetails.NewBranchName == '' && isValidNewBranchName" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.NewBranchName == '' && isValidNewBranchName"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New IFSC<span style="color:red;"> *</span> </label>
+            <input name="txtNewIFSC" id="txtNewIFSC" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_BankDetails.NewIFSC" />
+            <div *ngIf="this.request.DTE_BankDetails.NewIFSC == '' && isValidNewIFSC" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.NewIFSC == '' && isValidNewIFSC"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Account Number<span style="color:red;"> *</span> </label>
+            <input type="number" name="txtNewAccountNumber" id="txtNewAccountNumber" class="form-control mt-1"   maxlength="25"
+                   [(ngModel)]="request.DTE_BankDetails.NewAccountNumber" />
+            <div *ngIf="this.request.DTE_BankDetails.NewAccountNumber == '' && isValidNewAccountNumber" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.NewAccountNumber == '' && isValidNewAccountNumber"> This field is required .!</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <!--DTE_BankDetails End-->
+
+
     <div *ngIf="CollegeDepartmentID==4 && ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">
       <div class="card-header border-top">
         <b>Upload Document</b>

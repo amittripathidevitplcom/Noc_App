@@ -20,7 +20,7 @@ export class ApplyNocParameterDataModel {
   public ExistingLetterofEOA: string = '';
   public ExistingLetterofEOA_Dis_FileName: string = '';
   public ExistingLetterofEOA_Path: string = '';
- 
+
 
   public ApplyNocParameterMasterListDataModel: ApplyNocParameterMasterListDataModel[] = [];
 
@@ -36,13 +36,18 @@ export class ApplyNocParameterDataModel {
 
   public ApplyNocParameterMasterList_NewCourse: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_NewCourseSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
-  
+
 
 
   public ApplyNocParameterMasterList_TNOCExtOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_PNOCOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
 
   public ApplyNocLateFeeDetailList: ApplyNocLateFeeDetailDataModal[] = [];
+  //Rishi kapoor 17 01 2024
+  public DTE_BankDetails!: ApplyNocParameterMasterList_BankDetails;
+  public DTE_BankDetails_View: boolean = false;
+  
+  
 
 }
 
@@ -278,8 +283,7 @@ export class ApplyNocParameterMasterList_MergerCollege {
 }
 
 
-export class ApplyNocLateFeeDetailDataModal
-{
+export class ApplyNocLateFeeDetailDataModal {
   public ID: number = 0;
   public DepartmentID: number = 0;
   public LateFeeID: number = 0;
@@ -304,5 +308,20 @@ export class ApplyNocOfflinePaymentModal {
   public FilePath: string = '';
   public ActionName: string = '';
 }
-
+export class ApplyNocParameterMasterList_BankDetails {
+  public BankDetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public OldBankName: string = '';
+  public NewBankName: string = '';
+  public OldBranchName: string = '';
+  public NewBranchName: string = '';
+  public OldIFSC: string = '';
+  public NewIFSC: string = '';
+  public OldAccountNumber: string = '';
+  public NewAccountNumber: string = '';
+  public FeeAmount: number = 0;
+  
+}
 
