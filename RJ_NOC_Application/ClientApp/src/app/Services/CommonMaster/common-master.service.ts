@@ -1388,4 +1388,29 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetLOIApplicationTrail(ApplicationID: number, DepartmentID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetLOIApplicationTrail/" + ApplicationID + "/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetLOIDocumentScritintyTaril(ID: number, NOCApplyID: number, CollageID: number, DepartmentID: number, ActionType: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetLOIDocumentScritintyTaril/" + ID + "/" + NOCApplyID + "/" + CollageID + "/" + DepartmentID + "/" + ActionType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

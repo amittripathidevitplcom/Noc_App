@@ -51,7 +51,15 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-
+  public async SaveDocumentScrutinyLOI(request: DocumentScrutinyDataModel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(request);
+    console.log(request);
+    return await this.http.post(this.APIUrl + '/SaveDocumentScrutinyLOI/', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 
   public async GetDocumentScrutinyData_TabNameCollegeWise(TabName: string, CollegeID: number, RoleID: number) {
     const httpOptions = {
