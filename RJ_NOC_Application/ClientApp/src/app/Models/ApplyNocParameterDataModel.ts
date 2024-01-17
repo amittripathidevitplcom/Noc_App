@@ -43,9 +43,20 @@ export class ApplyNocParameterDataModel {
   public ApplyNocParameterMasterList_PNOCOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
 
   public ApplyNocLateFeeDetailList: ApplyNocLateFeeDetailDataModal[] = [];
-  //Rishi kapoor 17 01 2024
+  //DTE Rishi kapoor 17 01 2024
   public DTE_BankDetails!: ApplyNocParameterMasterList_BankDetails;
   public DTE_BankDetails_View: boolean = false;
+  /*Change in the Minority Status of the Institution*/
+  public DTE_ChangeInTheMinorityStatusoftheInstitution_View: boolean = false;
+  public DTE_ChangeInTheMinorityStatusoftheInstitution: string = '';
+  public DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName: string = '';
+  public DTE_ChangeInTheMinorityStatusoftheInstitution_Path: string = '';
+  public DTE_ChangeInTheMinorityStatusoftheInstitution_FeeAmount: number = 0;
+
+  /*Merger of Institutions under the same Trust / Society / Company*/
+  public DTE_MergerofInstitutions!: ApplyNocParameterMasterList_MergerofInstitutions;
+  public DTE_MergerofInstitutions_View: boolean = false;
+
   
   
 
@@ -323,5 +334,17 @@ export class ApplyNocParameterMasterList_BankDetails {
   public NewAccountNumber: string = '';
   public FeeAmount: number = 0;
   
+}
+
+export class ApplyNocParameterMasterList_MergerofInstitutions {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+
+  public InstituteID1: number = 0;
+  public InstituteID2: number = 0;
+  public MergeInstituteID: number = 0; 
+  public FeeAmount: number = 0;
 }
 

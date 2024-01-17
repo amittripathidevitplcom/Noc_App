@@ -135,9 +135,9 @@
             </div>
             <!--<div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.CollegeID>0">
 
-            <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID">
-            <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
-          </div>-->
+              <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID">
+              <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
+            </div>-->
           </div>
           <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3" *ngIf="ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">
             <label for="">Application Apply For</label>
@@ -990,7 +990,7 @@
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>Old IFSC<span style="color:red;"> *</span> </label>
-            <input name="txtOldIFSC" id="txtOldIFSC" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+            <input name="txtOldIFSC" id="txtOldIFSC" class="form-control mt-1"  maxlength="11"
                    [(ngModel)]="request.DTE_BankDetails.OldIFSC" />
             <div *ngIf="this.request.DTE_BankDetails.OldIFSC == '' && isValidOldIFSC" class="text-danger">
               <p *ngIf="this.request.DTE_BankDetails.OldIFSC == '' && isValidOldIFSC"> This field is required .!</p>
@@ -999,7 +999,7 @@
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>Old Account Number<span style="color:red;"> *</span> </label>
-            <input type="number" name="txtOldAccountNumber" id="txtOldAccountNumber" class="form-control mt-1"   maxlength="25"
+            <input type="number" name="txtOldAccountNumber" id="txtOldAccountNumber" class="form-control mt-1" maxlength="25"
                    [(ngModel)]="request.DTE_BankDetails.OldAccountNumber" />
             <div *ngIf="this.request.DTE_BankDetails.OldAccountNumber == '' && isValidOldAccountNumber" class="text-danger">
               <p *ngIf="this.request.DTE_BankDetails.OldAccountNumber == '' && isValidOldAccountNumber"> This field is required .!</p>
@@ -1029,7 +1029,7 @@
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>New IFSC<span style="color:red;"> *</span> </label>
-            <input name="txtNewIFSC" id="txtNewIFSC" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+            <input name="txtNewIFSC" id="txtNewIFSC" class="form-control mt-1"   maxlength="11"
                    [(ngModel)]="request.DTE_BankDetails.NewIFSC" />
             <div *ngIf="this.request.DTE_BankDetails.NewIFSC == '' && isValidNewIFSC" class="text-danger">
               <p *ngIf="this.request.DTE_BankDetails.NewIFSC == '' && isValidNewIFSC"> This field is required .!</p>
@@ -1038,7 +1038,7 @@
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>New Account Number<span style="color:red;"> *</span> </label>
-            <input type="number" name="txtNewAccountNumber" id="txtNewAccountNumber" class="form-control mt-1"   maxlength="25"
+            <input type="number" name="txtNewAccountNumber" id="txtNewAccountNumber" class="form-control mt-1" maxlength="25"
                    [(ngModel)]="request.DTE_BankDetails.NewAccountNumber" />
             <div *ngIf="this.request.DTE_BankDetails.NewAccountNumber == '' && isValidNewAccountNumber" class="text-danger">
               <p *ngIf="this.request.DTE_BankDetails.NewAccountNumber == '' && isValidNewAccountNumber"> This field is required .!</p>
@@ -1050,7 +1050,74 @@
       </div>
     </div>
     <!--DTE_BankDetails End-->
-
+    <!--Change in the Minority Status of the Institution-->
+    <div *ngIf="request.DTE_ChangeInTheMinorityStatusoftheInstitution_View==true">
+      <div class="card-header border-top">
+        <b>Change in the Minority Status of the Institution :₹ {{this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Upload order for minority permission : (Only pdf/image file. (Min size 100(KB))(Max size 2(MB))<span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none;" class="form-control" id="fDTE_ChangeInTheMinorityStatusoftheInstitution" name="fDTE_ChangeInTheMinorityStatusoftheInstitution"
+                     (change)="fDTE_ChangeInTheMinorityStatusoftheInstitution_onFilechange($event)" [ngModelOptions]="{standalone: true}">
+              <label class="btn upload" for="fDTE_ChangeInTheMinorityStatusoftheInstitution">
+                <span class="filename">Choose file</span>
+                {{request.DTE_ChangeInTheMinorityStatusoftheInstitution === '' ? 'No File Choosen' : request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName}}
+              </label>
+              <div class="btn-group" *ngIf="request.DTE_ChangeInTheMinorityStatusoftheInstitution != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DTE_ChangeInTheMinorityStatusoftheInstitution_DeleteImage(request.DTE_ChangeInTheMinorityStatusoftheInstitution)"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="this.request.DTE_ChangeInTheMinorityStatusoftheInstitution == '' && isValidDTE_ChangeInTheMinorityStatusoftheInstitution" class="text-danger">
+              <p *ngIf="this.request.DTE_ChangeInTheMinorityStatusoftheInstitution == '' && isValidDTE_ChangeInTheMinorityStatusoftheInstitution"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Change in the Minority Status of the Institution End-->
+    <!--Merger of Institutions under the same Trust/ Society/ Company-->
+    <div *ngIf="request.DTE_MergerofInstitutions_View==true">
+      <div class="card-header border-top">
+        <b>Merger of Institutions under the same Trust/ Society/ Company :₹ {{this.request.DTE_MergerofInstitutions.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlInstitute1" class="form-label">Institute 1 <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlInstitute1" name="ddlInstitute1" disabled [(ngModel)]="request.DTE_MergerofInstitutions.InstituteID1">
+              <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+            </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlInstitute2" class="form-label">Institute 2 <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlInstitute2" name="ddlInstitute2" [(ngModel)]="request.DTE_MergerofInstitutions.InstituteID2">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+            </select>
+            <div *ngIf="this.request.DTE_MergerofInstitutions.InstituteID2 == 0 && isValidDTE_InstituteID2" class="text-danger">
+              <p *ngIf="this.request.DTE_MergerofInstitutions.InstituteID2 == 0 && isValidDTE_InstituteID2"> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlMergeInstituteID" class="form-label">Merge to institute<span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlMergeInstituteID" name="ddlMergeInstituteID" [(ngModel)]="request.DTE_MergerofInstitutions.MergeInstituteID">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+            </select>
+            <div *ngIf="this.request.DTE_MergerofInstitutions.MergeInstituteID == 0 && isValidDTE_MergeInstituteID" class="text-danger">
+              <p *ngIf="this.request.DTE_MergerofInstitutions.MergeInstituteID == 0 && isValidDTE_MergeInstituteID"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+        <!--Merger of Institutions under the same Trust/ Society/ Company End-->
+      </div>
+    </div>
 
     <div *ngIf="CollegeDepartmentID==4 && ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">
       <div class="card-header border-top">
@@ -1110,367 +1177,365 @@
     </div>
 
 
+    <!--Modal Popup Add Course-->
+    <ng-template #mymodalAddCourse let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+          Add Course
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="clearfix"></div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
+                    <select id="ddlCourse" class="form-select" [(ngModel)]="ddlCourse"
+                            #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
+                      <option value="0" disabled>--Select--</option>
+                      <option [value]="item.CourseID" *ngFor="let item of CourseDataList">
+                        {{item.CourseName}}
+                      </option>
+                    </select>
+                    <p *ngIf="(ddlCourse==0|| ddlCourse==null)&&isAddNOCCourse" style="color:red">This field is requried.!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+                <b><i class="bi bi-table"></i> Subject List </b>
+                <div class="d-flex align-items-center">
+                  <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                    <div class="d-flex align-items-center table-filter mr-15">
+                      <i class="fa fa-search"></i>
+                      <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewCourse" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
+                      <thead>
+                        <tr>
+                          <th>Sr. No</th>
+                          <th>Select</th>
+                          <th>Subject Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of SubjectDetails | tableSearchFilter:searchTextNewCourse;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            <input class="form-check-input " type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
+                                   id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
+                                   [(ngModel)]="row.IsChecked">
+                          </td>
+                          <td>{{row.SubjectName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="button" class="btn btn-primary pull-right" (click)="btn_AddCourse()"> Add Course</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end-->
+      </div>
+    </ng-template>
+    <!--Modal Popup Add Course-->
+    <!--Modal Popup Add Course-->
+    <ng-template #mymodalAddCourseSubject let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+          Add Course Subject
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="clearfix"></div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
+                    <select id="ddlCourseSubject" class="form-select" [(ngModel)]="ddlCourseSubject"
+                            #SeletedCourseID (change)="ddlExistingCourse_change($event, SeletedCourseID.value)">
+                      <option value="0">--Select--</option>
+                      <option [value]="item.CourseID" *ngFor="let item of ExistingCourseDataList">
+                        {{item.CourseName}}
+                      </option>
+                    </select>
+                    <p *ngIf="(ddlCourseSubject==0|| ddlCourseSubject==null)&&isAddNOCCourseSubject" style="color:red">This field is requried.!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+                <b><i class="bi bi-table"></i> Subject List </b>
+                <div class="d-flex align-items-center">
+                  <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+
+                    <div class="d-flex align-items-center table-filter mr-15">
+                      <i class="fa fa-search"></i>
+                      <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewSubject" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
+                      <thead>
+                        <tr>
+                          <th>Sr. No</th>
+                          <th>Select</th>
+                          <th>Subject Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of NewSubjectDetails | tableSearchFilter:searchTextNewSubject;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
+                                   id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
+                                   [(ngModel)]="row.IsChecked">
+                          </td>
+                          <td>{{row.SubjectName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="button" class="btn btn-primary pull-right" (click)="btn_AddCourseSubject()"> Add Subject</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end-->
+      </div>
+    </ng-template>
+    <!--Modal Popup Add Course-->
+    <!--Modal DEC_TNOCExtOfSubject-->
+    <ng-template #mymodalTNOCExtOfSubject let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+          TNOC Extension Of Subject
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="clearfix"></div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
+                    <select id="ddlCourseTNOC" class="form-select" [(ngModel)]="ddlCourseTNOC"
+                            #SeletedCourseID (change)="ddlTNOCCourse_change($event, SeletedCourseID.value)">
+                      <option value="0">--Select--</option>
+                      <option [value]="item.CourseID" *ngFor="let item of CourseDataListTNOC">
+                        {{item.CourseName}}
+                      </option>
+                    </select>
+                    <p *ngIf="(ddlCourseTNOC==0|| ddlCourseTNOC==null)&&isAddNOCCourseSubjectTNOC" style="color:red">This field is requried.!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+                <b><i class="bi bi-table"></i> Subject List </b>
+                <div class="d-flex align-items-center">
+                  <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+
+                    <div class="d-flex align-items-center table-filter mr-15">
+                      <i class="fa fa-search"></i>
+                      <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewTNOC" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
+                      <thead>
+                        <tr>
+                          <th>Sr. No</th>
+                          <th>Select</th>
+                          <th>Subject Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of TNOCSubjectDetails | tableSearchFilter:searchTextNewTNOC;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
+                                   id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
+                                   [(ngModel)]="row.IsChecked">
+                          </td>
+                          <td>{{row.SubjectName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="button" class="btn btn-primary pull-right" (click)="btn_AddTNOCSubject()"> Add Subject</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end-->
+      </div>
+    </ng-template>
+    <!--Modal Popup Add Course-->
+    <!--Modal DEC_PNOCSubject-->
+    <ng-template #mymodalPNOCSubjectOfSubject let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+          Permanent Noc For Subjects
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="clearfix"></div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
+                    <select id="ddlCoursePNOC" class="form-select" [(ngModel)]="ddlCoursePNOC"
+                            #SeletedCourseID (change)="ddlPNOCCourse_change($event, SeletedCourseID.value)">
+                      <option value="0">--Select--</option>
+                      <option [value]="item.CourseID" *ngFor="let item of CourseDataListPNOC">
+                        {{item.CourseName}}
+                      </option>
+                    </select>
+                    <p *ngIf="(ddlCoursePNOC==0|| ddlCoursePNOC==null)&&isAddNOCCoursePNOC" style="color:red">This field is requried.!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+                <b><i class="bi bi-table"></i> Subject List </b>
+                <div class="d-flex align-items-center">
+                  <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+
+                    <div class="d-flex align-items-center table-filter mr-15">
+                      <i class="fa fa-search"></i>
+                      <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewPNOC" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
+                      <thead>
+                        <tr>
+                          <th>Sr. No</th>
+                          <th>Select</th>
+                          <th>Subject Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of PNOCSubjectDetails | tableSearchFilter:searchTextNewPNOC;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
+                                   id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
+                                   [(ngModel)]="row.IsChecked">
+                          </td>
+                          <td>{{row.SubjectName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="button" class="btn btn-primary pull-right" (click)="btn_AddPNOCCSubject()"> Add Subject</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end-->
+      </div>
+    </ng-template>
+    <!--Modal Popup Add Course-->
+
   </div>
-
-
 </div>
-
-<!--Modal Popup Add Course-->
-<ng-template #mymodalAddCourse let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
-      Add Course
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <i class="fa fa-close"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="clearfix"></div>
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
-                <select id="ddlCourse" class="form-select" [(ngModel)]="ddlCourse"
-                        #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
-                  <option value="0" disabled>--Select--</option>
-                  <option [value]="item.CourseID" *ngFor="let item of CourseDataList">
-                    {{item.CourseName}}
-                  </option>
-                </select>
-                <p *ngIf="(ddlCourse==0|| ddlCourse==null)&&isAddNOCCourse" style="color:red">This field is requried.!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="card">
-          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-            <b><i class="bi bi-table"></i> Subject List </b>
-            <div class="d-flex align-items-center">
-              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-                <div class="d-flex align-items-center table-filter mr-15">
-                  <i class="fa fa-search"></i>
-                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewCourse" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="table-responsive">
-                <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
-                  <thead>
-                    <tr>
-                      <th>Sr. No</th>
-                      <th>Select</th>
-                      <th>Subject Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of SubjectDetails | tableSearchFilter:searchTextNewCourse;let idx=index;">
-                      <td>{{idx+1}}</td>
-                      <td>
-                        <input class="form-check-input " type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
-                               id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
-                               [(ngModel)]="row.IsChecked">
-                      </td>
-                      <td>{{row.SubjectName}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <button type="button" class="btn btn-primary pull-right" (click)="btn_AddCourse()"> Add Course</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--end-->
-  </div>
-</ng-template>
-<!--Modal Popup Add Course-->
-<!--Modal Popup Add Course-->
-<ng-template #mymodalAddCourseSubject let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
-      Add Course Subject
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <i class="fa fa-close"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="clearfix"></div>
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
-                <select id="ddlCourseSubject" class="form-select" [(ngModel)]="ddlCourseSubject"
-                        #SeletedCourseID (change)="ddlExistingCourse_change($event, SeletedCourseID.value)">
-                  <option value="0">--Select--</option>
-                  <option [value]="item.CourseID" *ngFor="let item of ExistingCourseDataList">
-                    {{item.CourseName}}
-                  </option>
-                </select>
-                <p *ngIf="(ddlCourseSubject==0|| ddlCourseSubject==null)&&isAddNOCCourseSubject" style="color:red">This field is requried.!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="card">
-          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-            <b><i class="bi bi-table"></i> Subject List </b>
-            <div class="d-flex align-items-center">
-              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-
-                <div class="d-flex align-items-center table-filter mr-15">
-                  <i class="fa fa-search"></i>
-                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewSubject" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="table-responsive">
-                <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
-                  <thead>
-                    <tr>
-                      <th>Sr. No</th>
-                      <th>Select</th>
-                      <th>Subject Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of NewSubjectDetails | tableSearchFilter:searchTextNewSubject;let idx=index;">
-                      <td>{{idx+1}}</td>
-                      <td>
-                        <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
-                               id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
-                               [(ngModel)]="row.IsChecked">
-                      </td>
-                      <td>{{row.SubjectName}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <button type="button" class="btn btn-primary pull-right" (click)="btn_AddCourseSubject()"> Add Subject</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--end-->
-  </div>
-</ng-template>
-<!--Modal Popup Add Course-->
-<!--Modal DEC_TNOCExtOfSubject-->
-<ng-template #mymodalTNOCExtOfSubject let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
-      TNOC Extension Of Subject
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <i class="fa fa-close"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="clearfix"></div>
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
-                <select id="ddlCourseTNOC" class="form-select" [(ngModel)]="ddlCourseTNOC"
-                        #SeletedCourseID (change)="ddlTNOCCourse_change($event, SeletedCourseID.value)">
-                  <option value="0">--Select--</option>
-                  <option [value]="item.CourseID" *ngFor="let item of CourseDataListTNOC">
-                    {{item.CourseName}}
-                  </option>
-                </select>
-                <p *ngIf="(ddlCourseTNOC==0|| ddlCourseTNOC==null)&&isAddNOCCourseSubjectTNOC" style="color:red">This field is requried.!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="card">
-          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-            <b><i class="bi bi-table"></i> Subject List </b>
-            <div class="d-flex align-items-center">
-              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-
-                <div class="d-flex align-items-center table-filter mr-15">
-                  <i class="fa fa-search"></i>
-                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewTNOC" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="table-responsive">
-                <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
-                  <thead>
-                    <tr>
-                      <th>Sr. No</th>
-                      <th>Select</th>
-                      <th>Subject Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of TNOCSubjectDetails | tableSearchFilter:searchTextNewTNOC;let idx=index;">
-                      <td>{{idx+1}}</td>
-                      <td>
-                        <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
-                               id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
-                               [(ngModel)]="row.IsChecked">
-                      </td>
-                      <td>{{row.SubjectName}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <button type="button" class="btn btn-primary pull-right" (click)="btn_AddTNOCSubject()"> Add Subject</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--end-->
-  </div>
-</ng-template>
-<!--Modal Popup Add Course-->
-<!--Modal DEC_PNOCSubject-->
-<ng-template #mymodalPNOCSubjectOfSubject let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
-      Permanent Noc For Subjects
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <i class="fa fa-close"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="clearfix"></div>
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
-                <select id="ddlCoursePNOC" class="form-select" [(ngModel)]="ddlCoursePNOC"
-                        #SeletedCourseID (change)="ddlPNOCCourse_change($event, SeletedCourseID.value)">
-                  <option value="0">--Select--</option>
-                  <option [value]="item.CourseID" *ngFor="let item of CourseDataListPNOC">
-                    {{item.CourseName}}
-                  </option>
-                </select>
-                <p *ngIf="(ddlCoursePNOC==0|| ddlCoursePNOC==null)&&isAddNOCCoursePNOC" style="color:red">This field is requried.!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="card">
-          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-            <b><i class="bi bi-table"></i> Subject List </b>
-            <div class="d-flex align-items-center">
-              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-
-                <div class="d-flex align-items-center table-filter mr-15">
-                  <i class="fa fa-search"></i>
-                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewPNOC" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="table-responsive">
-                <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
-                  <thead>
-                    <tr>
-                      <th>Sr. No</th>
-                      <th>Select</th>
-                      <th>Subject Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of PNOCSubjectDetails | tableSearchFilter:searchTextNewPNOC;let idx=index;">
-                      <td>{{idx+1}}</td>
-                      <td>
-                        <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
-                               id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
-                               [(ngModel)]="row.IsChecked">
-                      </td>
-                      <td>{{row.SubjectName}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <button type="button" class="btn btn-primary pull-right" (click)="btn_AddPNOCCSubject()"> Add Subject</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--end-->
-  </div>
-</ng-template>
-<!--Modal Popup Add Course-->

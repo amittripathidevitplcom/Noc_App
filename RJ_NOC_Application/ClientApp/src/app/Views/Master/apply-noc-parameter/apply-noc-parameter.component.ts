@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
-import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
@@ -40,6 +40,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   public ApplicationTypeList: any = [];
   public CollegeList_ddl: any = [];
+  public CollegeList: any = [];
   public ApplyNocParameterMasterList_ddl: any[] = [];
   public file: any = '';
 
@@ -55,8 +56,8 @@ export class ApplyNocParameterComponent implements OnInit {
   sSOLoginDataModel = new SSOLoginDataModel();
   // model
   request = new ApplyNocParameterDataModel();
-  
-  
+
+
 
   totalNewSubjectFees: number = 0;
 
@@ -179,6 +180,13 @@ export class ApplyNocParameterComponent implements OnInit {
   public isValidOldAccountNumber: boolean = false;
   public isValidNewAccountNumber: boolean = false;
 
+  /*Change in the Minority Status of the Institution*/
+  public isValidDTE_ChangeInTheMinorityStatusoftheInstitution: boolean = false;
+  /*Merger of Institutions under the same Trust / Society / Company*/
+  public isValidDTE_InstituteID2: boolean = false;
+  public isValidDTE_MergeInstituteID: boolean = false;
+
+
 
 
   constructor(private draftApplicationListService: DraftApplicationListService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
@@ -199,6 +207,7 @@ export class ApplyNocParameterComponent implements OnInit {
     // load
     //Dte added Rishi Kapoor
     this.request.DTE_BankDetails = new ApplyNocParameterMasterList_BankDetails();
+    this.request.DTE_MergerofInstitutions = new ApplyNocParameterMasterList_MergerofInstitutions();
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
@@ -264,6 +273,17 @@ export class ApplyNocParameterComponent implements OnInit {
           //
           this.CollegeList_ddl = data['Data'];
         }, error => console.error(error));
+
+
+      await this.commonMasterService.GetCollageList_DepartmentAndSSOIDWise(0, this.sSOLoginDataModel.SSOID, 'Society')
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CollegeList = data['Data'];
+          console.log(this.State);
+        });
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -450,10 +470,32 @@ export class ApplyNocParameterComponent implements OnInit {
         if (item.IsChecked == true) {
           this.request.DTE_BankDetails.ApplyNocID = Number(SelectedApplyNocForID);
           this.request.DTE_BankDetails.FeeAmount = item.FeeAmount
-        } 
+        }
+      }
+      //Change In The Minority Status of the Institution
+      if (this.request.ApplyNocCode == 'DTE_ChangeInTheMinorityStatusoftheInstitution') {
+        this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_View = item.IsChecked;
+
+        this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = '';
+        this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = '';
+        this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = '';
+
+        if (item.IsChecked == true) {
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_FeeAmount = item.FeeAmount
+        }
       }
 
-
+      if (this.request.ApplyNocCode == 'DTE_MergerofInstitutions') {
+        this.request.DTE_MergerofInstitutions_View = item.IsChecked;
+        this.request.DTE_MergerofInstitutions.InstituteID1 = this.request.CollegeID;
+        this.request.DTE_MergerofInstitutions.InstituteID2 = 0;
+        this.request.DTE_MergerofInstitutions.MergeInstituteID = 0;
+        this.request.DTE_MergerofInstitutions.FeeAmount = 0;
+        if (item.IsChecked == true) {
+          this.request.DTE_MergerofInstitutions.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_MergerofInstitutions.FeeAmount = item.FeeAmount
+        }
+      }
       // await  this.SetPrimaryMember(item, index)
 
       // TNOC Extension
@@ -692,7 +734,7 @@ export class ApplyNocParameterComponent implements OnInit {
   public isSave: boolean = true;
   async SaveApplyNoc_click() {
 
-   
+
 
     //this.isSave = false; 
     try {
@@ -700,10 +742,10 @@ export class ApplyNocParameterComponent implements OnInit {
       if (this.ApplyNocParameterForm.invalid) {
         isValid = false;
       }
-      
-      
-     
-      
+
+
+
+
       // check all
 
       this.isSubmitted = true;
@@ -857,6 +899,21 @@ export class ApplyNocParameterComponent implements OnInit {
         return;
       }
       //Departemt 4 DTE
+
+      if (this.request.DTE_MergerofInstitutions_View == true) {
+        if (this.request.DTE_MergerofInstitutions.InstituteID1 == this.request.DTE_MergerofInstitutions.InstituteID2) {
+          this.toastr.warning('Select other Institute 2');
+          return;
+        }
+        if (this.request.DTE_MergerofInstitutions.InstituteID1 != this.request.DTE_MergerofInstitutions.MergeInstituteID) {
+          if (this.request.DTE_MergerofInstitutions.InstituteID2 != this.request.DTE_MergerofInstitutions.MergeInstituteID) {
+            this.toastr.warning('Invalid Merge to Institute');
+            return;
+          }
+        }
+      }
+
+
       if (this.CollegeDepartmentID == 4) {
         if (this.request.ExistingLetterofEOA == '') {
           this.toastr.warning('Upload Existing Letter of EOA');
@@ -1283,7 +1340,7 @@ export class ApplyNocParameterComponent implements OnInit {
         this.isStaffInformation = true;
         this.isFormValid = false;
       }
-     
+
 
     }
 
@@ -1356,6 +1413,38 @@ export class ApplyNocParameterComponent implements OnInit {
 
     }
     //Change Bank Name End
+    /*Change in the Minority Status of the Institution*/
+    if (this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_View == true) {
+      if (this.request.DTE_ChangeInTheMinorityStatusoftheInstitution == '') {
+        this.isValidDTE_ChangeInTheMinorityStatusoftheInstitution = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidDTE_ChangeInTheMinorityStatusoftheInstitution = false;
+      }
+    }
+    /*Change in the Minority Status of the Institution End*/
+    //Merger of Institutions under the same Trust/ Society/ Company
+    if (this.request.DTE_MergerofInstitutions_View == true) {
+      if (this.request.DTE_MergerofInstitutions.InstituteID2 == 0) {
+        this.isValidDTE_InstituteID2 = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidDTE_InstituteID2 = false;
+      }
+
+      if (this.request.DTE_MergerofInstitutions.MergeInstituteID == 0) {
+        this.isValidDTE_MergeInstituteID = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidDTE_MergeInstituteID = false;
+      }
+    }
+    //Merger of Institutions under the same Trust/ Society/ Company
+
+
     //DTE Validation End
 
     return this.isFormValid
@@ -2142,6 +2231,69 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
+  async fDTE_ChangeInTheMinorityStatusoftheInstitution_onFilechange(event: any) {
+
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg' || this.file.type == 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.toastr.warning('Select less then 2MB File');
+            event.target.value = ''
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = '';
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = '';
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = '';
+            return
+          }
+          if (this.file.size < 100000) {
+            this.toastr.warning('Select more then 100kb File');
+            event.target.value = ''
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = '';
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = '';
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = '';
+            return
+          }
+
+          // upload to server folder
+          await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = data['Data'][0]["FileName"];
+              this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = data['Data'][0]["Dis_FileName"];
+              this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = data['Data'][0]["FilePath"];
+              event.target.value = ''
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+        }
+        else {
+          this.toastr.warning('Select Only pdf/jpg/jpeg');
+          event.target.value = ''
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = '';
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = '';
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = '';
+          return
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
 
   async fExistingLetterofEOA_onFilechange(event: any) {
@@ -2220,6 +2372,38 @@ export class ApplyNocParameterComponent implements OnInit {
           this.request.ExistingLetterofEOA = '';
           this.request.ExistingLetterofEOA_Dis_FileName = '';
           this.request.ExistingLetterofEOA_Path = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async DTE_ChangeInTheMinorityStatusoftheInstitution_DeleteImage(file: string) {
+    try {
+
+      this.loaderService.requestStarted();
+      // delete from server folder
+      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = '';
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = '';
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = '';
         }
         if (this.State == 1) {
           this.toastr.error(this.ErrorMessage)
