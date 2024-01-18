@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
-import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_ChangeinNameofSociety, ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInNameofInstitution, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_ChangeinNameofSociety, ApplyNocParameterMasterList_ChangeofSite_Location, ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse, ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMasterList_TostartNewProgramme, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
@@ -190,9 +190,10 @@ export class ApplyNocParameterComponent implements OnInit {
   /*Change in the name of Trust / Society / Company*/
   public isValidDTE_NewName: boolean = false;
 
-
-
-
+  /*Change in Name of Institution*/
+  public isValidDTE_NewCollegeName: boolean = false;
+  public isValidDTE_NewCollegeNameHi: boolean = false;
+  public isValidDTE_NewAddress: boolean = false;
 
   constructor(private draftApplicationListService: DraftApplicationListService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
     private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal, private cdref: ChangeDetectorRef) {
@@ -216,6 +217,14 @@ export class ApplyNocParameterComponent implements OnInit {
     this.request.DTE_ChangeinNameofSociety = new ApplyNocParameterMasterList_ChangeinNameofSociety();
     this.request.DTE_IncreaseinIntakeAdditionofCourse = new ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse();
     this.request.DTE_IncreaseinIntakeAdditionofCourse_List = [];
+    this.request.DTE_ChangeInNameofInstitution = new ApplyNocParameterMasterList_ChangeInNameofInstitution();
+    this.request.DTE_ChangeofSite_Location = new ApplyNocParameterMasterList_ChangeofSite_Location();
+
+    this.request.DTE_TostartNewProgramme = new ApplyNocParameterMasterList_TostartNewProgramme();
+    this.request.DTE_TostartNewProgramme_List = [];
+
+    this.request.DTE_IncreaseInIntake_AdditionofCourse = new ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse();
+    this.request.DTE_IncreaseInIntake_AdditionofCourse_List = [];
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
@@ -544,6 +553,88 @@ export class ApplyNocParameterComponent implements OnInit {
       }
       // await  this.SetPrimaryMember(item, index)
 
+      /*//To start new Programme/ Level in the existing Institutions*/
+      if (this.request.ApplyNocCode == 'DTE_TostartNewProgramme') {
+        this.request.DTE_TostartNewProgramme_View = item.IsChecked;
+        this.request.DTE_TostartNewProgramme.CourseID = 0;
+        this.request.DTE_TostartNewProgramme.FeeAmount = 0;
+        this.request.DTE_TostartNewProgramme_List = [];
+
+        await this.commonMasterService.GetCourseList_CollegeWise(this.request.CollegeID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.DTE_CourseDataList = data['Data'];
+            console.log(this.DTE_CourseDataList);
+          }, error => console.error(error));
+
+        if (item.IsChecked == true) {
+          this.request.DTE_TostartNewProgramme.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_TostartNewProgramme.FeeAmount = item.FeeAmount
+        }
+      }
+
+
+      /*Change in Name of Institution*/
+      if (this.request.ApplyNocCode == 'DTE_ChangeofSite_Location') {
+        this.request.DTE_ChangeofSite_Location_View = item.IsChecked;
+        this.request.DTE_ChangeofSite_Location.CurrentAddress = '';
+        this.request.DTE_ChangeofSite_Location.NewAddress = '';
+
+        await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
+          .then((data: any) => {
+            this.request.DTE_ChangeofSite_Location.CurrentAddress = data['Data'][0]['data'][0]['FullAddress'];
+          });
+
+        this.request.DTE_ChangeofSite_Location.FeeAmount = 0;
+        if (item.IsChecked == true) {
+          this.request.DTE_ChangeofSite_Location.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_ChangeofSite_Location.FeeAmount = item.FeeAmount
+        }
+      }
+
+      /*Change in Name of Institution*/
+      if (this.request.ApplyNocCode == 'DTE_ChangeInNameofInstitution') {
+        this.request.DTE_ChangeInNameofInstitution_View = item.IsChecked;
+        this.request.DTE_ChangeInNameofInstitution.CurrentCollegeName = '';
+        this.request.DTE_ChangeInNameofInstitution.NewCollegeName = '';
+        this.request.DTE_ChangeInNameofInstitution.NewCollegeNameHi = '';
+
+        await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
+          .then((data: any) => {
+
+            this.request.DTE_ChangeInNameofInstitution.CurrentCollegeName = data['Data'][0]['data'][0]['CollegeNameEn'];
+          });
+
+        this.request.DTE_ChangeInNameofInstitution.FeeAmount = 0;
+        if (item.IsChecked == true) {
+          this.request.DTE_ChangeInNameofInstitution.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_ChangeInNameofInstitution.FeeAmount = item.FeeAmount
+        }
+      }
+
+
+      /*//To start new Programme/ Level in the existing Institutions*/
+      if (this.request.ApplyNocCode == 'DTE_IncreaseInIntake_AdditionofCourse') {
+        this.request.DTE_IncreaseInIntake_AdditionofCourse_View = item.IsChecked;
+        this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID = 0;
+        this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount = 0;
+        this.request.DTE_IncreaseInIntake_AdditionofCourse_List = [];
+
+        await this.commonMasterService.GetCourseList_CollegeWise(this.request.CollegeID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.DTE_CourseDataList = data['Data'];
+            console.log(this.DTE_CourseDataList);
+          }, error => console.error(error));
+
+        if (item.IsChecked == true) {
+          this.request.DTE_IncreaseInIntake_AdditionofCourse.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount = item.FeeAmount
+        }
+      }
+
+
+      // await  this.SetPrimaryMember(item, index)
       // TNOC Extension
       if (this.request.ApplyNocCode == 'NewCourse') {
         this.ApplyNocParameterMasterList_TNOCExtension = null;
@@ -958,10 +1049,24 @@ export class ApplyNocParameterComponent implements OnInit {
           }
         }
       }
-      //Increase in Intake / Addition of Course
+      //To start new Programme/ Level in the existing Institutions
       if (this.request.DTE_IncreaseinIntakeAdditionofCourse_View == true) {
         if (this.request.DTE_IncreaseinIntakeAdditionofCourse_List.length == 0) {
-          this.toastr.warning('Add Increase in Intake / Addition of Course');
+          this.toastr.warning('Add To start new Programme');
+          return;
+        }
+      }
+      //Increase in Intake / Addition of Course
+      if (this.request.DTE_TostartNewProgramme_View == true) {
+        if (this.request.DTE_TostartNewProgramme_List.length == 0) {
+          this.toastr.warning('Add To start new Programme');
+          return;
+        }
+      }
+      //Increase in Intake / Addition of Course
+      if (this.request.DTE_IncreaseInIntake_AdditionofCourse_View == true) {
+        if (this.request.DTE_IncreaseInIntake_AdditionofCourse_List.length == 0) {
+          this.toastr.warning('Add To Intake Details');
           return;
         }
       }
@@ -1508,6 +1613,35 @@ export class ApplyNocParameterComponent implements OnInit {
       }
     }
 
+    /*Change in Name of Institution*/
+    if (this.request.DTE_ChangeInNameofInstitution_View == true) {
+      if (this.request.DTE_ChangeInNameofInstitution.NewCollegeName == '') {
+        this.isValidDTE_NewCollegeName = true;
+        this.isFormValid = false;//
+      }
+      else {
+        this.isValidDTE_NewCollegeName = false;
+      }
+      if (this.request.DTE_ChangeInNameofInstitution.NewCollegeNameHi == '') {
+        this.isValidDTE_NewCollegeNameHi = true;
+        this.isFormValid = false;//
+      }
+      else {
+        this.isValidDTE_NewCollegeNameHi = false;
+      }
+    }
+
+    /*Change of Site / Location*/
+    if (this.request.DTE_ChangeofSite_Location_View == true) {
+      if (this.request.DTE_ChangeofSite_Location.NewAddress == '') {
+        this.isValidDTE_NewAddress = true;
+        this.isFormValid = false;//
+      }
+      else {
+        this.isValidDTE_NewAddress = false;
+      }
+
+    }
     //DTE Validation End
 
     return this.isFormValid
@@ -2488,7 +2622,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   Add_IncreaseinIntake() {
 
-    if (this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID==0) {
+    if (this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID == 0) {
       this.toastr.error("Select Course.!");
       return;
     }
@@ -2541,4 +2675,144 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
+  /*To start new Programme / Level in the existing Institutions*/
+  Add_TostartNewProgramme() {
+
+    if (this.request.DTE_TostartNewProgramme.CourseID == 0) {
+      this.toastr.error("Select Course.!");
+      return;
+    }
+    if (this.request.DTE_TostartNewProgramme.Intake == 0) {
+      this.toastr.error("Enter intake greater than zero.!");
+      return;
+    }
+
+
+    var CourseExit = this.request.DTE_TostartNewProgramme_List.filter((x: { CourseID: number; }) => x.CourseID == this.request.DTE_TostartNewProgramme.CourseID);
+    if (CourseExit.length > 0) {
+      this.toastr.warning("Course Already Added.!");
+      return;
+    }
+
+
+    this.request.DTE_TostartNewProgramme_List.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      CourseID: this.request.DTE_TostartNewProgramme.CourseID,
+      CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_TostartNewProgramme.CourseID).CourseName,
+      Intake: this.request.DTE_TostartNewProgramme.Intake,
+      FeeAmount: this.request.DTE_TostartNewProgramme.FeeAmount
+    });
+    this.request.DTE_TostartNewProgramme.CourseID = 0;
+    this.request.DTE_TostartNewProgramme.CourseName = '';
+    this.request.DTE_TostartNewProgramme.Intake = 0;
+
+  }
+  Delete_TostartNewProgramme(item: ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse) {
+    try {
+      this.loaderService.requestStarted();
+      //debugger
+      if (confirm("Are you sure you want to delete this ?")) {
+        const index: number = this.request.DTE_TostartNewProgramme_List.indexOf(item);
+        if (index != -1) {
+          this.request.DTE_TostartNewProgramme_List.splice(index, 1)
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  /*Increase in Intake / Addition of Course*/
+  Add_IncreaseInIntake_AdditionofCourse() {
+
+    if (this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID == 0) {
+      this.toastr.error("Select Course.!");
+      return;
+    }
+    if (this.request.DTE_IncreaseInIntake_AdditionofCourse.Intake == 0) {
+      this.toastr.error("Enter intake greater than zero.!");
+      return;
+    }
+    if (this.request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake == 0) {
+      this.toastr.error("Enter updated intake greater than zero.!");
+      return;
+    }
+
+
+    var CourseExit = this.request.DTE_IncreaseInIntake_AdditionofCourse_List.filter((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID);
+    if (CourseExit.length > 0) {
+      this.toastr.warning("Course Already Added.!");
+      return;
+    }
+
+
+    this.request.DTE_IncreaseInIntake_AdditionofCourse_List.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      CourseID: this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID,
+      CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID).CourseName,
+      Intake: this.request.DTE_IncreaseInIntake_AdditionofCourse.Intake,
+      UpdatedIntake: this.request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake,
+      FeeAmount: this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount
+    });
+    this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID = 0;
+    this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseName = '';
+    this.request.DTE_IncreaseInIntake_AdditionofCourse.Intake = 0;
+    this.request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake = 0;
+
+  }
+  Delete_IncreaseInIntake_AdditionofCourse(item: ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse) {
+    try {
+      this.loaderService.requestStarted();
+      //debugger
+      if (confirm("Are you sure you want to delete this ?")) {
+        const index: number = this.request.DTE_IncreaseInIntake_AdditionofCourse_List.indexOf(item);
+        if (index != -1) {
+          this.request.DTE_IncreaseInIntake_AdditionofCourse_List.splice(index, 1)
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ddlDTECouser_IncreaseinIntake_change(values: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetIntakeByCollegeCourse(this.request.CollegeID, values)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.request.DTE_IncreaseInIntake_AdditionofCourse.Intake = data['Data'][0]['data'][0]['Intake'];
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

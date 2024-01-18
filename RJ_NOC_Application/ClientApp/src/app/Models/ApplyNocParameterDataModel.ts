@@ -66,6 +66,28 @@ export class ApplyNocParameterDataModel {
   public DTE_IncreaseinIntakeAdditionofCourse_List: ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse[] = [];
   public DTE_IncreaseinIntakeAdditionofCourse_View: boolean = false;
 
+  /*To start new Programme/ Level in the existing Institutions*/
+  public DTE_TostartNewProgramme!: ApplyNocParameterMasterList_TostartNewProgramme;
+  public DTE_TostartNewProgramme_List: ApplyNocParameterMasterList_TostartNewProgramme[] = [];
+  public DTE_TostartNewProgramme_View: boolean = false;
+
+
+  /*Change in Name of Institution*/
+  public DTE_ChangeInNameofInstitution!: ApplyNocParameterMasterList_ChangeInNameofInstitution;
+  public DTE_ChangeInNameofInstitution_View: boolean = false;
+
+  
+  /*Change of Site/ Location*/
+  public DTE_ChangeofSite_Location!: ApplyNocParameterMasterList_ChangeofSite_Location;
+  public DTE_ChangeofSite_Location_View: boolean = false;
+
+  /*Increase in Intake / Addition of Course*/
+  public DTE_IncreaseInIntake_AdditionofCourse!: ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse;
+  public DTE_IncreaseInIntake_AdditionofCourse_List: ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse[] = [];
+  public DTE_IncreaseInIntake_AdditionofCourse_View: boolean = false;
+
+
+
 }
 
 export class ApplyNocParameterMasterListDataModel {
@@ -372,5 +394,49 @@ export class ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse {
   public CourseName: string = '';
   public CourseID: number = 0;
   public Intake: number = 0;
+  public FeeAmount: number = 0;
+}
+export class ApplyNocParameterMasterList_TostartNewProgramme {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourseName: string = '';
+  public CourseID: number = 0;
+  public Intake: number = 0;
+  public FeeAmount: number = 0;
+}
+
+export class ApplyNocParameterMasterList_ChangeInNameofInstitution {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+
+  public CurrentCollegeName: string = '';
+  public NewCollegeName: string = '';
+  public NewCollegeNameHi: string = '';
+  public FeeAmount: number = 0;
+}
+export class ApplyNocParameterMasterList_ChangeofSite_Location {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+
+  public CurrentAddress: string = '';
+  public NewAddress: string = '';
+  public FeeAmount: number = 0;
+}
+
+export class ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourseName: string = '';
+  public CourseID: number = 0;
+  public Intake: number = 0;
+  public UpdatedIntake: number = 0;
   public FeeAmount: number = 0;
 }

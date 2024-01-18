@@ -41,7 +41,8 @@ export class ApplyNocParameterService {
         'Content-Type': 'application/json'
       })
     };
-    let body = JSON.stringify(request)
+    let body = JSON.stringify(request);
+    console.log(body);
     return await this.http.post(this.APIUrl + "/SaveApplyNocApplication/", body, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)

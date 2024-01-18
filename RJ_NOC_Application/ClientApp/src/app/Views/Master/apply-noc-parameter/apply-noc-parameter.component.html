@@ -1160,8 +1160,8 @@
               </option>
             </select>
             <!--<div *ngIf="isSubmitted&&form.ddlCourse_Room.errors" class="text-danger">
-        <p *ngIf="!form.ddlCourse_Room.errors.DropdownValidators">This field is required .!</p>
-      </div>-->
+            <p *ngIf="!form.ddlCourse_Room.errors.DropdownValidators">This field is required .!</p>
+          </div>-->
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -1170,7 +1170,7 @@
                    maxlength="6"
                    [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.Intake" />
             <!--<div *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName" class="text-danger">
-      <p *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName"> This field is required .!</p>-->
+          <p *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName"> This field is required .!</p>-->
           </div>
 
           <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
@@ -1193,7 +1193,7 @@
                     </th>
                     <th>
                       Intake
-                    </th> 
+                    </th>
                     <th>
                       Action
                     </th>
@@ -1215,7 +1215,7 @@
                         <button type="button" class="btn btn-danger" (click)="Delete_IncreaseinIntake(row)"><i class="fa fa-trash-o"></i></button>
                       </div>
                     </td>
-                  </tr> 
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -1224,7 +1224,231 @@
       </div>
     </div>
     <!--Increase in Intake / Addition of Course End-->
-     
+    <!--To start new Programme/ Level in the existing Institutions-->
+    <div *ngIf="request.DTE_TostartNewProgramme_View==true">
+      <div class="card-header border-top">
+        <b>To start new Programme :₹ {{this.request.DTE_TostartNewProgramme.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course<span style="color:red;">*</span></label>
+            <select id="ddlDTECouser_IncreaseinIntake" name="ddlDTECouser_IncreaseinIntake"
+                    [(ngModel)]="request.DTE_TostartNewProgramme.CourseID"
+                    class="form-control">
+              <option value="0">--Select Course--</option>
+              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataList">
+                {{item.CourseName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Intake<span style="color:red;"> *</span> </label>
+            <input type="number" name="txtddlIntake_IncreaseinIntake" id="txtddlIntake_IncreaseinIntake" class="form-control mt-1"
+                   maxlength="6"
+                   [(ngModel)]="request.DTE_TostartNewProgramme.Intake" />
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_TostartNewProgramme()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Intake
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_TostartNewProgramme_List;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.Intake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_TostartNewProgramme(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--To start new Programme/ Level in the existing Institutions End-->
+    <!--Change in Name of Institution-->
+    <div *ngIf="request.DTE_ChangeInNameofInstitution_View==true">
+      <div class="card-header border-top">
+        <b>Change in Name of Institution :₹ {{this.request.DTE_ChangeInNameofInstitution.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Current Name<span style="color:red;"> *</span> </label>
+            <input name="txtCurrentCollegeName" id="txtCurrentCollegeName" class="form-control mt-1" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeInNameofInstitution.CurrentCollegeName" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Name<span style="color:red;"> *</span> </label>
+            <input name="txtNewCollegeName" id="txtNewCollegeName" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeInNameofInstitution.NewCollegeName" />
+            <div *ngIf="request.DTE_ChangeInNameofInstitution.NewCollegeName == '' && isValidDTE_NewCollegeName" class="text-danger">
+              <p *ngIf="request.DTE_ChangeInNameofInstitution.NewCollegeName == '' && isValidDTE_NewCollegeName"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Name (Hindi)<span style="color:red;"> *</span> </label>
+            <input name="txtNewCollegeNameHi" id="txtNewCollegeNameHi" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeInNameofInstitution.NewCollegeNameHi" />
+            <div *ngIf="request.DTE_ChangeInNameofInstitution.NewCollegeNameHi == '' && isValidDTE_NewCollegeNameHi" class="text-danger">
+              <p *ngIf="request.DTE_ChangeInNameofInstitution.NewCollegeNameHi == '' && isValidDTE_NewCollegeNameHi"> This field is required .!</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--Change in Name of Institution-->
+    <!--Change of Site / Location-->
+    <div *ngIf="request.DTE_ChangeofSite_Location_View==true">
+      <div class="card-header border-top">
+        <b>Change of Site / Location :₹ {{this.request.DTE_ChangeofSite_Location.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Current Address<span style="color:red;"> *</span> </label>
+            <input name="txtCurrentCollegeAddress" id="txtCurrentCollegeAddress" class="form-control mt-1" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeofSite_Location.CurrentAddress" disabled />
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-12 mb-3">
+            <label>New Address<span style="color:red;"> *</span> </label>
+            <input name="txtNewCollegeAddress" id="txtNewCollegeAddress" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeofSite_Location.NewAddress" />
+            <div *ngIf="request.DTE_ChangeofSite_Location.NewAddress == '' && isValidDTE_NewAddress" class="text-danger">
+              <p *ngIf="request.DTE_ChangeofSite_Location.NewAddress == '' && isValidDTE_NewAddress"> This field is required .!</p>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <!--Change of Site / Location-->
+    <!--Increase in Intake / Addition of Course-->
+    <div *ngIf="request.DTE_IncreaseInIntake_AdditionofCourse_View==true">
+      <div class="card-header border-top">
+        <b>To start new Programme :₹ {{this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course<span style="color:red;">*</span></label>
+            <select id="ddlDTECouser_IncreaseinIntake" name="ddlDTECouser_IncreaseinIntake"
+                    [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.CourseID"
+                    class="form-control" #SeletedDTECouser_IncreaseinIntake (change)="ddlDTECouser_IncreaseinIntake_change(SeletedDTECouser_IncreaseinIntake.value)">
+              <option value="0">--Select Course--</option>
+              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataList">
+                {{item.CourseName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Intake<span style="color:red;"> *</span> </label>
+            <input type="number" name="txtddlIntake_IncreaseinIntake" disabled id="txtddlIntake_IncreaseinIntake" class="form-control mt-1"
+                   maxlength="6"
+                   [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.Intake" />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Update Intake<span style="color:red;"> *</span> </label>
+            <input type="number" name="txtUpdateIntake_IncreaseinIntake" id="txtUpdateIntake_IncreaseinIntake" class="form-control mt-1"
+                   maxlength="6"
+                   [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake" />
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_IncreaseInIntake_AdditionofCourse()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Intake
+                    </th><th>
+  Update Intake
+</th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_IncreaseInIntake_AdditionofCourse_List;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.Intake}}
+                    </td><td>
+  {{row.UpdatedIntake}}
+</td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_IncreaseInIntake_AdditionofCourse(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Increase in Intake / Addition of Course End-->
+
 
 
     <div *ngIf="CollegeDepartmentID==4 && ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">

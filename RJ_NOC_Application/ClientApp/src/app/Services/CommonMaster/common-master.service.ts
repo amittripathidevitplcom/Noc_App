@@ -1424,4 +1424,15 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetIntakeByCollegeCourse(CollegeID: number, CourseID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetIntakeByCollegeCourse/" + CollegeID + "/" + CourseID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   }
