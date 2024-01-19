@@ -98,6 +98,7 @@ export class RoomDetailsComponent implements OnInit {
 
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
+  public UnitType: string = 'sq. ft';
   constructor(private roomDetailsService: RoomDetailsService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private collegeService: CollegeService,
     private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
@@ -125,6 +126,12 @@ export class RoomDetailsComponent implements OnInit {
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.request.DepartmentID = this.SelectedDepartmentID;
+    if (this.SelectedDepartmentID == 4) {
+      this.UnitType = 'Sq. meter'
+    }
+    else {
+      this.UnitType = 'sq. ft';
+    }
     await this.GetCollageDetails();
     await this.LoadMaster();
     await this.GetRoomDetailAllList();

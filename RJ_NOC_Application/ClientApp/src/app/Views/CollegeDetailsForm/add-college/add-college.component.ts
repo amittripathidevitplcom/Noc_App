@@ -633,7 +633,6 @@ export class AddCollegeComponent implements OnInit {
   }
 
   async ddlCollegeStatus_TextChange(event: any, SelectedCollegeStatusID: string) {
-
     try {
       this.loaderService.requestStarted();
 
@@ -660,9 +659,7 @@ export class AddCollegeComponent implements OnInit {
           });
         }
         else if (this.request.DepartmentID == 4) {
-          //this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {
-          //  return element.Name != "PG";
-          //});
+          this.CollegeLevelList_FilterData = this.CollegeLevelList;
         }
         else {
           this.CollegeLevelList_FilterData = this.CollegeLevelList.filter((element: any) => {

@@ -42,33 +42,33 @@
 
 
           <div class="col-md-2 mb-2">
-            <label>Width (sq. ft)<span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="txtWidth_Room" name="txtWidth_Room" placeholder="Enter Width (sq. ft)"
+            <label>Width ({{UnitType}})<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtWidth_Room" name="txtWidth_Room" placeholder="Enter Width ({{UnitType}})"
                    [(ngModel)]="request.Width" formControlName="txtWidth_Room" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtWidth_Room.errors" class="text-danger">
               <p *ngIf="form.txtWidth_Room.errors.required">This field is required .!</p>
               <p *ngIf="form.txtWidth_Room.errors.min">Width will be greater than zero .!</p>
             </div>
             <div *ngIf="request.CourseID>0">
-              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin_Dis ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin_Dis}} sq. ft</p>
+              <p *ngIf="WidthMin>0" class="{{request.Width >= WidthMin_Dis ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin_Dis}} {{UnitType}}</p>
             </div>
           </div>
           <div class="col-md-2 mb-2">
-            <label>Length (sq. ft)<span style="color:red;">*</span></label>
-            <input type="text" class="form-control" id="txtLength_Room" name="txtLength_Room" placeholder="Enter Length (sq. ft)"
+            <label>Length ({{UnitType}})<span style="color:red;">*</span></label>
+            <input type="text" class="form-control" id="txtLength_Room" name="txtLength_Room" placeholder="Enter Length ({{UnitType}})"
                    [(ngModel)]="request.Length" formControlName="txtLength_Room" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtLength_Room.errors" class="text-danger">
               <p *ngIf="form.txtLength_Room.errors.required">This field is required .!</p>
               <p *ngIf="form.txtLength_Room.errors.min">Length will be greater than zero .!</p>
             </div>
             <div *ngIf="request.CourseID>0">
-              <p *ngIf="LengthMin>0" class="{{request.Length >= LengthMin_Dis ? '' : CssClass_TextDangerLength}}">Please Enter Min size : {{LengthMin_Dis}} sq. ft</p>
+              <p *ngIf="LengthMin>0" class="{{request.Length >= LengthMin_Dis ? '' : CssClass_TextDangerLength}}">Please Enter Min size : {{LengthMin_Dis}} {{UnitType}}</p>
             </div>
           </div>
 
 
           <div class="col-md-2 mb-2">
-            <label>Room Size (sq. ft)<span style="color:red;">*</span></label>
+            <label>Room Size ({{UnitType}})<span style="color:red;">*</span></label>
             <input type="text" class="form-control" value="{{request.Length * request.Width}}" disabled>
           </div>
 
@@ -145,9 +145,9 @@
                 <th>Sr. No.</th>
                 <th>Course</th>
                 <th>Room No.</th>
-                <th>Width (sq. ft) Size</th>
-                <th>Length (sq. ft)</th>
-                <th>Room Size (sq. ft)</th>
+                <th>Width ({{UnitType}}) Size</th>
+                <th>Length ({{UnitType}})</th>
+                <th>Room Size ({{UnitType}})</th>
                 <th>Student Capacity</th>
                 <!--<th>No of Lab</th>-->
                 <th>Room Image</th>
