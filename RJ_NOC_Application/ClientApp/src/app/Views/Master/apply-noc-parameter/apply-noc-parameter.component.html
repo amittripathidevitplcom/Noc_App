@@ -1413,9 +1413,10 @@
                     </th>
                     <th>
                       Intake
-                    </th><th>
-  Update Intake
-</th>
+                    </th>
+                    <th>
+                      Update Intake
+                    </th>
                     <th>
                       Action
                     </th>
@@ -1431,9 +1432,10 @@
                     </td>
                     <td>
                       {{row.Intake}}
-                    </td><td>
-  {{row.UpdatedIntake}}
-</td>
+                    </td>
+                    <td>
+                      {{row.UpdatedIntake}}
+                    </td>
                     <td>
                       <div class="d-flex">
                         <button type="button" class="btn btn-danger" (click)="Delete_IncreaseInIntake_AdditionofCourse(row)"><i class="fa fa-trash-o"></i></button>
@@ -1448,7 +1450,476 @@
       </div>
     </div>
     <!--Increase in Intake / Addition of Course End-->
+    <!--Addition of Integrated/Dual Degree-->
+    <div *ngIf="request.DTE_AdditionofIntegratedDualDegree_View==true">
+      <div class="card-header border-top">
+        <b>Addition of Integrated/Dual Degree :₹ {{this.request.DTE_BankDetails.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_AdditionofIntegratedDualDegree.CourseID">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of courseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
 
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Intake  <span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtIntake" name="txtIntake" [(ngModel)]="DTE_AdditionofIntegratedDualDegree.Intake" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& request.Intake==0">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_AdditionofIntegratedDualDegree()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Intake
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_AdditionofIntegratedDualDegreeList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.Intake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_AdditionofIntegratedDualDegree(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Addition of Integrated/Dual Degree-->
+    <!--Change in Name of Course-->
+    <div *ngIf="request.DTE_ChangeInNameOfCourse_View==true">
+      <div class="card-header border-top">
+        <b>Change in Name of Course :₹ {{this.request.DTE_BankDetails.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_ChangeInNameOfCourse.CourseID">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of courseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtNewCourseName" class="form-label">Course Name  <span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtNewCourseName" name="txtNewCourseName" [(ngModel)]="DTE_ChangeInNameOfCourse.NewCourseName">
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& DTE_ChangeInNameOfCourse.NewCourseName==''">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_ChangeInNameOfCourse()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      New Course Name
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_ChangeInNameOfCourseList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.NewCourseName}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_ChangeinNameofCourse(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Change in Name of Course-->
+    <!--Reduction in Intake-->
+    <div *ngIf="request.DTE_ReductionInIntake_View==true">
+      <div class="card-header border-top">
+        <b>Reduction in Intake :₹ {{this.request.DTE_BankDetails.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_ReductionInIntake.CourseID" (change)="GetIntakeValues(DTE_ReductionInIntake.CourseID,'ReductionIntake')">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of courseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Current Intake<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtCurrentIntake" name="txtIntake" [(ngModel)]="DTE_ReductionInIntake.CurrentIntake" (keypress)="numberOnly($event)" disabled>
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& request.Intake==0">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Reduced Intake<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtReducedIntake" name="txtIntake" [(ngModel)]="DTE_ReductionInIntake.ReducedIntake" (keyup)="CalculateReducedIntake()" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& request.Intake==0">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_ReductionInIntake()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      New Course Name
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_ReductionInIntakeList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.CurrentIntake}}
+                    </td>
+                    <td>
+                      {{row.ReducedIntake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_IncreaseinIntake1(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Reduction in Intake-->
+    <!--Closure of Program-->
+    <div *ngIf="request.DTE_ClosureOfProgram_View==true">
+      <div class="card-header border-top">
+        <b>Closure of Program :₹ {{this.request.DTE_BankDetails.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_ClosureOfProgram.CourseID">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of courseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_ClosureOfProgram()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_ClosureOfProgramList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_ClosureofProgram(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Closure of Program-->
+    <!--ClosureOfCourses-->
+    <div *ngIf="request.DTE_ClosureOfCourses_View==true">
+      <div class="card-header border-top">
+        <b>Closure Of Courses :₹ {{this.request.DTE_BankDetails.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_ClosureOfCourses.CourseID" (change)="GetIntakeValues(DTE_ClosureOfCourses.CourseID,'ClosureIntake')">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of courseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Current Intake<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtCurrentIntake" name="txtIntake" [(ngModel)]="DTE_ClosureOfCourses.CurrentIntake" (keypress)="numberOnly($event)" disabled>
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& request.Intake==0">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Reduced Intake<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtReducedIntake" name="txtIntake" [(ngModel)]="DTE_ClosureOfCourses.ReducedIntake" (keyup)="CalculateReducedIntake()" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& request.Intake==0">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_DTE_ClosureOfCourses()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      New Course Name
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_ClosureOfCoursesList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.CurrentIntake}}
+                    </td>
+                    <td>
+                      {{row.ReducedIntake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_ClosureOfCoursesList(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--ClosureOfCourses-->
+    <!--Merger of the course-->
+    <div *ngIf="request.DTE_MergerOfTheCourse_View==true">
+      <div class="card-header border-top">
+        <b>Merger of the course :₹ {{this.request.DTE_BankDetails.FeeAmount}}</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course 1 <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.CourseID1">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of courseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course 2 <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.CourseID2">
+              <option value="0" disabled>--Select--</option>
+              <option *ngFor="let item of courseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course Merge <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.MergerCourseID">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of courseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_DTE_MergerOfTheCourse()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Course 1
+                    </th>
+                    <th>
+                      Course 2
+                    </th>
+                    <th>
+                      Course Merge
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_MergerOfTheCourseList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.CourseName1}}
+                    </td>
+                    <td>
+                      {{row.MergeCourseName}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_DTE_MergerOfTheCourse(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Merger of the course-->
 
 
     <div *ngIf="CollegeDepartmentID==4 && ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">

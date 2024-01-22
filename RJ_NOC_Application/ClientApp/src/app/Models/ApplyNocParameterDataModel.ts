@@ -88,6 +88,27 @@ export class ApplyNocParameterDataModel {
 
 
 
+
+  //Amit Kumar 
+  public DTE_AdditionofIntegratedDualDegreeList: ApplyNocParameterMasterList_AdditionofIntegratedDualDegree[] = [];
+  public DTE_AdditionofIntegratedDualDegree: ApplyNocParameterMasterList_AdditionofIntegratedDualDegree[] = [];
+  public DTE_AdditionofIntegratedDualDegree_View: boolean = false;
+  public DTE_ChangeInNameOfCourse: ApplyNocParameterMasterList_ChangeInNameOfCourse[] = [];
+  public DTE_ChangeInNameOfCourseList: ApplyNocParameterMasterList_ChangeInNameOfCourse[] = [];
+  public DTE_ChangeInNameOfCourse_View: boolean = false;
+  public DTE_ReductionInIntakeList: ApplyNocParameterMasterList_ReductionInIntake[] = [];
+  public DTE_ReductionInIntake: ApplyNocParameterMasterList_ReductionInIntake[] = [];
+  public DTE_ReductionInIntake_View: boolean = false;
+  public DTE_ClosureOfProgramList: ApplyNocParameterMasterList_ClosureOfProgram[] = [];
+  public DTE_ClosureOfProgram: ApplyNocParameterMasterList_ClosureOfProgram[] = [];
+  public DTE_ClosureOfProgram_View: boolean = false;
+  public DTE_ClosureOfCoursesList: ApplyNocParameterMasterList_ClosureOfCourses[] = [];
+  public DTE_ClosureOfCourses: ApplyNocParameterMasterList_ClosureOfCourses[] = [];
+  public DTE_ClosureOfCourses_View: boolean = false;
+  public DTE_MergerOfTheCourseList: ApplyNocParameterMasterList_MergerOfTheCourse[] = [];
+  public DTE_MergerOfTheCourse: ApplyNocParameterMasterList_MergerOfTheCourse[] = [];
+  public DTE_MergerOfTheCourse_View: boolean = false;
+
 }
 
 export class ApplyNocParameterMasterListDataModel {
@@ -440,3 +461,74 @@ export class ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse {
   public UpdatedIntake: number = 0;
   public FeeAmount: number = 0;
 }
+
+
+//Amit
+export class ApplyNocParameterMasterList_AdditionofIntegratedDualDegree {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourseID: number = 0;
+  public Intake: number = 0;
+  public FeeAmount: number = 0;
+  public CourseName: string = '';
+}
+export class ApplyNocParameterMasterList_ChangeInNameOfCourse {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourseID: number = 0;
+  public NewCourseName: string = '';
+  public FeeAmount: number = 0;
+  public CourseName: string = '';
+}
+export class ApplyNocParameterMasterList_ReductionInIntake {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourseID: number = 0;
+  public CurrentIntake: number = 0;
+  public ReducedIntake: number = 0;
+  public FeeAmount: number = 0;
+  public CourseName: string = '';
+}
+
+export class ApplyNocParameterMasterList_ClosureOfProgram {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourseID: number = 0;
+  public FeeAmount: number = 0;
+  public CourseName: string = '';
+}
+
+export class ApplyNocParameterMasterList_ClosureOfCourses {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourseID: number = 0;
+  public CurrentIntake: number = 0;
+  public ReducedIntake: number = 0;
+  public FeeAmount: number = 0;
+  public CourseName: string = '';
+}
+
+export class ApplyNocParameterMasterList_MergerOfTheCourse {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourseID1: number = 0;
+  public CourseID2: number = 0;
+  public MergerCourseID: number = 0;
+  public FeeAmount: number = 0;
+  public CourseName: string = '';
+  public CourseName1: string = '';
+  public MergeCourseName: string = '';
+}
+
