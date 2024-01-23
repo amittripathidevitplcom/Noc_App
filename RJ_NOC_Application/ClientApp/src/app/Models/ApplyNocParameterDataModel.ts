@@ -491,6 +491,10 @@ export class ApplyNocParameterMasterList_ChangeInNameOfCourse {
   public NewCourseName: string = '';
   public FeeAmount: number = 0;
   public CourseName: string = '';
+  public StreamID: number = 0;
+  public StreamName: string = '';
+  public CourseLevelID: number = 0;
+  public CourseLevelName: string = '';
 }
 export class ApplyNocParameterMasterList_ReductionInIntake {
   public DetailID: number = 0;
@@ -502,6 +506,10 @@ export class ApplyNocParameterMasterList_ReductionInIntake {
   public ReducedIntake: number = 0;
   public FeeAmount: number = 0;
   public CourseName: string = '';
+  public StreamID: number = 0;
+  public StreamName: string = '';
+  public CourseLevelID: number = 0;
+  public CourseLevelName: string = '';
 }
 
 export class ApplyNocParameterMasterList_ClosureOfProgram {
@@ -509,9 +517,11 @@ export class ApplyNocParameterMasterList_ClosureOfProgram {
   public ApplyNocID: number = 0;
   public DepartmentID: number = 0;
   public CollegeID: number = 0;
-  public CourseID: number = 0;
   public FeeAmount: number = 0;
-  public CourseName: string = '';
+  public StreamID: number = 0;
+  public StreamName: string = '';
+  public CourseLevelID: number = 0;
+  public CourseLevelName: string = '';
 }
 
 export class ApplyNocParameterMasterList_ClosureOfCourses {
@@ -524,6 +534,10 @@ export class ApplyNocParameterMasterList_ClosureOfCourses {
   public ReducedIntake: number = 0;
   public FeeAmount: number = 0;
   public CourseName: string = '';
+  public StreamID: number = 0;
+  public StreamName: string = '';
+  public CourseLevelID: number = 0;
+  public CourseLevelName: string = '';
 }
 
 export class ApplyNocParameterMasterList_MergerOfTheCourse {
@@ -538,5 +552,9 @@ export class ApplyNocParameterMasterList_MergerOfTheCourse {
   public CourseName: string = '';
   public CourseName1: string = '';
   public MergeCourseName: string = '';
+  public StreamID: number = 0;
+  public StreamName: string = '';
+  public CourseLevelID: number = 0;
+  public CourseLevelName: string = '';
 }
 

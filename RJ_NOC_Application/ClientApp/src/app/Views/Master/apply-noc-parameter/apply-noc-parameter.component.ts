@@ -640,18 +640,17 @@ export class ApplyNocParameterComponent implements OnInit {
 
       if (this.request.ApplyNocCode == 'DTE_AdditionofIntegratedDualDegree') {
         this.request.DTE_AdditionofIntegratedDualDegree_View = item.IsChecked;
-        this.DTE_AdditionofIntegratedDualDegreeList.DetailID = 0;
-        this.DTE_AdditionofIntegratedDualDegreeList.ApplyNocID = 0;
-        this.DTE_AdditionofIntegratedDualDegreeList.DepartmentID = 0;
-        this.DTE_AdditionofIntegratedDualDegreeList.CollegeID = 0;
-        this.DTE_AdditionofIntegratedDualDegreeList.CourseID = 0;
-        this.DTE_AdditionofIntegratedDualDegreeList.FeeAmount = 0;
-        this.DTE_AdditionofIntegratedDualDegreeList.Intake = 0;
+        this.DTE_AdditionofIntegratedDualDegree.DetailID = 0;
+        this.DTE_AdditionofIntegratedDualDegree.ApplyNocID = 0;
+        this.DTE_AdditionofIntegratedDualDegree.DepartmentID = 0;
+        this.DTE_AdditionofIntegratedDualDegree.CollegeID = 0;
+        this.DTE_AdditionofIntegratedDualDegree.CourseID = 0;
+        this.DTE_AdditionofIntegratedDualDegree.FeeAmount = 0;
+        this.DTE_AdditionofIntegratedDualDegree.Intake = 0;
         if (item.IsChecked == true) {
-          this.request.DTE_BankDetails.ApplyNocID = Number(SelectedApplyNocForID);
-          this.request.DTE_BankDetails.FeeAmount = item.FeeAmount
+          this.DTE_AdditionofIntegratedDualDegree.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_AdditionofIntegratedDualDegree.FeeAmount = item.FeeAmount
         }
-        await this.GetCourseList();
         this.request.DTE_AdditionofIntegratedDualDegreeList = [];
       }
       if (this.request.ApplyNocCode == 'DTE_ChangeInNameOfCourse') {
@@ -663,11 +662,10 @@ export class ApplyNocParameterComponent implements OnInit {
         this.DTE_ChangeInNameOfCourse.CourseID = 0;
         this.DTE_ChangeInNameOfCourse.NewCourseName = '';
         if (item.IsChecked == true) {
-          this.request.DTE_BankDetails.ApplyNocID = Number(SelectedApplyNocForID);
-          this.request.DTE_BankDetails.FeeAmount = item.FeeAmount
+          this.DTE_ChangeInNameOfCourse.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_ChangeInNameOfCourse.FeeAmount = item.FeeAmount
         }
 
-        await this.GetCourseList();
         this.request.DTE_ChangeInNameOfCourseList = [];
       }
 
@@ -681,11 +679,10 @@ export class ApplyNocParameterComponent implements OnInit {
         this.DTE_ReductionInIntake.CurrentIntake = 0;
         this.DTE_ReductionInIntake.ReducedIntake = 0;
         if (item.IsChecked == true) {
-          this.request.DTE_BankDetails.ApplyNocID = Number(SelectedApplyNocForID);
-          this.request.DTE_BankDetails.FeeAmount = item.FeeAmount
+          this.DTE_ReductionInIntake.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_ReductionInIntake.FeeAmount = item.FeeAmount
         }
 
-        await this.GetCourseList();
         this.request.DTE_ReductionInIntakeList = [];
 
       }
@@ -696,13 +693,14 @@ export class ApplyNocParameterComponent implements OnInit {
         this.DTE_ClosureOfProgram.ApplyNocID = 0;
         this.DTE_ClosureOfProgram.DepartmentID = 0;
         this.DTE_ClosureOfProgram.CollegeID = 0;
-        this.DTE_ClosureOfProgram.CourseID = 0;
+        this.DTE_ClosureOfProgram.StreamID = 0;
+        this.DTE_ClosureOfProgram.CourseLevelID = 0;
+        this.DTE_ClosureOfProgram.FeeAmount = 0;
         if (item.IsChecked == true) {
-          this.request.DTE_BankDetails.ApplyNocID = Number(SelectedApplyNocForID);
-          this.request.DTE_BankDetails.FeeAmount = item.FeeAmount
+          this.DTE_ClosureOfProgram.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_ClosureOfProgram.FeeAmount = item.FeeAmount
         }
 
-        await this.GetCourseList();
         this.DTE_ClosureOfProgramList = [];
 
       }
@@ -717,11 +715,10 @@ export class ApplyNocParameterComponent implements OnInit {
         this.DTE_ClosureOfCourses.CurrentIntake = 0;
         this.DTE_ClosureOfCourses.ReducedIntake = 0;
         if (item.IsChecked == true) {
-          this.request.DTE_BankDetails.ApplyNocID = Number(SelectedApplyNocForID);
-          this.request.DTE_BankDetails.FeeAmount = item.FeeAmount
+          this.DTE_ClosureOfCourses.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_ClosureOfCourses.FeeAmount = item.FeeAmount
         }
 
-        await this.GetCourseList();
         this.request.DTE_ClosureOfCoursesList = [];
 
       }
@@ -736,11 +733,11 @@ export class ApplyNocParameterComponent implements OnInit {
         this.DTE_MergerOfTheCourse.CourseID2 = 0;
         this.DTE_MergerOfTheCourse.MergerCourseID = 0;
         if (item.IsChecked == true) {
-          this.request.DTE_BankDetails.ApplyNocID = Number(SelectedApplyNocForID);
-          this.request.DTE_BankDetails.FeeAmount = item.FeeAmount
+          this.DTE_MergerOfTheCourse.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_MergerOfTheCourse.FeeAmount = item.FeeAmount
 
         }
-        await this.GetCourseList();
+
         this.request.DTE_MergerOfTheCourseList = [];
 
       }
@@ -1183,7 +1180,7 @@ export class ApplyNocParameterComponent implements OnInit {
           return;
         }
       }
-      
+
 
       if (this.CollegeDepartmentID == 4) {
         if (this.request.ExistingLetterofEOA == '') {
@@ -2862,13 +2859,13 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
     this.request.DTE_TostartNewProgramme_List.push({
-        DetailID: 0,
-        ApplyNocID: 0,
-        DepartmentID: 0,
-        CollegeID: 0,
-        CourseID: this.request.DTE_TostartNewProgramme.CourseID,
-        CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_TostartNewProgramme.CourseID).CourseName,
-        Intake: this.request.DTE_TostartNewProgramme.Intake,
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      CourseID: this.request.DTE_TostartNewProgramme.CourseID,
+      CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_TostartNewProgramme.CourseID).CourseName,
+      Intake: this.request.DTE_TostartNewProgramme.Intake,
       FeeAmount: this.request.DTE_TostartNewProgramme.FeeAmount,
       StreamID: this.request.DTE_TostartNewProgramme.StreamID,
       CourseLevelID: this.request.DTE_TostartNewProgramme.CourseLevelID,
@@ -3007,25 +3004,6 @@ export class ApplyNocParameterComponent implements OnInit {
   public DTE_MergerOfTheCourseList: any = [];
   public DTE_MergerOfTheCourse: ApplyNocParameterMasterList_MergerOfTheCourse = new ApplyNocParameterMasterList_MergerOfTheCourse();
   public IntakeValuesList: any = [];
-  async GetCourseList() {
-    try {
-      this.loaderService.requestStarted();
-      await this.commonMasterService.GetCourseList_CollegeWise(this.request.CollegeID)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.courseDataList = data['Data'];
-          console.log(this.courseDataList);
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  };
 
   async Add_AdditionofIntegratedDualDegree() {
 
@@ -3064,8 +3042,8 @@ export class ApplyNocParameterComponent implements OnInit {
       CourseID: this.DTE_AdditionofIntegratedDualDegree.CourseID,
       CourseName: this.DTE_AdditionofIntegratedDualDegreeCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_AdditionofIntegratedDualDegree.CourseID).CourseName,
       Intake: this.DTE_AdditionofIntegratedDualDegree.Intake,
-      StreamID: this.request.DTE_TostartNewProgramme.StreamID,
-      CourseLevelID: this.request.DTE_TostartNewProgramme.CourseLevelID,
+      StreamID: this.DTE_AdditionofIntegratedDualDegree.StreamID,
+      CourseLevelID: this.DTE_AdditionofIntegratedDualDegree.CourseLevelID,
       StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_AdditionofIntegratedDualDegree.StreamID).StreamName,
       CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_AdditionofIntegratedDualDegree.CourseLevelID).Name
 
@@ -3106,29 +3084,26 @@ export class ApplyNocParameterComponent implements OnInit {
     }
 
     this.request.DTE_ChangeInNameOfCourseList.push({
-
       DetailID: 0,
-
       ApplyNocID: 0,
-
       DepartmentID: 0,
-
       CollegeID: 0,
-
       FeeAmount: 0,
-
       CourseID: this.DTE_ChangeInNameOfCourse.CourseID,
-
-      CourseName: this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ChangeInNameOfCourse.CourseID).CourseName,
-
-      NewCourseName: this.DTE_ChangeInNameOfCourse.NewCourseName
+      CourseName: this.DTE_ChangeInNameOfCourseCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ChangeInNameOfCourse.CourseID).CourseName,
+      NewCourseName: this.DTE_ChangeInNameOfCourse.NewCourseName,
+      StreamID: this.DTE_ChangeInNameOfCourse.StreamID,
+      CourseLevelID: this.DTE_ChangeInNameOfCourse.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_ChangeInNameOfCourse.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_ChangeInNameOfCourse.CourseLevelID).Name
 
     });
 
     this.DTE_ChangeInNameOfCourse.CourseID = 0;
-
+    this.DTE_ChangeInNameOfCourse.StreamID = 0;
+    this.DTE_ChangeInNameOfCourse.CourseLevelID = 0;
     this.DTE_ChangeInNameOfCourse.NewCourseName = '';
-
+    this.DTE_ChangeInNameOfCourseCourseDataList = [];
   }
 
   async CalculateReducedIntake() {
@@ -3190,73 +3165,66 @@ export class ApplyNocParameterComponent implements OnInit {
     this.request.DTE_ReductionInIntakeList.push({
 
       DetailID: 0,
-
       ApplyNocID: 0,
-
       DepartmentID: 0,
-
       CollegeID: 0,
-
       FeeAmount: 0,
-
       CourseID: this.DTE_ReductionInIntake.CourseID,
-
-      CourseName: this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ReductionInIntake.CourseID).CourseName,
-
+      CourseName: this.DTE_ReductionInIntakeCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ReductionInIntake.CourseID).CourseName,
       CurrentIntake: this.DTE_ReductionInIntake.CurrentIntake,
-
-      ReducedIntake: this.DTE_ReductionInIntake.ReducedIntake
+      ReducedIntake: this.DTE_ReductionInIntake.ReducedIntake,
+      StreamID: this.DTE_ReductionInIntake.StreamID,
+      CourseLevelID: this.DTE_ReductionInIntake.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_ReductionInIntake.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_ReductionInIntake.CourseLevelID).Name
 
     });
 
     this.DTE_ReductionInIntake.CourseID = 0;
-
+    this.DTE_ReductionInIntake.StreamID = 0;
+    this.DTE_ReductionInIntake.CourseLevelID = 0;
     this.DTE_ReductionInIntake.CurrentIntake = 0;
-
     this.DTE_ReductionInIntake.ReducedIntake = 0;
-
+    this.DTE_ReductionInIntakeCourseDataList = [];
   }
 
   async Add_ClosureOfProgram() {
 
-    if (this.DTE_ClosureOfProgram.CourseID == 0) {
-
-      this.toastr.error("Select Course.!");
-
+    if (this.DTE_ClosureOfProgram.StreamID == 0) {
+      this.toastr.error("Select Programme.!");
       return;
-
     }
 
-    var CourseExit = this.request.DTE_ClosureOfProgramList.filter((x: { CourseID: number; }) => x.CourseID == this.DTE_ClosureOfProgram.CourseID);
+    if (this.DTE_ClosureOfProgram.CourseLevelID == 0) {
+      this.toastr.error("Select Course Level.!");
+      return;
+    }
+
+    var CourseExit = this.request.DTE_ClosureOfProgramList.filter((x: { StreamID: number; CourseLevelID: number }) => x.StreamID == this.DTE_ClosureOfProgram.StreamID && x.CourseLevelID == this.DTE_ClosureOfProgram.CourseLevelID);
 
     if (CourseExit.length > 0) {
 
-      this.toastr.warning("Course Already Added.!");
+      this.toastr.warning("Programme and Course Level Already Added.!");
 
       return;
 
     }
 
     this.request.DTE_ClosureOfProgramList.push({
-
       DetailID: 0,
-
       ApplyNocID: 0,
-
       DepartmentID: 0,
-
       CollegeID: 0,
-
       FeeAmount: 0,
-
-      CourseID: this.DTE_ClosureOfProgram.CourseID,
-
-      CourseName: this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ClosureOfProgram.CourseID).CourseName
+      StreamID: this.DTE_ClosureOfProgram.StreamID,
+      CourseLevelID: this.DTE_ClosureOfProgram.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_ClosureOfProgram.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_ClosureOfProgram.CourseLevelID).Name
 
     });
 
-    this.DTE_ReductionInIntake.CourseID = 0;
-
+    this.DTE_ClosureOfProgram.StreamID = 0;
+    this.DTE_ClosureOfProgram.CourseLevelID = 0;
   }
 
   async Add_DTE_ClosureOfCourses() {
@@ -3298,31 +3266,27 @@ export class ApplyNocParameterComponent implements OnInit {
     this.request.DTE_ClosureOfCoursesList.push({
 
       DetailID: 0,
-
       ApplyNocID: 0,
-
       DepartmentID: 0,
-
       CollegeID: 0,
-
       FeeAmount: 0,
-
       CourseID: this.DTE_ClosureOfCourses.CourseID,
-
-      CourseName: this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ClosureOfCourses.CourseID).CourseName,
-
+      CourseName: this.DTE_ClosureOfCoursesCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ClosureOfCourses.CourseID).CourseName,
       CurrentIntake: this.DTE_ClosureOfCourses.CurrentIntake,
-
-      ReducedIntake: this.DTE_ClosureOfCourses.ReducedIntake
+      ReducedIntake: this.DTE_ClosureOfCourses.ReducedIntake,
+      StreamID: this.DTE_ClosureOfCourses.StreamID,
+      CourseLevelID: this.DTE_ClosureOfCourses.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_ClosureOfCourses.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_ClosureOfCourses.CourseLevelID).Name
 
     });
 
     this.DTE_ClosureOfCourses.CourseID = 0;
-
+    this.DTE_ClosureOfCourses.StreamID = 0;
+    this.DTE_ClosureOfCourses.CourseLevelID = 0;
     this.DTE_ClosureOfCourses.CurrentIntake = 0;
-
     this.DTE_ClosureOfCourses.ReducedIntake = 0;
-
+    this.DTE_ClosureOfCoursesCourseDataList = [];
   }
 
   async Add_DTE_MergerOfTheCourse() {
@@ -3414,35 +3378,29 @@ export class ApplyNocParameterComponent implements OnInit {
     this.request.DTE_MergerOfTheCourseList.push({
 
       DetailID: 0,
-
       ApplyNocID: 0,
-
       DepartmentID: 0,
-
       CollegeID: 0,
-
       FeeAmount: 0,
-
       CourseID1: this.DTE_MergerOfTheCourse.CourseID1,
-
       CourseID2: this.DTE_MergerOfTheCourse.CourseID2,
-
       MergerCourseID: this.DTE_MergerOfTheCourse.MergerCourseID,
-
-      CourseName: this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_MergerOfTheCourse.CourseID1).CourseName,
-
-      CourseName1: this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_MergerOfTheCourse.CourseID2).CourseName,
-
-      MergeCourseName: this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_MergerOfTheCourse.MergerCourseID).CourseName
+      CourseName: this.DTE_MergerOfTheCourseCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_MergerOfTheCourse.CourseID1).CourseName,
+      CourseName1: this.DTE_MergerOfTheCourseCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_MergerOfTheCourse.CourseID2).CourseName,
+      MergeCourseName: this.DTE_MergerOfTheCourseCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_MergerOfTheCourse.MergerCourseID).CourseName,
+      StreamID: this.DTE_MergerOfTheCourse.StreamID,
+      CourseLevelID: this.DTE_MergerOfTheCourse.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_MergerOfTheCourse.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_MergerOfTheCourse.CourseLevelID).Name
 
     });
 
     this.DTE_MergerOfTheCourse.CourseID1 = 0;
-
+    this.DTE_MergerOfTheCourse.StreamID = 0;
+    this.DTE_MergerOfTheCourse.CourseLevelID = 0;
     this.DTE_MergerOfTheCourse.CourseID2 = 0;
-
     this.DTE_MergerOfTheCourse.MergerCourseID = 0;
-
+    this.DTE_MergerOfTheCourseCourseDataList = [];
   }
 
   Delete_AdditionofIntegratedDualDegree(item: ApplyNocParameterMasterList_AdditionofIntegratedDualDegree) {
@@ -3794,6 +3752,10 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   public DTE_AdditionofIntegratedDualDegreeCourseDataList: any = [];
+  public DTE_ChangeInNameOfCourseCourseDataList: any = [];
+  public DTE_ReductionInIntakeCourseDataList: any = [];
+  public DTE_ClosureOfCoursesCourseDataList: any = [];
+  public DTE_MergerOfTheCourseCourseDataList: any = [];
   async GetCourse_CourseLevelIDWise(ProgrammeID: number, CourseLevelID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
@@ -3803,7 +3765,21 @@ export class ApplyNocParameterComponent implements OnInit {
           if (Type == 'AdditionofIntegratedDualDegree') {
             this.DTE_AdditionofIntegratedDualDegreeCourseDataList = data['Data'][0]['data'];
           }
-          this.DTE_CourseDataList = data['Data'][0]['data'];
+          else if (Type == 'ChangeInNameOfCourse') {
+            this.DTE_ChangeInNameOfCourseCourseDataList = data['Data'][0]['data'];
+          }
+          else if (Type == 'ReductionInIntake') {
+            this.DTE_ReductionInIntakeCourseDataList = data['Data'][0]['data'];
+          }
+          else if (Type == 'ClosureOfCourses') {
+            this.DTE_ClosureOfCoursesCourseDataList = data['Data'][0]['data'];
+          }
+          else if (Type == 'MergerOfTheCourse') {
+            this.DTE_MergerOfTheCourseCourseDataList = data['Data'][0]['data'];
+          }
+          else {
+            this.DTE_CourseDataList = data['Data'][0]['data'];
+          }
         }, error => console.error(error));
     }
     catch (Ex) {
