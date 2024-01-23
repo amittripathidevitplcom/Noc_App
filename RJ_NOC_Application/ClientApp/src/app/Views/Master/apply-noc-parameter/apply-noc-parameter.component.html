@@ -1145,23 +1145,46 @@
     <!--Increase in Intake / Addition of Course-->
     <div *ngIf="request.DTE_IncreaseinIntakeAdditionofCourse_View==true">
       <div class="card-header border-top">
-        <b>Increase in Intake / Addition of Course :₹ {{this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount}}</b>
+        <b>Addition of Course :₹ {{this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount}}</b>
       </div>
       <div class="card-body">
         <div class="row">
+
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlTostartNewProgramme" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlTostartNewProgramme" name="ddlTostartNewProgramme"
+                    [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.StreamID"
+                    #SeletedProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedProgrammeID.value,request.DTE_IncreaseinIntakeAdditionofCourse.CourseLevelID,'')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlDTE_TostartNewCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDTE_TostartNewCourseLevelID" name="ddlDTE_TostartNewCourseLevelID"
+                    [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.CourseLevelID"
+                    #SeletedCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_IncreaseinIntakeAdditionofCourse.StreamID,SeletedCourseLevelID.value,'IncreaseinIntake')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+           
+
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>Course<span style="color:red;">*</span></label>
             <select id="ddlDTECouser_IncreaseinIntake" name="ddlDTECouser_IncreaseinIntake"
                     [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.CourseID"
                     class="form-control">
               <option value="0">--Select Course--</option>
-              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataList">
+              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataListIncreaseinIntake">
                 {{item.CourseName}}
               </option>
             </select>
             <!--<div *ngIf="isSubmitted&&form.ddlCourse_Room.errors" class="text-danger">
-            <p *ngIf="!form.ddlCourse_Room.errors.DropdownValidators">This field is required .!</p>
-          </div>-->
+      <p *ngIf="!form.ddlCourse_Room.errors.DropdownValidators">This field is required .!</p>
+    </div>-->
           </div>
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -1170,7 +1193,7 @@
                    maxlength="6"
                    [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.Intake" />
             <!--<div *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName" class="text-danger">
-          <p *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName"> This field is required .!</p>-->
+    <p *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName"> This field is required .!</p>-->
           </div>
 
           <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
@@ -1189,6 +1212,12 @@
                       Sr.No.
                     </th>
                     <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
                       Course
                     </th>
                     <th>
@@ -1203,6 +1232,12 @@
                   <tr *ngFor="let row of request.DTE_IncreaseinIntakeAdditionofCourse_List;let idx=index;">
                     <td>
                       {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
                     </td>
                     <td>
                       {{row.CourseName}}
@@ -1399,17 +1434,44 @@
     <!--Increase in Intake / Addition of Course-->
     <div *ngIf="request.DTE_IncreaseInIntake_AdditionofCourse_View==true">
       <div class="card-header border-top">
-        <b>To start new Programme :₹ {{this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount}}</b>
+        <b>Increase in Intake :₹ {{this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount}}</b>
       </div>
       <div class="card-body">
         <div class="row">
+
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlTostartNewProgramme" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlTostartNewProgramme1" name="ddlTostartNewProgramme1"
+                    [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.StreamID"
+                    #SeletedProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedProgrammeID.value,request.DTE_IncreaseInIntake_AdditionofCourse.CourseLevelID,'DTE_IncreaseInIntake_AdditionofCourse')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlDTE_TostartNewCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDTE_TostartNewCourseLevelID1" name="ddlDTE_TostartNewCourseLevelID1"
+                    [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.CourseLevelID"
+                    #SeletedCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_IncreaseInIntake_AdditionofCourse.StreamID,SeletedCourseLevelID.value,'DTE_IncreaseInIntake_AdditionofCourse')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+
+
+
+
+
+
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>Course<span style="color:red;">*</span></label>
-            <select id="ddlDTECouser_IncreaseinIntake" name="ddlDTECouser_IncreaseinIntake"
+            <select id="ddlDTECouser_DTE_IncreaseInIntake_AdditionofCourse" name="ddlDTECouser_DTE_IncreaseInIntake_AdditionofCourse"
                     [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.CourseID"
                     class="form-control" #SeletedDTECouser_IncreaseinIntake (change)="ddlDTECouser_IncreaseinIntake_change(SeletedDTECouser_IncreaseinIntake.value)">
               <option value="0">--Select Course--</option>
-              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataList">
+              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataListIncreaseInIntake_AdditionofCourse">
                 {{item.CourseName}}
               </option>
             </select>
@@ -1444,6 +1506,12 @@
                       Sr.No.
                     </th>
                     <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
                       Course
                     </th>
                     <th>
@@ -1461,6 +1529,12 @@
                   <tr *ngFor="let row of request.DTE_IncreaseInIntake_AdditionofCourse_List;let idx=index;">
                     <td>
                       {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
                     </td>
                     <td>
                       {{row.CourseName}}
@@ -1819,6 +1893,11 @@
       </div>
       <div class="card-body">
         <div class="row">
+
+
+
+
+
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>Course <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_ClosureOfCourses.CourseID" (change)="GetIntakeValues(DTE_ClosureOfCourses.CourseID,'ClosureIntake')">
