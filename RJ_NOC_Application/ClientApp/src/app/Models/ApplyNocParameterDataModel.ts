@@ -424,6 +424,10 @@ export class ApplyNocParameterMasterList_TostartNewProgramme {
   public CollegeID: number = 0;
   public CourseName: string = '';
   public CourseID: number = 0;
+  public StreamID: number = 0;
+  public StreamName: string = '';
+  public CourseLevelID: number = 0;
+  public CourseLevelName: string = '';
   public Intake: number = 0;
   public FeeAmount: number = 0;
 }

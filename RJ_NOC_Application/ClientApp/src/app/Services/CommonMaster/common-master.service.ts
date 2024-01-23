@@ -1365,7 +1365,7 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(`${this.APIUrl_CommonMaster}/GetUsersByRoleDepartment/${DepartmentID}/${ RoleID}`)
+    return await this.http.get(`${this.APIUrl_CommonMaster}/GetUsersByRoleDepartment/${DepartmentID}/${RoleID}`)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1383,7 +1383,7 @@ export class CommonMasterService {
   }
   public async GetTotalApplicationListByDepartment(request: CommonDataModel_TotalApplicationSearchFilter) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return await this.http.post(this.APIUrl_CommonMaster + '/GetTotalApplicationListByDepartment' ,request, httpOptions)
+    return await this.http.post(this.APIUrl_CommonMaster + '/GetTotalApplicationListByDepartment', request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1435,4 +1435,39 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetProgramMaster_CollegeIDWise(CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetProgrammeByCollegeDTE/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
   }
+  public async GetCourseLevel_ProgramIDWise(CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseLevelByCollegeDTE/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetCourse_CourseLevelIDWise(CollegeID: number, ProgrammeID: number, CourseLevelID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseByCollegeProgrammeDTE/" + CollegeID + "/" + ProgrammeID + "/" + CourseLevelID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+}

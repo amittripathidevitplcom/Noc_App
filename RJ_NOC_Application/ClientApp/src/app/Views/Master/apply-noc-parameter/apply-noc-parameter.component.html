@@ -1231,7 +1231,30 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlTostartNewProgramme" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlTostartNewProgramme" name="ddlTostartNewProgramme"
+                    [(ngModel)]="request.DTE_TostartNewProgramme.StreamID"
+                   #SeletedProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedProgrammeID.value,request.DTE_TostartNewProgramme.CourseLevelID)" >
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlDTE_TostartNewCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDTE_TostartNewCourseLevelID" name="ddlDTE_TostartNewCourseLevelID"
+                    [(ngModel)]="request.DTE_TostartNewProgramme.CourseLevelID"
+                    #SeletedCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_TostartNewProgramme.StreamID,SeletedCourseLevelID.value)">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
             <label>Course<span style="color:red;">*</span></label>
             <select id="ddlDTECouser_IncreaseinIntake" name="ddlDTECouser_IncreaseinIntake"
                     [(ngModel)]="request.DTE_TostartNewProgramme.CourseID"
@@ -1243,7 +1266,7 @@
             </select>
           </div>
 
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
             <label>Intake<span style="color:red;"> *</span> </label>
             <input type="number" name="txtddlIntake_IncreaseinIntake" id="txtddlIntake_IncreaseinIntake" class="form-control mt-1"
                    maxlength="6"
@@ -1266,6 +1289,12 @@
                       Sr.No.
                     </th>
                     <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
                       Course
                     </th>
                     <th>
@@ -1280,6 +1309,12 @@
                   <tr *ngFor="let row of request.DTE_TostartNewProgramme_List;let idx=index;">
                     <td>
                       {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
                     </td>
                     <td>
                       {{row.CourseName}}

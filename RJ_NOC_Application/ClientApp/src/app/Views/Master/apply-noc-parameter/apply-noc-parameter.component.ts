@@ -229,6 +229,7 @@ export class ApplyNocParameterComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
     await this.GetApplicationList();
+
     this.loaderService.requestEnded();
 
   }
@@ -243,6 +244,8 @@ export class ApplyNocParameterComponent implements OnInit {
     this.IsShowCollegeList = false;
     this.request.CollegeID = collegeID;
     await this.College_ddlChange(null);
+    await this.GetDTE_StreamDataList();
+    await this.GetDTE_CourseLevelList();
   }
   async BackToCollegeList() {
     this.IsShowCollegeList = true;
@@ -539,12 +542,12 @@ export class ApplyNocParameterComponent implements OnInit {
         this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount = 0;
         this.request.DTE_IncreaseinIntakeAdditionofCourse_List = [];
 
-        await this.commonMasterService.GetCourseList_CollegeWise(this.request.CollegeID)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            this.DTE_CourseDataList = data['Data'];
-            console.log(this.DTE_CourseDataList);
-          }, error => console.error(error));
+        //await this.commonMasterService.GetCourseList_CollegeWise(this.request.CollegeID)
+        //  .then((data: any) => {
+        //    data = JSON.parse(JSON.stringify(data));
+        //    this.DTE_CourseDataList = data['Data'];
+        //    console.log(this.DTE_CourseDataList);
+        //  }, error => console.error(error));
 
         if (item.IsChecked == true) {
           this.request.DTE_IncreaseinIntakeAdditionofCourse.ApplyNocID = Number(SelectedApplyNocForID);
@@ -620,12 +623,12 @@ export class ApplyNocParameterComponent implements OnInit {
         this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount = 0;
         this.request.DTE_IncreaseInIntake_AdditionofCourse_List = [];
 
-        await this.commonMasterService.GetCourseList_CollegeWise(this.request.CollegeID)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            this.DTE_CourseDataList = data['Data'];
-            console.log(this.DTE_CourseDataList);
-          }, error => console.error(error));
+        //await this.commonMasterService.GetCourseList_CollegeWise(this.request.CollegeID)
+        //  .then((data: any) => {
+        //    data = JSON.parse(JSON.stringify(data));
+        //    this.DTE_CourseDataList = data['Data'];
+        //    console.log(this.DTE_CourseDataList);
+        //  }, error => console.error(error));
 
         if (item.IsChecked == true) {
           this.request.DTE_IncreaseInIntake_AdditionofCourse.ApplyNocID = Number(SelectedApplyNocForID);
@@ -2859,21 +2862,28 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
     this.request.DTE_TostartNewProgramme_List.push({
-      DetailID: 0,
-      ApplyNocID: 0,
-      DepartmentID: 0,
-      CollegeID: 0,
-      CourseID: this.request.DTE_TostartNewProgramme.CourseID,
-      CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_TostartNewProgramme.CourseID).CourseName,
-      Intake: this.request.DTE_TostartNewProgramme.Intake,
-      FeeAmount: this.request.DTE_TostartNewProgramme.FeeAmount
+        DetailID: 0,
+        ApplyNocID: 0,
+        DepartmentID: 0,
+        CollegeID: 0,
+        CourseID: this.request.DTE_TostartNewProgramme.CourseID,
+        CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_TostartNewProgramme.CourseID).CourseName,
+        Intake: this.request.DTE_TostartNewProgramme.Intake,
+      FeeAmount: this.request.DTE_TostartNewProgramme.FeeAmount,
+      StreamID: this.request.DTE_TostartNewProgramme.StreamID,
+      CourseLevelID: this.request.DTE_TostartNewProgramme.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.request.DTE_TostartNewProgramme.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.DTE_TostartNewProgramme.CourseLevelID).Name
     });
     this.request.DTE_TostartNewProgramme.CourseID = 0;
     this.request.DTE_TostartNewProgramme.CourseName = '';
     this.request.DTE_TostartNewProgramme.Intake = 0;
+    this.request.DTE_TostartNewProgramme.StreamID = 0;
+    this.request.DTE_TostartNewProgramme.CourseLevelID = 0;
+    this.DTE_CourseDataList = [];
 
   }
-  Delete_TostartNewProgramme(item: ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse) {
+  Delete_TostartNewProgramme(item: ApplyNocParameterMasterList_TostartNewProgramme) {
     try {
       this.loaderService.requestStarted();
       //debugger
@@ -3743,4 +3753,65 @@ export class ApplyNocParameterComponent implements OnInit {
     }
 
   }
+
+  ///DTE
+  public DTE_streamDataList: any = [];
+  public DTE_CourseLevelList: any = [];
+  async GetDTE_StreamDataList() {
+    try {
+      debugger
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetProgramMaster_CollegeIDWise(this.request.CollegeID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.DTE_streamDataList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetDTE_CourseLevelList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCourseLevel_ProgramIDWise(this.request.CollegeID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.DTE_CourseLevelList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetCourse_CourseLevelIDWise( ProgrammeID: number, CourseLevelID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCourse_CourseLevelIDWise(this.request.CollegeID, ProgrammeID, CourseLevelID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.DTE_CourseDataList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 }
