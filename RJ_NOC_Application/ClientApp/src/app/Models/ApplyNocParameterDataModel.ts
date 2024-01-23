@@ -477,6 +477,10 @@ export class ApplyNocParameterMasterList_AdditionofIntegratedDualDegree {
   public Intake: number = 0;
   public FeeAmount: number = 0;
   public CourseName: string = '';
+  public StreamID: number = 0;
+  public StreamName: string = '';
+  public CourseLevelID: number = 0;
+  public CourseLevelName: string = '';
 }
 export class ApplyNocParameterMasterList_ChangeInNameOfCourse {
   public DetailID: number = 0;

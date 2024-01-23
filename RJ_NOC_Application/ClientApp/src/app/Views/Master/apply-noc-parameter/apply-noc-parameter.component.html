@@ -1237,7 +1237,7 @@
             <label for="ddlTostartNewProgramme" class="form-label">Programme Name <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlTostartNewProgramme" name="ddlTostartNewProgramme"
                     [(ngModel)]="request.DTE_TostartNewProgramme.StreamID"
-                   #SeletedProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedProgrammeID.value,request.DTE_TostartNewProgramme.CourseLevelID)" >
+                   #SeletedProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedProgrammeID.value,request.DTE_TostartNewProgramme.CourseLevelID,'')" >
               <option value="0">-- Select --</option>
               <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
             </select>
@@ -1247,7 +1247,7 @@
             <label for="ddlDTE_TostartNewCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlDTE_TostartNewCourseLevelID" name="ddlDTE_TostartNewCourseLevelID"
                     [(ngModel)]="request.DTE_TostartNewProgramme.CourseLevelID"
-                    #SeletedCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_TostartNewProgramme.StreamID,SeletedCourseLevelID.value)">
+                    #SeletedCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_TostartNewProgramme.StreamID,SeletedCourseLevelID.value,'')">
               <option value="0" disabled>--Select Course Level--</option>
               <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
             </select>
@@ -1492,18 +1492,38 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlAdditionofIntegratedDualDegree" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlAdditionofIntegratedDualDegree" name="ddlAdditionofIntegratedDualDegree"
+                    [(ngModel)]="DTE_AdditionofIntegratedDualDegree.StreamID"
+                   #SeletedAdditionofIntegratedDualDegreeProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedAdditionofIntegratedDualDegreeProgrammeID.value,DTE_AdditionofIntegratedDualDegree.CourseLevelID,'AdditionofIntegratedDualDegree')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlDTE_ddlAdditionofIntegratedDualDegreeCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDTE_ddlAdditionofIntegratedDualDegreeCourseLevelID" name="ddlDTE_ddlAdditionofIntegratedDualDegreeCourseLevelID"
+                    [(ngModel)]="DTE_AdditionofIntegratedDualDegree.CourseLevelID"
+                    #SeletedAdditionofIntegratedDualDegreeCourseLevelID (change)="GetCourse_CourseLevelIDWise(DTE_AdditionofIntegratedDualDegree.StreamID,SeletedAdditionofIntegratedDualDegreeCourseLevelID.value,'AdditionofIntegratedDualDegree')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
             <label>Course <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_AdditionofIntegratedDualDegree.CourseID">
               <option value="0" disabled>--Select Course--</option>
-              <option *ngFor="let item of courseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+              <option *ngFor="let item of DTE_AdditionofIntegratedDualDegreeCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
             </select>
             <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
               <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
             </div>
           </div>
 
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
             <label for="ddlSeatInformation" class="form-label">Intake  <span style="color:red">*</span></label>
             <input type="text" class="form-control" id="txtIntake" name="txtIntake" [(ngModel)]="DTE_AdditionofIntegratedDualDegree.Intake" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted" class="text-danger">
@@ -1525,6 +1545,13 @@
                       Sr.No.
                     </th>
                     <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+
+                    <th>
                       Course
                     </th>
                     <th>
@@ -1539,6 +1566,12 @@
                   <tr *ngFor="let row of request.DTE_AdditionofIntegratedDualDegreeList;let idx=index;">
                     <td>
                       {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
                     </td>
                     <td>
                       {{row.CourseName}}

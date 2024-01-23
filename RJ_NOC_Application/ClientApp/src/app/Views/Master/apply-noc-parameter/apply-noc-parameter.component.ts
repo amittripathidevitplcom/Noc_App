@@ -3056,29 +3056,25 @@ export class ApplyNocParameterComponent implements OnInit {
     }
 
     this.request.DTE_AdditionofIntegratedDualDegreeList.push({
-
       DetailID: 0,
-
       ApplyNocID: 0,
-
       DepartmentID: 0,
-
       CollegeID: 0,
-
       FeeAmount: 0,
-
       CourseID: this.DTE_AdditionofIntegratedDualDegree.CourseID,
-
-      CourseName: this.courseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_AdditionofIntegratedDualDegree.CourseID).CourseName,
-
-      Intake: this.DTE_AdditionofIntegratedDualDegree.Intake
+      CourseName: this.DTE_AdditionofIntegratedDualDegreeCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_AdditionofIntegratedDualDegree.CourseID).CourseName,
+      Intake: this.DTE_AdditionofIntegratedDualDegree.Intake,
+      StreamID: this.request.DTE_TostartNewProgramme.StreamID,
+      CourseLevelID: this.request.DTE_TostartNewProgramme.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_AdditionofIntegratedDualDegree.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_AdditionofIntegratedDualDegree.CourseLevelID).Name
 
     });
-
+    this.DTE_AdditionofIntegratedDualDegree.StreamID = 0;
+    this.DTE_AdditionofIntegratedDualDegree.CourseLevelID = 0;
     this.DTE_AdditionofIntegratedDualDegree.CourseID = 0;
-
     this.DTE_AdditionofIntegratedDualDegree.Intake = 0;
-
+    this.DTE_AdditionofIntegratedDualDegreeCourseDataList = [];
   }
 
   async Add_ChangeInNameOfCourse() {
@@ -3795,12 +3791,18 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
-  async GetCourse_CourseLevelIDWise( ProgrammeID: number, CourseLevelID: number) {
+
+
+  public DTE_AdditionofIntegratedDualDegreeCourseDataList: any = [];
+  async GetCourse_CourseLevelIDWise(ProgrammeID: number, CourseLevelID: number, Type: string) {
     try {
       this.loaderService.requestStarted();
       await this.commonMasterService.GetCourse_CourseLevelIDWise(this.request.CollegeID, ProgrammeID, CourseLevelID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
+          if (Type == 'AdditionofIntegratedDualDegree') {
+            this.DTE_AdditionofIntegratedDualDegreeCourseDataList = data['Data'][0]['data'];
+          }
           this.DTE_CourseDataList = data['Data'][0]['data'];
         }, error => console.error(error));
     }
