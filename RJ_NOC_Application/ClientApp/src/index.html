@@ -82,11 +82,16 @@
         control = new google.elements.transliteration.TransliterationControl(options);
       const element = document.getElementById("txtCollegeNameHi");
       const element1 = document.getElementById("CollegeNewName_Hi");
+      const element2 = document.getElementById("txtNewCollegeNameHi");
+      
       if (element != null) {
         control.makeTransliteratable(["txtCollegeNameHi"]);
       }
       if (element1 != null) {
         control.makeTransliteratable(["CollegeNewName_Hi"]);
+      }
+      if (element2 != null) {
+        control.makeTransliteratable(["txtNewCollegeNameHi"]);
       }
     }
     google.setOnLoadCallback(onLoad);

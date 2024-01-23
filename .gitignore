@@ -376,3 +376,6 @@ FodyWeavers.xsd
 /RJ_NOC_Application/ClientApp/dist/out-tsc/app
 /RJ_NOC_Application/ClientApp/src/assets/appsettings.json
 /RJ_NOC_Application/ClientApp/src/app/Views/htmlpage.html
+/RJ_NOC_Application/RJ_NOC_Application.csproj
+/.gitignore
+/.gitignore
