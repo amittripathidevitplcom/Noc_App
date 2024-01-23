@@ -2810,7 +2810,12 @@ export class ApplyNocParameterComponent implements OnInit {
       CourseID: this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID,
       CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID).CourseName,
       Intake: this.request.DTE_IncreaseinIntakeAdditionofCourse.Intake,
-      FeeAmount: this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount
+      FeeAmount: this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount,
+
+      StreamID: this.request.DTE_IncreaseinIntakeAdditionofCourse.StreamID,
+      CourseLevelID: this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.request.DTE_IncreaseinIntakeAdditionofCourse.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseLevelID).Name
     });
     this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID = 0;
     this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseName = '';
@@ -2935,7 +2940,12 @@ export class ApplyNocParameterComponent implements OnInit {
       CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID).CourseName,
       Intake: this.request.DTE_IncreaseInIntake_AdditionofCourse.Intake,
       UpdatedIntake: this.request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake,
-      FeeAmount: this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount
+      FeeAmount: this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount,
+
+      StreamID: this.request.DTE_IncreaseInIntake_AdditionofCourse.StreamID,
+      CourseLevelID: this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.request.DTE_IncreaseInIntake_AdditionofCourse.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseLevelID).Name
     });
     this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID = 0;
     this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseName = '';
@@ -3752,6 +3762,8 @@ export class ApplyNocParameterComponent implements OnInit {
 
 
   public DTE_AdditionofIntegratedDualDegreeCourseDataList: any = [];
+  public DTE_CourseDataListIncreaseinIntake: any = [];
+  public DTE_CourseDataListIncreaseInIntake_AdditionofCourse: any = [];
   public DTE_ChangeInNameOfCourseCourseDataList: any = [];
   public DTE_ReductionInIntakeCourseDataList: any = [];
   public DTE_ClosureOfCoursesCourseDataList: any = [];
@@ -3765,6 +3777,13 @@ export class ApplyNocParameterComponent implements OnInit {
           if (Type == 'AdditionofIntegratedDualDegree') {
             this.DTE_AdditionofIntegratedDualDegreeCourseDataList = data['Data'][0]['data'];
           }
+          if (Type == 'IncreaseinIntake') {
+            this.DTE_CourseDataListIncreaseinIntake = data['Data'][0]['data'];
+          }
+          if (Type == 'DTE_IncreaseInIntake_AdditionofCourse') {
+            this.DTE_CourseDataListIncreaseInIntake_AdditionofCourse = data['Data'][0]['data'];
+          }
+          this.DTE_CourseDataList = data['Data'][0]['data'];
           else if (Type == 'ChangeInNameOfCourse') {
             this.DTE_ChangeInNameOfCourseCourseDataList = data['Data'][0]['data'];
           }
