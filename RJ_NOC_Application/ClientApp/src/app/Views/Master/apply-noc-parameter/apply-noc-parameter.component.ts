@@ -3777,13 +3777,12 @@ export class ApplyNocParameterComponent implements OnInit {
           if (Type == 'AdditionofIntegratedDualDegree') {
             this.DTE_AdditionofIntegratedDualDegreeCourseDataList = data['Data'][0]['data'];
           }
-          if (Type == 'IncreaseinIntake') {
+          else if (Type == 'IncreaseinIntake') {
             this.DTE_CourseDataListIncreaseinIntake = data['Data'][0]['data'];
           }
-          if (Type == 'DTE_IncreaseInIntake_AdditionofCourse') {
+          else if (Type == 'DTE_IncreaseInIntake_AdditionofCourse') {
             this.DTE_CourseDataListIncreaseInIntake_AdditionofCourse = data['Data'][0]['data'];
           }
-          this.DTE_CourseDataList = data['Data'][0]['data'];
           else if (Type == 'ChangeInNameOfCourse') {
             this.DTE_ChangeInNameOfCourseCourseDataList = data['Data'][0]['data'];
           }
