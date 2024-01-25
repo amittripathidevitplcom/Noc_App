@@ -2122,24 +2122,35 @@
           </div>
           <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
             <label>Course 1 <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.CourseID1">
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.CourseID1"
+               #DTE_MergerOfTheCourseCourseID1     (change)="GetIntakeValues(DTE_MergerOfTheCourseCourseID1.value,'DTE_MergerOfTheCourseCourseID1')" >
               <option value="0" disabled>--Select Course--</option>
               <option *ngFor="let item of DTE_MergerOfTheCourseCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
             </select>
 
           </div>
-          <!--<div class="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="txtCourseOneIntake" class="form-label">Course 1 Intake<span style="color:red">*</span></label>
-            <input type="text" class="form-control" id="txtCourseOneIntake" name="txtIntake" [(ngModel)]="DTE_ClosureOfCourses.CourseOneIntake" (keypress)="numberOnly($event)" disabled>
-          </div>-->
+
+          <div class="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCourseOneIntake" class="form-label">Course 1 Intake</label>
+            <input type="text" class="form-control" id="txtCourseOneIntake" name="txtCourseOneIntake"
+                   [(ngModel)]="DTE_MergerOfTheCourse.CourseIntake1" (keypress)="numberOnly($event)" disabled>
+          </div>
+
           <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
             <label>Course 2 <span style="color:red;">*</span></label>
-            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.CourseID2">
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.CourseID2"
+                    #DTE_MergerOfTheCourseCourseID2     (change)="GetIntakeValues(DTE_MergerOfTheCourseCourseID2.value,'DTE_MergerOfTheCourseCourseID2')">
               <option value="0" disabled>--Select--</option>
               <option *ngFor="let item of DTE_MergerOfTheCourseCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
             </select>
-
           </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCourseIntake2" class="form-label">Course 2 Intake </label>
+            <input type="text" class="form-control" id="txtCourseIntake2" name="txtCourseIntake2"
+                   [(ngModel)]="DTE_MergerOfTheCourse.CourseIntake2" (keypress)="numberOnly($event)" disabled>
+          </div>
+
           <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
             <label>Course Merge <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.MergerCourseID">
@@ -2148,6 +2159,13 @@
             </select>
 
           </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtMergeIntake" class="form-label">Merge Intake<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtMergeIntake" name="txtMergeIntake"
+                   [(ngModel)]="DTE_MergerOfTheCourse.MergerIntake" (keypress)="numberOnly($event)">
+          </div>
+
           <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
             <button type="button" class="btn btn-primary" (click)="Add_DTE_MergerOfTheCourse()"><i class="fa fa-plus"></i> Add</button>
           </div>
@@ -2171,10 +2189,19 @@
                       Course 1
                     </th>
                     <th>
+                      Course 1 Intake
+                    </th>
+                    <th>
                       Course 2
                     </th>
                     <th>
+                      Course 1 Intake
+                    </th>
+                    <th>
                       Course Merge
+                    </th>
+                    <th>
+                      Merge Intake
                     </th>
                     <th>
                       Action
@@ -2196,10 +2223,19 @@
                       {{row.CourseName}}
                     </td>
                     <td>
+                      {{row.CourseIntake1}}
+                    </td>
+                    <td>
                       {{row.CourseName1}}
                     </td>
                     <td>
+                      {{row.CourseIntake2}}
+                    </td>
+                    <td>
                       {{row.MergeCourseName}}
+                    </td>
+                    <td>
+                      {{row.MergerIntake}}
                     </td>
                     <td>
                       <div class="d-flex">

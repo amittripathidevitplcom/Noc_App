@@ -569,5 +569,11 @@ export class ApplyNocParameterMasterList_MergerOfTheCourse {
   public StreamName: string = '';
   public CourseLevelID: number = 0;
   public CourseLevelName: string = '';
+
+  public CourseIntake1: number = 0;
+  public CourseIntake2: number = 0;
+  public MergerIntake: number = 0;
+
+
 }
 

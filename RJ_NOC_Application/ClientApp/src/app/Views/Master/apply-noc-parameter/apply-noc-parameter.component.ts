@@ -602,7 +602,7 @@ export class ApplyNocParameterComponent implements OnInit {
         this.request.DTE_ChangeInNameofInstitution_View = item.IsChecked;
         this.request.DTE_ChangeInNameofInstitution.CurrentCollegeName = '';
         this.request.DTE_ChangeInNameofInstitution.NewCollegeName = '';
-        this.request.DTE_ChangeInNameofInstitution.NewCollegeNameHi = ''; 
+        this.request.DTE_ChangeInNameofInstitution.NewCollegeNameHi = '';
         setTimeout(function () { (window as any).LoadData(); }, 200)
         await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
           .then((data: any) => {
@@ -3361,6 +3361,19 @@ export class ApplyNocParameterComponent implements OnInit {
 
     }
 
+
+    if (this.DTE_MergerOfTheCourse.MergerIntake == 0) {
+      this.toastr.error("Enter Merger Intake.!");
+      return;
+    }
+
+    if ((Number(this.DTE_MergerOfTheCourse.MergerIntake)) > ((Number(this.DTE_MergerOfTheCourse.CourseIntake1) + Number(this.DTE_MergerOfTheCourse.CourseIntake2))))
+    {
+      this.toastr.error("Enter Merger Intake (should be less than or equal (intake 1 + intake 2).!");
+      return;
+    }
+
+
     //To start new Programme/ Level in the existing Institutions
 
     //if (this.request.DTE_MergerOfTheCourse_View == true) {
@@ -3389,7 +3402,6 @@ export class ApplyNocParameterComponent implements OnInit {
     }
 
     this.request.DTE_MergerOfTheCourseList.push({
-
       DetailID: 0,
       ApplyNocID: 0,
       DepartmentID: 0,
@@ -3404,8 +3416,10 @@ export class ApplyNocParameterComponent implements OnInit {
       StreamID: this.DTE_MergerOfTheCourse.StreamID,
       CourseLevelID: this.DTE_MergerOfTheCourse.CourseLevelID,
       StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_MergerOfTheCourse.StreamID).StreamName,
-      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_MergerOfTheCourse.CourseLevelID).Name
-
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_MergerOfTheCourse.CourseLevelID).Name,
+      CourseIntake1: this.DTE_MergerOfTheCourse.CourseIntake1,
+      CourseIntake2: this.DTE_MergerOfTheCourse.CourseIntake2,
+      MergerIntake: this.DTE_MergerOfTheCourse.MergerIntake
     });
 
     this.DTE_MergerOfTheCourse.CourseID1 = 0;
@@ -3414,6 +3428,10 @@ export class ApplyNocParameterComponent implements OnInit {
     this.DTE_MergerOfTheCourse.CourseID2 = 0;
     this.DTE_MergerOfTheCourse.MergerCourseID = 0;
     this.DTE_MergerOfTheCourseCourseDataList = [];
+
+    this.DTE_MergerOfTheCourse.CourseIntake1 = 0;
+    this.DTE_MergerOfTheCourse.CourseIntake2 = 0;
+    this.DTE_MergerOfTheCourse.MergerIntake = 0;
   }
 
   Delete_AdditionofIntegratedDualDegree(item: ApplyNocParameterMasterList_AdditionofIntegratedDualDegree) {
@@ -3671,54 +3689,35 @@ export class ApplyNocParameterComponent implements OnInit {
   }
 
   async GetIntakeValues(CourseID: number, Type: string) {
-
     this.DTE_ReductionInIntake.CurrentIntake = 0;
-
     this.DTE_ClosureOfCourses.CurrentIntake = 0;
-
     try {
-
       this.loaderService.requestStarted();
-
       await this.commonMasterService.GetIntakeByCollegeCourse(this.request.CollegeID, CourseID)
-
         .then((data: any) => {
-
           data = JSON.parse(JSON.stringify(data));
-
           if (Type == 'ClosureIntake') {
-
             this.DTE_ClosureOfCourses.CurrentIntake = data['Data'][0]['data'][0]['Intake'];
-
           }
-
+          else if (Type == 'DTE_MergerOfTheCourseCourseID1') {
+            this.DTE_MergerOfTheCourse.CourseIntake1 = data['Data'][0]['data'][0]['Intake'];
+          }
+          else if (Type == 'DTE_MergerOfTheCourseCourseID2') {
+            this.DTE_MergerOfTheCourse.CourseIntake2 = data['Data'][0]['data'][0]['Intake'];
+          }
           else {
-
             this.DTE_ReductionInIntake.CurrentIntake = data['Data'][0]['data'][0]['Intake'];
-
           }
-
-
         }, error => console.error(error));
-
     }
-
     catch (Ex) {
-
       console.log(Ex);
-
     }
-
     finally {
-
       setTimeout(() => {
-
         this.loaderService.requestEnded();
-
       }, 200);
-
     }
-
   }
 
   ///DTE
