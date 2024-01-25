@@ -358,7 +358,7 @@ export class ApplyNocOfflinePaymentModal {
   public DepartmentID: number = 0;
   public ApplyNOCID: number = 0;
   public CollegeID: number = 0;
-  public PaymentMode: string = '';
+  public PaymentMode: string = '0';
   public BankName: string = '';
   public Amount: number = 0;
   public DateofIssuance: string = '';

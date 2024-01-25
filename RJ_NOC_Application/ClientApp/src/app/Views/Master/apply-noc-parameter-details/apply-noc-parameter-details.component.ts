@@ -768,15 +768,20 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }
   }
 
+
+  public ApplicationFinalSubmit: boolean = false;
   async OpenOfflinePaymentActionPopUP(content: any, item: any,) {
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+    debugger;
+    this.ApplicationFinalSubmit = false;
     this.request.ApplyNOCID = item.ApplyNocApplicationID;
     this.request.CollegeID = item.CollegeID;
     this.request.DepartmentID = item.DepartmentID;
+    this.ApplicationFinalSubmit = item.IsFinalSubmit;
     this.GetOfflinePaymentDetails(this.request.ApplyNOCID, 0, 'GetOfflinePaymentDetails');
   }
 

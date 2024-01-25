@@ -67,60 +67,66 @@
                         style="background-color: #132649;">
                   Action
                 </button>-->
-                <ul class="dropdown-menu show" aria-labelledby="dropdownMenuButton1" style="position: relative !important;display:contents">
-                  <li>
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="View Apply Details"
-                       (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)">View Apply Details</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" aria-label="Preview Application" (click)="GetApplicationSummary(item.DepartmentID,item.CollegeID)">Preview Application</a>
-                  </li>
+              <ul class="dropdown-menu show" aria-labelledby="dropdownMenuButton1" style="position: relative !important;display:contents">
+                <li>
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="View Apply Details"
+                     (click)="ViewApplyNocApplication_click(mymodalview,item.ApplyNocApplicationID)">View Apply Details</a>
+                </li>
+                <li>
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" aria-label="Preview Application" (click)="GetApplicationSummary(item.DepartmentID,item.CollegeID)">Preview Application</a>
+                </li>
 
-                  <li *ngIf="item.IsMakePayment==false">
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Delete Application"
-                       (click)="DeleteApplyNocApplication_click(item)">Delete</a>
-                  </li>
-                  <li *ngIf="item.DepartmentID !=2">
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add FDR" (click)="AddFDR_click(item)">
-                      {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
-                    </a>
-                  </li>
+                <li *ngIf="item.IsMakePayment==false">
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Delete Application"
+                     (click)="DeleteApplyNocApplication_click(item)">Delete</a>
+                </li>
+                <li *ngIf="item.DepartmentID !=2">
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add FDR" (click)="AddFDR_click(item)">
+                    {{item.IsSaveFDR==true?'View FDR':'Add FDR'}}
+                  </a>
+                </li>
 
-                  <li>
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
-                      Payment
-                    </a><!--*ngIf="item.IsMakePayment==true"-->
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
-                      Payment History
-                    </a>
-                  </li>
-                  <li *ngIf="item.DepartmentID==6 || item.DepartmentID==9">
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" *ngIf="item.IsMakePayment_ApplicationFee==false"
-                       (click)="EmitraPaymentApplyNocApplication_click(mymodalemitrapayment,item.ApplyNocApplicationID)">
-                      Emitra  Payment
-                    </a>
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" *ngIf="item.IsMakePayment_ApplicationFee==true" (click)="PaymentHistoryNocApplication_click(mymodalemitrapaymenthistory,item.ApplyNocApplicationID)">
-                      Application Payment History
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
-                       *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==false" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
-                      Final Submit
-                    </a>
-                  </li>
-                  <li>
-                    <a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
-                      Add Offline Payment Details
-                    </a>
-                  </li>
-                  <li>
-                    <a style="display:none" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Egrass Payment" (click)="MakeGrassPayment_click(item)">
-                     Egrass Payment
-                    </a><!--*ngIf="item.IsMakePayment==true"-->
-                  </li>
+                <li>
+                  <a *ngIf="item.DepartmentID==4 && item.IsFinalSubmit==false" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
+                    Add Offline Payment Details
+                  </a>
+                </li>
+                <li *ngIf="item.DepartmentID !=4">
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" *ngIf="item.IsMakePayment==false" title="Payment" (click)="PaymentApplyNocApplication_click(mymodalpayment,item.ApplyNocApplicationID)">
+                    Payment
+                  </a><!--*ngIf="item.IsMakePayment==true"-->
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" (click)="PaymentHistoryApplyNocApplication_click(mymodalpaymenthistory,item.ApplyNocApplicationID)">
+                    Payment History
+                  </a>
+                </li>
+                <li *ngIf="item.DepartmentID==6 || item.DepartmentID==9">
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment" *ngIf="item.IsMakePayment_ApplicationFee==false"
+                     (click)="EmitraPaymentApplyNocApplication_click(mymodalemitrapayment,item.ApplyNocApplicationID)">
+                    Emitra  Payment
+                  </a>
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Payment History" *ngIf="item.IsMakePayment_ApplicationFee==true" (click)="PaymentHistoryNocApplication_click(mymodalemitrapaymenthistory,item.ApplyNocApplicationID)">
+                    Application Payment History
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
+                     *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==false" title="Final Submit Application" (click)="FinalSubmitApplyNocApplication_click(item)">
+                    Final Submit
+                  </a>
+                </li>
+                <li>
+                  <a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
+                    Add Offline Payment Details
+                  </a>
+                </li>
 
-                </ul>
+                <li>
+                  <a style="display:none" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Egrass Payment" (click)="MakeGrassPayment_click(item)">
+                    Egrass Payment
+                  </a><!--*ngIf="item.IsMakePayment==true"-->
+                </li>
+
+              </ul>
               <!--</div>-->
             </td>
             <td>{{idx+1}}</td>
@@ -737,7 +743,7 @@
     <div class="row">
 
       <form class="form-horizontal">
-        <div class="card">
+        <div class="card" [hidden]="this.request.DepartmentID==4 && ApplicationFinalSubmit==true">
           <div class="card-header d-flex justify-content-between align-items-center">
             <b><i class="fa fa-plus"></i>&nbsp;Add Offline Payment <span style="color:red;">*</span></b>
           </div>
@@ -812,7 +818,7 @@
 
       </form>
     </div>
-    <div class="row  m-2">
+    <div class="row  m-2" [hidden]="this.request.DepartmentID==4 && ApplicationFinalSubmit==true">
       <div class="col-md-12">
         <button type="button" class="btn btn-primary" (click)="AddOfflineFeeData()" title="Add">{{AddUpdatetext}}</button>
       </div>
@@ -838,7 +844,7 @@
                   <th>Date of Issuance</th>
                   <th>Date of Expiry</th>
                   <th>Transaction Recept</th>
-                  <th>Action</th>
+                  <th [hidden]="this.request.DepartmentID==4 && ApplicationFinalSubmit==true">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -852,7 +858,7 @@
                   <td>{{item.DateofIssuance | date:'dd-MM-yyyy'}}</td>
                   <td>{{item.DateofExpiry | date:'dd-MM-yyyy'}}</td>
                   <td><a class="btn btn-sm btn-primary" target="_blank" title="View Transaction Recept" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a></td>
-                  <td>
+                  <td [hidden]="this.request.DepartmentID==4 && ApplicationFinalSubmit==true">
                     <button type="button" class="btn btn-sm btn-primary" title="Edit" (click)="EditOffLinePaymentDetails(item)"><i class="fa fa-edit"></i></button>
                     &nbsp; <button type="button" class="btn btn-sm btn-danger" title="Delete Transaction" (click)="DeleteOffLinePaymentDetails(item.ApplyNOCID,item.PaymentOfflineID)"><i class="fa fa-trash-o"></i></button>
                   </td>
