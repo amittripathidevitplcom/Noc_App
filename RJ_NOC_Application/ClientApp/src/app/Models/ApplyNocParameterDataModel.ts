@@ -500,6 +500,7 @@ export class ApplyNocParameterMasterList_ChangeInNameOfCourse {
   public DepartmentID: number = 0;
   public CollegeID: number = 0;
   public CourseID: number = 0;
+  public NewCourseID: number = 0;
   public NewCourseName: string = '';
   public FeeAmount: number = 0;
   public CourseName: string = '';

@@ -204,7 +204,7 @@ export class FacilityDetailsComponent implements OnInit {
       this.isValidFacilitiesUrl = true;
       if (event.target.files && event.target.files[0]) {
         if (event.target.files[0].type === 'image/jpeg' ||
-          //event.target.files[0].type === 'application/pdf' ||
+          event.target.files[0].type === 'application/pdf' ||
           event.target.files[0].type === 'image/jpg') {
           if (event.target.files[0].size > 2000000) {
             this.fileUploadImage.nativeElement.value = "";
@@ -222,7 +222,7 @@ export class FacilityDetailsComponent implements OnInit {
           }
         }
         else {
-          this.ImageValidationMessage = 'Select Only jpeg/jpg file';
+          this.ImageValidationMessage = 'Select Only pdf/jpeg/jpg file';
           this.fileUploadImage.nativeElement.value = "";
           this.ResetFile(false, '', '', '');
           this.isValidFacilitiesUrl = false;

@@ -1178,7 +1178,7 @@
                     [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.CourseID"
                     class="form-control">
               <option value="0">--Select Course--</option>
-              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataListIncreaseinIntake">
+              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataListIncreaseinIntake_Master">
                 {{item.CourseName}}
               </option>
             </select>
@@ -1189,9 +1189,9 @@
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>Intake<span style="color:red;"> *</span> </label>
-            <input type="number" name="txtddlIntake_IncreaseinIntake" id="txtddlIntake_IncreaseinIntake" class="form-control mt-1"
+            <input type="text" name="txtddlIntake_IncreaseinIntake" id="txtddlIntake_IncreaseinIntake" class="form-control mt-1"
                    maxlength="6"
-                   [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.Intake" />
+                   [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.Intake" (keypress)="numberOnly($event)"/>
             <!--<div *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName" class="text-danger">
     <p *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName"> This field is required .!</p>-->
           </div>
@@ -1274,7 +1274,7 @@
                     [(ngModel)]="request.DTE_TostartNewProgramme.StreamID"
                     #SeletedProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedProgrammeID.value,request.DTE_TostartNewProgramme.CourseLevelID,'')">
               <option value="0">-- Select --</option>
-              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+              <option *ngFor="let item of DTE_streamMasterDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
             </select>
           </div>
 
@@ -1284,7 +1284,7 @@
                     [(ngModel)]="request.DTE_TostartNewProgramme.CourseLevelID"
                     #SeletedCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_TostartNewProgramme.StreamID,SeletedCourseLevelID.value,'')">
               <option value="0" disabled>--Select Course Level--</option>
-              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+              <option *ngFor="let item of DTE_CourseLevelMasterList" value="{{item.ID}}">{{item.Name}}</option>
             </select>
           </div>
 
@@ -1295,7 +1295,7 @@
                     [(ngModel)]="request.DTE_TostartNewProgramme.CourseID"
                     class="form-control">
               <option value="0">--Select Course--</option>
-              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataList">
+              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataList_Master">
                 {{item.CourseName}}
               </option>
             </select>
@@ -1485,9 +1485,9 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label>Update Intake<span style="color:red;"> *</span> </label>
-            <input type="number" name="txtUpdateIntake_IncreaseinIntake" id="txtUpdateIntake_IncreaseinIntake" class="form-control mt-1"
+            <input type="text" name="txtUpdateIntake_IncreaseinIntake" id="txtUpdateIntake_IncreaseinIntake" class="form-control mt-1"
                    maxlength="6"
-                   [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake" />
+                   [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake"  (keypress)="numberOnly($event)"/>
           </div>
 
           <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
@@ -1570,9 +1570,9 @@
             <label for="ddlAdditionofIntegratedDualDegree" class="form-label">Programme Name <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlAdditionofIntegratedDualDegree" name="ddlAdditionofIntegratedDualDegree"
                     [(ngModel)]="DTE_AdditionofIntegratedDualDegree.StreamID"
-                    #SeletedAdditionofIntegratedDualDegreeProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedAdditionofIntegratedDualDegreeProgrammeID.value,DTE_AdditionofIntegratedDualDegree.CourseLevelID,'AdditionofIntegratedDualDegree')">
+                    #SeletedAdditionofIntegratedDualDegreeProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedAdditionofIntegratedDualDegreeProgrammeID.value,DTE_AdditionofIntegratedDualDegree.CourseLevelID,'AdditionofIntegratedDualDegree','Master')">
               <option value="0">-- Select --</option>
-              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+              <option *ngFor="let item of DTE_streamMasterDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
             </select>
           </div>
 
@@ -1580,9 +1580,9 @@
             <label for="ddlDTE_ddlAdditionofIntegratedDualDegreeCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlDTE_ddlAdditionofIntegratedDualDegreeCourseLevelID" name="ddlDTE_ddlAdditionofIntegratedDualDegreeCourseLevelID"
                     [(ngModel)]="DTE_AdditionofIntegratedDualDegree.CourseLevelID"
-                    #SeletedAdditionofIntegratedDualDegreeCourseLevelID (change)="GetCourse_CourseLevelIDWise(DTE_AdditionofIntegratedDualDegree.StreamID,SeletedAdditionofIntegratedDualDegreeCourseLevelID.value,'AdditionofIntegratedDualDegree')">
+                    #SeletedAdditionofIntegratedDualDegreeCourseLevelID (change)="GetCourse_CourseLevelIDWise(DTE_AdditionofIntegratedDualDegree.StreamID,SeletedAdditionofIntegratedDualDegreeCourseLevelID.value,'AdditionofIntegratedDualDegree','Master')">
               <option value="0" disabled>--Select Course Level--</option>
-              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+              <option *ngFor="let item of DTE_CourseLevelMasterList_PG" value="{{item.ID}}">{{item.Name}}</option>
             </select>
           </div>
 
@@ -1693,7 +1693,6 @@
               <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
             </select>
           </div>
-
           <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
             <label>Course <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_ChangeInNameOfCourse.CourseID">
@@ -1705,12 +1704,21 @@
             </div>
           </div>
           <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>New Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlNewCourseID" [(ngModel)]="DTE_ChangeInNameOfCourse.NewCourseID">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of DTE_ChangeInNameOfCourseCourseDataList_Master" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+
+          </div>
+
+          <!--<div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
             <label for="txtNewCourseName" class="form-label">Course Name  <span style="color:red">*</span></label>
             <input type="text" class="form-control" id="txtNewCourseName" name="txtNewCourseName" [(ngModel)]="DTE_ChangeInNameOfCourse.NewCourseName">
             <div *ngIf="isSubmitted" class="text-danger">
               <p *ngIf="isSubmitted&& DTE_ChangeInNameOfCourse.NewCourseName==''">This field is required .!</p>
             </div>
-          </div>
+          </div>-->
           <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
             <button type="button" class="btn btn-primary" (click)="Add_ChangeInNameOfCourse()"><i class="fa fa-plus"></i> Add</button>
           </div>
@@ -2118,19 +2126,19 @@
               <option value="0" disabled>--Select Course--</option>
               <option *ngFor="let item of DTE_MergerOfTheCourseCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
             </select>
-            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
-              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>
+
           </div>
+          <!--<div class="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCourseOneIntake" class="form-label">Course 1 Intake<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtCourseOneIntake" name="txtIntake" [(ngModel)]="DTE_ClosureOfCourses.CourseOneIntake" (keypress)="numberOnly($event)" disabled>
+          </div>-->
           <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
             <label>Course 2 <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.CourseID2">
               <option value="0" disabled>--Select--</option>
               <option *ngFor="let item of DTE_MergerOfTheCourseCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
             </select>
-            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
-              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>
+
           </div>
           <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
             <label>Course Merge <span style="color:red;">*</span></label>
@@ -2138,9 +2146,7 @@
               <option value="0" disabled>--Select Course--</option>
               <option *ngFor="let item of DTE_MergerOfTheCourseCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
             </select>
-            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
-              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
-            </div>
+
           </div>
           <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
             <button type="button" class="btn btn-primary" (click)="Add_DTE_MergerOfTheCourse()"><i class="fa fa-plus"></i> Add</button>

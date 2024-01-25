@@ -231,7 +231,7 @@ export class ApplyNocParameterComponent implements OnInit {
     await this.GetApplicationList();
 
     this.loaderService.requestEnded();
-
+    setTimeout(function () { (window as any).LoadData(); }, 200)
   }
 
   get form() {
@@ -246,6 +246,8 @@ export class ApplyNocParameterComponent implements OnInit {
     await this.College_ddlChange(null);
     await this.GetDTE_StreamDataList();
     await this.GetDTE_CourseLevelList();
+    await this.GetDTE_StreamMasterDataList();
+    await this.GetDTE_CourseLevelMasterList();
   }
   async BackToCollegeList() {
     this.IsShowCollegeList = true;
@@ -600,8 +602,8 @@ export class ApplyNocParameterComponent implements OnInit {
         this.request.DTE_ChangeInNameofInstitution_View = item.IsChecked;
         this.request.DTE_ChangeInNameofInstitution.CurrentCollegeName = '';
         this.request.DTE_ChangeInNameofInstitution.NewCollegeName = '';
-        this.request.DTE_ChangeInNameofInstitution.NewCollegeNameHi = '';
-
+        this.request.DTE_ChangeInNameofInstitution.NewCollegeNameHi = ''; 
+        setTimeout(function () { (window as any).LoadData(); }, 200)
         await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
           .then((data: any) => {
 
@@ -2808,7 +2810,7 @@ export class ApplyNocParameterComponent implements OnInit {
       DepartmentID: 0,
       CollegeID: 0,
       CourseID: this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID,
-      CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID).CourseName,
+      CourseName: this.DTE_CourseDataListIncreaseinIntake_Master.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID).CourseName,
       Intake: this.request.DTE_IncreaseinIntakeAdditionofCourse.Intake,
       FeeAmount: this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount,
 
@@ -2869,20 +2871,20 @@ export class ApplyNocParameterComponent implements OnInit {
       DepartmentID: 0,
       CollegeID: 0,
       CourseID: this.request.DTE_TostartNewProgramme.CourseID,
-      CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_TostartNewProgramme.CourseID).CourseName,
+      CourseName: this.DTE_CourseDataList_Master.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_TostartNewProgramme.CourseID).CourseName,
       Intake: this.request.DTE_TostartNewProgramme.Intake,
       FeeAmount: this.request.DTE_TostartNewProgramme.FeeAmount,
       StreamID: this.request.DTE_TostartNewProgramme.StreamID,
       CourseLevelID: this.request.DTE_TostartNewProgramme.CourseLevelID,
-      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.request.DTE_TostartNewProgramme.StreamID).StreamName,
-      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.DTE_TostartNewProgramme.CourseLevelID).Name
+      StreamName: this.DTE_streamMasterDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.request.DTE_TostartNewProgramme.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelMasterList.find((x: { ID: number; }) => x.ID == this.request.DTE_TostartNewProgramme.CourseLevelID).Name
     });
     this.request.DTE_TostartNewProgramme.CourseID = 0;
     this.request.DTE_TostartNewProgramme.CourseName = '';
     this.request.DTE_TostartNewProgramme.Intake = 0;
     this.request.DTE_TostartNewProgramme.StreamID = 0;
     this.request.DTE_TostartNewProgramme.CourseLevelID = 0;
-    this.DTE_CourseDataList = [];
+    this.DTE_CourseDataList_Master = [];
 
   }
   Delete_TostartNewProgramme(item: ApplyNocParameterMasterList_TostartNewProgramme) {
@@ -2937,7 +2939,7 @@ export class ApplyNocParameterComponent implements OnInit {
       DepartmentID: 0,
       CollegeID: 0,
       CourseID: this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID,
-      CourseName: this.DTE_CourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID).CourseName,
+      CourseName: this.DTE_CourseDataListIncreaseInIntake_AdditionofCourse.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID).CourseName,
       Intake: this.request.DTE_IncreaseInIntake_AdditionofCourse.Intake,
       UpdatedIntake: this.request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake,
       FeeAmount: this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount,
@@ -3054,8 +3056,8 @@ export class ApplyNocParameterComponent implements OnInit {
       Intake: this.DTE_AdditionofIntegratedDualDegree.Intake,
       StreamID: this.DTE_AdditionofIntegratedDualDegree.StreamID,
       CourseLevelID: this.DTE_AdditionofIntegratedDualDegree.CourseLevelID,
-      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_AdditionofIntegratedDualDegree.StreamID).StreamName,
-      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_AdditionofIntegratedDualDegree.CourseLevelID).Name
+      StreamName: this.DTE_streamMasterDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_AdditionofIntegratedDualDegree.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelMasterList_PG.find((x: { ID: number; }) => x.ID == this.DTE_AdditionofIntegratedDualDegree.CourseLevelID).Name
 
     });
     this.DTE_AdditionofIntegratedDualDegree.StreamID = 0;
@@ -3074,10 +3076,9 @@ export class ApplyNocParameterComponent implements OnInit {
       return;
 
     }
+    if (this.DTE_ChangeInNameOfCourse.NewCourseID == 0) {
 
-    if (this.DTE_ChangeInNameOfCourse.NewCourseName == '') {
-
-      this.toastr.error("Enter New Course Name.!");
+      this.toastr.error("Select New Course.!");
 
       return;
 
@@ -3101,7 +3102,8 @@ export class ApplyNocParameterComponent implements OnInit {
       FeeAmount: 0,
       CourseID: this.DTE_ChangeInNameOfCourse.CourseID,
       CourseName: this.DTE_ChangeInNameOfCourseCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ChangeInNameOfCourse.CourseID).CourseName,
-      NewCourseName: this.DTE_ChangeInNameOfCourse.NewCourseName,
+      NewCourseID: this.DTE_ChangeInNameOfCourse.NewCourseID,
+      NewCourseName: this.DTE_ChangeInNameOfCourseCourseDataList_Master.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ChangeInNameOfCourse.NewCourseID).CourseName,
       StreamID: this.DTE_ChangeInNameOfCourse.StreamID,
       CourseLevelID: this.DTE_ChangeInNameOfCourse.CourseLevelID,
       StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_ChangeInNameOfCourse.StreamID).StreamName,
@@ -3112,8 +3114,9 @@ export class ApplyNocParameterComponent implements OnInit {
     this.DTE_ChangeInNameOfCourse.CourseID = 0;
     this.DTE_ChangeInNameOfCourse.StreamID = 0;
     this.DTE_ChangeInNameOfCourse.CourseLevelID = 0;
-    this.DTE_ChangeInNameOfCourse.NewCourseName = '';
+    this.DTE_ChangeInNameOfCourse.NewCourseID = 0;
     this.DTE_ChangeInNameOfCourseCourseDataList = [];
+    this.DTE_ChangeInNameOfCourseCourseDataList_Master = [];
   }
 
   async CalculateReducedIntake() {
@@ -3725,7 +3728,7 @@ export class ApplyNocParameterComponent implements OnInit {
     try {
       debugger
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetProgramMaster_CollegeIDWise(this.request.CollegeID)
+      await this.commonMasterService.GetProgramMaster_CollegeIDWise(this.request.CollegeID, 'NM')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.DTE_streamDataList = data['Data'][0]['data'];
@@ -3743,7 +3746,7 @@ export class ApplyNocParameterComponent implements OnInit {
   async GetDTE_CourseLevelList() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCourseLevel_ProgramIDWise(this.request.CollegeID)
+      await this.commonMasterService.GetCourseLevel_ProgramIDWise(this.request.CollegeID, 'NM')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.DTE_CourseLevelList = data['Data'][0]['data'];
@@ -3758,6 +3761,48 @@ export class ApplyNocParameterComponent implements OnInit {
       }, 200);
     }
   }
+  public DTE_streamMasterDataList: any = [];
+  public DTE_CourseLevelMasterList: any = [];
+  public DTE_CourseLevelMasterList_PG: any = [];
+  async GetDTE_StreamMasterDataList() {
+    try {
+      debugger
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetProgramMaster_CollegeIDWise(this.request.CollegeID, 'Master')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.DTE_streamMasterDataList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetDTE_CourseLevelMasterList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCourseLevel_ProgramIDWise(this.request.CollegeID, 'Master')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.DTE_CourseLevelMasterList = data['Data'][0]['data'];
+          this.DTE_CourseLevelMasterList_PG = this.DTE_CourseLevelMasterList.filter((x: { Name: string; }) => x.Name == 'PG');
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
 
 
 
@@ -3768,10 +3813,12 @@ export class ApplyNocParameterComponent implements OnInit {
   public DTE_ReductionInIntakeCourseDataList: any = [];
   public DTE_ClosureOfCoursesCourseDataList: any = [];
   public DTE_MergerOfTheCourseCourseDataList: any = [];
-  async GetCourse_CourseLevelIDWise(ProgrammeID: number, CourseLevelID: number, Type: string) {
+  async GetCourse_CourseLevelIDWise(ProgrammeID: number, CourseLevelID: number, Type: string, GetType: string) {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetCourse_CourseLevelIDWise(this.request.CollegeID, ProgrammeID, CourseLevelID)
+      await this.GetCourse_CourseLevelIDWise_Master(ProgrammeID, CourseLevelID, Type, 'Master');
+
+      await this.commonMasterService.GetCourse_CourseLevelIDWise(this.request.CollegeID, ProgrammeID, CourseLevelID, GetType)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           if (Type == 'AdditionofIntegratedDualDegree') {
@@ -3810,4 +3857,55 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
+
+  public DTE_AdditionofIntegratedDualDegreeCourseDataList_Master: any = [];
+  public DTE_CourseDataListIncreaseinIntake_Master: any = [];
+  public DTE_CourseDataListIncreaseInIntake_AdditionofCourse_Master: any = [];
+  public DTE_ChangeInNameOfCourseCourseDataList_Master: any = [];
+  public DTE_ReductionInIntakeCourseDataList_Master: any = [];
+  public DTE_ClosureOfCoursesCourseDataList_Master: any = [];
+  public DTE_MergerOfTheCourseCourseDataList_Master: any = [];
+  public DTE_CourseDataList_Master: any = [];
+  async GetCourse_CourseLevelIDWise_Master(ProgrammeID: number, CourseLevelID: number, Type: string, GetType: string) {
+    try {
+      this.loaderService.requestStarted();
+      debugger;
+      await this.commonMasterService.GetCourse_CourseLevelIDWise(this.request.CollegeID, ProgrammeID, CourseLevelID, GetType)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (Type == 'AdditionofIntegratedDualDegree') {
+            this.DTE_AdditionofIntegratedDualDegreeCourseDataList_Master = data['Data'][0]['data'];
+          }
+          else if (Type == 'IncreaseinIntake') {
+            this.DTE_CourseDataListIncreaseinIntake_Master = data['Data'][0]['data'];
+          }
+          else if (Type == 'DTE_IncreaseInIntake_AdditionofCourse') {
+            this.DTE_CourseDataListIncreaseInIntake_AdditionofCourse = data['Data'][0]['data'];
+          }
+          else if (Type == 'ChangeInNameOfCourse') {
+            this.DTE_ChangeInNameOfCourseCourseDataList_Master = data['Data'][0]['data'];
+          }
+          else if (Type == 'ReductionInIntake') {
+            this.DTE_ReductionInIntakeCourseDataList_Master = data['Data'][0]['data'];
+          }
+          else if (Type == 'ClosureOfCourses') {
+            this.DTE_ClosureOfCoursesCourseDataList_Master = data['Data'][0]['data'];
+          }
+          else if (Type == 'MergerOfTheCourse') {
+            this.DTE_MergerOfTheCourseCourseDataList_Master = data['Data'][0]['data'];
+          }
+          else {
+            this.DTE_CourseDataList_Master = data['Data'][0]['data'];
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

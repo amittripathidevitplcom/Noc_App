@@ -1436,35 +1436,35 @@ export class CommonMasterService {
       ).toPromise();
   }
 
-  public async GetProgramMaster_CollegeIDWise(CollegeID: number) {
+  public async GetProgramMaster_CollegeIDWise(CollegeID: number, GetType: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetProgrammeByCollegeDTE/" + CollegeID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetProgrammeByCollegeDTE/" + CollegeID + "/" + GetType)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetCourseLevel_ProgramIDWise(CollegeID: number) {
+  public async GetCourseLevel_ProgramIDWise(CollegeID: number, GetType:string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseLevelByCollegeDTE/" + CollegeID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseLevelByCollegeDTE/" + CollegeID + "/" + GetType)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetCourse_CourseLevelIDWise(CollegeID: number, ProgrammeID: number, CourseLevelID: number) {
+  public async GetCourse_CourseLevelIDWise(CollegeID: number, ProgrammeID: number, CourseLevelID: number, GetType: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseByCollegeProgrammeDTE/" + CollegeID + "/" + ProgrammeID + "/" + CourseLevelID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseByCollegeProgrammeDTE/" + CollegeID + "/" + ProgrammeID + "/" + CourseLevelID + "/" + GetType)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
