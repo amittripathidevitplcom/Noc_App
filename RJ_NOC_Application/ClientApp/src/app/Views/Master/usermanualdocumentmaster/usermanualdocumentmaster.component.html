@@ -57,24 +57,24 @@
                   </div>
                 </div>
 
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                  <label for="txtTitleEnglish" maxlength="200" class="form-label">Title in English: <span style="color:red;">*</span></label>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtTitleEnglish" maxlength="500" class="form-label">Content: <span style="color:red;">*</span></label>
                   <input type="text" class="form-control" id="txtTitleEnglish" name="txtTitleEnglish" [(ngModel)]="request.TitleEnglish" formControlName="txtTitleEnglish"
-                         placeholder="Enter Title in English" autocomplete="off">
+                          autocomplete="off">
                   <div *ngIf="isSubmitted&&form.txtTitleEnglish.errors" class="text-danger">
                     <p *ngIf="form.txtTitleEnglish.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
                 </div>
 
 
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label for="txtTitleHindi" class="form-label">Title in Hindi: <span style="color:red;">*</span></label>
                   <input type="text" class="form-control" id="txtTitleHindi" name="txtTitleHindi" [(ngModel)]="request.TitleHindi" formControlName="txtTitleHindi"
                          placeholder="Enter Title in Hindi" autocomplete="off">
                   <div *ngIf="isSubmitted&&form.txtTitleHindi.errors" class="text-danger">
                     <p *ngIf="form.txtTitleHindi.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
-                </div>
+                </div>-->
 
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label class="form-label">Document Upload<span style="color:red;">*</span></label>
@@ -160,9 +160,9 @@
             <tr>
               <th>Sr. No</th>
               <th>Department</th>
-              <th>Name</th>
-              <th>Title in English</th>
-              <th>Title in Hindi</th>
+              <th>User Type</th>
+              <th>Content</th>
+              <!--<th>Title in Hindi</th>-->
               <th>Document</th>
               <th>Is Show</th>
               <th>Is New</th>
@@ -178,7 +178,7 @@
               <td>{{row.DepartmentName_English}}</td>
               <td>{{row.Name}}</td>
               <td>{{row.TitleEnglish}}</td>
-              <td>{{row.TitleHindi}}</td>
+              <!--<td>{{row.TitleHindi}}</td>-->
               <td><a target="_blank" href="{{row.DocumentPath}}"><i class="fa fa-eye"></i></a></td>
               <td>{{row.IsShow==true?'Yes':'No'}}</td>
               <td>{{row.IsNew==true?'Yes':'No'}}</td>

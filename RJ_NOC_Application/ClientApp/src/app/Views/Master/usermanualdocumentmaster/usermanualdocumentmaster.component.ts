@@ -55,7 +55,7 @@ export class UserManualDocumentMasterComponent implements OnInit {
         ddlDepartmentID: ['', [DropdownValidators]],
         ddlUserTypeID: ['', [DropdownValidators]],
         txtTitleEnglish: ['', [Validators.required]],
-        txtTitleHindi: ['', [Validators.required]],
+        //txtTitleHindi: ['', [Validators.required]],
         fDocumentUploadFile: [''],
         chkIsShow: [''],
         chkIsNew: [''],
@@ -306,7 +306,7 @@ export class UserManualDocumentMasterComponent implements OnInit {
     
     try {
       this.loaderService.requestStarted();
-      await this.usermanualDocumentService.GetUserManualDocumentMasterList(this.sSOLoginDataModel.DepartmentID)
+      await this.usermanualDocumentService.GetUserManualDocumentMasterList(this.sSOLoginDataModel.DepartmentID,'D')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

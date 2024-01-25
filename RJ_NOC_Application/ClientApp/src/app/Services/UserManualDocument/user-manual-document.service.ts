@@ -32,9 +32,9 @@ export class UserManualDocumentService {
       ).toPromise();
   }
 
-  public async GetUserManualDocumentMasterList(DepartmentID:number) {
+  public async GetUserManualDocumentMasterList(DepartmentID:number,Type:string) {
 
-    return await this.http.get(this.APIUrl + "/GetUserManualDocumentMasterList/" + DepartmentID)
+    return await this.http.get(this.APIUrl + "/GetUserManualDocumentMasterList/" + DepartmentID + "/" + Type)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

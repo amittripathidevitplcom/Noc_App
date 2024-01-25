@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
 
     try {
       this.loaderService.requestStarted();
-      await this.usermanualDocumentService.GetUserManualDocumentMasterList(DepartmentID)
+      await this.usermanualDocumentService.GetUserManualDocumentMasterList(DepartmentID,'U')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.UserManualDocumentlList= data['Data'][0]['data'];
