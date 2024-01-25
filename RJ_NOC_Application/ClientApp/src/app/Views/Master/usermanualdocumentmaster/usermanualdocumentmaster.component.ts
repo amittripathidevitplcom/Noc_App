@@ -56,9 +56,10 @@ export class UserManualDocumentMasterComponent implements OnInit {
         ddlUserTypeID: ['', [DropdownValidators]],
         txtTitleEnglish: ['', [Validators.required]],
         txtTitleHindi: ['', [Validators.required]],
-        fDocumentUploadFile: ['', [Validators.required]],
+        fDocumentUploadFile: [''],
         chkIsShow: [''],
-        chkIsNew: ['']
+        chkIsNew: [''],
+        txtOrderBy: ['', [Validators.required, Validators.min(1)]]
       });
 
     await this.GetDepartmentList();
@@ -67,6 +68,13 @@ export class UserManualDocumentMasterComponent implements OnInit {
     if (this.sSOLoginDataModel.DepartmentID != 0) {
       this.request.DepartmentID = this.sSOLoginDataModel.DepartmentID;
       this.is_disableDepartment = true;
+    }
+    if (this.UserManualDocumentlList.length > 0) {
+      const max = Math.max.apply(Math, this.UserManualDocumentlList.map((x: { OrderBy: number; }) => x.OrderBy));
+      this.request.OrderBy = Number(max) + 1;
+    }
+    else {
+      this.request.OrderBy = 1;
     }
   }
   get form() { return this.UserManualDocumentForm.controls; }
@@ -217,13 +225,15 @@ export class UserManualDocumentMasterComponent implements OnInit {
     if (this.UserManualDocumentForm.invalid) {
       return
     }
-
+    if (this.request.DocumentName == '') {
+      return
+    }
     //Show Loading
     this.loaderService.requestStarted();
     this.isLoading = true;
     try {
       await this.usermanualDocumentService.SaveData(this.request)
-        .then((data: any) => {
+        .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -231,8 +241,8 @@ export class UserManualDocumentMasterComponent implements OnInit {
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             // get saved society
-            this.GetUserManualDocumentMasterList();
-            this.ResetControl();
+            await this.GetUserManualDocumentMasterList();
+            await this.ResetControl();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -272,6 +282,13 @@ export class UserManualDocumentMasterComponent implements OnInit {
       if (btnSave) btnSave.innerHTML = "<i class='fa fa-plus'></i> Add &amp; Save";
       const btnReset = document.getElementById('')
       if (btnReset) btnReset.innerHTML = "Reset";
+      if (this.UserManualDocumentlList.length > 0) {
+        const max = Math.max.apply(Math, this.UserManualDocumentlList.map((x: { OrderBy: number; }) => x.OrderBy));
+        this.request.OrderBy = Number(max) + 1;
+      }
+      else {
+        this.request.OrderBy = 1;
+      }
     }
     
   catch(Ex) {
@@ -353,6 +370,7 @@ export class UserManualDocumentMasterComponent implements OnInit {
           this.request.DocumentName = data['Data'][0]["DocumentName"];
           this.request.Dis_Document = data['Data'][0]["Dis_Document"];
           this.request.DocumentPath = data['Data'][0]["DocumentPath"];
+          this.request.OrderBy = data['Data'][0]["OrderBy"];
           this.request.IsShow = data['Data'][0]["IsShow"];
           this.request.IsNew = data['Data'][0]["IsNew"];
           const btnSave = document.getElementById('btnSave')
@@ -465,5 +483,11 @@ export class UserManualDocumentMasterComponent implements OnInit {
     }
 
   }
-
+  numbersOnly(event: any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode == 47 || charCode < 46 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
 }

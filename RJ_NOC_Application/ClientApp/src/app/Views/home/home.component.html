@@ -12,7 +12,7 @@
             <h6 class="m-0">Hon'ble Chief Minister</h6>
           </div>
         </div>
-        
+
       </div>
     </div>
   </div>
@@ -71,8 +71,13 @@
                 </tr>
               </thead>
               <tbody>
+                <tr *ngFor="let row of UserManualDocumentlList ;let idx=index;">
 
-                <tr>
+                  <td>{{idx+1}}</td>
+                  <td>{{row.TitleEnglish}}</td>
+                  <td> <a target="_blank" class="bi bi-file-earmark-pdf-fill" href="{{row.DocumentPath}}"></a></td>
+                </tr>
+                <!--<tr>
                   <td>
                     1
                   </td>
@@ -138,7 +143,7 @@
                   <td>
                     <a target="_blank" class="bi bi-file-earmark-pdf-fill" href="../../../assets/PDF/PI_Nodal_2020.pdf"></a>
                   </td>
-                </tr>
+                </tr>-->
 
               </tbody>
             </table>
@@ -170,8 +175,8 @@
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-3">
         <ul class="d-flex justify-content-center footerLink m-0 p-0">
-          
-          
+
+
           <li class="me-3"><span class="d-inline-block" style="border-right:solid 1px #fff;padding-right:15px;">Website Visiter: 02222</span></li>
           <li class="me-3"><span class="d-inline-block">Last update: 10-01-2024</span></li>
         </ul>
@@ -202,8 +207,7 @@
 
 <!--<div class="moving-marquee" style="font-size: 16px;">
   <a class="quzathonhiglight" style="font-size: 28px;">News Update</a><span class="news-update" style="font-size: 16px;">Highlights</span>-->
-  <!--<marquee>
-    Test
-  </marquee>-->
-
+<!--<marquee>
+  Test
+</marquee>-->
 <!--</div>-->
