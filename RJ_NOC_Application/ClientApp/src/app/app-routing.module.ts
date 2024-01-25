@@ -209,6 +209,7 @@ import { JSApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/j
 import { TotalNotFilledStaticsReportComponent } from './Views/DCE/total-not-filled-statics-report/total-not-filled-statics-report.component';
 import { DtcoursemasterComponent } from './Views/Master/DT_CourseMaster/dtcoursemaster/dtcoursemaster.component';
 import { SecretaryFinalCheckListMGOneComponent } from './Views/Medical Group 1/secretary-final-check-list-mgone/secretary-final-check-list-mgone.component';
+import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocumentmaster/usermanualdocumentmaster.component';
 
 
 const routes: Routes = [
@@ -865,6 +866,10 @@ const routes: Routes = [
 
       {
         path: 'dtcoursemaster', component: DtcoursemasterComponent
+      },
+
+      {
+        path: 'usermanualdocumentmaster', component: UserManualDocumentMasterComponent
       },
 
 
