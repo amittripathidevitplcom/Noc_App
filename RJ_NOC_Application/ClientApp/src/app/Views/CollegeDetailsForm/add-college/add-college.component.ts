@@ -87,6 +87,8 @@ export class AddCollegeComponent implements OnInit {
   public MinDate: Date = new Date;
   public DistancefromCity: string = "Distance from City(km)";
 
+
+  public LegalEntityManagementType: string = "Private";
   // login model
   sSOLoginDataModel = new SSOLoginDataModel();
 
@@ -250,6 +252,7 @@ export class AddCollegeComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.legalEntityListService.GetLegalEntityBySSOID(this.request.ParentSSOID, 0)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -261,6 +264,9 @@ export class AddCollegeComponent implements OnInit {
               this.routers.navigate(['/legalentity']);
             }, 500);
 
+          }
+          else {
+            this.LegalEntityManagementType = data['Data'][0]['data']['Table'][0]['ManagementType'];
           }
         }, (error: any) => console.error(error));
     }
@@ -1272,7 +1278,12 @@ export class AddCollegeComponent implements OnInit {
                 this.routers.navigate(['/societydetails']);
               }
               else if (this.request.DepartmentID == 4) {
-                this.routers.navigate(['/societydetails']);
+                if (this.LegalEntityManagementType != 'Private') {
+                  this.routers.navigate(['/draftapplicationlist']);
+                }
+                else {
+                  this.routers.navigate(['/societydetails']);
+                }
               }
               else {
                 this.routers.navigate(['/societydetails']);

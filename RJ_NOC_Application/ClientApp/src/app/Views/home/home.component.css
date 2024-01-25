@@ -190,3 +190,13 @@ table td {
     box-shadow: 0 0 3px #1981c3;
   }
 }
+.footerLink {
+    list-style:none !important;
+}
+.footerLink li a {
+  color: #fff;
+  text-decoration: none;
+}
+.footerLink li span {
+    color:#fff;
+}
