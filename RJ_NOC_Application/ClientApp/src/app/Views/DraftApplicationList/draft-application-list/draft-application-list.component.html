@@ -59,16 +59,10 @@
                       <a href="javascript:void(0)" (click)="ApplicationSummary_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-secondary">
                         <i class="fa fa-eye"></i>
                       </a>
-                      <!--<a href="javascript:void(0)" (click)="DraftEdit_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"
-     *ngIf="row.PendingNOC==0">
-    <i class="fa fa-edit"></i>
-  </a>-->
-
-                      <a href="javascript:void(0)" (click)="DraftEdit_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info">
+                      
+                      <a href="javascript:void(0)" (click)="DraftEdit_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info">
                         <i class="fa fa-edit"></i>
-                      </a>
-
-                      <!--<a href="javascript:void(0)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>-->
+                      </a> 
                     </div>
                   </td>
                   <td>{{idx+1}}</td>
