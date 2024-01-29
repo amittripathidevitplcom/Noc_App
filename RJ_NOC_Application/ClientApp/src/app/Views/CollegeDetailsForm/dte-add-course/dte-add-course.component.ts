@@ -45,6 +45,7 @@ export class DteAddCourseComponent {
   public LoginSocietyName: string = 'Society Name';
   public UniversityID: number = 0;
   public SelectedDepartmentID: number = 0;
+  public SearchRecordID: string = '';
 
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
@@ -73,7 +74,24 @@ export class DteAddCourseComponent {
 
       this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
       this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-      this.request.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+      //this.request.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+
+      this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+      if (this.SearchRecordID.length > 20) {
+        await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.request.CollegeID = data['Data']['CollegeID'];
+            if (this.request.CollegeID == null || this.request.CollegeID == 0 || this.request.CollegeID == undefined) {
+              this.routers.navigate(['/draftapplicationlist']);
+            }
+          }, error => console.error(error));
+      }
+      else {
+        this.routers.navigate(['/draftapplicationlist']);
+      }
+
+
       ///this.SelectedDepartmentID = 4;//Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
       //this.request.CollegeID = 4563;
       this.UserID = 1;

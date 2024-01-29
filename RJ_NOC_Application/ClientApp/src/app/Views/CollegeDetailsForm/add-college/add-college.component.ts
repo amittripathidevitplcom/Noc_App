@@ -550,7 +550,7 @@ export class AddCollegeComponent implements OnInit {
   async GetDepartmentList() {
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetDepartmentList()
+      await this.commonMasterService.GetDepartmentList_IsOpenNOCApplication()
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
