@@ -145,18 +145,18 @@ export class UserManualDocumentMasterComponent implements OnInit {
     
       if (event.target.files && event.target.files[0]) {
         if (event.target.files[0].type === 'application/pdf') {
-          if (event.target.files[0].size > 2000000) {
-            //event.target.value = '';
-            this.ImageValidationMessage = 'Select less then 2MB File';
-            this.ResetFileAndValidation(Type, '', '', '', true);
-            return
-          }
-          if (event.target.files[0].size < 100000) {
-            //event.target.value = '';
-            this.ImageValidationMessage = 'Select more then 100kb File';
-            this.ResetFileAndValidation(Type, '', '', '', true);
-            return
-          }
+          //if (event.target.files[0].size > 2000000) {
+          //  //event.target.value = '';
+          //  this.ImageValidationMessage = 'Select less then 2MB File';
+          //  this.ResetFileAndValidation(Type, '', '', '', true);
+          //  return
+          //}
+          //if (event.target.files[0].size < 100000) {
+          //  //event.target.value = '';
+          //  this.ImageValidationMessage = 'Select more then 100kb File';
+          //  this.ResetFileAndValidation(Type, '', '', '', true);
+          //  return
+          //}
         }
         else {
           this.ImageValidationMessage = 'Select Only pdf file';
