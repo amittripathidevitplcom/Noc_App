@@ -109,6 +109,17 @@ export class ApplyNocParameterDataModel {
   public DTE_MergerOfTheCourse: ApplyNocParameterMasterList_MergerOfTheCourse[] = [];
   public DTE_MergerOfTheCourse_View: boolean = false;
 
+
+  /*Introduction Off Campus*/
+  public DTE_IntroductionOffCampus!: ApplyNocParameterMasterList_IntroductionOffCampus;
+  public DTE_IntroductionOffCampus_List: ApplyNocParameterMasterList_IntroductionOffCampus[] = [];
+  public DTE_IntroductionOffCampus_View: boolean = false;
+
+  /*Courses for Working Professionals*/
+  public DTE_CoursesforWorkingProfessionals!: ApplyNocParameterMasterList_CoursesforWorkingProfessionals;
+  public DTE_CoursesforWorkingProfessionals_List: ApplyNocParameterMasterList_CoursesforWorkingProfessionals[] = [];
+  public DTE_CoursesforWorkingProfessionals_View: boolean = false;
+
 }
 
 export class ApplyNocParameterMasterListDataModel {
@@ -395,6 +406,10 @@ export class ApplyNocParameterMasterList_MergerofInstitutions {
   public InstituteID2: number = 0;
   public MergeInstituteID: number = 0;
   public FeeAmount: number = 0;
+
+  public TrustType: string = '';
+  public NewTrustName: string = '';
+  public NewInstituteName: string = '';
 }
 
 export class ApplyNocParameterMasterList_ChangeinNameofSociety {
@@ -406,6 +421,9 @@ export class ApplyNocParameterMasterList_ChangeinNameofSociety {
   public CurrentName: string = '';
   public NewName: string = '';
   public FeeAmount: number = 0;
+  public ChangeType: string = '';
+  public OldAddress: string = '';
+  public NewAddress: string = '';
 }
 export class ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse {
   public DetailID: number = 0;
@@ -577,3 +595,39 @@ export class ApplyNocParameterMasterList_MergerOfTheCourse {
 
 }
 
+
+export class ApplyNocParameterMasterList_IntroductionOffCampus {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourseID: number = 0;
+  public Intake: number = 0;
+  public FeeAmount: number = 0;
+  public CourseName: string = '';
+  public StreamID: number = 0;
+  public StreamName: string = '';
+  public CourseLevelID: number = 0;
+  public CourseLevelName: string = '';
+
+  public DocumentName: string = '';
+  public Dis_DocumentName: string = '';
+  public DocumentPath: string = '';
+}
+
+export class ApplyNocParameterMasterList_CoursesforWorkingProfessionals {
+  public DetailID: number = 0;
+  public ApplyNocID: number = 0;
+  public DepartmentID: number = 0;
+  public CollegeID: number = 0;
+  public CourseName: string = '';
+  public CourseID: number = 0;
+
+  public StreamName: string = '';
+  public StreamID: number = 0;
+  public CourseLevelName: string = '';
+  public CourseLevelID: number = 0;
+
+  public Intake: number = 0;
+  public FeeAmount: number = 0;
+}
