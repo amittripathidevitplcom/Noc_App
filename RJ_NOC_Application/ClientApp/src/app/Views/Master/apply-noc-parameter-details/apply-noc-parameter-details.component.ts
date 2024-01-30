@@ -782,7 +782,15 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     this.request.CollegeID = item.CollegeID;
     this.request.DepartmentID = item.DepartmentID;
     this.ApplicationFinalSubmit = item.IsFinalSubmit;
+    if (this.request.DepartmentID == 4) {
+      await this.GetPaymentMode();
+      this.lstPaymentMode = this.lstPaymentMode.filter((x: { Name: string; }) => x.Name == 'Demand Draft');
+    }
+    else {
+      await this.GetPaymentMode();
+    }
     this.GetOfflinePaymentDetails(this.request.ApplyNOCID, 0, 'GetOfflinePaymentDetails');
+
   }
 
   async AddOfflineFeeData() {
@@ -801,8 +809,10 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     if ((this.request.DateofIssuance == '') || (this.request.DateofIssuance == null)) {
       isValid = false;
     }
-    if ((this.request.DateofExpiry == '') || (this.request.DateofExpiry == null)) {
-      isValid = false;
+    if (this.request.DepartmentID != 4) {
+      if ((this.request.DateofExpiry == '') || (this.request.DateofExpiry == null)) {
+        isValid = false;
+      }
     }
     if ((this.request.FileName == '') || (this.request.FileName == null)) {
       isValid = false;
