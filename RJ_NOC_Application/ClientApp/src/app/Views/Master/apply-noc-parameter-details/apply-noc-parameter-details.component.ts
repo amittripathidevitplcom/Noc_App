@@ -834,6 +834,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
             this.toastr.success(this.SuccessMessage)
             this.GetOfflinePaymentDetails(this.request.ApplyNOCID, 0, 'GetOfflinePaymentDetails');
             this.ResetOfflinepaymentdetails();
+            this.GetApplyNocApplicationList();
           }
           else {
             this.toastr.error(this.ErrorMessage)
