@@ -115,7 +115,7 @@
                   </a>
                 </li>
                 <li>
-                  <a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
+                  <a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true && item.DepartmentID!=4" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
                     Add Offline Payment Details
                   </a>
                 </li>
@@ -1567,7 +1567,8 @@
     </div>
     <div class="row  m-2" [hidden]="this.request.DepartmentID==4 && ApplicationFinalSubmit==true">
       <div class="col-md-12">
-        <button type="button" class="btn btn-primary" (click)="AddOfflineFeeData()" title="Add">{{AddUpdatetext}}</button>
+        <button type="button" class="btn btn-primary" (click)="AddOfflineFeeData()" title="Add">{{AddUpdatetext}}</button>&nbsp;
+        <button type="button" class="btn btn-danger" (click)="ResetOfflinepaymentdetails()" title="Add">Reset</button>
       </div>
     </div>
   </div>
