@@ -271,7 +271,7 @@ export class ApplyNocParameterComponent implements OnInit {
   async GetApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID)
+      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID,'NOC')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

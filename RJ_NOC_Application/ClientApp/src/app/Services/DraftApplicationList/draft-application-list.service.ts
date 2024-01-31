@@ -42,13 +42,13 @@ export class DraftApplicationListService {
       ).toPromise();
   }
 
-  public async CollegeDetails(LoginSSOID: string) {
+  public async CollegeDetails(LoginSSOID: string,Type:string='College') {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl_CommonMaster + "/CollegeDetails/" + LoginSSOID)
+    return await this.http.get(this.APIUrl_CommonMaster + "/CollegeDetails/" + LoginSSOID + "/" + Type)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
