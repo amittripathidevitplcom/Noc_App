@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.GetUserManualDocumentMasterList(3);
+     this.GetUserManualDocumentMasterList(0);
   }
   async GetUserManualDocumentMasterList(DepartmentID:number) {
 
