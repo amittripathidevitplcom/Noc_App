@@ -771,12 +771,12 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
 
   public ApplicationFinalSubmit: boolean = false;
   async OpenOfflinePaymentActionPopUP(content: any, item: any,) {
+    this.ResetOfflinepaymentdetails();
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-    debugger;
     this.ApplicationFinalSubmit = false;
     this.request.ApplyNOCID = item.ApplyNocApplicationID;
     this.request.CollegeID = item.CollegeID;
@@ -875,7 +875,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     this.request.DateofExpiry = '';
     this.request.DateofIssuance = '';
     this.request.Amount = 0;
-    this.request.PaymentMode = '';
+    this.request.PaymentMode = '0';
     this.request.FileName = '';
     this.request.FilePath = '';
     this.request.Dis_FileName = '';
@@ -912,8 +912,8 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       this.request.PaymentMode = item.PaymentMode;
       this.request.DepartmentID = item.DepartmentID;
       this.request.BankName = item.BankName;
-      this.request.DateofExpiry = item.DateofIssuance;
-      this.request.DateofIssuance = item.DateofExpiry;
+      this.request.DateofExpiry = item.DateofExpiry;
+      this.request.DateofIssuance = item.DateofIssuance;
       this.request.Amount = item.Amount;
       this.request.FileName = item.FileName;
       this.request.FilePath = item.FilePath;
