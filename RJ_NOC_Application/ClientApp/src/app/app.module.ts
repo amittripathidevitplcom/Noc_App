@@ -7,24 +7,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
-import { MatTabsModule } from '@angular/material/tabs';
+ import { MatTabsModule } from '@angular/material/tabs'; 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown'
 import { APP_BASE_HREF } from '@angular/common'; 
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatStepperModule } from '@angular/material/stepper';
+/*import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';*/
+//import { MatIconModule } from '@angular/material/icon';
+//import { MatButtonModule } from '@angular/material/button';
+//import { MatInputModule } from '@angular/material/input';
+//import { MatFormFieldModule } from '@angular/material/form-field';
+//import { MatStepperModule } from '@angular/material/stepper';
 /*import { NgShortcutModule, NgShortcutConfig } from 'ng-shortcut';*/
-import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-import { GridModule } from '@syncfusion/ej2-angular-grids';
-import {
-  PageService, SortService, ToolbarService, FilterService, GroupService, EditService, ColumnChooserService,
-  ResizeService, ReorderService
-} from '@syncfusion/ej2-angular-grids';
- 
- 
+import { AutocompleteLibModule } from 'angular-ng-autocomplete'; 
 
 
 import { ApplicationListComponent } from './Views/application-list/application-list.component';
@@ -356,9 +349,9 @@ import { DTECommitteeMasterComponent } from './Views/dtecommittee-master/dtecomm
 import { DocumentScrutinyApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-application-list-dte/document-scrutiny-application-list-dte.component';
 import { JSApplicationListDTEComponent } from './Views/DocumentScrutinyTab_DTE/jsapplication-list-dte/jsapplication-list-dte.component';
 import { RevertApplicationDetailEntryDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-application-detail-entry-dte/revert-application-detail-entry-dte.component';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
+//import { MatPaginatorModule } from '@angular/material/paginator';
+//import { MatTableModule } from '@angular/material/table';
+//import { MatSortModule } from '@angular/material/sort';
 import { TotalNotFilledStaticsReportComponent } from './Views/DCE/total-not-filled-statics-report/total-not-filled-statics-report.component';
 import { SecretaryFinalCheckListMGOneComponent } from './Views/Medical Group 1/secretary-final-check-list-mgone/secretary-final-check-list-mgone.component';
 import { DtcoursemasterComponent } from './Views/Master/DT_CourseMaster/dtcoursemaster/dtcoursemaster.component';
@@ -716,35 +709,23 @@ import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocu
     ReactiveFormsModule,
     BrowserAnimationsModule,
     NgbPopoverModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    //DataTablesModule,
-    //AutocompleteLibModule,
-    MatTabsModule,
+    //MatPaginatorModule,
+    //MatSortModule,
+    //MatTableModule,
+    MatTabsModule, 
     FormsModule,
     NgbPopoverModule,
-    MatStepperModule,
+    /*MatStepperModule,*/
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
+    //MatFormFieldModule,
+    //MatInputModule,
+    //MatButtonModule,
+    //MatIconModule,
     RouterModule, 
     NgMultiSelectDropDownModule.forRoot(),
-    //NgIdleModule.forRoot(),
-    //NgIdleKeepaliveModule.forRoot(),
     AutocompleteLibModule,
     NgIdleModule.forRoot(),
-    GridModule,
-    //NgShortcutModule.forRoot()  ,
-    
-
-    //NgSelect2Module,
-    //ChartsModule,
-    //NgbPopoverModule,
-    //BsDatepickerModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',
@@ -757,10 +738,9 @@ import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocu
   //exports: [TableSearchFilterPipe],
   //exports: [LoaderModule],
   //providers: [],
-  providers: [PageService, SortService, FilterService, GroupService, EditService, ToolbarService, ColumnChooserService, ResizeService,
-    ReorderService,
+  providers: [ 
     {
-      provide: [STEPPER_GLOBAL_OPTIONS],
+      provide: '',
       useValue: { displayDefaultIndicatorType: false },
 
     },

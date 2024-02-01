@@ -10,11 +10,9 @@ import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { CommitteeMasterService } from '../../../Services/Master/CommitteeMaster/committee-master.service';
 import { MGOneDocumentScrutinyService } from '../../../Services/MGOneDocumentScrutiny/mgonedocument-scrutiny.service';
 import { SearchFilterDataModel } from '../../../Models/TabDetailDataModel';
-import { Clipboard } from '@angular/cdk/clipboard';
-import { ToolbarItems } from '@syncfusion/ej2-angular-grids';
+import { Clipboard } from '@angular/cdk/clipboard'; 
 
 @Injectable()
 
@@ -41,8 +39,7 @@ export class ClassWiseStaticReportDCEComponent implements OnInit {
   public ParliamentAreaList: any = [];
 
   request = new SearchFilterDataModel()
-  public pageSettings?: Object;
-  public toolbarOptions?: ToolbarItems[];
+   
 
   constructor(private clipboard: Clipboard,private dceDocumentScrutinyService: DCEDocumentScrutinyService, private collegeservice: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private modalService: NgbModal,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private decDocumentScrutinyService: DCEDocumentScrutinyService, private mg1DocumentScrutinyService: MGOneDocumentScrutinyService) {
@@ -50,9 +47,7 @@ export class ClassWiseStaticReportDCEComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.pageSettings = { pageSizes: true, pageSize: 10 };
-    this.toolbarOptions = ['ColumnChooser'];
-
+   
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetClassWiseStaticReportList();
     await this.GetDivisionList();
@@ -243,81 +238,7 @@ export class ClassWiseStaticReportDCEComponent implements OnInit {
     }
   }
   @ViewChild('content') content: ElementRef | any;
-  //btnSavePDF_Click(): void {
-
-  //  this.loaderService.requestStarted();
-  //  if (this.ClassWiseStaticReportLst.length > 0) {
-  //    try {
-
-
-  //      let doc = new jsPDF('p', 'mm', [432, 279])
-  //      let pDFData: any = [];
-  //      for (var i = 0; i < this.ClassWiseStaticReportLst.length; i++) {
-  //        pDFData.push({
-  //          "S.No.": i + 1,
-  //          "DepartmentName": this.CourseDataList[i]['DepartmentName'],
-  //          "CollegeLevel": this.CourseDataList[i]['CollegeLevelName'],
-  //          "CourseLevelName": this.CourseDataList[i]['CourseLevel'],
-  //          "CourseName": this.CourseDataList[i]['CourseName'],
-  //          "CourseDuration": this.CourseDataList[i]['Duration'],
-  //          "CourseDurationType": this.CourseDataList[i]['CourseDuratinName'],
-  //          "NoOfRooms": this.CourseDataList[i]['NoOfRooms'],
-  //          "Status": this.CourseDataList[i]['ActiveDeactive']
-  //        })
-  //      }
-
-  //      let values: any;
-  //      let privados = ['S.No.', "DepartmentName", "CollegeLevel", "CourseLevelName", "CourseName", "CourseDuration", "CourseDurationType", "NoOfRooms", "Status"];
-  //      let header = Object.keys(pDFData[0]).filter(key => privados.includes(key));
-  //      values = pDFData.map((elemento: any) => Object.values(elemento));
-
-  //      doc.setFontSize(16);
-  //      doc.text("Course Master", 100, 10, { align: 'center', maxWidth: 100 });
-
-
-  //      autoTable(doc,
-  //        {
-  //          head: [header],
-  //          body: values,
-  //          styles: { fontSize: 8 },
-  //          headStyles: {
-  //            fillColor: '#3f51b5',
-  //            textColor: '#fff',
-  //            halign: 'center'
-  //          },
-  //          bodyStyles: {
-  //            halign: 'center'
-  //          },
-  //          margin: {
-  //            left: 5,
-  //            right: 5,
-  //            top: 15
-  //          },
-  //          tableLineWidth: 0,
-  //        }
-  //      )
-  //      doc.save("CourseMaster" + '.pdf');
-  //    }
-  //    catch (Ex) {
-  //      console.log(Ex);
-  //    }
-  //    finally {
-  //      setTimeout(() => {
-  //        this.loaderService.requestEnded();
-  //        this.isLoadingExport = false;
-  //      }, 200);
-  //    }
-  //  }
-  //  else {
-  //    this.toastr.warning("No Record Found.!");
-  //    setTimeout(() => {
-  //      this.loaderService.requestEnded();
-  //      this.isLoadingExport = false;
-  //    }, 200);
-  //  }
-
-  //}
-
+  
 
   async ResetControl() {
     this.request = new SearchFilterDataModel();
