@@ -73,7 +73,7 @@ export class LandDetailsComponent implements OnInit {
   public LandConversionMinDate: Date = new Date();
   public LandConversionMaxDate: Date = new Date();
 
-
+  public SearchRecordID: string = '';
 
   public LandTypeKhataAndLandArea: any = [];
 
@@ -116,7 +116,26 @@ export class LandDetailsComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+
+
+
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.CollegeID = data['Data']['CollegeID'];
+          this.SelectedCollageID = data['Data']['CollegeID'];
+          if (this.request.CollegeID == null || this.request.CollegeID == 0 || this.request.CollegeID == undefined) {
+            this.routers.navigate(['/draftapplicationlist']);
+          }
+        }, error => console.error(error));
+    }
+    else {
+      this.routers.navigate(['/draftapplicationlist']);
+    }
+
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
 
@@ -276,13 +295,13 @@ export class LandDetailsComponent implements OnInit {
       await this.commonMasterService.GetCommonMasterList_DepartmentAndTypeWises(DepartmentID, this.SelectedCollageID, Type)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
-        
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            this.LandConversionData = data['Data'];
-            console.log(this.LandConversionData);
-          
+
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.LandConversionData = data['Data'];
+          console.log(this.LandConversionData);
+
         }, error => console.error(error));
 
     }

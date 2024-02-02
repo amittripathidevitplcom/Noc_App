@@ -85,11 +85,12 @@ export class FacilityDetailsComponent implements OnInit {
 
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
+  public SearchRecordID: string = '';
 
   constructor(private facilityDetailsService: FacilityDetailsService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
 
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.FacilitiesForm = this.formBuilder.group(
       {
         ddlFacilitiesId: ['', [DropdownValidators]],
@@ -107,7 +108,23 @@ export class FacilityDetailsComponent implements OnInit {
     this.UserID = 1;
 
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.CollegeID = data['Data']['CollegeID'];
+          this.SelectedCollageID = data['Data']['CollegeID'];
+          if (this.request.CollegeID == null || this.request.CollegeID == 0 || this.request.CollegeID == undefined) {
+            this.routers.navigate(['/draftapplicationlist']);
+          }
+        }, error => console.error(error));
+    }
+    else {
+      this.routers.navigate(['/draftapplicationlist']);
+    }
+
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.GetFacilities(this.SelectedDepartmentID, this.SelectedCollageID, 0, 'Facilities');
@@ -204,7 +221,7 @@ export class FacilityDetailsComponent implements OnInit {
       this.isValidFacilitiesUrl = true;
       if (event.target.files && event.target.files[0]) {
         if (event.target.files[0].type === 'image/jpeg' ||
-          //event.target.files[0].type === 'application/pdf' ||
+          event.target.files[0].type === 'application/pdf' ||
           event.target.files[0].type === 'image/jpg') {
           if (event.target.files[0].size > 2000000) {
             this.fileUploadImage.nativeElement.value = "";
@@ -222,7 +239,7 @@ export class FacilityDetailsComponent implements OnInit {
           }
         }
         else {
-          this.ImageValidationMessage = 'Select Only jpeg/jpg file';
+          this.ImageValidationMessage = 'Select Only pdf/jpeg/jpg file';
           this.fileUploadImage.nativeElement.value = "";
           this.ResetFile(false, '', '', '');
           this.isValidFacilitiesUrl = false;

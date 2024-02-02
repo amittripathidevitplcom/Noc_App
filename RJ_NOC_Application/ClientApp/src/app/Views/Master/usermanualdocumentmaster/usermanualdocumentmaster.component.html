@@ -1,0 +1,200 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>User Manual Documents Master</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">User Manual Documents Master</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mainContents">
+
+  <form [formGroup]="UserManualDocumentForm" class="form-horizontal">
+    <div class="card">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card mb-0">
+            <div class="card-header">
+              <b><i class="bi bi-table"></i> User Manual Documents Master</b>
+            </div>
+
+            <div class="card-body">
+              <div class="row">
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="ddlDepartmentID" class="form-label">
+                    Select Department <span style="color:red;">*</span>
+                  </label>
+                  <select id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" class="form-control" formControlName="ddlDepartmentID" [attr.disabled]="is_disableDepartment ? '' : null">
+                    <option value="0">--Select--</option>
+                    <option [value]="item.DepartmentID" *ngFor="let item of DepartmentList">
+                      {{item.DepartmentName}}
+                    </option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                    <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="ddlUserTypeID" class="form-label">
+                    UserType <span style="color:red;">*</span>
+                  </label>
+                  <select class="form-select" id="ddlUserTypeID" name="ddlUserTypeID" [(ngModel)]="request.UserTypeID" formControlName="ddlUserTypeID">
+                    <option value="0">--Select--</option>
+                    <option *ngFor="let item of UserTypeList" value="{{item.ID}}">{{item.Name}}</option>
+                  </select>
+                  <div *ngIf="isSubmitted&&form.ddlUserTypeID.errors" class="text-danger">
+                    <p *ngIf="!form.ddlUserTypeID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                  <label for="txtTitleEnglish" maxlength="500" class="form-label">Content: <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtTitleEnglish" name="txtTitleEnglish" [(ngModel)]="request.TitleEnglish" formControlName="txtTitleEnglish"
+                          autocomplete="off">
+                  <div *ngIf="isSubmitted&&form.txtTitleEnglish.errors" class="text-danger">
+                    <p *ngIf="form.txtTitleEnglish.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+
+
+                <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtTitleHindi" class="form-label">Title in Hindi: <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtTitleHindi" name="txtTitleHindi" [(ngModel)]="request.TitleHindi" formControlName="txtTitleHindi"
+                         placeholder="Enter Title in Hindi" autocomplete="off">
+                  <div *ngIf="isSubmitted&&form.txtTitleHindi.errors" class="text-danger">
+                    <p *ngIf="form.txtTitleHindi.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>-->
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label class="form-label">Document Upload<span style="color:red;">*</span></label>
+                  <div class="d-flex">
+                    <input type="file" style="display:none;" class="form-control" id="fDocumentUploadFile" name="fDocumentUploadFile" formControlName="fDocumentUploadFile" (change)="ValidatePdf($event,'DocumentName')" #fDocumentUploadFile />
+                    <label class="btn upload" for="fDocumentUploadFile">
+                      <span class="filename">Choose file</span>
+                      {{request.DocumentName === '' ? 'No File Choosen' : request.Dis_Document}}
+                    </label>
+                    <div class="btn-group" *ngIf="request.DocumentName!=''">
+                      <a class="btn btn-outline-primary" target="_blank" href="{{request.DocumentPath}}"><i class="fa fa-eye"></i></a>
+                      <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('DocumentName')"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="isValidDocument" class="text-danger">
+                    <p *ngIf="isValidDocument"> {{ImageValidationMessage}}</p>
+                  </div>
+                  <div *ngIf="isSubmitted&&request.DocumentName==''" class="text-danger">
+                    <p *ngIf="isSubmitted&&request.DocumentName==''"><i aria-hidden="true"></i> This field is required .!</p>
+                  </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsShow">Is Show</label>
+                    <div class="form-check d-flex align-items-center">
+                      <input class="form-check-input" type="checkbox" id="chkIsShow" name="chkIsShow" [(ngModel)]="request.IsShow" formControlName="chkIsShow">
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="ckIsNew">Is New</label>
+                    <div class="form-check d-flex align-items-center">
+                      <input class="form-check-input" type="checkbox" id="chkIsNew" name="chkIsNew" [(ngModel)]="request.IsNew" formControlName="chkIsNew">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="txtOrderBy" class="form-label">Order By: <span style="color:red;">*</span></label>
+                  <input type="text" class="form-control" id="txtOrderBy" name="txtOrderBy" [(ngModel)]="request.OrderBy" formControlName="txtOrderBy"
+                          autocomplete="off" maxlength="2" (keypress)="numbersOnly($event)">
+                  <div *ngIf="isSubmitted&&form.txtOrderBy.errors" class="text-danger">
+                    <p *ngIf="form.txtOrderBy.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form.txtOrderBy.errors.min">Minimum Size will be greater than zero .!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer text-end">
+        <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-save"></i> Save</button>
+        <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+      </div>
+    </div>
+  </form>
+    <div class="card mb-0" *ngIf="UserManualDocumentlList.length>0">
+      <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+        <b><i class="fa fa-plus"></i>&nbsp;UserManualDocument Details</b>
+        <div class="d-flex align-items-center">
+          <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+            <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+            <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+            <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+          </div>
+          <div class="d-flex align-items-center table-filter mr-15">
+            <i class="fa fa-search"></i>
+            <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" name="txtsearchText" />
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns mb-0" id="tabellist" #content>
+          <thead>
+            <tr>
+              <th>Sr. No</th>
+              <th>Department</th>
+              <th>User Type</th>
+              <th>Content</th>
+              <!--<th>Title in Hindi</th>-->
+              <th>Document</th>
+              <th>Is Show</th>
+              <th>Is New</th>
+              <th>Order By</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of UserManualDocumentlList | tableSearchFilter:searchText;let idx=index;">
+
+              <td>{{idx+1}}</td>
+
+              <td>{{row.DepartmentName_English}}</td>
+              <td>{{row.Name}}</td>
+              <td>{{row.TitleEnglish}}</td>
+              <!--<td>{{row.TitleHindi}}</td>-->
+              <td><a target="_blank" href="{{row.DocumentPath}}"><i class="fa fa-eye"></i></a></td>
+              <td>{{row.IsShow==true?'Yes':'No'}}</td>
+              <td>{{row.IsNew==true?'Yes':'No'}}</td>
+              <td>{{row.OrderBy}}</td>
+              <td>
+                <div class="d-flex">
+                  <button type="button" (click)="Edit_OnClick(row.ID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                  <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.ID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+
+</div>

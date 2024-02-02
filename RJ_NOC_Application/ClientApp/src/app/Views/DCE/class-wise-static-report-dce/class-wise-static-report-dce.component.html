@@ -70,7 +70,6 @@
             <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
               <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
               <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
-              <!--<button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" ><i class="fa fa-file-pdf-o"></i></button>-->
             </div>
             <div class="d-flex align-items-center table-filter mr-15">
               <i class="fa fa-search"></i>
@@ -80,19 +79,7 @@
         </div>
         <div class="card-body">
           <div class="table-responsive">
-
-            <!--<ejs-grid  
-                      [dataSource]='ClassWiseStaticReportLst' [allowSorting]='true'  [allowResizing]='true'
-                      [pageSettings]='pageSettings' [allowPaging]="true" [allowReordering]='true'
-                      [toolbar]='toolbarOptions' [showColumnChooser]= 'true' id="tabellist">
-              <e-columns>
-                <e-column field='CollegeNameEn' headerText='Institue Name'></e-column>
-                <e-column field='District_Eng' headerText='District'></e-column>
-                <e-column field='CourseName' headerText='Course Name'></e-column>
-              </e-columns>
-            </ejs-grid>-->
-
-
+             
             <table class="table table-hover   table-bordered"  #content    id="tabellist">
               <thead>
                 <tr>
@@ -125,7 +112,6 @@
                   <th>Total</th>
                   <th>Boys</th>
                   <th>Girls</th>
-                  <!--<th>Transgender</th>-->
                   <th>Total</th>
                   <th>Boys</th>
                   <th>Girls</th>
@@ -165,7 +151,6 @@
 
                   <td>{{row.OFTotalMinorityBoys}}</td>
                   <td>{{row.OFTotalMinorityGirls}}</td>
-                  <!--<td>{{row.OFTotalMinorityTransgender}}</td>-->
                   <td>{{row.MinorityTotal}}</td>
                   <td>{{row.OFTotalPHBoys}}</td>
                   <td>{{row.OFTotalPHGirls}}</td>

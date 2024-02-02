@@ -119,6 +119,18 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async GetDepartmentList_IsOpenNOCApplication() {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDepartmentList_IsOpenNOCApplication")
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
   public async GetSchemeListByDepartment(DepatmentID: number) {
 
     const httpOptions = {
@@ -1365,7 +1377,7 @@ export class CommonMasterService {
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(`${this.APIUrl_CommonMaster}/GetUsersByRoleDepartment/${DepartmentID}/${ RoleID}`)
+    return await this.http.get(`${this.APIUrl_CommonMaster}/GetUsersByRoleDepartment/${DepartmentID}/${RoleID}`)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
@@ -1383,9 +1395,91 @@ export class CommonMasterService {
   }
   public async GetTotalApplicationListByDepartment(request: CommonDataModel_TotalApplicationSearchFilter) {
     const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return await this.http.post(this.APIUrl_CommonMaster + '/GetTotalApplicationListByDepartment' ,request, httpOptions)
+    return await this.http.post(this.APIUrl_CommonMaster + '/GetTotalApplicationListByDepartment', request, httpOptions)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetLOIApplicationTrail(ApplicationID: number, DepartmentID: number) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetLOIApplicationTrail/" + ApplicationID + "/" + DepartmentID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetLOIDocumentScritintyTaril(ID: number, NOCApplyID: number, CollageID: number, DepartmentID: number, ActionType: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetLOIDocumentScritintyTaril/" + ID + "/" + NOCApplyID + "/" + CollageID + "/" + DepartmentID + "/" + ActionType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetSocietyByCollege(CollegeID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetSocietyByCollege/" + CollegeID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetIntakeByCollegeCourse(CollegeID: number, CourseID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetIntakeByCollegeCourse/" + CollegeID + "/" + CourseID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+  public async GetProgramMaster_CollegeIDWise(CollegeID: number, GetType: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetProgrammeByCollegeDTE/" + CollegeID + "/" + GetType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetCourseLevel_ProgramIDWise(CollegeID: number, GetType:string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseLevelByCollegeDTE/" + CollegeID + "/" + GetType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async GetCourse_CourseLevelIDWise(CollegeID: number, ProgrammeID: number, CourseLevelID: number, GetType: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetCourseByCollegeProgrammeDTE/" + CollegeID + "/" + ProgrammeID + "/" + CourseLevelID + "/" + GetType)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
 }

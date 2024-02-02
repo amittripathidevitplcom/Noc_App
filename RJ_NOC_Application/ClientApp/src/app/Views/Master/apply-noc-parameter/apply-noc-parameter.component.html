@@ -111,7 +111,7 @@
           <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
               <label for="ddlCollege" class="form-label">{{CollegeLableName}}<span style="color:red">*</span></label>
-              <select class="form-select" id="ddlCollege" name="ddlCollege"  (change)="College_ddlChange($event)" formControlName="ddlCollege"
+              <select class="form-select" id="ddlCollege" name="ddlCollege" (change)="College_ddlChange($event)" formControlName="ddlCollege"
                       [(ngModel)]="request.CollegeID">
                 <option value="0">--Select--</option>
                 <option *ngFor="let item of CollegeList_ddl" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
@@ -126,7 +126,7 @@
               <div class="form-check form-check-inline" *ngFor="let item of ApplicationTypeList">
                 <input class="form-check-input" type="radio" name="rbApplicationType" id="rbApplicationType_{{item.ID}}" value="{{item.ID}}" formControlName="rbApplicationType" [(ngModel)]="request.ApplicationTypeID" #SelectedApplicationTypeID
                        (change)="ApplyNocFor_rbChange($event,SelectedApplicationTypeID.value,item)">
-              
+
                 <label class="form-check-label" for="rbApplicationType_{{item.ID}}">{{item.Name}}</label>
               </div>
               <div *ngIf="isSubmitted&&form.rbApplicationType.errors" class="text-danger">
@@ -147,8 +147,8 @@
 
               <div class="col-lg-4 col-md-4 col-sm-4 col-4" *ngFor="let item of ApplyNocParameterMasterList_ddl ;let idx=index;">
 
-                <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}" >
-                  <input class="form-check-input"  [attr.disabled]="isApplicationApplyFor ? true : null" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}" id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked"
+                <label class="form-check-label" for="cbNocFor_{{item.ApplyNocID}}">
+                  <input class="form-check-input" [attr.disabled]="isApplicationApplyFor ? true : null" type="checkbox" name="cbNocFor_{{item.ApplyNocID}}" id="cbNocFor_{{item.ApplyNocID}}" value="{{item.ApplyNocID}}" #SelectedApplyNocForID (change)="ApplyNocFor_cbChange($event,SelectedApplyNocForID.value,item,idx)" [(ngModel)]="item.IsChecked"
                          [ngModelOptions]="{standalone: true}"> {{item.ApplyNocFor}}
                 </label>
                 <!--</div>-->
@@ -963,6 +963,1591 @@
     </div>
     <!--END Late Fee-->
     <!--Department 4 Specal condition-->
+    <!--DTE_BankDetails-->
+    <div *ngIf="request.DTE_BankDetails_View==true">
+      <div class="card-header border-top">
+        <b>Change in the Name of the Bank :₹ {{this.request.DTE_BankDetails.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Old Bank Name<span style="color:red;"> *</span> </label>
+            <input name="txtOldBankName" id="txtOldBankName" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_BankDetails.OldBankName" />
+            <div *ngIf="this.request.DTE_BankDetails.OldBankName == '' && isValidOldBankName" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.OldBankName == '' && isValidOldBankName"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Old Branch Name<span style="color:red;"> *</span> </label>
+            <input name="txtOldBranchName" id="txtOldBranchName" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_BankDetails.OldBranchName" />
+            <div *ngIf="this.request.DTE_BankDetails.OldBranchName == '' && isValidOldBranchName" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.OldBranchName == '' && isValidOldBranchName"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Old IFSC<span style="color:red;"> *</span> </label>
+            <input name="txtOldIFSC" id="txtOldIFSC" class="form-control mt-1" maxlength="11"
+                   [(ngModel)]="request.DTE_BankDetails.OldIFSC" />
+            <div *ngIf="this.request.DTE_BankDetails.OldIFSC == '' && isValidOldIFSC" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.OldIFSC == '' && isValidOldIFSC"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Old Account Number<span style="color:red;"> *</span> </label>
+            <input type="number" name="txtOldAccountNumber" id="txtOldAccountNumber" class="form-control mt-1" maxlength="25"
+                   [(ngModel)]="request.DTE_BankDetails.OldAccountNumber" />
+            <div *ngIf="this.request.DTE_BankDetails.OldAccountNumber == '' && isValidOldAccountNumber" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.OldAccountNumber == '' && isValidOldAccountNumber"> This field is required .!</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Bank Name<span style="color:red;"> *</span> </label>
+            <input name="txtNewBankName" id="txtNewBankName" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_BankDetails.NewBankName" />
+            <div *ngIf="this.request.DTE_BankDetails.NewBankName == '' && isValidNewBankName" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.NewBankName == '' && isValidNewBankName"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Branch Name<span style="color:red;"> *</span> </label>
+            <input name="txtNewBranchName" id="txtNewBranchName" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_BankDetails.NewBranchName" />
+            <div *ngIf="this.request.DTE_BankDetails.NewBranchName == '' && isValidNewBranchName" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.NewBranchName == '' && isValidNewBranchName"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New IFSC<span style="color:red;"> *</span> </label>
+            <input name="txtNewIFSC" id="txtNewIFSC" class="form-control mt-1" maxlength="11"
+                   [(ngModel)]="request.DTE_BankDetails.NewIFSC" />
+            <div *ngIf="this.request.DTE_BankDetails.NewIFSC == '' && isValidNewIFSC" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.NewIFSC == '' && isValidNewIFSC"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Account Number<span style="color:red;"> *</span> </label>
+            <input type="number" name="txtNewAccountNumber" id="txtNewAccountNumber" class="form-control mt-1" maxlength="25"
+                   [(ngModel)]="request.DTE_BankDetails.NewAccountNumber" />
+            <div *ngIf="this.request.DTE_BankDetails.NewAccountNumber == '' && isValidNewAccountNumber" class="text-danger">
+              <p *ngIf="this.request.DTE_BankDetails.NewAccountNumber == '' && isValidNewAccountNumber"> This field is required .!</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <!--DTE_BankDetails End-->
+    <!--Change in the Minority Status of the Institution-->
+    <div *ngIf="request.DTE_ChangeInTheMinorityStatusoftheInstitution_View==true">
+      <div class="card-header border-top">
+        <b>Change in the Minority Status of the Institution :₹ {{this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_FeeAmount}}  (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>
+              Upload order for minority permission : (Only pdf/image file. (Min size 100(KB))(Max size 2(MB))<span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none;" class="form-control" id="fDTE_ChangeInTheMinorityStatusoftheInstitution" name="fDTE_ChangeInTheMinorityStatusoftheInstitution"
+                     (change)="fDTE_ChangeInTheMinorityStatusoftheInstitution_onFilechange($event)" [ngModelOptions]="{standalone: true}">
+              <label class="btn upload" for="fDTE_ChangeInTheMinorityStatusoftheInstitution">
+                <span class="filename">Choose file</span>
+                {{request.DTE_ChangeInTheMinorityStatusoftheInstitution === '' ? 'No File Choosen' : request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName}}
+              </label>
+              <div class="btn-group" *ngIf="request.DTE_ChangeInTheMinorityStatusoftheInstitution != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DTE_ChangeInTheMinorityStatusoftheInstitution_DeleteImage(request.DTE_ChangeInTheMinorityStatusoftheInstitution)"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+            <div *ngIf="this.request.DTE_ChangeInTheMinorityStatusoftheInstitution == '' && isValidDTE_ChangeInTheMinorityStatusoftheInstitution" class="text-danger">
+              <p *ngIf="this.request.DTE_ChangeInTheMinorityStatusoftheInstitution == '' && isValidDTE_ChangeInTheMinorityStatusoftheInstitution"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Change in the Minority Status of the Institution End-->
+    <!--Merger of Institutions under the same Trust/ Society/ Company-->
+    <div *ngIf="request.DTE_MergerofInstitutions_View==true">
+      <div class="card-header border-top">
+        <b>Merger of Institutions under the same/different Trust/ Society/ Company operating in the same campus or same city :₹ {{this.request.DTE_MergerofInstitutions.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+            <div class="clearfix"></div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rbMergerofInstitutions" id="rbMergerofInstitutionsSame" value="Sametrust" [(ngModel)]="request.DTE_MergerofInstitutions.TrustType">
+              <label class="form-check-label" for="rbMergerofInstitutionsSame">Same Trust</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="rbMergerofInstitutions" id="rbMergerofInstitutionsdiff" value="DifferentTrust" [(ngModel)]="request.DTE_MergerofInstitutions.TrustType">
+              <label class="form-check-label" for="rbMergerofInstitutionsdiff">Different Trust</label>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="request.DTE_MergerofInstitutions.TrustType=='DifferentTrust'">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Trust Name<span style="color:red;"> *</span> </label>
+            <input name="txtNewtrustname" id="txtNewtrustname" class="form-control mt-1" maxlength="200"
+                   [(ngModel)]="request.DTE_MergerofInstitutions.NewTrustName" />
+            <div *ngIf="request.DTE_MergerofInstitutions.NewTrustName == '' && isValidDTE_NewTrustName && request.DTE_MergerofInstitutions.TrustType=='DifferentTrust'" class="text-danger">
+              <p *ngIf="request.DTE_MergerofInstitutions.NewTrustName == '' && isValidDTE_NewTrustName && request.DTE_MergerofInstitutions.TrustType=='DifferentTrust'"> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Institute Name<span style="color:red;"> *</span> </label>
+            <input name="txtNewInstitutename" id="txtNewInstitutename" class="form-control mt-1" maxlength="200"
+                   [(ngModel)]="request.DTE_MergerofInstitutions.NewInstituteName" />
+            <div *ngIf="request.DTE_MergerofInstitutions.NewInstituteName == '' && isValidDTE_NewInstituteName && request.DTE_MergerofInstitutions.TrustType=='DifferentTrust'" class="text-danger">
+              <p *ngIf="request.DTE_MergerofInstitutions.NewInstituteName == '' && isValidDTE_NewInstituteName && request.DTE_MergerofInstitutions.TrustType=='DifferentTrust'"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+        <!--<div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlInstitute1" class="form-label">Institute 1 <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlInstitute1" name="ddlInstitute1" disabled [(ngModel)]="request.DTE_MergerofInstitutions.InstituteID1">
+              <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+            </select>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlInstitute2" class="form-label">Institute 2 <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlInstitute2" name="ddlInstitute2" [(ngModel)]="request.DTE_MergerofInstitutions.InstituteID2">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+            </select>
+            <div *ngIf="this.request.DTE_MergerofInstitutions.InstituteID2 == 0 && isValidDTE_InstituteID2" class="text-danger">
+              <p *ngIf="this.request.DTE_MergerofInstitutions.InstituteID2 == 0 && isValidDTE_InstituteID2"> This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlMergeInstituteID" class="form-label">Merge to institute<span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlMergeInstituteID" name="ddlMergeInstituteID" [(ngModel)]="request.DTE_MergerofInstitutions.MergeInstituteID">
+              <option value="0">--Select--</option>
+              <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
+            </select>
+            <div *ngIf="this.request.DTE_MergerofInstitutions.MergeInstituteID == 0 && isValidDTE_MergeInstituteID" class="text-danger">
+              <p *ngIf="this.request.DTE_MergerofInstitutions.MergeInstituteID == 0 && isValidDTE_MergeInstituteID"> This field is required .!</p>
+            </div>
+          </div>
+        </div>-->
+      </div>
+    </div>
+    <!--Merger of Institutions under the same Trust/ Society/ Company end-->
+    <!--Change in the name of Trust/Society/Company-->
+    <div *ngIf="request.DTE_ChangeinNameofSociety_View==true">
+      <div class="card-header border-top">
+        <b>Change in the name/address of Trust/Society/Company :₹ {{this.request.DTE_ChangeinNameofSociety.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+          <div class="clearfix"></div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbchangeChangeinNameofSociety" id="rbrbchangeChangeinNameofSocietyName" value="NameChange" [(ngModel)]="request.DTE_ChangeinNameofSociety.ChangeType">
+            <label class="form-check-label" for="rbrbchangeChangeinNameofSocietyName">Name Change</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbchangeChangeinNameofSociety" id="rbrbchangeChangeinNameofSocietyAddress" value="AddressChange" [(ngModel)]="request.DTE_ChangeinNameofSociety.ChangeType">
+            <label class="form-check-label" for="rbrbchangeChangeinNameofSocietyAddress">Address Change</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="rbchangeChangeinNameofSociety" id="rbrbchangeChangeinNameofSocietyBoth" value="BothChange" [(ngModel)]="request.DTE_ChangeinNameofSociety.ChangeType">
+            <label class="form-check-label" for="rbrbchangeChangeinNameofSocietyBoth">Both</label>
+          </div>
+        </div>
+        <div class="row" *ngIf="request.DTE_ChangeinNameofSociety.ChangeType=='NameChange' || request.DTE_ChangeinNameofSociety.ChangeType=='BothChange'">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Current Name<span style="color:red;"> *</span> </label>
+            <input name="txtCurrentName" id="txtCurrentName" class="form-control mt-1" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeinNameofSociety.CurrentName" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Name<span style="color:red;"> *</span> </label>
+            <input name="txtOldBranchName" id="txtOldBranchName" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeinNameofSociety.NewName" />
+            <div *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName && (request.DTE_ChangeinNameofSociety.ChangeType=='NameChange' || request.DTE_ChangeinNameofSociety.ChangeType=='BothChange')" class="text-danger">
+              <p *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName && (request.DTE_ChangeinNameofSociety.ChangeType=='NameChange' || request.DTE_ChangeinNameofSociety.ChangeType=='BothChange')"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="request.DTE_ChangeinNameofSociety.ChangeType=='AddressChange' || request.DTE_ChangeinNameofSociety.ChangeType=='BothChange'">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Old Address<span style="color:red;"> *</span> </label>
+            <input name="txtCurrentAddress" id="txtCurrentAddress" class="form-control mt-1" maxlength="200" 
+                   [(ngModel)]="request.DTE_ChangeinNameofSociety.OldAddress" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Address<span style="color:red;"> *</span> </label>
+            <input name="txtNewAddress" id="txtNewAddress" class="form-control mt-1"  maxlength="200" placeholder="Address with state , District and pincode"
+                   [(ngModel)]="request.DTE_ChangeinNameofSociety.NewAddress" />
+            <div *ngIf="request.DTE_ChangeinNameofSociety.NewAddress == '' && isValidDTE_SocietyNewAddress && (request.DTE_ChangeinNameofSociety.ChangeType=='AddressChange' || request.DTE_ChangeinNameofSociety.ChangeType=='BothChange')" class="text-danger">
+              <p *ngIf="request.DTE_ChangeinNameofSociety.NewAddress == '' && isValidDTE_SocietyNewAddress && (request.DTE_ChangeinNameofSociety.ChangeType=='AddressChange' || request.DTE_ChangeinNameofSociety.ChangeType=='BothChange')"> This field is required .!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Change in the name of Trust/Society/Company End-->
+    <!--Increase in Intake / Addition of Course-->
+    <div *ngIf="request.DTE_IncreaseinIntakeAdditionofCourse_View==true">
+      <div class="card-header border-top">
+        <b>Addition of Course :₹ {{this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlTostartNewProgramme" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlTostartNewProgramme" name="ddlTostartNewProgramme"
+                    [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.StreamID"
+                    #SeletedProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedProgrammeID.value,request.DTE_IncreaseinIntakeAdditionofCourse.CourseLevelID,'')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlDTE_TostartNewCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDTE_TostartNewCourseLevelID" name="ddlDTE_TostartNewCourseLevelID"
+                    [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.CourseLevelID"
+                    #SeletedCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_IncreaseinIntakeAdditionofCourse.StreamID,SeletedCourseLevelID.value,'IncreaseinIntake')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course<span style="color:red;">*</span></label>
+            <select id="ddlDTECouser_IncreaseinIntake" name="ddlDTECouser_IncreaseinIntake"
+                    [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.CourseID"
+                    class="form-control">
+              <option value="0">--Select Course--</option>
+              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataListIncreaseinIntake_Master">
+                {{item.CourseName}}
+              </option>
+            </select>
+            <!--<div *ngIf="isSubmitted&&form.ddlCourse_Room.errors" class="text-danger">
+            <p *ngIf="!form.ddlCourse_Room.errors.DropdownValidators">This field is required .!</p>
+          </div>-->
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Intake<span style="color:red;"> *</span> </label>
+            <input type="text" name="txtddlIntake_IncreaseinIntake" id="txtddlIntake_IncreaseinIntake" class="form-control mt-1"
+                   maxlength="6"
+                   [(ngModel)]="request.DTE_IncreaseinIntakeAdditionofCourse.Intake" (keypress)="numberOnly($event)" />
+            <!--<div *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName" class="text-danger">
+          <p *ngIf="request.DTE_ChangeinNameofSociety.NewName == '' && isValidDTE_NewName"> This field is required .!</p>-->
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_IncreaseinIntake()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Intake
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_IncreaseinIntakeAdditionofCourse_List;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.Intake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_IncreaseinIntake(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Increase in Intake / Addition of Course End-->
+    <!--To start new Programme/ Level in the existing Institutions-->
+    <div *ngIf="request.DTE_TostartNewProgramme_View==true">
+      <div class="card-header border-top">
+        <b>To start new Programme :₹ {{this.request.DTE_TostartNewProgramme.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlTostartNewProgramme" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlTostartNewProgramme" name="ddlTostartNewProgramme"
+                    [(ngModel)]="request.DTE_TostartNewProgramme.StreamID"
+                    #SeletedProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedProgrammeID.value,request.DTE_TostartNewProgramme.CourseLevelID,'')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamMasterDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlDTE_TostartNewCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDTE_TostartNewCourseLevelID" name="ddlDTE_TostartNewCourseLevelID"
+                    [(ngModel)]="request.DTE_TostartNewProgramme.CourseLevelID"
+                    #SeletedCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_TostartNewProgramme.StreamID,SeletedCourseLevelID.value,'')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelMasterList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>Course<span style="color:red;">*</span></label>
+            <select id="ddlDTECouser_IncreaseinIntake" name="ddlDTECouser_IncreaseinIntake"
+                    [(ngModel)]="request.DTE_TostartNewProgramme.CourseID"
+                    class="form-control">
+              <option value="0">--Select Course--</option>
+              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataList_Master">
+                {{item.CourseName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>Intake<span style="color:red;"> *</span> </label>
+            <input type="number" name="txtddlIntake_IncreaseinIntake" id="txtddlIntake_IncreaseinIntake" class="form-control mt-1"
+                   maxlength="6"
+                   [(ngModel)]="request.DTE_TostartNewProgramme.Intake" />
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_TostartNewProgramme()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Intake
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_TostartNewProgramme_List;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.Intake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_TostartNewProgramme(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--To start new Programme/ Level in the existing Institutions End-->
+    <!--Change in Name of Institution-->
+    <div *ngIf="request.DTE_ChangeInNameofInstitution_View==true">
+      <div class="card-header border-top">
+        <b>Change in Name of Institution :₹ {{this.request.DTE_ChangeInNameofInstitution.FeeAmount}}  (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Current Name<span style="color:red;"> *</span> </label>
+            <input name="txtCurrentCollegeName" id="txtCurrentCollegeName" class="form-control mt-1" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeInNameofInstitution.CurrentCollegeName" disabled />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Name<span style="color:red;"> *</span> </label>
+            <input name="txtNewCollegeName" id="txtNewCollegeName" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeInNameofInstitution.NewCollegeName" />
+            <div *ngIf="request.DTE_ChangeInNameofInstitution.NewCollegeName == '' && isValidDTE_NewCollegeName" class="text-danger">
+              <p *ngIf="request.DTE_ChangeInNameofInstitution.NewCollegeName == '' && isValidDTE_NewCollegeName"> This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>New Name (Hindi)<span style="color:red;"> *</span> </label>
+            <input name="txtNewCollegeNameHi" id="txtNewCollegeNameHi" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeInNameofInstitution.NewCollegeNameHi" />
+            <div *ngIf="request.DTE_ChangeInNameofInstitution.NewCollegeNameHi == '' && isValidDTE_NewCollegeNameHi" class="text-danger">
+              <p *ngIf="request.DTE_ChangeInNameofInstitution.NewCollegeNameHi == '' && isValidDTE_NewCollegeNameHi"> This field is required .!</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--Change in Name of Institution-->
+    <!--Change of Site / Location-->
+    <div *ngIf="request.DTE_ChangeofSite_Location_View==true">
+      <div class="card-header border-top">
+        <b>Change of Site / Location :₹ {{this.request.DTE_ChangeofSite_Location.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Current Address<span style="color:red;"> *</span> </label>
+            <input name="txtCurrentCollegeAddress" id="txtCurrentCollegeAddress" class="form-control mt-1" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeofSite_Location.CurrentAddress" disabled />
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-12 mb-3">
+            <label>New Address<span style="color:red;"> *</span> </label>
+            <input name="txtNewCollegeAddress" id="txtNewCollegeAddress" class="form-control mt-1" (keypress)="alphaOnly($event)" maxlength="100"
+                   [(ngModel)]="request.DTE_ChangeofSite_Location.NewAddress" />
+            <div *ngIf="request.DTE_ChangeofSite_Location.NewAddress == '' && isValidDTE_NewAddress" class="text-danger">
+              <p *ngIf="request.DTE_ChangeofSite_Location.NewAddress == '' && isValidDTE_NewAddress"> This field is required .!</p>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <!--Change of Site / Location-->
+    <!--Increase in Intake / Addition of Course-->
+    <div *ngIf="request.DTE_IncreaseInIntake_AdditionofCourse_View==true">
+      <div class="card-header border-top">
+        <b>Increase in Intake :₹ {{this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlTostartNewProgramme" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlTostartNewProgramme1" name="ddlTostartNewProgramme1"
+                    [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.StreamID"
+                    #SeletedProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedProgrammeID.value,request.DTE_IncreaseInIntake_AdditionofCourse.CourseLevelID,'DTE_IncreaseInIntake_AdditionofCourse')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlDTE_TostartNewCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDTE_TostartNewCourseLevelID1" name="ddlDTE_TostartNewCourseLevelID1"
+                    [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.CourseLevelID"
+                    #SeletedCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_IncreaseInIntake_AdditionofCourse.StreamID,SeletedCourseLevelID.value,'DTE_IncreaseInIntake_AdditionofCourse')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+
+
+
+
+
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course<span style="color:red;">*</span></label>
+            <select id="ddlDTECouser_DTE_IncreaseInIntake_AdditionofCourse" name="ddlDTECouser_DTE_IncreaseInIntake_AdditionofCourse"
+                    [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.CourseID"
+                    class="form-control" #SeletedDTECouser_IncreaseinIntake (change)="ddlDTECouser_IncreaseinIntake_change(SeletedDTECouser_IncreaseinIntake.value)">
+              <option value="0">--Select Course--</option>
+              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataListIncreaseInIntake_AdditionofCourse">
+                {{item.CourseName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Intake<span style="color:red;"> *</span> </label>
+            <input type="number" name="txtddlIntake_IncreaseinIntake" disabled id="txtddlIntake_IncreaseinIntake" class="form-control mt-1"
+                   maxlength="6"
+                   [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.Intake" />
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Update Intake<span style="color:red;"> *</span> </label>
+            <input type="text" name="txtUpdateIntake_IncreaseinIntake" id="txtUpdateIntake_IncreaseinIntake" class="form-control mt-1"
+                   maxlength="6"
+                   [(ngModel)]="request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake" (keypress)="numberOnly($event)" />
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_IncreaseInIntake_AdditionofCourse()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Intake
+                    </th>
+                    <th>
+                      Update Intake
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_IncreaseInIntake_AdditionofCourse_List;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.Intake}}
+                    </td>
+                    <td>
+                      {{row.UpdatedIntake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_IncreaseInIntake_AdditionofCourse(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Increase in Intake / Addition of Course End-->
+    <!--Addition of Integrated/Dual Degree-->
+    <div *ngIf="request.DTE_AdditionofIntegratedDualDegree_View==true">
+      <div class="card-header border-top">
+        <b>Addition of Integrated/Dual Degree :₹ {{this.DTE_AdditionofIntegratedDualDegree.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlAdditionofIntegratedDualDegree" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlAdditionofIntegratedDualDegree" name="ddlAdditionofIntegratedDualDegree"
+                    [(ngModel)]="DTE_AdditionofIntegratedDualDegree.StreamID"
+                    #SeletedAdditionofIntegratedDualDegreeProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedAdditionofIntegratedDualDegreeProgrammeID.value,DTE_AdditionofIntegratedDualDegree.CourseLevelID,'AdditionofIntegratedDualDegree','Master')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamMasterDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlDTE_ddlAdditionofIntegratedDualDegreeCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlDTE_ddlAdditionofIntegratedDualDegreeCourseLevelID" name="ddlDTE_ddlAdditionofIntegratedDualDegreeCourseLevelID"
+                    [(ngModel)]="DTE_AdditionofIntegratedDualDegree.CourseLevelID"
+                    #SeletedAdditionofIntegratedDualDegreeCourseLevelID (change)="GetCourse_CourseLevelIDWise(DTE_AdditionofIntegratedDualDegree.StreamID,SeletedAdditionofIntegratedDualDegreeCourseLevelID.value,'AdditionofIntegratedDualDegree','Master')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelMasterList_PG" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_AdditionofIntegratedDualDegree.CourseID">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of DTE_AdditionofIntegratedDualDegreeCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Intake  <span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtIntake" name="txtIntake" [(ngModel)]="DTE_AdditionofIntegratedDualDegree.Intake" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& request.Intake==0">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_AdditionofIntegratedDualDegree()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Intake
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_AdditionofIntegratedDualDegreeList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.Intake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_AdditionofIntegratedDualDegree(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Addition of Integrated/Dual Degree-->
+    <!--Change in Name of Course-->
+    <div *ngIf="request.DTE_ChangeInNameOfCourse_View==true">
+      <div class="card-header border-top">
+        <b>Change in Name of Course :₹ {{this.DTE_ChangeInNameOfCourse.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlChangeInNameOfCourse" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlChangeInNameOfCourse" name="ddlChangeInNameOfCourse"
+                    [(ngModel)]="DTE_ChangeInNameOfCourse.StreamID"
+                    #SeletedChangeInNameOfCourseProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedChangeInNameOfCourseProgrammeID.value,DTE_ChangeInNameOfCourse.CourseLevelID,'ChangeInNameOfCourse')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlChangeInNameOfCourseCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlChangeInNameOfCourseCourseLevelID" name="ddlChangeInNameOfCourseCourseLevelID"
+                    [(ngModel)]="DTE_ChangeInNameOfCourse.CourseLevelID"
+                    #SeletedChangeInNameOfCourseCourseLevelID (change)="GetCourse_CourseLevelIDWise(DTE_ChangeInNameOfCourse.StreamID,SeletedChangeInNameOfCourseCourseLevelID.value,'ChangeInNameOfCourse')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_ChangeInNameOfCourse.CourseID">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of DTE_ChangeInNameOfCourseCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>New Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlNewCourseID" [(ngModel)]="DTE_ChangeInNameOfCourse.NewCourseID">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of DTE_ChangeInNameOfCourseCourseDataList_Master" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+
+          </div>
+
+          <!--<div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+          <label for="txtNewCourseName" class="form-label">Course Name  <span style="color:red">*</span></label>
+          <input type="text" class="form-control" id="txtNewCourseName" name="txtNewCourseName" [(ngModel)]="DTE_ChangeInNameOfCourse.NewCourseName">
+          <div *ngIf="isSubmitted" class="text-danger">
+            <p *ngIf="isSubmitted&& DTE_ChangeInNameOfCourse.NewCourseName==''">This field is required .!</p>
+          </div>
+        </div>-->
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_ChangeInNameOfCourse()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      New Course Name
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_ChangeInNameOfCourseList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.NewCourseName}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_ChangeinNameofCourse(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Change in Name of Course-->
+    <!--Reduction in Intake-->
+    <div *ngIf="request.DTE_ReductionInIntake_View==true">
+      <div class="card-header border-top">
+        <b>Reduction in Intake :₹ {{this.DTE_ReductionInIntake.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlReductionInIntake" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlReductionInIntake" name="ddlReductionInIntake"
+                    [(ngModel)]="DTE_ReductionInIntake.StreamID"
+                    #SeletedReductionInIntakeProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedReductionInIntakeProgrammeID.value,DTE_ReductionInIntake.CourseLevelID,'ReductionInIntake')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlReductionInIntakeCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlReductionInIntakeCourseLevelID" name="ddlReductionInIntakeCourseLevelID"
+                    [(ngModel)]="DTE_ReductionInIntake.CourseLevelID"
+                    #SeletedReductionInIntakeCourseLevelID (change)="GetCourse_CourseLevelIDWise(DTE_ReductionInIntake.StreamID,SeletedReductionInIntakeCourseLevelID.value,'ReductionInIntake')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_ReductionInIntake.CourseID" (change)="GetIntakeValues(DTE_ReductionInIntake.CourseID,'ReductionIntake')">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of DTE_ReductionInIntakeCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Current Intake<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtCurrentIntake" name="txtIntake" [(ngModel)]="DTE_ReductionInIntake.CurrentIntake" (keypress)="numberOnly($event)" disabled>
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& request.Intake==0">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Reduced Intake<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtReducedIntake" name="txtIntake" [(ngModel)]="DTE_ReductionInIntake.ReducedIntake" (keyup)="CalculateReducedIntake()" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& request.Intake==0">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_ReductionInIntake()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Current Intake
+                    </th>
+                    <th>
+                      Reduced Intake
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_ReductionInIntakeList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.CurrentIntake}}
+                    </td>
+                    <td>
+                      {{row.ReducedIntake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_IncreaseinIntake1(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Reduction in Intake-->
+    <!--Closure of Program-->
+    <div *ngIf="request.DTE_ClosureOfProgram_View==true">
+      <div class="card-header border-top">
+        <b>Closure of Program :₹ {{this.DTE_ClosureOfProgram.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlClosureOfProgram" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlClosureOfProgram" name="ddlClosureOfProgram"
+                    [(ngModel)]="DTE_ClosureOfProgram.StreamID">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlClosureOfProgramCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlClosureOfProgramCourseLevelID" name="ddlClosureOfProgramCourseLevelID"
+                    [(ngModel)]="DTE_ClosureOfProgram.CourseLevelID">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_ClosureOfProgram()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_ClosureOfProgramList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_ClosureofProgram(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Closure of Program-->
+    <!--ClosureOfCourses-->
+    <div *ngIf="request.DTE_ClosureOfCourses_View==true">
+      <div class="card-header border-top">
+        <b>Closure Of Courses :₹ {{this.DTE_ClosureOfCourses.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlClosureOfCourses" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlClosureOfCourses" name="ddlClosureOfCourses"
+                    [(ngModel)]="DTE_ClosureOfCourses.StreamID"
+                    #SeletedClosureOfCoursesProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedClosureOfCoursesProgrammeID.value,DTE_ClosureOfCourses.CourseLevelID,'ClosureOfCourses')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlClosureOfCoursesCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlClosureOfCoursesCourseLevelID" name="ddlClosureOfCoursesCourseLevelID"
+                    [(ngModel)]="DTE_ClosureOfCourses.CourseLevelID"
+                    #SeletedClosureOfCoursesCourseLevelID (change)="GetCourse_CourseLevelIDWise(DTE_ClosureOfCourses.StreamID,SeletedClosureOfCoursesCourseLevelID.value,'ClosureOfCourses')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
+            <label>Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_ClosureOfCourses.CourseID" (change)="GetIntakeValues(DTE_ClosureOfCourses.CourseID,'ClosureIntake')">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of DTE_ClosureOfCoursesCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+            <div *ngIf="isSubmitted&&form.ddlCourseID.errors" class="text-danger">
+              <p *ngIf="!form.ddlCourseID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Current Intake<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtCurrentIntake" name="txtIntake" [(ngModel)]="DTE_ClosureOfCourses.CurrentIntake" (keypress)="numberOnly($event)" disabled>
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& request.Intake==0">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="ddlSeatInformation" class="form-label">Reduced Intake<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtReducedIntake" name="txtIntake" [(ngModel)]="DTE_ClosureOfCourses.ReducedIntake" (keyup)="CalculateReducedIntake()" (keypress)="numberOnly($event)">
+            <div *ngIf="isSubmitted" class="text-danger">
+              <p *ngIf="isSubmitted&& request.Intake==0">This field is required .!</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_DTE_ClosureOfCourses()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Current Intake
+                    </th>
+                    <th>
+                      Reduced Intake
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_ClosureOfCoursesList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.CurrentIntake}}
+                    </td>
+                    <td>
+                      {{row.ReducedIntake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_ClosureOfCoursesList(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--ClosureOfCourses-->
+    <!--Merger of the course-->
+    <div *ngIf="request.DTE_MergerOfTheCourse_View==true">
+      <div class="card-header border-top">
+        <b>Merger of the course :₹ {{this.DTE_MergerOfTheCourse.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlMergerOfTheCourse" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlMergerOfTheCourse" name="ddlMergerOfTheCourse"
+                    [(ngModel)]="DTE_MergerOfTheCourse.StreamID"
+                    #SeletedMergerOfTheCourseProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedMergerOfTheCourseProgrammeID.value,DTE_MergerOfTheCourse.CourseLevelID,'MergerOfTheCourse')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlMergerOfTheCourseCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlMergerOfTheCourseCourseLevelID" name="ddlMergerOfTheCourseCourseLevelID"
+                    [(ngModel)]="DTE_MergerOfTheCourse.CourseLevelID"
+                    #SeletedMergerOfTheCourseCourseLevelID (change)="GetCourse_CourseLevelIDWise(DTE_MergerOfTheCourse.StreamID,SeletedMergerOfTheCourseCourseLevelID.value,'MergerOfTheCourse')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>Course 1 <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.CourseID1"
+                    #DTE_MergerOfTheCourseCourseID1 (change)="GetIntakeValues(DTE_MergerOfTheCourseCourseID1.value,'DTE_MergerOfTheCourseCourseID1')">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of DTE_MergerOfTheCourseCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCourseOneIntake" class="form-label">Course 1 Intake</label>
+            <input type="text" class="form-control" id="txtCourseOneIntake" name="txtCourseOneIntake"
+                   [(ngModel)]="DTE_MergerOfTheCourse.CourseIntake1" (keypress)="numberOnly($event)" disabled>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>Course 2 <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.CourseID2"
+                    #DTE_MergerOfTheCourseCourseID2 (change)="GetIntakeValues(DTE_MergerOfTheCourseCourseID2.value,'DTE_MergerOfTheCourseCourseID2')">
+              <option value="0" disabled>--Select--</option>
+              <option *ngFor="let item of DTE_MergerOfTheCourseCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtCourseIntake2" class="form-label">Course 2 Intake </label>
+            <input type="text" class="form-control" id="txtCourseIntake2" name="txtCourseIntake2"
+                   [(ngModel)]="DTE_MergerOfTheCourse.CourseIntake2" (keypress)="numberOnly($event)" disabled>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>Course Merge <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCourseID" [(ngModel)]="DTE_MergerOfTheCourse.MergerCourseID">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of DTE_MergerOfTheCourseCourseDataList" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+
+          </div>
+
+          <div class="col-lg-2 col-md-3 col-sm-6 col-12 mb-3">
+            <label for="txtMergeIntake" class="form-label">Merge Intake<span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtMergeIntake" name="txtMergeIntake"
+                   [(ngModel)]="DTE_MergerOfTheCourse.MergerIntake" (keypress)="numberOnly($event)">
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_DTE_MergerOfTheCourse()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
+                      Course 1
+                    </th>
+                    <th>
+                      Course 1 Intake
+                    </th>
+                    <th>
+                      Course 2
+                    </th>
+                    <th>
+                      Course 2 Intake
+                    </th>
+                    <th>
+                      Course Merge
+                    </th>
+                    <th>
+                      Merge Intake
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_MergerOfTheCourseList;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.CourseIntake1}}
+                    </td>
+                    <td>
+                      {{row.CourseName1}}
+                    </td>
+                    <td>
+                      {{row.CourseIntake2}}
+                    </td>
+                    <td>
+                      {{row.MergeCourseName}}
+                    </td>
+                    <td>
+                      {{row.MergerIntake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_DTE_MergerOfTheCourse(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Merger of the course-->
+    <!--Introduction Off Campus-->
+    <div *ngIf="request.DTE_IntroductionOffCampus_View==true">
+      <div class="card-header border-top">
+        <b>Introduction Off Campus :₹ {{this.request.DTE_IntroductionOffCampus.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlIntroductionOffCampus" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlIntroductionOffCampus" name="ddlIntroductionOffCampus"
+                    [(ngModel)]="request.DTE_IntroductionOffCampus.StreamID"
+                    #SeletedIntroductionOffCampusProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedIntroductionOffCampusProgrammeID.value,request.DTE_IntroductionOffCampus.CourseLevelID,'IntroductionOffCampus','Master')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamMasterDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlIntroductionOffCampusCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlIntroductionOffCampusCourseLevelID" name="ddlIntroductionOffCampusCourseLevelID"
+                    [(ngModel)]="request.DTE_IntroductionOffCampus.CourseLevelID"
+                    #SeletedIntroductionOffCampusCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_IntroductionOffCampus.StreamID,SeletedIntroductionOffCampusCourseLevelID.value,'IntroductionOffCampus','Master')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelMasterList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>Course <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlIntroductionOffCampusCourseID" [(ngModel)]="request.DTE_IntroductionOffCampus.CourseID">
+              <option value="0" disabled>--Select Course--</option>
+              <option *ngFor="let item of DTE_IntroductionOffCampusCourseDataList_Master" value="{{item.CourseID}}">{{item.CourseName}}</option>
+            </select>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="txtIntroductionOffCampusIntake" class="form-label">Intake  <span style="color:red">*</span></label>
+            <input type="text" class="form-control" id="txtIntroductionOffCampusIntake" name="txtIntroductionOffCampusIntake" [(ngModel)]="request.DTE_IntroductionOffCampus.Intake" (keypress)="numberOnly($event)">
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>
+              Upload document required for off campus (AS Per APH) pdf <span style="color:red;"> *</span>
+            </label>
+            <div class="d-flex">
+              <input type="file" style="display:none" name="IntroductionOffCampus_Document" id="IntroductionOffCampus_Document" class="form-control" (change)="ValidateDocument($event,'DTE_IntroductionOffCampus','')" />
+              <label class="btn upload" for="IntroductionOffCampus_Document">
+                <span class="filename">Choose file</span>
+                {{request.DTE_IntroductionOffCampus.DocumentName === '' ? 'No File Choosen' : request.DTE_IntroductionOffCampus.Dis_DocumentName}}
+              </label>
+              <div class="btn-group" *ngIf="request.DTE_IntroductionOffCampus.DocumentName != ''">
+                <a class="btn btn-outline-primary" target="_blank" href="{{request.DTE_IntroductionOffCampus.DocumentPath}}"><i class="fa fa-eye"></i></a>
+                <button type="button" class="btn btn-outline-danger" (click)="DeleteDocument(request.DTE_IntroductionOffCampus.DocumentName,'DTE_IntroductionOffCampus','')"><i class="fa fa-trash-o"></i></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_IntroductionOffCampus()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Intake
+                    </th>
+                    <th>
+                      Document
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_IntroductionOffCampus_List;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.Intake}}
+                    </td>
+                    <td>
+                      <a href="{{row.DocumentPath}}" target="_blank"><i class="fa fa-eye"></i></a>
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_IntroductionOffCampus(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Introduction Off Campus-->
+    <!--Courses for Working Professionals-->
+    <div *ngIf="request.DTE_CoursesforWorkingProfessionals_View==true">
+      <div class="card-header border-top">
+        <b>Courses for Working Professionals :₹ {{this.request.DTE_CoursesforWorkingProfessionals.FeeAmount}} (As per state NOC policy)</b>
+      </div>
+      <div class="card-body">
+        <div class="row">
+
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlCoursesforWorkingProfessionals" class="form-label">Programme Name <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCoursesforWorkingProfessionals" name="ddlCoursesforWorkingProfessionals"
+                    [(ngModel)]="request.DTE_CoursesforWorkingProfessionals.StreamID"
+                    #SeletedCoursesforWorkingProfessionalsProgrammeID (change)="GetCourse_CourseLevelIDWise(SeletedCoursesforWorkingProfessionalsProgrammeID.value,request.DTE_CoursesforWorkingProfessionals.CourseLevelID,'')">
+              <option value="0">-- Select --</option>
+              <option *ngFor="let item of DTE_streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label for="ddlCoursesforWorkingProfessionalsCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
+            <select class="form-select" id="ddlCoursesforWorkingProfessionalsCourseLevelID" name="ddlCoursesforWorkingProfessionalsCourseLevelID"
+                    [(ngModel)]="request.DTE_CoursesforWorkingProfessionals.CourseLevelID"
+                    #SeletedCoursesforWorkingProfessionalsCourseLevelID (change)="GetCourse_CourseLevelIDWise(request.DTE_CoursesforWorkingProfessionals.StreamID,SeletedCoursesforWorkingProfessionalsCourseLevelID.value,'CoursesforWorkingProfessionals')">
+              <option value="0" disabled>--Select Course Level--</option>
+              <option *ngFor="let item of DTE_CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
+            </select>
+          </div>
+
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>Course<span style="color:red;">*</span></label>
+            <select id="ddlDTECouserCoursesforWorkingProfessionals" name="ddlDTECouserCoursesforWorkingProfessionals"
+                    [(ngModel)]="request.DTE_CoursesforWorkingProfessionals.CourseID"
+                    class="form-control">
+              <option value="0">--Select Course--</option>
+              <option [value]="item.CourseID" *ngFor="let item of DTE_CourseDataListCoursesforWorkingProfessionals">
+                {{item.CourseName}}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3">
+            <label>Intake<span style="color:red;"> *</span> </label>
+            <input type="text" name="txtddlIntake_CoursesforWorkingProfessionals" id="txtddlIntake_CoursesforWorkingProfessionals" class="form-control mt-1"
+                   maxlength="6"
+                   [(ngModel)]="request.DTE_CoursesforWorkingProfessionals.Intake" (keypress)="numberOnly($event)" />
+          </div>
+
+          <div class="col-lg-2 col-md-2 col-sm-2 col-2 mt-4">
+            <button type="button" class="btn btn-primary" (click)="Add_CoursesforWorkingProfessionals()"><i class="fa fa-plus"></i> Add</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th style="width:60px !important">
+                      Sr.No.
+                    </th>
+                    <th>
+                      Programme Name
+                    </th>
+                    <th>
+                      Course Level
+                    </th>
+                    <th>
+                      Course
+                    </th>
+                    <th>
+                      Intake
+                    </th>
+                    <th>
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of request.DTE_CoursesforWorkingProfessionals_List;let idx=index;">
+                    <td>
+                      {{idx+1}}
+                    </td>
+                    <td>
+                      {{row.StreamName}}
+                    </td>
+                    <td>
+                      {{row.CourseLevelName}}
+                    </td>
+                    <td>
+                      {{row.CourseName}}
+                    </td>
+                    <td>
+                      {{row.Intake}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button type="button" class="btn btn-danger" (click)="Delete_CoursesforWorkingProfessionals(row)"><i class="fa fa-trash-o"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Increase in Intake / Addition of Course End-->
+
     <div *ngIf="CollegeDepartmentID==4 && ApplyNocParameterMasterList_ddl.length>0 && !this.isInspectionFee">
       <div class="card-header border-top">
         <b>Upload Document</b>
@@ -1021,367 +2606,365 @@
     </div>
 
 
+    <!--Modal Popup Add Course-->
+    <ng-template #mymodalAddCourse let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+          Add Course
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="clearfix"></div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
+                    <select id="ddlCourse" class="form-select" [(ngModel)]="ddlCourse"
+                            #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
+                      <option value="0" disabled>--Select--</option>
+                      <option [value]="item.CourseID" *ngFor="let item of CourseDataList">
+                        {{item.CourseName}}
+                      </option>
+                    </select>
+                    <p *ngIf="(ddlCourse==0|| ddlCourse==null)&&isAddNOCCourse" style="color:red">This field is requried.!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+                <b><i class="bi bi-table"></i> Subject List </b>
+                <div class="d-flex align-items-center">
+                  <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                    <div class="d-flex align-items-center table-filter mr-15">
+                      <i class="fa fa-search"></i>
+                      <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewCourse" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
+                      <thead>
+                        <tr>
+                          <th>Sr. No</th>
+                          <th>Select</th>
+                          <th>Subject Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of SubjectDetails | tableSearchFilter:searchTextNewCourse;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            <input class="form-check-input " type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
+                                   id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
+                                   [(ngModel)]="row.IsChecked">
+                          </td>
+                          <td>{{row.SubjectName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="button" class="btn btn-primary pull-right" (click)="btn_AddCourse()"> Add Course</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end-->
+      </div>
+    </ng-template>
+    <!--Modal Popup Add Course-->
+    <!--Modal Popup Add Course-->
+    <ng-template #mymodalAddCourseSubject let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+          Add Course Subject
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="clearfix"></div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
+                    <select id="ddlCourseSubject" class="form-select" [(ngModel)]="ddlCourseSubject"
+                            #SeletedCourseID (change)="ddlExistingCourse_change($event, SeletedCourseID.value)">
+                      <option value="0">--Select--</option>
+                      <option [value]="item.CourseID" *ngFor="let item of ExistingCourseDataList">
+                        {{item.CourseName}}
+                      </option>
+                    </select>
+                    <p *ngIf="(ddlCourseSubject==0|| ddlCourseSubject==null)&&isAddNOCCourseSubject" style="color:red">This field is requried.!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+                <b><i class="bi bi-table"></i> Subject List </b>
+                <div class="d-flex align-items-center">
+                  <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+
+                    <div class="d-flex align-items-center table-filter mr-15">
+                      <i class="fa fa-search"></i>
+                      <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewSubject" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
+                      <thead>
+                        <tr>
+                          <th>Sr. No</th>
+                          <th>Select</th>
+                          <th>Subject Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of NewSubjectDetails | tableSearchFilter:searchTextNewSubject;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
+                                   id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
+                                   [(ngModel)]="row.IsChecked">
+                          </td>
+                          <td>{{row.SubjectName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="button" class="btn btn-primary pull-right" (click)="btn_AddCourseSubject()"> Add Subject</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end-->
+      </div>
+    </ng-template>
+    <!--Modal Popup Add Course-->
+    <!--Modal DEC_TNOCExtOfSubject-->
+    <ng-template #mymodalTNOCExtOfSubject let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+          TNOC Extension Of Subject
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="clearfix"></div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
+                    <select id="ddlCourseTNOC" class="form-select" [(ngModel)]="ddlCourseTNOC"
+                            #SeletedCourseID (change)="ddlTNOCCourse_change($event, SeletedCourseID.value)">
+                      <option value="0">--Select--</option>
+                      <option [value]="item.CourseID" *ngFor="let item of CourseDataListTNOC">
+                        {{item.CourseName}}
+                      </option>
+                    </select>
+                    <p *ngIf="(ddlCourseTNOC==0|| ddlCourseTNOC==null)&&isAddNOCCourseSubjectTNOC" style="color:red">This field is requried.!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+                <b><i class="bi bi-table"></i> Subject List </b>
+                <div class="d-flex align-items-center">
+                  <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+
+                    <div class="d-flex align-items-center table-filter mr-15">
+                      <i class="fa fa-search"></i>
+                      <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewTNOC" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
+                      <thead>
+                        <tr>
+                          <th>Sr. No</th>
+                          <th>Select</th>
+                          <th>Subject Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of TNOCSubjectDetails | tableSearchFilter:searchTextNewTNOC;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
+                                   id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
+                                   [(ngModel)]="row.IsChecked">
+                          </td>
+                          <td>{{row.SubjectName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="button" class="btn btn-primary pull-right" (click)="btn_AddTNOCSubject()"> Add Subject</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end-->
+      </div>
+    </ng-template>
+    <!--Modal Popup Add Course-->
+    <!--Modal DEC_PNOCSubject-->
+    <ng-template #mymodalPNOCSubjectOfSubject let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
+          Permanent Noc For Subjects
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="clearfix"></div>
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                    <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
+                    <select id="ddlCoursePNOC" class="form-select" [(ngModel)]="ddlCoursePNOC"
+                            #SeletedCourseID (change)="ddlPNOCCourse_change($event, SeletedCourseID.value)">
+                      <option value="0">--Select--</option>
+                      <option [value]="item.CourseID" *ngFor="let item of CourseDataListPNOC">
+                        {{item.CourseName}}
+                      </option>
+                    </select>
+                    <p *ngIf="(ddlCoursePNOC==0|| ddlCoursePNOC==null)&&isAddNOCCoursePNOC" style="color:red">This field is requried.!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+              <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+                <b><i class="bi bi-table"></i> Subject List </b>
+                <div class="d-flex align-items-center">
+                  <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+
+                    <div class="d-flex align-items-center table-filter mr-15">
+                      <i class="fa fa-search"></i>
+                      <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewPNOC" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
+                      <thead>
+                        <tr>
+                          <th>Sr. No</th>
+                          <th>Select</th>
+                          <th>Subject Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of PNOCSubjectDetails | tableSearchFilter:searchTextNewPNOC;let idx=index;">
+                          <td>{{idx+1}}</td>
+                          <td>
+                            <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
+                                   id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
+                                   [(ngModel)]="row.IsChecked">
+                          </td>
+                          <td>{{row.SubjectName}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button type="button" class="btn btn-primary pull-right" (click)="btn_AddPNOCCSubject()"> Add Subject</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end-->
+      </div>
+    </ng-template>
+    <!--Modal Popup Add Course-->
+
   </div>
-
-
 </div>
-
-<!--Modal Popup Add Course-->
-<ng-template #mymodalAddCourse let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
-      Add Course
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <i class="fa fa-close"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="clearfix"></div>
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
-                <select id="ddlCourse" class="form-select" [(ngModel)]="ddlCourse"
-                        #SeletedCourseID (change)="ddlCourse_change($event, SeletedCourseID.value)">
-                  <option value="0" disabled>--Select--</option>
-                  <option [value]="item.CourseID" *ngFor="let item of CourseDataList">
-                    {{item.CourseName}}
-                  </option>
-                </select>
-                <p *ngIf="(ddlCourse==0|| ddlCourse==null)&&isAddNOCCourse" style="color:red">This field is requried.!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="card">
-          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-            <b><i class="bi bi-table"></i> Subject List </b>
-            <div class="d-flex align-items-center">
-              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-                <div class="d-flex align-items-center table-filter mr-15">
-                  <i class="fa fa-search"></i>
-                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewCourse" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="table-responsive">
-                <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
-                  <thead>
-                    <tr>
-                      <th>Sr. No</th>
-                      <th>Select</th>
-                      <th>Subject Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of SubjectDetails | tableSearchFilter:searchTextNewCourse;let idx=index;">
-                      <td>{{idx+1}}</td>
-                      <td>
-                        <input class="form-check-input " type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
-                               id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
-                               [(ngModel)]="row.IsChecked">
-                      </td>
-                      <td>{{row.SubjectName}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <button type="button" class="btn btn-primary pull-right" (click)="btn_AddCourse()"> Add Course</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--end-->
-  </div>
-</ng-template>
-<!--Modal Popup Add Course-->
-<!--Modal Popup Add Course-->
-<ng-template #mymodalAddCourseSubject let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
-      Add Course Subject
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <i class="fa fa-close"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="clearfix"></div>
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
-                <select id="ddlCourseSubject" class="form-select" [(ngModel)]="ddlCourseSubject"
-                        #SeletedCourseID (change)="ddlExistingCourse_change($event, SeletedCourseID.value)">
-                  <option value="0">--Select--</option>
-                  <option [value]="item.CourseID" *ngFor="let item of ExistingCourseDataList">
-                    {{item.CourseName}}
-                  </option>
-                </select>
-                <p *ngIf="(ddlCourseSubject==0|| ddlCourseSubject==null)&&isAddNOCCourseSubject" style="color:red">This field is requried.!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="card">
-          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-            <b><i class="bi bi-table"></i> Subject List </b>
-            <div class="d-flex align-items-center">
-              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-
-                <div class="d-flex align-items-center table-filter mr-15">
-                  <i class="fa fa-search"></i>
-                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewSubject" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="table-responsive">
-                <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
-                  <thead>
-                    <tr>
-                      <th>Sr. No</th>
-                      <th>Select</th>
-                      <th>Subject Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of NewSubjectDetails | tableSearchFilter:searchTextNewSubject;let idx=index;">
-                      <td>{{idx+1}}</td>
-                      <td>
-                        <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
-                               id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
-                               [(ngModel)]="row.IsChecked">
-                      </td>
-                      <td>{{row.SubjectName}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <button type="button" class="btn btn-primary pull-right" (click)="btn_AddCourseSubject()"> Add Subject</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--end-->
-  </div>
-</ng-template>
-<!--Modal Popup Add Course-->
-<!--Modal DEC_TNOCExtOfSubject-->
-<ng-template #mymodalTNOCExtOfSubject let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
-      TNOC Extension Of Subject
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <i class="fa fa-close"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="clearfix"></div>
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
-                <select id="ddlCourseTNOC" class="form-select" [(ngModel)]="ddlCourseTNOC"
-                        #SeletedCourseID (change)="ddlTNOCCourse_change($event, SeletedCourseID.value)">
-                  <option value="0">--Select--</option>
-                  <option [value]="item.CourseID" *ngFor="let item of CourseDataListTNOC">
-                    {{item.CourseName}}
-                  </option>
-                </select>
-                <p *ngIf="(ddlCourseTNOC==0|| ddlCourseTNOC==null)&&isAddNOCCourseSubjectTNOC" style="color:red">This field is requried.!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="card">
-          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-            <b><i class="bi bi-table"></i> Subject List </b>
-            <div class="d-flex align-items-center">
-              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-
-                <div class="d-flex align-items-center table-filter mr-15">
-                  <i class="fa fa-search"></i>
-                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewTNOC" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="table-responsive">
-                <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
-                  <thead>
-                    <tr>
-                      <th>Sr. No</th>
-                      <th>Select</th>
-                      <th>Subject Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of TNOCSubjectDetails | tableSearchFilter:searchTextNewTNOC;let idx=index;">
-                      <td>{{idx+1}}</td>
-                      <td>
-                        <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
-                               id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
-                               [(ngModel)]="row.IsChecked">
-                      </td>
-                      <td>{{row.SubjectName}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <button type="button" class="btn btn-primary pull-right" (click)="btn_AddTNOCSubject()"> Add Subject</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--end-->
-  </div>
-</ng-template>
-<!--Modal Popup Add Course-->
-<!--Modal DEC_PNOCSubject-->
-<ng-template #mymodalPNOCSubjectOfSubject let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-applynocview-title" style="font-size: 17px; font-weight: 600 !important;">
-      Permanent Noc For Subjects
-    </h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <i class="fa fa-close"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="clearfix"></div>
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <b><i class="fa fa-plus"></i>&nbsp;Course Details</b>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
-                <label for="txtCourse" class="form-label">Course <span style="color:red">*</span></label>
-                <select id="ddlCoursePNOC" class="form-select" [(ngModel)]="ddlCoursePNOC"
-                        #SeletedCourseID (change)="ddlPNOCCourse_change($event, SeletedCourseID.value)">
-                  <option value="0">--Select--</option>
-                  <option [value]="item.CourseID" *ngFor="let item of CourseDataListPNOC">
-                    {{item.CourseName}}
-                  </option>
-                </select>
-                <p *ngIf="(ddlCoursePNOC==0|| ddlCoursePNOC==null)&&isAddNOCCoursePNOC" style="color:red">This field is requried.!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="card">
-          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
-            <b><i class="bi bi-table"></i> Subject List </b>
-            <div class="d-flex align-items-center">
-              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
-
-                <div class="d-flex align-items-center table-filter mr-15">
-                  <i class="fa fa-search"></i>
-                  <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchTextNewPNOC" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="table-responsive">
-                <table *ngIf="isShowGrid" class="table table-hover table-striped-columns" id="tabellist" #content>
-                  <thead>
-                    <tr>
-                      <th>Sr. No</th>
-                      <th>Select</th>
-                      <th>Subject Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of PNOCSubjectDetails | tableSearchFilter:searchTextNewPNOC;let idx=index;">
-                      <td>{{idx+1}}</td>
-                      <td>
-                        <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}"
-                               id="cbSubject_TNOCExtension_{{idx+1}}_{{row.SubjectID}}" value="{{row.SubjectID}}"
-                               [(ngModel)]="row.IsChecked">
-                      </td>
-                      <td>{{row.SubjectName}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <button type="button" class="btn btn-primary pull-right" (click)="btn_AddPNOCCSubject()"> Add Subject</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--end-->
-  </div>
-</ng-template>
-<!--Modal Popup Add Course-->

@@ -1,15 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import { FormBuilder } from '@angular/forms'; 
+import { ActivatedRoute, Router } from '@angular/router'; 
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
-import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import {  NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TrusteeGeneralInfoDataModel } from '../../../Models/TrusteeGeneralInfoDataModel';
 import { LegalEntityDataModel } from '../../../Models/LegalEntityDataModel';
 

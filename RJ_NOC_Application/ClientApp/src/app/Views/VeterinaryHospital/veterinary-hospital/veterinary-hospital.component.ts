@@ -96,6 +96,7 @@ export class VeterinaryHospitalComponent implements OnInit {
   public FemaleAnimalCountValidate: string = '';
   public GetAnimalName: string = '';
   public AnimalCountText: string = 'Enter Animal Count';
+  public SearchRecordID: string = '';
 
 
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -117,7 +118,7 @@ export class VeterinaryHospitalComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.veterinaryHospitalForm = this.formBuilder.group(
       {
         txtHospitalName: ['', Validators.required],
@@ -150,18 +151,33 @@ export class VeterinaryHospitalComponent implements OnInit {
         ddlAnimalMasterID: ['', [DropdownValidators]],
       })
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.CollegeID = data['Data']['CollegeID'];
+          this.SelectedCollageID = data['Data']['CollegeID'];
+          if (this.request.CollegeID == null || this.request.CollegeID == 0 || this.request.CollegeID == undefined) {
+            this.routers.navigate(['/draftapplicationlist']);
+          }
+        }, error => console.error(error));
+    }
+    else {
+      this.routers.navigate(['/draftapplicationlist']);
+    }
     this.sSOLoginDataModel = JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.request.CollegeID = this.SelectedCollageID;
     this.request.DepartmentID = this.SelectedDepartmentID;
     this.request.SSOID = this.sSOLoginDataModel.SSOID;
 
-    this.GetDivisionList();
-    this.GetAnimalMasterList();
-    this.GetAllVeterinaryHospitalList();
-    this.ActiveStatus = true;
-    this.GetSeatInformationByCourse();
-    this.GetSansthaBhawanRoomList();
+   await this.GetDivisionList();
+   await this.GetAnimalMasterList();
+   await this.GetAllVeterinaryHospitalList();
+     this.ActiveStatus = true;
+   await this.GetSeatInformationByCourse();
+   await this.GetSansthaBhawanRoomList();
   }
   get form() { return this.veterinaryHospitalForm.controls; }
   get animalform() { return this.animalForm.controls; }

@@ -47,7 +47,7 @@ export class OSDApplicationListMGOneComponent implements OnInit {
     try {
       let ActionName = '';
       if (this.sSOLoginDataModel.RoleID == 14 || this.sSOLoginDataModel.RoleID == 6) {
-        ActionName = Status == 'Completed' ? 'Approve and Forward,Forward To' : Status == 'Pending' ? 'Approve and Forward,Forward' : Status == 'Revert' ? 'Revert' : '';
+        ActionName = Status == 'Completed' ? 'Approve and Forward,Forward To' : Status == 'Pending' ? 'Approve and Forward' : Status == 'Revert' ? 'Revert' : '';
       }
       else {
         ActionName = Status == 'Completed' ? 'Compliant and Forward,Approve and Forward,Minister Forward To,Reject and Forward,Revert' : Status == 'Pending' ? 'Compliant and Forward,Forward,Forward To,Approve and Forward' : '';
@@ -73,7 +73,12 @@ export class OSDApplicationListMGOneComponent implements OnInit {
   }
 
   async DocumentScrutiny_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
-    this.routers.navigate(['/finalchecklistmgone' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + this.QueryStringStatus]);
+    if (this.sSOLoginDataModel.RoleID == 7) {
+      this.routers.navigate(['/secfinalchecklistmgone' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + this.QueryStringStatus]);
+    }
+    else {
+      this.routers.navigate(['/finalchecklistmgone' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + this.QueryStringStatus]);
+    }
   }
 
   closeResult: string | undefined;
@@ -88,7 +93,7 @@ export class OSDApplicationListMGOneComponent implements OnInit {
     });
     try {
       this.loaderService.requestStarted();
-      await this.commonMasterService.GetApplicationTrail_DepartmentApplicationWise(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
+      await this.commonMasterService.GetLOIApplicationTrail(ApplyNOCID, this.sSOLoginDataModel.DepartmentID)
         .then((data: any) => {
           debugger;
           data = JSON.parse(JSON.stringify(data));

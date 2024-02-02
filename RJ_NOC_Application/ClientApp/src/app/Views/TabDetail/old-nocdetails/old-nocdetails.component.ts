@@ -70,6 +70,7 @@ export class OldNOCDetailsComponent implements OnInit {
   public NOCExpireDateRequried: boolean = false;
   public isToDisable = true;
   //NOC Details
+  public SearchRecordID: string = '';
 
 
   public QueryStringStatus: any = '';
@@ -95,9 +96,26 @@ export class OldNOCDetailsComponent implements OnInit {
 
   async ngOnInit() {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-    this.request.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    //this.request.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.CollegeID = data['Data']['CollegeID'];
+          this.SelectedCollageID = data['Data']['CollegeID'];
+          if (this.request.CollegeID == null || this.request.CollegeID == 0 || this.request.CollegeID == undefined) {
+            this.routers.navigate(['/draftapplicationlist']);
+          }
+        }, error => console.error(error));
+    }
+    else {
+      this.routers.navigate(['/draftapplicationlist']);
+    }
+
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));

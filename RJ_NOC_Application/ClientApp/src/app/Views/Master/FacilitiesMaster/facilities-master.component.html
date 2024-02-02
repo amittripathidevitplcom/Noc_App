@@ -37,32 +37,47 @@
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="txtFacilitiesName" class="form-label">Facility Name<span style="color:red;">*</span></label>
-                <input type="text" id="txtFacilitiesName" maxlength="100" class="form-control" [(ngModel)]="request.FacilitiesName" formControlName="txtFacilitiesName" (keypress)="alphaOnly($event)"/>
+                <input type="text" id="txtFacilitiesName" maxlength="100" class="form-control" [(ngModel)]="request.FacilitiesName" formControlName="txtFacilitiesName" (keypress)="alphaOnly($event)" />
                 <div *ngIf="isSubmitted&&form.txtFacilitiesName.errors" class="text-danger">
                   <p *ngIf="form.txtFacilitiesName.errors.required">This field is required .!</p>
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlIsYesNoOption" class="form-label">Is Yes No Option</label>
+                <select class="form-select" id="ddlIsYesNoOption" name="ddlIsYesNoOption" [(ngModel)]="request.IsYesNoOption" formControlName="ddlIsYesNoOption">
+                  <option value="Yes" selected>Yes</option>
+                  <option value="No" selected>No</option>
+                </select>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.IsYesNoOption=='No'">
                 <label for="MinSize" class="form-label">Minimum Size<span style="color:red;">*</span></label>
-                <input type="text" id="MinSize" maxlength="100" class="form-control" [(ngModel)]="request.MinSize" formControlName="MinSize" (keypress)="numbersOnly($event)">                
+                <input type="text" id="MinSize" maxlength="100" class="form-control" [(ngModel)]="request.MinSize" formControlName="MinSize" (keypress)="numbersOnly($event)">
                 <div *ngIf="isSubmitted&&request.MinSize <= 0" class="text-danger">
                   <p *ngIf="form.MinSize.errors.required">This field is required .!</p>
                   <p *ngIf="form.MinSize.errors.min">Minimum Size will be greater than zero .!</p>
                 </div>
               </div>
-              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.IsYesNoOption=='No'">
                 <label for="txtUnit" class="form-label">Unit<span style="color:red;">*</span></label>
                 <input type="text" id="txtUnit" maxlength="50" class="form-control" [(ngModel)]="request.Unit" formControlName="txtUnit" (keypress)="alphaOnly($event)">
                 <div *ngIf="isSubmitted&&form.txtUnit.errors" class="text-danger">
-                  <p *ngIf="form.txtUnit.errors.required">This field is required .!</p>                  
+                  <p *ngIf="form.txtUnit.errors.required">This field is required .!</p>
                 </div>
               </div>
+
+
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="chkActiveStatus" class="form-label">Status</label>
                 <div class="form-check form-switch d-flex align-items-center">
                   <input class="form-check-input" type="checkbox" id="Active" [(ngModel)]="request.ActiveStatus" formControlName="chkActiveStatus">
                 </div>
               </div>
+
+
+
+
+
             </div>
           </div>
           <div class="card-footer text-end">
@@ -94,9 +109,11 @@
                   <th>Sr. No</th>
                   <th>Department Name</th>
                   <th>Facility Name</th>
+                  <th>Is Yes No Option</th>
                   <th>Minimum Size</th>
                   <th>Unit</th>
                   <th>Status</th>
+
                   <th>Action</th>
                 </tr>
               </thead>
@@ -105,9 +122,11 @@
                   <td>{{idx+1}}</td>
                   <td>{{row.DepartmentName}}</td>
                   <td>{{row.FacilitiesName}}</td>
+                  <td>{{row.IsYesNoOption}}</td>
                   <td>{{row.MinSize}}</td>
                   <td>{{row.Unit}}</td>
                   <td>{{row.ActiveDeactive}}</td>
+
                   <td>
                     <div class="d-flex">
                       <button type="button" (click)="Edit_OnClick(row.FID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>

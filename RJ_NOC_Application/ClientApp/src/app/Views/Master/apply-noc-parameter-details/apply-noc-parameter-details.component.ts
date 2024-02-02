@@ -768,16 +768,29 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     }
   }
 
+
+  public ApplicationFinalSubmit: boolean = false;
   async OpenOfflinePaymentActionPopUP(content: any, item: any,) {
+    this.ResetOfflinepaymentdetails();
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+    this.ApplicationFinalSubmit = false;
     this.request.ApplyNOCID = item.ApplyNocApplicationID;
     this.request.CollegeID = item.CollegeID;
     this.request.DepartmentID = item.DepartmentID;
+    this.ApplicationFinalSubmit = item.IsFinalSubmit;
+    if (this.request.DepartmentID == 4) {
+      await this.GetPaymentMode();
+      this.lstPaymentMode = this.lstPaymentMode.filter((x: { Name: string; }) => x.Name == 'Demand Draft');
+    }
+    else {
+      await this.GetPaymentMode();
+    }
     this.GetOfflinePaymentDetails(this.request.ApplyNOCID, 0, 'GetOfflinePaymentDetails');
+
   }
 
   async AddOfflineFeeData() {
@@ -796,8 +809,10 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     if ((this.request.DateofIssuance == '') || (this.request.DateofIssuance == null)) {
       isValid = false;
     }
-    if ((this.request.DateofExpiry == '') || (this.request.DateofExpiry == null)) {
-      isValid = false;
+    if (this.request.DepartmentID != 4) {
+      if ((this.request.DateofExpiry == '') || (this.request.DateofExpiry == null)) {
+        isValid = false;
+      }
     }
     if ((this.request.FileName == '') || (this.request.FileName == null)) {
       isValid = false;
@@ -819,6 +834,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
             this.toastr.success(this.SuccessMessage)
             this.GetOfflinePaymentDetails(this.request.ApplyNOCID, 0, 'GetOfflinePaymentDetails');
             this.ResetOfflinepaymentdetails();
+            this.GetApplyNocApplicationList();
           }
           else {
             this.toastr.error(this.ErrorMessage)
@@ -860,7 +876,7 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
     this.request.DateofExpiry = '';
     this.request.DateofIssuance = '';
     this.request.Amount = 0;
-    this.request.PaymentMode = '';
+    this.request.PaymentMode = '0';
     this.request.FileName = '';
     this.request.FilePath = '';
     this.request.Dis_FileName = '';
@@ -897,8 +913,8 @@ export class ApplyNocParameterDetailsComponent implements OnInit {
       this.request.PaymentMode = item.PaymentMode;
       this.request.DepartmentID = item.DepartmentID;
       this.request.BankName = item.BankName;
-      this.request.DateofExpiry = item.DateofIssuance;
-      this.request.DateofIssuance = item.DateofExpiry;
+      this.request.DateofExpiry = item.DateofExpiry;
+      this.request.DateofIssuance = item.DateofIssuance;
       this.request.Amount = item.Amount;
       this.request.FileName = item.FileName;
       this.request.FilePath = item.FilePath;

@@ -82,6 +82,7 @@ export class StaffDetailsComponent implements OnInit {
   public EducationalQualificationDetailsById: any = [];
   public QueryStringStatus: any = '';
   public SelectedApplyNOCID: number = 0;
+  public SearchRecordID: string = '';
   constructor(private loaderService: LoaderService, private toastr: ToastrService, private staffDetailService: StaffDetailService, private fileUploadService: FileUploadService
     , private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private modalService: NgbModal) {
 
@@ -136,7 +137,22 @@ export class StaffDetailsComponent implements OnInit {
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.CollegeID = data['Data']['CollegeID'];
+          this.SelectedCollageID = data['Data']['CollegeID'];
+          if (this.request.CollegeID == null || this.request.CollegeID == 0 || this.request.CollegeID == undefined) {
+            this.routers.navigate(['/draftapplicationlist']);
+          }
+        }, error => console.error(error));
+    }
+    else {
+      this.routers.navigate(['/draftapplicationlist']);
+    }
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
 

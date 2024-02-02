@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
-import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
+import { ApplyNocParameterCourseDataModel, ApplyNocParameterDataModel, ApplyNocParameterMasterListDataModel, ApplyNocParameterMasterList_AdditionofIntegratedDualDegree, ApplyNocParameterMasterList_BankDetails, ApplyNocParameterMasterList_ChangeInCoedtoGirls, ApplyNocParameterMasterList_ChangeInCollegeManagement, ApplyNocParameterMasterList_ChangeInGirlstoCoed, ApplyNocParameterMasterList_ChangeInNameOfCollege, ApplyNocParameterMasterList_ChangeInNameOfCourse, ApplyNocParameterMasterList_ChangeInNameofInstitution, ApplyNocParameterMasterList_ChangeInPlaceOfCollege, ApplyNocParameterMasterList_ChangeinNameofSociety, ApplyNocParameterMasterList_ChangeofSite_Location, ApplyNocParameterMasterList_ClosureOfCourses, ApplyNocParameterMasterList_ClosureOfProgram, ApplyNocParameterMasterList_CoursesforWorkingProfessionals, ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse, ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse, ApplyNocParameterMasterList_IntroductionOffCampus, ApplyNocParameterMasterList_MergerCollege, ApplyNocParameterMasterList_MergerOfTheCourse, ApplyNocParameterMasterList_MergerofInstitutions, ApplyNocParameterMasterList_ReductionInIntake, ApplyNocParameterMasterList_TostartNewProgramme, ApplyNocParameterMaster_AdditionOfNewSeats60DataModel, ApplyNocParameterMaster_TNOCExtensionDataModel } from '../../../Models/ApplyNocParameterDataModel';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { DropdownValidators } from '../../../Services/CustomValidators/custom-validators.service';
 import { ApplyNOCApplicationService } from '../../../Services/ApplyNOCApplicationList/apply-nocapplication.service';
@@ -40,6 +40,7 @@ export class ApplyNocParameterComponent implements OnInit {
 
   public ApplicationTypeList: any = [];
   public CollegeList_ddl: any = [];
+  public CollegeList: any = [];
   public ApplyNocParameterMasterList_ddl: any[] = [];
   public file: any = '';
 
@@ -56,11 +57,15 @@ export class ApplyNocParameterComponent implements OnInit {
   // model
   request = new ApplyNocParameterDataModel();
 
+
+
   totalNewSubjectFees: number = 0;
 
   totalTNOCSubjectFees: number = 0;
   totalPNOCSubjectFees: number = 0;
   TNOCParameterFees: number = 0;
+
+  public DTE_CourseDataList: any = [];
 
   public ApplyNocParameterMasterList_TNOCExtension: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_AdditionOfNewSeats60: ApplyNocParameterMaster_AdditionOfNewSeats60DataModel = null;
@@ -72,8 +77,6 @@ export class ApplyNocParameterComponent implements OnInit {
   public ApplyNocParameterMasterList_MergerCollege: ApplyNocParameterMasterList_MergerCollege = null;
   public ApplyNocParameterMasterList_NewCourse: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_NewCourseSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
-
-
   public ApplyNocParameterMasterList_TNOCExtOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
   public ApplyNocParameterMasterList_PNOCOfSubject: ApplyNocParameterMaster_TNOCExtensionDataModel = null;
 
@@ -168,6 +171,34 @@ export class ApplyNocParameterComponent implements OnInit {
   public SelectedCollegeID: number = 0;
   public SelectedDepartmentID: number = 0;
 
+  //DTE Validation Prop
+  //Change in the Name of the Bank
+  public isValidOldBankName: boolean = false;
+  public isValidNewBankName: boolean = false;
+  public isValidOldBranchName: boolean = false;
+  public isValidNewBranchName: boolean = false;
+  public isValidOldIFSC: boolean = false;
+  public isValidNewIFSC: boolean = false;
+  public isValidOldAccountNumber: boolean = false;
+  public isValidNewAccountNumber: boolean = false;
+
+  /*Change in the Minority Status of the Institution*/
+  public isValidDTE_ChangeInTheMinorityStatusoftheInstitution: boolean = false;
+  /*Merger of Institutions under the same Trust / Society / Company*/
+  public isValidDTE_InstituteID2: boolean = false;
+  public isValidDTE_MergeInstituteID: boolean = false;
+  /*Change in the name of Trust / Society / Company*/
+  public isValidDTE_NewName: boolean = false;
+  public isValidDTE_SocietyNewAddress: boolean = false;
+
+  /*Change in Name of Institution*/
+  public isValidDTE_NewCollegeName: boolean = false;
+  public isValidDTE_NewCollegeNameHi: boolean = false;
+  public isValidDTE_NewAddress: boolean = false;
+
+  public isValidDTE_NewTrustName: boolean = false;
+  public isValidDTE_NewInstituteName: boolean = false;
+
   constructor(private draftApplicationListService: DraftApplicationListService, private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router,
     private applyNOCApplicationService: ApplyNOCApplicationService, private fileUploadService: FileUploadService, private modalService: NgbModal, private cdref: ChangeDetectorRef) {
 
@@ -184,11 +215,33 @@ export class ApplyNocParameterComponent implements OnInit {
       ddlCourse: ['', 0]
     });
     // load
+    //Dte added Rishi Kapoor
+    this.request.DTE_BankDetails = new ApplyNocParameterMasterList_BankDetails();
+    this.request.DTE_MergerofInstitutions = new ApplyNocParameterMasterList_MergerofInstitutions();
+    this.request.DTE_ChangeinNameofSociety = new ApplyNocParameterMasterList_ChangeinNameofSociety();
+    this.request.DTE_IncreaseinIntakeAdditionofCourse = new ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse();
+    this.request.DTE_IncreaseinIntakeAdditionofCourse_List = [];
+    this.request.DTE_ChangeInNameofInstitution = new ApplyNocParameterMasterList_ChangeInNameofInstitution();
+    this.request.DTE_ChangeofSite_Location = new ApplyNocParameterMasterList_ChangeofSite_Location();
+
+    this.request.DTE_TostartNewProgramme = new ApplyNocParameterMasterList_TostartNewProgramme();
+    this.request.DTE_TostartNewProgramme_List = [];
+
+    this.request.DTE_IncreaseInIntake_AdditionofCourse = new ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse();
+    this.request.DTE_IncreaseInIntake_AdditionofCourse_List = [];
+
+    this.request.DTE_IntroductionOffCampus = new ApplyNocParameterMasterList_IntroductionOffCampus();
+    this.request.DTE_IntroductionOffCampus_List = [];
+
+    this.request.DTE_CoursesforWorkingProfessionals = new ApplyNocParameterMasterList_CoursesforWorkingProfessionals();
+    this.request.DTE_CoursesforWorkingProfessionals_List = [];
+
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollegeList();
     await this.GetApplicationList();
-    this.loaderService.requestEnded();
 
+    this.loaderService.requestEnded();
+    setTimeout(function () { (window as any).LoadData(); }, 200)
   }
 
   get form() {
@@ -201,6 +254,10 @@ export class ApplyNocParameterComponent implements OnInit {
     this.IsShowCollegeList = false;
     this.request.CollegeID = collegeID;
     await this.College_ddlChange(null);
+    await this.GetDTE_StreamDataList();
+    await this.GetDTE_CourseLevelList();
+    await this.GetDTE_StreamMasterDataList();
+    await this.GetDTE_CourseLevelMasterList();
   }
   async BackToCollegeList() {
     this.IsShowCollegeList = true;
@@ -214,7 +271,7 @@ export class ApplyNocParameterComponent implements OnInit {
   async GetApplicationList() {
     try {
       this.loaderService.requestStarted();
-      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID)
+      await this.draftApplicationListService.CollegeDetails(this.sSOLoginDataModel.SSOID,'NOC')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -248,6 +305,17 @@ export class ApplyNocParameterComponent implements OnInit {
           //
           this.CollegeList_ddl = data['Data'];
         }, error => console.error(error));
+
+
+      await this.commonMasterService.GetCollageList_DepartmentAndSSOIDWise(0, this.sSOLoginDataModel.SSOID, 'Society')
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.CollegeList = data['Data'];
+          console.log(this.State);
+        });
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -390,23 +458,23 @@ export class ApplyNocParameterComponent implements OnInit {
       //    await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
       //      if (item.ApplyNocID != rowitem.ApplyNocID) {
       //        rowitem.IsChecked = false;
-              
+
       //      }
       //      else {
       //        rowitem.IsChecked = true;
-              
+
       //      }
       //    });
       //  }
       //}
-
+      ///Department 4 (DTE)
       if (this.CollegeDepartmentID == 4) {
         if (this.request.ApplyNocFor == 'Closure of Institute') {
           this.isApplicationApplyFor = item.IsChecked;
           await this.ApplyNocParameterMasterList_ddl.forEach(rowitem => {
             if (item.ApplyNocID != rowitem.ApplyNocID) {
               rowitem.IsChecked = false;
-             
+
             }
             else {
               rowitem.IsChecked = true;
@@ -414,10 +482,319 @@ export class ApplyNocParameterComponent implements OnInit {
           });
         }
       }
-     
+      //Adde by rishi kapoor DTE 15 Cases
 
+      if (this.request.ApplyNocCode == 'DTE_BankDetails') {
+        this.request.DTE_BankDetails_View = item.IsChecked;
+        this.request.DTE_BankDetails.BankDetailID = 0;
+        this.request.DTE_BankDetails.ApplyNocID = 0;
+        this.request.DTE_BankDetails.DepartmentID = 0;
+        this.request.DTE_BankDetails.CollegeID = 0;
+        this.request.DTE_BankDetails.OldBankName = '';
+        this.request.DTE_BankDetails.NewBankName = '';
+        this.request.DTE_BankDetails.OldBranchName = '';
+        this.request.DTE_BankDetails.NewBranchName = '';
+        this.request.DTE_BankDetails.OldIFSC = '';
+        this.request.DTE_BankDetails.NewIFSC = '';
+        this.request.DTE_BankDetails.OldAccountNumber = '';
+        this.request.DTE_BankDetails.NewAccountNumber = '';
+        this.request.DTE_BankDetails.FeeAmount = 0;
+        if (item.IsChecked == true) {
+          this.request.DTE_BankDetails.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_BankDetails.FeeAmount = item.FeeAmount
+        }
+      }
+      //Change In The Minority Status of the Institution
+      if (this.request.ApplyNocCode == 'DTE_ChangeInTheMinorityStatusoftheInstitution') {
+        this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_View = item.IsChecked;
+
+        this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = '';
+        this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = '';
+        this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = '';
+
+        if (item.IsChecked == true) {
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_FeeAmount = item.FeeAmount
+        }
+      }
+
+      if (this.request.ApplyNocCode == 'DTE_MergerofInstitutions') {
+        this.request.DTE_MergerofInstitutions_View = item.IsChecked;
+        this.request.DTE_MergerofInstitutions.InstituteID1 = this.request.CollegeID;
+        this.request.DTE_MergerofInstitutions.InstituteID2 = 0;
+        this.request.DTE_MergerofInstitutions.MergeInstituteID = 0;
+        this.request.DTE_MergerofInstitutions.FeeAmount = 0;
+
+        this.request.DTE_MergerofInstitutions.NewTrustName = '';
+        this.request.DTE_MergerofInstitutions.NewTrustName = '';
+        if (item.IsChecked == true) {
+          this.request.DTE_MergerofInstitutions.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_MergerofInstitutions.FeeAmount = item.FeeAmount
+        }
+      }
+      /*Change in the name of Trust / Society / Company*/
+      if (this.request.ApplyNocCode == 'DTE_ChangeinNameofSociety') {
+        this.request.DTE_ChangeinNameofSociety_View = item.IsChecked;
+        this.request.DTE_ChangeinNameofSociety.CurrentName = '';
+
+
+        await this.commonMasterService.GetSocietyByCollege(this.request.CollegeID)
+          .then((data: any) => {
+            this.request.DTE_ChangeinNameofSociety.CurrentName = data['Data'][0]['data'][0]['SocietyName'];
+            this.request.DTE_ChangeinNameofSociety.OldAddress = data['Data'][0]['data'][0]['OldAddress'];
+          });
+
+        this.request.DTE_ChangeinNameofSociety.NewName = '';
+        this.request.DTE_ChangeinNameofSociety.NewAddress = '';
+        this.request.DTE_ChangeinNameofSociety.FeeAmount = 0;
+        if (item.IsChecked == true) {
+          this.request.DTE_ChangeinNameofSociety.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_ChangeinNameofSociety.FeeAmount = item.FeeAmount
+        }
+      }
+
+      /*//Increase in Intake / Addition of Course*/
+      if (this.request.ApplyNocCode == 'DTE_IncreaseinIntakeAdditionofCourse') {
+        this.request.DTE_IncreaseinIntakeAdditionofCourse_View = item.IsChecked;
+        this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID = 0;
+        this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount = 0;
+        this.request.DTE_IncreaseinIntakeAdditionofCourse_List = [];
+
+        //await this.commonMasterService.GetCourseList_CollegeWise(this.request.CollegeID)
+        //  .then((data: any) => {
+        //    data = JSON.parse(JSON.stringify(data));
+        //    this.DTE_CourseDataList = data['Data'];
+        //    console.log(this.DTE_CourseDataList);
+        //  }, error => console.error(error));
+
+        if (item.IsChecked == true) {
+          this.request.DTE_IncreaseinIntakeAdditionofCourse.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount = item.FeeAmount
+        }
+      }
       // await  this.SetPrimaryMember(item, index)
 
+      /*//To start new Programme/ Level in the existing Institutions*/
+      if (this.request.ApplyNocCode == 'DTE_TostartNewProgramme') {
+        this.request.DTE_TostartNewProgramme_View = item.IsChecked;
+        this.request.DTE_TostartNewProgramme.CourseID = 0;
+        this.request.DTE_TostartNewProgramme.FeeAmount = 0;
+        this.request.DTE_TostartNewProgramme_List = [];
+
+        await this.commonMasterService.GetCourseList_CollegeWise(this.request.CollegeID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.DTE_CourseDataList = data['Data'];
+            console.log(this.DTE_CourseDataList);
+          }, error => console.error(error));
+
+        if (item.IsChecked == true) {
+          this.request.DTE_TostartNewProgramme.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_TostartNewProgramme.FeeAmount = item.FeeAmount
+        }
+      }
+
+
+      /*Change in Name of Institution*/
+      if (this.request.ApplyNocCode == 'DTE_ChangeofSite_Location') {
+        this.request.DTE_ChangeofSite_Location_View = item.IsChecked;
+        this.request.DTE_ChangeofSite_Location.CurrentAddress = '';
+        this.request.DTE_ChangeofSite_Location.NewAddress = '';
+
+        await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
+          .then((data: any) => {
+            this.request.DTE_ChangeofSite_Location.CurrentAddress = data['Data'][0]['data'][0]['FullAddress'];
+          });
+
+        this.request.DTE_ChangeofSite_Location.FeeAmount = 0;
+        if (item.IsChecked == true) {
+          this.request.DTE_ChangeofSite_Location.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_ChangeofSite_Location.FeeAmount = item.FeeAmount
+        }
+      }
+
+      /*Change in Name of Institution*/
+      if (this.request.ApplyNocCode == 'DTE_ChangeInNameofInstitution') {
+        this.request.DTE_ChangeInNameofInstitution_View = item.IsChecked;
+        this.request.DTE_ChangeInNameofInstitution.CurrentCollegeName = '';
+        this.request.DTE_ChangeInNameofInstitution.NewCollegeName = '';
+        this.request.DTE_ChangeInNameofInstitution.NewCollegeNameHi = '';
+        setTimeout(function () { (window as any).LoadData(); }, 200)
+        await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
+          .then((data: any) => {
+
+            this.request.DTE_ChangeInNameofInstitution.CurrentCollegeName = data['Data'][0]['data'][0]['CollegeNameEn'];
+          });
+
+        this.request.DTE_ChangeInNameofInstitution.FeeAmount = 0;
+        if (item.IsChecked == true) {
+          this.request.DTE_ChangeInNameofInstitution.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_ChangeInNameofInstitution.FeeAmount = item.FeeAmount
+        }
+      }
+
+
+      /*//To start new Programme/ Level in the existing Institutions*/
+      if (this.request.ApplyNocCode == 'DTE_IncreaseInIntake_AdditionofCourse') {
+        this.request.DTE_IncreaseInIntake_AdditionofCourse_View = item.IsChecked;
+        this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID = 0;
+        this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount = 0;
+        this.request.DTE_IncreaseInIntake_AdditionofCourse_List = [];
+
+        //await this.commonMasterService.GetCourseList_CollegeWise(this.request.CollegeID)
+        //  .then((data: any) => {
+        //    data = JSON.parse(JSON.stringify(data));
+        //    this.DTE_CourseDataList = data['Data'];
+        //    console.log(this.DTE_CourseDataList);
+        //  }, error => console.error(error));
+
+        if (item.IsChecked == true) {
+          this.request.DTE_IncreaseInIntake_AdditionofCourse.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount = item.FeeAmount
+        }
+      }
+
+      //Amit
+
+      if (this.request.ApplyNocCode == 'DTE_AdditionofIntegratedDualDegree') {
+        this.request.DTE_AdditionofIntegratedDualDegree_View = item.IsChecked;
+        this.DTE_AdditionofIntegratedDualDegree.DetailID = 0;
+        this.DTE_AdditionofIntegratedDualDegree.ApplyNocID = 0;
+        this.DTE_AdditionofIntegratedDualDegree.DepartmentID = 0;
+        this.DTE_AdditionofIntegratedDualDegree.CollegeID = 0;
+        this.DTE_AdditionofIntegratedDualDegree.CourseID = 0;
+        this.DTE_AdditionofIntegratedDualDegree.FeeAmount = 0;
+        this.DTE_AdditionofIntegratedDualDegree.Intake = 0;
+        if (item.IsChecked == true) {
+          this.DTE_AdditionofIntegratedDualDegree.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_AdditionofIntegratedDualDegree.FeeAmount = item.FeeAmount
+        }
+        this.request.DTE_AdditionofIntegratedDualDegreeList = [];
+      }
+      if (this.request.ApplyNocCode == 'DTE_ChangeInNameOfCourse') {
+        this.request.DTE_ChangeInNameOfCourse_View = item.IsChecked;
+        this.DTE_ChangeInNameOfCourse.DetailID = 0;
+        this.DTE_ChangeInNameOfCourse.ApplyNocID = 0;
+        this.DTE_ChangeInNameOfCourse.DepartmentID = 0;
+        this.DTE_ChangeInNameOfCourse.CollegeID = 0;
+        this.DTE_ChangeInNameOfCourse.CourseID = 0;
+        this.DTE_ChangeInNameOfCourse.NewCourseName = '';
+        if (item.IsChecked == true) {
+          this.DTE_ChangeInNameOfCourse.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_ChangeInNameOfCourse.FeeAmount = item.FeeAmount
+        }
+
+        this.request.DTE_ChangeInNameOfCourseList = [];
+      }
+
+      if (this.request.ApplyNocCode == 'DTE_ReductionInIntake') {
+        this.request.DTE_ReductionInIntake_View = item.IsChecked;
+        this.DTE_ReductionInIntake.DetailID = 0;
+        this.DTE_ReductionInIntake.ApplyNocID = 0;
+        this.DTE_ReductionInIntake.DepartmentID = 0;
+        this.DTE_ReductionInIntake.CollegeID = 0;
+        this.DTE_ReductionInIntake.CourseID = 0;
+        this.DTE_ReductionInIntake.CurrentIntake = 0;
+        this.DTE_ReductionInIntake.ReducedIntake = 0;
+        if (item.IsChecked == true) {
+          this.DTE_ReductionInIntake.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_ReductionInIntake.FeeAmount = item.FeeAmount
+        }
+
+        this.request.DTE_ReductionInIntakeList = [];
+
+      }
+
+      if (this.request.ApplyNocCode == 'DTE_ClosureOfProgramme') {
+        this.request.DTE_ClosureOfProgram_View = item.IsChecked;
+        this.DTE_ClosureOfProgram.DetailID = 0;
+        this.DTE_ClosureOfProgram.ApplyNocID = 0;
+        this.DTE_ClosureOfProgram.DepartmentID = 0;
+        this.DTE_ClosureOfProgram.CollegeID = 0;
+        this.DTE_ClosureOfProgram.StreamID = 0;
+        this.DTE_ClosureOfProgram.CourseLevelID = 0;
+        this.DTE_ClosureOfProgram.FeeAmount = 0;
+        if (item.IsChecked == true) {
+          this.DTE_ClosureOfProgram.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_ClosureOfProgram.FeeAmount = item.FeeAmount
+        }
+
+        this.DTE_ClosureOfProgramList = [];
+
+      }
+
+      if (this.request.ApplyNocCode == 'DTE_ClosureOfCourse') {
+        this.request.DTE_ClosureOfCourses_View = item.IsChecked;
+        this.DTE_ClosureOfCourses.DetailID = 0;
+        this.DTE_ClosureOfCourses.ApplyNocID = 0;
+        this.DTE_ClosureOfCourses.DepartmentID = 0;
+        this.DTE_ClosureOfCourses.CollegeID = 0;
+        this.DTE_ClosureOfCourses.CourseID = 0;
+        this.DTE_ClosureOfCourses.CurrentIntake = 0;
+        this.DTE_ClosureOfCourses.ReducedIntake = 0;
+        if (item.IsChecked == true) {
+          this.DTE_ClosureOfCourses.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_ClosureOfCourses.FeeAmount = item.FeeAmount
+        }
+
+        this.request.DTE_ClosureOfCoursesList = [];
+
+      }
+
+      if (this.request.ApplyNocCode == 'DTE_MergerOfTheCourses') {
+        this.request.DTE_MergerOfTheCourse_View = item.IsChecked;
+        this.DTE_MergerOfTheCourse.DetailID = 0;
+        this.DTE_MergerOfTheCourse.ApplyNocID = 0;
+        this.DTE_MergerOfTheCourse.DepartmentID = 0;
+        this.DTE_MergerOfTheCourse.CollegeID = 0;
+        this.DTE_MergerOfTheCourse.CourseID1 = 0;
+        this.DTE_MergerOfTheCourse.CourseID2 = 0;
+        this.DTE_MergerOfTheCourse.MergerCourseID = 0;
+        if (item.IsChecked == true) {
+          this.DTE_MergerOfTheCourse.ApplyNocID = Number(SelectedApplyNocForID);
+          this.DTE_MergerOfTheCourse.FeeAmount = item.FeeAmount
+
+        }
+
+        this.request.DTE_MergerOfTheCourseList = [];
+
+      }
+      //Amit
+
+
+      //Deepak 29_01_2024
+      if (this.request.ApplyNocCode == 'DTE_IntroductionOffCampus') {
+        this.request.DTE_IntroductionOffCampus_View = item.IsChecked;
+        this.request.DTE_IntroductionOffCampus.DetailID = 0;
+        this.request.DTE_IntroductionOffCampus.ApplyNocID = 0;
+        this.request.DTE_IntroductionOffCampus.DepartmentID = 0;
+        this.request.DTE_IntroductionOffCampus.CollegeID = 0;
+        this.request.DTE_IntroductionOffCampus.CourseID = 0;
+        this.request.DTE_IntroductionOffCampus.FeeAmount = 0;
+        this.request.DTE_IntroductionOffCampus.Intake = 0;
+        if (item.IsChecked == true) {
+          this.request.DTE_IntroductionOffCampus.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_IntroductionOffCampus.FeeAmount = item.FeeAmount
+        }
+        this.request.DTE_IntroductionOffCampus_List = [];
+      }
+      if (this.request.ApplyNocCode == 'DTE_CoursesforWorkingProfessionals') {
+        debugger;
+        this.request.DTE_CoursesforWorkingProfessionals_View = item.IsChecked;
+        this.request.DTE_CoursesforWorkingProfessionals.DetailID = 0;
+        this.request.DTE_CoursesforWorkingProfessionals.ApplyNocID = 0;
+        this.request.DTE_CoursesforWorkingProfessionals.DepartmentID = 0;
+        this.request.DTE_CoursesforWorkingProfessionals.CollegeID = 0;
+        this.request.DTE_CoursesforWorkingProfessionals.CourseID = 0;
+        this.request.DTE_CoursesforWorkingProfessionals.FeeAmount = 0;
+        this.request.DTE_CoursesforWorkingProfessionals.Intake = 0;
+        if (item.IsChecked == true) {
+          this.request.DTE_CoursesforWorkingProfessionals.ApplyNocID = Number(SelectedApplyNocForID);
+          this.request.DTE_CoursesforWorkingProfessionals.FeeAmount = item.FeeAmount
+        }
+        this.request.DTE_CoursesforWorkingProfessionals_List = [];
+      }
+      //Deepak 29_01_2024
+      // await  this.SetPrimaryMember(item, index)
       // TNOC Extension
       if (this.request.ApplyNocCode == 'NewCourse') {
         this.ApplyNocParameterMasterList_TNOCExtension = null;
@@ -654,28 +1031,19 @@ export class ApplyNocParameterComponent implements OnInit {
   public isSave: boolean = true;
   async SaveApplyNoc_click() {
 
-    if (this.CollegeDepartmentID == 4) {
-      if (this.request.ExistingLetterofEOA == '') {
-        this.toastr.warning('Upload Existing Letter of EOA');
-        return;
-      }
-    }
-   
+
+
     //this.isSave = false; 
     try {
       let isValid = true;
       if (this.ApplyNocParameterForm.invalid) {
         isValid = false;
       }
-      if (!this.IsTermsChecked) {
-        this.toastr.warning('Please accept terms and condition');
-        isValid = false;
-      }
-      // check all
-      if (!isValid) {
-        return;
-      }
 
+
+
+
+      // check all
 
       this.isSubmitted = true;
       //set
@@ -827,6 +1195,75 @@ export class ApplyNocParameterComponent implements OnInit {
       if (!this.isFormValid) {
         return;
       }
+      //Departemt 4 DTE
+
+      if (this.request.DTE_MergerofInstitutions_View == true) {
+        if (this.request.DTE_MergerofInstitutions.TrustType == '') {
+          this.toastr.warning('Choose trust type');
+           return;
+        }
+        if (this.request.DTE_MergerofInstitutions.TrustType == 'DifferentTrust') {
+          if (this.request.DTE_MergerofInstitutions.NewTrustName == '') {
+            this.toastr.warning('Fill new trust name');
+            return;
+          }
+          if (this.request.DTE_MergerofInstitutions.NewInstituteName == '') {
+            this.toastr.warning('Fill new institute name');
+            return;
+          }
+        }
+        //if (this.request.DTE_MergerofInstitutions.InstituteID1 == this.request.DTE_MergerofInstitutions.InstituteID2) {
+        //  this.toastr.warning('Select other Institute 2');
+        //  return;
+        //}
+        //if (this.request.DTE_MergerofInstitutions.InstituteID1 != this.request.DTE_MergerofInstitutions.MergeInstituteID)
+        //{
+        //  if (this.request.DTE_MergerofInstitutions.InstituteID2 != this.request.DTE_MergerofInstitutions.MergeInstituteID)
+        //  {
+        //    this.toastr.warning('Invalid Merge to Institute');
+        //    return;
+        //  }
+        //}
+      }
+      //To start new Programme/ Level in the existing Institutions
+      if (this.request.DTE_IncreaseinIntakeAdditionofCourse_View == true) {
+        if (this.request.DTE_IncreaseinIntakeAdditionofCourse_List.length == 0) {
+          this.toastr.warning('Add To start new Programme');
+          return;
+        }
+      }
+      //Increase in Intake / Addition of Course
+      if (this.request.DTE_TostartNewProgramme_View == true) {
+        if (this.request.DTE_TostartNewProgramme_List.length == 0) {
+          this.toastr.warning('Add To start new Programme');
+          return;
+        }
+      }
+      //Increase in Intake / Addition of Course
+      if (this.request.DTE_IncreaseInIntake_AdditionofCourse_View == true) {
+        if (this.request.DTE_IncreaseInIntake_AdditionofCourse_List.length == 0) {
+          this.toastr.warning('Add To Intake Details');
+          return;
+        }
+      }
+
+
+      if (this.CollegeDepartmentID == 4) {
+        if (this.request.ExistingLetterofEOA == '') {
+          this.toastr.warning('Upload Existing Letter of EOA');
+          return;
+        }
+      }
+
+      if (!this.IsTermsChecked) {
+        this.toastr.warning('Please accept terms and condition');
+        isValid = false;
+      }
+
+      if (!isValid) {
+        return;
+      }
+
       this.loaderService.requestStarted();
       //post
       await this.applyNocParameterService.SaveApplyNocApplication(this.request)
@@ -908,7 +1345,6 @@ export class ApplyNocParameterComponent implements OnInit {
 
   async ValidateDocument(event: any, Type: string, SubType: string) {
 
-    this.loaderService.requestStarted();
     if (event.target.files && event.target.files[0]) {
       if (event.target.files[0].type === 'application/pdf') {
         if (event.target.files[0].size > 2000000) {
@@ -934,6 +1370,7 @@ export class ApplyNocParameterComponent implements OnInit {
       this.file = event.target.files[0];
       try {
 
+        this.loaderService.requestStarted();
         await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
@@ -1102,6 +1539,12 @@ export class ApplyNocParameterComponent implements OnInit {
         this.ApplyNocParameterMasterList_MergerCollege.StaffInformation = Name;
       }
     }
+
+    else if (Type == 'DTE_IntroductionOffCampus') {
+      this.request.DTE_IntroductionOffCampus.Dis_DocumentName = Dis_Name;
+      this.request.DTE_IntroductionOffCampus.DocumentPath = Path;
+      this.request.DTE_IntroductionOffCampus.DocumentName = Name;
+    }
     this.loaderService.requestEnded();
   }
 
@@ -1238,7 +1681,255 @@ export class ApplyNocParameterComponent implements OnInit {
         this.isFormValid = false;
       }
 
+
     }
+
+
+    //DTE Validation
+    //Change Bank Name
+    if (this.request.DTE_BankDetails_View == true) {
+      if (this.request.DTE_BankDetails.OldBankName == '') {
+        this.isValidOldBankName = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidOldBankName = false;
+      }
+
+      if (this.request.DTE_BankDetails.OldBranchName == '') {
+        this.isValidOldBranchName = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidOldBranchName = false;
+      }
+
+      if (this.request.DTE_BankDetails.OldIFSC == '') {
+        this.isValidOldIFSC = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidOldIFSC = false;
+      }
+
+      if (this.request.DTE_BankDetails.OldAccountNumber == '') {
+        this.isValidOldAccountNumber = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidOldAccountNumber = false;
+      }
+      if (this.request.DTE_BankDetails.NewBankName == '') {
+        this.isValidNewBankName = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidNewBankName = false;
+      }
+
+      if (this.request.DTE_BankDetails.NewBranchName == '') {
+        this.isValidNewBranchName = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidNewBranchName = false;
+      }
+
+      if (this.request.DTE_BankDetails.NewIFSC == '') {
+        this.isValidNewIFSC = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidNewIFSC = false;
+      }
+
+      if (this.request.DTE_BankDetails.NewAccountNumber == '') {
+        this.isValidNewAccountNumber = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidNewAccountNumber = false;
+      }
+
+    }
+    //Change Bank Name End
+    /*Change in the Minority Status of the Institution*/
+    if (this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_View == true) {
+      if (this.request.DTE_ChangeInTheMinorityStatusoftheInstitution == '') {
+        this.isValidDTE_ChangeInTheMinorityStatusoftheInstitution = true;
+        this.isFormValid = false;
+      }
+      else {
+        this.isValidDTE_ChangeInTheMinorityStatusoftheInstitution = false;
+      }
+    }
+    /*Change in the Minority Status of the Institution End*/
+    //Merger of Institutions under the same Trust/ Society/ Company
+    if (this.request.DTE_MergerofInstitutions_View == true) {
+      if (this.request.DTE_MergerofInstitutions.TrustType == '') {
+        this.toastr.warning('Choose trust type');
+        this.isFormValid = false;
+      }
+      if (this.request.DTE_MergerofInstitutions.TrustType == 'DifferentTrust') {
+        if (this.request.DTE_MergerofInstitutions.NewTrustName == '') {
+          this.isValidDTE_NewTrustName = true;
+          this.isFormValid = false;
+        }
+        else {
+          this.isValidDTE_NewTrustName = false;
+        }
+        if (this.request.DTE_MergerofInstitutions.NewInstituteName == '') {
+          this.isValidDTE_NewInstituteName = true;
+          this.isFormValid = false;
+        }
+        else {
+          this.isValidDTE_NewInstituteName = false;
+        }
+      }
+      //if (this.request.DTE_MergerofInstitutions.InstituteID2 == 0) {
+      //  this.isValidDTE_InstituteID2 = true;
+      //  this.isFormValid = false;
+      //}
+      //else {
+      //  this.isValidDTE_InstituteID2 = false;
+      //}
+
+      //if (this.request.DTE_MergerofInstitutions.MergeInstituteID == 0) {
+      //  this.isValidDTE_MergeInstituteID = true;
+      //  this.isFormValid = false;
+      //}
+      //else {
+      //  this.isValidDTE_MergeInstituteID = false;
+      //}
+    }
+    //Merger of Institutions under the same Trust/ Society/ Company end
+
+    /*Change in the name of Trust / Society / Company*/
+    if (this.request.DTE_ChangeinNameofSociety_View == true) {
+      if (this.request.DTE_ChangeinNameofSociety.ChangeType == '') {
+        this.toastr.warning('Please Choose Change in Name/Address');
+        this.isFormValid = false;//
+      }
+      else {
+        if (this.request.DTE_ChangeinNameofSociety.ChangeType == 'NameChange' || this.request.DTE_ChangeinNameofSociety.ChangeType == 'BothChange') {
+          if (this.request.DTE_ChangeinNameofSociety.NewName == '') {
+            this.isValidDTE_NewName = true;
+            this.isFormValid = false;//
+          }
+          else {
+            this.isValidDTE_NewName = false;
+          }
+        }
+        if (this.request.DTE_ChangeinNameofSociety.ChangeType == 'AddressChange' || this.request.DTE_ChangeinNameofSociety.ChangeType == 'BothChange') {
+          if (this.request.DTE_ChangeinNameofSociety.NewAddress == '') {
+            this.isValidDTE_SocietyNewAddress = true;
+            this.isFormValid = false;//
+          }
+          else {
+            this.isValidDTE_SocietyNewAddress = false;
+          }
+        }
+      }
+    }
+
+    /*Change in Name of Institution*/
+    if (this.request.DTE_ChangeInNameofInstitution_View == true) {
+      if (this.request.DTE_ChangeInNameofInstitution.NewCollegeName == '') {
+        this.isValidDTE_NewCollegeName = true;
+        this.isFormValid = false;//
+      }
+      else {
+        this.isValidDTE_NewCollegeName = false;
+      }
+      if (this.request.DTE_ChangeInNameofInstitution.NewCollegeNameHi == '') {
+        this.isValidDTE_NewCollegeNameHi = true;
+        this.isFormValid = false;//
+      }
+      else {
+        this.isValidDTE_NewCollegeNameHi = false;
+      }
+    }
+
+    /*Change of Site / Location*/
+    if (this.request.DTE_ChangeofSite_Location_View == true) {
+      if (this.request.DTE_ChangeofSite_Location.NewAddress == '') {
+        this.isValidDTE_NewAddress = true;
+        this.isFormValid = false;//
+      }
+      else {
+        this.isValidDTE_NewAddress = false;
+      }
+
+    }
+
+    //Addition of Integrated Dual Degree
+    if (this.request.DTE_AdditionofIntegratedDualDegree_View == true) {
+      if (this.request.DTE_AdditionofIntegratedDualDegreeList.length <= 0) {
+        this.toastr.warning('Add Course Details in Addition of Integrated/Dual Degree ')
+        this.isFormValid = false;
+      }
+    }
+    //Addition of Integrated Dual Degree End  
+
+    //Change in Name of Course
+    if (this.request.DTE_ChangeInNameOfCourse_View == true) {
+      if (this.request.DTE_ChangeInNameOfCourseList.length <= 0) {
+        this.toastr.warning('Add Change Course Details')
+        this.isFormValid = false;
+      }
+
+    }
+    //Change in Name of Course End
+
+    ///Reduction in Intake    
+    if (this.request.DTE_ReductionInIntake_View == true) {
+      if (this.request.DTE_ReductionInIntakeList.length <= 0) {
+        this.toastr.warning('Add Reduction Details')
+        this.isFormValid = false;
+      }
+    }
+    //Reduction in Intake End
+    //DTE_ClosureOfProgram_View
+    if (this.request.DTE_ClosureOfProgram_View == true) {
+      if (this.request.DTE_ClosureOfProgramList.length <= 0) {
+        this.toastr.warning('Add Closure Of Program Details')
+        this.isFormValid = false;
+      }
+    }
+    //Closure of Program End
+
+    //Closure Of Courses
+    if (this.request.DTE_ClosureOfCourses_View == true) {
+      if (this.request.DTE_ClosureOfCoursesList.length <= 0) {
+        this.toastr.warning('Add Closure Of Courses Details')
+        this.isFormValid = false;
+      }
+    }
+    //Closure Of Courses End
+    //Merger Of The Course
+    if (this.request.DTE_MergerOfTheCourse_View == true) {
+      if (this.request.DTE_MergerOfTheCourseList.length <= 0) {
+        this.toastr.warning('Add Merger Of The Course Details')
+        this.isFormValid = false;
+      }
+    }
+    //Merger Of The Course End
+
+    //Introduction Off Campus
+    if (this.request.DTE_IntroductionOffCampus_View == true) {
+      if (this.request.DTE_IntroductionOffCampus_List.length <= 0) {
+        this.toastr.warning('Add Course Details in Introduction Off Campus ')
+        this.isFormValid = false;
+      }
+    }
+    //Introduction Off Campus
+    if (this.request.DTE_CoursesforWorkingProfessionals_View == true) {
+      if (this.request.DTE_CoursesforWorkingProfessionals_List.length <= 0) {
+        this.toastr.warning('Add Course Details in Courses for Working Professionals ')
+        this.isFormValid = false;
+      }
+    }
+    //DTE Validation End
 
     return this.isFormValid
   }
@@ -2024,6 +2715,69 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
+  async fDTE_ChangeInTheMinorityStatusoftheInstitution_onFilechange(event: any) {
+
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type == 'image/jpeg' || this.file.type == 'image/jpg' || this.file.type == 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.toastr.warning('Select less then 2MB File');
+            event.target.value = ''
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = '';
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = '';
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = '';
+            return
+          }
+          if (this.file.size < 100000) {
+            this.toastr.warning('Select more then 100kb File');
+            event.target.value = ''
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = '';
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = '';
+            this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = '';
+            return
+          }
+
+          // upload to server folder
+          await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = data['Data'][0]["FileName"];
+              this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = data['Data'][0]["Dis_FileName"];
+              this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = data['Data'][0]["FilePath"];
+              event.target.value = ''
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+        }
+        else {
+          this.toastr.warning('Select Only pdf/jpg/jpeg');
+          event.target.value = ''
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = '';
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = '';
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = '';
+          return
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 
 
   async fExistingLetterofEOA_onFilechange(event: any) {
@@ -2092,24 +2846,24 @@ export class ApplyNocParameterComponent implements OnInit {
   async DeleteImage(file: string) {
     try {
 
-        this.loaderService.requestStarted();
-        // delete from server folder
-        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (this.State == 0) {
-            this.request.ExistingLetterofEOA = '';
-            this.request.ExistingLetterofEOA_Dis_FileName = '';
-            this.request.ExistingLetterofEOA_Path = '';
-          }
-          if (this.State == 1) {
-            this.toastr.error(this.ErrorMessage)
-          }
-          else if (this.State == 2) {
-            this.toastr.warning(this.ErrorMessage)
-          }
-        });
+      this.loaderService.requestStarted();
+      // delete from server folder
+      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.request.ExistingLetterofEOA = '';
+          this.request.ExistingLetterofEOA_Dis_FileName = '';
+          this.request.ExistingLetterofEOA_Path = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
     }
     catch (Ex) {
       console.log(Ex);
@@ -2121,4 +2875,1299 @@ export class ApplyNocParameterComponent implements OnInit {
     }
   }
 
+  async DTE_ChangeInTheMinorityStatusoftheInstitution_DeleteImage(file: string) {
+    try {
+
+      this.loaderService.requestStarted();
+      // delete from server folder
+      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution = '';
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Dis_FileName = '';
+          this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_Path = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  Add_IncreaseinIntake() {
+
+    if (this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID == 0) {
+      this.toastr.error("Select Course.!");
+      return;
+    }
+    if (this.request.DTE_IncreaseinIntakeAdditionofCourse.Intake == 0) {
+      this.toastr.error("Enter intake greater than zero.!");
+      return;
+    }
+
+
+    var CourseExit = this.request.DTE_IncreaseinIntakeAdditionofCourse_List.filter((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID);
+    if (CourseExit.length > 0) {
+      this.toastr.warning("Course Already Added.!");
+      return;
+    }
+
+
+    this.request.DTE_IncreaseinIntakeAdditionofCourse_List.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      CourseID: this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID,
+      CourseName: this.DTE_CourseDataListIncreaseinIntake_Master.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID).CourseName,
+      Intake: this.request.DTE_IncreaseinIntakeAdditionofCourse.Intake,
+      FeeAmount: this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount,
+
+      StreamID: this.request.DTE_IncreaseinIntakeAdditionofCourse.StreamID,
+      CourseLevelID: this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.request.DTE_IncreaseinIntakeAdditionofCourse.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseLevelID).Name
+    });
+    this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseID = 0;
+    this.request.DTE_IncreaseinIntakeAdditionofCourse.CourseName = '';
+    this.request.DTE_IncreaseinIntakeAdditionofCourse.Intake = 0;
+
+  }
+  Delete_IncreaseinIntake(item: ApplyNocParameterMasterList_IncreaseinIntakeAdditionofCourse) {
+    try {
+      this.loaderService.requestStarted();
+      //debugger
+      if (confirm("Are you sure you want to delete this ?")) {
+        const index: number = this.request.DTE_IncreaseinIntakeAdditionofCourse_List.indexOf(item);
+        if (index != -1) {
+          this.request.DTE_IncreaseinIntakeAdditionofCourse_List.splice(index, 1)
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  /*To start new Programme / Level in the existing Institutions*/
+  Add_TostartNewProgramme() {
+
+    if (this.request.DTE_TostartNewProgramme.CourseID == 0) {
+      this.toastr.error("Select Course.!");
+      return;
+    }
+    if (this.request.DTE_TostartNewProgramme.Intake == 0) {
+      this.toastr.error("Enter intake greater than zero.!");
+      return;
+    }
+
+
+    var CourseExit = this.request.DTE_TostartNewProgramme_List.filter((x: { CourseID: number; }) => x.CourseID == this.request.DTE_TostartNewProgramme.CourseID);
+    if (CourseExit.length > 0) {
+      this.toastr.warning("Course Already Added.!");
+      return;
+    }
+
+
+    this.request.DTE_TostartNewProgramme_List.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      CourseID: this.request.DTE_TostartNewProgramme.CourseID,
+      CourseName: this.DTE_CourseDataList_Master.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_TostartNewProgramme.CourseID).CourseName,
+      Intake: this.request.DTE_TostartNewProgramme.Intake,
+      FeeAmount: this.request.DTE_TostartNewProgramme.FeeAmount,
+      StreamID: this.request.DTE_TostartNewProgramme.StreamID,
+      CourseLevelID: this.request.DTE_TostartNewProgramme.CourseLevelID,
+      StreamName: this.DTE_streamMasterDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.request.DTE_TostartNewProgramme.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelMasterList.find((x: { ID: number; }) => x.ID == this.request.DTE_TostartNewProgramme.CourseLevelID).Name
+    });
+    this.request.DTE_TostartNewProgramme.CourseID = 0;
+    this.request.DTE_TostartNewProgramme.CourseName = '';
+    this.request.DTE_TostartNewProgramme.Intake = 0;
+    this.request.DTE_TostartNewProgramme.StreamID = 0;
+    this.request.DTE_TostartNewProgramme.CourseLevelID = 0;
+    this.DTE_CourseDataList_Master = [];
+
+  }
+  Delete_TostartNewProgramme(item: ApplyNocParameterMasterList_TostartNewProgramme) {
+    try {
+      this.loaderService.requestStarted();
+      //debugger
+      if (confirm("Are you sure you want to delete this ?")) {
+        const index: number = this.request.DTE_TostartNewProgramme_List.indexOf(item);
+        if (index != -1) {
+          this.request.DTE_TostartNewProgramme_List.splice(index, 1)
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  /*Increase in Intake / Addition of Course*/
+  Add_IncreaseInIntake_AdditionofCourse() {
+
+    if (this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID == 0) {
+      this.toastr.error("Select Course.!");
+      return;
+    }
+    if (this.request.DTE_IncreaseInIntake_AdditionofCourse.Intake == 0) {
+      this.toastr.error("Enter intake greater than zero.!");
+      return;
+    }
+    if (this.request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake == 0) {
+      this.toastr.error("Enter updated intake greater than zero.!");
+      return;
+    }
+
+
+    var CourseExit = this.request.DTE_IncreaseInIntake_AdditionofCourse_List.filter((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID);
+    if (CourseExit.length > 0) {
+      this.toastr.warning("Course Already Added.!");
+      return;
+    }
+
+
+    this.request.DTE_IncreaseInIntake_AdditionofCourse_List.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      CourseID: this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID,
+      CourseName: this.DTE_CourseDataListIncreaseInIntake_AdditionofCourse.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID).CourseName,
+      Intake: this.request.DTE_IncreaseInIntake_AdditionofCourse.Intake,
+      UpdatedIntake: this.request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake,
+      FeeAmount: this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount,
+
+      StreamID: this.request.DTE_IncreaseInIntake_AdditionofCourse.StreamID,
+      CourseLevelID: this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.request.DTE_IncreaseInIntake_AdditionofCourse.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseLevelID).Name
+    });
+    this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseID = 0;
+    this.request.DTE_IncreaseInIntake_AdditionofCourse.CourseName = '';
+    this.request.DTE_IncreaseInIntake_AdditionofCourse.Intake = 0;
+    this.request.DTE_IncreaseInIntake_AdditionofCourse.UpdatedIntake = 0;
+
+  }
+  Delete_IncreaseInIntake_AdditionofCourse(item: ApplyNocParameterMasterList_IncreaseInIntake_AdditionofCourse) {
+    try {
+      this.loaderService.requestStarted();
+      //debugger
+      if (confirm("Are you sure you want to delete this ?")) {
+        const index: number = this.request.DTE_IncreaseInIntake_AdditionofCourse_List.indexOf(item);
+        if (index != -1) {
+          this.request.DTE_IncreaseInIntake_AdditionofCourse_List.splice(index, 1)
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async ddlDTECouser_IncreaseinIntake_change(values: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetIntakeByCollegeCourse(this.request.CollegeID, values)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          this.request.DTE_IncreaseInIntake_AdditionofCourse.Intake = data['Data'][0]['data'][0]['Intake'];
+        }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  //Amit
+  public courseDataList: any = [];
+  public UniversityID: number = 0;
+  public SelectedCollageID: number = 0;
+  public DTE_AdditionofIntegratedDualDegreeList: any = [];
+  public DTE_AdditionofIntegratedDualDegree: ApplyNocParameterMasterList_AdditionofIntegratedDualDegree = new ApplyNocParameterMasterList_AdditionofIntegratedDualDegree();
+  public DTE_ChangeInNameOfCourseList: any = [];
+  public DTE_ChangeInNameOfCourse: ApplyNocParameterMasterList_ChangeInNameOfCourse = new ApplyNocParameterMasterList_ChangeInNameOfCourse();
+  public DTE_ReductionInIntakeList: any = [];
+  public DTE_ReductionInIntake: ApplyNocParameterMasterList_ReductionInIntake = new ApplyNocParameterMasterList_ReductionInIntake();
+  public DTE_ClosureOfProgramList: any = [];
+  public DTE_ClosureOfProgram: ApplyNocParameterMasterList_ClosureOfProgram = new ApplyNocParameterMasterList_ClosureOfProgram();
+  public DTE_ClosureOfCoursesList: any = [];
+  public DTE_ClosureOfCourses: ApplyNocParameterMasterList_ClosureOfCourses = new ApplyNocParameterMasterList_ClosureOfCourses();
+  public DTE_MergerOfTheCourseList: any = [];
+  public DTE_MergerOfTheCourse: ApplyNocParameterMasterList_MergerOfTheCourse = new ApplyNocParameterMasterList_MergerOfTheCourse();
+  public IntakeValuesList: any = [];
+
+  async Add_AdditionofIntegratedDualDegree() {
+
+    if (this.DTE_AdditionofIntegratedDualDegree.CourseID == 0) {
+
+      this.toastr.error("Select Course.!");
+
+      return;
+
+    }
+
+    if (this.DTE_AdditionofIntegratedDualDegree.Intake == 0) {
+
+      this.toastr.error("Enter intake greater than zero.!");
+
+      return;
+
+    }
+
+    var CourseExit = this.request.DTE_AdditionofIntegratedDualDegreeList.filter((x: { CourseID: number; }) => x.CourseID == this.DTE_AdditionofIntegratedDualDegree.CourseID);
+
+    if (CourseExit.length > 0) {
+
+      this.toastr.warning("Course Already Added.!");
+
+      return;
+
+    }
+
+    this.request.DTE_AdditionofIntegratedDualDegreeList.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      FeeAmount: 0,
+      CourseID: this.DTE_AdditionofIntegratedDualDegree.CourseID,
+      CourseName: this.DTE_AdditionofIntegratedDualDegreeCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_AdditionofIntegratedDualDegree.CourseID).CourseName,
+      Intake: this.DTE_AdditionofIntegratedDualDegree.Intake,
+      StreamID: this.DTE_AdditionofIntegratedDualDegree.StreamID,
+      CourseLevelID: this.DTE_AdditionofIntegratedDualDegree.CourseLevelID,
+      StreamName: this.DTE_streamMasterDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_AdditionofIntegratedDualDegree.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelMasterList_PG.find((x: { ID: number; }) => x.ID == this.DTE_AdditionofIntegratedDualDegree.CourseLevelID).Name
+
+    });
+    this.DTE_AdditionofIntegratedDualDegree.StreamID = 0;
+    this.DTE_AdditionofIntegratedDualDegree.CourseLevelID = 0;
+    this.DTE_AdditionofIntegratedDualDegree.CourseID = 0;
+    this.DTE_AdditionofIntegratedDualDegree.Intake = 0;
+    this.DTE_AdditionofIntegratedDualDegreeCourseDataList = [];
+  }
+
+  async Add_ChangeInNameOfCourse() {
+
+    if (this.DTE_ChangeInNameOfCourse.CourseID == 0) {
+
+      this.toastr.error("Select Course.!");
+
+      return;
+
+    }
+    if (this.DTE_ChangeInNameOfCourse.NewCourseID == 0) {
+
+      this.toastr.error("Select New Course.!");
+
+      return;
+
+    }
+
+    var CourseExit = this.request.DTE_ChangeInNameOfCourseList.filter((x: { CourseID: number; }) => x.CourseID == this.DTE_ChangeInNameOfCourse.CourseID);
+
+    if (CourseExit.length > 0) {
+
+      this.toastr.warning("Course Already Added.!");
+
+      return;
+
+    }
+
+    this.request.DTE_ChangeInNameOfCourseList.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      FeeAmount: 0,
+      CourseID: this.DTE_ChangeInNameOfCourse.CourseID,
+      CourseName: this.DTE_ChangeInNameOfCourseCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ChangeInNameOfCourse.CourseID).CourseName,
+      NewCourseID: this.DTE_ChangeInNameOfCourse.NewCourseID,
+      NewCourseName: this.DTE_ChangeInNameOfCourseCourseDataList_Master.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ChangeInNameOfCourse.NewCourseID).CourseName,
+      StreamID: this.DTE_ChangeInNameOfCourse.StreamID,
+      CourseLevelID: this.DTE_ChangeInNameOfCourse.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_ChangeInNameOfCourse.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_ChangeInNameOfCourse.CourseLevelID).Name
+
+    });
+
+    this.DTE_ChangeInNameOfCourse.CourseID = 0;
+    this.DTE_ChangeInNameOfCourse.StreamID = 0;
+    this.DTE_ChangeInNameOfCourse.CourseLevelID = 0;
+    this.DTE_ChangeInNameOfCourse.NewCourseID = 0;
+    this.DTE_ChangeInNameOfCourseCourseDataList = [];
+    this.DTE_ChangeInNameOfCourseCourseDataList_Master = [];
+  }
+
+  async CalculateReducedIntake() {
+
+    if (Number(this.DTE_ReductionInIntake.ReducedIntake) > Number(this.DTE_ReductionInIntake.CurrentIntake)) {
+
+      this.toastr.error('Please Enter the Smaller values')
+
+      return;
+
+    }
+
+  };
+
+  async Add_ReductionInIntake() {
+
+    if (this.DTE_ReductionInIntake.CourseID == 0) {
+
+      this.toastr.error("Select Course.!");
+
+      return;
+
+    }
+
+    if (this.DTE_ReductionInIntake.CurrentIntake == 0) {
+
+      this.toastr.error("Enter Current Intake.!");
+
+      return;
+
+    }
+
+    if (this.DTE_ReductionInIntake.ReducedIntake == 0) {
+
+      this.toastr.error("Enter Reduced Intake.!");
+
+      return;
+
+    }
+
+    if (Number(this.DTE_ReductionInIntake.ReducedIntake) > Number(this.DTE_ReductionInIntake.CurrentIntake)) {
+
+      this.toastr.error('Please Enter the Smaller values')
+
+      return;
+
+    }
+
+    var CourseExit = this.request.DTE_ReductionInIntakeList.filter((x: { CourseID: number; }) => x.CourseID == this.DTE_ReductionInIntake.CourseID);
+
+    if (CourseExit.length > 0) {
+
+      this.toastr.warning("Course Already Added.!");
+
+      return;
+
+    }
+
+    this.request.DTE_ReductionInIntakeList.push({
+
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      FeeAmount: 0,
+      CourseID: this.DTE_ReductionInIntake.CourseID,
+      CourseName: this.DTE_ReductionInIntakeCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ReductionInIntake.CourseID).CourseName,
+      CurrentIntake: this.DTE_ReductionInIntake.CurrentIntake,
+      ReducedIntake: this.DTE_ReductionInIntake.ReducedIntake,
+      StreamID: this.DTE_ReductionInIntake.StreamID,
+      CourseLevelID: this.DTE_ReductionInIntake.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_ReductionInIntake.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_ReductionInIntake.CourseLevelID).Name
+
+    });
+
+    this.DTE_ReductionInIntake.CourseID = 0;
+    this.DTE_ReductionInIntake.StreamID = 0;
+    this.DTE_ReductionInIntake.CourseLevelID = 0;
+    this.DTE_ReductionInIntake.CurrentIntake = 0;
+    this.DTE_ReductionInIntake.ReducedIntake = 0;
+    this.DTE_ReductionInIntakeCourseDataList = [];
+  }
+
+  async Add_ClosureOfProgram() {
+
+    if (this.DTE_ClosureOfProgram.StreamID == 0) {
+      this.toastr.error("Select Programme.!");
+      return;
+    }
+
+    if (this.DTE_ClosureOfProgram.CourseLevelID == 0) {
+      this.toastr.error("Select Course Level.!");
+      return;
+    }
+
+    var CourseExit = this.request.DTE_ClosureOfProgramList.filter((x: { StreamID: number; CourseLevelID: number }) => x.StreamID == this.DTE_ClosureOfProgram.StreamID && x.CourseLevelID == this.DTE_ClosureOfProgram.CourseLevelID);
+
+    if (CourseExit.length > 0) {
+
+      this.toastr.warning("Programme and Course Level Already Added.!");
+
+      return;
+
+    }
+
+    this.request.DTE_ClosureOfProgramList.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      FeeAmount: 0,
+      StreamID: this.DTE_ClosureOfProgram.StreamID,
+      CourseLevelID: this.DTE_ClosureOfProgram.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_ClosureOfProgram.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_ClosureOfProgram.CourseLevelID).Name
+
+    });
+
+    this.DTE_ClosureOfProgram.StreamID = 0;
+    this.DTE_ClosureOfProgram.CourseLevelID = 0;
+  }
+
+  async Add_DTE_ClosureOfCourses() {
+
+    if (this.DTE_ClosureOfCourses.CourseID == 0) {
+
+      this.toastr.error("Select Course.!");
+
+      return;
+
+    }
+
+    if (this.DTE_ClosureOfCourses.CurrentIntake == 0) {
+
+      this.toastr.error("Enter Current Intake.!");
+
+      return;
+
+    }
+
+    if (this.DTE_ClosureOfCourses.ReducedIntake == 0) {
+
+      this.toastr.error("Enter Reduced Intake.!");
+
+      return;
+
+    }
+
+    var CourseExit = this.request.DTE_ClosureOfCoursesList.filter((x: { CourseID: number; }) => x.CourseID == this.DTE_ClosureOfCourses.CourseID);
+
+    if (CourseExit.length > 0) {
+
+      this.toastr.warning("Course Already Added.!");
+
+      return;
+
+    }
+
+    this.request.DTE_ClosureOfCoursesList.push({
+
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      FeeAmount: 0,
+      CourseID: this.DTE_ClosureOfCourses.CourseID,
+      CourseName: this.DTE_ClosureOfCoursesCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_ClosureOfCourses.CourseID).CourseName,
+      CurrentIntake: this.DTE_ClosureOfCourses.CurrentIntake,
+      ReducedIntake: this.DTE_ClosureOfCourses.ReducedIntake,
+      StreamID: this.DTE_ClosureOfCourses.StreamID,
+      CourseLevelID: this.DTE_ClosureOfCourses.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_ClosureOfCourses.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_ClosureOfCourses.CourseLevelID).Name
+
+    });
+
+    this.DTE_ClosureOfCourses.CourseID = 0;
+    this.DTE_ClosureOfCourses.StreamID = 0;
+    this.DTE_ClosureOfCourses.CourseLevelID = 0;
+    this.DTE_ClosureOfCourses.CurrentIntake = 0;
+    this.DTE_ClosureOfCourses.ReducedIntake = 0;
+    this.DTE_ClosureOfCoursesCourseDataList = [];
+  }
+
+  async Add_DTE_MergerOfTheCourse() {
+
+    //if (Number(this.DTE_MergerOfTheCourse.CourseID1) == Number(this.DTE_MergerOfTheCourse.CourseID2)) {      
+
+    //    this.toastr.error('Please Select different course Name')
+
+    //    return;      
+
+    //}
+
+    if (this.DTE_MergerOfTheCourse.CourseID1 == 0) {
+
+      this.toastr.error("Select Course One.!");
+
+      return;
+
+    }
+
+    if (this.DTE_MergerOfTheCourse.CourseID2 == 0) {
+
+      this.toastr.error("Select Course Two.!");
+
+      return;
+
+    }
+
+    if (this.DTE_MergerOfTheCourse.MergerCourseID == 0) {
+
+      this.toastr.error("Select Merger Course.!");
+
+      return;
+
+    }
+
+
+    if (this.request.DTE_MergerOfTheCourse_View == true) {
+
+      if (this.DTE_MergerOfTheCourse.CourseID1 == this.DTE_MergerOfTheCourse.CourseID2) {
+
+        this.toastr.warning('Select other Course 2');
+
+        return;
+
+      }
+
+      if (this.DTE_MergerOfTheCourse.CourseID1 != this.DTE_MergerOfTheCourse.MergerCourseID) {
+
+        if (this.DTE_MergerOfTheCourse.CourseID2 != this.DTE_MergerOfTheCourse.MergerCourseID) {
+
+          this.toastr.warning('Invalid Merge to Course');
+
+          return;
+
+        }
+
+      }
+
+    }
+
+
+    if (this.DTE_MergerOfTheCourse.MergerIntake == 0) {
+      this.toastr.error("Enter Merger Intake.!");
+      return;
+    }
+
+    if ((Number(this.DTE_MergerOfTheCourse.MergerIntake)) > ((Number(this.DTE_MergerOfTheCourse.CourseIntake1) + Number(this.DTE_MergerOfTheCourse.CourseIntake2))))
+    {
+      this.toastr.error("Enter Merger Intake (should be less than or equal (intake 1 + intake 2).!");
+      return;
+    }
+
+
+    //To start new Programme/ Level in the existing Institutions
+
+    //if (this.request.DTE_MergerOfTheCourse_View == true) {
+
+    //  
+
+    //  if (this.request.DTE_MergerOfTheCourseList.length == 0) {
+
+    //    this.toastr.warning('Add To start new Course');
+
+    //    return;
+
+    //  }
+
+    //}
+
+
+    var CourseExit = this.request.DTE_MergerOfTheCourseList.filter((x: { CourseID1: number; }) => x.CourseID1 == this.DTE_MergerOfTheCourse.CourseID1);
+
+    if (CourseExit.length > 0) {
+
+      this.toastr.warning("Course Already Added.!");
+
+      return;
+
+    }
+
+    this.request.DTE_MergerOfTheCourseList.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      FeeAmount: 0,
+      CourseID1: this.DTE_MergerOfTheCourse.CourseID1,
+      CourseID2: this.DTE_MergerOfTheCourse.CourseID2,
+      MergerCourseID: this.DTE_MergerOfTheCourse.MergerCourseID,
+      CourseName: this.DTE_MergerOfTheCourseCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_MergerOfTheCourse.CourseID1).CourseName,
+      CourseName1: this.DTE_MergerOfTheCourseCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_MergerOfTheCourse.CourseID2).CourseName,
+      MergeCourseName: this.DTE_MergerOfTheCourseCourseDataList.find((x: { CourseID: number; }) => x.CourseID == this.DTE_MergerOfTheCourse.MergerCourseID).CourseName,
+      StreamID: this.DTE_MergerOfTheCourse.StreamID,
+      CourseLevelID: this.DTE_MergerOfTheCourse.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.DTE_MergerOfTheCourse.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.DTE_MergerOfTheCourse.CourseLevelID).Name,
+      CourseIntake1: this.DTE_MergerOfTheCourse.CourseIntake1,
+      CourseIntake2: this.DTE_MergerOfTheCourse.CourseIntake2,
+      MergerIntake: this.DTE_MergerOfTheCourse.MergerIntake
+    });
+
+    this.DTE_MergerOfTheCourse.CourseID1 = 0;
+    this.DTE_MergerOfTheCourse.StreamID = 0;
+    this.DTE_MergerOfTheCourse.CourseLevelID = 0;
+    this.DTE_MergerOfTheCourse.CourseID2 = 0;
+    this.DTE_MergerOfTheCourse.MergerCourseID = 0;
+    this.DTE_MergerOfTheCourseCourseDataList = [];
+
+    this.DTE_MergerOfTheCourse.CourseIntake1 = 0;
+    this.DTE_MergerOfTheCourse.CourseIntake2 = 0;
+    this.DTE_MergerOfTheCourse.MergerIntake = 0;
+  }
+
+  Delete_AdditionofIntegratedDualDegree(item: ApplyNocParameterMasterList_AdditionofIntegratedDualDegree) {
+
+    try {
+
+      this.loaderService.requestStarted();
+
+      //debugger
+
+      if (confirm("Are you sure you want to delete this ?")) {
+
+        const index: number = this.request.DTE_AdditionofIntegratedDualDegreeList.indexOf(item);
+
+        if (index != -1) {
+
+          this.request.DTE_AdditionofIntegratedDualDegreeList.splice(index, 1)
+
+        }
+
+      }
+
+    }
+
+    catch (Ex) {
+
+      console.log(Ex);
+
+    }
+
+    finally {
+
+      setTimeout(() => {
+
+        this.loaderService.requestEnded();
+
+      }, 200);
+
+    }
+
+  }
+
+  Delete_ChangeinNameofCourse(item: ApplyNocParameterMasterList_ChangeInNameOfCourse) {
+
+    try {
+
+      this.loaderService.requestStarted();
+
+      //debugger
+
+      if (confirm("Are you sure you want to delete this ?")) {
+
+        const index: number = this.request.DTE_ChangeInNameOfCourseList.indexOf(item);
+
+        if (index != -1) {
+
+          this.request.DTE_ChangeInNameOfCourseList.splice(index, 1)
+
+        }
+
+      }
+
+    }
+
+    catch (Ex) {
+
+      console.log(Ex);
+
+    }
+
+    finally {
+
+      setTimeout(() => {
+
+        this.loaderService.requestEnded();
+
+      }, 200);
+
+    }
+
+  }
+
+  Delete_IncreaseinIntake1(item: ApplyNocParameterMasterList_ReductionInIntake) {
+
+    try {
+
+      this.loaderService.requestStarted();
+
+      //debugger
+
+      if (confirm("Are you sure you want to delete this ?")) {
+
+        const index: number = this.request.DTE_ReductionInIntakeList.indexOf(item);
+
+        if (index != -1) {
+
+          this.request.DTE_ReductionInIntakeList.splice(index, 1)
+
+        }
+
+      }
+
+    }
+
+    catch (Ex) {
+
+      console.log(Ex);
+
+    }
+
+    finally {
+
+      setTimeout(() => {
+
+        this.loaderService.requestEnded();
+
+      }, 200);
+
+    }
+
+  }
+
+  Delete_ClosureofProgram(item: ApplyNocParameterMasterList_ClosureOfProgram) {
+
+    try {
+
+      this.loaderService.requestStarted();
+
+      //debugger
+
+      if (confirm("Are you sure you want to delete this ?")) {
+
+        const index: number = this.request.DTE_ClosureOfProgramList.indexOf(item);
+
+        if (index != -1) {
+
+          this.request.DTE_ClosureOfProgramList.splice(index, 1)
+
+        }
+
+      }
+
+    }
+
+    catch (Ex) {
+
+      console.log(Ex);
+
+    }
+
+    finally {
+
+      setTimeout(() => {
+
+        this.loaderService.requestEnded();
+
+      }, 200);
+
+    }
+
+  }
+
+  Delete_ClosureOfCoursesList(item: ApplyNocParameterMasterList_ClosureOfCourses) {
+
+    try {
+
+      this.loaderService.requestStarted();
+
+      //debugger
+
+      if (confirm("Are you sure you want to delete this ?")) {
+
+        const index: number = this.request.DTE_ClosureOfCoursesList.indexOf(item);
+
+        if (index != -1) {
+
+          this.request.DTE_ClosureOfCoursesList.splice(index, 1)
+
+        }
+
+      }
+
+    }
+
+    catch (Ex) {
+
+      console.log(Ex);
+
+    }
+
+    finally {
+
+      setTimeout(() => {
+
+        this.loaderService.requestEnded();
+
+      }, 200);
+
+    }
+
+  }
+
+  Delete_DTE_MergerOfTheCourse(item: ApplyNocParameterMasterList_MergerOfTheCourse) {
+
+    try {
+
+      this.loaderService.requestStarted();
+
+      //debugger
+
+      if (confirm("Are you sure you want to delete this ?")) {
+
+        const index: number = this.request.DTE_MergerOfTheCourseList.indexOf(item);
+
+        if (index != -1) {
+
+          this.request.DTE_MergerOfTheCourseList.splice(index, 1)
+
+        }
+
+      }
+
+    }
+
+    catch (Ex) {
+
+      console.log(Ex);
+
+    }
+
+    finally {
+
+      setTimeout(() => {
+
+        this.loaderService.requestEnded();
+
+      }, 200);
+
+    }
+
+  }
+
+  numberOnly(event: any): boolean {
+
+    const charCode = (event.which) ? event.which : event.keyCode;
+
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+
+      return false;
+
+    }
+
+    return true;
+
+  }
+
+  async GetIntakeValues(CourseID: number, Type: string) {
+    this.DTE_ReductionInIntake.CurrentIntake = 0;
+    this.DTE_ClosureOfCourses.CurrentIntake = 0;
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetIntakeByCollegeCourse(this.request.CollegeID, CourseID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (Type == 'ClosureIntake') {
+            this.DTE_ClosureOfCourses.CurrentIntake = data['Data'][0]['data'][0]['Intake'];
+          }
+          else if (Type == 'DTE_MergerOfTheCourseCourseID1') {
+            this.DTE_MergerOfTheCourse.CourseIntake1 = data['Data'][0]['data'][0]['Intake'];
+          }
+          else if (Type == 'DTE_MergerOfTheCourseCourseID2') {
+            this.DTE_MergerOfTheCourse.CourseIntake2 = data['Data'][0]['data'][0]['Intake'];
+          }
+          else {
+            this.DTE_ReductionInIntake.CurrentIntake = data['Data'][0]['data'][0]['Intake'];
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  ///DTE
+  public DTE_streamDataList: any = [];
+  public DTE_CourseLevelList: any = [];
+  async GetDTE_StreamDataList() {
+    try {
+      debugger
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetProgramMaster_CollegeIDWise(this.request.CollegeID, 'NM')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.DTE_streamDataList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetDTE_CourseLevelList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCourseLevel_ProgramIDWise(this.request.CollegeID, 'NM')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.DTE_CourseLevelList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public DTE_streamMasterDataList: any = [];
+  public DTE_CourseLevelMasterList: any = [];
+  public DTE_CourseLevelMasterList_PG: any = [];
+  async GetDTE_StreamMasterDataList() {
+    try {
+      debugger
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetProgramMaster_CollegeIDWise(this.request.CollegeID, 'Master')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.DTE_streamMasterDataList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetDTE_CourseLevelMasterList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.commonMasterService.GetCourseLevel_ProgramIDWise(this.request.CollegeID, 'Master')
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.DTE_CourseLevelMasterList = data['Data'][0]['data'];
+          this.DTE_CourseLevelMasterList_PG = this.DTE_CourseLevelMasterList.filter((x: { Name: string; }) => x.Name == 'PG');
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+  public DTE_AdditionofIntegratedDualDegreeCourseDataList: any = [];
+  public DTE_CourseDataListIncreaseinIntake: any = [];
+  public DTE_CourseDataListIncreaseInIntake_AdditionofCourse: any = [];
+  public DTE_ChangeInNameOfCourseCourseDataList: any = [];
+  public DTE_ReductionInIntakeCourseDataList: any = [];
+  public DTE_ClosureOfCoursesCourseDataList: any = [];
+  public DTE_MergerOfTheCourseCourseDataList: any = [];
+  public DTE_IntroductionOffCampusCourseDataList: any = [];
+  public DTE_CourseDataListCoursesforWorkingProfessionals: any = [];
+  async GetCourse_CourseLevelIDWise(ProgrammeID: number, CourseLevelID: number, Type: string, GetType: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.GetCourse_CourseLevelIDWise_Master(ProgrammeID, CourseLevelID, Type, 'Master');
+
+      await this.commonMasterService.GetCourse_CourseLevelIDWise(this.request.CollegeID, ProgrammeID, CourseLevelID, GetType)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (Type == 'AdditionofIntegratedDualDegree') {
+            this.DTE_AdditionofIntegratedDualDegreeCourseDataList = data['Data'][0]['data'];
+          }
+          else if (Type == 'IncreaseinIntake') {
+            this.DTE_CourseDataListIncreaseinIntake = data['Data'][0]['data'];
+          }
+          else if (Type == 'DTE_IncreaseInIntake_AdditionofCourse') {
+            this.DTE_CourseDataListIncreaseInIntake_AdditionofCourse = data['Data'][0]['data'];
+          }
+          else if (Type == 'ChangeInNameOfCourse') {
+            this.DTE_ChangeInNameOfCourseCourseDataList = data['Data'][0]['data'];
+          }
+          else if (Type == 'ReductionInIntake') {
+            this.DTE_ReductionInIntakeCourseDataList = data['Data'][0]['data'];
+          }
+          else if (Type == 'ClosureOfCourses') {
+            this.DTE_ClosureOfCoursesCourseDataList = data['Data'][0]['data'];
+          }
+          else if (Type == 'MergerOfTheCourse') {
+            this.DTE_MergerOfTheCourseCourseDataList = data['Data'][0]['data'];
+          }
+          else if (Type == 'IntroductionOffCampus') {
+            this.DTE_IntroductionOffCampusCourseDataList = data['Data'][0]['data'];
+          }
+          else if (Type == 'CoursesforWorkingProfessionals') {
+            this.DTE_CourseDataListCoursesforWorkingProfessionals = data['Data'][0]['data'];
+          }
+          else {
+            this.DTE_CourseDataList = data['Data'][0]['data'];
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  public DTE_AdditionofIntegratedDualDegreeCourseDataList_Master: any = [];
+  public DTE_CourseDataListIncreaseinIntake_Master: any = [];
+  public DTE_CourseDataListIncreaseInIntake_AdditionofCourse_Master: any = [];
+  public DTE_ChangeInNameOfCourseCourseDataList_Master: any = [];
+  public DTE_ReductionInIntakeCourseDataList_Master: any = [];
+  public DTE_ClosureOfCoursesCourseDataList_Master: any = [];
+  public DTE_MergerOfTheCourseCourseDataList_Master: any = [];
+  public DTE_IntroductionOffCampusCourseDataList_Master: any = [];
+  public DTE_CourseDataList_Master: any = [];
+  async GetCourse_CourseLevelIDWise_Master(ProgrammeID: number, CourseLevelID: number, Type: string, GetType: string) {
+    try {
+      this.loaderService.requestStarted();
+      debugger;
+      await this.commonMasterService.GetCourse_CourseLevelIDWise(this.request.CollegeID, ProgrammeID, CourseLevelID, GetType)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          if (Type == 'AdditionofIntegratedDualDegree') {
+            this.DTE_AdditionofIntegratedDualDegreeCourseDataList_Master = data['Data'][0]['data'];
+          }
+          else if (Type == 'IncreaseinIntake') {
+            this.DTE_CourseDataListIncreaseinIntake_Master = data['Data'][0]['data'];
+          }
+          else if (Type == 'DTE_IncreaseInIntake_AdditionofCourse') {
+            this.DTE_CourseDataListIncreaseInIntake_AdditionofCourse = data['Data'][0]['data'];
+          }
+          else if (Type == 'ChangeInNameOfCourse') {
+            this.DTE_ChangeInNameOfCourseCourseDataList_Master = data['Data'][0]['data'];
+          }
+          else if (Type == 'ReductionInIntake') {
+            this.DTE_ReductionInIntakeCourseDataList_Master = data['Data'][0]['data'];
+          }
+          else if (Type == 'ClosureOfCourses') {
+            this.DTE_ClosureOfCoursesCourseDataList_Master = data['Data'][0]['data'];
+          }
+          else if (Type == 'MergerOfTheCourse') {
+            this.DTE_MergerOfTheCourseCourseDataList_Master = data['Data'][0]['data'];
+          }
+          else if (Type == 'IntroductionOffCampus') {
+            this.DTE_IntroductionOffCampusCourseDataList_Master = data['Data'][0]['data'];
+          }
+          else {
+            this.DTE_CourseDataList_Master = data['Data'][0]['data'];
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+
+  async Add_IntroductionOffCampus() {
+
+    if (this.request.DTE_IntroductionOffCampus.CourseID == 0) {
+      this.toastr.error("Select Course.!");
+      return;
+    }
+    if (this.request.DTE_IntroductionOffCampus.Intake == 0) {
+      this.toastr.error("Enter intake greater than zero.!");
+      return;
+    }
+
+    if (this.request.DTE_IntroductionOffCampus.DocumentName == '') {
+      this.toastr.error("Please upload document.!");
+      return;
+    }
+
+    var CourseExit = this.request.DTE_IntroductionOffCampus_List.filter((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IntroductionOffCampus.CourseID);
+    if (CourseExit.length > 0) {
+      this.toastr.warning("Course Already Added.!");
+      return;
+    }
+
+    this.request.DTE_IntroductionOffCampus_List.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      FeeAmount: 0,
+      CourseID: this.request.DTE_IntroductionOffCampus.CourseID,
+      CourseName: this.DTE_IntroductionOffCampusCourseDataList_Master.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_IntroductionOffCampus.CourseID).CourseName,
+      Intake: this.request.DTE_IntroductionOffCampus.Intake,
+      StreamID: this.request.DTE_IntroductionOffCampus.StreamID,
+      CourseLevelID: this.request.DTE_IntroductionOffCampus.CourseLevelID,
+      StreamName: this.DTE_streamMasterDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.request.DTE_IntroductionOffCampus.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelMasterList.find((x: { ID: number; }) => x.ID == this.request.DTE_IntroductionOffCampus.CourseLevelID).Name,
+      DocumentName: this.request.DTE_IntroductionOffCampus.DocumentName,
+      DocumentPath: this.request.DTE_IntroductionOffCampus.DocumentPath,
+      Dis_DocumentName: this.request.DTE_IntroductionOffCampus.Dis_DocumentName
+    });
+    this.request.DTE_IntroductionOffCampus.StreamID = 0;
+    this.request.DTE_IntroductionOffCampus.CourseLevelID = 0;
+    this.request.DTE_IntroductionOffCampus.CourseID = 0;
+    this.request.DTE_IntroductionOffCampus.Intake = 0;
+    this.request.DTE_IntroductionOffCampus.DocumentName = '';
+    this.request.DTE_IntroductionOffCampus.Dis_DocumentName = '';
+    this.request.DTE_IntroductionOffCampus.DocumentPath = '';
+    this.DTE_IntroductionOffCampusCourseDataList_Master = [];
+  }
+
+  Delete_IntroductionOffCampus(item: ApplyNocParameterMasterList_IntroductionOffCampus) {
+    try {
+      this.loaderService.requestStarted();
+      if (confirm("Are you sure you want to delete this ?")) {
+        const index: number = this.request.DTE_IntroductionOffCampus_List.indexOf(item);
+        if (index != -1) {
+          this.request.DTE_IntroductionOffCampus_List.splice(index, 1)
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async Add_CoursesforWorkingProfessionals() {
+
+    if (this.request.DTE_CoursesforWorkingProfessionals.CourseID == 0) {
+      this.toastr.error("Select Course.!");
+      return;
+    }
+    if (this.request.DTE_CoursesforWorkingProfessionals.Intake == 0) {
+      this.toastr.error("Enter intake greater than zero.!");
+      return;
+    }
+
+    var CourseExit = this.request.DTE_CoursesforWorkingProfessionals_List.filter((x: { CourseID: number; }) => x.CourseID == this.request.DTE_CoursesforWorkingProfessionals.CourseID);
+    if (CourseExit.length > 0) {
+      this.toastr.warning("Course Already Added.!");
+      return;
+    }
+
+    this.request.DTE_CoursesforWorkingProfessionals_List.push({
+      DetailID: 0,
+      ApplyNocID: 0,
+      DepartmentID: 0,
+      CollegeID: 0,
+      FeeAmount: 0,
+      CourseID: this.request.DTE_CoursesforWorkingProfessionals.CourseID,
+      CourseName: this.DTE_CourseDataListCoursesforWorkingProfessionals.find((x: { CourseID: number; }) => x.CourseID == this.request.DTE_CoursesforWorkingProfessionals.CourseID).CourseName,
+      Intake: this.request.DTE_CoursesforWorkingProfessionals.Intake,
+      StreamID: this.request.DTE_CoursesforWorkingProfessionals.StreamID,
+      CourseLevelID: this.request.DTE_CoursesforWorkingProfessionals.CourseLevelID,
+      StreamName: this.DTE_streamDataList.find((x: { StreamMasterID: number; }) => x.StreamMasterID == this.request.DTE_CoursesforWorkingProfessionals.StreamID).StreamName,
+      CourseLevelName: this.DTE_CourseLevelList.find((x: { ID: number; }) => x.ID == this.request.DTE_CoursesforWorkingProfessionals.CourseLevelID).Name
+    });
+    this.request.DTE_CoursesforWorkingProfessionals.StreamID = 0;
+    this.request.DTE_CoursesforWorkingProfessionals.CourseLevelID = 0;
+    this.request.DTE_CoursesforWorkingProfessionals.CourseID = 0;
+    this.request.DTE_CoursesforWorkingProfessionals.Intake = 0;
+    this.DTE_CourseDataListCoursesforWorkingProfessionals = [];
+  }
+
+  Delete_CoursesforWorkingProfessionals(item: ApplyNocParameterMasterList_CoursesforWorkingProfessionals) {
+    try {
+      this.loaderService.requestStarted();
+      if (confirm("Are you sure you want to delete this ?")) {
+        const index: number = this.request.DTE_CoursesforWorkingProfessionals_List.indexOf(item);
+        if (index != -1) {
+          this.request.DTE_CoursesforWorkingProfessionals_List.splice(index, 1)
+        }
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

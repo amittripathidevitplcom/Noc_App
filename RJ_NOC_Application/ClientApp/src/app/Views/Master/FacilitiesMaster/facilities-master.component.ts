@@ -52,6 +52,8 @@ export class FacilitiesComponent implements OnInit {
         chkActiveStatus: [''],
         MinSize: ['', [Validators.required, Validators.min(1)]],
         txtUnit: ['', Validators.required],
+        ddlIsYesNoOption: [''],
+        
       }
     )
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -114,11 +116,28 @@ export class FacilitiesComponent implements OnInit {
   }
   async SaveData() {
     this.isSubmitted = true;
+
+
+    if (this.request.IsYesNoOption == 'No') {
+      this.FacilitiesMasterForm.get('MinSize')?.setValidators([Validators.required, Validators.min(1)]);
+      this.FacilitiesMasterForm.get('txtUnit')?.setValidators([Validators.required]);
+     
+    }
+    else {
+      this.FacilitiesMasterForm.get('MinSize')?.clearValidators();
+      this.FacilitiesMasterForm.get('txtUnit')?.clearValidators();
+      this.request.MinSize = 0;
+      this.request.Unit = '';
+    }
+    this.FacilitiesMasterForm.get('MinSize')?.updateValueAndValidity();
+    this.FacilitiesMasterForm.get('txtUnit')?.updateValueAndValidity();
     if (this.FacilitiesMasterForm.invalid) {
       return;
     }
-    if (this.request.MinSize <= 0) {
-      return;
+    if (this.request.IsYesNoOption == 'No') {
+      if (this.request.MinSize <= 0) {
+        return;
+      }
     }
     this.loaderService.requestStarted();
     this.isLoading = true;
@@ -177,6 +196,7 @@ export class FacilitiesComponent implements OnInit {
           this.request.FacilitiesName = data['Data'][0]["FacilitiesName"];
           this.request.MinSize = data['Data'][0]["MinSize"];
           this.request.Unit = data['Data'][0]["Unit"];
+          this.request.IsYesNoOption = data['Data'][0]["IsYesNoOption"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
           this.isDisabledGrid = true;
           const btnSave = document.getElementById('btnSave')

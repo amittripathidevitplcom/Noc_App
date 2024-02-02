@@ -1,4 +1,4 @@
-  <div class="row">
+  <div class="container-fluid ">
 
   <div class="card tabCard1 mb-0">
     <div class="card-header">
@@ -1189,7 +1189,7 @@
   </div>
 
   <div class="row m-2" [hidden]="sSOLoginDataModel.RoleID==16 || QueryStringStatus!='Pending'">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
       <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
       <select class="form-select" (change)="OnChangeCurrentAction()" [(ngModel)]="ActionID">
         <option value="0" disabled selected>--Select Action--</option>
@@ -1200,7 +1200,7 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
       <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
 
       <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
@@ -1214,7 +1214,7 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
+    <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
       <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
       <select class="form-select" [(ngModel)]="NextActionID">
         <option value="0" disabled selected>--Select Action--</option>
@@ -1223,9 +1223,9 @@
       <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
         <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
       </div>
-    </div>
+    </div>-->
 
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
       <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
       <select class="form-select" [(ngModel)]="NextUserID">
         <option value="0" selected>--Select User--</option>
@@ -1247,7 +1247,7 @@
 
   </div>
   <div class="row mb-5 m-2" [hidden]=" QueryStringStatus!='Pending'">
-    <div class="col-md-12">
+    <div class="col-md-12 mb-5">
       <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
     </div>
   </div>

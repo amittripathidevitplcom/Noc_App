@@ -1,175 +1,320 @@
 <header class="bg-white shadow p-2">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-3">
-        <img src="../../../assets/images/logo.png" />
+    <div class="row align-items-center">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+        <img src="../../../assets/images/logo.png" class="img-fluid" />
       </div>
-      <div class="col-md-3 offset-6 pt-3">
-        <h5><img style="width:20px; margin-right:15px;" src="../../../assets/images/callicon.gif" />+91-91099 69448</h5>
-        <h5><img style="width:20px; margin-right:15px;" src="../../../assets/images/mailicon.gif" />support.rajnoc@rajasthan.gov.in</h5>
+      <div class="col-lg-9 col-md-8 col-sm-6 col-12 CMBox">
+        <div class="d-flex align-items-center flex-end w-100" style="justify-content:flex-end">
+          <img src="../../../assets/images/cm1.png" style="width:75px;" />
+          <div class="me-3">
+            <h5 class="m-0 f-600">Shri Bhajanlal Sharma</h5>
+            <h6 class="m-0">Hon'ble Chief Minister</h6>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </header>
+<section class="heightFixBox">
+  <div class="container-fluid centerContentPart">
 
-<section class="pt-5">
-  <div class="container-fluid">
     <div class="row">
-      <div class="col-md-6 ps-5">
-        <!--<div class="row">
-          <div class="col-md-3">
-            <button class="nav-link active boxsCat" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" onclick="GetDataByDptId();" type="button" role="tab" aria-controls="pills-home" aria-selected="true" style=" background: #f8c4c9;">
-              <img style="border-radius: 40px; border: 4px solid #a97e82" src="../../../assets/images/dcelogo.jpg" height="80" width="80" alt="icon">
-              <p class="text-dark">Department of <br>College Education</p>
-            </button>
-          </div>
-        </div>-->
+      <div class="col-lg-9 tabPanels">
+        <div  class="nav nav-pills mt-0 mb-5 dptNavPills" id="v-pills-tab" role="tablist">
+          <button (click)="GetUserManualDocumentMasterList(2)" class=" service-item style-3 nav-link" id="v-pills-d1-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d1" type="button" role="tab" aria-controls="v-pills-d1" aria-selected="false">
+            <div class="service-icon">
+              <img src="../../../assets/images/1.png" />
+            </div>
+            <div class="service-desc">
+              <div class="service-title">
+                <h4>Department of Animal Husbandry</h4>
+              </div>
 
-        <div class="card box1">
-          <div class="card-body">
-            <div class="d-flex justify-content-start">
-              <img style="border-radius: 40px; border: 4px solid #a97e82" src="../../../assets/images/dcelogo.jpg" height="80" width="80" alt="icon"> <h3 class="position-relative ms-2">Department of<br /> College Education</h3>
+            </div>
+          </button>
+
+          <!--<button (click)="GetUserManualDocumentMasterList(9)"  class=" service-item style-3 nav-link" id="v-pills-d2-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d2" type="button" role="tab" aria-controls="v-pills-d2" aria-selected="false">
+            <div class="service-icon">
+              <img src="../../../assets/images/2.jpg" />
+            </div>
+            <div class="service-desc">
+              <div class="service-title">
+                <h4>Rajasthan PARA-Medical Council</h4>
+              </div>
+            </div>
+          </button>-->
+
+
+          <button (click)="GetUserManualDocumentMasterList(4)" class=" service-item style-3 nav-link" id="v-pills-d3-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d3" type="button" role="tab" aria-controls="v-pills-d3" aria-selected="false">
+            <div class="service-icon">
+              <img src="../../../assets/images/3.jpg" />
+            </div>
+            <div class="service-desc">
+              <div class="service-title">
+                <h4>Department of Technical Education</h4>
+              </div>
+
+
+            </div>
+          </button>
+
+          <button (click)="GetUserManualDocumentMasterList(5)" class=" service-item style-3 nav-link" id="v-pills-d4-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d4" type="button" role="tab" aria-controls="v-pills-d4" aria-selected="false">
+            <div class="service-icon">
+              <img src="../../../assets/images/4.png" />
+            </div>
+            <div class="service-desc">
+              <div class="service-title">
+                <h4>Department of Medical, Health & Family Welfare</h4>
+              </div>
+
+
+            </div>
+          </button>
+
+
+          <button (click)="GetUserManualDocumentMasterList(1)" class=" service-item style-3 nav-link" id="v-pills-d5-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d5" type="button" role="tab" aria-controls="v-pills-d5" aria-selected="false">
+            <div class="service-icon">
+              <img src="../../../assets/images/6.jpg" />
+            </div>
+            <div class="service-desc">
+              <div class="service-title">
+                <h4>Department of <br /> Agriculture</h4>
+              </div>
+            </div>
+          </button>
+
+          <button (click)="GetUserManualDocumentMasterList(3)" class=" service-item style-3 nav-link" id="v-pills-d6-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d6" type="button" role="tab" aria-controls="v-pills-d6" aria-selected="false">
+            <div class="service-icon">
+              <img src="../../../assets/images/7.png" />
+            </div>
+            <div class="service-desc">
+              <div class="service-title">
+                <h4>DCE(Department of College Education)</h4>
+              </div>
+            </div>
+          </button>
+
+
+          <button (click)="GetUserManualDocumentMasterList(6)" class=" service-item style-3 nav-link" id="v-pills-d7-tab" data-bs-toggle="pill" data-bs-target="#v-pills-d7" type="button" role="tab" aria-controls="v-pills-d7" aria-selected="false">
+            <div class="service-icon">
+              <img src="../../../assets/images/5.png" />
+            </div>
+            <div class="service-desc">
+              <div class="service-title">
+                <h4>Rajasthan Medical Education Department</h4>
+              </div>
+            </div>
+          </button>
+
+
+
+        </div>
+        <div class="tab-content" id="v-pills-tabContent">
+          <div class="tab-pane fade show active" id="v-pills-d" role="tabpanel" aria-labelledby="v-pills-d-tab" tabindex="0"> 
+
+            <h5 class="text-center defulttext">
+              ऑनलाइन पोर्टल का उद्देश्य निजी महाविद्यालयों को अनापत्ति प्रमाण पत्र प्रदान करना एवं सम्पूर्ण प्रक्रिया की पारदर्शिता सुनिश्चित करना है।
+              उपरोक्त पोर्टल में विभिन्न क्षेत्र के महाविद्यालों जैसे की कृषि, पशुपालन, नर्सिंग , मेडिकल शिक्षा , कॉलेज शिक्षा, तकनीकी शिक्षा इत्यादि को एनओसी ऑनलाइन ही जारी की जा सकेगी।
+
+            </h5> 
+
+          </div>
+          <div class="tab-pane fade" id="v-pills-d1" role="tabpanel" aria-labelledby="v-pills-d1-tab" tabindex="0">
+            <div class="d-flex justify-content-start mb-3">
+              <img src="../../../assets/images/1.png" height="80" width="80"
+                   alt="icon">
+              <h5 class="position-relative ms-2 mt-3">Department of<br /> Animal Husbandry</h5>
+            </div>
+            <p class="mb-4">समस्त महाविद्यालयों/इंस्टिट्यूट/डिप्लोमा (पूर्व संचालित एवं नवीन संचालित) को सूचित किया जाता है की NOC लेने हेतु RajNOC पोर्टल पर ऑनलाइन आवेदन शीघ्र आमंत्रित किये जायेंगे।</p>
+
+
+            <div class="buttons mt-2 mb-4">
+              <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
+              <a href="../../../assets/PDF/Government of Rajasthan-NOC manual.pdf" target="_blank" class="btncomn">View User Manual</a>
             </div>
 
-            <p class="mt-4" style="font-size:17px; line-height:29px;">
-              (सत्र 2023-24 में महाविद्यालय में अध्यनरत विद्यार्थियों की सांख्यिकी (Students Statistics) सूचना भरने हेतु NOC पोर्टल पर Registered निजी महाविद्यालयों (जिन्होंने सत्र 2023-24 में एप्लीकेशन सबमिट की थी) के लिए NOC पोर्टल दिनांक 19.12.2023 से 31.12.2023 तक खोला जा रहा है।
 
+
+
+          </div>
+
+
+          <div class="tab-pane fade" id="v-pills-d2" role="tabpanel" aria-labelledby="v-pills-d2-tab" tabindex="0">
+            <div class="d-flex justify-content-start mb-3">
+              <img src="../../../assets/images/2.jpg" height="80" width="80"
+                   alt="icon">
+              <h5 class="position-relative ms-2 mt-3">Rajasthan PARA<br /> Medical Council</h5>
+            </div>
+            <p class="mb-4">समस्त महाविद्यालयों/इंस्टिट्यूट/डिप्लोमा (पूर्व संचालित एवं नवीन संचालित) को सूचित किया जाता है की NOC लेने हेतु RajNOC पोर्टल पर ऑनलाइन आवेदन शीघ्र आमंत्रित किये जायेंगे।</p>
+
+            <div class="buttons mt-2 mb-4">
+              <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
+              <a href="../../../assets/PDF/Government of Rajasthan-NOC manual.pdf" target="_blank" class="btncomn">View User Manual</a>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-d3" role="tabpanel" aria-labelledby="v-pills-d3-tab" tabindex="0">
+            <div class="d-flex justify-content-start mb-3">
+              <img src="../../../assets/images/3.jpg" height="80" width="80"
+                   alt="icon">
+              <h5 class="position-relative ms-2 mt-3">Department of<br />Technical Education</h5>
+            </div>
+            <p class="mb-4">राज्य में संचालित तकनीकी संस्थानों के लिये राज्य सरकार द्वारा जारी किये जाने वाले अनापत्ति प्रमाण-पत्र (NOC) / राज्य सरकार का अभिमत प्राप्त करने के लिये सत्र 2024-25 हेतु तकनीकी पाठ्यक्रमों के साथ-साथ <b>BCA/BBA/BMS</b> के नये पाठ्यकम प्रारम्भ करने/संचालित करने एवं <b>Working Professionals</b> पाठ्यक्रमों को प्रारम्भ करने वाले तकनीकी संस्थान/ट्रस्ट/ सोसायटी से ऑनलाईन आवेदन पत्र <a href="https://rajnoc.rajasthan.gov.in/" target="_blank">https://rajnoc.rajasthan.gov.in/</a> पर दिनांक <b>31.01.2024</b> से <b>15.02.2024</b> तक किये जा सकेंगे।</p>
+            <div class="buttons mt-2 mb-4">
+              <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
+              <a href="../../../assets/images/doc/UserManualforNewInstitute.pdf" target="_blank" class="btncomn">View User Manual For New Institute</a>
+              <a href="../../../assets/images/doc/UserManualforExistingInstitute.pdf" target="_blank" class="btncomn">View User Manual For Existing Institute</a>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-d4" role="tabpanel" aria-labelledby="v-pills-d4-tab" tabindex="0">
+            <div class="d-flex justify-content-start mb-3">
+              <img src="../../../assets/images/4.png" height="80" width="80"
+                   alt="icon">
+              <h5 class="position-relative ms-2 mt-3">Department of Medical, <br />Health & Family Welfare</h5>
+            </div>
+            <p class="mb-4">समस्त महाविद्यालयों/इंस्टिट्यूट/डिप्लोमा (पूर्व संचालित एवं नवीन संचालित) को सूचित किया जाता है की NOC लेने हेतु RajNOC पोर्टल पर ऑनलाइन आवेदन शीघ्र आमंत्रित किये जायेंगे।</p>
+
+            <div class="buttons mt-2 mb-4">
+              <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
+              <a href="../../../assets/PDF/Government of Rajasthan-NOC manual.pdf" target="_blank" class="btncomn">View User Manual</a>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-pills-d5" role="tabpanel" aria-labelledby="v-pills-d5-tab" tabindex="0">
+            <div class="d-flex justify-content-start mb-3">
+              <img src="../../../assets/images/6.jpg" height="80" width="80"
+                   alt="icon">
+              <h5 class="position-relative ms-2 mt-3">Department of<br />Agriculture</h5>
+            </div>
+            <p class="mb-4">राज्य में कृषि शिक्षा को बढावा देने के लिए “राजस्थान सोसाइटी रजिस्ट्रीकरण अधिनियम 1958" अथवा “राजस्थान पब्लिक ट्रस्ट एक्ट 1959" अथवा “भारतीय ट्रस्ट एक्ट 1882" अथवा "दी कम्पनीज एक्ट 2013 की धारा 8 के अन्तर्गत पंजीकृत संस्थाओं से शैक्षणिक सत्र 2023-24 हेतु पूर्व संचालित निजी कृषि महाविद्यालयों को टीएनओसी में अभिवृद्धि हेतु Raj NOC (SSO Login) पोर्टल पर ऑनलाईन आवेदन दिनांक 25.04.2023 से दिनांक 05.05.2023 तक आमंत्रित किये जाते है। गैर सरकरी क्षेत्र में नवीन कृषि महाविद्यालय खोलने हेतु नीति/ प्रक्रिया विभागीय वेबसाइट (agriculture.rajasthan.gov.in) से डाउनलोड किया जा सकता है।</p>
+
+            <div class="buttons mt-2 mb-4">
+              <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
+              <a href="../../../assets/PDF/Government of Rajasthan-NOC manual.pdf" target="_blank" class="btncomn">View User Manual</a>
+            </div>
+
+          </div>
+          <div class="tab-pane fade" id="v-pills-d6" role="tabpanel" aria-labelledby="v-pills-d6-tab" tabindex="0">
+            <div class="d-flex justify-content-start mb-3">
+              <img src="../../../assets/images/dcelogo.jpg" height="80" width="80"
+                   alt="icon">
+              <h5 class="position-relative ms-2 mt-3">Department of<br /> College Education</h5>
+            </div>
+            <p class="mb-4">
+              सत्र 2023-24 में महाविद्यालय में अध्यनरत विद्यार्थियों की सांख्यिकी (Students
+              Statistics) सूचना भरने हेतु NOC पोर्टल पर Registered निजी महाविद्यालयों (जिन्होंने सत्र 2023-24
+              में
+              एप्लीकेशन सबमिट की थी) के लिए NOC पोर्टल दिनांक 19.12.2023 से 31.12.2023 तक खोला जा रहा है।
             </p>
-            <p class="mt-4" style="font-size:17px; line-height:29px;">सत्र 2023-24 के लिए सांखियकी सुचना भरने हेतु NOC पोर्टल दिनांक 31.12.2023 से 07.01.2024 तक बढ़ायी जाती है।</p>
-            <p class="mt-4" style="font-size:17px; line-height:29px;">सत्र 2023-24 के लिए सांख्यिकी सुचना भरने का अंतिम अवसर देने हेतु NOC पोर्टल दिनांक 07.01.2024 से 14.01.2024 तक बढ़ायी जाती है।</p>
-            <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn" style="font-size: 14px;">Login to SSO</a>
-            <a href="../../../assets/PDF/Government of Rajasthan-NOC manual.pdf" target="_blank" class="btncomn" style="font-size: 14px;">View User Manual</a>
+
+            <div class="buttons mt-2 mb-4">
+              <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
+              <a href="../../../assets/PDF/Government of Rajasthan-NOC manual.pdf" target="_blank" class="btncomn">View User Manual</a>
+            </div>
+
+            <ul>
+              <li>
+                सत्र 2023-24 के लिए सांखियकी सुचना भरने हेतु NOC पोर्टल दिनांक 31.12.2023 से
+                07.01.2024 तक बढ़ायी जाती है।
+              </li>
+
+              <li>
+                सत्र 2023-24 के लिए सांख्यिकी सुचना भरने का अंतिम अवसर देने हेतु NOC पोर्टल दिनांक
+                07.01.2024 से 14.01.2024 तक बढ़ायी जाती है।
+              </li>
+
+              <li>
+                सत्र 2023-24 के लिए सांख्यिकी सुचना भरने का अंतिम अवसर देने हेतु NOC पोर्टल दिनांक
+                14.01.2024 से 16.01.2024 तक बढ़ायी जाती है।
+              </li>
+
+              <li>
+                सत्र 2023-24 के लिए सांख्यिकी सुचना भरने का अंतिम अवसर देने हेतु NOC पोर्टल दिनांक
+                16.01.2024 से 19.01.2024 तक बढ़ायी जाती है।
+              </li>
+            </ul>
+
+
+            
+          </div>
+          <div class="tab-pane fade" id="v-pills-d7" role="tabpanel" aria-labelledby="v-pills-d7-tab" tabindex="0">
+            <div class="d-flex justify-content-start mb-3">
+              <img src="../../../assets/images/5.png" height="80" width="80"
+                   alt="icon">
+              <h5 class="position-relative ms-2 mt-3">Rajasthan Medical <br />Education Department</h5>
+            </div>
+            <p class="mb-4">समस्त महाविद्यालयों/इंस्टिट्यूट/डिप्लोमा (पूर्व संचालित एवं नवीन संचालित) को सूचित किया जाता है की NOC लेने हेतु RajNOC पोर्टल पर ऑनलाइन आवेदन शीघ्र आमंत्रित किये जायेंगे।</p>
+
+            <div class="buttons mt-2 mb-4">
+              <a href="https://sso.rajasthan.gov.in/signin?ru=UNOC" target="_blank" class="btncomn">Login to SSO</a>
+              <a href="../../../assets/PDF/Government of Rajasthan-NOC manual.pdf" target="_blank" class="btncomn">View User Manual</a>
+            </div>
+
+
+
           </div>
         </div>
-
 
       </div>
-      <div class="col-md-6 ps-5 pe-5">
-        <div class="card box1">
-          <div class="card-header"><h4>Order & Circular</h4></div>
-          <div class="table-responsive">
-            <table class="table table-bordered mb-0">
-              <thead>
-                <tr>
-                  <th>
-                    Sr.No.
-                  </th>
-                  <th>
-                    Content
-                  </th>
-                  <th>
-                    Download
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
+      <div class="col-lg-3">
+        <h3 class="heading">Order & Circular</h3>
+        <marquee direction="up" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5">
+          <ul class="newsMarquee">
+             
 
-                <tr>
-                  <td>
-                    1
-                  </td>
-                  <td>
-                    Second Order for date extension for filling statistics for session 2023-24
-                  </td>
-                  <td>
-                    <a target="_blank" class="bi bi-file-earmark-pdf-fill" href="../../../assets/PDF/seconddateextensionorder15.pdf"></a>
-                  </td>
-                </tr>
+          <li *ngFor="let row of UserManualDocumentlList ;let idx=index;">
+            <a href="{{row.DocumentPath}}" target="_blank">
+              <p><i class="fa fa-file-pdf-o"></i> {{row.TitleEnglish}} </p>
+              <span><i class="fa fa-calendar"></i> {{row.Date}}</span>
+            </a>
+          </li>
+          </ul> 
+        </marquee>
+      </div> 
+    </div>
 
-                <tr>
-                  <td>
-                    2
-                  </td>
-                  <td>
-                    Order for date extension for filling statistics for session 2023-24
-                  </td>
-                  <td>
-                    <a target="_blank" class="bi bi-file-earmark-pdf-fill" href="../../../assets/PDF/PIdateextension.pdf"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    3
-                  </td>
-                  <td>
-                    Order for filling the student statistics data for session 2023-24
-                  </td>
-                  <td>
-                    <a target="_blank" class="bi bi-file-earmark-pdf-fill" href="../../../assets/PDF/PI_STAT_R.pdf"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    4
-                  </td>
-                  <td>
-                    Private Colleges NOC policy
-                  </td>
-                  <td>
-                    <a target="_blank" class="bi bi-file-earmark-pdf-fill" href="../../../assets/PDF/policy_order.pdf"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    5
-                  </td>
-                  <td>
-                    NOC policy Amendment Order
-                  </td>
-                  <td>
-                    <a target="_blank" class="bi bi-file-earmark-pdf-fill" href="../../../assets/PDF/amendment_order.pdf"></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    6
-                  </td>
-                  <td>
-                    List of Nodal Colleges
-                  </td>
-                  <td>
-                    <a target="_blank" class="bi bi-file-earmark-pdf-fill" href="../../../assets/PDF/PI_Nodal_2020.pdf"></a>
-                  </td>
-                </tr>
 
-              </tbody>
-            </table>
+  </div>
+  <div class="round-shape-animation"></div>
+
+</section>
+<section class="footersection bg-dark py-2" style="background-color:#021759!important;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 text-white">
+        <h5>Quick Links : </h5>
+        <ul class="navbarfooter ps-0">
+
+          <li><a target="_blank"  href="#"><i class="fa fa-angle-double-right"></i>&nbsp;Site Portal Rajasthan</a></li>
+          <li><a target="_blank" href="https://sampark.rajasthan.gov.in/"><i class="fa fa-angle-double-right"></i>&nbsp;Rajasthan Sampark</a></li>
+          <li><a target="_blank" href="https://dop.rajasthan.gov.in/"><i class="fa fa-angle-double-right"></i>&nbsp;DOP</a></li>
+          <li><a target="_blank" href="https://hte.rajasthan.gov.in/"><i class="fa fa-angle-double-right"></i>&nbsp;HTE link</a></li>
+
+        </ul>
+
+      </div>
+      <div class="col-md-4 text-center">
+        <a href="javascript:void(0)">
+          <img src="../../../assets/images/ACP.jpg" alt="logo" width="250" class="img-fluid mt-3">
+        </a>
+        <div class="row  d-none d-sm-none d-md-block d-lg-block d-xl-block d-xxl-block">
+          <div class="col-md-12 text-center text-white">
+            <p class="mb-0 mt-0">All Rights Reserved to DoIT&C/RISL</p>
           </div>
         </div>
+      </div>
+      <div class="col-md-4 text-end text-white contactDetails">
+        <h5>Contact Us </h5>
+        <p class="mb-0">
+
+          +91-91099 69448 <br />
+          support.rajnoc@rajasthan.gov.in
+        </p>
+        <p class="mb-0 mt-0">Website Visiter :<strong> 0584582</strong> <br />Last Update : <strong>10-01-2024 </strong></p>
+      </div>
+      <div class="col-md-12 text-center text-white d-block d-sm-block d-md-none d-lg-none d-xl-none d-xxl-none">
+        <p class="mb-0 mt-0">All Rights Reserved to DoIT&C/RISL</p>
       </div>
     </div>
   </div>
-</section>
-
-
-<section class="footersection mt-4 text-center">
-
-  <div class="clientLogo " style="font-size: 16px;">
-    <a href="javascript:void(0)" style="font-size: 16px;">
-      <img src="../../../assets/images/chiranjiv.png" class="img-fluid" alt="logo">
-    </a>
-
-    <a href="javascript:void(0)" style="font-size: 16px;">
-      <img src="../../../assets/images/75azadi-logo.jpeg" class="img-fluid" alt="logo">
-    </a>
-
-    <a href="javascript:void(0)" style="font-size: 16px;">
-      <img src="../../../assets/images/g20-logo (1).png" class="img-fluid" alt="logo">
-    </a>
-  </div>
-
-
-  <p style="font-size: 18px;font-weight:500" class="d-block mt-3 mb-3">Copyright © 2023-2024. All rights reserved.</p>
-
-</section>
-
-
-
-
-<div class="moving-marquee" style="font-size: 16px;">
-  <a class="quzathonhiglight" style="font-size: 28px;">News Update</a><span class="news-update" style="font-size: 16px;">Highlights</span>
-  <!--<marquee>
-    Test
-  </marquee>-->
-
-</div>
+</section> 

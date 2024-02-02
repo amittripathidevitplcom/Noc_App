@@ -288,6 +288,751 @@
                       </tbody>
                     </table>
                   </div>
+
+
+                  <!--DTE Preview Section Start-->
+                  <!--Bank Details-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_BankDetails'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>Old Bank Name : </b> {{ApplyNocApplicationDetail.DTE_BankDetails.OldBankName}}</label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>Old Branch Name : </b> {{ApplyNocApplicationDetail.DTE_BankDetails.OldBranchName}}</label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>Old IFSC : </b> {{ApplyNocApplicationDetail.DTE_BankDetails.OldIFSC}}</label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>Old Account Number :  </b> {{ApplyNocApplicationDetail.DTE_BankDetails.OldAccountNumber}}</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>New Bank Name : </b> {{ApplyNocApplicationDetail.DTE_BankDetails.NewBankName}}</label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>New Branch Name : </b> {{ApplyNocApplicationDetail.DTE_BankDetails.NewBranchName}}</label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>New IFSC : </b> {{ApplyNocApplicationDetail.DTE_BankDetails.NewIFSC}}</label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                          <label><b>New Account Number :  </b> {{ApplyNocApplicationDetail.DTE_BankDetails.NewAccountNumber}}</label>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--Change of Site / Location-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_ChangeofSite_Location'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label><b>Current Address :</b> {{ApplyNocApplicationDetail.DTE_ChangeofSite_Location.CurrentAddress}}</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-3">
+                          <label><b>New Address :</b> {{ApplyNocApplicationDetail.DTE_ChangeofSite_Location.NewAddress}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--Increase in Intake-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_IncreaseInIntake_AdditionofCourse'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Programme Name
+                                  </th>
+                                  <th>
+                                    Course Level
+                                  </th>
+                                  <th>
+                                    Course
+                                  </th>
+                                  <th>
+                                    Intake
+                                  </th>
+                                  <th>
+                                    Update Intake
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.DTE_IncreaseInIntake_AdditionofCourse_List;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+                                  <td>
+                                    {{row.StreamName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseLevelName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.Intake}}
+                                  </td>
+                                  <td>
+                                    {{row.UpdatedIntake}}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Addition of Integrated / Dual Degree-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_AdditionofIntegratedDualDegree'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Programme Name
+                                  </th>
+                                  <th>
+                                    Course Level
+                                  </th>
+
+                                  <th>
+                                    Course
+                                  </th>
+                                  <th>
+                                    Intake
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.DTE_AdditionofIntegratedDualDegreeList;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+                                  <td>
+                                    {{row.StreamName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseLevelName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.Intake}}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Change in Name of Course-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_ChangeInNameOfCourse'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Programme Name
+                                  </th>
+                                  <th>
+                                    Course Level
+                                  </th>
+                                  <th>
+                                    Course
+                                  </th>
+                                  <th>
+                                    New Course Name
+                                  </th>
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.DTE_ChangeInNameOfCourseList;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+                                  <td>
+                                    {{row.StreamName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseLevelName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.NewCourseName}}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Change in Name of Institution-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_ChangeInNameofInstitution'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>Current Name : </b>{{ApplyNocApplicationDetail.DTE_ChangeInNameofInstitution.CurrentCollegeName}}</label>
+
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>New Name : </b>{{ApplyNocApplicationDetail.DTE_ChangeInNameofInstitution.NewCollegeName}}</label>
+
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>New Name (Hindi) : </b> {{ApplyNocApplicationDetail.DTE_ChangeInNameofInstitution.NewCollegeNameHi}}</label>
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!--Change in Name of Institution-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_ChangeinNameofSociety'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label><b>Change In : </b> {{ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType}}</label>
+
+                        </div>
+                      </div>
+                      <div class="row" *ngIf="ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='NameChange' || ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='BothChange'">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label><b>Current Name :</b> {{ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.CurrentName}}  </label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label><b>New Name : </b> {{ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.NewName}}</label>
+                        </div>
+                      </div>
+                      <div class="row" *ngIf="ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='AddressChange' || ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='BothChange'">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label><b>Old Address :</b> {{ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.OldAddress}} </label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label><b>New Address :</b> {{ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.NewAddress}} </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--To start new Programme/ Level in the existing Institutions-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_TostartNewProgramme'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Programme Name
+                                  </th>
+                                  <th>
+                                    Course Level
+                                  </th>
+                                  <th>
+                                    Course
+                                  </th>
+                                  <th>
+                                    Intake
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.DTE_TostartNewProgramme_List;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+                                  <td>
+                                    {{row.StreamName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseLevelName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.Intake}}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <!--Merger of Institutions under the same/different Trust/ Society/ Company operating in the same campus or same city-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_MergerofInstitutions'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label><b>Change In : </b>{{ApplyNocApplicationDetail.DTE_MergerofInstitutions.TrustType}}</label>
+
+                        </div>
+                      </div>
+                      <div class="row" *ngIf="ApplyNocApplicationDetail.DTE_MergerofInstitutions.TrustType=='DifferentTrust'">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label><b>New Trust Name : </b>{{ApplyNocApplicationDetail.DTE_MergerofInstitutions.NewTrustName}}</label>
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                          <label><b>New Institute Name : </b>{{ApplyNocApplicationDetail.DTE_MergerofInstitutions.NewInstituteName}}</label>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Change in the Minority Status of the Institution-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_ChangeInTheMinorityStatusoftheInstitution'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                          <label><b>Change in the Minority Status of the Institution :</b></label>
+                          <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.DTE_ChangeInTheMinorityStatusoftheInstitution}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <!--Reduction in Intake-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_ReductionInIntake'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Programme Name
+                                  </th>
+                                  <th>
+                                    Course Level
+                                  </th>
+                                  <th>
+                                    Course
+                                  </th>
+                                  <th>
+                                    Current Intake
+                                  </th>
+                                  <th>
+                                    Reduced Intake
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.DTE_ReductionInIntakeList;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+                                  <td>
+                                    {{row.StreamName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseLevelName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.CurrentIntake}}
+                                  </td>
+                                  <td>
+                                    {{row.ReducedIntake}}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Closure of Programme-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_ClosureOfProgramme'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Programme Name
+                                  </th>
+                                  <th>
+                                    Course Level
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.DTE_ClosureOfProgramList;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+                                  <td>
+                                    {{row.StreamName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseLevelName}}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Closure of Course-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_ClosureOfCourse'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Programme Name
+                                  </th>
+                                  <th>
+                                    Course Level
+                                  </th>
+                                  <th>
+                                    Course
+                                  </th>
+                                  <th>
+                                    Current Intake
+                                  </th>
+                                  <th>
+                                    Reduced Intake
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.DTE_ClosureOfCoursesList;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+
+                                  <td>
+                                    {{row.StreamName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseLevelName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.CurrentIntake}}
+                                  </td>
+                                  <td>
+                                    {{row.ReducedIntake}}
+                                  </td>
+
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Merger of the courses-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_MergerOfTheCourses'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Programme Name
+                                  </th>
+                                  <th>
+                                    Course Level
+                                  </th>
+                                  <th>
+                                    Course 1
+                                  </th>
+                                  <th>
+                                    Course 1 Intake
+                                  </th>
+                                  <th>
+                                    Course 2
+                                  </th>
+                                  <th>
+                                    Course 2 Intake
+                                  </th>
+                                  <th>
+                                    Course Merge
+                                  </th>
+                                  <th>
+                                    Merge Intake
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.DTE_MergerOfTheCourseList;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+                                  <td>
+                                    {{row.StreamName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseLevelName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseIntake1}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName2}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseIntake2}}
+                                  </td>
+                                  <td>
+                                    {{row.MergeCourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.MergerIntake}}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Addition of Course-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_IncreaseinIntakeAdditionofCourse'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Programme Name
+                                  </th>
+                                  <th>
+                                    Course Level
+                                  </th>
+                                  <th>
+                                    Course
+                                  </th>
+                                  <th>
+                                    Intake
+                                  </th>
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.DTE_IncreaseinIntakeAdditionofCourse_List;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+                                  <td>
+                                    {{row.StreamName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseLevelName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.Intake}}
+                                  </td>
+
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Introduction Off Campus-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_IntroductionOffCampus'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Programme Name
+                                  </th>
+                                  <th>
+                                    Course Level
+                                  </th>
+
+                                  <th>
+                                    Course
+                                  </th>
+                                  <th>
+                                    Intake
+                                  </th>
+                                  <th>
+                                    Document
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.DTE_IntroductionOffCampus_List;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+                                  <td>
+                                    {{row.StreamName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseLevelName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.Intake}}
+                                  </td>
+                                  <td>
+                                    <a href="{{row.DocumentPath}}" target="_blank"><i class="fa fa-eye"></i></a>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Courses for Working Professionals-->
+                  <div class="table-responsive" *ngIf="parameterDetail.ParameterCode=='DTE_CoursesforWorkingProfessionals'">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12">
+
+                          <div class="table-responsive">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th style="width:60px !important">
+                                    Sr.No.
+                                  </th>
+                                  <th>
+                                    Programme Name
+                                  </th>
+                                  <th>
+                                    Course Level
+                                  </th>
+                                  <th>
+                                    Course
+                                  </th>
+                                  <th>
+                                    Intake
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let row of ApplyNocApplicationDetail.DTE_CoursesforWorkingProfessionals_List;let idx=index;">
+                                  <td>
+                                    {{idx+1}}
+                                  </td>
+                                  <td>
+                                    {{row.StreamName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseLevelName}}
+                                  </td>
+                                  <td>
+                                    {{row.CourseName}}
+                                  </td>
+                                  <td>
+                                    {{row.Intake}}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--DTE Preview Section End-->
                 </div>
               </div>
             </div>

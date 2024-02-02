@@ -71,7 +71,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
   public isRemarkValid: boolean = false;
   public ShowHideNextRole: boolean = true;
   public ShowHideNextUser: boolean = true;
-  public ShowHideNextAction: boolean = true;
+  //public ShowHideNextAction: boolean = true;
   public isActionTypeValid: boolean = false;
   public isNextActionValid: boolean = false;
 
@@ -436,37 +436,37 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
         this.isActionTypeValid = true;
         this.isFormvalid = false;
       }
-      if (this.ShowHideNextRole && this.ShowHideNextAction && this.ShowHideNextUser) {
+      if (this.ShowHideNextRole && this.ShowHideNextUser) {  //&& this.ShowHideNextAction
         if (this.NextRoleID <= 0) {
           this.isNextRoleIDValid = true;
           this.isFormvalid = false;
         }
-        if (this.NextActionID <= 0) {
-          this.isNextActionValid = true;
-          this.isFormvalid = false;
-        }
+        //if (this.NextActionID <= 0) {
+        //  this.isNextActionValid = true;
+        //  this.isFormvalid = false;
+        //}
         if (this.NextUserID <= 0) {
           this.isNextUserIdValid = true;
           this.isFormvalid = false;
         }
       }
-      else if (!this.ShowHideNextUser && !this.ShowHideNextRole && !this.ShowHideNextAction) {
+      else if (!this.ShowHideNextUser && !this.ShowHideNextRole) {//&& !this.ShowHideNextAction
         this.NextRoleID = 1;
         this.NextUserID = 0;
         this.NextActionID = 0;
       }
-      else if (this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
-        if (this.NextRoleID <= 0) {
-          this.isNextRoleIDValid = true;
-          this.isFormvalid = false;
-        }
-        if (this.NextUserID <= 0) {
-          this.isNextUserIdValid = true;
-          this.isFormvalid = false;
-        }
-        this.NextActionID = 0;
-      }
-      else if (!this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+      //else if (this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+      //  if (this.NextRoleID <= 0) {
+      //    this.isNextRoleIDValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //  if (this.NextUserID <= 0) {
+      //    this.isNextUserIdValid = true;
+      //    this.isFormvalid = false;
+      //  }
+      //  this.NextActionID = 0;
+      //}
+      else if (!this.ShowHideNextUser && this.ShowHideNextRole) {//&& !this.ShowHideNextAction
         if (this.NextRoleID <= 0) {
           this.isNextRoleIDValid = true;
           this.isFormvalid = false;
@@ -474,11 +474,11 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
         this.NextUserID = 0;
         this.NextActionID = 0;
       }
-      this.CheckTabsEntryData['BuildingDocuments'] = this.CheckList_lstBuildingDetails.length <= 0 ? 1 : this.CheckTabsEntryData['BuildingDocuments'];
-      this.CheckTabsEntryData['HospitalDetails'] = this.CheckList_HospitalParentNotDataModelList.length <= 0 ? 1 : this.CheckTabsEntryData['HospitalDetails'];
+      //this.CheckTabsEntryData['BuildingDocuments'] = this.CheckList_lstBuildingDetails.length <= 0 ? 1 : this.CheckTabsEntryData['BuildingDocuments'];
+      //this.CheckTabsEntryData['HospitalDetails'] = this.CheckList_HospitalParentNotDataModelList.length <= 0 ? 1 : this.CheckTabsEntryData['HospitalDetails'];
       if (this.SelectedDepartmentID == 5) {
-          if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
-            || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['HospitalDetails'] <= 0) {
+        if (this.CheckTabsEntryData['LegalEntity'] <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0
+          || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['HospitalDetails'] <= 0 || this.CheckTabsEntryData['CheckListDetail']<=0) {
             this.isFormvalid = false;
             this.toastr.warning('Please do document scrutiny all tabs');
           }
@@ -561,7 +561,7 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
               this.UserListRoleWise = data['Data'];
               if (this.UserListRoleWise.length > 0) {
                 this.NextUserID = this.UserListRoleWise[0]['UId'];
-                await this.NextGetWorkFlowActionListByRole();
+                //await this.NextGetWorkFlowActionListByRole();
               }
             }
           })
@@ -574,31 +574,31 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
       }, 200);
     }
   }
-  async NextGetWorkFlowActionListByRole() {
-    this.NextActionID = 0;
-    this.NextWorkFlowActionList = [];
-    this.loaderService.requestStarted();
-    try {
-      await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next", this.sSOLoginDataModel.DepartmentID)
-        .then(async (data: any) => {
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          if (data['Data'].length > 0) {
-            this.NextWorkFlowActionList = data['Data'];
-            if (this.NextWorkFlowActionList.length > 0) {
-              this.NextActionID = this.NextWorkFlowActionList[0]['ActionID'];
-            }
-          }
-        })
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  //async NextGetWorkFlowActionListByRole() {
+  //  this.NextActionID = 0;
+  //  this.NextWorkFlowActionList = [];
+  //  this.loaderService.requestStarted();
+  //  try {
+  //    await this.commonMasterService.GetWorkFlowActionListByRole(this.NextRoleID, "Next", this.sSOLoginDataModel.DepartmentID)
+  //      .then(async (data: any) => {
+  //        this.State = data['State'];
+  //        this.SuccessMessage = data['SuccessMessage'];
+  //        this.ErrorMessage = data['ErrorMessage'];
+  //        if (data['Data'].length > 0) {
+  //          this.NextWorkFlowActionList = data['Data'];
+  //          if (this.NextWorkFlowActionList.length > 0) {
+  //            this.NextActionID = this.NextWorkFlowActionList[0]['ActionID'];
+  //          }
+  //        }
+  //      })
+  //  }
+  //  catch (ex) { console.log(ex) }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
   async GetWorkFlowActionListByRole() {
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
@@ -617,17 +617,17 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
               if (IsNextAction == true && IsRevert == false) {
                 this.ShowHideNextUser = true;
                 this.ShowHideNextRole = true;
-                this.ShowHideNextAction = true;
+                //this.ShowHideNextAction = true;
               }
               else if (IsNextAction == false && IsRevert == false) {
                 this.ShowHideNextUser = false;
                 this.ShowHideNextRole = false;
-                this.ShowHideNextAction = false;
+                //this.ShowHideNextAction = false;
               }
               else if (IsNextAction == false && IsRevert == true) {
                 this.ShowHideNextUser = true;
                 this.ShowHideNextRole = true;
-                this.ShowHideNextAction = false;
+                //this.ShowHideNextAction = false;
               }
             }
           }
@@ -669,17 +669,17 @@ export class DocumentScrutinyCheckListMGOneComponent implements OnInit {
     if (IsNextAction == true && IsRevert == false) {
       this.ShowHideNextUser = true;
       this.ShowHideNextRole = true;
-      this.ShowHideNextAction = true;
+      //this.ShowHideNextAction = true;
     }
     else if (IsNextAction == false && IsRevert == false) {
       this.ShowHideNextUser = false;
       this.ShowHideNextRole = false;
-      this.ShowHideNextAction = false;
+      //this.ShowHideNextAction = false;
     }
     else if (IsNextAction == false && IsRevert == true) {
       this.ShowHideNextUser = true;
       this.ShowHideNextRole = true;
-      this.ShowHideNextAction = false;
+      //this.ShowHideNextAction = false;
     }
   }
 

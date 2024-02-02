@@ -8,8 +8,8 @@ import { DocumentScrutinyDataModel } from '../../../Models/DocumentScrutinyDataM
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumentScrutiny/medical-document-scrutiny.service';
 import { DocumentScrutinyCheckListMGOneComponent } from '../document-scrutiny-check-list-mgone/document-scrutiny-check-list-mgone.component';
+import { MGOneDocumentScrutinyService } from '../../../Services/MGOneDocumentScrutiny/mgonedocument-scrutiny.service';
 
 @Injectable({
   providedIn: 'root'
@@ -84,7 +84,7 @@ export class DocumentScrutinyMGOneComponent implements OnInit {
   @ViewChild(DocumentScrutinyCheckListMGOneComponent)
   private checkListDetailsComponent_New!: DocumentScrutinyCheckListMGOneComponent;
   @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
-  constructor(private toastr: ToastrService, private loaderService: LoaderService, private medicalDocumentScrutinyService: MedicalDocumentScrutinyService, 
+  constructor(private toastr: ToastrService, private loaderService: LoaderService, private mg1DocumentScrutinyService: MGOneDocumentScrutinyService, 
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private modalService: NgbModal) { }
 
 
@@ -139,7 +139,7 @@ export class DocumentScrutinyMGOneComponent implements OnInit {
   async CheckTabsEntry() {
     try {
       this.loaderService.requestStarted();
-      await this.medicalDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
+      await this.mg1DocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
@@ -162,7 +162,7 @@ export class DocumentScrutinyMGOneComponent implements OnInit {
     });
     try {
       this.loaderService.requestStarted();
-      this.commonMasterService.GetDocumentScritintyTaril(ID, this.SelectedApplyNOCID, this.SelectedCollageID, this.SelectedDepartmentID, ActionType)
+      this.commonMasterService.GetLOIDocumentScritintyTaril(ID, this.SelectedApplyNOCID, this.SelectedCollageID, this.SelectedDepartmentID, ActionType)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.lstTarils = data['Data'][0]['data'];
