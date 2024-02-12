@@ -534,7 +534,7 @@
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of buildingdetails.lstBuildingDocDetails  let idx =index">
                 <label>
-                  {{item.DocumentName}} <span style="color:red;">*</span>
+                  {{item.DocumentName}} <span style="color:red;" *ngIf="item.IsMandatory==true">*</span>
                 </label>
                 <div class="d-flex">
                   <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (change)="onFilechange($event,item)" />
@@ -547,7 +547,7 @@
                     <button type="button" class="btn btn-outline-danger" (click)="DeleteImages(item)"><i class="fa fa-trash-o"></i></button>
                   </div>
                 </div>
-                <div *ngIf="isSubmitted&&item.FileName == ''" class="text-danger">
+                <div *ngIf="isSubmitted&&item.FileName == '' && item.IsMandatory==true" class="text-danger">
                   <p>This field is required .!</p>
                 </div>
               </div>
@@ -720,7 +720,7 @@
                           <tr *ngFor="let row of lstBuildingDocDetails; let indexOfelement=index;">
                             <td> {{indexOfelement+1}}</td>
                             <td>{{row.DocumentName}}</td>
-                            <td><a class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
+                            <td>{{row.FileName==''?'No Document':''}}<a *ngIf="row.FileName!=''" class="btn-outline-primary" target="_blank" href="{{row.FilePath}}" title="View Document"><i class="fa fa-eye"></i></a></td>
                           </tr>
                         </tbody>
                       </table>

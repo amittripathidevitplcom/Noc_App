@@ -514,6 +514,10 @@ export class BuildingDetailsComponent implements OnInit {
         return
       }
     }
+    const TotalRequriedDoc = this.buildingdetails.lstBuildingDocDetails.filter((x: { FileName: string, IsMandatory: boolean }) => x.FileName == '' && x.IsMandatory == true);
+    if (TotalRequriedDoc.length > 0) {
+      this.isFormValid = false;
+    }
     if (!this.isFormValid) {
       return;
     }
@@ -685,6 +689,7 @@ export class BuildingDetailsComponent implements OnInit {
           this.buildingdetails.OtherFinancialResourcesFileUploadPath = data['Data'][0]['data']['Table'][0]["OtherFinancialResourcesFileUploadPath"];
           this.buildingdetails.Dis_OtherFinancialResourcesFileUpload = data['Data'][0]['data']['Table'][0]["Dis_OtherFinancialResourcesFileUpload"];
           this.buildingdetails.Rentvaliditydate = data['Data'][0]['data']['Table'][0]["Rentvaliditydate"];
+          debugger;
           this.buildingdetails.lstBuildingDocDetails = data['Data'][0]['data']['Table1'];
 
           this.isDisabledGrid = true;

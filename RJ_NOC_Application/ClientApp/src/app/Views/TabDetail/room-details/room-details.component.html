@@ -96,7 +96,7 @@
       </div>-->
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-            <label for="fileUploadImage" class="form-label">Upload Room Image<span style="color:red;">*</span></label>
+            <label for="fileUploadImage" class="form-label">Upload Room Image<span style="color:red;" *ngIf="SelectedDepartmentID!=4">*</span></label>
             <div class="d-flex">
               <input type="file" class="form-control" style="display:none" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage" (change)="ValidateUploadImage($event)" #fileUploadImage accept="image/jpg, image/jpeg" />
               <label class="btn upload" for="fileUploadImage">
@@ -165,7 +165,7 @@
                 <td>{{row.StudentCapacity}}</td>
 
                     <!--<td>{{row.NoOfLab}}</td>-->
-                <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
+                <td><a *ngIf="row.ImageFileName!=''" target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                 <td align="center">
                   <div class="d-flex">
                     <button type="button" style="margin-right:10px" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'" (click)="Edit_OnClick(row.CollegeWiseRoomID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>

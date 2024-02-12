@@ -331,6 +331,7 @@ export class DocuemntBuildingDetailsDataModel {
   public FileName: string = '';
   public Dis_FileName: string = '';
   public Isfile: boolean = false;
+  public IsMandatory: boolean = false;
 }
 
 export class SearchFilterDataModel {

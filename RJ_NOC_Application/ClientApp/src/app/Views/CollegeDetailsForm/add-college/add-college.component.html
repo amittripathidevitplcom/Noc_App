@@ -133,7 +133,7 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID!=4">
             <label for="ddlDTECollegeLevelID" class="form-label">College Level <span style="color:red;">*</span></label>
 
-            <ng-multiselect-dropdown [disabled]="IsEdit" [placeholder]="'--Select--'" formControlName="ddlDTECollegeLevelID" id="ddlDTECollegeLevelID"
+            <ng-multiselect-dropdown  [placeholder]="'--Select--'" formControlName="ddlDTECollegeLevelID" id="ddlDTECollegeLevelID"
                                      [settings]="dropdownSettings"
                                      [data]="CollegeLevelList_FilterData"
                                      [(ngModel)]="SelectedCollegeLevel">
