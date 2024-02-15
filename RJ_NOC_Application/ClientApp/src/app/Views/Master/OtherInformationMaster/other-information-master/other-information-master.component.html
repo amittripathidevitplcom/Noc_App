@@ -1,0 +1,225 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Other Information Master</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Master</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Other Information Master</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix"></div>
+      <form [formGroup]="OtherInformationMasterForm" class="form-horizontal">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <b><i class="fa fa-plus"></i>&nbsp; Add Other Information</b>
+            <span class="text-danger">(*) Fields is compulsory</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlDepartmentID" class="form-label">
+                  Select Department <span style="color:red;">*</span>
+                </label>
+                <select id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" class="form-control" formControlName="ddlDepartmentID" #SelectedValueDepartment (change)="Departmentwise_Type($event, SelectedValueDepartment.value)" [attr.disabled]="is_disableDepartment ? '' : null">
+                  <option value="0">--Select--</option>
+                  <option [value]="item.DepartmentID" *ngFor="let item of DepartmentList">
+                    {{item.DepartmentName}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
+                  <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+              </div>
+
+
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="ddlType" class="form-label">Select Type<span style="color:red;">*</span></label>
+                <select class="form-control" id="ddlType" name="ddlType" [(ngModel)]="request.Type" formControlName="ddlType">
+                  <option value="">--Select Type--</option>
+                  <option [value]="item.Type" *ngFor="let item of TypeList">
+                    {{item.Type}}
+                  </option>
+                </select>
+                <div *ngIf="isSubmitted&&request.Type==''" class="text-danger">
+                  <p *ngIf="isSubmitted&&request.Type==''"><i aria-hidden="true"></i>This field is required .!</p>
+                </div>
+
+              </div>
+
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="txtName" class="form-label"> Name<span style="color:red;">*</span></label>
+                <input type="text" id="txtName" maxlength="100" class="form-control" [(ngModel)]="request.Name" formControlName="txtName" (keypress)="alphaOnly($event)" />
+                <div *ngIf="isSubmitted&&form.txtName.errors" class="text-danger">
+                  <p *ngIf="form.txtName.errors.required">This field is required .!</p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="WidthMin" class="form-label">Width Minimum<span style="color:red;">*</span></label>
+                <input type="text" id="WidthMin" maxlength="100" class="form-control" [(ngModel)]="request.WidthMin" formControlName="WidthMin" (keypress)="numbersOnly($event)">
+                <div *ngIf="isSubmitted&&request.WidthMin <= 0" class="text-danger">
+                  <p *ngIf="form.WidthMin.errors.required">This field is required .!</p>
+                  <p *ngIf="form.WidthMin.errors.min">Minimum Size will be greater than zero .!</p>
+                </div>
+
+
+                <!--<div *ngIf="isSubmitted&&form.WidthMin.errors" class="text-danger">
+                  <p *ngIf="form.WidthMin.errors.required">This field is required .!</p>-->
+                  <!--<p *ngIf="form.WidthMin.errors.min">Minimum Width will be greater than zero .!</p>-->
+                <!--</div>-->
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="LengthMin" class="form-label">Length<span style="color:red;">*</span></label>
+                <input type="text" id="LengthMin" maxlength="100" class="form-control" [(ngModel)]="request.LengthMin" formControlName="LengthMin" (keypress)="numbersOnly($event)">
+                <div *ngIf="isSubmitted&&request.LengthMin <= 0" class="text-danger">
+                  <p *ngIf="form.LengthMin.errors.required">This field is required .!</p>
+                  <p *ngIf="form.LengthMin.errors.min">Minimum Size will be greater than zero .!</p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="NumberOfRoom" class="form-label">Number Of Room<span style="color:red;">*</span></label>
+                <input type="text" id="NumberOfRoom" maxlength="100" class="form-control" [(ngModel)]="request.NoOfRooms" formControlName="NumberOfRoom" (keypress)="numbersOnly($event)">
+                <div *ngIf="isSubmitted&&request.NoOfRooms <= 0" class="text-danger">
+                  <p *ngIf="form.NumberOfRoom.errors.required">This field is required .!</p>
+                  <p *ngIf="form.NumberOfRoom.errors.min">Minimum Size will be greater than zero .!</p>
+                </div>
+
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label class="form-label">AnnexurePath <span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" style="display:none;" class="form-control" id="fAnnexurePathFile" name="fAnnexurePathFile" formControlName="fAnnexurePathFile" (change)="ValidatePdf($event,'AnnexurePath')" #fAnnexurePathFile />
+                  <label class="btn upload" for="fAnnexurePathFile">
+                    <span class="filename">Choose file</span>
+                    {{request.AnnexurePath === '' ? 'No File Choosen' : request.Dis_AnnexurePath}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.AnnexurePath!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.AnnexurePath}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('DocumentName')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&request.AnnexurePath ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isValidDocument" class="text-danger">
+                  <p *ngIf="isValidDocument"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label class="form-label">AnnexurePath2 <span style="color:red;">*</span></label>
+                <div class="d-flex">
+                  <input type="file" style="display:none;" class="form-control" id="fAnnexurePath2File" name="fAnnexurePath2File" formControlName="fAnnexurePath2File" (change)="ValidatePdf($event,'AnnexurePath2')" #fAnnexurePath2File />
+                  <label class="btn upload" for="fAnnexurePath2File">
+                    <span class="filename">Choose file</span>
+                    {{request.AnnexurePath2 === '' ? 'No File Choosen' : request.Dis_AnnexurePath2}}
+                  </label>
+                  <div class="btn-group" *ngIf="request.AnnexurePath2!=''">
+                    <a class="btn btn-outline-primary" target="_blank" href="{{request.AnnexurePath2}}"><i class="fa fa-eye"></i></a>
+                    <button type="button" class="btn btn-outline-danger" (click)="DeleteImage('DocumentName')"><i class="fa fa-trash-o"></i></button>
+                  </div>
+                </div>
+                <p *ngIf="isSubmitted&&request.AnnexurePath ==''" class="text-danger"><i aria-hidden="true"></i> This field is required .!</p>
+                <div *ngIf="isValidDocument" class="text-danger">
+                  <p *ngIf="isValidDocument"> {{ImageValidationMessage}}</p>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label for="chkActiveStatus" class="form-label">Status</label>
+                <div class="form-check form-switch d-flex align-items-center">
+                  <input class="form-check-input" type="checkbox" id="Active" [(ngModel)]="request.ActiveStatus" formControlName="chkActiveStatus">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()">Submit</button>
+            <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="card mb-0">
+        <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+          <b><i class="bi bi-table"></i> Other Information List </b>
+          <div class="d-flex align-items-center">
+            <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+              <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+              <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+            </div>
+            <div class="d-flex align-items-center table-filter mr-15">
+              <i class="fa fa-search"></i>
+              <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" />
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No</th>
+                  <th>Department Name</th>
+                  <th>Type</th>
+                  <th>Name</th>
+                  <th>Width Minimum</th>
+                  <th>Length</th>
+                  <th>Number Of Room</th>
+                  <th>AnnexurePath</th>
+                  <th>AnnexurePath2</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of OtherInformationMasterList | tableSearchFilter:searchText;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.DepartmentName_English}}</td>
+                  <td>{{row.Type}}</td>
+                  <td>{{row.Name}}</td>
+                  <td>{{row.WidthMin}}</td>
+                  <td>{{row.LengthMin }}</td>
+                  <td>{{row.NoOfRooms }}</td>
+                  <td><a target="_blank" href="{{row.AnnexurePath}}"><i class="fa fa-eye"></i></a></td>
+                  <td><a target="_blank" href="{{row.AnnexurePath2}}"><i class="fa fa-eye"></i></a></td>
+                  <td>{{row.ActiveDeactive}}</td>
+                  <td>
+                    <div class="d-flex">
+                      <button type="button" (click)="Edit_OnClick(row.ID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
+                      <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.ID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>

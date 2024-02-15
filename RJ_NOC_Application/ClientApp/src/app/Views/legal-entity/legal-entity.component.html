@@ -217,7 +217,7 @@
 
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
-              <button class="btn btn-success btn-sm" style="margin-top:27px" (click)="OpenAadharOTPModel()" type="button">Get OTP</button>
+              <button class="btn btn-success btn-sm" style="margin-top:27px" (click)="OpenOTPModel()" type="button">Get OTP</button>
             </div>
           </div>
         </div>
@@ -819,13 +819,13 @@
             <div class="row">
               <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3 d-flex justify-content-center align-items-center">
                 <span *ngIf="ShowTimer">Please Wait.. {{DisplayTimer}}</span>
-                <button [attr.disabled]="isTimerDisabled ? true : null" type="button" id="ResendOTP" (click)="ResendOTP()" class="btn btn-link">Resend OTP</button>
+                <button [attr.disabled]="isTimerDisabled ? true : null" type="button" id="ResendOTP" (click)="ResendOTP1()" class="btn btn-link">Resend OTP</button>
               </div>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-sm btn-secondary" aria-label="Close" (click)="CloseOTPModel()"><span aria-hidden="true">Cancel</span></button>
-            <button type="button" (click)="VerifyOTP()" class="btn btn-sm btn-primary">Submit</button>
+            <button type="button" (click)="VerifyOTP12()" class="btn btn-sm btn-primary">Submit</button>
           </div>
         </div>
       </div>

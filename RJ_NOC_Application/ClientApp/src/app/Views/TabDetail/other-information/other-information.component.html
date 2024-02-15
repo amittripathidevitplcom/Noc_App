@@ -69,7 +69,7 @@
       </div>
     </div>-->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3"  *ngIf="!ShowHideLabData">
-            <label for="fileUploadImage" class="form-label">Upload (PDF/Image)<span style="color:red;">*</span></label>
+            <label for="fileUploadImage" class="form-label">Upload (PDF/Image)<span style="color:red;" *ngIf="SelectedDepartmentID!=4">*</span></label>
             <div class="d-flex">
               <input type="file" class="form-control" style="display:none" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage" (change)="ValidateUploadImage($event,'ImageFile')" #fileUploadImage accept="image/jpg, image/jpeg, application/pdf" />
               <label class="btn upload" for="fileUploadImage">
@@ -293,7 +293,7 @@
                           <!--<td>{{row.Length}}</td>-->
                         <td>{{row.NoofBooks==0?'N/A':row.NoofBooks}}</td>
                         <td>{{row.NoofComputers==0?'N/A':row.NoofComputers}}</td>
-                          <td><a target="_blank" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
+                        <td>{{row.ImageFileName==''?'N/A':''}}<a target="_blank" *ngIf="row.ImageFileName!=''" href="{{row.ImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                           <td><a *ngIf="row.BookImageFileName!=''" target="_blank" href="{{row.BookImageFilePath}}"><i class="fa fa-eye"></i></a></td>
                           <td>
                             <div class="d-flex">

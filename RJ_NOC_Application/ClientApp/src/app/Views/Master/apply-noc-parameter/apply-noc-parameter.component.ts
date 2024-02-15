@@ -247,17 +247,23 @@ export class ApplyNocParameterComponent implements OnInit {
   get form() {
     return this.ApplyNocParameterForm.controls;
   }
-  async ClickApplyNOC(DepartmentID: number, collegeID: number) {
-    this.SelectedCollegeID = collegeID;
-    this.SelectedDepartmentID = DepartmentID;
-    this.IsShowApplyNocForm = true;
-    this.IsShowCollegeList = false;
-    this.request.CollegeID = collegeID;
-    await this.College_ddlChange(null);
-    await this.GetDTE_StreamDataList();
-    await this.GetDTE_CourseLevelList();
-    await this.GetDTE_StreamMasterDataList();
-    await this.GetDTE_CourseLevelMasterList();
+  async ClickApplyNOC(DepartmentID: number, collegeID: number, FinalSubmit: boolean, PendingNOC: number) {
+    debugger;
+    if (FinalSubmit == false && PendingNOC==0) {
+      this.SelectedCollegeID = collegeID;
+      this.SelectedDepartmentID = DepartmentID;
+      this.IsShowApplyNocForm = true;
+      this.IsShowCollegeList = false;
+      this.request.CollegeID = collegeID;
+      await this.College_ddlChange(null);
+      await this.GetDTE_StreamDataList();
+      await this.GetDTE_CourseLevelList();
+      await this.GetDTE_StreamMasterDataList();
+      await this.GetDTE_CourseLevelMasterList();
+    }
+    else {
+      this.routers.navigate(['/applynocapplicationdetail']);
+    }
   }
   async BackToCollegeList() {
     this.IsShowCollegeList = true;
@@ -279,7 +285,7 @@ export class ApplyNocParameterComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // data
           this.draftApplicatoinListData = data['Data'][0]['data'];
-
+          console.log(this.draftApplicatoinListData);
 
         }, (error: any) => console.error(error));
     }

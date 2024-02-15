@@ -473,9 +473,11 @@ export class OtherInformationComponent implements OnInit {
       this.CssClass_TextDangerWidth = 'text-danger';
       this.isformvalid = false;
     }
-    if (this.request.ImageFilePath == '') {
-      this.ImageValidate = 'This field is required .!';
-      this.isformvalid = false;
+    if (this.SelectedDepartmentID != 4) {
+      if (this.request.ImageFilePath == '') {
+        this.ImageValidate = 'This field is required .!';
+        this.isformvalid = false;
+      }
     }
     var OtherName = this.courseDataList.find((x: { ID: number; }) => x.ID == this.request.CourseID).Name;
     if (OtherName == 'Library' || OtherName == 'Library Room' || OtherName == ' Library Room ') {
@@ -604,6 +606,7 @@ export class OtherInformationComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.OtherInformation = data['Data'][0]['data'];
+          console.log(this.OtherInformation);
         }, error => console.error(error));
     }
     catch (Ex) {

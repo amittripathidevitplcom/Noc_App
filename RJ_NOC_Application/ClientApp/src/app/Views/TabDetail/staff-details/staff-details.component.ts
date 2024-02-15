@@ -3,14 +3,18 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormA
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StaffDetailDataModel } from '../../../Models/TabDetailDataModel';
+import { EducationalQualificationDetails_StaffDetail, StaffDetailDataModel, StaffDetailDataModel_Excel } from '../../../Models/TabDetailDataModel';
 import { DropdownValidators, createPasswordStrengthValidator, MustMatch } from '../../../Services/CustomValidators/custom-validators.service';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
+import * as XLSX from 'xlsx';
+import * as moment from 'moment'
+import { Pipe, PipeTransform } from '@angular/core';
+import { DatePipe } from '@angular/common';
+type AOA = any[][];
 
 @Injectable({
   providedIn: 'root'
@@ -31,10 +35,17 @@ export class StaffDetailsComponent implements OnInit {
   isSubmitted: boolean = false;
   // save
   request = new StaffDetailDataModel();
+  request_Excel = new StaffDetailDataModel_Excel()
+  public EducationalQualificationDetails_Excel: EducationalQualificationDetails_StaffDetail[] = [];
+
   public ProfessionalQualificationData: any = [];
   public HighestQualificationData: any = [];
   public SubjectData: any = [];
   public RoleData: any = [];
+  public AllRoleData: any = [];
+  public AllQualification: any = [];
+
+  
   public YearData: any = [];
   public isAadhaarCard: boolean = false;
   public isProfilePhoto: boolean = false;
@@ -124,6 +135,7 @@ export class StaffDetailsComponent implements OnInit {
         txtUANNo: [''],
         rdResearchGuide: [''],
         txtESINumber: [''],
+        fileData: [''],
       });
     this.StaffEducationDetailForm = this.formBuilder.group(
       {
@@ -137,6 +149,14 @@ export class StaffDetailsComponent implements OnInit {
 
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+
+    if (this.SelectedDepartmentID == 4) {
+      this.ShowFileDownload = true;
+    }
+    else {
+      this.ShowFileDownload = false;
+    }
+
     //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
     if (this.SearchRecordID.length > 20) {
@@ -573,7 +593,6 @@ export class StaffDetailsComponent implements OnInit {
   }
 
   async SaveData() {
-    debugger;
     try {
       this.isRoleMapping = false;
       this.isSpecializationSubject = false;
@@ -584,9 +603,11 @@ export class StaffDetailsComponent implements OnInit {
       // this.ESIStaffShowHide = false;
       this.IsESIDetails = false;
 
-      if (this.request.AadhaarCard == '') {
-        this.isAadhaarCard = true;
-        this.FormValid = false;
+      if (this.SelectedDepartmentID != 4) {
+        if (this.request.AadhaarCard == '') {
+          this.isAadhaarCard = true;
+          this.FormValid = false;
+        }
       }
       if (this.request.ProfilePhoto == '') {
         this.isProfilePhoto = true;
@@ -605,9 +626,11 @@ export class StaffDetailsComponent implements OnInit {
         return;
       }
       if (Number(this.request.NumberofExperience) > 0) {
-        if (this.request.ExperienceCertificate == '') {
-          this.isExperianceCertificate = true;
-          this.FormValid = false;
+        if (this.SelectedDepartmentID != 4) {
+          if (this.request.ExperienceCertificate == '') {
+            this.isExperianceCertificate = true;
+            this.FormValid = false;
+          }
         }
       }
       if (this.request.PFDeduction == 'Yes') {
@@ -768,6 +791,7 @@ export class StaffDetailsComponent implements OnInit {
       this.isDisabledResearchGuide = false;
       this.isDisabled = false;
       this.DeleteResetFiles('All', false, '', '', '');
+      this.ShowFileDownload = false;
     }
     catch (ex) { }
     finally {
@@ -843,7 +867,6 @@ export class StaffDetailsComponent implements OnInit {
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
-          debugger;
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
@@ -1143,4 +1166,272 @@ export class StaffDetailsComponent implements OnInit {
       }, 200);
     }
   }
+
+  //Excel Process
+  public importExcelData: any = [];
+  public importExcelData2: any = [];
+  public ShowFileDownload: boolean = false;
+  async onFileChange(event: any) {
+    try {
+      this.request_Excel.AllStaffExcelData = []
+      this.importExcelData = [];
+      this.importExcelData2 = []
+      this.loaderService.requestStarted();
+
+      let workBook: any = null;
+      let jsonData = null;
+      const reader = new FileReader();
+      const file = event.target.files[0];
+      if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
+        //size validation
+        if (file.size > 200000000) {
+          this.toastr.error('Select less then 20MB File')
+          return
+        }
+        if (file.size < 10) {
+          this.toastr.error('Select more then 1kb File')
+          return
+        }
+      }
+      else {// type validation
+        this.toastr.error('Select Only xls/xlsx file')
+        return
+      }
+      reader.onload = (event1) => {
+        const data = reader.result;
+        workBook = XLSX.read(data, { type: 'binary' });
+        jsonData = workBook.SheetNames.reduce((initial: any, name: any) => {
+          const sheet = workBook.Sheets[name];
+          initial[name] = XLSX.utils.sheet_to_json(sheet);
+          //console.log(sheet);
+          return initial;
+        }, {});
+        //console.log(jsonData['Pvt_Student_Data']);
+        //const dataString = JSON.stringify(jsonData['Pvt_Student_Data']);
+        //this.request.Data.push(jsonData['Pvt_Student_Data']);
+      }
+      reader.readAsBinaryString(file);
+
+      const file1 = event.target.files[0];
+      const target: DataTransfer = <DataTransfer>(event.target);
+      if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+      const reader1: FileReader = new FileReader();
+      reader1.onload = (e: any) => {
+        /* read workbook */
+        const bstr: string = e.target.result;
+        const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary', cellDates: true });
+
+        /* grab first sheet */
+        const wsname: string = wb.SheetNames[0];
+        const ws: XLSX.WorkSheet = wb.Sheets[wsname];
+
+        /* grab first sheet */
+        const wsname2: string = wb.SheetNames[1];
+        const ws2: XLSX.WorkSheet = wb.Sheets[wsname2];
+
+        //debugger;
+        /* save data */
+        this.importExcelData = <AOA>(XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, dateNF: 'yyyy-mmm-dd' }));
+        this.importExcelData2 = <AOA>(XLSX.utils.sheet_to_json(ws2, { header: 1, raw: false, dateNF: 'yyyy-mmm-dd' }));
+        //this.importExcelData.shift();
+        //console.log(this.importExcelData);
+        //console.log(this.importExcelData2);
+        //event.target.value = '';
+
+      };
+      reader1.readAsBinaryString(file1);
+
+    }
+    catch (ex) { }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async downloadFile() {
+    //var filePath = '../../../assets/ExcelFile/StaffList.xlsx';
+    //var link = document.createElement('a');
+    //link.href = filePath;
+    //link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+    //link.click();
+  }
+  async BtnUploadExcelData() {
+    if (this.importExcelData.length == 0) {
+      this.toastr.error("Select Excel File and check data.!");
+      return;
+    }
+    this.request_Excel.AllStaffExcelData = [];
+
+    await this.commonMasterService.GetAllDesignation()
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        this.AllRoleData = data['Data'];
+      }, error => console.error(error));
+
+    await this.commonMasterService.GetQualificationMasterList_DepartmentWise(this.SelectedDepartmentID, 0, 'Qualification')
+      .then((data: any) => {
+        data = JSON.parse(JSON.stringify(data));
+        this.AllQualification = data['Data'];
+      }, error => console.error(error));
+
+    console.log(this.AllRoleData);
+    console.log(this.AllQualification);
+    //console.log(this.importExcelData2);
+
+    for (var i = 1; i < this.importExcelData.length; i++) {
+
+      if (this.importExcelData[i][4] != undefined) {
+        this.EducationalQualificationDetails_Excel = [];
+        for (var j = 1; j < this.importExcelData2.length; j++) {
+          var QualificationDetialsID = this.AllQualification.find((x: { QualificationName: string; }) => x.QualificationName == this.importExcelData2[j][1]).QualificationID
+
+          if (this.importExcelData[i][4] == this.importExcelData2[j][0]) {
+            await this.EducationalQualificationDetails_Excel.push({
+              EducationalQualificationID: 0,
+              ProfessionalQualificationID: QualificationDetialsID,
+              ProfessionalQualification: this.importExcelData2[j][1],
+              StreamSubject: this.importExcelData2[j][2],
+              UniversityBoardInstitutionName: this.importExcelData2[j][3],
+              PassingYearID: 0,
+              PassingYear: this.importExcelData2[j][4],
+              Marks: this.importExcelData2[j][5],
+              UploadDocument: '',
+              UploadDocumentPath: '',
+              UploadDocument_Dis_FileName: ''
+            })
+          }
+        }
+
+        console.log(this.importExcelData[i][10]);
+
+
+        //var date = '/Date(' + this.importExcelData[i][11] + '+0530)/';
+        //var nowDate = new Date(parseInt(date.substr(6)));
+        //console.log(nowDate);
+        //console.log(nowDate);
+
+        //var DateOfBirth = moment.utc('/Date(' + this.importExcelData[i][10]+ '+0530)/');
+        //var DateOfAppointment = moment.utc('/Date(' + this.importExcelData[i][11] + '+0530)/');
+        //var DateOfJoining = moment.utc('/Date(' + this.importExcelData[i][12] + '+0530)/');
+
+
+        var DateOfBirth = this.importExcelData[i][10];
+        var DateOfAppointment = this.importExcelData[i][11];
+        var DateOfJoining = this.importExcelData[i][12];
+
+
+
+
+        var RoleName = (this.importExcelData[i][0] == 'Teaching' ? this.importExcelData[i][1] : this.importExcelData[i][2])
+        var RoleID = this.AllRoleData.find((x: { DesignationName: string; }) => x.DesignationName == RoleName).DesignationID;
+        console.log(this.importExcelData[i][7]);
+        var QualificationID = this.AllQualification.find((x: { QualificationName: string; }) => x.QualificationName == this.importExcelData[i][7]).QualificationID;
+        this.request_Excel.AllStaffExcelData.push({
+          StaffDetailID: 0,
+          TeachingType: this.importExcelData[i][0],
+          SubjectName: '',
+          RoleName: RoleName,
+          SubjectID: 0,
+          PersonName: this.importExcelData[i][3],
+          RoleID: RoleID,
+          MobileNo: this.importExcelData[i][4],
+          Email: this.importExcelData[i][5],
+          HighestQualification: QualificationID,
+          HighestQualificationName: this.importExcelData[i][7],
+          NumberofExperience: this.importExcelData[i][13].replace('.00',''),
+          AadhaarNo: this.importExcelData[i][8],
+          MaskedAadhaarNo: '',
+          //DateOfBirth: DateOfBirth.format('yyyy-MM-dd'),
+          //DateOfAppointment: DateOfAppointment.format('yyyy-MM-dd'),
+          //DateOfJoining: DateOfJoining.format('yyyy-MM-dd'),
+          DateOfBirth: DateOfBirth,
+          DateOfAppointment: DateOfAppointment,
+          DateOfJoining: DateOfJoining,
+          SpecializationSubject: '',
+          RoleMapping: '',
+          Salary: this.importExcelData[i][14],
+          StaffStatus: this.importExcelData[i][15],
+          PFDeduction: this.importExcelData[i][16],
+          UANNumber: this.importExcelData[i][17],
+          ResearchGuide: 'No',
+          ProfessionalQualificationID: QualificationID,
+          StreamSubject: '',
+          UniversityBoardInstitutionName: '',
+          PassingYearID: 0,
+          Marks: '0',
+          ProfilePhoto: '',
+          ProfilePhotoPath: '',
+          ProfilePhoto_Dis_FileName: '',
+          AadhaarCard: '',
+          AadhaarCardPath: '',
+          AadhaarCard_Dis_FileName: '',
+          PANCard: '',
+          PANCardPath: '',
+          PANCard_Dis_FileName: '',
+          ExperienceCertificate: '',
+          ExperienceCertificatePath: '',
+          ExperienceCertificate_Dis_FileName: '',
+          UploadDocument: '',
+          UploadDocumentPath: '',
+          UploadDocument_Dis_FileName: '',
+          DepartmentID: this.SelectedDepartmentID,
+          CollegeID: this.SelectedCollageID,
+          ESINumber: '',
+          PANNo: this.importExcelData[i][18],
+          CreatedBy: 0,
+          ModifyBy: 0,
+          IPAddress: '0',
+          Action: '',
+          Remark: '',
+          EducationalQualificationDetails: this.EducationalQualificationDetails_Excel,
+          C_Action: '',
+          C_Remark: '',
+          S_Action: '',
+          S_Remark: '',
+          Gender: this.importExcelData[i][6],
+        });
+      }
+    }
+    try { 
+      //post
+      this.loaderService.requestStarted();
+      this.request.DepartmentID = this.SelectedDepartmentID;
+      this.request.CollegeID = this.SelectedCollageID;
+      await this.staffDetailService.SaveData_ExcelData(this.request_Excel)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.toastr.success(this.SuccessMessage);
+            this.importExcelData = [];
+            this.importExcelData2 = [];
+            this.request_Excel.FileName = '';
+            await this.GetStaffDetailList_DepartmentCollegeWise(this.SelectedDepartmentID, this.SelectedCollageID, 0);
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        }, error => {
+          this.toastr.warning("Invalid Excel Data.!");
+        })
+
+    }
+    catch (Ex) {
+      console.log(Ex);
+      this.toastr.warning("Invalid Excel Data.!");
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    } 
+  }
+   
 }

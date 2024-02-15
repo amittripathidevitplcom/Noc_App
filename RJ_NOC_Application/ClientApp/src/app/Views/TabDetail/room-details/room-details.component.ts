@@ -404,10 +404,11 @@ export class RoomDetailsComponent implements OnInit {
         this.isformvalid = false;
       }
     }
-
-    if (this.request.ImageFilePath == '') {
-      this.ImageValidate = 'This field is required .!';
-      this.isformvalid = false;
+    if (this.SelectedDepartmentID != 4) {
+      if (this.request.ImageFilePath == '') {
+        this.ImageValidate = 'This field is required .!';
+        this.isformvalid = false;
+      }
     }
     if (!this.isformvalid) {
       return;

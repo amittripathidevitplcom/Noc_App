@@ -107,9 +107,7 @@ import { PreviewOtherDocumentComponent } from './Views/PreviewTabs/preview-other
 import { PreviewHospitalDetailComponent } from './Views/PreviewTabs/preview-hospital-detail/preview-hospital-detail.component';
 import { PreviewHostelDetailsComponent } from './Views/PreviewTabs/preview-hostel-detail/preview-hostel-details.component';
 import { ApplicationPreviewComponent } from './Views/ApplicationPreview/application-preview/application-preview.component';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgIdleModule } from '@ng-idle/core';
-import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
 import { CreateUserComponent } from './Views/Master/UserMaster/create-user/create-user.component';
 import { ApplicationSummaryComponent } from './Views/ApplicationSummary/application-summary/application-summary.component';
@@ -710,15 +708,15 @@ import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScr
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    ReactiveFormsModule,
+    //ReactiveFormsModule,
     BrowserAnimationsModule,
-    NgbPopoverModule,
+    //NgbPopoverModule,
     //MatPaginatorModule,
     //MatSortModule,
     //MatTableModule,
     MatTabsModule, 
-    FormsModule,
-    NgbPopoverModule,
+    //FormsModule,
+    //NgbPopoverModule,
     /*MatStepperModule,*/
     FormsModule,
     ReactiveFormsModule,
@@ -736,8 +734,6 @@ import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScr
       preventDuplicates: true
     }),
     NewGrievanceModule
-
-
   ],
   //exports: [TableSearchFilterPipe],
   //exports: [LoaderModule],

@@ -67,6 +67,11 @@ export class RequiredDocumentsDataModel_Documents {
   public DocumentType: string = '';
 }
 
+export class StaffDetailDataModel_Excel {
+  public FileName: string = '';
+  public AllStaffExcelData: StaffDetailDataModel[] = [];
+}
+
 export class StaffDetailDataModel {
   public StaffDetailID: number = 0;
   public TeachingType: string = '';
@@ -331,6 +336,7 @@ export class DocuemntBuildingDetailsDataModel {
   public FileName: string = '';
   public Dis_FileName: string = '';
   public Isfile: boolean = false;
+  public IsMandatory: boolean = false;
 }
 
 export class SearchFilterDataModel {

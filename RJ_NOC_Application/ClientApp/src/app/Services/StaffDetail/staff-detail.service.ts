@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse, HttpParams } 
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { GlobalConstants } from '../../Common/GlobalConstants';
-import { StaffDetailDataModel } from '../../Models/TabDetailDataModel';
+import { StaffDetailDataModel, StaffDetailDataModel_Excel } from '../../Models/TabDetailDataModel';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,15 @@ export class StaffDetailService {
     const body = JSON.stringify(StaffDataModel);
     console.log(body);
     return await this.http.post(this.APIUrl + '/SaveData', body, { 'headers': headers })
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  public async SaveData_ExcelData(StaffDataModel: StaffDetailDataModel_Excel) {
+    const headers = { 'content-type': 'application/json' }
+    const body = JSON.stringify(StaffDataModel);
+    console.log(body);
+    return await this.http.post(this.APIUrl + '/SaveData_ExcelData', body, { 'headers': headers })
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

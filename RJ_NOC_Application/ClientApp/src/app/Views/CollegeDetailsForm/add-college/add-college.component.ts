@@ -994,6 +994,16 @@ export class AddCollegeComponent implements OnInit {
       }
       this.isSubmitted_NearestGovernmentHospitals = true;
       let isValid = true;
+      if (this.request_NearestGovernmentHospitals.RuralUrban == 1) {
+        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.clearValidators();
+        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.setValidators([DropdownValidators]);
+      }
+      else {
+        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.setValidators([DropdownValidators]);
+        this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.clearValidators();
+      }
+      this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlCityID_Nearest')?.updateValueAndValidity();
+      this.CollegeDetailsForm_NearestGovernmentHospitals.get('ddlPanchayatSamitiID_Nearest')?.updateValueAndValidity();
       if (this.CollegeDetailsForm_NearestGovernmentHospitals.invalid) {
         isValid = false;
       }
