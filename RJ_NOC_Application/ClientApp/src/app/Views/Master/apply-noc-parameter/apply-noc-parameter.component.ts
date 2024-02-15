@@ -247,8 +247,9 @@ export class ApplyNocParameterComponent implements OnInit {
   get form() {
     return this.ApplyNocParameterForm.controls;
   }
-  async ClickApplyNOC(DepartmentID: number, collegeID: number, FinalSubmit: number) {
-    if (FinalSubmit==0) {
+  async ClickApplyNOC(DepartmentID: number, collegeID: number, FinalSubmit: boolean, PendingNOC: number) {
+    debugger;
+    if (FinalSubmit == false && PendingNOC==0) {
       this.SelectedCollegeID = collegeID;
       this.SelectedDepartmentID = DepartmentID;
       this.IsShowApplyNocForm = true;

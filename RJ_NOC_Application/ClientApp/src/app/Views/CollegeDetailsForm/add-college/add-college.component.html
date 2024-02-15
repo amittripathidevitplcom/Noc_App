@@ -443,7 +443,7 @@
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="txtCollegeLandlineNumber" class="form-label">College Landline Number with std code </label>
-            <input class="form-control" id="txtCollegeLandlineNumber" name="txtCollegeLandlineNumber" [(ngModel)]="request.CollegeLandlineNumber" formControlName="txtCollegeLandlineNumber" maxlength="10" (keypress)="numberOnly($event)">
+            <input class="form-control" id="txtCollegeLandlineNumber" name="txtCollegeLandlineNumber" [(ngModel)]="request.CollegeLandlineNumber" formControlName="txtCollegeLandlineNumber" maxlength="12" (keypress)="numberOnly($event)">
             <div *ngIf="isSubmitted&&form.txtCollegeLandlineNumber.errors" class="text-danger">
               <p *ngIf="form.txtCollegeLandlineNumber.errors.pattern"><i aria-hidden="true"></i> College Landline number is not valid .!</p>
             </div>

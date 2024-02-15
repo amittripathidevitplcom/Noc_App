@@ -1075,7 +1075,8 @@ export class HostelDetailsComponent implements OnInit {
         }
       }
       else {
-        this.IsDisabledAddress = true;
+        //Issue in maigraiont data
+        this.IsDisabledAddress = false;
         this.HostelForm.get('txtCollegeDistance')?.clearValidators();
         this.HostelForm.get('rdHostelType')?.clearValidators();
         if (this.request.HostelDetailID > 0 && !IsChanged) {
