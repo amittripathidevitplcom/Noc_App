@@ -37,6 +37,8 @@ export class DocumentScrutinyCollegeManagementSocietyDTEComponent implements OnI
   closeResult: string | undefined;
   modalReference: NgbModalRef | undefined;
   public isDisabledAction: boolean = false;
+
+  public QueryStringApplicationStatus: any = '';
   constructor(private dtedocumentscrutiny: DocumentScrutinyDTEComponent, private socityService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dtedocumentScrutinyService: DTEDocumentScrutinyService, private modalService: NgbModal) { }
@@ -47,13 +49,14 @@ export class DocumentScrutinyCollegeManagementSocietyDTEComponent implements OnI
     this.SelectedCollageID = await Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()))
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    this.QueryStringApplicationStatus = this.router.snapshot.paramMap.get('ApplicationStatus')?.toString();
     await this.GetSocietyAllList();
   }
 
   async GetSocietyAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.dtedocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dtedocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID,this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -62,8 +65,8 @@ export class DocumentScrutinyCollegeManagementSocietyDTEComponent implements OnI
           this.ErrorMessage = data['ErrorMessage'];
           this.SocietyAllList = data['Data'][0]['CollegeManagementSocietys'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
-          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.ActionID;
           if (this.dsrequest.ActionID == 2) {
             this.isDisabledAction = true;
           }

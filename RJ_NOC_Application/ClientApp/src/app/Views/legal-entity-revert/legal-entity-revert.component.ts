@@ -145,6 +145,7 @@ export class LegalEntityRevertComponent implements OnInit {
   public AnnexureName: string = '';
 
   public SelectedCollegeID: number = 0;
+  public SearchRecordID: string = '';
   constructor(private rightClickDisable: DisableRightClickService, private formBuilder: FormBuilder, private legalEntityService: LegalEntityService, private commonMasterService: CommonMasterService, private toastr: ToastrService, private loaderService: LoaderService, private router: ActivatedRoute, private routers: Router, private cdRef: ChangeDetectorRef, private fileUploadService: FileUploadService, private aadharServiceDetails: AadharServiceDetails, private collegeService: CollegeService,) {
 
   }
@@ -234,7 +235,17 @@ export class LegalEntityRevertComponent implements OnInit {
 
       this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
       this.QueryStringLegalEntityID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LegalEntityID')?.toString()));
-      this.SelectedCollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+      //this.SelectedCollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+
+      this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+      if (this.SearchRecordID.length > 20) {
+        await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.SelectedCollegeID = data['Data']['CollegeID'];
+           
+          }, error => console.error(error));
+      }
       /*this.GetDistrict();*/
       this.GetSocietyPresentStatusList();
       this.GetRegistrationDistrictListByRegistrationStateID(this.RegistrationState)

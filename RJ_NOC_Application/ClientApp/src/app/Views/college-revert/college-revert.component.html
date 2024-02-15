@@ -107,7 +107,7 @@
 
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==4">
             <label for="ddlCollegeLevelID" class="form-label">College Level <span style="color:red;">*</span></label>
-            <select [attr.disabled]="IsEdit ? true : null" class="form-select" id="ddlCollegeLevelID" name="ddlCollegeLevelID" [(ngModel)]="request.CollegeLevelID" formControlName="ddlCollegeLevelID">
+            <select  class="form-select" id="ddlCollegeLevelID" name="ddlCollegeLevelID" [(ngModel)]="request.CollegeLevelID" formControlName="ddlCollegeLevelID" [attr.disabled]="IsEdit ? true : null">
               <option value="0">--Select--</option>
               <option *ngFor="let item of CollegeLevelList_FilterData" value="{{item.ID}}">{{item.Name}}</option>
             </select>
@@ -118,7 +118,7 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID!=4">
             <label for="ddlDTECollegeLevelID" class="form-label">College Level <span style="color:red;">*</span></label>
 
-            <ng-multiselect-dropdown [disabled]="IsEdit" [placeholder]="'--Select--'" formControlName="ddlDTECollegeLevelID" id="ddlDTECollegeLevelID"
+            <ng-multiselect-dropdown  [placeholder]="'--Select--'" formControlName="ddlDTECollegeLevelID" id="ddlDTECollegeLevelID"
                                      [settings]="dropdownSettings"
                                      [data]="CollegeLevelList_FilterData"
                                      [(ngModel)]="SelectedCollegeLevel">

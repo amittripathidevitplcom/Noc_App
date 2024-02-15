@@ -41,6 +41,7 @@ export class DocumentScrutinyLandDetailDTEComponent implements OnInit {
   public DetailoftheLand: any = [];
   public CollegeLandConverstion: any = [];
   public isDisabledAction: boolean = false;
+  public QueryStringApplicationStatus: any = '';
   constructor(private dtedocumentscrutiny: DocumentScrutinyDTEComponent, private landDetailsService: LandDetailsService, private dtedocumentScrutinyService: DTEDocumentScrutinyService, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private loaderService: LoaderService,
     private modalService: NgbModal, private toastr: ToastrService, private applyNOCApplicationService: ApplyNOCApplicationService) { }
 
@@ -50,6 +51,7 @@ export class DocumentScrutinyLandDetailDTEComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    this.QueryStringApplicationStatus = this.router.snapshot.paramMap.get('ApplicationStatus')?.toString();
     await this.GetLandDetailsDataList();
 
     await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
@@ -57,13 +59,13 @@ export class DocumentScrutinyLandDetailDTEComponent implements OnInit {
   async GetLandDetailsDataList() {
     try {
       this.loaderService.requestStarted();
-      await this.dtedocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dtedocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.LandDetailList = data['Data'][0]['LandDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
-          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.ActionID;
           if (this.dsrequest.ActionID == 2) {
             this.isDisabledAction = true;
           }

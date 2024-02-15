@@ -86,6 +86,8 @@ export class DocumentScrutinyDTEComponent implements OnInit {
 
   public CheckFinalRemark: string = '';
   @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
+
+  public QueryStringApplicationStatus: any = '';
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private dteDocumentScrutinyService: DTEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private modalService: NgbModal,
     private dcedocumentScrutinyService: DTEDocumentScrutinyService) { }
@@ -97,6 +99,8 @@ export class DocumentScrutinyDTEComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.ApplicationNo = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoYear')?.toString()) + "/" + this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplicationNoID')?.toString());
+
+    this.QueryStringApplicationStatus = this.router.snapshot.paramMap.get('ApplicationStatus')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.CheckTabsEntry();
     await this.ViewlegalEntityDataByID();
@@ -104,7 +108,7 @@ export class DocumentScrutinyDTEComponent implements OnInit {
       this.maxNumberOfTabs = await this.tabGroup._tabs.length - 1;
     }
     catch (Ex) {
-      this.maxNumberOfTabs = 14;
+      this.maxNumberOfTabs = 15;
     }
 
   }
@@ -143,7 +147,7 @@ export class DocumentScrutinyDTEComponent implements OnInit {
   async CheckTabsEntry() {
     try {
       this.loaderService.requestStarted();
-      await this.dteDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
+      await this.dteDocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID, this.QueryStringApplicationStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
@@ -197,7 +201,7 @@ export class DocumentScrutinyDTEComponent implements OnInit {
   async ViewlegalEntityDataByID() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];

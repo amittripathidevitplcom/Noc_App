@@ -101,6 +101,7 @@ export class CollegeRevertComponent implements OnInit {
   public dropdownSettings: IDropdownSettings = {};
   public ManagementTypeList: any = [];
   public SelectedCollegeLevel: any = [];
+  public SearchRecordID: string = '';
   constructor(private legalEntityListService: LegalEntityService, private collegeService: CollegeService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService) {
   }
 
@@ -190,8 +191,16 @@ export class CollegeRevertComponent implements OnInit {
 
     setTimeout(function () { (window as any).LoadData(); }, 200)
     // query string
-    this.QueryStringCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    //this.QueryStringCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.QueryStringCollageID = data['Data']['CollegeID'];
 
+        }, error => console.error(error));
+    }
 
 
 

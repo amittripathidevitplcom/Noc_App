@@ -49,8 +49,8 @@
                           <i class="fa fa-eye"></i>
                         </a>
                         <!--&nbsp;<button type="button" class="btn btn-sm btn-primary" title="Assign Inspectin Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>-->
-                        <!--<a href="javascript:void(0)" title="Document Scrutiny" (click)="DocumentScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.LOIID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>-->
-                        <a href="javascript:void(0)" *ngIf="QueryStringStatus=='Pending'" title="Forward" (click)="ForwardToDTECommittee(item.ApplyNOCID)" class="btn btn-sm btn-success"><i class="bi bi-forward">Forward To DTE Committee</i></a>
+                        <a href="javascript:void(0)" title="Document Scrutiny" (click)="DocumentScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                        <!--<a href="javascript:void(0)" *ngIf="QueryStringStatus=='Pending'" title="Forward" (click)="ForwardToDTECommittee(item.ApplyNOCID)" class="btn btn-sm btn-success"><i class="bi bi-forward">Forward To DTE Committee</i></a>-->
                         &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
                       </td>
                     </tr>

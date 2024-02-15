@@ -36,6 +36,7 @@ export class DocumentScrutinyOtherDocumentDTEComponent implements OnInit {
   public QueryStringStatus: any = '';
   public isDisabledAction: boolean = false;
 
+  public QueryStringApplicationStatus: any = '';
   constructor(private dcedocumentscrutiny: DocumentScrutinyDTEComponent, private loaderService: LoaderService,
     private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute,
     private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService, private dcedocumentScrutinyService: DTEDocumentScrutinyService) { }
@@ -47,6 +48,7 @@ export class DocumentScrutinyOtherDocumentDTEComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    this.QueryStringApplicationStatus = this.router.snapshot.paramMap.get('ApplicationStatus')?.toString();
     this.request.DocumentDetails = [];
     this.GetOtherDocuments('Other Document');
     //if (this.SelectedDepartmentID == 6) {
@@ -56,7 +58,7 @@ export class DocumentScrutinyOtherDocumentDTEComponent implements OnInit {
   async GetOtherDocuments(Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type, this.QueryStringApplicationStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -64,8 +66,8 @@ export class DocumentScrutinyOtherDocumentDTEComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.request.DocumentDetails = data['Data'][0]['CollegeDocument'][0];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
-          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.ActionID;
           if (this.dsrequest.ActionID == 2) {
             this.isDisabledAction = true;
           }

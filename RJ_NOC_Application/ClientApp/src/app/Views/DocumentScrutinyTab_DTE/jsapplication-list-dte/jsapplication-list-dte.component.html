@@ -50,6 +50,9 @@
                         </a>
                         &nbsp;<button *ngIf="QueryStringStatus=='Pending'" type="button" class="btn btn-sm btn-primary" title="Issue NOC" (click)="OpenGeneratePDFPopUP(ViewOpenGeneratePDFPopUP,item.ApplyNOCID,item.DepartmentID)"><i class="bi bi-file-text"></i></button>
                         <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill m-1" *ngIf="item.IsNOCIssued==1" href="{{item.NOCFilePath}}" title="Pdf" target="_blank"></a>
+                        <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill m-1" *ngIf="item.ReceiptDoc!=''" href="{{item.ReceiptDocPath}}" title="Receipt" target="_blank"></a>
+                        <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill m-1" *ngIf="item.UploadedInspectionReport!=''" href="{{item.UploadedInspectionReportPath}}" title="Inspection Report" target="_blank"></a>
+                        <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill m-1" *ngIf="item.UploadedConsolidatedReport!=''" href="{{item.UploadedConsolidatedReportPath}}" title="Consolidated Report" target="_blank"></a>
 
                         &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
                         &nbsp; <a *ngIf="item.IsEsign==0 && item.IsNOCIssued==1" class="btn btn-sm btn-success" title="Esign" (click)="SendEsignOTP(item.FileName,item.ApplyNOCID)" target="_blank"><i class="bi bi-pen"></i>Esign</a>

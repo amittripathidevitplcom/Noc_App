@@ -63,7 +63,7 @@ export class ApplicationLandingDetailsDTEComponent implements OnInit {
     try {
       let ActionName = '';
 
-      ActionName = Status == 'Completed' ? 'Forward' : Status == 'Pending' ? 'Apply NOC,ReSubmit Application' : '';
+      ActionName = Status == 'Completed' ? 'Forward to Generate Receipt' : Status == 'Pending' ? 'Apply NOC,ReSubmit Application' : Status=='Revert'?'Revert':'';
 
       this.loaderService.requestStarted();
       await this.dteDocumentScrutinyService.GetApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
@@ -86,7 +86,7 @@ export class ApplicationLandingDetailsDTEComponent implements OnInit {
   }
 
   async DocumentScrutiny_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
-    this.routers.navigate(['/finalchecklistmgone' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + this.QueryStringStatus]);
+    this.routers.navigate(['/documentscrutinydte' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString())) + "/" + this.QueryStringStatus+ "/" + 'Step1']);
   }
 
   closeResult: string | undefined;
@@ -135,41 +135,41 @@ export class ApplicationLandingDetailsDTEComponent implements OnInit {
 
 
 
-  async ForwardToDTECommittee(ApplyNOCID: number) {
+  //async ForwardToDTECommittee(ApplyNOCID: number) {
 
 
-    try {
-      if (confirm("Are you sure you want to forward this application to DTE committee?")) {
+  //  try {
+  //    if (confirm("Are you sure you want to forward this application to DTE committee?")) {
 
-        this.loaderService.requestStarted();
-        await this.dteDocumentScrutinyService.WorkflowInsertDTE(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, 45, ApplyNOCID, 4, "", 0, 0, 0)
-          .then((data: any) => {
-            data = JSON.parse(JSON.stringify(data));
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
-            if (this.State == 0) {
-              this.toastr.success(this.SuccessMessage);
-              this.GetApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
-            }
-            else if (this.State == 2) {
-              this.toastr.warning(this.ErrorMessage)
-            }
-            else {
-              this.toastr.error(this.ErrorMessage)
-            }
-          }, error => console.error(error));
-      }
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+  //      this.loaderService.requestStarted();
+  //      await this.dteDocumentScrutinyService.WorkflowInsertDTE(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, 45, ApplyNOCID, 4, "", 0, 0, 0)
+  //        .then((data: any) => {
+  //          data = JSON.parse(JSON.stringify(data));
+  //          this.State = data['State'];
+  //          this.SuccessMessage = data['SuccessMessage'];
+  //          this.ErrorMessage = data['ErrorMessage'];
+  //          if (this.State == 0) {
+  //            this.toastr.success(this.SuccessMessage);
+  //            this.GetApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
+  //          }
+  //          else if (this.State == 2) {
+  //            this.toastr.warning(this.ErrorMessage)
+  //          }
+  //          else {
+  //            this.toastr.error(this.ErrorMessage)
+  //          }
+  //        }, error => console.error(error));
+  //    }
+  //  }
+  //  catch (Ex) {
+  //    console.log(Ex);
+  //  }
+  //  finally {
+  //    setTimeout(() => {
+  //      this.loaderService.requestEnded();
+  //    }, 200);
+  //  }
+  //}
 
 
   public SelectedCollageID: number = 0;

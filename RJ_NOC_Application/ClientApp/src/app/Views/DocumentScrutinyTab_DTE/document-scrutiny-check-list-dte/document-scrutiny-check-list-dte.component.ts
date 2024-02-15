@@ -27,6 +27,7 @@ import { ApplicationCommitteeMemberdataModel, PostApplicationCommitteeMemberdata
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 import { elementAt } from 'rxjs';
+import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
 
 
 @Injectable({
@@ -178,12 +179,18 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   public IsShowSuperSpecialtyHospital: boolean = false;
   LegalEntityDataModel = new LegalEntityDataModel();
   public QueryStringStatus: any = '';
+  public QueryStringApplicationStatus: any = '';
+
+
+  public UploadInspectionReport: string = '';
+  public UploadInspectionReportPath: string = '';
+  public UploadInspectionReportDis_FileName: string = '';
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DTEDocumentScrutinyService, private formBuilder: FormBuilder,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private modalService: NgbModal, private collegeService: CollegeService,
     private dcedocumentscrutiny: DocumentScrutinyDTEComponent, private committeeMasterService: CommitteeMasterService
-    , private sSOLoginService: SSOLoginService, private aadharServiceDetails: AadharServiceDetails  ) { }
+    , private sSOLoginService: SSOLoginService, private aadharServiceDetails: AadharServiceDetails, private fileUploadService: FileUploadService) { }
 
 
 
@@ -192,6 +199,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    this.QueryStringApplicationStatus = this.router.snapshot.paramMap.get('ApplicationStatus')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
@@ -219,7 +227,8 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         txtCMNameOfPerson: ['', Validators.required],
         txtCMMobileNumber: ['', [Validators.required, Validators.pattern(this.MobileNoRegex)]],
         txtSSOID: ['', Validators.required]
-      })
+      });
+    this.GetConsolidatedReportByApplyNOCID(this.SelectedApplyNOCID);
   }
   get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
 
@@ -229,7 +238,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
 
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_LandDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckList_LandDetailList = data['Data'][0]['LandDetails'];
@@ -252,7 +261,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async GetFacilityDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_FacilityDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_FacilityDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -276,7 +285,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async ViewlegalEntityDataByID() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -315,7 +324,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async ViewTotalCollegeDataByID() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -348,7 +357,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async GetSocietyAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeManagementSociety(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -377,7 +386,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async GetHostelDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_HostelDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_HostelDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -403,7 +412,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async GetRoomDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_RoomDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -426,7 +435,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async GetAllBuildingDetailsList() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_BuildingDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckList_lstBuildingDetails = data['Data'][0]['BuildingDetails'];
@@ -449,7 +458,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async GetStaffDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_StaffDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_StaffDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -489,7 +498,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async GetOldNOCDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_OldNOCDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_OldNOCDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -511,7 +520,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async GetRequiredDocuments(Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type, this.QueryStringApplicationStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -539,7 +548,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async GetOtherInformationAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_OtherInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_OtherInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -564,7 +573,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async GetAcademicInformationDetailAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_AcademicInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_AcademicInformation(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -589,7 +598,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async GetOtherDocuments(Type: string) {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CollegeDocument(this.SelectedDepartmentID, this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, Type, this.QueryStringApplicationStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -637,7 +646,13 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.isRemarkValid = false;
     try {
 
+
+
       if (this.sSOLoginDataModel.RoleID == 16) {
+        if (this.UploadInspectionReport == '') {
+          this.toastr.warning('please upload Inspection Report');
+          return;
+        }
         for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
           if (this.ApplicationCommitteeList[i].SendOTP != 2) {
             this.toastr.warning('Verified All Memeber');
@@ -646,9 +661,15 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         }
       }
       if (this.sSOLoginDataModel.RoleID == 34) {
-        if (this.ActionID ==52) {
+        if (this.ActionID == 52 || this.ActionID == 62) {
           if (this.ApplicationCommitteeList.length <= 0) {
             this.toastr.warning('Please create an inspection Committee');
+            return;
+          }
+        }
+        if (this.ActionID == 6 || this.ActionID == 63) {
+          if (this.UploadConsolidatedReport == '') {
+            this.toastr.warning('please upload Consolidated Report');
             return;
           }
         }
@@ -682,8 +703,8 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
       else {
         LegalEntity = this.CheckList_legalEntityListData1.ManagementType == 'Private' && this.CheckTabsEntryData['LegalEntity'] <= 0 ? 0 : 1;
         if (LegalEntity <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0
-          ||  this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 ||  this.CheckTabsEntryData['HostelDetails'] <= 0) {
+          || this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {
           this.isFormvalid = false;
           this.toastr.warning('Please do document scrutiny all tabs');
         }
@@ -693,7 +714,20 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         return;
       }
       this.loaderService.requestStarted();
-
+      if (this.sSOLoginDataModel.RoleID == 34) {
+        if (this.ActionID == 6 || this.ActionID == 63) {
+          await this.dcedocumentScrutinyService.UploadConsolidatedReport(this.SelectedCollageID, this.SelectedDepartmentID, this.SelectedApplyNOCID, this.sSOLoginDataModel.UserID, this.UploadConsolidatedReport, false)
+            .then(async (data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+            }, error => console.error(error));
+        }
+      }
+      if (this.sSOLoginDataModel.RoleID == 16) {
+          await this.dcedocumentScrutinyService.UploadInspectionReport(this.SelectedCollageID, this.SelectedDepartmentID, this.SelectedApplyNOCID, this.sSOLoginDataModel.UserID, this.UploadConsolidatedReport, false)
+            .then(async (data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+            }, error => console.error(error));
+      }
       await this.dcedocumentScrutinyService.WorkflowInsertDTE(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
@@ -702,7 +736,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (this.State == 0) {
             this.toastr.success(this.SuccessMessage);
-            this.routers.navigate(['/documentscrutinyapplicationlistdte/Pending']);
+            this.routers.navigate(['/dashboard']);
           }
           else if (this.State == 2) {
             this.toastr.warning(this.ErrorMessage)
@@ -811,6 +845,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.WorkFlowActionList = [];
     this.loaderService.requestStarted();
     try {
+      debugger;
       await this.commonMasterService.GetWorkFlowActionListByRole(this.sSOLoginDataModel.RoleID, "Current", this.sSOLoginDataModel.DepartmentID)
         .then(async (data: any) => {
           this.State = data['State'];
@@ -819,8 +854,17 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
-              if (this.sSOLoginDataModel.RoleID == 17) {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 45);
+              if (this.sSOLoginDataModel.RoleID == 17 && this.QueryStringApplicationStatus=='Step1') {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 45 && x.ActionID != 60 && x.ActionID != 61);
+              }
+              if (this.sSOLoginDataModel.RoleID == 17 && this.QueryStringApplicationStatus == 'Step2') {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 45 && x.ActionID != 3 && x.ActionID != 55);
+              }
+              if (this.sSOLoginDataModel.RoleID == 34 && this.QueryStringApplicationStatus == 'Step1') {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) =>  x.ActionID != 62 && x.ActionID != 63);
+              }
+              if (this.sSOLoginDataModel.RoleID == 34 && this.QueryStringApplicationStatus == 'Step2') {
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 6 && x.ActionID != 52);
               }
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
@@ -898,7 +942,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   async CheckTabsEntry() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID)
+      await this.dcedocumentScrutinyService.CheckDocumentScrutinyTabsData(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.SelectedCollageID, this.QueryStringApplicationStatus)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
@@ -914,7 +958,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     }
   }
 
-  
+
   public lstTarils: any = []
   ViewTaril(ID: number, ActionType: string) {
     this.modalService.open(this.tarilMymodal, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
@@ -1431,5 +1475,199 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   modelclose() {
     this.modalService.dismissAll('Close Model');
     this.GetApplicationCommitteeList(this.SelectedApplyNOCID);
+  }
+
+
+
+
+  public ConsolidatedReportList: any[] = [];
+  async GetConsolidatedReportByApplyNOCID(ApplyNOCID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.dcedocumentScrutinyService.GetConsolidatedReportByApplyNOCID(ApplyNOCID)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.ConsolidatedReportList = data['Data'][0];
+          if (this.ConsolidatedReportList.length > 0) {
+            this.UploadConsolidatedReport = this.ConsolidatedReportList[0].UploadedConsolidatedReport;
+            this.UploadConsolidatedReportPath = this.ConsolidatedReportList[0].UploadConsolidatedReportPath;
+            this.UploadConsolidatedReportDis_FileName = this.ConsolidatedReportList[0].UploadConsolidatedReportDis_FileName;
+          }
+          console.log(data);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+  async GenerateConsolidatedReport() {
+    try {
+      this.loaderService.requestStarted();
+      await this.dcedocumentScrutinyService.GenerateConsolidatedReport(this.SelectedCollageID, this.SelectedDepartmentID, this.SelectedApplyNOCID, this.sSOLoginDataModel.UserID, '', false)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.toastr.success(this.SuccessMessage);
+          await this.GetConsolidatedReportByApplyNOCID(this.SelectedApplyNOCID);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  ResetFileAndValidation(type: string, msg: string, name: string, path: string, dis_Name: string, isShowFile: boolean) {
+    //event.target.value = '';
+    try {
+      this.loaderService.requestStarted();
+      if (type == 'ConsolidatedReport') {
+        this.UploadConsolidatedReport = name;
+        this.UploadConsolidatedReportPath = path;
+        this.UploadConsolidatedReportDis_FileName = dis_Name;
+      }
+      if (type == 'InspectionReport') {
+        this.UploadInspectionReport = name;
+        this.UploadInspectionReportPath = path;
+        this.UploadInspectionReportDis_FileName = dis_Name;
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public UploadConsolidatedReport: string = '';
+  public UploadConsolidatedReportPath: string = '';
+  public UploadConsolidatedReportDis_FileName: string = '';
+  public file: File = null;
+  async onFilechange(event: any, Type: string) {
+
+    try {
+      this.loaderService.requestStarted();
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type == 'application/pdf') {
+          //size validation
+          //if (this.file.size > 2000000) {
+          //  this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+          //  return
+          //}
+          //if (this.file.size < 100000) {
+          //  this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+          //  return
+          //}
+        }
+        else {// type validation
+          this.toastr.warning('Select Only pdf file');
+          this.ResetFileAndValidation(Type, 'Select Only pdf file', '', '', '', false);
+          return
+        }
+        // upload to server folder
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation(Type, '', data['Data'][0]["FileName"], data['Data'][0]["FilePath"], data['Data'][0]["Dis_FileName"], true);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      else {
+        this.ResetFileAndValidation(Type, '', '', '', '', false);
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async DeleteFile(Type: string, file: string) {
+    try {
+
+      if (confirm("Are you sure you want to delete this ?")) {
+        this.loaderService.requestStarted();
+        // delete from server folder
+        await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.ResetFileAndValidation(Type, '', '', '', '', false);
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async SaveUploadConsolidatedReport() {
+    try {
+      if (this.UploadConsolidatedReport == '') {
+        this.toastr.warning('Please upload Consolidated Report');
+        return;
+      }
+      this.loaderService.requestStarted();
+      await this.dcedocumentScrutinyService.UploadConsolidatedReport(this.SelectedCollageID, this.SelectedDepartmentID, this.SelectedApplyNOCID, this.sSOLoginDataModel.UserID, this.UploadConsolidatedReport, false)
+        .then(async (data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.toastr.success(this.SuccessMessage);
+          await this.GetConsolidatedReportByApplyNOCID(this.SelectedApplyNOCID);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 }

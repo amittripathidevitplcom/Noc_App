@@ -9,7 +9,6 @@ import { CollegeService } from '../../../services/collegedetailsform/College/col
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { DCEDocumentScrutinyService } from '../../../Services/DCEDocumentScrutiny/dcedocument-scrutiny.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
-import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
 import { AcademicInformationComponent } from '../../TabDetail/academic-information/academic-information.component';
 import { StaffDetailsComponent } from '../../TabDetail/staff-details/staff-details.component';
 
@@ -51,6 +50,8 @@ export class RevertApplicationDetailEntryDTEComponent implements OnInit {
   private academicInformationComponent!: AcademicInformationComponent;
 
   public QueryStringStatus: any = '';
+  public RevertedTabData: any = [];
+  public SearchRecordID: string = '';
   constructor(private dcedocumentScrutinyService: DCEDocumentScrutinyService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService) { }
 
@@ -59,17 +60,28 @@ export class RevertApplicationDetailEntryDTEComponent implements OnInit {
     this.loaderService.requestStarted();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.SelectedCollageID = data['Data']['CollegeID'];
+        }, error => console.error(error));
+    }
+    else {
+      this.routers.navigate(['/draftapplicationlist']);
+    }
 
-    await this.GetRevertedTabData();
     await this.GetCollageDetails();
+    await this.GetRevertedTabData();
     await this.GetCollegeBasicDetails();
     await this.CheckTabsEntry();
     await this.ShowDraftFinalSubmitBtn();
     this.loaderService.requestEnded();
-    this.maxNumberOfTabs = this.tabGroup._tabs.length - 1;
+    this.maxNumberOfTabs = 0;//this.tabGroup._tabs.length - 1
   }
 
   NextStep() {
@@ -165,7 +177,7 @@ export class RevertApplicationDetailEntryDTEComponent implements OnInit {
 
     if (this.SelectedDepartmentID == 4) {
       if (this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 //&& this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 
           && this.CheckTabsEntryData['HostelDetails'] > 0) {
           this.IsShowDraftFinalSubmit = false;
         }
@@ -276,14 +288,16 @@ export class RevertApplicationDetailEntryDTEComponent implements OnInit {
     }
   }
 
-  public RevertedTabData: any = [];
+
   async GetRevertedTabData() {
     try {
       this.loaderService.requestStarted();
       await this.dcedocumentScrutinyService.GetRevertedTabData(this.SelectedApplyNOCID, this.SelectedCollageID)
         .then((data: any) => {
+          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.RevertedTabData = data['Data'][0]['data'][0];
+          console.log(this.RevertedTabData);
         }, error => console.error(error));
     }
     catch (Ex) {

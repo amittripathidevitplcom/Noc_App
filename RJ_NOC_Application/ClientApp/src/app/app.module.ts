@@ -356,6 +356,8 @@ import { TotalNotFilledStaticsReportComponent } from './Views/DCE/total-not-fill
 import { SecretaryFinalCheckListMGOneComponent } from './Views/Medical Group 1/secretary-final-check-list-mgone/secretary-final-check-list-mgone.component';
 import { DtcoursemasterComponent } from './Views/Master/DT_CourseMaster/dtcoursemaster/dtcoursemaster.component';
 import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocumentmaster/usermanualdocumentmaster.component';
+import { GenerateReceiptListDTEComponent } from './Views/DocumentScrutinyTab_DTE/generate-receipt-list-dte/generate-receipt-list-dte.component';
+import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-step-iiapplications/document-scrutiny-step-iiapplications.component';
 
 
 
@@ -700,6 +702,8 @@ import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocu
           SecretaryFinalCheckListMGOneComponent,
           DtcoursemasterComponent,
     UserManualDocumentMasterComponent,
+    GenerateReceiptListDTEComponent,
+    DocumentScrutinyStepIIApplicationsComponent,
   ],
   imports: [
     CommonModule,

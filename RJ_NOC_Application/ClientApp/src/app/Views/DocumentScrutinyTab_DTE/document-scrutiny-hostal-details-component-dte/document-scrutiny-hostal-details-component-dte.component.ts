@@ -42,6 +42,7 @@ export class DocumentScrutinyHostalDetailsComponentDTEComponent implements OnIni
   dsrequest = new DocumentScrutinyDataModel();
   public FinalRemarks: any = [];
   public isDisabledAction: boolean = false;
+  public QueryStringApplicationStatus: any = '';
 
   constructor(private dcedocumentscrutiny: DocumentScrutinyDTEComponent, private modalService: NgbModal, private loaderService: LoaderService, private hostelDetailService: HostelDetailService, private dcedocumentScrutinyService: DTEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private applyNOCApplicationService: ApplyNOCApplicationService, private toastr: ToastrService) { }
@@ -54,13 +55,14 @@ export class DocumentScrutinyHostalDetailsComponentDTEComponent implements OnIni
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    this.QueryStringApplicationStatus = this.router.snapshot.paramMap.get('ApplicationStatus')?.toString();
     await this.GetHostelDetailList_DepartmentCollegeWise();
   }
 
   async GetHostelDetailList_DepartmentCollegeWise() {
     try {
       this.loaderService.requestStarted();
-      await this.dcedocumentScrutinyService.DocumentScrutiny_HostelDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dcedocumentScrutinyService.DocumentScrutiny_HostelDetail(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -69,8 +71,8 @@ export class DocumentScrutinyHostalDetailsComponentDTEComponent implements OnIni
           this.ErrorMessage = data['ErrorMessage'];
           this.hostelDataModel = data['Data'][0]['HostelDetails'];
           this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
-          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
-          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+          this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.Remark;
+          this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.ActionID;
           if (this.dsrequest.ActionID == 2) {
             this.isDisabledAction = true;
           }

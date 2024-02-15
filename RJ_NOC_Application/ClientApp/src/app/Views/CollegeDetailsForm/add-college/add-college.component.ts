@@ -1278,6 +1278,7 @@ export class AddCollegeComponent implements OnInit {
                 this.routers.navigate(['/societydetails']);
               }
               else if (this.request.DepartmentID == 4) {
+                debugger;
                 if (this.LegalEntityManagementType != 'Private') {
                   this.routers.navigate(['/draftapplicationlist']);
                 }

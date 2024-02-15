@@ -31,9 +31,9 @@ export class SocityService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetSocietyAllList(UserID: number, CollegeID: number) {
+  public async GetSocietyAllList(UserID: number, CollegeID: number, ApplyNOCID: number=0) {
     
-    return await this.http.get(this.APIUrl + "/GetSocietyAllList/" + UserID + '/' + CollegeID)
+    return await this.http.get(this.APIUrl + "/GetSocietyAllList/" + UserID + '/' + CollegeID + '/' + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

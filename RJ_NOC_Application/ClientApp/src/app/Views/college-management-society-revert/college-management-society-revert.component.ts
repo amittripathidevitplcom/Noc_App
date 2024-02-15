@@ -59,6 +59,7 @@ export class CollegeManagementSocietyRevertComponent implements OnInit {
   public isAddButton: boolean = true;
   public isEditButton: boolean = true;
   public isDeleteButton: boolean = true;
+  public isDisabledCollege: boolean = true;
   public isPrint: boolean = true;
   public CurrentPageName: any = "";
   public UserID: number = 0;
@@ -107,6 +108,8 @@ export class CollegeManagementSocietyRevertComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   public SelectedApplyNOCID: number = 0;
+  public SearchRecordID: string = '';
+  public QueryStringStatus: any = '';
   constructor(private societyService: SocityService, private toastr: ToastrService, private loaderService: LoaderService, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private fileUploadService: FileUploadService, private clipboard: Clipboard) { }
   async ngOnInit() {
     this.SocietyDetailsForm = this.formBuilder.group(
@@ -144,9 +147,19 @@ export class CollegeManagementSocietyRevertComponent implements OnInit {
     this.ssoLoginModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
 
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('LOIID')?.toString()));
-    //this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+    this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.SelectedCollageID = data['Data']['CollegeID'];
+
+        }, error => console.error(error));
+    }
     // get colleges
     await this.GetCollegesByDepartmentAndSsoId(0, this.ssoLoginModel.SSOID, 'Society');
     // get all Designation
@@ -189,14 +202,14 @@ export class CollegeManagementSocietyRevertComponent implements OnInit {
   async GetSocietyAllList(CollegeID: number) {
     try {
       this.loaderService.requestStarted();
-      await this.societyService.GetSocietyAllList(this.UserID, CollegeID)
+      await this.societyService.GetSocietyAllList(this.UserID, CollegeID, this.SelectedApplyNOCID)
         .then(async (data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.SocietyAllList = data['Data'][0]['data'];
-
+          console.log(this.SocietyAllList);
 
           await this.commonMasterService.GetCollegeBasicDetails(this.request.CollegeID.toString())
             .then(async (data: any) => {
@@ -281,8 +294,9 @@ export class CollegeManagementSocietyRevertComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.CollegeList = data['Data'];
+          this.CollegeList = this.CollegeList.filter((x: { CollegeID: number; }) => x.CollegeID == this.SelectedCollageID);
           this.request.CollegeID = this.SelectedCollageID;
-          this.GetSocietyAllList(this.SelectedCollageID); 
+          this.GetSocietyAllList(this.SelectedCollageID);
           console.log(this.State);
         });
     }
@@ -1064,7 +1078,6 @@ export class CollegeManagementSocietyRevertComponent implements OnInit {
   }
 
   SelectOccupation_Educationist_Change() {
-    debugger;
     this.OccupationsName = this.OccupationList.find((x: { OccupationID: number; }) => x.OccupationID == this.request.OccupationID).OccupationName;
     if (this.OccupationsName == 'Educationist') {
       this.request.Educationists = 'Yes';

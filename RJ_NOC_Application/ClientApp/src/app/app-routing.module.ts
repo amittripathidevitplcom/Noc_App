@@ -210,6 +210,8 @@ import { TotalNotFilledStaticsReportComponent } from './Views/DCE/total-not-fill
 import { DtcoursemasterComponent } from './Views/Master/DT_CourseMaster/dtcoursemaster/dtcoursemaster.component';
 import { SecretaryFinalCheckListMGOneComponent } from './Views/Medical Group 1/secretary-final-check-list-mgone/secretary-final-check-list-mgone.component';
 import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocumentmaster/usermanualdocumentmaster.component';
+import { GenerateReceiptListDTEComponent } from './Views/DocumentScrutinyTab_DTE/generate-receipt-list-dte/generate-receipt-list-dte.component';
+import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-step-iiapplications/document-scrutiny-step-iiapplications.component';
 
 
 const routes: Routes = [
@@ -848,13 +850,16 @@ const routes: Routes = [
         path: 'totalapplicationlist/:Status', component: TotalApplicationListByDepartmentComponent
       },
       {
-        path: 'documentscrutinydte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status', component: DocumentScrutinyDTEComponent
+        path: 'documentscrutinydte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status/:ApplicationStatus', component: DocumentScrutinyDTEComponent
       },
       {
         path: 'applicationlandingdetailsdte/:Status', component: ApplicationLandingDetailsDTEComponent
       },
       {
         path: 'documentscrutinyapplicationlistdte/:Status', component: DocumentScrutinyApplicationListDTEComponent
+      },
+      {
+        path: 'documentscrutinyapplicationdte/:Status', component: DocumentScrutinyStepIIApplicationsComponent
       },
       {
         path: 'jsapplicationlistdte/:Status', component: JSApplicationListDTEComponent
@@ -870,6 +875,9 @@ const routes: Routes = [
 
       {
         path: 'usermanualdocumentmaster', component: UserManualDocumentMasterComponent
+      },
+      {
+        path: 'generatereceiptlistdte/:Status', component: GenerateReceiptListDTEComponent
       },
 
 

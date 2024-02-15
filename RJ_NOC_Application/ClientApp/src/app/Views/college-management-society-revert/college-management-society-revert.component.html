@@ -19,7 +19,7 @@
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
                 <label for="ddlCollegeID" class="form-label">College <span style="color:red;">*</span></label>
-                <select class="form-select" id="ddlCollegeID" name="ddlCollegeID" [(ngModel)]="request.CollegeID" formControlName="ddlCollegeID" [disabled]="true" >
+                <select  class="form-select" id="ddlCollegeID" name="ddlCollegeID" [(ngModel)]="request.CollegeID" formControlName="ddlCollegeID">
                   <option value="0" disabled>--Select College--</option>
                   <option *ngFor="let item of CollegeList" value="{{item.CollegeID}}">{{item.CollegeName}}</option>
                 </select>
@@ -278,10 +278,6 @@
           <div class="card-footer text-end">
             <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"><i class="fa fa-save"></i> Save</button>
             <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()">Reset</button>
-            <button type="submit" class="btn btn-primary" id="btnProceedDraft" name="btnSave"
-                    (click)="Proceed_Draft()">
-              {{ProceedToNext}}
-            </button>
           </div>
 
         </div>
@@ -366,8 +362,8 @@
                   <td>{{row.S_IsAuthorized}}</td>
                   <td>
                     <div class="d-flex">
-                      <button type="button" (click)="Edit_OnClick(row.SocietyID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></button>
-                      <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.SocietyID)" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
+                      <button type="button" (click)="Edit_OnClick(row.SocietyID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit" class="btn btn-sm btn-info" [hidden]="(QueryStringStatus=='R'&&row.Action=='Yes')"><i class="fa fa-edit"></i></button>
+                      <button *ngIf="isDeleteButton" type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.SocietyID)" [hidden]="QueryStringStatus=='R'" [attr.disabled]="isDisabledGrid ? true : null"><i class="fa fa-trash"></i></button>
                     </div>
                   </td>
                 </tr>

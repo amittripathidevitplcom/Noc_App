@@ -1491,45 +1491,86 @@
         <p *ngIf="isActionTypeValid&&ActionID<=0"> This field is required .!</p>
       </div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.ActionID ==52">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.ActionID ==52||this.ActionID ==62">
       <label class="form-label"></label>
       <button type="button" class="btn btn-sm btn-primary mt-4" title="Assign Inspection Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee)"><i class="fa fa-users"></i> Assign Committee</button>
     </div>
+    <div class="col-lg-2 col-md-2 col-sm-6 col-12 mb-3" *ngIf="this.ActionID ==6 || this.ActionID ==63">
+      <label class="form-label"></label>
+      <button type="button" class="btn btn-sm btn-primary mt-4" *ngIf="ConsolidatedReportList.length==0" title="Generate Consolidated Report" (click)="GenerateConsolidatedReport()"><i class="bi bi-file-pdf"></i> Generate Consolidated Report</button>
+      <a class="btn btn-sm btn-primary bi bi-file-earmark-pdf-fill mt-4" *ngIf="ConsolidatedReportList.length>0 && ConsolidatedReportList[0].ConsolidatedReport!=''" href="{{ConsolidatedReportList[0].ConsolidatedReportPath}}" title="Consolidated Report" target="_blank">Consolidated Report </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.ActionID ==6 || this.ActionID ==63">
+      <label class="form-label">Upload Consolidated Report <span style="color:red;">*</span></label>
+      <div class="d-flex">
+        <input type="file" style="display:none;" class="form-control" id="fConsolidatedReport" name="fConsolidatedReport" (change)="onFilechange($event,'ConsolidatedReport')">
+        <label class="btn upload" for="fConsolidatedReport">
+          <span class="filename">Choose file</span>
+          {{UploadConsolidatedReport === '' ? 'No File Choosen' : UploadConsolidatedReportDis_FileName}}
+        </label>
+        <div class="btn-group" *ngIf="UploadConsolidatedReport!=''">
+          <a class="btn btn-outline-primary" target="_blank" href="{{UploadConsolidatedReportPath}}"><i class="fa fa-eye"></i></a>
+          <button type="button" class="btn btn-outline-danger" (click)="DeleteFile('ConsolidatedReport',UploadConsolidatedReport)"><i class="fa fa-trash-o"></i></button>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="this.sSOLoginDataModel.RoleID ==16">
+      <label class="form-label">Upload Inspection Report <span style="color:red;">*</span></label>
+      <div class="d-flex">
+        <input type="file" style="display:none;" class="form-control" id="fInspectionReport" name="fInspectionReport" (change)="onFilechange($event,'InspectionReport')">
+        <label class="btn upload" for="fInspectionReport">
+          <span class="filename">Choose file</span>
+          {{UploadInspectionReport === '' ? 'No File Choosen' : UploadInspectionReportDis_FileName}}
+        </label>
+        <div class="btn-group" *ngIf="UploadInspectionReport!=''">
+          <a class="btn btn-outline-primary" target="_blank" href="{{UploadInspectionReportPath}}"><i class="fa fa-eye"></i></a>
+          <button type="button" class="btn btn-outline-danger" (click)="DeleteFile('InspectionReport',UploadInspectionReport)"><i class="fa fa-trash-o"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mt-4" *ngIf="this.sSOLoginDataModel.RoleID ==16">
+      <label class="form-label"></label>
+      <a href="../assets/PDF/DTE_InspectionPerforma.pdf" class="btn btn-primary"  target="_blank"><i class="bi bi-file-pdf"></i>Download Inspection Report</a>
+    </div>
+    <!--<div class="col-lg-2 col-md-2 col-sm-6 col-12 mt-4">
+    <button type="button" class="btn btn-primary" (click)="SaveUploadConsolidatedReport()">Submit</button>
+  </div>-->
     <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
-      <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
+    <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
 
-      <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
-        <option value="0" selected>--Select Role--</option>
-        <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
-      </select>
+    <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
+      <option value="0" selected>--Select Role--</option>
+      <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+    </select>
 
 
-      <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
-        <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
-      </div>
+    <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
+      <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
     </div>
+  </div>
 
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
-      <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
-      <select class="form-select" [(ngModel)]="NextActionID">
-        <option value="0" disabled selected>--Select Action--</option>
-        <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-      </select>
-      <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
-        <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
-      </div>
+  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
+    <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
+    <select class="form-select" [(ngModel)]="NextActionID">
+      <option value="0" disabled selected>--Select Action--</option>
+      <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+    </select>
+    <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
+      <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
     </div>
+  </div>
 
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
-      <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
-      <select class="form-select" [(ngModel)]="NextUserID">
-        <option value="0" selected>--Select User--</option>
-        <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
-      </select>
-      <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
-        <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
-      </div>
-    </div>-->
+  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
+    <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
+    <select class="form-select" [(ngModel)]="NextUserID">
+      <option value="0" selected>--Select User--</option>
+      <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
+    </select>
+    <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
+      <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
+    </div>
+  </div>-->
   </div>
   <div class="row  m-2" *ngIf="QueryStringStatus == 'Pending'">
     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
@@ -1567,7 +1608,7 @@
                     <td>{{item.SSOID}}</td>
                     <td>{{item.NameOfPerson}}</td>
                     <td>
-                      <button *ngIf="(item.SendOTP==undefined || item.SendOTP==0)&& IsBtnShowHide" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTP(item.AadhaarNo,idx)">Send OTP</button>
+                      <button *ngIf="(item.SendOTP==undefined || item.SendOTP==0)&& IsBtnShowHide && QueryStringStatus == 'Pending'" type="button" class="btn btn-sm btn-primary" title="Verify" (click)="SendOTP(item.AadhaarNo,idx)">Send OTP</button>
                       <div class="row" *ngIf="IsBtnShowHide">
                         <div class="col-sm-9 col-md-9">
                           <input *ngIf="item.SendOTP==1" type="text" id="txtUserOTP{{idx}}" placeholder="OTP*" name="txtUserOTP{{idx}}" class="form-control" [(ngModel)]="item.UserOTP" (keypress)="numbersOnly($event)" maxlength="6" />

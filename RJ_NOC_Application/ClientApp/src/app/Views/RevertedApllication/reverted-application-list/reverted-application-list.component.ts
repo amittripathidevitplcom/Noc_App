@@ -69,6 +69,7 @@ export class RevertedApplicationListComponent implements OnInit {
   }
 
   async DraftEdit_OnClick(DepartmentID: number, CollegeID: number, ApplyNocApplicationID: number) {
+    debugger;
     if (DepartmentID == 5) {
 
       this.routers.navigate(['/applicationdetailentrymgone' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())) + "/R"]);

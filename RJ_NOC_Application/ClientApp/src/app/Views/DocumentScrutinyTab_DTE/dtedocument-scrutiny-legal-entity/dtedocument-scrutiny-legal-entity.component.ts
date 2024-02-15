@@ -61,6 +61,7 @@ export class DTEDocumentScrutinyLegalEntityComponent implements OnInit {
   public SelectedDepartmentID: number = 0;
 
   public FinalRemarks: any = [];
+  public QueryStringApplicationStatus: any = '';
 
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
@@ -68,6 +69,7 @@ export class DTEDocumentScrutinyLegalEntityComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+    this.QueryStringApplicationStatus = this.router.snapshot.paramMap.get('ApplicationStatus')?.toString();
     this.ModifyBy = 1;
     // get college list
     this.ViewlegalEntityDataByID();
@@ -75,7 +77,7 @@ export class DTEDocumentScrutinyLegalEntityComponent implements OnInit {
   async ViewlegalEntityDataByID() {
     try {
       this.loaderService.requestStarted();
-      await this.dteDocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID)
+      await this.dteDocumentScrutinyService.DocumentScrutiny_LegalEntity(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
         .then((data: any) => {
 
           data = JSON.parse(JSON.stringify(data));
@@ -91,8 +93,8 @@ export class DTEDocumentScrutinyLegalEntityComponent implements OnInit {
             }
             this.FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
 
-            this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.Remark;
-            this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; }) => x.RoleIDS == this.sSOLoginDataModel.RoleID)?.ActionID;
+            this.dsrequest.FinalRemark = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.Remark;
+            this.dsrequest.ActionID = this.FinalRemarks.find((x: { RoleIDS: number; VerificationStep: string }) => x.RoleIDS == this.sSOLoginDataModel.RoleID && x.VerificationStep == this.QueryStringApplicationStatus)?.ActionID;
             if (this.dsrequest.ActionID == 2) {
               this.isDisabledAction = true;
             }
