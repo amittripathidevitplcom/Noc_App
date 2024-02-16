@@ -356,6 +356,7 @@ import { DtcoursemasterComponent } from './Views/Master/DT_CourseMaster/dtcourse
 import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocumentmaster/usermanualdocumentmaster.component';
 import { GenerateReceiptListDTEComponent } from './Views/DocumentScrutinyTab_DTE/generate-receipt-list-dte/generate-receipt-list-dte.component';
 import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-step-iiapplications/document-scrutiny-step-iiapplications.component';
+import { ApplicationPDFComponent } from './Views/application-pdf/application-pdf.component';
 
 
 
@@ -702,6 +703,7 @@ import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScr
     UserManualDocumentMasterComponent,
     GenerateReceiptListDTEComponent,
     DocumentScrutinyStepIIApplicationsComponent,
+    ApplicationPDFComponent,
   ],
   imports: [
     CommonModule,
