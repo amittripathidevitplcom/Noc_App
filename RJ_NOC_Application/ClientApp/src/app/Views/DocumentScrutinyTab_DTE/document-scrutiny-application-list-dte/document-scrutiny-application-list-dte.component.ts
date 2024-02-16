@@ -17,6 +17,15 @@ import { SocityService } from '../../../Services/Master/SocietyManagement/socity
 import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
 import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail.service';
 import { LandDetailsService } from '../../../Services/Tabs/LandDetails/land-details.service';
+import { BuildingDetailsMasterService } from '../../../Services/BuildingDetailsMaster/building-details-master.service';
+import { RoomDetailsService } from '../../../Services/RoomDetails/room-details.service';
+import { OtherInformationService } from '../../../Services/OtherInformation/other-information.service';
+import { FacilityDetailsService } from '../../../Services/FicilityDetais/facility-details.service';
+import { StaffDetailService } from '../../../Services/StaffDetail/staff-detail.service';
+import { AcademicInformationDetailsService } from '../../../Services/AcademicInformationDetails/academic-information-details.service';
+import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
+import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
+import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterDataModel';
 
 @Component({
   selector: 'app-document-scrutiny-application-list-dte',
@@ -44,10 +53,12 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
   public QueryStringStatus: any = '';
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
-  constructor(private loaderService: LoaderService, private toastr: ToastrService,
+  constructor(private loaderService: LoaderService, private toastr: ToastrService, private buildingDetailsMasterService: BuildingDetailsMasterService, private roomDetailsService: RoomDetailsService,
     private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder, private commonMasterService: CommonMasterService,
     private dteDocumentScrutinyService: DTEDocumentScrutinyService, private modalService: NgbModal, private legalEntityListService: LegalEntityService, private draftApplicationListService: DraftApplicationListService,
-    private socityService: SocityService, private courseMasterService: CourseMasterService, private oldnocdetailService: OldnocdetailService, private landDetailsService: LandDetailsService
+    private socityService: SocityService, private courseMasterService: CourseMasterService, private oldnocdetailService: OldnocdetailService, private landDetailsService: LandDetailsService,
+    private otherInformationService: OtherInformationService, private facilityDetailsService: FacilityDetailsService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService,
+    private hostelDetailService: HostelDetailService, private applyNocParameterService: ApplyNocParameterService
   ) { }
 
   async ngOnInit() {
@@ -189,7 +200,7 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
   public collegeDataList: any = [];
 
 
-  async btnViewPDfPreview(content: any, CollegeID: number, DepartmentID: number, SSOID: string) {
+  async btnViewPDfPreview(content: any, CollegeID: number, DepartmentID: number, SSOID: string, ApplyNOCID: number) {
     this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -206,6 +217,14 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
       await this.GetAllCourse(SSOID, CollegeID);
       await this.GetOldNOCDetails(DepartmentID, CollegeID);
       await this.GetLandDetailsDataList();
+      await this.GetAllBuildingDetailsList();
+      await this.GetRoomDetailAllList();
+      await this.GetOtherInformationAllList();
+      await this.GetFacilityDetailAllList();
+      await this.GetAllStaffDetailsList(DepartmentID, CollegeID);
+      await this.GetAcademicInformationDetailAllList();
+      await this.GetHostelDetailAllList(DepartmentID, CollegeID);
+      await this.ViewApplyNocApplicationDetails(ApplyNOCID)
     }
     catch (Ex) {
       console.log(Ex);
@@ -359,6 +378,188 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
       }, 200);
     }
   }
+
+  async GetAllBuildingDetailsList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.buildingDetailsMasterService.GetAllBuildingDetailsList(0, this.SelectedCollageID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.lstBuildingDetails = data['Data'][0]['data']['Table'];
+          this.lstBuildingDetailsDocument = data['Data'][0]['data']['Table1'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetRoomDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.roomDetailsService.GetRoomDetailAllList(0, this.SelectedCollageID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.RoomDetails = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetOtherInformationAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.otherInformationService.GetOtherInformationAllList(0, this.SelectedCollageID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.OtherInformation = data['Data'][0]['data'];
+          console.log(this.OtherInformation);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetFacilityDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.facilityDetailsService.GetFacilityDetailAllList(0, this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.FacilitiesDataAllList = data['Data'][0]['data'];
+          console.log(this.FacilitiesDataAllList);
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetAllStaffDetailsList(DepartmentID: number, CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.staffDetailService.GetStaffDetailsListForPDF(DepartmentID, CollegeID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.StaffDetaillst = data['Data'][0]['data']['Table'];
+          this.StaffEducationlst = data['Data'][0]['data']['Table1'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetAcademicInformationDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.academicInformationDetailsService.GetAcademicInformationDetailAllList(0, this.SelectedCollageID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.AcademicInformationList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetHostelDetailAllList(DepartmentID: number, CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.hostelDetailService.GetHostelPdfDetails(DepartmentID, CollegeID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.hostelDetaillst = data['Data'][0]['data']['Table'];
+          this.HostelBlocklst = data['Data'][0]['data']['Table1'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public ApplyNocApplicationDetail: ApplyNocApplicationDataModel = new ApplyNocApplicationDataModel();
+  async ViewApplyNocApplicationDetails(applyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+
+          console.log(data['Data']);
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationDetail = data['Data'];
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
   async GetDownloadPdfDetails() {
     try {
       this.loaderService.requestStarted();
@@ -423,19 +624,21 @@ export class DocumentScrutinyApplicationListDTEComponent implements OnInit {
       pDFData.push({ "ContentName": "#CollegeManagementSociety" })
       pDFData.push({ "ContentName": "#CourseBasicDetails" })
 
-      //pDFData.push({ "ContentName": "#BuildingDetails" })
-      //pDFData.push({ "ContentName": "#FacilityDetails" })
-      //pDFData.push({ "ContentName": "#RoomDetails" })
-      //pDFData.push({ "ContentName": "#OtherInfoDetails" })
+
+
 
       if (this.CollegeType_IsExisting) {
         pDFData.push({ "ContentName": "#OldNocDetial" })
-        //pDFData.push({ "ContentName": "#StaffDetails" })
-        //pDFData.push({ "ContentName": "#AcademicInfo" })
+        pDFData.push({ "ContentName": "#StaffDetails" })
+        pDFData.push({ "ContentName": "#AcademicInfo" })
       }
       pDFData.push({ "ContentName": "#LandDetails" })
-
-      //  pDFData.push({ "ContentName": "#HostelDetial" })
+      pDFData.push({ "ContentName": "#BuildingDetails" })
+      pDFData.push({ "ContentName": "#RoomDetails" })
+      pDFData.push({ "ContentName": "#OtherInfoDetails" })
+      pDFData.push({ "ContentName": "#FacilityDetails" })
+      pDFData.push({ "ContentName": "#HostelDetial" })
+      pDFData.push({ "ContentName": "#ApplyNOCDetails" })
 
 
       for (var i = 0; i < pDFData.length; i++) {

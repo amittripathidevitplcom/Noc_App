@@ -158,11 +158,27 @@ export class ApplicationSummaryComponent implements OnInit {
     debugger;
     this.loaderService.requestStarted();
     let dt = new Date();
+    let Heading1 = 'GOVERNMENT OF RAJASTHAN';
+    let Heading2 = '';
+    let Heading3 = '';
     let Imgpath = this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"];
     try {
-      let Heading1 = 'GOVERNMENT OF RAJASTHAN';
-      let Heading2 = 'OFFICE OF THE COMMISSIONER, COLLEGE EDUCATION,';
-      let Heading3 = 'RAJASTHAN, JAIPUR';
+      if (this.SelectedDepartmentID == 3) {
+        //Heading1 = 'GOVERNMENT OF RAJASTHAN';
+        Heading2 = 'OFFICE OF THE COMMISSIONER, COLLEGE EDUCATION,';
+        Heading3 = 'RAJASTHAN, JAIPUR';
+      }
+      else if (this.SelectedDepartmentID == 4) {
+        //Heading1 = 'GOVERNMENT OF RAJASTHAN';
+        Heading2 = 'DIRECTORATE OF TECHNICAL EDUCATION, RAJASTHAN,';
+        Heading3 = 'W-6 RESIDENCY ROAD, JODHPUR-342032';
+      }
+      else {
+        Heading2 = 'GOVERNMENT OF RAJASTHAN';
+        Heading3 = 'GOVERNMENT OF RAJASTHAN';
+      }
+
+
       let Heading4 = 'ACADEMIC SESSION ' + this.DownloadPdfDetailslst[0]["data"][0]["SessionYear"];
       let Heading5 = '';
       if (this.CollegeType_IsExisting)
@@ -728,6 +744,7 @@ export class ApplicationSummaryComponent implements OnInit {
       await this.GetHospitalDetailList(this.SelectedCollageID);
       await this.GetParaHospitalDataList();
       await this.GetVetHospitalDetailList(this.SelectedDepartmentID, this.SelectedCollageID);
+      await this.GetAllDTECourse(this.sSOLoginDataModel.SSOID, this.SelectedCollageID);
     }
     catch (Ex) {
       console.log(Ex);
@@ -1144,7 +1161,29 @@ export class ApplicationSummaryComponent implements OnInit {
       }, 200);
     }
   }
-
+  public AllDTECourseList: any[] = [];
+  async GetAllDTECourse(SSOID: string, CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.courseMasterService.GetListDTE(0, SSOID, 0, CollegeID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.AllDTECourseList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
   async IsSuperSpecialtyHospital() {
     try {
       this.IsShowSuperSpecialtyHospital = false;
