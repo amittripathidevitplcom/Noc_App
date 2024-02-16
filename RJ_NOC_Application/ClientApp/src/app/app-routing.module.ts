@@ -213,6 +213,8 @@ import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocu
 import { GenerateReceiptListDTEComponent } from './Views/DocumentScrutinyTab_DTE/generate-receipt-list-dte/generate-receipt-list-dte.component';
 import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-step-iiapplications/document-scrutiny-step-iiapplications.component';
 
+import { ApplicationPDFComponent } from './Views/application-pdf/application-pdf.component';
+
 
 const routes: Routes = [
   {
@@ -878,6 +880,9 @@ const routes: Routes = [
       },
       {
         path: 'generatereceiptlistdte/:Status', component: GenerateReceiptListDTEComponent
+      },
+      {
+        path: 'applicationpdf/:CollegeID/DepartmentID/SSOID', component: ApplicationPDFComponent
       },
 
 

@@ -1,0 +1,2310 @@
+ <app-loader></app-loader>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-applynocview-title" style="    font-size: 17px;
+    font-weight: 600 !important;">
+    Application Preview for PDf <!--: {{ApplyNocApplicationDetail.ApplicationNo}}-->
+    ss
+  </h4>
+  <button type="button" class="btn btn-outline-dark" (click)="close()"><i class="fa fa-close"></i></button>
+  <!--<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <i class="fa fa-close"></i>
+  </button>-->
+</div>
+  <div class="modal-body">
+    <!--application details-->
+    <div class="row">
+      <div class="col-lg-2 col-md-4 col-sm-4 float-end">
+        <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card">
+          <!--Legal entity-->
+          <div class="card-body" *ngIf="IsManagmentType">
+            <div class="row">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped-columns text-left" id="LegalBasicInfo" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight: 800;font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Legal Entity</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Legal Entity :- {{legalEntityListData1.IsLegalEntity}}</label>
+                      </td>
+                      <td>
+                        <label>SSOID :- {{LegalEntityDataModel.SSOID}}</label>
+                      </td>
+                      <td>
+                        <label>Date Of Registration :- {{legalEntityListData1.SocietyRegistrationDate}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Registration No :- {{legalEntityListData1.RegistrationNo}}</label>
+                      </td>
+                      <td>
+                        <label>President Mobile Number :- {{legalEntityListData1.PresidentMobileNo}}</label>
+                      </td>
+                      <td>
+                        <label>President Email ID :- {{legalEntityListData1.PresidentEmail}}</label>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        <label>Name  :- {{legalEntityListData1.SocietyName}}</label>
+                      </td>
+                      <td>
+                        <label>Present Status :- {{legalEntityListData1.SocietyPresentStatusName}}</label>
+                      </td>
+                      <td>
+                        <label>State  :- {{legalEntityListData1.StateName_English}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>District  :- {{legalEntityListData1.District_Eng}}</label>
+                      </td>
+                      <td>
+                        <label>Act (Which Act You Registered)  :- {{legalEntityListData1.RegisteredAct}}</label>
+                      </td>
+                      <td *ngIf="legalEntityListData1.RegisteredAct=='Other'">
+                        <label>Act (Which Act You Registered)  :- {{legalEntityListData1.RegisteredActName}}</label>
+                      </td>
+
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Date of Election of Present Management Committee :- {{legalEntityListData1.ElectionPresentManagementCommitteeDate}}</label>
+                      </td>
+                      <td>
+                        <label>Registered Address :- {{legalEntityListData1.SocietyRegisteredAddress}}</label>
+                      </td>
+                      <td>
+                        <label>Pincode :- {{legalEntityListData1.Pincode}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Other Institution run by the Society :- {{legalEntityListData1.IsOtherInstitution}}</label>
+                      </td>
+                      <td>
+                        <label>Women Member of Management Committee is more than 30% of Total Members :- {{legalEntityListData1.IsWomenMembers}}</label>
+                      </td>
+                      <td>
+                        <label>Date of Election of Management Committee not more than 3 Year :- {{legalEntityListData1.IsDateOfElection}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Management Committee certified By Registrar :- {{legalEntityListData1.ManagementCommitteeCertified}}</label>
+                      </td>
+                      <td>
+                        <label>PAN Number :- {{legalEntityListData1.SocietyPANNumber}}</label>
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped" id="TrusteeMemberDetails" #content>
+                    <thead>
+                      <tr>
+                        <td colspan="4" style="    font-weight: 800;
+    font-size: 18px;">
+                          <b><i class="bi bi-table"></i>&nbsp;Trustee Member Details</b>
+                        </td>
+                      </tr>
+                    </thead>
+
+                    <tr>
+                      <th>Trust Logo</th>
+                      <th>Trustee Member Proof</th>
+                      <th>Pan Proof</th>
+                      <th>Registration Document</th>
+                    </tr>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <img src="{{legalEntityListData1.TrustLogoDoc}}" alt="Trust Logo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                        <td>
+                          <a *ngIf="!legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trustee Member Proof" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                          <label *ngIf="legalEntityListData1.Dis_TrusteeMemberProofDocName!='N/A'">{{legalEntityListData1.Dis_TrusteeMemberProofDocName}}</label>
+                        </td>
+                        <td>
+                          <a *ngIf="!legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{legalEntityListData1.SocietyPanProofDocPath}}" alt="Society Pan Proof" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                          <label *ngIf="legalEntityListData1.Dis_SocietyPanProofDocName!='N/A'">{{legalEntityListData1.Dis_SocietyPanProofDocName}}</label>
+                        </td>
+                        <td>
+                          <a *ngIf="!legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{legalEntityListData1.RegistrationDocPath}}" alt="Registration Doc" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="legalEntityListData1.RegistrationDocPath.includes('.pdf')" data-fancybox="gallery" href="{{legalEntityListData1.RegistrationDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                          <label *ngIf="legalEntityListData1.Dis_RegistrationDocName!='N/A'">{{legalEntityListData1.Dis_RegistrationDocName}}</label>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="TrusteeGeneralInfoList.length>0">
+              <div class="col-md-12">
+                <div class="card">
+
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="table-responsive">
+                          <table class="table table-bordered" id="TrusteeGeneralDetails" #content>
+                            <thead>
+                              <tr>
+                                <td colspan="7" style="    font-weight: 800;
+    font-size: 18px;">
+                                  <b><i class="bi bi-table"></i>&nbsp;Trustee General Info</b>
+                                </td>
+                              </tr>
+
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th>
+                                  Sr.No.
+                                </th>
+                                <th>
+                                  Election Present Management Committee Date
+                                </th>
+                                <th>
+                                  Women Members Of Management Committee
+                                </th>
+                                <th>
+                                  Election Of Management Committee
+                                </th>
+                                <th>
+                                  Other Institution run by the Society
+                                </th>
+                                <th>
+                                  Society Registration Document
+                                </th>
+                                <th>
+                                  Society Logo
+                                </th>
+                              </tr>
+                              <tr *ngFor="let row of TrusteeGeneralInfoList;let idx=index;">
+                                <td>
+                                  {{idx+1}}
+                                </td>
+                                <td>
+                                  {{row.DateOfElectionOfPresentManagementCommittee | date:'dd-MM-yyyy'}}
+                                </td>
+                                <td>
+                                  {{row.WomenMembersOfManagementCommitteeID==1?'Yes':'No'}}
+                                </td>
+                                <td>
+                                  {{row.DateOfElectionOfManagementCommitteeID==1?'Yes':'No'}}
+                                </td>
+                                <td>
+                                  {{row.OtherInstitutionRunByTheSocietyID==1?'Yes':'No'}}
+                                </td>
+                                <td>
+                                  <a *ngIf="!row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                                    <img src="{{row.SocietyRegistrationDocumentPath}}" alt="Society Registration Document" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                                  </a>
+                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SocietyRegistrationDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.SocietyRegistrationDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                  <label *ngIf="row.Dis_SocietyRegistrationDocument!='N/A'">{{row.Dis_SocietyRegistrationDocument}}</label>
+                                </td>
+                                <td>
+                                  <img src="{{row.SocietyLogo}}" alt="Society Logo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="legalEntityMemberDetailData.length>0">
+              <div class="col-md-12">
+                <div class="card mb-0">
+
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped" id="LegalMemberDetails" #content>
+                        <thead>
+                          <tr>
+                            <td colspan="10" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;Member Details</b>
+                            </td>
+                          </tr>
+
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Member Name</th>
+                            <th>Father's Name</th>
+                            <th>Date Of Birth</th>
+                            <th>Mobile No.</th>
+                            <th>Post</th>
+                            <th>Aadhaar Number</th>
+                            <th>Member Photo</th>
+                            <th>Member Sign</th>
+                            <th>Aadhaar Document</th>
+                          </tr>
+                          <tr *ngFor="let row of legalEntityMemberDetailData; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.MemberName}}</td>
+                            <td>{{row.MemberFatherName}}</td>
+                            <td>{{row.MemberDOB}}</td>
+                            <td>{{row.MemberMobileNo}}</td>
+                            <td>{{row.MemberPostName}}</td>
+                            <td>{{row.PresidentAadhaarNumber}}</td>
+                            <td>
+                              <img src="{{row.MemberPhoto}}" alt="Member Photo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                            </td>
+                            <td>
+                              <img src="{{row.MemberSignature}}" alt="Member Signature" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                            </td>
+                            <td>
+                              <a *ngIf="!row.PresidentAadhaarProofDocPath.includes('.pdf') && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.PresidentAadhaarProofDocPath}}" alt="President Aadhaar Proof" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                              </a>
+                              <label *ngIf="row.Dis_PresidentAadhaarProofDocName!='N/A'">{{row.Dis_PresidentAadhaarProofDocName}}</label>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="legalEntityInstituteDetailData.length>0">
+              <div class="col-md-12">
+                <div class="card mb-0">
+
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped" id="LegalInstituteDetails" #content>
+                        <thead>
+                          <tr>
+                            <td colspan="7" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;Institute Details</b>
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Registration No.</th>
+                            <th>Institute Name</th>
+                            <th>Contact Person Name</th>
+                            <th>Designation</th>
+                            <th>Contact Number</th>
+                            <th>State</th>
+                          </tr>
+                          <tr *ngFor="let row of legalEntityInstituteDetailData; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.RegistrationNo}}</td>
+                            <td>{{row.InstituteName}}</td>
+                            <td>{{row.InstitutePersonName}}</td>
+                            <td>{{row.InstituteDesignation}}</td>
+                            <td>{{row.InstituteContactNumber}}</td>
+                            <td>{{row.StateName_English}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--College details-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped-columns text-left" id="CollegeBasicInfo" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;College Detail</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Department :-{{collegeListData.DepartmentName_English}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.DepartmentID==3">
+                        <label>Type of College :-{{collegeListData.TypeofCollege}}</label>
+                      </td>
+                      <td>
+                        <label>College Status :-{{collegeListData.CollegeStatus}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        College Logo :- <img src="{{collegeListData.CollegeLogo}}" alt="College Logo" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                      </td>
+                      <td colspan="2">
+                        <label>College Name in Hindi :- {{collegeListData.CollegeNameHi}}</label>
+                      </td>
+                    </tr>
+                    <tr><td colspan="3"></td></tr>
+                    <tr>
+                      <td>
+                        <label>College Name in English :-{{collegeListData.CollegeNameEn}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.CollegeStatus!='New'">
+                        <label>Present Status of College :-{{collegeListData.PresentCollegeStatus}}</label>
+                      </td>
+                      <td>
+                        <label>College Type :-{{collegeListData.CollegeType}}</label>
+                      </td>
+                    </tr>
+                    <br />
+                    <tr>
+                      <td *ngIf="collegeListData.DepartmentID==4">
+                        <label>Management Type :-{{collegeListData.ManagementTypeName}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.DepartmentID!=4">
+                        <label>College Level :-{{collegeListData.CollegeLevel}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.DepartmentID==4">
+                        <label>
+                          College Level :-<span *ngFor="let item of DTECollegeLevel let idx=index">
+                            {{idx==0?'':', '}}{{item.LevelName}}
+                          </span>
+                        </label>
+                      </td>
+                      <td>
+                        <label>College Code :-{{collegeListData.CollegeCode}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>IS Your College NAAC Accredited :-{{collegeListData.CollegeNAACAccredited}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
+                        <label>NAAC Accredited Certificate :-{{collegeListData.NAACAccreditedCertificatePath}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="collegeListData.CollegeNAACAccredited =='Yes'">
+                        <label>NACC Validity Date :-{{collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.DepartmentID==3">
+                        <label>AISHE Code Status :-{{collegeListData.AISHECodeStatus}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.AISHECodeStatus =='Yes' && collegeListData.DepartmentID==3">
+                        <label>AISHE Code :-{{collegeListData.AISHECode}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>College Medium :-{{collegeListData.CollegeMediumName}}</label>
+                      </td>
+                      <td>
+                        <label *ngIf="collegeListData.DepartmentID==6">University / RMC  :-{{collegeListData.UniversityName}}</label>
+                        <label *ngIf="collegeListData.DepartmentID !=6">University :-{{collegeListData.UniversityName}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.CollegeStatus!='New'">
+                        <label>Year of Establishment :-{{collegeListData.FinancialYearName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Division :-{{collegeListData.Division_English}}</label>
+                      </td>
+                      <td>
+                        <label>District :-{{collegeListData.District_Eng}}</label>
+                      </td>
+                      <td>
+                        <label>Subdivision :-{{collegeListData.SubdivisionName}}{{collegeListData.SubdivisionName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Tehsil :-{{collegeListData.TehsilName}}</label>
+                      </td>
+                      <td>
+                        <label>Area :-{{collegeListData.RuralUrbanArea}}</label>
+                      </td>
+                      <td *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                        <label>Panchayat Samiti :-{{collegeListData.PanchyatSamitiName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="collegeListData.RuralUrbanArea=='Urban'">
+                        <label>City :-{{collegeListData.CityName}}</label>
+                      </td>
+                      <td>
+                        <label>Parliament Area :-{{collegeListData.ParliamentAreaName}}</label>
+                      </td>
+                      <td>
+                        <label>Assembly Area :-{{collegeListData.AssemblyAreaName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>City/Town/Village :-{{collegeListData.CityTownVillage}}</label>
+                      </td>
+
+                      <td>
+                        <label>Pincode :-{{collegeListData.Pincode}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 1 :-{{collegeListData.AddressLine1}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Address Line 2 :-{{collegeListData.AddressLine2}}</label>
+                      </td>
+
+                      <td *ngIf="collegeListData.RuralUrbanArea=='Rural'">
+                        <label>Distance from City(km) :-{{collegeListData.DistanceFromCity}}</label>
+                      </td>
+                      <td>
+                        <label>Website Link :-{{collegeListData.WebsiteLink}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Mobile Number :-{{collegeListData.MobileNumber}}</label>
+                      </td>
+                      <td>
+                        <label>Landline Number :-{{collegeListData.CollegeLandlineNumber}}</label>
+                      </td>
+                      <td>
+                        <label>Email :-{{collegeListData.Email}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row" *ngIf="CollegeGeoTaggingList.length>0">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped" id="CollegeGeoTagging" #content>
+                        <thead>
+                          <tr>
+                            <td colspan="6" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;Geo Tagging Status Details</b>
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>Sr.No.</th>
+                            <th>Geo Tagging Status</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                            <th>Image 1</th>
+                            <th>Image 2</th>
+                          </tr>
+                          <tr *ngFor="let row of CollegeGeoTaggingList; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.IsGeoTagging}}</td>
+                            <td>{{row.TGC_Latitude}}</td>
+                            <td>{{row.TGC_Longitude}}</td>
+                            <td>
+                              <a *ngIf="row.Image1!='N/A'" data-fancybox="gallery" href="{{row.Image1}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.Image1}}" alt="Image 1" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                              </a>
+                              <label *ngIf="row.Image1=='N/A'">{{row.Image1}}</label>
+
+                            </td>
+                            <td>
+                              <a *ngIf="row.Image2!='N/A'" data-fancybox="gallery" href="{{row.Image2}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.Image2}}" alt="Image 2" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                              </a>
+                              <label *ngIf="row.Image1=='N/A'">{{row.Image2}}</label>
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="collegeContactDetailsList.length>0">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped" id="CollegeContactDetails" #content>
+                        <thead>
+                          <tr>
+                            <td colspan="5" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;Contact Details</b>
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>Sr.No.</th>
+                            <th>Name Of Person</th>
+                            <th>Designation</th>
+                            <th>Mobile Number</th>
+                            <th>Email Address</th>
+                          </tr>
+                          <tr *ngFor="let row of collegeContactDetailsList; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.NameOfPerson}}</td>
+                            <td>{{row.DesignationName}}</td>
+                            <td>{{row.MobileNumber}}</td>
+                            <td>{{row.EmailAddress}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-striped-columns text-left" id="CollegeGeneralContactDetails" #content>
+                          <thead>
+                            <tr>
+                              <td colspan="3" style="    font-weight: 800;
+    font-size: 18px;">
+                                <b><i class="bi bi-table"></i>&nbsp;General Contact Details</b>
+                              </td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <label>Designation :- {{collegeListData.DesignationName}}</label>
+                              </td>
+                              <td>
+                                <label>Mobile Number :- {{collegeListData.GCD_MobileNumber}}</label>
+                              </td>
+                              <td>
+                                <label>Landline Number :- {{collegeListData.GCD_LandlineNumber}}</label>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="collegeNearestGovernmentHospitalsList.length>0">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped" id="CollegeHospitalDetails" #content>
+                        <thead>
+                          <tr>
+                            <td colspan="6" style="    font-weight: 800;
+    font-size: 18px;">
+                              <b><i class="bi bi-table"></i>&nbsp;10 Government hospitals nearest to the institution</b>
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Hospital Reg. No.</th>
+                            <th>Hospital Name</th>
+                            <th>Hospital Address</th>
+                            <th>Distance From Institute(KM)</th>
+                            <th>Hospital Document</th>
+                          </tr>
+                          <tr *ngFor="let row of collegeNearestGovernmentHospitalsList; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.HospitalRegNo}}</td>
+                            <td>{{row.HospitalName}}</td>
+                            <td>
+                              <p class="m-0"><b>Area : </b> {{row.RuralUrbanArea}}</p>
+                              <p class="m-0"><b>Address Line 1 : </b> {{row.AddressLine1}}</p>
+                              <p class="m-0"><b>Address Line 2 : </b>{{row.AddressLine2}}</p>
+                              <p class="m-0"><b>Division : </b> {{row.Division_English}}</p>
+                              <p class="m-0"><b>District : </b> {{row.District_Eng}}</p>
+                              <p class="m-0"><b>Tehsil : </b>{{row.TehsilName}}</p>
+                              <p *ngIf="row.RuralUrban==1" class="m-0"><b>PanchayatSamiti : </b>{{row.PanchyatSamitiName}}</p>
+                              <p *ngIf="row.RuralUrban==2" class="m-0"><b>City : </b>{{row.CityName}}</p>
+                              <p class="m-0"><b>City/Town/Village : </b>{{row.CityTownVillage}}</p>
+                              <p class="m-0"><b>Pincode : </b>{{row.Pincode}}</p>
+                            </td>
+                            <td>{{row.HospitalDistance}}</td>
+                            <td>
+                              <a *ngIf="!row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.HospitalDocumentPath}}" alt="Hospital Document" style="    width: 50px !important;
+    height: 50px !important;" class="img-thumbnail" />
+                              </a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px">
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--end-->
+
+          </div>
+          <!--Course Details-->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive" *ngIf="AllCourseList.length>0">
+                  <table class="table table-hover table-striped-columns" id="CourseBasicDetails" #content>
+                    <thead>
+                      <tr>
+                        <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                          <b><i class="bi bi-table"></i>&nbsp;Course Details</b>
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Sr.No.</th>
+                        <th>Department</th>
+                        <th>College Name</th>
+                        <th>Course</th>
+                        <th>Stream</th>
+                        <th style="    width: 250px !important">Subject</th>
+                        <th *ngIf="this.SelectedDepartmentID !=3">Seat</th>
+                        <th *ngIf="this.SelectedDepartmentID ==3">No Of Enrolled Students</th>
+                      </tr>
+                      <tr *ngFor="let row of AllCourseList ; let idx=index;">
+                        <td style="    width: 40px !important"> {{idx+1}}</td>
+                        <td>{{row.DepartmentName}}</td>
+                        <td>{{row.CollageName}}</td>
+                        <td>{{row.CourseName}}</td>
+                        <td>{{row.StreamName}}</td>
+                        <td style="    width: 250px !important">{{row.SubjectDetails}}</td>
+                        <td *ngIf="this.SelectedDepartmentID !=3">{{row.Dis_Sits}}</td>
+                        <td *ngIf="this.SelectedDepartmentID ==3">{{row.NoOfEnrolledStudents}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--College Managment Society-->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive" *ngIf="SocietyAllList.length>0">
+                  <table class="table table-hover table-striped-columns table-sm" id="CollegeManagementSociety" #content>
+                    <thead>
+                      <tr>
+                        <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                          <b><i class="bi bi-table"></i>&nbsp;College Management Society</b>
+                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>S.No.</th>
+                        <th>College</th>
+                        <th>Personal Info</th>
+                        <th>Post & Service </th>
+                        <th>Other Details </th>
+                      </tr>
+                      <tr *ngFor="let row of SocietyAllList let idx=index;">
+                        <td>{{idx+1}}</td>
+                        <td>{{row.CollegeNameEn}}</td>
+                        <td>
+                          Name:- {{row.PersonName}}<br />
+                          Father Name:- {{row.FatherName}}<br />
+                          Email:- {{row.Email}}<br />
+                          Gender:- {{row.Gender}}<br />
+                          MobileNo:- {{row.MobileNo}}<br />
+                        </td>
+
+                        <td>
+                          Designation:- {{row.DesignationName}}<br />
+                          Occupation:- {{row.OccupationName}}<br />
+                        </td>
+                        <td>
+                          Aadhaar No.:- {{row.AadhaarNo}}<br />
+                          PAN No.:- {{row.PANNo}}<br />
+                          IsPrimary.:- {{row.IsPrimary == false ? 'No' : 'Yes'}}<br />
+                          IsAuthorized.:- {{row.IsAuthorized == false ? 'No' : 'Yes'}}<br />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Land Details-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="LandDetailList.length>0">
+                <table class="table table-bordered table-hover table-striped" id="LandDetails" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Land Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>College</th>
+                      <th>Land Convereted Type</th>
+                      <th>Land Details</th>
+                      <th>Land Area/KhasraNo</th>
+                      <th>Order No/Date.</th>
+                    </tr>
+                    <tr *ngFor="let item of LandDetailList; let idx =index">
+                      <td>{{idx+1}}</td>
+                      <td>{{item.CollegeName}}</td>
+                      <td>{{item.IsConvereted}}</td>
+                      <td>
+                        Owner Name:- {{item.LandOwnerName}}<br />
+                        Land Area Situated:- {{item.LandAreaSituatedName}}<br />
+                        Document Type Name:- {{item.LandDocumentTypeName}}<br />
+                        Land Type Name:- {{item.LandTypeName}}<br />
+                        <span *ngIf="SelectedDepartmentID==5">Land Type :- {{item.MedicalGroupOneLandType}}</span>
+                      </td>
+                      <td>
+                        Land Area:- {{item.LandArea}}<br />
+                        Khasra No:- {{item.KhasraNo}}<br />
+                        <span *ngIf="SelectedDepartmentID==5">Lease Date :- {{item.MedicalGroupOneLandType=='Lease for 99 years'?item.LeaseDate:'NA'}}</span>
+                        <span *ngIf="SelectedDepartmentID==5">Name Of Person Land Purchased or Allotted :- {{item.NameOfLandPurchasedAllotted}}</span>
+                        <span *ngIf="SelectedDepartmentID==5">Land Unit :- {{item.MedicalGroupOneLandUnit}}</span>
+                      </td>
+                      <td>
+                        Land Conversion Order Date:- {{item.LandConversionOrderDate}}<br />
+                        Land Conversion Order No:- {{item.LandConversionOrderNo}}<br />
+                        Affidavit Date:- {{item.AffidavitDate}}<br />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Building Details-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="lstBuildingDetails.length>0">
+                <table class="table table-hover table-striped-columns" id="BuildingDetails" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Building Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr. No</th>
+                      <th>Building Type</th>
+                      <th>Personal Info</th>
+                      <th>Own/Rent Order No. & Order Date </th>
+                      <th>Fire NOC Validity</th>
+                      <th>Building Safety Certificate Order No. & Order Date</th>
+                    </tr>
+                    <tr *ngFor="let item of lstBuildingDetails let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{item.BuildingTypeName}}</td>
+                      <td>
+                        Owner Name:- {{item.OwnerName}}<br />
+                        Rural/Urban:- {{item.RuralUrban}}<br />
+                        Address:- {{item.AddressLine1}},{{item.AddressLine2}},{{item.Division_English}},{{item.District_Eng}},{{item.TehsilName}},{{item.PanchyatSamitiName}}<br />
+                        ContactNo:- {{item.ContactNo}}<br />
+                        Pincode:- {{item.Pincode}}<br />
+                        Total Constructed Building Area:- {{item.BuildingHostelQuartersRoadArea}} Sq.Meter<br />
+                        Rent Valid Up To:- {{item.Rentvaliditydate}}<br />
+                      </td>
+                      <td>
+                        Order No:- {{item.OwnBuildingOrderNo}}<br />
+                        Order Date:- {{item.OwnBuildingOrderDate}}<br />
+                      </td>
+                      <td>
+                        Order No:- {{item.FireNOCOrderNumber}}<br />
+                        From Date:- {{item.FromDate}}<br />
+                        To Date:- {{item.ToDate}}<br />
+                      </td>
+                      <td>
+                        Order No:- {{item.OrderNo}}<br />
+                        Order Date:- {{item.OrderDate}}<br />
+                        Expiring On:- {{item.ExpiringOn}}<br />
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Facility Details-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="FacilitiesDataAllList.length>0">
+                <table class="table table-bordered table-hover table-striped" id="FacilityDetails" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Facility Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Facility Name</th>
+                      <th>Is Available(Y/N)</th>
+                      <th>No of </th>
+                      <th>Minimum Size</th>
+                      <!--<th>Image/File</th>-->
+                    </tr>
+                    <tr *ngFor="let item of FacilitiesDataAllList ; let indexOfelement=index;">
+                      <td> {{indexOfelement+1}}</td>
+                      <td>{{item.FacilitiesName}}</td>
+                      <td>{{item.IsAvailable}}</td>
+                      <td>{{item.NoOf}}</td>
+                      <td>
+                        {{item.MinSize}}
+                      </td>
+                      <!--<td>
+                                          <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>-->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Room Details-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="RoomDetails.length>0">
+                <table class="table table-bordered table-hover table-striped" id="RoomDetails" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Rooms Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Course</th>
+                    <th>Room No.</th>
+                    <th>Width (sq. ft) Size</th>
+                    <th>Length (sq. ft)</th>
+                    <th>Room Size (sq. ft)</th>
+                    <th>Student Capacity</th>
+                    <!--<th>Upload Image</th>-->
+                  </tr>
+
+                  <tbody>
+                    <tr *ngFor="let item of RoomDetails; let idx =index">
+                      <td width="5%">
+                        {{idx+1}}
+                      </td>
+                      <td>{{item.CourseName}}</td>
+                      <td> {{item.NoOfRooms}}</td>
+                      <td> {{item.Width}}</td>
+                      <td>{{item.Length}}</td>
+                      <td> {{item.Length*item.Width}}</td>
+                      <td> {{item.StudentCapacity}}</td>
+                      <!--<td>
+                                          <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.ImageFilePath}}" alt="Image/File" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>-->
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Other Information-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="OtherInformation.length>0">
+                <table class="table table-bordered table-hover table-striped" id="OtherInfoDetails" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;" *ngIf="SelectedDepartmentID==6">
+                        <b><i class="bi bi-table"></i>&nbsp;Clinical Details</b>
+                      </td>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;" *ngIf="SelectedDepartmentID!=6">
+                        <b><i class="bi bi-table"></i>&nbsp;Other Information Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Course Name</th>
+                    <th>No. of Rooms</th>
+                    <th>Minimum Size (Sq. Feet)</th>
+                    <th>No of Computers</th>
+                    <th>No of books</th>
+                    <!--<th>Upload Image</th>-->
+                    <!--<th>Book's Details Document</th>-->
+                  </tr>
+                  <tbody>
+                    <tr *ngFor="let item of OtherInformation; let idx =index">
+                      <td width="5%">
+                        {{idx+1}}
+                      </td>
+                      <td>
+                        {{item.CourseName}}
+                      </td>
+                      <td>
+                        {{item.NoOfRooms}}
+                      </td>
+                      <td>
+                        {{item.Width}}
+                      </td>
+                      <td>
+                        {{item.NoofComputers}}
+                      </td>
+                      <td>
+                        {{item.NoofBooks}}
+                      </td>
+                      <!--<td>
+                                          <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.ImageFilePath}}" alt="Image File" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <label *ngIf="item.ImageFilePath=='N/A'">{{item.ImageFilePath}}</label>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>
+                                        <td>
+                                          <a *ngIf="!item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                            <img src="{{item.BookImageFilePath}}" alt="Image File" style="    width: 50px !important;
+                      height: 50px !important;" class="img-thumbnail" />
+                                          </a>
+                                          <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
+                                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                        </td>-->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Staff Details-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="StaffDetaillst.length>0">
+                <table class="table table-hover table-striped" id="StaffDetails" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Staff Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Image</th>
+                      <th>Person Details</th>
+                      <th>Dates</th>
+                      <th>Post & Service</th>
+                      <th>PF/Research Guide</th>
+                      <th>Educational Qualification</th>
+                    </tr>
+                    <tr *ngFor="let item of StaffDetaillst let idx =index">
+                      <td>{{idx+1}}</td>
+                      <td>
+                        <img src="{{item.ProfilePhoto}}" alt="Trust Logo" style="width: 50px !important;height: 50px !important;" class="img-thumbnail" />
+                      </td>
+                      <td>
+                        Name:- {{item.PersonName}}<br />
+                        Mobile Number:- {{item.MobileNo}}<br />
+                        Email ID:- {{item.Email}}<br />
+                        Qualification:- {{item.HighestQualificationName}}<br />
+                        Type:- {{item.TeachingType}}<br />
+                        Gender:- {{item.Gender}}<br />
+                      </td>
+                      <td>
+                        Date of Birth:- {{item.DateOfBirth | date:'dd-MM-yyyy'}}<br />
+                        Date of Appointment:- {{item.DateOfAppointment | date:'dd-MM-yyyy'}}<br />
+                        Date of Joining:- {{item.DateOfJoining | date:'dd-MM-yyyy'}}<br />
+                        Year of Experience:- {{item.NumberofExperience}}<br />
+                      </td>
+                      <td>
+                        Designation:- {{item.RoleName}}<br />
+                        <span *ngIf="item.TeachingType=='Teaching'">Subject :- {{item.SubjectName}}</span><br />
+                        Staff Status:- {{item.StaffStatus}}<br />
+                        Annual Salary:- {{item.Salary}}<br />
+                      </td>
+                      <td>
+                        Aadhaar No.:- {{item.AadhaarNo}}<br />
+                        PAN No. :- {{item.PANNo}}<br />
+                        <span *ngIf="item.TeachingType=='Teaching'">PAN No. :- {{item.ResearchGuide}}</span><br />
+                        PF Deduction :- {{item.PFDeduction}}<br />
+                        <span *ngIf="item.PFDeduction=='Yes'">UAN No :- {{item.UANNumber}}<br /></span>
+                        <span *ngIf="item.ESINumber != ''">ESI Number :- {{item.ESINumber}}</span><br />
+                        <span *ngIf="item.TeachingType=='Teaching'">Specialization :- {{item.SpecializationSubject}}</span><br />
+                      </td>
+                      <td>
+                        <span *ngFor="let row of StaffEducationlst let idx=index">
+                          <span *ngIf="row.StaffDetailID == item.StaffDetailID">
+                            {{idx==0?'':' '}}Professional Qualification.:- {{row.ProfessionalQualification}}<br />
+                            Stream/Subject :- {{row.StreamSubject}}<br />
+                            University/Board/ Institution :- {{row.UniversityBoardInstitutionName}}<br />
+                            Passing Year :- {{row.PassingYear}}<br />
+                            Percentage/Grade :- {{row.Marks}}<br />
+                          </span>
+
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Academic Information-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="AcademicInformationList.length>0">
+                <table class="table table-hover table-striped-columns" id="AcademicInfo" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Academic Information</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr. No.</th>
+                      <th>Financial Year</th>
+                      <th>Course Name</th>
+                      <th>Result</th>
+                      <th>Admitted Student</th>
+                      <th>Appeared Student</th>
+                      <th>Passed Student</th>
+                      <th>Failed Student</th>
+                      <th>Other Student</th>
+                    </tr>
+                    <tr *ngFor="let row of AcademicInformationList;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.FinancialYearName}}</td>
+                      <td>{{row.CourseName}}</td>
+                      <td>{{row.ResultName}}</td>
+                      <td>{{row.AdmittedStudent}}</td>
+                      <td>{{row.AppearedStudent}}</td>
+                      <td>{{row.PassedStudent}}</td>
+                      <td>{{row.FailedStudent}}</td>
+                      <td>{{row.OtherStudent}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Farm Land Information-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="lstFarmLandDetails.length>0 && SelectedDepartmentID==1">
+                <table class="table table-hover table-striped-columns" id="FarmLandDetial" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Farm Land Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>College</th>
+                      <th>Personal Info</th>
+                      <th>Land Type</th>
+                      <th>Khasra Number</th>
+                      <th>Total Farm Land Area(Ha)</th>
+                      <th>Total Land Area(Ha)</th>
+                      <th>Source Irrigation</th>
+                      <th>Is Farm Land</th>
+                    </tr>
+                    <tr *ngFor="let item of lstFarmLandDetails;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{item.CollegeName}}</td>
+                      <td>
+                        Owner Name:- {{item.LandOwnerName}}<br />
+                        Rural/Urban:- {{item.RuralUrban}}<br />
+                        Address:- {{item.AddressLine1}},{{item.AddressLine2}},{{item.Division_English}},{{item.District_Eng}},{{item.TehsilName}},{{item.PanchyatSamitiName}}{{item.CityName}}<br />
+                      </td>
+                      <td>{{item.LandType}}</td>
+                      <td>{{item.KhasraNumber}}</td>
+                      <td>{{item.TotalFarmLandArea}}</td>
+                      <td>{{item.TotalLandArea}}</td>
+                      <td>{{item.SourceIrrigation}}</td>
+                      <td>{{item.FarmLandIs}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Old NOC Details-->
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive" *ngIf="OldNocDetailslst.length>0">
+                <table class="table table-hover table-striped-columns" id="OldNocDetial" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800; font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Old NOC Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Course</th>
+                      <th>NOC Type</th>
+                      <th>NOC Issue on Session Year</th>
+                      <th>Issued for Year</th>
+                      <th>NOC Number</th>
+                      <th>NOC Received On</th>
+                      <!--<th>NOC Expire Date</th>-->
+                      <th>Subject Details</th>
+                    </tr>
+                    <tr *ngFor="let row of OldNocDetailslst;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.CourseName}}</td>
+                      <td>{{row.NOCTypeName}}</td>
+                      <td>{{row.FinancialYearName}}</td>
+                      <td>{{row.IssuedYear}}</td>
+                      <td>{{row.NOCNumber}}</td>
+                      <td>{{row.NOCReceivedDate | date:'dd-MM-yyyy'}}</td>
+                      <!--<td>{{row.NOCExpireDate | date:'dd-MM-yyyy'}}</td>-->
+                      <td>
+                        <span *ngFor="let item of OldNocSubjectlst let idxe=index">
+                          <span *ngIf="row.OldNocID == item.OldNocID">
+
+                            {{idxe==0?'':' '}}{{item.SubjectName}}
+                          </span>
+
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!--Hostel Details-->
+          <div class="card-body">
+            <div class="row" *ngIf="SelectedDepartmentID==6 || SelectedDepartmentID==3 || SelectedDepartmentID==4">
+              <div class="table-responsive" *ngIf="hostelDetaillst.length>0">
+                <table class="table table-hover table-striped-columns" id="HostelDetial" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800;
+    font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Hostel Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Hostel Details</th>
+                      <th>Address & Contact Detail</th>
+                      <th>Hostel Block Details</th>
+                    </tr>
+                    <tr *ngFor="let row of hostelDetaillst;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>
+                        Is Hostel In Campus:- {{row.IsHostelCampus}}<br />
+                        Hostel Category:- {{row.HostelCategory}}<br />
+                        Hostel Name:- {{row.HostelName}}<br />
+                        <span *ngIf="row.HostelType =='Rent'">
+                          Owner Name:- {{row.OwnerName}}<br />
+                          Contact No.:- {{row.OwnerContactNo}}<br />
+                          From Date:- {{row.FromDate | date:'dd-MM-yyyy'}}<br />
+                          To Date:- {{row.ToDate | date:'dd-MM-yyyy'}}<br />
+                        </span>
+                      </td>
+                      <td>
+                        Contact Person Name:- {{row.ContactPersonName}}<br />
+                        Contact Person No.:- {{row.ContactPersonNo}}<br />
+                        Distance of College (KM):- {{row.DistanceOfCollege}}<br />
+                        Rural/Urban:- {{row.IsRuralUrban}}<br />
+                        Address:- {{row.AddressLine1}},{{row.AddressLine2}},{{row.DivisionName}},{{row.DistrictName}},{{row.TehsilName}},{{row.PanchyatSamitiName}}{{row.CityName}}<br />
+                        <span *ngIf="row.IsHostelCampus !='No'">Hostel Type:- {{row.HostelType}}<br /></span>
+                      </td>
+                      <td>
+                        <span *ngFor="let item of HostelBlocklst let idxe=index">
+                          <span *ngIf="row.HostelDetailID == item.HostelDetailID">
+                            {{idxe==0?'':' '}}Hostel Block:- {{item.CourseName}}<br />
+                            No Of :- {{item.NoOf}}<br />
+                            Area (In Sq Feet):- {{item.Width}}<br />
+                            Student Capacity :- {{item.StudentCapacity}}<br />
+                          </span>
+
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--Hospital Details-->
+          <!--Hospital Details-->
+          <div class="card-body" *ngIf="SelectedDepartmentID==6">
+            <div class="row">
+              <div class="table-responsive">
+                <div *ngFor="let row of HospitalAllDatalst;let idx=index;">
+                  <table class="table table-hover table-striped-columns text-left" id="HospitalDetailInfo" #content>
+                    <thead>
+                      <tr>
+                        <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hospital Detail : - {{row.HospitalName}}</b></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <label>Whether the institution is a parent hospital or not :-{{row.ParentHospitalID==1?'Yes':'No'}}</label>
+                        </td>
+                        <td>
+                          <label>Hospital Status :-{{row.HospitalStatus}}</label>
+                        </td>
+                        <td>
+                          <label>Hospital Area :-{{row.HospitalAreaName}}</label>
+                        </td>
+                        <td>
+                          <label>Hospital Reg. No. :{{row.HospitalRegNo}}</label>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td><label>Hospital Name :{{row.HospitalName}}</label> </td>
+                        <td>
+                          <label>Hospital Distance from Institutions (KM) :{{row.HospitalDistance}}</label>
+                        </td>
+                        <td>
+                          <label>Hospital Contact No. :{{row.HospitalContactNo}}</label>
+                        </td>
+                        <td>
+                          <label>Hospital Email ID :{{row.HospitalEmailID}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><label>Address Line 1 :{{row.AddressLine1}}</label> </td>
+                        <td>
+                          <label>Address Line 2:{{row.AddressLine2}}</label>
+                        </td>
+                        <td>
+                          <label>Area :{{row.RuralUrban==1?'Rural':'Urban'}}</label>
+                        </td>
+                        <td>
+                          <label>Division :{{row.DivisionName}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><label>District :{{row.DistrictName}}</label> </td>
+                        <td>
+                          <label>Tehsil:{{row.TehsilName}}</label>
+                        </td>
+                        <td *ngIf="row.RuralUrban==2">
+                          <label *ngIf="row.RuralUrban==2">City :{{row.CityName}}</label>
+                        </td>
+                        <td *ngIf="row.RuralUrban==1">
+                          <label>Panchayat Samiti :{{row.PanchyatSamitiName}}</label>
+                        </td>
+                        <td>
+                          <label>City/Town/Village :{{row.CityTownVillage}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><label>Pincode :{{row.Pincode}}</label> </td>
+                        <td>
+                          <label>Whether the affiliated hospital has affiliation with any other institution in the past or not:{{row.AffiliatedHospitalAffiliationToOtherID==1?'Yes':'No'}}</label>
+                        </td>
+                        <td>
+                          <label>Area :{{row.RuralUrban==1?'Rural':'Urban'}}</label>
+                        </td>
+                        <td>
+                          <label>Division :{{row.DivisionName}}</label>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody>
+                      <tr>
+                        <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Pollution Detail : -</b></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Whether the institution is a parent hospital or not :-{{row.ParentHospitalID==1?'Yes':'No'}}</label>
+                        </td>
+                        <td>
+                          <label>Hospital Status :-{{row.HospitalStatus}}</label>
+                        </td>
+                        <td>
+                          <label>Hospital Area :-{{row.HospitalAreaName}}</label>
+                        </td>
+                        <td>
+                          <label>Hospital Reg. No. :{{row.HospitalRegNo}}</label>
+                        </td>
+                      </tr>
+                    </tbody>
+
+                    <tbody>
+                      <tr>
+                        <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Distribution of beds in different areas : -</b></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Medical :-{{row.MedicalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Surgical :-{{row.SurgicalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Obst. & Gynaecology :-{{row.ObstAndGynaecologyBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Pediatrics :{{row.PediatricsBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Ortho :-{{row.OrthoBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Bed Occupancy of the Hospital in percentege :-{{row.OccupancyPercentegeBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Affiliation of psychiatric hospital beds :{{row.AffiliationPsychiatricBeds}}</label>
+                        </td>
+                      </tr>
+                    </tbody>
+
+                    <tbody *ngIf="IsShowSuperSpecialtyHospital">
+                      <tr>
+                        <td>&nbsp;Super specialty hospital details :- </td>
+                      </tr>
+                      <tr colspan="3" style="font-weight:800; font-size:18px;">Cardio Thoracic Nursing : - </tr>
+                      <tr>
+                        <td>
+                          <label>Total Beds :-{{row.CardioThoracicTotalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>CCU Beds :-{{row.CardioThoracicCCUBeds}}</label>
+                        </td>
+                        <td>
+                          <label>ICCU Beds :-{{row.CardioThoracicICCUBeds}}</label>
+                        </td>
+                        <td>
+                          <label>ICU Beds :{{row.CardioThoracicICUBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr colspan="3" style="font-weight:800; font-size:18px;">Critical Care Nursing :- </tr>
+                      <tr>
+                        <td>
+                          <label>Total Beds :-{{row.CriticalCareNursingTotalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Critical Care Beds :-{{row.CriticalCareNursingCCBeds}}</label>
+                        </td>
+                        <td>
+                          <label>ICU Beds :{{row.CriticalCareNursingICUBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr colspan="3" style="font-weight:800; font-size:18px;">Midwifery Nursing :- </tr>
+                      <tr>
+                        <td>
+                          <label>Total Beds :-{{row.MidwiferyNursingTotalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Mother and Neonatal Units Beds :-{{row.MotherNeonatalUnitsBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Deliveries Per Year :{{row.DeliveriesPerYear}}</label>
+                        </td>
+                        <td>
+                          <label>Level II Neonatal Beds :-{{row.LevelIINeonatalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Level III Neonatal Beds :{{row.LevelIIINeonatalBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr colspan="3" style="font-weight:800; font-size:18px;">Neuro Science Nursing :- </tr>
+                      <tr>
+                        <td>
+                          <label>Total Beds :-{{row.NeuroScienceNursingTotalBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr colspan="3" style="font-weight:800; font-size:18px;">Oncology Nursing :- </tr>
+                      <tr>
+                        <td>
+                          <label>Total Beds :-{{row.OncologyNursingTotalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Medical Beds :{{row.OncologyNursingMedicalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Chemotherapy Beds :-{{row.OncologyNursingChemotherapyBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Radiotherapy Beds :{{row.OncologyNursingRadiotherapyBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Palliative Beds :-{{row.OncologyNursingPalliativeBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Diagnostic Beds :{{row.OncologyNursingDiagnosticBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr colspan="3" style="font-weight:800; font-size:18px;">Orthopaedic & Rehabilitation Nursing:- </tr>
+                      <tr>
+                        <td>
+                          <label>Total Beds :-{{row.OrthopaedicRehabilitationNursingTotalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Orthopaedic Beds :-{{row.OrthopaedicRehabilitationNursingOrthopaedicBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Rehabilitation Beds :{{row.OrthopaedicRehabilitationNursingRehabilitationBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr colspan="3" style="font-weight:800; font-size:18px;">Psychiatric Nursing:- </tr>
+                      <tr>
+                        <td>
+                          <label>Total Beds :-{{row.PsychiatricNursingTotalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Acute Beds :-{{row.PsychiatricNursingAcuteBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Chronic Beds  :{{row.PsychiatricNursingChronicBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Adult Beds  :{{row.PsychiatricNursingAdultBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Child Beds :-{{row.PsychiatricNursingChildBeds}}</label>
+                        </td>
+                        <td>
+                          <label>De-Addiction Beds :-{{row.PsychiatricNursingDeAddictionBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr colspan="3" style="font-weight:800; font-size:18px;">Neonatal Nursing :- </tr>
+                      <tr>
+                        <td>
+                          <label>Total Beds :-{{row.NeonatalNursingTotalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Level II/III NICU Beds :-{{row.NeonatalNursingLevelIIOrIIINICUBeds}}</label>
+                        </td>
+                        <td>
+                          <label>NICU Beds  :{{row.NeonatalNursingNICUBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr colspan="3" style="font-weight:800; font-size:18px;">Operation Room Nursing :- </tr>
+                      <tr>
+                        <td>
+                          <label>Total Beds :-{{row.OperationRoomNursingTotalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>General Surgery Beds :-{{row.OperationRoomNursingGeneralSurgeryBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Pediatric Beds  :{{row.OperationRoomNursingPediatricBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Cardiothoracic Beds  :{{row.OperationRoomNursingCardiothoracicBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Gynae. and Obstetrical Beds :-{{row.OperationRoomNursingGynaeAndObstetricalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Orthopaedics Beds :-{{row.OperationRoomNursingOrthopaedicsBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Ophthalmic Beds  :{{row.OperationRoomNursingOphthalmicBeds}}</label>
+                        </td>
+                        <td>
+                          <label>ENT and Neuro Beds  :{{row.OperationRoomNursingENTAndNeuroBeds}}</label>
+                        </td>
+                      </tr>
+                      <tr colspan="3" style="font-weight:800; font-size:18px;">Emergency and Disaster Nursing :- </tr>
+                      <tr>
+                        <td>
+                          <label>Total Beds :-{{row.EmergencyAndDisasterNursingTotalBeds}}</label>
+                        </td>
+                        <td>
+                          <label>ICU Beds :-{{row.EmergencyAndDisasterNursingICUBeds}}</label>
+                        </td>
+                        <td>
+                          <label>Emergency Beds  :{{row.EmergencyAndDisasterNursingEmergencylBeds}}</label>
+                        </td>
+                      </tr>
+                    </tbody>
+
+                    <tbody>
+                      <tr>
+                        <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Manage by :- </b></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Manage by Name :-{{row.ManageByName}}</label>
+                        </td>
+                        <td>
+                          <label>Manage by Contact No. :-{{row.ManageByPhone}}</label>
+                        </td>
+                        <td>
+                          <label>Address Line 1 :-{{row.AddressLine1_ManageBy}}</label>
+                        </td>
+                        <td>
+                          <label>Address Line 2 :{{row.AddressLine2_ManageBy}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Area :{{row.RuralUrban_ManageBy==1?'Rural':'Urban'}}</label>
+                        </td>
+                        <td>
+                          <label>Division :-{{row.ManageDivisionName}}</label>
+                        </td>
+                        <td><label>District :{{row.ManageDistrictName}}</label> </td>
+                        <td>
+                          <label>Tehsil:{{row.ManageTehsilName}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td *ngIf="row.RuralUrban_ManageBy==2">
+                          <label>City :{{row.CityName_ManageBy}}</label>
+                        </td>
+                        <td *ngIf="row.RuralUrban_ManageBy==1">
+                          <label>Panchayat Samiti :-{{row.ManagePanchyatSamitiName}}</label>
+                        </td>
+                        <td><label>City/Town/Village :{{row.CityTownVillage_ManageBy}}</label> </td>
+                        <td>
+                          <label>Pincode:{{row.Pincode_ManageBy}}</label>
+                        </td>
+                      </tr>
+                    </tbody>
+
+                    <tbody>
+                      <tr>
+                        <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Owner : - </b></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Owner Name :-{{row.OwnerName}}</label>
+                        </td>
+                        <td>
+                          <label>Owner Contact No. :-{{row.OwnerPhone}}</label>
+                        </td>
+                        <td>
+                          <label>Address Line 1 :-{{row.AddressLine1_Owner}}</label>
+                        </td>
+                        <td>
+                          <label>Address Line 2 :{{row.AddressLine2_Owner}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Area :{{row.RuralUrban_Owner==1?'Rural':'Urban'}}</label>
+                        </td>
+                        <td>
+                          <label>Division :-{{row.OwnerDivisionName}}</label>
+                        </td>
+                        <td><label>District :{{row.OwnerDistrictName}}</label> </td>
+                        <td>
+                          <label>Tehsil:{{row.OwnerTehsilName}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td *ngIf="row.RuralUrban_Owner==2">
+                          <label>City :{{row.CityName_Owner}}</label>
+                        </td>
+                        <td *ngIf="row.RuralUrban_Owner==1">
+                          <label>Panchayat Samiti :-{{row.OwnerPanchyatSamitiName}}</label>
+                        </td>
+                        <td><label>City/Town/Village :{{row.CityTownVillage_Owner}}</label> </td>
+                        <td>
+                          <label>Pincode:{{row.Pincode_Owner}}</label>
+                        </td>
+                      </tr>
+                    </tbody>
+
+                    <tbody>
+                      <tr>
+                        <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Other :- </b></td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Whether the parent hospital is related to any other institution in the past or not :-{{row.ParentHospitalRelatedToOtherID==1?'Yes':'No'}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Name of Institution :-{{row.InstitutionName}}</label>
+                        </td>
+                        <td>
+                          <label>Organization Contact No. :-{{row.OrganizationPhone}}</label>
+                        </td>
+                        <td>
+                          <label>Address Line 1 :-{{row.AddressLine1_Other}}</label>
+                        </td>
+                        <td>
+                          <label>Address Line 2 :{{row.AddressLine2_Other}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label>Area :{{row.RuralUrban_Other==1?'Rural':'Urban'}}</label>
+                        </td>
+                        <td>
+                          <label>Division :-{{row.OtherDivisionName}}</label>
+                        </td>
+                        <td><label>District :{{row.OtherDistrictName}}</label> </td>
+                        <td>
+                          <label>Tehsil:{{row.OtherTehsilName}}</label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td *ngIf="row.RuralUrban_Other==2">
+                          <label>City :{{row.CityName_Other}}</label>
+                        </td>
+                        <td *ngIf="row.RuralUrban_Other==1">
+                          <label>Panchayat Samiti :-{{row.OtherPanchyatSamitiName}}</label>
+                        </td>
+                        <td><label>City/Town/Village :{{row.CityTownVillage_Other}}</label> </td>
+                        <td>
+                          <label>Pincode:{{row.Pincode_Other}}</label>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!--Para-Medical Hospital Details-->
+          <div class="card-body" *ngIf="SelectedDepartmentID==9">
+            <div class="row">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped-columns text-left" id="ParaHospitalDetailInfo" #content>
+                  <thead>
+                    <!--<tr *ngIf="HospitalData.ParentHospitalID==2">
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Which affiliated hospitals would the organization like to associate with for clinical training</b></td>
+                    </tr>-->
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hospital Detail</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Whether the institution is a parent hospital or not :-{{ParaHospitallst.ParentHospitalID==1?'Yes':'No'}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Status :-{{ParaHospitallst.HospitalStatus}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Area :-{{ParaHospitallst.HospitalAreaName}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Reg. No. :{{ParaHospitallst.HospitalRegNo}}</label>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td><label>Hospital Name :{{ParaHospitallst.HospitalName}}</label> </td>
+                      <td>
+                        <label>Hospital Distance from Institutions (KM) :{{ParaHospitallst.HospitalDistance}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Contact No. :{{ParaHospitallst.HospitalContactNo}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Email ID :{{ParaHospitallst.HospitalEmailID}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>Address Line 1 :{{ParaHospitallst.AddressLine1}}</label> </td>
+                      <td>
+                        <label>Address Line 2:{{ParaHospitallst.AddressLine2}}</label>
+                      </td>
+                      <td>
+                        <label>Area :{{ParaHospitallst.RuralUrban==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :{{ParaHospitallst.DivisionName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>District :{{ParaHospitallst.DistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{ParaHospitallst.TehsilName}}</label>
+                      </td>
+                      <td *ngIf="ParaHospitallst.RuralUrban==2">
+                        <label *ngIf="ParaHospitallst.RuralUrban==2">City :{{ParaHospitallst.CityName}}</label>
+                      </td>
+                      <td *ngIf="ParaHospitallst.RuralUrban==1">
+                        <label>Panchayat Samiti :{{ParaHospitallst.PanchyatSamitiName}}</label>
+                      </td>
+                      <td>
+                        <label>City/Town/Village :{{ParaHospitallst.CityTownVillage}}</label>
+                      </td>
+                      <td>
+                        <label>City Population :{{ParaHospitallst.CityPopulation}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>Hospital Distance from Institutions (KM) :{{ParaHospitallst.HospitalDistance}}</label> </td>
+                      <td><label>Pincode :{{ParaHospitallst.Pincode}}</label> </td>
+                      <td>
+                        <label>Whether the affiliated hospital has affiliation with any other institution in the past or not:{{ParaHospitallst.AffiliatedHospitalAffiliationToOtherID==1?'Yes':'No'}}</label>
+                      </td>
+                      <td>
+                        <label>Area :{{ParaHospitallst.RuralUrban==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :{{ParaHospitallst.DivisionName}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Pollution Detail</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Whether the institution is a parent hospital or not :-{{ParaHospitallst.ParentHospitalID==1?'Yes':'No'}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Status :-{{ParaHospitallst.HospitalStatus}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Area :-{{ParaHospitallst.HospitalAreaName}}</label>
+                      </td>
+                      <td>
+                        <label>Hospital Reg. No. :{{ParaHospitallst.HospitalRegNo}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Distribution of beds in different areas</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!--<tr *ngFor="let item of ParamedicalHospitalBedValidationList ; let idx =index">
+                      <td>
+                        <label>
+                          {{item.ColumnName}} :- {{item.Istextordropdown==2?item.ColumnValue==1?'Yes':'No':item.ColumnValue}}
+                        </label>
+                      </td>
+                    </tr>-->
+                  </tbody>
+                  <thead *ngIf="IsShowSuperSpecialtyHospital">
+                    al
+                    t:
+                    <tr>
+                      t:
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Super specialty hospital details</b></td>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="IsShowSuperSpecialtyHospital">
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Cardio Thoracic Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.CardioThoracicTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>CCU Beds :-{{ParaHospitallst.CardioThoracicCCUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICCU Beds :-{{ParaHospitallst.CardioThoracicICCUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICU Beds :{{ParaHospitallst.CardioThoracicICUBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Critical Care Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.CriticalCareNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Critical Care Beds :-{{ParaHospitallst.CriticalCareNursingCCBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICU Beds :{{ParaHospitallst.CriticalCareNursingICUBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Midwifery Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.MidwiferyNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Mother and Neonatal Units Beds :-{{ParaHospitallst.MotherNeonatalUnitsBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Deliveries Per Year :{{ParaHospitallst.DeliveriesPerYear}}</label>
+                      </td>
+                      <td>
+                        <label>Level II Neonatal Beds :-{{ParaHospitallst.LevelIINeonatalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Level III Neonatal Beds :{{ParaHospitallst.LevelIIINeonatalBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Neuro Science Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.NeuroScienceNursingTotalBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Oncology Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.OncologyNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Medical Beds :{{ParaHospitallst.OncologyNursingMedicalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Chemotherapy Beds :-{{ParaHospitallst.OncologyNursingChemotherapyBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Radiotherapy Beds :{{ParaHospitallst.OncologyNursingRadiotherapyBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Palliative Beds :-{{ParaHospitallst.OncologyNursingPalliativeBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Diagnostic Beds :{{ParaHospitallst.OncologyNursingDiagnosticBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Orthopaedic & Rehabilitation Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.OrthopaedicRehabilitationNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Orthopaedic Beds :-{{ParaHospitallst.OrthopaedicRehabilitationNursingOrthopaedicBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Rehabilitation Beds :{{ParaHospitallst.OrthopaedicRehabilitationNursingRehabilitationBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Psychiatric Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.PsychiatricNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Acute Beds :-{{ParaHospitallst.PsychiatricNursingAcuteBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Chronic Beds  :{{ParaHospitallst.PsychiatricNursingChronicBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Adult Beds  :{{ParaHospitallst.PsychiatricNursingAdultBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Child Beds :-{{ParaHospitallst.PsychiatricNursingChildBeds}}</label>
+                      </td>
+                      <td>
+                        <label>De-Addiction Beds :-{{ParaHospitallst.PsychiatricNursingDeAddictionBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Neonatal Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.NeonatalNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Level II/III NICU Beds :-{{ParaHospitallst.NeonatalNursingLevelIIOrIIINICUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>NICU Beds  :{{ParaHospitallst.NeonatalNursingNICUBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Operation Room Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.OperationRoomNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>General Surgery Beds :-{{ParaHospitallst.OperationRoomNursingGeneralSurgeryBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Pediatric Beds  :{{ParaHospitallst.OperationRoomNursingPediatricBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Cardiothoracic Beds  :{{ParaHospitallst.OperationRoomNursingCardiothoracicBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Gynae. and Obstetrical Beds :-{{ParaHospitallst.OperationRoomNursingGynaeAndObstetricalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Orthopaedics Beds :-{{ParaHospitallst.OperationRoomNursingOrthopaedicsBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Ophthalmic Beds  :{{ParaHospitallst.OperationRoomNursingOphthalmicBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ENT and Neuro Beds  :{{ParaHospitallst.OperationRoomNursingENTAndNeuroBeds}}</label>
+                      </td>
+                    </tr>
+                    <tr colspan="3" style="font-weight:800; font-size:18px;">Emergency and Disaster Nursing</tr>
+                    <tr>
+                      <td>
+                        <label>Total Beds :-{{ParaHospitallst.EmergencyAndDisasterNursingTotalBeds}}</label>
+                      </td>
+                      <td>
+                        <label>ICU Beds :-{{ParaHospitallst.EmergencyAndDisasterNursingICUBeds}}</label>
+                      </td>
+                      <td>
+                        <label>Emergency Beds  :{{ParaHospitallst.EmergencyAndDisasterNursingEmergencylBeds}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Manage by</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Manage by Name :-{{ParaHospitallst.ManageByName}}</label>
+                      </td>
+                      <td>
+                        <label>Manage by Contact No. :-{{ParaHospitallst.ManageByPhone}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 1 :-{{ParaHospitallst.AddressLine1_ManageBy}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 2 :{{ParaHospitallst.AddressLine2_ManageBy}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Area :{{ParaHospitallst.RuralUrban_ManageBy==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :-{{ParaHospitallst.ManageDivisionName}}</label>
+                      </td>
+                      <td><label>District :{{ParaHospitallst.ManageDistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{ParaHospitallst.ManageTehsilName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="ParaHospitallst.RuralUrban_ManageBy==2">
+                        <label>City :{{ParaHospitallst.CityName_ManageBy}}</label>
+                      </td>
+                      <td *ngIf="ParaHospitallst.RuralUrban_ManageBy==1">
+                        <label>Panchayat Samiti :-{{ParaHospitallst.ManagePanchyatSamitiName}}</label>
+                      </td>
+                      <td><label>City/Town/Village :{{ParaHospitallst.CityTownVillage_ManageBy}}</label> </td>
+                      <td>
+                        <label>Pincode:{{ParaHospitallst.Pincode_ManageBy}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Owner</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Owner Name :-{{ParaHospitallst.OwnerName}}</label>
+                      </td>
+                      <td>
+                        <label>Owner Contact No. :-{{ParaHospitallst.OwnerPhone}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 1 :-{{ParaHospitallst.AddressLine1_Owner}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 2 :{{ParaHospitallst.AddressLine2_Owner}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Area :{{ParaHospitallst.RuralUrban_Owner==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :-{{ParaHospitallst.OwnerDivisionName}}</label>
+                      </td>
+                      <td><label>District :{{ParaHospitallst.OwnerDistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{ParaHospitallst.OwnerTehsilName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="ParaHospitallst.RuralUrban_Owner==2">
+                        <label>City :{{ParaHospitallst.CityName_Owner}}</label>
+                      </td>
+                      <td *ngIf="ParaHospitallst.RuralUrban_Owner==1">
+                        <label>Panchayat Samiti :-{{ParaHospitallst.OwnerPanchyatSamitiName}}</label>
+                      </td>
+                      <td><label>City/Town/Village :{{ParaHospitallst.CityTownVillage_Owner}}</label> </td>
+                      <td>
+                        <label>Pincode:{{ParaHospitallst.Pincode_Owner}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Other</b></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Whether the parent hospital is related to any other institution in the past or not :-{{ParaHospitallst.ParentHospitalRelatedToOtherID==1?'Yes':'No'}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Name of Institution :-{{ParaHospitallst.InstitutionName}}</label>
+                      </td>
+                      <td>
+                        <label>Organization Contact No. :-{{ParaHospitallst.OrganizationPhone}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 1 :-{{ParaHospitallst.AddressLine1_Other}}</label>
+                      </td>
+                      <td>
+                        <label>Address Line 2 :{{ParaHospitallst.AddressLine2_Other}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>Area :{{ParaHospitallst.RuralUrban_Other==1?'Rural':'Urban'}}</label>
+                      </td>
+                      <td>
+                        <label>Division :-{{ParaHospitallst.OtherDivisionName}}</label>
+                      </td>
+                      <td><label>District :{{ParaHospitallst.OtherDistrictName}}</label> </td>
+                      <td>
+                        <label>Tehsil:{{ParaHospitallst.OtherTehsilName}}</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="ParaHospitallst.RuralUrban_Other==2">
+                        <label>City :{{ParaHospitallst.CityName_Other}}</label>
+                      </td>
+                      <td *ngIf="ParaHospitallst.RuralUrban_Other==1">
+                        <label>Panchayat Samiti :-{{ParaHospitallst.OtherPanchyatSamitiName}}</label>
+                      </td>
+                      <td><label>City/Town/Village :{{ParaHospitallst.CityTownVillage_Other}}</label> </td>
+                      <td>
+                        <label>Pincode:{{ParaHospitallst.Pincode_Other}}</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!--Veterinary Hospital Details-->
+          <div class="card-body">
+            <div class="row" *ngIf="SelectedDepartmentID==2">
+              <div class="table-responsive" *ngIf="vetHospitalDetaillst.length>0">
+                <table class="table table-hover table-striped-columns" id="VetHospitalDetial" #content>
+                  <thead>
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800; font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Veterinary Hospital Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Hospital Name:</th>
+                      <th>Distance From Institute(in KM):</th>
+                      <th>Address & Contact Detail</th>
+                      <th></th>
+                    </tr>
+                    <tr *ngFor="let row of vetHospitalDetaillst;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.HospitalName}}</td>
+                      <td>{{row.DistanceFromInstitute}}</td>
+                      <td>
+                        Authorized Person:- {{row.AuthorizedPerson}}<br />
+                        Mobile No.:- {{row.MobileNo}}<br />
+                        Email Address:- {{row.EmailAddress}}<br />
+                        If Person From Admin/Finance Field are On Board:- {{row.PersonField}}<br />
+                        Relation With Institute:- {{row.Relation}}<br />
+                        Address:- {{row.AddressLine1}},{{row.AddressLine2}},{{row.DivisionName}},{{row.DistrictName}},{{row.TehsilName}},{{row.PanchyatSamitiName}}{{row.CityName}},{{row.Pincode}}<br />
+                      </td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+
+                  <thead *ngIf="AnimalDetaillst.length>0">
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800; font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Animal Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="AnimalDetaillst.length>0">
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Animal Name:</th>
+                      <th>Male Animal Count:</th>
+                      <th> Female Animal Count</th>
+                      <th>Animal Count</th>
+                    </tr>
+                    <tr *ngFor="let row of AnimalDetaillst;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.AnimalName}}</td>
+                      <td>{{row.MaleAnimalCount}}</td>
+                      <td>{{row.FemaleAnimalCount}}</td>
+                      <td>{{row.AnimalCount}}</td>
+                    </tr>
+                  </tbody>
+                  <thead *ngIf="SansthaBhavanlst.length>0">
+                    <tr>
+                      <td colspan="8" style="    font-weight: 800; font-size: 18px;">
+                        <b><i class="bi bi-table"></i>&nbsp;Sanstha Bhavan Details</b>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="SansthaBhavanlst.length>0">
+                    <tr>
+                      <th>Sr.No.</th>
+                      <th>Name:</th>
+                      <th>No Of:</th>
+                      <th>Width(In Feet)</th>
+                      <th>Length(In Feet) </th>
+                    </tr>
+                    <tr *ngFor="let row of SansthaBhavanlst;let idx=index;">
+                      <td>{{idx+1}}</td>
+                      <td>{{row.RoomName}}</td>
+                      <td>{{row.NoOfRooms}}</td>
+                      <td>{{row.Width}}</td>
+                      <td>{{row.Length}}</td>
+                    </tr>
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
