@@ -150,6 +150,7 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetHospitalDetailList(this.SelectedCollageID);
       await this.GetParaHospitalDataList();
       await this.GetVetHospitalDetailList(this.SelectedDepartmentID, this.SelectedCollageID);
+      await this.GetAllDTECourse(this.sSOLoginDataModel.SSOID, this.SelectedCollageID);
     }
     catch (Ex) {
       console.log(Ex);
@@ -1288,6 +1289,30 @@ export class ApplicationPDFComponent implements OnInit {
   }
   close() {
     this.activeModal.close("Send data")
+  }
+
+  public AllDTECourseList: any[] = [];
+  async GetAllDTECourse(SSOID: string, CollegeID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.courseMasterService.GetListDTE(0, SSOID, 0, CollegeID)
+        .then((data: any) => {
+          debugger;
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.AllDTECourseList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
   }
 
 }
