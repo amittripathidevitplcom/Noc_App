@@ -357,6 +357,8 @@ import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocu
 import { GenerateReceiptListDTEComponent } from './Views/DocumentScrutinyTab_DTE/generate-receipt-list-dte/generate-receipt-list-dte.component';
 import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-step-iiapplications/document-scrutiny-step-iiapplications.component';
 
+import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
+
 
 
 
@@ -702,6 +704,8 @@ import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScr
     UserManualDocumentMasterComponent,
     GenerateReceiptListDTEComponent,
     DocumentScrutinyStepIIApplicationsComponent,
+    
+    NewgrievancereportComponent,
   ],
   imports: [
     CommonModule,

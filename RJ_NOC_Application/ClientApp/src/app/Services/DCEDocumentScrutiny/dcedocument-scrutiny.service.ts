@@ -6,7 +6,7 @@ import { LandDetailDataModel } from '../../Models/LandDetailDataModel';
 
 import { GlobalConstants } from '../../Common/GlobalConstants';
 import { SearchFilterDataModel } from '../../Models/TabDetailDataModel';
-import { DCENOCReportSearchFilterDataModel } from '../../Models/SearchFilterDataModel';
+import { DCENOCReportSearchFilterDataModel, GrievanceReportSearchFilter } from '../../Models/SearchFilterDataModel';
 @Injectable({
   providedIn: 'root'
 })
@@ -367,4 +367,26 @@ export class DCEDocumentScrutinyService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async GetGrievanceReport(FromDate: any, ToDate: any) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/GetGrievanceReport/" + FromDate + "/" + ToDate)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+  //public async GetGrievanceReport(FromDate: any, ToDate: any) {
+  //  const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+
+  //  return await this.http.get(this.APIUrl + "/GetGrievanceReport/" + DepatmentID)
+  //  return await this.http.post(this.APIUrl + '/GetGrievanceReport/', httpOptions)
+  //    .pipe(
+  //      catchError(this.handleErrorObservable)
+  //    ).toPromise();
+  //}
 }
