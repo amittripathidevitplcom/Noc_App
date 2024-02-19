@@ -26,21 +26,32 @@
 
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label for="ddlDepartmentID" class="form-label">Select Department <span style="color:red;">*</span></label>
-                  <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID"  [attr.disabled]="is_disableDepartment ? '' : null">
+                  <select class="form-select" id="ddlDepartmentID" name="ddlDepartmentID" [(ngModel)]="request.DepartmentID" formControlName="ddlDepartmentID" [attr.disabled]="is_disableDepartment ? '' : null">
                     <option value="0" selected>--Select Department--</option>
                     <option *ngFor="let item of DepartmentList" value="{{item.DepartmentID}}">{{item.DepartmentName}}</option>
                   </select>
                   <div *ngIf="isSubmitted&&form.ddlDepartmentID.errors" class="text-danger">
-                    <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators" ><i aria-hidden="true"></i>This field is required .!</p>
+                    <p *ngIf="!form.ddlDepartmentID.errors.DropdownValidators"><i aria-hidden="true"></i>This field is required .!</p>
                   </div>
                 </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+                  <label for="ddlType" class="form-label">Type<span style="color:red;">*</span></label>
+                  <select class="form-select" id="ddlType" name="ddlType" [(ngModel)]="request.IsTeaching" formControlName="ddlType">
+                    <option value="1" selected>Teaching</option>
+                    <option value="0" selected>NonTeaching</option>
+                  </select>
+
+                </div>
+
 
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                   <label for="txtQualificationName" class="form-label">Qualification Name <span style="color:red;">*</span></label>
                   <input type="text" class="form-control" id="txtQualificationName" name="txtQualificationName" formControlName="txtQualificationName" [(ngModel)]="request.QualificationName" autocomplete="off">
 
                   <div *ngIf="isSubmitted&&form.txtQualificationName.errors" class="text-danger">
-                    <p *ngIf="form.txtQualificationName.errors.required" ><i aria-hidden="true"></i> This field is required .!</p>
+                    <p *ngIf="form.txtQualificationName.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
                   </div>
 
                 </div>
@@ -112,6 +123,9 @@
                     Department Name
                   </th>
                   <th>
+                    Type
+                  </th>
+                  <th>
                     Qualification Name
                   </th>
                   <th>
@@ -132,6 +146,9 @@
                   </td>
                   <td>
                     {{row.DepartmentName_English}}
+                  </td>
+                  <td>
+                    {{row.Dis_IsTeaching}}
                   </td>
                   <td>
                     {{row.QualificationName}}

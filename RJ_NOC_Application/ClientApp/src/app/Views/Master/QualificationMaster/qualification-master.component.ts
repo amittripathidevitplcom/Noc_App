@@ -55,6 +55,7 @@ export class QualificationMasterComponent implements OnInit {
         ddlDepartmentID: ['', [DropdownValidators]],
         rbIsDocCompulsory: [this.NoIsDocCompulsory],
         txtQualificationName: ['', Validators.required],
+        ddlType: [''],
         txtOrderBy: ['0'],
         chkActiveStatus: [''],
       })
@@ -166,6 +167,7 @@ export class QualificationMasterComponent implements OnInit {
           this.request.IsDocCompulsory = data['Data'][0]["IsDocCompulsory"];
           this.request.Orderby = data['Data'][0]["Orderby"];
           this.request.ActiveStatus = data['Data'][0]["ActiveStatus"];
+          this.request.IsTeaching = data['Data'][0]["IsTeaching"];
           this.isDisabledGrid = true;
           this.isDisabledDOJ = true;
 

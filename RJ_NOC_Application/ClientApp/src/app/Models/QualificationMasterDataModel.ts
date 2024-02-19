@@ -9,4 +9,5 @@ export class QualificationMasterDataModel {
   public ActiveStatus: boolean = true;
   public ActiveDeactive: string = '';
   public DeleteStatus: boolean = false;
+  public IsTeaching: string = "1";
 }
