@@ -31,7 +31,8 @@ import { HostelDetailService } from '../../Services/Tabs/hostel-details.service'
 import { HospitalDetailService } from '../../Services/Tabs/HospitalDetail/hospital-detail.service';
 import { VeterinaryHospitalService } from '../../Services/VeterinaryHospital/veterinary-hospital.service';
 import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
- 
+import { NocpaymentService } from '../../Services/NocPayment/noc-payment.service';
+
 
 @Component({
   selector: 'app-application-pdf',
@@ -101,9 +102,14 @@ export class ApplicationPDFComponent implements OnInit {
 
   @Input() CollegeID: any;
   @Input() DepartmentID: any;
+
+  public paymentResponseDataModel: any[] = [];
+  public OfflinePaymentDataModel: any[] = [];
   constructor(private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService, private veterinaryHospitalService: VeterinaryHospitalService,
-    private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private elRef: ElementRef, public activeModal: NgbActiveModal  ) { }
+    private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private elRef: ElementRef, public activeModal: NgbActiveModal,
+    private nocpaymentService: NocpaymentService
+  ) { }
 
   async ngOnInit() {
 
@@ -123,7 +129,7 @@ export class ApplicationPDFComponent implements OnInit {
     await this.GetDownloadPdfDetails();
     this.loaderService.requestEnded();
 
-    await this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    await this.ViewlegalEntityDataByID(this.UserSSOID);
 
 
 
@@ -150,7 +156,9 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetHospitalDetailList(this.SelectedCollageID);
       await this.GetParaHospitalDataList();
       await this.GetVetHospitalDetailList(this.SelectedDepartmentID, this.SelectedCollageID);
-      await this.GetAllDTECourse(this.sSOLoginDataModel.SSOID, this.SelectedCollageID);
+      await this.GetAllDTECourse(this.UserSSOID, this.SelectedCollageID);
+      await this.GetPreviewPaymentDetails(this.SelectedCollageID);
+      await this.GetOfflinePaymentDetails(this.SelectedCollageID);
     }
     catch (Ex) {
       console.log(Ex);
@@ -163,14 +171,16 @@ export class ApplicationPDFComponent implements OnInit {
 
 
   }
-
+  public UserSSOID: string = '';
   async GetCollageDetails() {
     try {
+
       this.loaderService.requestStarted();
       await this.collegeService.GetData(this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
+          this.UserSSOID = data['Data']['ParentSSOID'];
           if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
@@ -210,6 +220,7 @@ export class ApplicationPDFComponent implements OnInit {
     this.loaderService.requestStarted();
     let dt = new Date();
     let Imgpath = this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"];
+    let DefaultImg = "~/ClientApp/src/assets/images/userImg.jpg";
     try {
       let Heading1 = 'GOVERNMENT OF RAJASTHAN';
       let Heading2 = 'OFFICE OF THE COMMISSIONER, COLLEGE EDUCATION,';
@@ -237,11 +248,13 @@ export class ApplicationPDFComponent implements OnInit {
       doc.setFontSize(12);
 
       let pDFData: any = [];
-      pDFData.push({ "ContentName": "#LegalBasicInfo" })
-      pDFData.push({ "ContentName": "#TrusteeMemberDetails" })
-      pDFData.push({ "ContentName": "#TrusteeGeneralDetails" })
-      pDFData.push({ "ContentName": "#LegalMemberDetails" })
-      pDFData.push({ "ContentName": "#LegalInstituteDetails" })
+      if (this.IsManagmentType) {
+        pDFData.push({ "ContentName": "#LegalBasicInfo" })
+        pDFData.push({ "ContentName": "#TrusteeMemberDetails" })
+        pDFData.push({ "ContentName": "#TrusteeGeneralDetails" })
+        pDFData.push({ "ContentName": "#LegalMemberDetails" })
+        pDFData.push({ "ContentName": "#LegalInstituteDetails" })
+      }
       pDFData.push({ "ContentName": "#CollegeBasicInfo" })
       pDFData.push({ "ContentName": "#CollegeGeoTagging" })
       pDFData.push({ "ContentName": "#CollegeContactDetails" })
@@ -279,7 +292,8 @@ export class ApplicationPDFComponent implements OnInit {
       if (this.SelectedDepartmentID == 2) {
         pDFData.push({ "ContentName": "#VetHospitalDetial" })
       }
-
+      pDFData.push({ "ContentName": "#OfflinePayment" })
+      pDFData.push({ "ContentName": "#OnlinePayment" })
       for (var i = 0; i < pDFData.length; i++) {
 
         if (pDFData[i].ContentName == '#TrusteeMemberDetails') {
@@ -341,7 +355,12 @@ export class ApplicationPDFComponent implements OnInit {
                 doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
                 doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
                 let down = (pageHeight - 39);
-                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                try {
+                  doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                } catch (e) {
+                  //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
+                }
+    
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
                 doc.text(str, 575, 830);
               },
@@ -352,7 +371,12 @@ export class ApplicationPDFComponent implements OnInit {
                   var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
                   var dim = data.cell.height - data.cell.padding('vertical');
                   //var textPos = data.cell.textPos;
-                  doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                  try {
+                    doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                  } catch (e) {
+                    //doc.addImage(DefaultImg, 'JPG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                  }
+
                 }
               }
             }
@@ -417,7 +441,12 @@ export class ApplicationPDFComponent implements OnInit {
                 doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
                 doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
                 let down = (pageHeight - 39);
-                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                try {
+                  doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                } catch (e) {
+                  //doc.addImage(DefaultImg, 214, down, 40, 13, 'jpg');
+                }
+
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
                 doc.text(str, 575, 830);
               },
@@ -428,7 +457,12 @@ export class ApplicationPDFComponent implements OnInit {
                   var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
                   var dim = data.cell.height - data.cell.padding('vertical');
                   //var textPos = data.cell.textPos;
-                  doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                  try {
+                    doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                  } catch (e) {
+                    //doc.addImage(DefaultImg, 'JPG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                  }
+                 
                 }
               }
             }
@@ -493,7 +527,12 @@ export class ApplicationPDFComponent implements OnInit {
                 doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
                 doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
                 let down = (pageHeight - 39);
-                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                try {
+                  doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                } catch (e) {
+                 // doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
+                }
+              
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
                 doc.text(str, 575, 830);
               },
@@ -504,7 +543,12 @@ export class ApplicationPDFComponent implements OnInit {
                   var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
                   var dim = data.cell.height - data.cell.padding('vertical');
                   //var textPos = data.cell.textPos;
-                  doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                  try {
+                    doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                  } catch (e) {
+                   // doc.addImage(DefaultImg, 'JPG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                  }
+                 
                 }
               }
             }
@@ -571,7 +615,12 @@ export class ApplicationPDFComponent implements OnInit {
                 doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
                 doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
                 let down = (pageHeight - 39);
-                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                try {
+                  doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                } catch (e) {
+                  //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
+                }
+                
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
                 doc.text(str, 575, 830);
               },
@@ -582,7 +631,12 @@ export class ApplicationPDFComponent implements OnInit {
                   var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
                   var dim = data.cell.height - data.cell.padding('vertical');
                   //var textPos = data.cell.textPos;
-                  doc.addImage(img.src, 'JPEG', data.cell.x + 35, data.cell.y + 2, 10, 10);
+                  try {
+                    doc.addImage(img.src, 'JPEG', data.cell.x + 35, data.cell.y + 2, 10, 10);
+                  } catch (e) {
+                   // doc.addImage(DefaultImg, 'JPG', data.cell.x + 35, data.cell.y + 2, 10, 10);
+                  }
+                
                 }
               }
             }
@@ -647,7 +701,12 @@ export class ApplicationPDFComponent implements OnInit {
                 doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
                 doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
                 let down = (pageHeight - 39);
-                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                try {
+                  doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                } catch (e) {
+                  //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
+                }
+                
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
                 doc.text(str, 575, 830);
               },
@@ -657,7 +716,12 @@ export class ApplicationPDFComponent implements OnInit {
                   var img = (td as HTMLTableCellElement).getElementsByTagName('img')[0];
                   var dim = data.cell.height - data.cell.padding('vertical');
                   //var textPos = data.cell.textPos;
-                  doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, 11, 20);
+                  try {
+                    doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, 11, 20);
+                  } catch (e) {
+                    //doc.addImage(DefaultImg, 'JPG', data.cell.x + 2, data.cell.y + 2, 11, 20);
+                  }
+                  
                 }
               }
             }
@@ -729,7 +793,12 @@ export class ApplicationPDFComponent implements OnInit {
                 doc.text(Footer3, data.settings.margin.left, pageHeight - 22);
                 doc.text(Footer4, 250, pageHeight - 22, { align: 'right', maxWidth: 500 });
                 let down = (pageHeight - 39);
-                doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                try {
+                  doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
+                } catch (e) {
+                  //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
+                }
+                
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
                 doc.text(str, 575, 830);
               }
@@ -779,6 +848,9 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetHospitalDetailList(this.SelectedCollageID);
       await this.GetParaHospitalDataList();
       await this.GetVetHospitalDetailList(this.SelectedDepartmentID, this.SelectedCollageID);
+      await this.GetPreviewPaymentDetails(this.SelectedCollageID);
+      await this.GetOfflinePaymentDetails(this.SelectedCollageID);
+
     }
     catch (Ex) {
       console.log(Ex);
@@ -803,7 +875,7 @@ export class ApplicationPDFComponent implements OnInit {
   async GetDataOfLegalEntity() {
     this.loaderService.requestStarted();
     try {
-      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
+      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.UserSSOID)
         .then(async (data: any) => {
           this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
         })
@@ -1303,6 +1375,55 @@ export class ApplicationPDFComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.AllDTECourseList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+
+
+  async GetPreviewPaymentDetails(SelectedCollageID: number) {
+    try {
+
+      this.loaderService.requestStarted();
+      await this.nocpaymentService.GetPreviewPaymentDetails(SelectedCollageID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.paymentResponseDataModel = data['Data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  async GetOfflinePaymentDetails(SelectedCollageID: number) {
+    try {
+      debugger;
+      this.loaderService.requestStarted();
+      await this.nocpaymentService.GetOfflinePaymentDetails(SelectedCollageID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.OfflinePaymentDataModel = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {

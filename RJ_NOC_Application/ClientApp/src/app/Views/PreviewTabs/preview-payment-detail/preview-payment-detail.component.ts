@@ -31,6 +31,7 @@ export class PreviewPaymentDetailComponent implements OnInit
 
   async ngOnInit()
   {
+    this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.GetPreviewPaymentDetails(this.SelectedCollageID);
     this.GetOfflinePaymentDetails(this.SelectedCollageID);

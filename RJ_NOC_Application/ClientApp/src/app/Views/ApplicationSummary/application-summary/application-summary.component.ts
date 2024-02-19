@@ -99,6 +99,7 @@ export class ApplicationSummaryComponent implements OnInit {
 
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
+  public UserSSOID: string = '';
   constructor(private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService, private veterinaryHospitalService: VeterinaryHospitalService,
     private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private elRef: ElementRef) { }
@@ -113,17 +114,19 @@ export class ApplicationSummaryComponent implements OnInit {
     await this.GetDownloadPdfDetails();
     this.loaderService.requestEnded();
 
-    await this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    await this.ViewlegalEntityDataByID(this.UserSSOID);
 
   }
 
   async GetCollageDetails() {
     try {
+      debugger;
       this.loaderService.requestStarted();
       await this.collegeService.GetData(this.SelectedCollageID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
+          this.UserSSOID = data['Data']['ParentSSOID'];
           if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
@@ -758,7 +761,7 @@ export class ApplicationSummaryComponent implements OnInit {
   async GetDataOfLegalEntity() {
     this.loaderService.requestStarted();
     try {
-      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
+      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.UserSSOID)
         .then(async (data: any) => {
           this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
         })
