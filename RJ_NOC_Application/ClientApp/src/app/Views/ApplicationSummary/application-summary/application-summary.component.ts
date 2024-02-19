@@ -30,6 +30,10 @@ import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
 import { VeterinaryHospitalService } from '../../../Services/VeterinaryHospital/veterinary-hospital.service';
+import { ApplicationPDFComponent } from '../../application-pdf/application-pdf.component';
+
+
+
 @Component({
   selector: 'app-application-summary',
   templateUrl: './application-summary.component.html',
@@ -152,33 +156,17 @@ export class ApplicationSummaryComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  } 
+  }
   @ViewChild('content') content: ElementRef | any;
   btnSavePDF_Click(): void {
     debugger;
     this.loaderService.requestStarted();
     let dt = new Date();
-    let Heading1 = 'GOVERNMENT OF RAJASTHAN';
-    let Heading2 = '';
-    let Heading3 = '';
     let Imgpath = this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"];
     try {
-      if (this.SelectedDepartmentID == 3) {
-        //Heading1 = 'GOVERNMENT OF RAJASTHAN';
-        Heading2 = 'OFFICE OF THE COMMISSIONER, COLLEGE EDUCATION,';
-        Heading3 = 'RAJASTHAN, JAIPUR';
-      }
-      else if (this.SelectedDepartmentID == 4) {
-        //Heading1 = 'GOVERNMENT OF RAJASTHAN';
-        Heading2 = 'DIRECTORATE OF TECHNICAL EDUCATION, RAJASTHAN,';
-        Heading3 = 'W-6 RESIDENCY ROAD, JODHPUR-342032';
-      }
-      else {
-        Heading2 = 'GOVERNMENT OF RAJASTHAN';
-        Heading3 = 'GOVERNMENT OF RAJASTHAN';
-      }
-
-
+      let Heading1 = 'GOVERNMENT OF RAJASTHAN';
+      let Heading2 = 'OFFICE OF THE COMMISSIONER, COLLEGE EDUCATION,';
+      let Heading3 = 'RAJASTHAN, JAIPUR';
       let Heading4 = 'ACADEMIC SESSION ' + this.DownloadPdfDetailslst[0]["data"][0]["SessionYear"];
       let Heading5 = '';
       if (this.CollegeType_IsExisting)
@@ -716,44 +704,45 @@ export class ApplicationSummaryComponent implements OnInit {
   }
 
   async btnViewPDfPreview(content: any) {
-    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-    try {
-     
-      this.loaderService.requestStarted();
-      //await this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
-      await this.GetDataOfLegalEntity();
-      await this.GetDataList();
-      await this.ViewTotalCollegeDataByID(this.SelectedCollageID);
-      await this.GetCourseByCollegeWise(this.SelectedCollageID, 0);
-      await this.GetSocietyAllList();
-      await this.GetLandDetailsDataList();
-      await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
-      await this.GetAllBuildingDetailsList();
-      await this.GetFacilityDetailAllList();
-      await this.GetRoomDetailAllList();
-      await this.GetOtherInformationAllList();
-      await this.GetAllStaffDetailsList(this.SelectedDepartmentID, this.SelectedCollageID);
-      await this.GetAcademicInformationDetailAllList();
-      await this.GetAllFarmLandDetalsList(this.SelectedCollageID);
-      await this.GetOldNOCDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
-      await this.GetHostelDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
-      await this.GetHospitalDetailList(this.SelectedCollageID);
-      await this.GetParaHospitalDataList();
-      await this.GetVetHospitalDetailList(this.SelectedDepartmentID, this.SelectedCollageID);
-      await this.GetAllDTECourse(this.sSOLoginDataModel.SSOID, this.SelectedCollageID);
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
+    const modalRef = this.modalService.open(ApplicationPDFComponent,
+      { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' });
+    modalRef.componentInstance.CollegeID = this.SelectedCollageID;
+    modalRef.componentInstance.DepartmentID = this.SelectedDepartmentID;
+
+    //modalRef.componentInstance.result.subscribe((response) => { }
+    //    });
+    //try {
+
+    //  this.loaderService.requestStarted();
+    //  //await this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    //  await this.GetDataOfLegalEntity();
+    //  await this.GetDataList();
+    //  await this.ViewTotalCollegeDataByID(this.SelectedCollageID);
+    //  await this.GetCourseByCollegeWise(this.SelectedCollageID, 0);
+    //  await this.GetSocietyAllList();
+    //  await this.GetLandDetailsDataList();
+    //  await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
+    //  await this.GetAllBuildingDetailsList();
+    //  await this.GetFacilityDetailAllList();
+    //  await this.GetRoomDetailAllList();
+    //  await this.GetOtherInformationAllList();
+    //  await this.GetAllStaffDetailsList(this.SelectedDepartmentID, this.SelectedCollageID);
+    //  await this.GetAcademicInformationDetailAllList();
+    //  await this.GetAllFarmLandDetalsList(this.SelectedCollageID);
+    //  await this.GetOldNOCDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
+    //  await this.GetHostelDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
+    //  await this.GetHospitalDetailList(this.SelectedCollageID);
+    //  await this.GetParaHospitalDataList();
+    //  await this.GetVetHospitalDetailList(this.SelectedDepartmentID, this.SelectedCollageID);
+    //}
+    //catch (Ex) {
+    //  console.log(Ex);
+    //}
+    //finally {
+    //  setTimeout(() => {
+    //    this.loaderService.requestEnded();
+    //  }, 200);
+    //}
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -822,11 +811,10 @@ export class ApplicationSummaryComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // data
           this.legalEntityListData1 = data['Data'][0]['data']['Table'][0];
-          if (this.legalEntityListData1['ManagementType'] == 'Private')
-          {
+          if (this.legalEntityListData1['ManagementType'] == 'Private') {
             this.IsManagmentType = true;
           }
-          else{
+          else {
             this.IsManagmentType = false;
           }
 
@@ -1161,29 +1149,7 @@ export class ApplicationSummaryComponent implements OnInit {
       }, 200);
     }
   }
-  public AllDTECourseList: any[] = [];
-  async GetAllDTECourse(SSOID: string, CollegeID: number) {
-    try {
-      this.loaderService.requestStarted();
-      await this.courseMasterService.GetListDTE(0, SSOID, 0, CollegeID)
-        .then((data: any) => {
-          debugger;
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          this.AllDTECourseList = data['Data'][0]['data'];
-        }, error => console.error(error));
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
-  }
+
   async IsSuperSpecialtyHospital() {
     try {
       this.IsShowSuperSpecialtyHospital = false;
@@ -1276,5 +1242,6 @@ export class ApplicationSummaryComponent implements OnInit {
       }, 200);
     }
   }
+
 
 }
