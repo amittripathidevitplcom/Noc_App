@@ -112,7 +112,12 @@ export class DteAddCourseComponent {
       }, 0);
     }
   }
-
+  async ddlStreamID_Change() {
+    this.request.CourseLevelID = 0;
+    this.request.CourseID = 0;
+    await this.CourseLevel();
+    await this.GetCourseListByLevelID(this.request.CourseLevelID);
+  }
   get form() { return this.CourseMasterForm.controls; }
 
   async GetCollegeBasicDetails() {
@@ -417,15 +422,15 @@ export class DteAddCourseComponent {
     if (this.CourseMasterForm.invalid) {
       this.isFormValid = false;
     }
-    if (this.request.CourseID == 0) {
-      this.CourseDropdown = true;
-      this.isFormValid = false;
-    }
-    if (this.ShowHideotherCourse) {
-      if (this.request.OtherCourseName == '') {
-        this.isFormValid = false;
-      }
-    }
+    //if (this.request.CourseID == 0) {
+    //  this.CourseDropdown = true;
+    //  this.isFormValid = false;
+    //}
+    //if (this.ShowHideotherCourse) {
+    //  if (this.request.OtherCourseName == '') {
+    //    this.isFormValid = false;
+    //  }
+    //}
     if (Number(this.request.Enrollment) > Number(this.request.Intake) + Number(this.request.SuperNumerarySeats)) {
       this.isFormValid = false;
       this.toastr.warning('No of Enrollment not grater then Intake + Super Numerary Seats');
