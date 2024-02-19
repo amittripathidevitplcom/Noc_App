@@ -274,7 +274,7 @@ export class NocPaymentComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           if (!this.State)
           {
-            this.RedirectEgrassPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL, data.Data.AUIN)
+           this.RedirectEgrassPaymentRequest(data.Data.MERCHANTCODE, data.Data.ENCDATA, data.Data.PaymentRequestURL, data.Data.AUIN)
           }
           else
           {
