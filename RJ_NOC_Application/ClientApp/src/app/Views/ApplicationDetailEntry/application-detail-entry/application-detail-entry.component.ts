@@ -204,37 +204,37 @@ export class ApplicationDetailEntryComponent implements OnInit {
   isCheck30Female: boolean = false;
   async DraftFinalSubmit(IsDraftSubmited: any) {
 
+    if (confirm("Are you satisfied with the data that are showing in the View Application?")) {
+      let Femalepre = 0;
+      this.isSubmitted = true;
+      this.loaderService.requestStarted();
+      this.isLoading = true;
+      this.isCheck30Female = false;
+      try {
+        //Check 30 Female Member Exit or Not
+        var DCPendingPoint = "";
+        if (this.SelectedDepartmentID != 5) {
+          await this.commonMasterService.Check30Female(this.SelectedCollageID)
+            .then((data: any) => {
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
 
-    let Femalepre = 0;
-    this.isSubmitted = true;
-    this.loaderService.requestStarted();
-    this.isLoading = true;
-    this.isCheck30Female = false;
-    try {
-      //Check 30 Female Member Exit or Not
-      var DCPendingPoint = "";
-      if (this.SelectedDepartmentID != 5) {
-        await this.commonMasterService.Check30Female(this.SelectedCollageID)
-          .then((data: any) => {
-            this.State = data['State'];
-            this.SuccessMessage = data['SuccessMessage'];
-            this.ErrorMessage = data['ErrorMessage'];
+              data = JSON.parse(JSON.stringify(data));
 
-            data = JSON.parse(JSON.stringify(data));
+              if (!this.State) {
+                //No need Animal Husbandry Departement check member validation
 
-            if (!this.State) {
-              //No need Animal Husbandry Departement check member validation
-
-              //if (this.SelectedDepartmentID == 4) {
-              //  if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
-              //    this.toastr.error('Please Add One Principal in Staff details.')
-              //    this.isCheck30Female = true;
-              //    return;
-              //  }
-              //}
+                //if (this.SelectedDepartmentID == 4) {
+                //  if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
+                //    this.toastr.error('Please Add One Principal in Staff details.')
+                //    this.isCheck30Female = true;
+                //    return;
+                //  }
+                //}
 
 
-              if (this.SelectedDepartmentID != 2 && this.SelectedDepartmentID != 4) {
+                if (this.SelectedDepartmentID != 2 && this.SelectedDepartmentID != 4) {
                   if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
                     this.toastr.error("Add Minimum 15 College Management Committee Members.")
                     DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "\n";
@@ -262,157 +262,232 @@ export class ApplicationDetailEntryComponent implements OnInit {
                       return;
                     }
                   }
-              }
+                }
 
-              if (data['Data'][0]['data'][0]['PendingFacilities'] > 0) {
-                this.toastr.error("Enter All Facilities Details.")
-                DCPendingPoint += "Enter All Facilities Details." + "\n";
-                this.isCheck30Female = true;
-                if (this.SelectedDepartmentID != 3) {
-                  return;
-                }
-              }
-              if (data['Data'][0]['data'][0]['PendingOtherInformation'] > 0) {
-                this.toastr.error("Enter All Other Information Details.")
-                DCPendingPoint += "Enter All Other Information Details." + "\n";
-                this.isCheck30Female = true;
-                if (this.SelectedDepartmentID != 3) {
-                  return;
-                }
-              }
-
-              if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
-                this.toastr.error("Enter All Class Room Details.")
-                DCPendingPoint += "Enter All Class Room Details." + "\n";
-                this.isCheck30Female = true;
-                if (this.SelectedDepartmentID != 3) {
-                  return;
-                }
-              }
-
-              if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0) {
-                this.toastr.error("Enter Class Wise No of Room Details.")
-                DCPendingPoint += "Enter Class Wise No of Room Details." + "\n";
-                this.isCheck30Female = true;
-                if (this.SelectedDepartmentID != 3) {
-                  return;
-                }
-              }
-              if (this.SelectedDepartmentID == 2) {
-                if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
-                  this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Acre')
+                if (data['Data'][0]['data'][0]['PendingFacilities'] > 0) {
+                  this.toastr.error("Enter All Facilities Details.")
+                  DCPendingPoint += "Enter All Facilities Details." + "\n";
                   this.isCheck30Female = true;
+                  if (this.SelectedDepartmentID != 3) {
+                    return;
+                  }
                 }
-                if (data['Data'][0]['data'][0]['FullyConvertedLand'] > 0) {
-                  this.toastr.error('Please enter minimum building land area of 1200 square meters or 0.2966 acres and that too must be fully converted land type.')
+                if (data['Data'][0]['data'][0]['PendingOtherInformation'] > 0) {
+                  this.toastr.error("Enter All Other Information Details.")
+                  DCPendingPoint += "Enter All Other Information Details." + "\n";
                   this.isCheck30Female = true;
-                  return;
+                  if (this.SelectedDepartmentID != 3) {
+                    return;
+                  }
+                }
+
+                if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
+                  this.toastr.error("Enter All Class Room Details.")
+                  DCPendingPoint += "Enter All Class Room Details." + "\n";
+                  this.isCheck30Female = true;
+                  if (this.SelectedDepartmentID != 3) {
+                    return;
+                  }
+                }
+
+                if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0) {
+                  this.toastr.error("Enter Class Wise No of Room Details.")
+                  DCPendingPoint += "Enter Class Wise No of Room Details." + "\n";
+                  this.isCheck30Female = true;
+                  if (this.SelectedDepartmentID != 3) {
+                    return;
+                  }
+                }
+                if (this.SelectedDepartmentID == 2) {
+                  if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
+                    this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Acre')
+                    this.isCheck30Female = true;
+                  }
+                  if (data['Data'][0]['data'][0]['FullyConvertedLand'] > 0) {
+                    this.toastr.error('Please enter minimum building land area of 1200 square meters or 0.2966 acres and that too must be fully converted land type.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                }
+                else {
+                  if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
+                    this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
+                    DCPendingPoint += "Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet" + "\n";
+                    this.isCheck30Female = true;
+                    if (this.SelectedDepartmentID != 3) {
+                      return;
+                    }
+                  }
+                }
+
+                //
+                if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true) {
+                  this.SeatValue = Number(data['Data'][0]['data'][0]['SeatsValue'])
+                  if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
+                    this.toastr.error('Please Add One Principal in Staff details.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                  if (data['Data'][0]['data'][0]['PendingTrainingOfficer'] == 0) {
+                    if (this.SeatValue == 50)
+                      this.toastr.error('Please Add two Training Officer in Staff details.')
+                    else
+                      this.toastr.error('Please Add Four Training Officer in Staff details.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                  if (data['Data'][0]['data'][0]['PendingVeterinaryOfficer'] == 0) {
+                    if (this.SeatValue == 50)
+                      this.toastr.error('Please Add two Veterinary Officer in Staff details.')
+                    else
+                      this.toastr.error('Please Add Four Veterinary Officer in Staff details.')
+
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                  if (data['Data'][0]['data'][0]['PendingFarmSupervisor'] == 0) {
+                    this.toastr.error('Please Add One Farm Supervisor in Staff details.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                  if (data['Data'][0]['data'][0]['PendingLaboratoryAssistant'] == 0) {
+                    if (this.SeatValue == 50)
+                      this.toastr.error('Please Add one Laboratory Assistant in Staff details.')
+                    else
+                      this.toastr.error('Please Add two Laboratory Assistant in Staff details.')
+
+                    this.isCheck30Female = true;
+                    return;
+
+                  }
+
+                  if (data['Data'][0]['data'][0]['PendingComputerOperator'] == 0) {
+                    this.toastr.error('Please Add One Computer Operator in Staff details.')
+                    this.isCheck30Female = true;
+                    return;
+
+                  }
+                  if (data['Data'][0]['data'][0]['PendingClerk'] == 0) {
+                    if (this.SeatValue == 50)
+                      this.toastr.error('Please Add one Clerk in Staff details.')
+                    else
+                      this.toastr.error('Please Add two Clerk in Staff details.')
+                    this.isCheck30Female = true;
+                    return;
+
+                  }
+                  if (data['Data'][0]['data'][0]['PendingAttendantSweeper'] == 0) {
+                    if (this.SeatValue == 50)
+                      this.toastr.error('Please Add three Attendant Sweeper in Staff details.')
+                    else
+                      this.toastr.error('Please Add Five Attendant Sweeper in Staff details.')
+
+                    this.isCheck30Female = true;
+                    return;
+
+                  }
+                  if (data['Data'][0]['data'][0]['PendingBusDriver'] == 0) {
+                    this.toastr.error('Please Add One Bus Driver in Staff details.')
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                }
+
+                if (this.SelectedDepartmentID == 3 && this.CollegeType_IsExisting == true) {
+                  if (data['Data'][0]['data'][0]['PendingSubjectStaff'] > 0) {
+                    this.toastr.error('In the case of teaching, it is Mandatory to have teachers of all the subjects.')
+                    DCPendingPoint += "In the case of teaching, it is Mandatory to have teachers of all the subjects." + "\n";
+                    this.isCheck30Female = true;
+                    if (this.SelectedDepartmentID != 3) {
+                      return;
+                    }
+                  }
                 }
               }
               else {
-                if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
-                  this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet')
-                  DCPendingPoint += "Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Sq. Feet" + "\n";
-                  this.isCheck30Female = true;
-                  if (this.SelectedDepartmentID != 3) {
+                this.toastr.error(this.ErrorMessage)
+              }
+            })
+        }
+
+        if (this.SelectedDepartmentID == 3) {
+          if (confirm(DCPendingPoint + "\nAre you sure you want to save draft application ?")) {
+            this.isCheck30Female = false;
+            if (this.isCheck30Female == false) {
+              await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+                .then((data: any) => {
+
+                  this.State = data['State'];
+                  this.SuccessMessage = data['SuccessMessage'];
+                  this.ErrorMessage = data['ErrorMessage'];
+                  console.log(this.State);
+                  if (!this.State) {
+                    this.toastr.success(this.SuccessMessage)
+
+                    setTimeout(() => {
+                      this.routers.navigate(['/draftapplicationlist']);
+                    }, 500);
+
+                  }
+                  else {
+                    this.toastr.error(this.ErrorMessage)
+                  }
+                })
+            }
+          }
+        }
+        else if (this.SelectedDepartmentID == 5) {
+          if (confirm("Are you sure you want to Apply LOI?")) {
+            await this.commonMasterService.Check30Female(this.SelectedCollageID)
+              .then((data: any) => {
+                this.State = data['State'];
+                this.SuccessMessage = data['SuccessMessage'];
+                this.ErrorMessage = data['ErrorMessage'];
+
+                data = JSON.parse(JSON.stringify(data));
+
+                if (!this.State) {
+                  if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
+                    this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Acre');
+                    this.isCheck30Female = true;
+                    return;
+                  }
+                  if (data['Data'][0]['data'][0]['Medicalexperts'] <= 0) {
+                    this.toastr.error('Add Medical Educationist in College Management Committee Members.');
+                    this.isCheck30Female = true;
                     return;
                   }
                 }
-              }
-
-              //
-              if (this.SelectedDepartmentID == 2 && this.CollegeType_IsExisting == true) {
-                this.SeatValue = Number(data['Data'][0]['data'][0]['SeatsValue'])
-                if (data['Data'][0]['data'][0]['PendingPrincipal'] == 0) {
-                  this.toastr.error('Please Add One Principal in Staff details.')
-                  this.isCheck30Female = true;
-                  return;
+                else {
+                  this.toastr.error(this.ErrorMessage)
                 }
-                if (data['Data'][0]['data'][0]['PendingTrainingOfficer'] == 0) {
-                  if (this.SeatValue == 50)
-                    this.toastr.error('Please Add two Training Officer in Staff details.')
-                  else
-                    this.toastr.error('Please Add Four Training Officer in Staff details.')
-                  this.isCheck30Female = true;
-                  return;
-                }
-                if (data['Data'][0]['data'][0]['PendingVeterinaryOfficer'] == 0) {
-                  if (this.SeatValue == 50)
-                    this.toastr.error('Please Add two Veterinary Officer in Staff details.')
-                  else
-                    this.toastr.error('Please Add Four Veterinary Officer in Staff details.')
+              })
+            if (this.isCheck30Female == false) {
+              await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
+                .then((data: any) => {
 
-                  this.isCheck30Female = true;
-                  return;
-                }
-                if (data['Data'][0]['data'][0]['PendingFarmSupervisor'] == 0) {
-                  this.toastr.error('Please Add One Farm Supervisor in Staff details.')
-                  this.isCheck30Female = true;
-                  return;
-                }
-                if (data['Data'][0]['data'][0]['PendingLaboratoryAssistant'] == 0) {
-                  if (this.SeatValue == 50)
-                    this.toastr.error('Please Add one Laboratory Assistant in Staff details.')
-                  else
-                    this.toastr.error('Please Add two Laboratory Assistant in Staff details.')
+                  this.State = data['State'];
+                  this.SuccessMessage = data['SuccessMessage'];
+                  this.ErrorMessage = data['ErrorMessage'];
+                  console.log(this.State);
+                  if (!this.State) {
+                    this.toastr.success('Apply LOI Successfully')
 
-                  this.isCheck30Female = true;
-                  return;
+                    setTimeout(() => {
+                      this.routers.navigate(['/totalcollege']);
+                    }, 500);
 
-                }
-
-                if (data['Data'][0]['data'][0]['PendingComputerOperator'] == 0) {
-                  this.toastr.error('Please Add One Computer Operator in Staff details.')
-                  this.isCheck30Female = true;
-                  return;
-
-                }
-                if (data['Data'][0]['data'][0]['PendingClerk'] == 0) {
-                  if (this.SeatValue == 50)
-                    this.toastr.error('Please Add one Clerk in Staff details.')
-                  else
-                    this.toastr.error('Please Add two Clerk in Staff details.')
-                  this.isCheck30Female = true;
-                  return;
-
-                }
-                if (data['Data'][0]['data'][0]['PendingAttendantSweeper'] == 0) {
-                  if (this.SeatValue == 50)
-                    this.toastr.error('Please Add three Attendant Sweeper in Staff details.')
-                  else
-                    this.toastr.error('Please Add Five Attendant Sweeper in Staff details.')
-
-                  this.isCheck30Female = true;
-                  return;
-
-                }
-                if (data['Data'][0]['data'][0]['PendingBusDriver'] == 0) {
-                  this.toastr.error('Please Add One Bus Driver in Staff details.')
-                  this.isCheck30Female = true;
-                  return;
-                }
-              }
-
-              if (this.SelectedDepartmentID == 3 && this.CollegeType_IsExisting == true) {
-                if (data['Data'][0]['data'][0]['PendingSubjectStaff'] > 0) {
-                  this.toastr.error('In the case of teaching, it is Mandatory to have teachers of all the subjects.')
-                  DCPendingPoint += "In the case of teaching, it is Mandatory to have teachers of all the subjects." + "\n";
-                  this.isCheck30Female = true;
-                  if (this.SelectedDepartmentID != 3) {
-                    return;
                   }
-                }
-              }
+                  else {
+                    this.toastr.error(this.ErrorMessage)
+                  }
+                })
             }
-            else {
-              this.toastr.error(this.ErrorMessage)
-            }
-          })
-      }
+          }
+        }
 
-      if (this.SelectedDepartmentID == 3) {
-        if (confirm(DCPendingPoint + "\nAre you sure you want to save draft application ?")) {
-          this.isCheck30Female = false;
+        else {
+
           if (this.isCheck30Female == false) {
             await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
               .then((data: any) => {
@@ -436,88 +511,14 @@ export class ApplicationDetailEntryComponent implements OnInit {
           }
         }
       }
-      else if (this.SelectedDepartmentID == 5) {
-        if (confirm("Are you sure you want to Apply LOI?")) {
-          await this.commonMasterService.Check30Female(this.SelectedCollageID)
-            .then((data: any) => {
-              this.State = data['State'];
-              this.SuccessMessage = data['SuccessMessage'];
-              this.ErrorMessage = data['ErrorMessage'];
+      catch (ex) { console.log(ex) }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+          this.isLoading = false;
 
-              data = JSON.parse(JSON.stringify(data));
-
-              if (!this.State) {
-                if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
-                  this.toastr.error('Please Enter Min Land Area : ' + data['Data'][0]['data'][0]['Dis_MinLandArea'] + ' Acre');
-                  this.isCheck30Female = true;
-                  return;
-                }
-                if (data['Data'][0]['data'][0]['Medicalexperts'] <= 0) {
-                  this.toastr.error('Add Medical Educationist in College Management Committee Members.');
-                  this.isCheck30Female = true;
-                  return;
-                }
-              }
-              else {
-                this.toastr.error(this.ErrorMessage)
-              }
-            })
-          if (this.isCheck30Female == false) {
-            await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
-              .then((data: any) => {
-
-                this.State = data['State'];
-                this.SuccessMessage = data['SuccessMessage'];
-                this.ErrorMessage = data['ErrorMessage'];
-                console.log(this.State);
-                if (!this.State) {
-                  this.toastr.success('Apply LOI Successfully')
-
-                  setTimeout(() => {
-                    this.routers.navigate(['/totalcollege']);
-                  }, 500);
-
-                }
-                else {
-                  this.toastr.error(this.ErrorMessage)
-                }
-              })
-          }
-        }
+        }, 200);
       }
-
-      else {
-
-        if (this.isCheck30Female == false) {
-          await this.commonMasterService.DraftFinalSubmit(this.SelectedCollageID.toString(), IsDraftSubmited)
-            .then((data: any) => {
-
-              this.State = data['State'];
-              this.SuccessMessage = data['SuccessMessage'];
-              this.ErrorMessage = data['ErrorMessage'];
-              console.log(this.State);
-              if (!this.State) {
-                this.toastr.success(this.SuccessMessage)
-
-                setTimeout(() => {
-                  this.routers.navigate(['/draftapplicationlist']);
-                }, 500);
-
-              }
-              else {
-                this.toastr.error(this.ErrorMessage)
-              }
-            })
-        }
-      }
-    }
-    catch (ex) { console.log(ex) }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-        this.isLoading = false;
-
-      }, 200);
     }
   }
   async ShowDraftFinalSubmitBtn() {
