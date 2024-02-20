@@ -293,8 +293,8 @@ export class NocPaymentComponent implements OnInit {
   RedirectEgrassPaymentRequest(pMERCHANTCODE: any, pENCDATA: any, pServiceURL: any, pAUIN:any)
   {
 
-   // pServiceURL = "http://164.100.153.101/egrassectest/samplemerchantprelogin.aspx";
-
+    pServiceURL = "http://10.68.69.46:62778/api/Payment/GRAS_PaymentRequest";
+    debugger;
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", pServiceURL);
