@@ -795,7 +795,7 @@ font-size: 18px;">
           </div>
         </div>
         <!--College Managment Society-->
-        <div class="card-body">
+        <div class="card-body" *ngIf="IsManagmentType">
           <div class="row">
             <div class="col-md-12">
               <div class="table-responsive" *ngIf="SocietyAllList.length>0">
@@ -1115,7 +1115,7 @@ font-size: 18px;">
         <!--Staff Details-->
         <div class="card-body">
           <div class="row">
-            <div class="table-responsive" *ngIf="StaffDetaillst.length>0">
+            <div class="table-responsive" *ngIf="StaffDetaillst.length>0 && CollegeType_IsExisting">
               <table class="table table-hover table-striped" id="StaffDetails" #content>
                 <thead>
                   <tr>
@@ -1190,7 +1190,7 @@ font-size: 18px;">
         <!--Academic Information-->
         <div class="card-body">
           <div class="row">
-            <div class="table-responsive" *ngIf="AcademicInformationList.length>0">
+            <div class="table-responsive" *ngIf="AcademicInformationList.length>0 && CollegeType_IsExisting">
               <table class="table table-hover table-striped-columns" id="AcademicInfo" #content>
                 <thead>
                   <tr>
@@ -1276,7 +1276,7 @@ font-size: 18px;">
         <!--Old NOC Details-->
         <div class="card-body">
           <div class="row">
-            <div class="table-responsive" *ngIf="OldNocDetailslst.length>0">
+            <div class="table-responsive" *ngIf="OldNocDetailslst.length>0 && CollegeType_IsExisting">
               <table class="table table-hover table-striped-columns" id="OldNocDetial" #content>
                 <thead>
                   <tr>
@@ -2418,6 +2418,7 @@ font-size: 18px;">
             </div>
           </div>
         </div>
+
         <div class="card-footer">
           <input type="button" value="Preview Download PDF" class="btn btn-sm btn-primary" (click)="btnSavePDF_Click()" />
         </div>

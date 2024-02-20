@@ -219,12 +219,31 @@ export class ApplicationPDFComponent implements OnInit {
     debugger;
     this.loaderService.requestStarted();
     let dt = new Date();
-    let Imgpath = this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"];
-    let DefaultImg = "~/ClientApp/src/assets/images/userImg.jpg";
+    let Imgpath=''
+    if (this.DownloadPdfDetailslst.length > 0 && this.DownloadPdfDetailslst[0]["data"].length > 0 && this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"] != null && this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"] != '') {
+      Imgpath = this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"];
+    }
+    else {
+      Imgpath = "../../../assets/images/userImg.jpg";
+    }
+    let DefaultImg = "../../../assets/images/userImg.jpg";
     try {
       let Heading1 = 'GOVERNMENT OF RAJASTHAN';
-      let Heading2 = 'OFFICE OF THE COMMISSIONER, COLLEGE EDUCATION,';
-      let Heading3 = 'RAJASTHAN, JAIPUR';
+      let Heading2 = '';
+      let Heading3 = '';
+      if (this.SelectedDepartmentID == 3) {
+        Heading1 = 'GOVERNMENT OF RAJASTHAN';
+        Heading2 = 'OFFICE OF THE COMMISSIONER, COLLEGE EDUCATION,';
+        Heading3 = 'RAJASTHAN, JAIPUR';
+      }
+      else if (this.SelectedDepartmentID == 4) {
+        Heading1 = 'GOVERNMENT OF RAJASTHAN';
+        Heading2 = 'DIRECTORATE OF TECHNICAL EDUCATION, RAJASTHAN,';
+        Heading3 = 'W-6 RESIDENCY ROAD, JODHPUR-342032';
+      }
+      else {
+
+      }
       let Heading4 = 'ACADEMIC SESSION ' + this.DownloadPdfDetailslst[0]["data"][0]["SessionYear"];
       let Heading5 = '';
       if (this.CollegeType_IsExisting)
@@ -530,7 +549,7 @@ export class ApplicationPDFComponent implements OnInit {
                 try {
                   doc.addImage(Imgpath, 214, down, 40, 13, 'PNG');
                 } catch (e) {
-                 // doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
+                  //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
                 }
               
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
@@ -546,7 +565,7 @@ export class ApplicationPDFComponent implements OnInit {
                   try {
                     doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
                   } catch (e) {
-                   // doc.addImage(DefaultImg, 'JPG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                 //doc.addImage(DefaultImg, 'JPG', data.cell.x + 2, data.cell.y + 2, dim, dim);
                   }
                  
                 }
@@ -634,7 +653,7 @@ export class ApplicationPDFComponent implements OnInit {
                   try {
                     doc.addImage(img.src, 'JPEG', data.cell.x + 35, data.cell.y + 2, 10, 10);
                   } catch (e) {
-                   // doc.addImage(DefaultImg, 'JPG', data.cell.x + 35, data.cell.y + 2, 10, 10);
+                    //doc.addImage(DefaultImg, 'JPG', data.cell.x + 35, data.cell.y + 2, 10, 10);
                   }
                 
                 }
