@@ -112,15 +112,12 @@ export class ApplicationSummaryComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollageDetails();
     await this.GetDownloadPdfDetails();
-    this.loaderService.requestEnded();
-
     await this.ViewlegalEntityDataByID(this.UserSSOID);
-
+    this.loaderService.requestEnded();
   }
 
   async GetCollageDetails() {
     try {
-      debugger;
       this.loaderService.requestStarted();
       await this.collegeService.GetData(this.SelectedCollageID)
         .then((data: any) => {
@@ -162,7 +159,6 @@ export class ApplicationSummaryComponent implements OnInit {
   }
   @ViewChild('content') content: ElementRef | any;
   btnSavePDF_Click(): void {
-    debugger;
     this.loaderService.requestStarted();
     let dt = new Date();
     let Imgpath = this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"];
@@ -802,7 +798,6 @@ export class ApplicationSummaryComponent implements OnInit {
   }
   public IsManagmentType: boolean = false;
   async ViewlegalEntityDataByID(SSOID: any) {
-    debugger;
     let UserID: number = 0;
     try {
       this.loaderService.requestStarted();
