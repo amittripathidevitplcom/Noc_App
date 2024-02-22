@@ -1,0 +1,70 @@
+<app-loader></app-loader>
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Apply Noc</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" aria-current="page">Apply Noc</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="card">
+    <div class="card-header d-flex justify-content">
+      Apply NOC
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngFor="let item of request.DocumentDetails ; let idx =index">
+          <label>
+            {{item.DocumentName}} <span style="color:red;" *ngIf="item.IsMandatory">*</span>
+          </label>
+          <div class="d-flex">
+            <input type="file" id="fileLandDocument_{{item.DID}}" class="form-control d-none" (change)="onFilechange($event,item)" />
+            <label class="btn upload" for="fileLandDocument_{{item.DID}}">
+              <span class="filename">Choose file</span>
+              {{item.FileName === '' ? 'No File Choosen' : item.Dis_FileName}}
+            </label>
+
+            <div class="btn-group" *ngIf="item.FileName !== ''">
+              <a class="btn btn-outline-primary" target="_blank" href="{{item.FilePath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(item)"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+          <a style="color: #3458c8;" *ngIf="item.SampleDocument !=''" target="_blank" href="{{item.SampleDocument}}">{{item.DisplayName}}</a>
+          <div *ngIf="isSubmitted&&item.FileName == ''" class="text-danger">
+            <p>This field is required .!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <input type="checkbox" [(ngModel)]="IsTermsChecked" />&nbsp; I accept terms & conditions
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-3">
+            <h4 class="text-danger">Disclaimer:</h4>
+            <ol class="text-danger">
+              <li>Submit your application with appropriate option like- new course, new subject, tnoc, pnoc.</li>
+              <li>Once the application is submitted you have to print challan or download.</li>
+              <li>Once you did the payment you need to upload proof of payment (receipt) from applied noc, <a href="#"> Upload Reciept</a></li>
+              <!--<li>Note: here only those subjects or courses will be visible for which draft is complete.</li>
+              <li *ngIf="SelectedDepartmentID !=2">If NOC is for name change, location change, merger, coed to girl please fill details in <a href="#">College Amendment</a></li>-->
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-end">
+        <button type="button" class="btn btn-primary" (click)="SaveApplyNoc_click()" >Apply Noc</button>
+        <button type="button" class="btn btn-danger" aria-label="Reset" >Reset</button>
+        <a class="btn btn-info" href="/applicationsummary/{{SelectedDepartmentID}}/{{SelectedCollageID}}" target="_blank" aria-label="Preview Application" *ngIf="request.CollegeID>0">Preview Application</a>
+      </div>
+    </div>
+  </div>
+</div>

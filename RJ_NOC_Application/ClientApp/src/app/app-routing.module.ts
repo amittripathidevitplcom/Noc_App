@@ -214,6 +214,7 @@ import { GenerateReceiptListDTEComponent } from './Views/DocumentScrutinyTab_DTE
 import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-step-iiapplications/document-scrutiny-step-iiapplications.component';
 
 import { ApplicationPDFComponent } from './Views/application-pdf/application-pdf.component';
+import { ApplyNOCMGOneComponent } from './Views/Medical Group 1/apply-nocmgone/apply-nocmgone.component';
 
 
 const routes: Routes = [
@@ -883,6 +884,9 @@ const routes: Routes = [
       },
       {
         path: 'applicationpdf/:CollegeID/DepartmentID/SSOID', component: ApplicationPDFComponent
+      },
+      {
+        path: 'applynocmgone/:DepartmentID/:CollegeID', component: ApplyNOCMGOneComponent
       },
 
 

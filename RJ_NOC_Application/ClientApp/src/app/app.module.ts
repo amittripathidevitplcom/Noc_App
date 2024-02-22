@@ -357,6 +357,7 @@ import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocu
 import { GenerateReceiptListDTEComponent } from './Views/DocumentScrutinyTab_DTE/generate-receipt-list-dte/generate-receipt-list-dte.component';
 import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-step-iiapplications/document-scrutiny-step-iiapplications.component';
 import { ApplicationPDFComponent } from './Views/application-pdf/application-pdf.component';
+import { ApplyNOCMGOneComponent } from './Views/Medical Group 1/apply-nocmgone/apply-nocmgone.component';
 
 
 
@@ -704,6 +705,7 @@ import { ApplicationPDFComponent } from './Views/application-pdf/application-pdf
     GenerateReceiptListDTEComponent,
     DocumentScrutinyStepIIApplicationsComponent,
     ApplicationPDFComponent,
+    ApplyNOCMGOneComponent,
   ],
   imports: [
     CommonModule,
