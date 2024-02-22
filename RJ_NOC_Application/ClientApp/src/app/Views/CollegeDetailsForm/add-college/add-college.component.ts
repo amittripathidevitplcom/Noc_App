@@ -1141,7 +1141,6 @@ export class AddCollegeComponent implements OnInit {
     //this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
     this.CollegeDetailsForm.get('ddlPresentCollegeStatus')?.updateValueAndValidity();
 
-    console.log(this.request.RuralUrban);
     if (this.request.RuralUrban == 1) {
       this.CollegeDetailsForm.get('ddlPanchayatSamitiID')?.setValidators([DropdownValidators]);
       this.CollegeDetailsForm.get('ddlCityID')?.clearValidators();
@@ -1163,9 +1162,14 @@ export class AddCollegeComponent implements OnInit {
     }
     this.CollegeDetailsForm.get('AISHECodeStatus')?.updateValueAndValidity();
 
-    if (this.request.DepartmentID == 5) {
-      this.CollegeDetailsForm.get('ddlTypeofCollege')?.setValidators([Validators.required]);
+    if (this.request.DepartmentID == 5 || this.request.DepartmentID == 2) {
       this.CollegeDetailsForm.get('CollegeNAACAccredited')?.clearValidators();
+      if (this.request.DepartmentID == 5) {
+        this.CollegeDetailsForm.get('ddlTypeofCollege')?.setValidators([Validators.required]);
+      }
+      else {
+        this.CollegeDetailsForm.get('ddlTypeofCollege')?.clearValidators();
+      }
     }
     else {
       this.CollegeDetailsForm.get('ddlTypeofCollege')?.clearValidators();
@@ -1175,14 +1179,10 @@ export class AddCollegeComponent implements OnInit {
     this.CollegeDetailsForm.get('CollegeNAACAccredited')?.updateValueAndValidity();
 
 
-
     this.isValidCollegeLogo = false;
     this.isValidNAACAccreditedCertificate = false;
     this.isSubmitted = true;
 
-    console.log(this.request.NACCValidityDate);
-
-    console.log(this.CollegeDetailsForm);
     let isValid = true;
 
     if (this.request.DepartmentID == 5) {
@@ -1194,6 +1194,7 @@ export class AddCollegeComponent implements OnInit {
         isValid = false;
       }
     }
+    console.log(this.CollegeDetailsForm);
     if (this.CollegeDetailsForm.invalid) {
       isValid = false;
     }
@@ -1204,14 +1205,17 @@ export class AddCollegeComponent implements OnInit {
     //if (this.ProfileLogoValidationMessage != '') {
     //  isValid = false;
     //}
-    //if (this.IsExisting == true) {
-    //  if (this.request.AISHECodeStatus == 1) {
-    //    if (this.request.AISHECode == null || this.request.AISHECode == '') {
-    //      isValid = false;
-    //      this.AISHECodeValidationMessage = 'This field is required .!';
-    //    }
-    //  }
-    //}
+    if (this.IsExisting == true) {
+      //if (this.request.AISHECodeStatus == 1) {
+      //  if (this.request.AISHECode == null || this.request.AISHECode == '') {
+      //    isValid = false;
+      //    this.AISHECodeValidationMessage = 'This field is required .!';
+      //  }
+      //}
+      if (this.request.DepartmentID == 2 && this.request.CollegeCode == '') {
+        isValid = false;
+      }
+    }
     if (this.request.CollegeNAACAccredited == 1) {
       if (this.request.NAACAccreditedCertificate == null || this.request.NAACAccreditedCertificate == '') {
         isValid = false;

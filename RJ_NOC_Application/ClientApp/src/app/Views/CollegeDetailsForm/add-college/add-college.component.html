@@ -146,9 +146,9 @@
             <!--<span style="color:red;">*</span>-->
             <label for="txtCollegeCode" class="form-label">College Code </label>
             <input type="text" maxlength="15" class="form-control" id="txtCollegeCode" name="txtCollegeCode" [(ngModel)]="request.CollegeCode" formControlName="txtCollegeCode">
-            <!--<div *ngIf="isSubmitted&&form.txtCollegeCode.errors" class="text-danger">
-              <p *ngIf="form.txtCollegeCode.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
-            </div>-->
+            <div *ngIf="isSubmitted&&request.DepartmentID==2 &&IsExisting&& request.CollegeCode==''" class="text-danger">
+              <p *ngIf="isSubmitted&&request.DepartmentID==2 &&IsExisting&& request.CollegeCode==''"><i aria-hidden="true"></i> This field is required .!</p>
+            </div>
           </div>
 
 
@@ -166,7 +166,7 @@
               <p *ngIf="form.txtCollegeNameHi.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
             </div>
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==5">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==5 || request.DepartmentID==2">
             <label class="form-label" style="margin-right:15px">IS Your College NAAC Accredited : <span style="color:red;">*</span></label>
             <div class="clearfix"></div>
             <div class="form-check form-check-inline">
