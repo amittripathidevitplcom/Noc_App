@@ -60,7 +60,7 @@
             <input class="form-control disabled" disabled value="{{request.FDRNumber}}" />
           </div>
           <div *ngIf="request.IsFDRSubmited != true">
-            <input type="text" class="form-control" id="txtFDRNumber" name="txtFDRNumber" [(ngModel)]="request.FDRNumber" formControlName="txtFDRNumber" (keypress)="numberOnly($event)">
+            <input type="text" class="form-control" id="txtFDRNumber" name="txtFDRNumber" maxlength="100" [(ngModel)]="request.FDRNumber" formControlName="txtFDRNumber">
           </div>
           <div *ngIf="isSubmitted&&request.FDRNumber <= 0" class="text-danger">
             <p *ngIf="request.FDRNumber <= 0">This field is required .!</p>
