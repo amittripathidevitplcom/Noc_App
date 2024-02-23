@@ -167,7 +167,10 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
       this.DocumentValidMessage = 'This field is required .!';
       isValid = false;
     }
-    if ((this.request.FDRNumber <= 0) || (this.request.PeriodOfFDR == '0') || (this.request.FDRDocument == '') || (this.request.FDRAmount <= 0)) {
+    //if ((this.request.FDRNumber <= 0) || (this.request.PeriodOfFDR == '0') || (this.request.FDRDocument == '') || (this.request.FDRAmount <= 0)) {
+    //  isValid = false;
+    //}
+    if (this.request.FDRNumber ='') {
       isValid = false;
     }
    if (this.request.FDRAmount != Number(this.FDRDetailsData[0]['Amount']))
@@ -335,7 +338,7 @@ export class ApplyNOCFDRDetailsComponent implements OnInit {
     this.request.BankName = '';
     this.request.BranchName = '';
     this.request.IFSCCode = '';
-    this.request.FDRNumber = 0;
+    this.request.FDRNumber = '';
     this.request.FDRAmount = 0;
     this.request.FDRDate = '';
     this.request.PeriodOfFDR = '0';

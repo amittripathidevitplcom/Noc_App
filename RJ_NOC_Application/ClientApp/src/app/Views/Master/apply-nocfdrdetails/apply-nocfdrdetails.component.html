@@ -62,8 +62,8 @@
           <div *ngIf="request.IsFDRSubmited != true">
             <input type="text" class="form-control" id="txtFDRNumber" name="txtFDRNumber" maxlength="100" [(ngModel)]="request.FDRNumber" formControlName="txtFDRNumber">
           </div>
-          <div *ngIf="isSubmitted&&request.FDRNumber <= 0" class="text-danger">
-            <p *ngIf="request.FDRNumber <= 0">This field is required .!</p>
+          <div *ngIf="isSubmitted&&request.FDRNumber ==''" class="text-danger">
+            <p *ngIf="request.FDRNumber ==''">This field is required .!</p>
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
