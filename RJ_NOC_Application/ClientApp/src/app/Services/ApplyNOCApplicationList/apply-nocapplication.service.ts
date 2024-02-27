@@ -260,5 +260,17 @@ export class ApplyNOCApplicationService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+
+  public async CountTotalRevertDCE(ApplyNOCID: number, RoleID: number, UserID: number) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl + "/CountTotalRevertDCE/" + ApplyNOCID + "/" + RoleID + "/" + UserID)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }
 

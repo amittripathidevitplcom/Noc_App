@@ -86,7 +86,7 @@ export class RevertedApplicationListComponent implements OnInit {
     this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
   }
 
-  async CheckList_OnClick(content: any, DepartmentID: number, CollegeID: number, ApplyNocApplicationID: number) {
+  async CheckList_OnClick(content: any, DepartmentID: number, CollegeID: number, ApplyNocApplicationID: number, ActionID: number) {
     if (DepartmentID == 5) {
       await this.GetRevertApllicationRemark(DepartmentID, ApplyNocApplicationID);
       this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
@@ -94,6 +94,11 @@ export class RevertedApplicationListComponent implements OnInit {
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
+    }
+    else if (DepartmentID == 4)
+    {
+      var VerificationStep = ActionID == 3 ? 'Step1' : ActionID == 60 ? 'Step2' : 'NoStep';
+      this.routers.navigate([]).then(result => { window.open('/revertchecklistdte' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())) + "/" + VerificationStep, '_blank'); });
     }
     else {
       this.routers.navigate([]).then(result => { window.open('/revertchecklistdce' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNocApplicationID.toString())), '_blank'); });

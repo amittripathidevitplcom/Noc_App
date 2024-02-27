@@ -1,0 +1,287 @@
+<div class="container-fluid breadcrumbBox py-2">
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <h3>Application List</h3>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Application List</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mainContents">
+  <div class="card tabCard1 mb-0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i>&nbsp;Application List</b>
+    </div>
+    <div class="card-body">
+      <div class="clearfix"></div>
+      <div class="card">
+        <div class="card-header">
+          <b>&nbsp;Application List</b>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>S.No.</th>
+                      <th>Department Name</th>
+                      <th>College Name</th>
+                      <th>Application No.</th>
+                      <th *ngIf="QueryStringStatus!='Revert'">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of ApplyNocDetails let idx =index">
+                      <td>{{idx+1}}</td>
+                      <td>{{item.DepartmentName}}</td>
+                      <td>{{item.CollegeName}}</td>
+                      <td>{{item.ApplicationNo}}</td>
+                      <td *ngIf="QueryStringStatus!='Revert'">
+                        <a *ngIf="QueryStringStatus=='Pending'" href="javascript:void(0)" title="Application Scrutiny" (click)="ApplicationScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
+                        &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
+                        &nbsp;<button type="button" class="btn btn-sm btn-info" title="View Application trail" (click)="GetApplicationTrail(mymodal,item.ApplyNOCID)"><i class="fa fa-list"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="10" *ngIf="ApplyNocDetails.length<=0" style="color:red"> No Data Found.!</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!--Modal Start For Assign Commettiee-->
+        <ng-template #mymodalViewPVDetails let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Post Verification Details (ApplicationNo:{{ApplicationNo}})</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <i class="fa fa-close"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row m-t1">
+
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>
+                          Sr.No.
+                        </th>
+                        <th>
+                          Description
+                        </th>
+                        <th>
+                          PV Date
+                        </th>
+                        <th>
+                          Status
+                        </th>
+                        <th>
+                          Remarks
+                        </th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of PVApplicationDetailsList;let idx=index;">
+                        <td>
+                          {{idx+1}}
+                        </td>
+                        <td>
+                          {{row.RNCCheckListName}}
+                        </td>
+                        <td>
+                          {{row.PVDate}}
+                        </td>
+                        <td>
+                          {{row.strStatus}}
+                        </td>
+                        <td>
+                          {{row.Remark}}
+                        </td>
+                      </tr>
+                      <tr *ngIf="PVApplicationDetailsList.length<=0">
+                        <td colspan="5" style="color:red">No Record Found.!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <br />
+
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>
+                          Special Remakrs
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>  {{PVApplicationDetailsList.length>0?PVApplicationDetailsList[0]['FinalRemark']:''}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <br />
+                  <b>DETAILS OF INSPECTION TEAM MEMBERS</b>
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>
+                          Sr.No.
+                        </th>
+                        <th>
+                          Name
+                        </th>
+                        <th>
+                          Mobile Number
+                        </th>
+                        <th>
+                          SSO ID
+                        </th>
+                        <th>
+                          Is Primary Member
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of PVCommitteeList;let idx=index;">
+                        <td>
+                          {{idx+1}}
+                        </td>
+                        <td>
+                          {{row.NameOfPerson}}
+                        </td>
+                        <td>
+                          {{row.MobileNumber}}
+                        </td>
+                        <td>
+                          {{row.SSOID}}
+                        </td>
+                        <td>
+                          <span>
+                            {{row.IsPrimaryMember=='1'?'Yes':'No'}}
+                          </span>
+                        </td>
+                      </tr>
+                      <tr *ngIf="PVCommitteeList.length<=0">
+                        <td colspan="5" style="color:red">No Record Found!</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <br />
+                  <b *ngIf="WorkFlowRemarks.length>0">Details Of Other Officer Remarks</b>
+                  <table class="table table-bordered" *ngIf="WorkFlowRemarks.length>0">
+                    <thead>
+                      <tr>
+                        <th>
+                          Sr.No.
+                        </th>
+                        <th>
+                          Name
+                        </th>
+                        <th>
+                          SSO ID
+                        </th>
+                        <th>
+                          Role
+                        </th>
+                        <th>
+                          Remark
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of WorkFlowRemarks;let idx=index;">
+                        <td>
+                          {{idx+1}}
+                        </td>
+                        <td>
+                          {{row.Name}}
+                        </td>
+                        <td>
+                          {{row.SSOID}}
+                        </td>
+                        <td>
+                          {{row.RoleName}}
+                        </td>
+                        <td>
+                          <span>
+                            {{row.Remark}}
+                          </span>
+                        </td>
+                      </tr>
+                      <!--<tr *ngIf="WorkFlowRemarks.length<=0">
+                        <td colspan="5" style="color:red">No Record Found!</td>
+                      </tr>-->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <!--END MODAL-->
+        
+        <ng-template #mymodal let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Application Trail</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <i class="fa fa-close"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="card">
+              <div class="card-header">
+                <b>Application Trail</b>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-striped-columns">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>User Name</th>
+                          <th>Next User & Role</th>
+                          <th>Action</th>
+                          <th>Action Date</th>
+                          <th>Remark</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of ApplicationTrailList let idx =index">
+                          <td>{{idx+1}}</td>
+                          <td>{{item.ActionUser}}</td>
+                          <td>{{item.NextUserName}} ({{item.NextRoleName}})</td>
+                          <td>{{item.ActionName}}</td>
+                          <td>{{item.ActionDate}}</td>
+                          <td>{{item.Remark}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+
+
+        
+      </div>
+    </div>
+  </div>
+</div>

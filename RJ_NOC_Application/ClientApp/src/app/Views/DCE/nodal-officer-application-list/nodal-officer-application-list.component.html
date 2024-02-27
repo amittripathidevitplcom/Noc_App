@@ -35,7 +35,7 @@
                       <th>Department Name</th>
                       <th>College Name</th>
                       <th>Application No.</th>
-                      <th *ngIf="QueryStringStatus!='Revert'">Action</th>
+                      <th >Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -44,7 +44,7 @@
                       <td>{{item.DepartmentName}}</td>
                       <td>{{item.CollegeName}}</td>
                       <td>{{item.ApplicationNo}}</td>
-                      <td *ngIf="QueryStringStatus!='Revert'">
+                      <td>
                         <a href="javascript:void(0)" title="Document Scrutiny" (click)="DocumentScrutiny_OnClick(item.DepartmentID,item.CollegeID,item.ApplyNOCID,item.ApplicationNo)" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage=='0' && this.sSOLoginDataModel.RoleID==17" title="Assign Commitee" (click)="OpenAsignCommitteePopUP(mymodalAsignCommittee,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-users"></i></button>
                         &nbsp;<button type="button" class="btn btn-sm btn-primary" *ngIf="item.PVStage!='0' " title="Post Verification Details" (click)="ViewApplicationPvDetails(mymodalViewPVDetails,item.ApplyNOCID,item.DepartmentID,item.CollegeID,item.ApplicationNo)"><i class="fa fa-list"></i></button>
@@ -353,7 +353,7 @@
                 </div>
 
 
-                <div class="row m-2" *ngIf="sSOLoginDataModel.RoleID==17 && QueryStringStatus=='Pending'">
+                <!--<div class="row m-2" *ngIf="sSOLoginDataModel.RoleID==17 && QueryStringStatus=='Pending'">
 
                   <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                     <label for="ddlAction" class="form-label">Application On Action <span style="color:red;">*</span></label>
@@ -416,7 +416,7 @@
                   <div class="col-md-12">
                     <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
                   </div>
-                </div>
+                </div>-->
               </div>
             </div>
           </ng-template>
@@ -442,16 +442,20 @@
                           <tr>
                             <th>Sr.No.</th>
                             <th>User Name</th>
+                            <th>Next User & Role</th>
                             <th>Action</th>
                             <th>Action Date</th>
+                            <th>Remark</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr *ngFor="let item of ApplicationTrailList let idx =index">
                             <td>{{idx+1}}</td>
                             <td>{{item.ActionUser}}</td>
+                            <td>{{item.NextUserName}} ({{item.NextRoleName}})</td>
                             <td>{{item.ActionName}}</td>
                             <td>{{item.ActionDate}}</td>
+                            <td>{{item.Remark}}</td>
                           </tr>
                         </tbody>
                       </table>

@@ -215,6 +215,8 @@ import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScr
 
 import { ApplicationPDFComponent } from './Views/application-pdf/application-pdf.component';
 import { ApplyNOCMGOneComponent } from './Views/Medical Group 1/apply-nocmgone/apply-nocmgone.component';
+import { JDACCEApplicationListDCEComponent } from './Views/DCE/jdacceapplication-list-dce/jdacceapplication-list-dce.component';
+import { CheckListSecretaryDCEComponent } from './Views/DCE/check-list-secretary-dce/check-list-secretary-dce.component';
 
 
 const routes: Routes = [
@@ -699,13 +701,22 @@ const routes: Routes = [
         path: 'commissionerapplicationscrutinylist/:Status', component: CommissionerApplicationScrutinyListComponent
       },
       {
+        path: 'jdacceapplicationlistdce/:Status', component: JDACCEApplicationListDCEComponent
+      },
+      {
         path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListForCommissionerComponent
+      },
+      {
+        path: 'checklistforsecretarydce/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListSecretaryDCEComponent
       },
       {
         path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID', component: CheckListForCommissionerComponent
       },
       {
         path: 'revertchecklistdce/:DepartmentID/:CollegeID/:ApplyNOCID', component: RevertCheckListDCEComponent
+      },
+      {
+        path: 'revertchecklistdte/:DepartmentID/:CollegeID/:ApplyNOCID/:VerificationStep', component: RevertCheckListDCEComponent
       },
       {
         path: 'staffattendance', component: StaffattendanceComponent

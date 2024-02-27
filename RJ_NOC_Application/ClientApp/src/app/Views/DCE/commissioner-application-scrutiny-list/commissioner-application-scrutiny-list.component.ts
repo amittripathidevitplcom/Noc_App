@@ -55,6 +55,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
   public SelectedApplyNOCID: number = 0;
+  public SelectedApplyNOCIDForFile: number = 0;
   public WorkFlowActionList: any[] = [];
   public CheckListData: any[] = [];
   public NextActionID: number = 0;
@@ -131,10 +132,10 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
       this.loaderService.requestStarted();
       let ActionName = '';
       if (RoleId == 24) {
-        ActionName = Status == 'Completed' ? 'Forward To Secretary' : Status == 'Rejected' ? 'Reject By Commissioner' : Status == 'Revert' ? 'Revert By Commissioner' : Status == 'NOCIssued' ? 'Release NOC' : Status == 'Pending' ? 'Approve' : '';
+        ActionName = Status == 'Completed' ? 'Forward To Secretary' : Status == 'Rejected' ? 'Reject By Commissioner' : Status == 'Revert' ? 'Revert By Commissioner' : Status == 'NOCIssued' ? 'Release NOC' : Status == 'Pending' ? 'Approve' : Status == 'ForwardedSecretary' ? 'Forward To Commissioner' : '';
       }
       if (RoleId == 7) {
-        ActionName = Status == 'Completed' ? 'Forward To Minister Higher Education' : Status == 'Rejected' ? 'Reject By Secretary' : Status == 'Revert' ? 'Revert By Secretary' : Status == 'NOCIssued' ? 'Release NOC' : Status == 'Forward' ? 'Forward To Secretary By Minister' : Status == 'Pending' ? 'Forward To Secretary' : '';
+        ActionName = Status == 'Completed' ? 'Forward To Minister Higher Education' : Status == 'Rejected' ? 'Reject By Secretary' : Status == 'Revert' ? 'Revert By Secretary' : Status == 'NOCIssued' ? 'Release NOC' : Status == 'Forward' ? 'Forward To Secretary By Minister' : Status == 'Pending' ? 'Forward To Secretary' : Status == 'CCompleted' ? 'Forward To Commissioner' : '';
       }
       if (RoleId == 26) {
         ActionName = Status == 'Completed' ? 'Forward To Secretary By Minister' : Status == 'Rejected' ? 'Reject By Minister' : Status == 'Pending' ? 'Forward To Minister Higher Education' : '';
@@ -147,6 +148,7 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
           this.ApplyNocDetails = data['Data'];
+          console.log(this.ApplyNocDetails);
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -826,7 +828,12 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
   }
 
   async ApplicationScrutiny_OnClick(DepartmentID: number, CollegeID: number, ApplyNOCID: number, ApplicationNo: string) {
-    this.routers.navigate(['/checklistforcommissioner' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
+    if (this.QueryStringStatus == 'Forward') {
+      this.routers.navigate(['/checklistforsecretarydce' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
+    }
+    else {
+      this.routers.navigate(['/checklistforcommissioner' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplyNOCID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(ApplicationNo.toString()))]);
+    }
   }
 
   async OpenGeneratePDFPopUP(content: any, ApplyNOCID: number, DepartmentID: number) {
@@ -1475,6 +1482,143 @@ export class CommissionerApplicationScrutinyListComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 100);
+    }
+  }
+
+
+  public MinisterFile: string = '';
+  public MinisterFile_Dis_FileName: string = '';
+  public MinisterFilePath: string = '';
+  async MinisterOfflineFilePopUp(content: any, ApplyNOCID: number, ApplicationNo: string) {
+    this.ApplicationNo = '';
+    this.ApplicationNo = ApplicationNo;
+    this.SelectedApplyNOCIDForFile = ApplyNOCID;
+    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+   
+  }
+
+  async UploadFile(event: any) {
+    if (event.target.files && event.target.files[0]) {
+        if(event.target.files[0].type === 'application/pdf') {
+        //if (event.target.files[0].size > 2000000) {
+        //  event.target.value = '';
+        //  this.toastr.warning('Select less then 2MB File');
+        //  return
+        //}
+        if (event.target.files[0].size < 100000) {
+          event.target.value = '';
+          this.toastr.warning('Select more then 100kb File');
+          return
+        }
+      }
+      else {
+        event.target.value = '';
+        this.toastr.warning('Select Only pdf');
+        return
+      }
+      // upload
+      this.file = event.target.files[0];
+      try {
+        this.loaderService.requestStarted();
+        await this.fileUploadService.UploadDocument(this.file).then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          if (this.State == 0) {
+            this.MinisterFile = data['Data'][0]["FileName"];
+            this.MinisterFilePath = data['Data'][0]["FilePath"];
+            this.MinisterFile_Dis_FileName = data['Data'][0]["Dis_FileName"];
+          }
+          if (this.State == 1) {
+            this.toastr.error(this.ErrorMessage)
+          }
+          else if (this.State == 2) {
+            this.toastr.warning(this.ErrorMessage)
+          }
+        });
+      }
+      catch (ex) { }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+        }, 200);
+      }
+
+    }
+    else {
+      this.MinisterFile = '';
+      this.MinisterFilePath = '';
+      this.MinisterFile_Dis_FileName = '';
+    }
+  }
+  async DeleteFile(file: string) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(file).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.MinisterFile = '';
+          this.MinisterFilePath = '';
+          this.MinisterFile_Dis_FileName = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async SaveMinisterOfflineFile() {
+    try {
+      if (this.MinisterFile == '') {
+        this.toastr.warning('please upload a file');
+        return;
+      }
+      this.loaderService.requestStarted();
+      await this.applyNocParameterService.SaveApplyNocMinisterFile(this.SelectedApplyNOCIDForFile, this.MinisterFile).then(async (data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          this.MinisterFile = '';
+          this.MinisterFilePath = '';
+          this.MinisterFile_Dis_FileName = '';
+          this.modalService.dismissAll('After Success');
+          await this.GetNodalOfficerApplyNOCApplicationList(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.QueryStringStatus);
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
     }
   }
 }

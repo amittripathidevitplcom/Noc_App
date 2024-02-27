@@ -616,7 +616,7 @@
             </div>
           </div>
         </div>
-        <!--<a href="/revertedapplicationlist">View more <i class="fa fa-chevron-circle-right"></i></a>-->
+        <a href="/revertedapplicationlist">View more <i class="fa fa-chevron-circle-right"></i></a>
       </div>
     </div>
 
@@ -1120,7 +1120,7 @@
 <!--DCE SECTION DASHBOARD END-->
 <!--DCE SECTION Level 1 DASHBOARD START-->
 
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==3 && this.sSOLoginDataModel.RoleID==19">
+  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==3 && (this.sSOLoginDataModel.RoleID==19 || this.sSOLoginDataModel.RoleID==20)">
     <div class="col-lg-4 col-md-4 col-sm-4 col-12">
       <div class="card staticsCards">
         <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
@@ -1159,15 +1159,15 @@
           <div class="d-flex justify-content-between">
             <div class="dashCardContent text-start">
               <h4>Pending</h4>
-              <a href="/dceapplicationlist/Pending" style="background: none;"><h2> {{dashboardDataModel.Pending}}</h2></a>
+              <a href="/jdacceapplicationlistdce/Pending" style="background: none;"><h2> {{dashboardDataModel.Pending}}</h2></a>
             </div>
             <div class="dashCardContent  text-start">
               <h4>Revert</h4>
-              <a href="/dceapplicationreport/Revert" style="background: none;"><h2>{{dashboardDataModel.Revert}}</h2></a>
+              <a href="/jdacceapplicationlistdce/Revert" style="background: none;"><h2>{{dashboardDataModel.Revert}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
-              <a href="/dceapplicationreport/Approve" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+              <a href="/jdacceapplicationlistdce/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
             </div>
           </div>
         </div>
@@ -1178,7 +1178,7 @@
 <!--DEC SECTION DASHBOARD END-->
 <!--DCE SECTION Commissioner/Secretary/minister DASHBOARD START-->
 
-  <div class="row"  *ngIf="sSOLoginDataModel.DepartmentID==3 && (this.sSOLoginDataModel.RoleID==24 || this.sSOLoginDataModel.RoleID==7  || this.sSOLoginDataModel.RoleID==26)">
+  <div class="row" *ngIf="sSOLoginDataModel.DepartmentID==3 && (this.sSOLoginDataModel.RoleID==24 || this.sSOLoginDataModel.RoleID==7  || this.sSOLoginDataModel.RoleID==26)">
     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
       <div class="card staticsCards">
         <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
@@ -1188,10 +1188,6 @@
               <h4>Pending</h4>
               <a href="commissionerapplicationscrutinylist/Pending" style="background: none;"><h2> {{dashboardDataModel.Pending}}</h2></a>
             </div>
-            <div class="dashCardContent text-start" *ngIf="this.sSOLoginDataModel.RoleID==7">
-              <h4>Forward By Minister</h4>
-              <a href="commissionerapplicationscrutinylist/Forward" style="background: none;"><h2> {{dashboardDataModel.secretary_Pending}}</h2></a>
-            </div>
             <div class="dashCardContent  text-start">
               <h4>Rejected</h4>
               <a href="commissionerapplicationscrutinylist/Rejected" style="background: none;"><h2>{{dashboardDataModel.Rejected}}</h2></a>
@@ -1200,11 +1196,15 @@
               <h4>Reverted</h4>
               <a href="commissionerapplicationscrutinylist/Revert" style="background: none;"><h2>{{dashboardDataModel.Revert}}</h2></a>
             </div>
+            <div class="dashCardContent  text-start" *ngIf="this.sSOLoginDataModel.RoleID==24">
+              <h4>Forwarded By Secretary</h4>
+              <a href="commissionerapplicationscrutinylist/ForwardedSecretary" style="background: none;"><h2>{{dashboardDataModel.ForwardedSecretary}}</h2></a>
+            </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
               <a href="commissionerapplicationscrutinylist/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
             </div>
-            <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID!=26">
+            <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID==24">
               <h4>NOC Issued</h4>
               <a href="commissionerapplicationscrutinylist/NOCIssued" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
             </div>
@@ -1212,624 +1212,666 @@
         </div>
       </div>
     </div>
-  </div>
-<!--DEC SECTION DASHBOARD END-->
-<!--Agriculture department Start-->
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==1 &&( this.sSOLoginDataModel.RoleID==29 || this.sSOLoginDataModel.RoleID ==11  || this.sSOLoginDataModel.RoleID ==12 || this.sSOLoginDataModel.RoleID ==24 || this.sSOLoginDataModel.RoleID ==27 ||  this.sSOLoginDataModel.RoleID ==28)">
-    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/applynocapplicationlistAgri" style="background: none;">{{dashboardDataModel.Pending}}</a>
-              </h2>
-            </div>
-
-            <div class="dashCardContent  text-start">
-              <h4>Rejected</h4>
-              <a href="/documentscrutinyrejectedreport" style="background: none;"><h2>{{dashboardDataModel.Rejected}}</h2></a>
-            </div>
-            <div class="dashCardContent  text-start">
-              <h4>Reverted</h4>
-              <a href="/documentscrutinyrevertedreport" style="background: none;"><h2>{{dashboardDataModel.Revert}}</h2></a>
-            </div>
-
-            <div class="dashCardContent  text-start" *ngIf="this.sSOLoginDataModel.RoleID==29">
-              <h4>Forward to Primary Commitee</h4>
-              <a href="/AgriDsForwardToCommiteeList" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Forward}}</h2></a>
-            </div>
-
-            <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID!=29">
-              <h4>Completed</h4>
-              <a href="/documentscrutinycompletedreport" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==1 && this.sSOLoginDataModel.RoleID==29">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Primary Verification</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/AgriPriVerificationDone/Pending" style="background: none;">{{dashboardDataModel.ScrutinyCommittee_Pending}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent  text-start">
-              <h4>Rejected</h4>
-              <a href="/AgriPriVerificationDone/Rejected" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Rejected}}</h2></a>
-            </div>
-            <div class="dashCardContent">
-              <h4>Completed</h4>
-              <a href="/AgriPriVerificationDone/Completed" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Completed}}</h2></a>
-            </div>
-            <div class="dashCardContent  text-start" *ngIf="this.sSOLoginDataModel.RoleID==29">
-              <h4>Forward to Physical Inspection Commitee</h4>
-              <a href="/AgriPIForwardToCommiteeList" style="background: none;"><h2>{{dashboardDataModel.RegistratCommittee_Forward}}</h2></a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==1 && this.sSOLoginDataModel.RoleID==29">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Physical Inspection Verification</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/AgriPostVerificationDoneList/Pending" style="background: none;">{{dashboardDataModel.PVCommittee_Pending}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent  text-start">
-              <h4>Rejected</h4>
-              <a href="/AgriPostVerificationDoneList/Rejected" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
-            </div>
-            <div class="dashCardContent">
-              <h4>Completed</h4>
-              <a href="/AgriPostVerificationDoneList/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==1 && (this.sSOLoginDataModel.RoleID==27 || this.sSOLoginDataModel.RoleID==24)">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>NOC Application</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/AgriPSNocApplicationList/Pending" style="background: none;">{{dashboardDataModel.PendingNOC}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent  text-start">
-              <h4>Rejected</h4>
-              <a href="/AgriPSNocApplicationList/Rejected" style="background: none;"><h2>{{dashboardDataModel.TotalRejectApplication}}</h2></a>
-            </div>
-            <div class="dashCardContent">
-              <h4>Completed</h4>
-              <a href="/AgriPSNocApplicationList/Completed" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
-            </div>
-            <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID==27">
-              <h4>Forward To Commissioner</h4>
-              <a href="/AgriPSNocApplicationList/Forward To Commissioner" style="background: none;"><h2>{{dashboardDataModel.ApprovedAndForward}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==1 &&(this.sSOLoginDataModel.RoleID==8)">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Primary Verification</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/DSCommitteePrimaryVerification/Pending" style="background: none;">{{dashboardDataModel.ScrutinyCommittee_Pending}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent  text-start">
-              <h4>Rejected</h4>
-              <a href="/DSCommitteePrimaryVerification/Rejected" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Rejected}}</h2></a>
-            </div>
-            <div class="dashCardContent">
-              <h4>Completed</h4>
-              <a href="/DSCommitteePrimaryVerification/Completed" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Completed}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==1 &&(this.sSOLoginDataModel.RoleID==16)">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Physical Inspection Verification</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/AgriInsepctionPostVerification/Pending" style="background: none;">{{dashboardDataModel.PVCommittee_Pending}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent  text-start">
-              <h4>Rejected</h4>
-              <a href="/AgriInsepctionPostVerification/Rejected" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
-            </div>
-            <div class="dashCardContent">
-              <h4>Completed</h4>
-              <a href="/AgriInsepctionPostVerification/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-<!--Agriculture department end-->
-<!--Start Medical Group 1 Department-->
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==7 || this.sSOLoginDataModel.RoleID==17)">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Forwarded</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/nodalsecretaryapplicationlistmgone/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
-              </h2>
-            </div>
-
-            <div class="dashCardContent">
-              <h4>Completed</h4>
-              <a href="/nodalsecretaryapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==7">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==7 ">
       <div class="card staticsCards">
         <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
         <div class="card-body">
           <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/osdapplicationlistmgone/Pending" style="background: none;">{{dashboardDataModel.secretary_Pending}}</a>
-              </h2>
-            </div>
-
-            <div class="dashCardContent">
-              <h4>Completed</h4>
-              <a href="/osdapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.secretary_Completed}}</h2></a>
-            </div>
-            <div class="dashCardContent">
-              <h4>Forwarded By Minister</h4>
-              <a href="/forwardbyministerlistmgone/Pending" style="background: none;"><h2>{{dashboardDataModel.SectionOffs_Pending}}</h2></a>
-            </div>
-            <div class="dashCardContent">
-              <h4>Forwarded to Joint Secretary / Deputy Secretary</h4>
-              <a href="/forwardbyministerlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.SectionOffs_Completed}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--<div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==7">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application</h5></div>
-        <div class="card-body">
-          <div class="justify-content-between">
-            <div class="dashCardContent">
-              <h4>Total Application</h4>
-              <h2>
-                <a href="/totalapplicationlist/ALL" style="background: none;">{{dashboardDataModel.TotalApplication}}</a>
-              </h2>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>-->
-  </div>
-
-
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==33 || this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==30 )">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/documentscrutinylistmgone/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
-              </h2>
+            <div class="dashCardContent text-start" *ngIf="this.sSOLoginDataModel.RoleID==7">
+              <h4>Forward By Minister</h4>
+              <a href="commissionerapplicationscrutinylist/Forward" style="background: none;"><h2> {{dashboardDataModel.secretary_Pending}}</h2></a>
             </div>
             <div class="dashCardContent">
               <h4>Completed</h4>
-              <a href="/documentscrutinylistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+              <a href="commissionerapplicationscrutinylist/CCompleted" style="background: none;"><h2>{{dashboardDataModel.CCompleted}}</h2></a>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==24 ">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>&nbsp;अनापत्ति प्रमाण-पत्र के अनुमोदन का स्तर</b>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>क्र.सं.</th>
+                  <th>प्रकरण</th>
+                  <th>अनुमोदन का स्तर</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>नवीन महाविद्यालय हेतु प्रथम अस्थायी अनापत्ति प्रमाण-पत्र, <br />नवीन विषय / नवीन संकाय संचालित करने, स्नातकोत्तर क्रमोन्नयन,<br /> नियमितिकरण, संविलयन एवं प्रथम स्थायी अनापत्ति प्रमाण-पत्र</td>
+                  <td>राज्य सरकार</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>अस्थायी अनापत्ति प्रमाण में अभिवृद्धि, प्रबन्ध अन्तरण,<br /> महिला शिक्षा महाविद्यालयों को सह-शिक्षा में परिवर्तन, <br />सह शिक्षा से महिला शिक्षा में परिवर्तन, नाम परिवर्तन तथा स्थान परिवर्तन</td>
+                  <td>आयुक्तालय स्तर</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
   </div>
+        <!--DEC SECTION DASHBOARD END-->
+        <!--Agriculture department Start-->
+        <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==1 &&( this.sSOLoginDataModel.RoleID==29 || this.sSOLoginDataModel.RoleID ==11  || this.sSOLoginDataModel.RoleID ==12 || this.sSOLoginDataModel.RoleID ==24 || this.sSOLoginDataModel.RoleID ==27 ||  this.sSOLoginDataModel.RoleID ==28)">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
 
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/applynocapplicationlistAgri" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
 
+                  <div class="dashCardContent  text-start">
+                    <h4>Rejected</h4>
+                    <a href="/documentscrutinyrejectedreport" style="background: none;"><h2>{{dashboardDataModel.Rejected}}</h2></a>
+                  </div>
+                  <div class="dashCardContent  text-start">
+                    <h4>Reverted</h4>
+                    <a href="/documentscrutinyrevertedreport" style="background: none;"><h2>{{dashboardDataModel.Revert}}</h2></a>
+                  </div>
 
+                  <div class="dashCardContent  text-start" *ngIf="this.sSOLoginDataModel.RoleID==29">
+                    <h4>Forward to Primary Commitee</h4>
+                    <a href="/AgriDsForwardToCommiteeList" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Forward}}</h2></a>
+                  </div>
 
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==31 || this.sSOLoginDataModel.RoleID==32)">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/osdapplicationlistmgone/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
-              </h2>
+                  <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID!=29">
+                    <h4>Completed</h4>
+                    <a href="/documentscrutinycompletedreport" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="dashCardContent">
-              <h4>Completed</h4>
-              <a href="/osdapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==1 && this.sSOLoginDataModel.RoleID==29">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Primary Verification</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/AgriPriVerificationDone/Pending" style="background: none;">{{dashboardDataModel.ScrutinyCommittee_Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent  text-start">
+                    <h4>Rejected</h4>
+                    <a href="/AgriPriVerificationDone/Rejected" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Rejected}}</h2></a>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/AgriPriVerificationDone/Completed" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Completed}}</h2></a>
+                  </div>
+                  <div class="dashCardContent  text-start" *ngIf="this.sSOLoginDataModel.RoleID==29">
+                    <h4>Forward to Physical Inspection Commitee</h4>
+                    <a href="/AgriPIForwardToCommiteeList" style="background: none;"><h2>{{dashboardDataModel.RegistratCommittee_Forward}}</h2></a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==1 && this.sSOLoginDataModel.RoleID==29">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Physical Inspection Verification</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/AgriPostVerificationDoneList/Pending" style="background: none;">{{dashboardDataModel.PVCommittee_Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent  text-start">
+                    <h4>Rejected</h4>
+                    <a href="/AgriPostVerificationDoneList/Rejected" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/AgriPostVerificationDoneList/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.DepartmentID==1 && (this.sSOLoginDataModel.RoleID==27 || this.sSOLoginDataModel.RoleID==24)">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>NOC Application</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/AgriPSNocApplicationList/Pending" style="background: none;">{{dashboardDataModel.PendingNOC}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent  text-start">
+                    <h4>Rejected</h4>
+                    <a href="/AgriPSNocApplicationList/Rejected" style="background: none;"><h2>{{dashboardDataModel.TotalRejectApplication}}</h2></a>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/AgriPSNocApplicationList/Completed" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
+                  </div>
+                  <div class="dashCardContent" *ngIf="this.sSOLoginDataModel.RoleID==27">
+                    <h4>Forward To Commissioner</h4>
+                    <a href="/AgriPSNocApplicationList/Forward To Commissioner" style="background: none;"><h2>{{dashboardDataModel.ApprovedAndForward}}</h2></a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <!--<div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application</h5></div>
-        <div class="card-body">
-          <div class="justify-content-between">
-            <div class="dashCardContent">
-              <h4>Total Application</h4>
-              <h2>
-                <a href="/totalapplicationlist/ALL" style="background: none;">{{dashboardDataModel.TotalApplication}}</a>
-              </h2>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>-->
-  </div>
-
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==14 || this.sSOLoginDataModel.RoleID==6 )">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/osdapplicationlistmgone/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent">
-              <h4>Reverted</h4>
-              <a href="/osdapplicationlistmgone/Revert" style="background: none;"><h2>{{dashboardDataModel.Revert}}</h2></a>
-            </div>
-            <div class="dashCardContent">
-              <h4>Forwarded</h4>
-              <a href="/osdapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==14">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>LOI</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/generateloireportmgone/Pending" style="background: none;">{{dashboardDataModel.PendingNOC}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent">
-              <h4>LOI Generated</h4>
-              <a href="/issuedloireportmgone" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==6">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application LOI</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Forwarded by Secretary</h4>
-              <h2>
-                <a href="/deputysecretarylistmgone/Pending" style="background: none;">{{dashboardDataModel.JointSecretary_Pending}}</a>
-              </h2>
-            </div>
-            <!--<div class="dashCardContent">
-              <h4>Forwarded to Deputy Secretary</h4>
-              <a href="/deputysecretarylistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Completed}}</h2></a>
-            </div>-->
-            <div class="dashCardContent">
-              <h4>LOI Issued</h4>
-              <a href="/issuedloireportmgone" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--<div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==14 ||this.sSOLoginDataModel.RoleID==6">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application</h5></div>
-        <div class="card-body">
-          <div class="justify-content-between">
-            <div class="dashCardContent">
-              <h4>Total Application</h4>
-              <h2>
-                <a href="/totalapplicationlist/ALL" style="background: none;">{{dashboardDataModel.TotalApplication}}</a>
-              </h2>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>-->
-  </div>
-<!--End Medical Group 1 Department-->
 
 
-
-
-
-<!--Department of technical Education Start-->
-
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==4 && this.sSOLoginDataModel.RoleID==17">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/applicationlandingdetailsdte/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent text-start">
-              <h4>Reverted</h4>
-              <h2>
-                <a href="/applicationlandingdetailsdte/Revert" style="background: none;">{{dashboardDataModel.Revert}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent">
-              <h4>Forwarded</h4>
-              <a href="/applicationlandingdetailsdte/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+        <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==1 &&(this.sSOLoginDataModel.RoleID==8)">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Primary Verification</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/DSCommitteePrimaryVerification/Pending" style="background: none;">{{dashboardDataModel.ScrutinyCommittee_Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent  text-start">
+                    <h4>Rejected</h4>
+                    <a href="/DSCommitteePrimaryVerification/Rejected" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Rejected}}</h2></a>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/DSCommitteePrimaryVerification/Completed" style="background: none;"><h2>{{dashboardDataModel.ScrutinyCommittee_Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Generate Receipt</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/generatereceiptlistdte/Pending" style="background: none;">{{dashboardDataModel.ReceiptPending}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent">
-              <h4>Forwarded</h4>
-              <a href="/generatereceiptlistdte/Completed" style="background: none;"><h2>{{dashboardDataModel.ReceiptCompleted}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/documentscrutinyapplicationdte/Pending" style="background: none;">{{dashboardDataModel.Nodal_Pending}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent">
-              <h4>Forwarded</h4>
-              <a href="/documentscrutinyapplicationdte/Completed" style="background: none;"><h2>{{dashboardDataModel.Nodal_Completed}}</h2></a>
-            </div>
-            <div class="dashCardContent">
-              <h4>Reverted</h4>
-              <a href="/documentscrutinyapplicationdte/Revert" style="background: none;"><h2>{{dashboardDataModel.Nodal_Reverted}}</h2></a>
-            </div>
-            <div class="dashCardContent">
-              <h4>Rejected</h4>
-              <a href="/documentscrutinyapplicationdte/Reject" style="background: none;"><h2>{{dashboardDataModel.Nodal_Rejected}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==4 && (this.sSOLoginDataModel.RoleID==34 || this.sSOLoginDataModel.RoleID==16)">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/documentscrutinyapplicationlistdte/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent">
-              <h4>Forwarded</h4>
-              <a href="/documentscrutinyapplicationlistdte/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==34">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny After Inspection</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/documentscrutinyapplicationdte/Pending" style="background: none;">{{dashboardDataModel.AfterInspectionPending}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent">
-              <h4>Forwarded</h4>
-              <a href="/documentscrutinyapplicationdte/Completed" style="background: none;"><h2>{{dashboardDataModel.AfterInspectionCompleted}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==4 && this.sSOLoginDataModel.RoleID==6">
-    <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards">
-        <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Applications</h5></div>
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <div class="dashCardContent text-start">
-              <h4>Pending</h4>
-              <h2>
-                <a href="/jsapplicationlistdte/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
-              </h2>
-            </div>
-            <div class="dashCardContent">
-              <h4>NOC Issued</h4>
-              <a href="/jsapplicationlistdte/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-<!--Department of technical Education End-->
 
 
-<!--Common Dashboard at Department Level-->
-  <div class="row" *ngIf="this.sSOLoginDataModel.RoleID !=10 && this.sSOLoginDataModel.RoleID!=0 && this.sSOLoginDataModel.RoleID!=1&& this.sSOLoginDataModel.RoleID!=35">
-    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards ">
-        <div class="card-body">
-          <div class="">
-            <div class="dashCardIcon">
-              <i class="fa fa-bank"></i>
-            </div>
-            <div class="dashCardContent">
-              <h4>Total College</h4>
-              <h2>{{OtherdashboardDataModel.TotalCollege}}</h2>
-            </div>
-          </div>
-        </div>
-        <a routerLink="/totalcollegereports">View more <i class="fa fa-chevron-circle-right"></i></a>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards ">
-        <div class="card-body">
-          <div class="">
-            <div class="dashCardIcon">
-              <i class="fa fa-book"></i>
-            </div>
-            <div class="dashCardContent">
-              <h4>Total Application</h4>
-              <h2>{{OtherdashboardDataModel.TotalApplication}}</h2>
+        <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==1 &&(this.sSOLoginDataModel.RoleID==16)">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Physical Inspection Verification</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/AgriInsepctionPostVerification/Pending" style="background: none;">{{dashboardDataModel.PVCommittee_Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent  text-start">
+                    <h4>Rejected</h4>
+                    <a href="/AgriInsepctionPostVerification/Rejected" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Rejected}}</h2></a>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/AgriInsepctionPostVerification/Completed" style="background: none;"><h2>{{dashboardDataModel.PVCommittee_Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <a routerLink="/totalapplicationlist/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
-      </div>
-    </div>
+        <!--Agriculture department end-->
+        <!--Start Medical Group 1 Department-->
+        <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==7 || this.sSOLoginDataModel.RoleID==17)">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Forwarded</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/nodalsecretaryapplicationlistmgone/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
 
-    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards ">
-        <div class="card-body">
-          <div class="">
-            <div class="dashCardIcon">
-              <i class="fa fa-lock"></i>
-            </div>
-            <div class="dashCardContent">
-              <h4>Submitted Application</h4>
-              <h2>{{OtherdashboardDataModel.TotalSubmittedApplication}}</h2>
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/nodalsecretaryapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <a routerLink="/totalapplicationlist/Submit">View more <i class="fa fa-chevron-circle-right"></i></a>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards ">
-        <div class="card-body">
-          <div class="">
-            <div class="dashCardIcon">
-              <i class="fa fa-hourglass-end"></i>
-            </div>
-            <div class="dashCardContent">
-              <h4>Pending to Submit Application</h4>
-              <h2>{{OtherdashboardDataModel.PendingtoSubmit}}</h2>
-            </div>
-          </div>
-        </div>
-        <a routerLink="/totalapplicationlist/PendingSubmit">View more <i class="fa fa-chevron-circle-right"></i></a>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-4 col-sm-6 col-12">
-      <div class="card staticsCards ">
-        <div class="card-body">
-          <div class="">
-            <div class="dashCardIcon">
-              <i class="fa fa-check"></i>
-            </div>
-            <div class="dashCardContent">
-              <h4>NOC Issued</h4>
-              <h2>{{OtherdashboardDataModel.NOCIssued}}</h2>
-            </div>
-          </div>
-        </div>
-        <a routerLink="/totalapplicationlist/NOCIssued">View more <i class="fa fa-chevron-circle-right"></i></a>
-      </div>
-    </div>
-  </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==7">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/osdapplicationlistmgone/Pending" style="background: none;">{{dashboardDataModel.secretary_Pending}}</a>
+                    </h2>
+                  </div>
 
-<!--End Common Dashboard at Department Level-->
-</div>
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/osdapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.secretary_Completed}}</h2></a>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Forwarded By Minister</h4>
+                    <a href="/forwardbyministerlistmgone/Pending" style="background: none;"><h2>{{dashboardDataModel.SectionOffs_Pending}}</h2></a>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Forwarded to Joint Secretary / Deputy Secretary</h4>
+                    <a href="/forwardbyministerlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.SectionOffs_Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--<div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==7">
+        <div class="card staticsCards">
+          <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application</h5></div>
+          <div class="card-body">
+            <div class="justify-content-between">
+              <div class="dashCardContent">
+                <h4>Total Application</h4>
+                <h2>
+                  <a href="/totalapplicationlist/ALL" style="background: none;">{{dashboardDataModel.TotalApplication}}</a>
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>-->
+        </div>
+
+
+        <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==33 || this.sSOLoginDataModel.RoleID==5 || this.sSOLoginDataModel.RoleID==30 )">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/documentscrutinylistmgone/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/documentscrutinylistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==31 || this.sSOLoginDataModel.RoleID==32)">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/osdapplicationlistmgone/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Completed</h4>
+                    <a href="/osdapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--<div class="col-lg-3 col-md-4 col-sm-6 col-12">
+        <div class="card staticsCards">
+          <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application</h5></div>
+          <div class="card-body">
+            <div class="justify-content-between">
+              <div class="dashCardContent">
+                <h4>Total Application</h4>
+                <h2>
+                  <a href="/totalapplicationlist/ALL" style="background: none;">{{dashboardDataModel.TotalApplication}}</a>
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>-->
+        </div>
+
+        <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==5 &&(this.sSOLoginDataModel.RoleID==14 || this.sSOLoginDataModel.RoleID==6 )">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/osdapplicationlistmgone/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Reverted</h4>
+                    <a href="/osdapplicationlistmgone/Revert" style="background: none;"><h2>{{dashboardDataModel.Revert}}</h2></a>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Forwarded</h4>
+                    <a href="/osdapplicationlistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==14">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>LOI</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/generateloireportmgone/Pending" style="background: none;">{{dashboardDataModel.PendingNOC}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>LOI Generated</h4>
+                    <a href="/issuedloireportmgone" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==6">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application LOI</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Forwarded by Secretary</h4>
+                    <h2>
+                      <a href="/deputysecretarylistmgone/Pending" style="background: none;">{{dashboardDataModel.JointSecretary_Pending}}</a>
+                    </h2>
+                  </div>
+                  <!--<div class="dashCardContent">
+                <h4>Forwarded to Deputy Secretary</h4>
+                <a href="/deputysecretarylistmgone/Completed" style="background: none;"><h2>{{dashboardDataModel.JointSecretary_Completed}}</h2></a>
+              </div>-->
+                  <div class="dashCardContent">
+                    <h4>LOI Issued</h4>
+                    <a href="/issuedloireportmgone" style="background: none;"><h2>{{dashboardDataModel.NOCIssued}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--<div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==14 ||this.sSOLoginDataModel.RoleID==6">
+        <div class="card staticsCards">
+          <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application</h5></div>
+          <div class="card-body">
+            <div class="justify-content-between">
+              <div class="dashCardContent">
+                <h4>Total Application</h4>
+                <h2>
+                  <a href="/totalapplicationlist/ALL" style="background: none;">{{dashboardDataModel.TotalApplication}}</a>
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>-->
+        </div>
+        <!--End Medical Group 1 Department-->
+        <!--Department of technical Education Start-->
+
+        <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==4 && this.sSOLoginDataModel.RoleID==17">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Application Scrutiny</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/applicationlandingdetailsdte/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent text-start">
+                    <h4>Reverted</h4>
+                    <h2>
+                      <a href="/applicationlandingdetailsdte/Revert" style="background: none;">{{dashboardDataModel.Revert}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Forwarded</h4>
+                    <a href="/applicationlandingdetailsdte/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Generate Receipt</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/generatereceiptlistdte/Pending" style="background: none;">{{dashboardDataModel.ReceiptPending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Forwarded</h4>
+                    <a href="/generatereceiptlistdte/Completed" style="background: none;"><h2>{{dashboardDataModel.ReceiptCompleted}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/documentscrutinyapplicationdte/Pending" style="background: none;">{{dashboardDataModel.Nodal_Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Forwarded</h4>
+                    <a href="/documentscrutinyapplicationdte/Completed" style="background: none;"><h2>{{dashboardDataModel.Nodal_Completed}}</h2></a>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Reverted</h4>
+                    <a href="/documentscrutinyapplicationdte/Revert" style="background: none;"><h2>{{dashboardDataModel.Nodal_Reverted}}</h2></a>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Rejected</h4>
+                    <a href="/documentscrutinyapplicationdte/Reject" style="background: none;"><h2>{{dashboardDataModel.Nodal_Rejected}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==4 && (this.sSOLoginDataModel.RoleID==34 || this.sSOLoginDataModel.RoleID==16)">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/documentscrutinyapplicationlistdte/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Forwarded</h4>
+                    <a href="/documentscrutinyapplicationlistdte/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==34">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny After Inspection</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/documentscrutinyapplicationdte/Pending" style="background: none;">{{dashboardDataModel.AfterInspectionPending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Forwarded</h4>
+                    <a href="/documentscrutinyapplicationdte/Completed" style="background: none;"><h2>{{dashboardDataModel.AfterInspectionCompleted}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==4 && this.sSOLoginDataModel.RoleID==6">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Applications</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/jsapplicationlistdte/Pending" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>NOC Issued</h4>
+                    <a href="/jsapplicationlistdte/Completed" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!--Department of technical Education End-->
+        <!--Common Dashboard at Department Level-->
+        <div class="row" *ngIf="this.sSOLoginDataModel.RoleID !=10 && this.sSOLoginDataModel.RoleID!=0 && this.sSOLoginDataModel.RoleID!=1&& this.sSOLoginDataModel.RoleID!=35">
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-bank"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total College</h4>
+                    <h2>{{OtherdashboardDataModel.TotalCollege}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalcollegereports">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-book"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Total Application</h4>
+                    <h2>{{OtherdashboardDataModel.TotalApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/ALL">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-lock"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Submitted Application</h4>
+                    <h2>{{OtherdashboardDataModel.TotalSubmittedApplication}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/Submit">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-hourglass-end"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Pending to Submit Application</h4>
+                    <h2>{{OtherdashboardDataModel.PendingtoSubmit}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/PendingSubmit">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-4 col-sm-6 col-12">
+            <div class="card staticsCards ">
+              <div class="card-body">
+                <div class="">
+                  <div class="dashCardIcon">
+                    <i class="fa fa-check"></i>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>NOC Issued</h4>
+                    <h2>{{OtherdashboardDataModel.NOCIssued}}</h2>
+                  </div>
+                </div>
+              </div>
+              <a routerLink="/totalapplicationlist/NOCIssued">View more <i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!--End Common Dashboard at Department Level-->
+      </div>

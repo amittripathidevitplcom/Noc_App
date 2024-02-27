@@ -358,6 +358,9 @@ import { GenerateReceiptListDTEComponent } from './Views/DocumentScrutinyTab_DTE
 import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-step-iiapplications/document-scrutiny-step-iiapplications.component';
 import { ApplicationPDFComponent } from './Views/application-pdf/application-pdf.component';
 import { ApplyNOCMGOneComponent } from './Views/Medical Group 1/apply-nocmgone/apply-nocmgone.component';
+import { JDACCEApplicationListDCEComponent } from './Views/DCE/jdacceapplication-list-dce/jdacceapplication-list-dce.component';
+import { CheckListSecretaryDCEComponent } from './Views/DCE/check-list-secretary-dce/check-list-secretary-dce.component';
+import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-check-list-dte/revert-check-list-dte.component';
 
 
 
@@ -706,6 +709,9 @@ import { ApplyNOCMGOneComponent } from './Views/Medical Group 1/apply-nocmgone/a
     DocumentScrutinyStepIIApplicationsComponent,
     ApplicationPDFComponent,
     ApplyNOCMGOneComponent,
+    JDACCEApplicationListDCEComponent,
+    CheckListSecretaryDCEComponent,
+    RevertCheckListDTEComponent,
   ],
   imports: [
     CommonModule,

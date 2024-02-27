@@ -118,10 +118,12 @@ export class NodalOfficerApplicationListComponent implements OnInit {
     try {
       let ActionName = '';
       if (RoleId == 17) {
-        ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending' ?'Apply NOC,ReSubmit Application,Revert,Revert By Commissioner,Revert by Secretary':'';
+        ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending' ? 'Apply NOC,ReSubmit Application' : '';
+        //ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending' ?'Apply NOC,ReSubmit Application,Revert,Revert By Commissioner,Revert by Secretary':'';
       }
       else {
-        ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending' ? 'Approve,Revert,Revert By Commissioner,Revert by Secretary':'';
+        //ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending' ? 'Approve,Revert,Revert By Commissioner,Revert by Secretary' : '';
+        ActionName = Status == 'Completed' ? 'Approve' : Status == 'Rejected' ? 'Reject' : Status == 'Revert' ? 'Revert' : Status == 'Pending' ? 'Approve':'';
       }
       this.loaderService.requestStarted();
       await this.decDocumentScrutinyService.GetNodalOfficerApplyNOCApplicationList(RoleId, UserID, Status, ActionName)
