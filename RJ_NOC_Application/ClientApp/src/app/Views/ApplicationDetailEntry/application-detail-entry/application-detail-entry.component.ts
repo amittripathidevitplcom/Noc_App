@@ -39,6 +39,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
   selectedIndex: number = 0;
   maxNumberOfTabs: number = 0;
   public CollegeType_IsExisting: boolean = true;
+  public CollegeLevel_MGOne: string = 'UG';
 
   isSubmitted: boolean = false;
   public isLoading: boolean = false;
@@ -96,12 +97,10 @@ export class ApplicationDetailEntryComponent implements OnInit {
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //await this.GetCollageMaster();
-    if (this.SelectedDepartmentID == 5) {
-      this.DraftbuttonName = 'Apply LOI';
-    }
-    else {
+     
+     
       this.DraftbuttonName = 'Save Draft';
-    }
+     
     await this.GetCollageDetails();
     await this.GetCollegeBasicDetails();
     await this.CheckTabsEntry();
@@ -128,7 +127,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
   onTabChange(event: MatTabChangeEvent) {
     this.selectedIndex = event.index;
-   
+
     try {
       this.ShowDraftFinalSubmitBtn();
     }
@@ -141,9 +140,9 @@ export class ApplicationDetailEntryComponent implements OnInit {
       this.loaderService.requestStarted();
       await this.collegeService.GetData(this.SelectedCollageID)
         .then((data: any) => {
-          debugger;
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
+          this.CollegeLevel_MGOne = this.collegeDataList['CollegeLevelName'];
           if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
@@ -601,7 +600,7 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
     if (this.SelectedDepartmentID == 3) {
       if (this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['ClassWiseStatistics'] > 0 && this.CheckTabsEntryData['SubjectWiseStatistics'] > 0
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0
         )//&& this.CheckTabsEntryData['HostelDetails'] > 0
         {
           this.IsShowDraftFinalSubmit = false;
@@ -627,10 +626,10 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
     //this.CheckTabsEntryData['StaffDetails'] > 0 &&
     if (this.SelectedDepartmentID == 4) {
-      if (this.CollegeType_IsExisting == true) {   
+      if (this.CollegeType_IsExisting == true) {
         if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 &&
-          this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0  
-          && this.CheckTabsEntryData['CourseDetails'] > 0  
+          this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0
+          && this.CheckTabsEntryData['CourseDetails'] > 0
         ) {
           this.IsShowDraftFinalSubmit = false;
         }

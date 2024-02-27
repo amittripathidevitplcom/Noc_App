@@ -955,7 +955,8 @@
             </div>
             <div class="row">
               <div class="col-lg-2"><b>Total Application Fees</b></div>
-              <div class="col-lg-6">:₹ <b>{{request.TotalFeeAmount}}</b></div>
+              <div class="col-lg-6"  *ngIf="SelectedDepartmentID !=4">:₹ <b>{{request.TotalFeeAmount}}</b></div>
+              <div class="col-lg-6"  *ngIf="SelectedDepartmentID ==4"><b> (As per state NOC policy)</b></div>
             </div>
           </div>
         </div>
@@ -966,7 +967,7 @@
     <!--DTE_BankDetails-->
     <div *ngIf="request.DTE_BankDetails_View==true">
       <div class="card-header border-top">
-        <b>Change in the Name of the Bank :₹ {{this.request.DTE_BankDetails.FeeAmount}} (As per state NOC policy)</b>
+        <b>Change in the Name of the Bank :<span style="display:none"> ₹ {{this.request.DTE_BankDetails.FeeAmount}} </span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1053,7 +1054,7 @@
     <!--Change in the Minority Status of the Institution-->
     <div *ngIf="request.DTE_ChangeInTheMinorityStatusoftheInstitution_View==true">
       <div class="card-header border-top">
-        <b>Change in the Minority Status of the Institution :₹ {{this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_FeeAmount}}  (As per state NOC policy)</b>
+        <b>Change in the Minority Status of the Institution <span style="display:none"> :₹ {{this.request.DTE_ChangeInTheMinorityStatusoftheInstitution_FeeAmount}}</span>  (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1084,7 +1085,8 @@
     <!--Merger of Institutions under the same Trust/ Society/ Company-->
     <div *ngIf="request.DTE_MergerofInstitutions_View==true">
       <div class="card-header border-top">
-        <b>Merger of Institutions under the same/different Trust/ Society/ Company operating in the same campus or same city :₹ {{this.request.DTE_MergerofInstitutions.FeeAmount}} (As per state NOC policy)</b>
+        <b>Merger of Institutions under the same/different Trust/ Society/ Company operating in the same campus or same city
+          <span style="display:none"> :₹ {{this.request.DTE_MergerofInstitutions.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1152,7 +1154,7 @@
     <!--Change in the name of Trust/Society/Company-->
     <div *ngIf="request.DTE_ChangeinNameofSociety_View==true">
       <div class="card-header border-top">
-        <b>Change in the name/address of Trust/Society/Company :₹ {{this.request.DTE_ChangeinNameofSociety.FeeAmount}} (As per state NOC policy)</b>
+        <b>Change in the name/address of Trust/Society/Company <span style="display:none"> :₹ {{this.request.DTE_ChangeinNameofSociety.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
@@ -1206,7 +1208,7 @@
     <!--Increase in Intake / Addition of Course-->
     <div *ngIf="request.DTE_IncreaseinIntakeAdditionofCourse_View==true">
       <div class="card-header border-top">
-        <b>Addition of Course :₹ {{this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount}} (As per state NOC policy)</b>
+        <b>Addition of Course <span style="display:none"> :₹ {{this.request.DTE_IncreaseinIntakeAdditionofCourse.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1323,7 +1325,7 @@
     <!--To start new Programme/ Level in the existing Institutions-->
     <div *ngIf="request.DTE_TostartNewProgramme_View==true">
       <div class="card-header border-top">
-        <b>To start new Programme :₹ {{this.request.DTE_TostartNewProgramme.FeeAmount}} (As per state NOC policy)</b>
+        <b>To start new Programme <span style="display:none"> :₹ {{this.request.DTE_TostartNewProgramme.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1435,7 +1437,7 @@
     <!--Change in Name of Institution-->
     <div *ngIf="request.DTE_ChangeInNameofInstitution_View==true">
       <div class="card-header border-top">
-        <b>Change in Name of Institution :₹ {{this.request.DTE_ChangeInNameofInstitution.FeeAmount}}  (As per state NOC policy)</b>
+        <b>Change in Name of Institution <span style="display:none"> :₹ {{this.request.DTE_ChangeInNameofInstitution.FeeAmount}}</span>  (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1469,7 +1471,7 @@
     <!--Change of Site / Location-->
     <div *ngIf="request.DTE_ChangeofSite_Location_View==true">
       <div class="card-header border-top">
-        <b>Change of Site / Location :₹ {{this.request.DTE_ChangeofSite_Location.FeeAmount}} (As per state NOC policy)</b>
+        <b>Change of Site / Location <span style="display:none"> :₹ {{this.request.DTE_ChangeofSite_Location.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1495,7 +1497,7 @@
     <!--Increase in Intake / Addition of Course-->
     <div *ngIf="request.DTE_IncreaseInIntake_AdditionofCourse_View==true">
       <div class="card-header border-top">
-        <b>Increase in Intake :₹ {{this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount}} (As per state NOC policy)</b>
+        <b>Increase in Intake <span style="display:none"> :₹ {{this.request.DTE_IncreaseInIntake_AdditionofCourse.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1623,7 +1625,7 @@
     <!--Addition of Integrated/Dual Degree-->
     <div *ngIf="request.DTE_AdditionofIntegratedDualDegree_View==true">
       <div class="card-header border-top">
-        <b>Addition of Integrated/Dual Degree :₹ {{this.DTE_AdditionofIntegratedDualDegree.FeeAmount}} (As per state NOC policy)</b>
+        <b>Addition of Integrated/Dual Degree <span style="display:none"> :₹ {{this.DTE_AdditionofIntegratedDualDegree.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1731,7 +1733,7 @@
     <!--Change in Name of Course-->
     <div *ngIf="request.DTE_ChangeInNameOfCourse_View==true">
       <div class="card-header border-top">
-        <b>Change in Name of Course :₹ {{this.DTE_ChangeInNameOfCourse.FeeAmount}} (As per state NOC policy)</b>
+        <b>Change in Name of Course <span style="display:none"> :₹ {{this.DTE_ChangeInNameOfCourse.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1846,7 +1848,7 @@
     <!--Reduction in Intake-->
     <div *ngIf="request.DTE_ReductionInIntake_View==true">
       <div class="card-header border-top">
-        <b>Reduction in Intake :₹ {{this.DTE_ReductionInIntake.FeeAmount}} (As per state NOC policy)</b>
+        <b>Reduction in Intake <span style="display:none"> :₹ {{this.DTE_ReductionInIntake.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -1964,7 +1966,7 @@
     <!--Closure of Program-->
     <div *ngIf="request.DTE_ClosureOfProgram_View==true">
       <div class="card-header border-top">
-        <b>Closure of Program :₹ {{this.DTE_ClosureOfProgram.FeeAmount}} (As per state NOC policy)</b>
+        <b>Closure of Program <span style="display:none"> :₹ {{this.DTE_ClosureOfProgram.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -2039,7 +2041,7 @@
     <!--ClosureOfCourses-->
     <div *ngIf="request.DTE_ClosureOfCourses_View==true">
       <div class="card-header border-top">
-        <b>Closure Of Courses :₹ {{this.DTE_ClosureOfCourses.FeeAmount}} (As per state NOC policy)</b>
+        <b>Closure Of Courses <span style="display:none"> :₹ {{this.DTE_ClosureOfCourses.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -2158,7 +2160,7 @@
     <!--Merger of the course-->
     <div *ngIf="request.DTE_MergerOfTheCourse_View==true">
       <div class="card-header border-top">
-        <b>Merger of the course :₹ {{this.DTE_MergerOfTheCourse.FeeAmount}} (As per state NOC policy)</b>
+        <b>Merger of the course <span style="display:none"> :₹ {{this.DTE_MergerOfTheCourse.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -2315,7 +2317,7 @@
     <!--Introduction Off Campus-->
     <div *ngIf="request.DTE_IntroductionOffCampus_View==true">
       <div class="card-header border-top">
-        <b>Introduction Off Campus :₹ {{this.request.DTE_IntroductionOffCampus.FeeAmount}} (As per state NOC policy)</b>
+        <b>Introduction Off Campus <span style="display:none"> :₹ {{this.request.DTE_IntroductionOffCampus.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
@@ -2438,7 +2440,7 @@
     <!--Courses for Working Professionals-->
     <div *ngIf="request.DTE_CoursesforWorkingProfessionals_View==true">
       <div class="card-header border-top">
-        <b>Courses for Working Professionals :₹ {{this.request.DTE_CoursesforWorkingProfessionals.FeeAmount}} (As per state NOC policy)</b>
+        <b>Courses for Working Professionals <span style="display:none"> :₹ {{this.request.DTE_CoursesforWorkingProfessionals.FeeAmount}}</span> (As per state NOC policy)</b>
       </div>
       <div class="card-body">
         <div class="row">
