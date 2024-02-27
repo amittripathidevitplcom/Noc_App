@@ -894,7 +894,7 @@ const routes: Routes = [
         path: 'generatereceiptlistdte/:Status', component: GenerateReceiptListDTEComponent
       },
       {
-        path: 'applicationpdf/:CollegeID/DepartmentID/SSOID', component: ApplicationPDFComponent
+        path: 'applicationpdf/:CollegeID/:DepartmentID/:Status', component: ApplicationPDFComponent
       },
       {
         path: 'applynocmgone/:DepartmentID/:CollegeID', component: ApplyNOCMGOneComponent

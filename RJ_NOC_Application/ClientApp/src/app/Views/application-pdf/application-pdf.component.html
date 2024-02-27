@@ -22,6 +22,30 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
       <div class="card">
         <!--Legal entity-->
+        <div class="card-body" *ngIf="SelectedDepartmentID==3">
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped-columns text-left" id="ApplicationDeficiency" #content>
+                <thead>
+                  <tr>
+                    <td colspan="3" style="font-weight: 800;font-size: 18px;">
+                      <b><i class="bi bi-table"></i>&nbsp;Application Deficiency</b>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span [innerHTML]="DCPendingPoint"></span>
+                      <!--{{DCPendingPoint}}-->
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--Legal entity-->
         <div class="card-body" *ngIf="IsManagmentType">
           <div class="row">
             <div class="table-responsive">

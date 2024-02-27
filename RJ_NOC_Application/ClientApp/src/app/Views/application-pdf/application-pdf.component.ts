@@ -100,11 +100,14 @@ export class ApplicationPDFComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
 
-  @Input() CollegeID: any;
-  @Input() DepartmentID: any;
+  //@Input() CollegeID: any;
+  //@Input() DepartmentID: any;
 
   public paymentResponseDataModel: any[] = [];
   public OfflinePaymentDataModel: any[] = [];
+
+
+  public QueryStringStatus: string='Web'
   constructor(private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService, private veterinaryHospitalService: VeterinaryHospitalService,
     private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private elRef: ElementRef, public activeModal: NgbActiveModal,
@@ -114,13 +117,15 @@ export class ApplicationPDFComponent implements OnInit {
   async ngOnInit() {
 
     this.loaderService.requestStarted();
-
-    this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
-
-    this.SelectedDepartmentID = this.DepartmentID;
-    this.SelectedCollageID = this.CollegeID;
-
+    this.QueryStringStatus = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('Status')?.toString());
+    if (this.QueryStringStatus == 'App') {
+      this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+      this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    }
+    else {
+      //this.SelectedDepartmentID = this.DepartmentID;
+      //this.SelectedCollageID = this.CollegeID;
+    }
 
 
 
@@ -159,6 +164,7 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetAllDTECourse(this.UserSSOID, this.SelectedCollageID);
       await this.GetPreviewPaymentDetails(this.SelectedCollageID);
       await this.GetOfflinePaymentDetails(this.SelectedCollageID);
+      await this.GetApplicationDeficiency();
     }
     catch (Ex) {
       console.log(Ex);
@@ -219,7 +225,7 @@ export class ApplicationPDFComponent implements OnInit {
     debugger;
     this.loaderService.requestStarted();
     let dt = new Date();
-    let Imgpath=''
+    let Imgpath = ''
     if (this.DownloadPdfDetailslst.length > 0 && this.DownloadPdfDetailslst[0]["data"].length > 0 && this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"] != null && this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"] != '') {
       Imgpath = this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"];
     }
@@ -241,8 +247,7 @@ export class ApplicationPDFComponent implements OnInit {
         Heading2 = 'DIRECTORATE OF TECHNICAL EDUCATION, RAJASTHAN,';
         Heading3 = 'W-6 RESIDENCY ROAD, JODHPUR-342032';
       }
-      else if (this.SelectedDepartmentID == 2)
-      {
+      else if (this.SelectedDepartmentID == 2) {
         Heading1 = 'GOVERNMENT OF RAJASTHAN';
         Heading2 = 'Animal Husbandry Department Jaipur Rajasthan';
         Heading3 = '';
@@ -293,6 +298,9 @@ export class ApplicationPDFComponent implements OnInit {
       doc.setFontSize(12);
 
       let pDFData: any = [];
+      if (this.SelectedDepartmentID == 3) {
+        pDFData.push({ "ContentName": "#ApplicationDeficiency" })
+      }
       if (this.IsManagmentType) {
         pDFData.push({ "ContentName": "#LegalBasicInfo" })
         pDFData.push({ "ContentName": "#TrusteeMemberDetails" })
@@ -327,6 +335,7 @@ export class ApplicationPDFComponent implements OnInit {
       if (this.SelectedDepartmentID == 3 || this.SelectedDepartmentID == 6 || this.SelectedDepartmentID == 4) {
         pDFData.push({ "ContentName": "#HostelDetial" })
         pDFData.push({ "ContentName": "#HospitalDetailInfo" })
+
       }
       if (this.SelectedDepartmentID == 6 || this.SelectedDepartmentID == 5) {
         pDFData.push({ "ContentName": "#HospitalDetailInfo" })
@@ -405,7 +414,7 @@ export class ApplicationPDFComponent implements OnInit {
                 } catch (e) {
                   //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
                 }
-    
+
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
                 doc.text(str, 575, 830);
               },
@@ -507,7 +516,7 @@ export class ApplicationPDFComponent implements OnInit {
                   } catch (e) {
                     //doc.addImage(DefaultImg, 'JPG', data.cell.x + 2, data.cell.y + 2, dim, dim);
                   }
-                 
+
                 }
               }
             }
@@ -577,7 +586,7 @@ export class ApplicationPDFComponent implements OnInit {
                 } catch (e) {
                   //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
                 }
-              
+
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
                 doc.text(str, 575, 830);
               },
@@ -591,9 +600,9 @@ export class ApplicationPDFComponent implements OnInit {
                   try {
                     doc.addImage(img.src, 'JPEG', data.cell.x + 2, data.cell.y + 2, dim, dim);
                   } catch (e) {
-                 //doc.addImage(DefaultImg, 'JPG', data.cell.x + 2, data.cell.y + 2, dim, dim);
+                    //doc.addImage(DefaultImg, 'JPG', data.cell.x + 2, data.cell.y + 2, dim, dim);
                   }
-                 
+
                 }
               }
             }
@@ -665,7 +674,7 @@ export class ApplicationPDFComponent implements OnInit {
                 } catch (e) {
                   //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
                 }
-                
+
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
                 doc.text(str, 575, 830);
               },
@@ -681,7 +690,7 @@ export class ApplicationPDFComponent implements OnInit {
                   } catch (e) {
                     //doc.addImage(DefaultImg, 'JPG', data.cell.x + 35, data.cell.y + 2, 10, 10);
                   }
-                
+
                 }
               }
             }
@@ -751,7 +760,7 @@ export class ApplicationPDFComponent implements OnInit {
                 } catch (e) {
                   //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
                 }
-                
+
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
                 doc.text(str, 575, 830);
               },
@@ -766,7 +775,7 @@ export class ApplicationPDFComponent implements OnInit {
                   } catch (e) {
                     //doc.addImage(DefaultImg, 'JPG', data.cell.x + 2, data.cell.y + 2, 11, 20);
                   }
-                  
+
                 }
               }
             }
@@ -843,7 +852,7 @@ export class ApplicationPDFComponent implements OnInit {
                 } catch (e) {
                   //doc.addImage(DefaultImg, 214, down, 40, 13, 'JPG');
                 }
-                
+
                 doc.text(Footer5, 263, pageHeight - 18, { align: 'right', maxWidth: 500, });
                 doc.text(str, 575, 830);
               }
@@ -1470,6 +1479,67 @@ export class ApplicationPDFComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.OfflinePaymentDataModel = data['Data'][0]['data'];
         }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public DCPendingPoint: string = '';
+  async GetApplicationDeficiency() {
+    try {
+      let Femalepre = 0;
+      this.loaderService.requestStarted();
+      await this.commonMasterService.Check30Female(this.SelectedCollageID)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+
+          data = JSON.parse(JSON.stringify(data));
+
+          if (!this.State) {
+            if (data['Data'][0]['data'][0]['TotalMember'] < 15) {
+              this.DCPendingPoint += "Add Minimum 15 College Management Committee Members." + "</br>";
+            }
+            if (data['Data'][0]['data'][0]['Educationist'] < 2) {
+              this.DCPendingPoint += "Add Minimum 2 Educationist College Management Committee Members." + "</br>";
+            }
+            Femalepre = data['Data'][0]['data'][0]['FemalePercentage'];
+            if (Femalepre < 30) {
+              this.DCPendingPoint += "Member list must have atleast 30% of Woman" + "</br>";
+            }
+            if (data['Data'][0]['data'][0]['PendingFacilities'] > 0) {
+              this.DCPendingPoint += "Enter All Facilities Details." + "</br>";
+            }
+            if (data['Data'][0]['data'][0]['PendingOtherInformation'] > 0) {
+              this.DCPendingPoint += "Enter All Other Information Details." + "</br>";
+            }
+
+            if (data['Data'][0]['data'][0]['PendingClassRoomDetails'] > 0) {
+              this.DCPendingPoint += "Enter All Class Room Details." + "</br>";
+            }
+
+            if (data['Data'][0]['data'][0]['PendingClassWiseNoofRoomRoomDetails'] > 0) {
+              this.DCPendingPoint += "Enter All Class Wise No of Room Details." + "</br>";
+            }
+            if (data['Data'][0]['data'][0]['PendingMinLandArea'] > 0) {
+              this.DCPendingPoint += "Please Enter Min Land Area : " + data['Data'][0]['data'][0]['Dis_MinLandArea'] + " Sq. Feet" + "</br>";
+            }
+            if (this.CollegeType_IsExisting == true) {
+              if (data['Data'][0]['data'][0]['PendingSubjectStaff'] > 0) {
+                this.DCPendingPoint += "In the case of teaching, it is Mandatory to have teachers of all the subjects." + "</br>";
+              }
+            }
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
     }
     catch (Ex) {
       console.log(Ex);
