@@ -241,6 +241,32 @@ export class ApplicationPDFComponent implements OnInit {
         Heading2 = 'DIRECTORATE OF TECHNICAL EDUCATION, RAJASTHAN,';
         Heading3 = 'W-6 RESIDENCY ROAD, JODHPUR-342032';
       }
+      else if (this.SelectedDepartmentID == 2)
+      {
+        Heading1 = 'GOVERNMENT OF RAJASTHAN';
+        Heading2 = 'Animal Husbandry Department Jaipur Rajasthan';
+        Heading3 = '';
+      }
+      else if (this.SelectedDepartmentID == 1) {
+        Heading1 = 'GOVERNMENT OF RAJASTHAN';
+        Heading2 = 'Agriculture Department Jaipur Rajasthan';
+        Heading3 = '';
+      }
+      else if (this.SelectedDepartmentID == 5) {
+        Heading1 = 'GOVERNMENT OF RAJASTHAN';
+        Heading2 = 'Medical Education Group 1';
+        Heading3 = '';
+      }
+      else if (this.SelectedDepartmentID == 6) {
+        Heading1 = 'GOVERNMENT OF RAJASTHAN';
+        Heading2 = 'Department of medical & health(Group 3)';
+        Heading3 = '';
+      }
+      else if (this.SelectedDepartmentID == 9) {
+        Heading1 = 'GOVERNMENT OF RAJASTHAN';
+        Heading2 = 'Medical Education Group 3 (Paramedical)';
+        Heading3 = '';
+      }
       else {
 
       }
