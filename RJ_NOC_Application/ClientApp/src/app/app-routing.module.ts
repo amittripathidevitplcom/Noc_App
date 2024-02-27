@@ -894,9 +894,6 @@ const routes: Routes = [
         path: 'generatereceiptlistdte/:Status', component: GenerateReceiptListDTEComponent
       },
       {
-        path: 'applicationpdf/:CollegeID/:DepartmentID/:Status', component: ApplicationPDFComponent
-      },
-      {
         path: 'applynocmgone/:DepartmentID/:CollegeID', component: ApplyNOCMGOneComponent
       },
 
@@ -928,6 +925,9 @@ const routes: Routes = [
   },
   {
     path: 'paymentstatus/:TransID', component: EmitraPaymentResponseComponent
+  },
+  {
+    path: 'applicationpdf/:CollegeID/:DepartmentID/:Status', component: ApplicationPDFComponent
   },
 
 

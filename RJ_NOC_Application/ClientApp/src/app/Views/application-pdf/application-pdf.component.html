@@ -5,7 +5,7 @@
     font-weight: 600 !important;">
     Application Preview for PDf <!--: {{ApplyNocApplicationDetail.ApplicationNo}}-->
   </h4>
-  <button type="button" class="close" aria-label="Close" (click)="close()">
+  <button type="button" class="close" aria-label="Close" (click)="close()" *ngIf="QueryStringStatus != 'App'">
     <i class="fa fa-close"></i>
   </button>
 </div>

@@ -361,6 +361,7 @@ import { ApplyNOCMGOneComponent } from './Views/Medical Group 1/apply-nocmgone/a
 import { JDACCEApplicationListDCEComponent } from './Views/DCE/jdacceapplication-list-dce/jdacceapplication-list-dce.component';
 import { CheckListSecretaryDCEComponent } from './Views/DCE/check-list-secretary-dce/check-list-secretary-dce.component';
 import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-check-list-dte/revert-check-list-dte.component';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -711,7 +712,7 @@ import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/rev
     ApplyNOCMGOneComponent,
     JDACCEApplicationListDCEComponent,
     CheckListSecretaryDCEComponent,
-    RevertCheckListDTEComponent,
+    RevertCheckListDTEComponent
   ],
   imports: [
     CommonModule,
@@ -743,12 +744,13 @@ import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/rev
       positionClass: 'toast-top-right',
       preventDuplicates: true
     }),
-    NewGrievanceModule
+    NewGrievanceModule,
+    NgbModule
   ],
   //exports: [TableSearchFilterPipe],
   //exports: [LoaderModule],
   //providers: [],
-  providers: [ 
+  providers: [NgbActiveModal,
     {
       provide: '',
       useValue: { displayDefaultIndicatorType: false },
