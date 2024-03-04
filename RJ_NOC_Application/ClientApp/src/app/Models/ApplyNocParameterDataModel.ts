@@ -222,7 +222,8 @@ export class ApplyNocApplicationDataModel {
   public ChangeInCollegeManagementList?: ApplyNocParameterMasterList_ChangeInCollegeManagement[] = [];
   public MergerCollegeList?: ApplyNocParameterMasterList_MergerCollege[] = [];
 
-
+  public GenerateReceipt_DTE: string = '';
+  public GenerateReceiptPath_DTE: string = '';
 
 
 }

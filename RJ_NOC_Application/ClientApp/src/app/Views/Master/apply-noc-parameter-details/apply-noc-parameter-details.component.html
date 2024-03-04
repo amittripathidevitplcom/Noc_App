@@ -125,7 +125,11 @@
                     Egrass Payment
                   </a><!--*ngIf="item.IsMakePayment==true"-->
                 </li>
-
+                <li *ngIf="item.DepartmentID==4 && item.GenerateReceipt_DTE!=''">
+                  <a  href="{{item.GenerateReceiptPath_DTE}}" target="_blank" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" title="Egrass Payment">
+                    Receipt
+                  </a><!--*ngIf="item.IsMakePayment==true"-->
+                </li>
               </ul>
               <!--</div>-->
             </td>

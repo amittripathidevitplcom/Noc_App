@@ -1307,14 +1307,14 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.isLoading = true;
     try {
       await this.committeeMasterService.SaveApplicationCommitteeData(this.request_MemberList)
-        .then((data: any) => {
+        .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.modalService.dismissAll('After Success');
+            await this.GetApplicationCommitteeList(this.SelectedApplyNOCID);
           }
           else {
             this.toastr.error(this.ErrorMessage)

@@ -32,6 +32,8 @@ import { HospitalDetailService } from '../../Services/Tabs/HospitalDetail/hospit
 import { VeterinaryHospitalService } from '../../Services/VeterinaryHospital/veterinary-hospital.service';
 import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
 import { NocpaymentService } from '../../Services/NocPayment/noc-payment.service';
+import { ApplyNocApplicationDataModel } from '../../Models/ApplyNocParameterDataModel';
+import { ApplyNocParameterService } from '../../Services/Master/apply-noc-parameter.service';
 
 
 @Component({
@@ -111,7 +113,7 @@ export class ApplicationPDFComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal, private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService, private veterinaryHospitalService: VeterinaryHospitalService,
     private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private elRef: ElementRef,
-    private nocpaymentService: NocpaymentService
+    private nocpaymentService: NocpaymentService, private applyNocParameterService: ApplyNocParameterService
   ) { }
 
   async ngOnInit() {
@@ -165,6 +167,8 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetPreviewPaymentDetails(this.SelectedCollageID);
       await this.GetOfflinePaymentDetails(this.SelectedCollageID);
       await this.GetApplicationDeficiency();
+      await this.GetApplyNocApplicationList();
+      await this.ViewApplyNocApplicationDetails(this.ApplyNocApplicationID);
     }
     catch (Ex) {
       console.log(Ex);
@@ -348,6 +352,7 @@ export class ApplicationPDFComponent implements OnInit {
       }
       pDFData.push({ "ContentName": "#OfflinePayment" })
       pDFData.push({ "ContentName": "#OnlinePayment" })
+      pDFData.push({ "ContentName": "#ApplyNOCDetails" })
       for (var i = 0; i < pDFData.length; i++) {
 
         if (pDFData[i].ContentName == '#TrusteeMemberDetails') {
@@ -904,6 +909,8 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetVetHospitalDetailList(this.SelectedDepartmentID, this.SelectedCollageID);
       await this.GetPreviewPaymentDetails(this.SelectedCollageID);
       await this.GetOfflinePaymentDetails(this.SelectedCollageID);
+      await this.GetApplyNocApplicationList();
+      await this.ViewApplyNocApplicationDetails(this.ApplyNocApplicationID);
 
     }
     catch (Ex) {
@@ -1551,5 +1558,70 @@ export class ApplicationPDFComponent implements OnInit {
     }
   }
 
+
+
+  public ApplyNocApplicationDetail: ApplyNocApplicationDataModel = new ApplyNocApplicationDataModel();
+  async ViewApplyNocApplicationDetails(applyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+
+          console.log(data['Data']);
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationDetail = data['Data'];
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public ApplyNocApplicationList: ApplyNocApplicationDataModel[] = [];
+  public ApplyNocApplicationID: number = 0;
+  async GetApplyNocApplicationList() {
+    debugger;
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocApplicationLists(this.SelectedCollageID, this.SelectedDepartmentID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationList = data['Data'];
+            if (this.ApplyNocApplicationList.length > 0) {
+             this.ApplyNocApplicationID= this.ApplyNocApplicationList[0]['ApplyNocApplicationID']
+            }
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
 
