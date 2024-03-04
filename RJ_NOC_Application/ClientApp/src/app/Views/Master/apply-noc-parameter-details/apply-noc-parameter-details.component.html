@@ -115,7 +115,7 @@
                   </a>
                 </li>
                 <li>
-                  <a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true && item.DepartmentID!=4" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
+                  <a *ngIf="item.IsMakePayment==true && item.IsMakePayment_ApplicationFee==true && item.IsFinalSubmit==true && item.DepartmentID!=4 && item.DepartmentID!=5" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)" title="Add Offline Payment Details" (click)="OpenOfflinePaymentActionPopUP(mymodalAddOfflinePayment,item)">
                     Add Offline Payment Details
                   </a>
                 </li>
