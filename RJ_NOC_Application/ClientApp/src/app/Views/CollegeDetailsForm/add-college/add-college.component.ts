@@ -331,10 +331,12 @@ export class AddCollegeComponent implements OnInit {
             //size validation
             if (this.file.size > 2000000) {
               this.ResetFileAndValidation(Type, 'Select less then 2MB File', '', '', '', false);
+              this.toastr.error('Select more then 100kb File')
               return
             }
             if (this.file.size < 100000) {
               this.ResetFileAndValidation(Type, 'Select more then 100kb File', '', '', '', false);
+              this.toastr.error('Select more then 100kb File')
               return
             }
           }
@@ -432,6 +434,8 @@ export class AddCollegeComponent implements OnInit {
         this.request.CollegeLogo = name;
         this.request.CollegeLogoPath = path;
         this.request.CollegeLogo_Dis_FileName = dis_Name;
+        this.files = document.getElementById('fCollegeLogo');
+        this.files.value = '';
       }
       else if (type == 'HospitalDocument') {
         this.showHospitalDocument = isShowFile;
