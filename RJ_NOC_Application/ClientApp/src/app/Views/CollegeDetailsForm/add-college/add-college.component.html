@@ -166,8 +166,11 @@
               <p *ngIf="form.txtCollegeNameHi.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
             </div>
           </div>
+
+
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" [hidden]="request.DepartmentID==5 || request.DepartmentID==2">
-            <label class="form-label" style="margin-right:15px">IS Your College NAAC Accredited : <span style="color:red;">*</span></label>
+            <label class="form-label" style="margin-right:15px" *ngIf="request.DepartmentID !=1">Is Your College NAAC Accredited : <span style="color:red;">*</span></label>
+            <label class="form-label" style="margin-right:15px"  *ngIf="request.DepartmentID ==1">Is Your College ICAR Accredited : <span style="color:red;">*</span></label>
             <div class="clearfix"></div>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" value="1" [value]="1" id="rbCollegeNAACAccreditedYes" name="CollegeNAACAccredited" [(ngModel)]="request.CollegeNAACAccredited" formControlName="CollegeNAACAccredited" (change)="IsCollegeNAACAccreditedOrNot(true)">
@@ -181,8 +184,10 @@
               <p *ngIf="form.CollegeNAACAccredited.errors.required"><i aria-hidden="true"></i> This field is required .!</p>
             </div>
           </div>
+
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" style="margin-top: 5px;" *ngIf="IsCollegeNAACAccredited">
-            <label>NACC Validity Date <span style="color:red;">*</span></label>
+            <label *ngIf="request.DepartmentID !=1">  NACC Validity Date <span style="color:red;">*</span></label>
+            <label *ngIf="request.DepartmentID ==1">  ICAR Validity Date <span style="color:red;">*</span></label>
             <input type="date" placeholder="DD/MM/YYYY" class="form-control" id="txtNACCValidityDate" [(ngModel)]="request.NACCValidityDate" min="{{MinDate | date:'yyyy-MM-dd'}}" formControlName="txtNACCValidityDate" onkeypress="return false;" />
             <div *ngIf="isSubmitted&&request.CollegeNAACAccredited == 1&&(request.NACCValidityDate == null || request.NACCValidityDate == '' || request.NACCValidityDate == undefined)" class="text-danger">
               <p><i aria-hidden="true"></i>This field is required .!</p>
@@ -190,7 +195,8 @@
           </div>
           <!--NAAC Accredited Certificate-->
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="IsCollegeNAACAccredited">
-            <label class="form-label">NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 100KB) (Max.Size 2MB) <span style="color:red;">*</span></label>
+            <label class="form-label" *ngIf="request.DepartmentID !=1">NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 100KB) (Max.Size 2MB) <span style="color:red;">*</span></label>
+            <label class="form-label" *ngIf="request.DepartmentID ==1">ICAR Accredited Certificate(Only pdf/image file.) (Min.Size 100KB) (Max.Size 2MB) <span style="color:red;">*</span></label>
             <div class="d-flex">
               <input type="file" style="display:none;" class="form-control" id="NAACAccreditedCertificate" name="NAACAccreditedCertificate" (change)="onFilechange($event,'NAACAccreditedCertificate')" formControlName="NAACAccreditedCertificate">
               <label class="btn upload" for="NAACAccreditedCertificate">
@@ -248,7 +254,8 @@
 
             <label for="ddlUniversityID" class="form-label">
               <span *ngIf="request.DepartmentID==6"> University / RMC </span>
-              <span *ngIf="request.DepartmentID !=6"> University</span>
+              <span *ngIf="request.DepartmentID==1"> Affiliated University </span>
+              <span *ngIf="request.DepartmentID !=6 && request.DepartmentID !=1"> University</span>
               <span style="color:red;">*</span>
             </label>
 

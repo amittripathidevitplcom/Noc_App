@@ -77,6 +77,16 @@
               <app-land-details></app-land-details>
             </mat-tab>
 
+            <mat-tab *ngIf="SelectedDepartmentID==1">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['FarmLandDetails']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['FarmLandDetails']==0"></span>
+                <span>Farm Land Details</span>
+              </ng-template>
+              <app-farm-land-details></app-farm-land-details>
+            </mat-tab>
+
             <!--Building Documents-->
             <mat-tab>
               <ng-template mat-tab-label>
@@ -226,15 +236,7 @@
               <app-veterinary-hospital></app-veterinary-hospital>
             </mat-tab>
 
-            <mat-tab *ngIf="SelectedDepartmentID==1">
-              <ng-template mat-tab-label>
-                <i class="fa fa-globe icon" aria-hidden="true"></i>
-                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['FarmLandDetails']>0"></i>
-                <span class="badge pulse" *ngIf="CheckTabsEntryData['FarmLandDetails']==0"></span>
-                <span>Farm Land Details</span>
-              </ng-template>
-              <app-farm-land-details></app-farm-land-details>
-            </mat-tab>
+
 
 
             <mat-tab *ngIf="SelectedDepartmentID==5 && CollegeLevel_MGOne=='PG'">
@@ -267,7 +269,7 @@
               </ng-template>
               <app-apply-nocmgone></app-apply-nocmgone>
             </mat-tab>
-             
+
 
           </mat-tab-group>
         </div>
