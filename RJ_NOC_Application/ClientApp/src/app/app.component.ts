@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GlobalConstants } from './Common/GlobalConstants';
+import { MasterPageComponent } from './Views/Shared/master-page/master-page.component';
 
 
 @Component({
@@ -10,7 +11,31 @@ import { GlobalConstants } from './Common/GlobalConstants';
 export class AppComponent {
   title = 'RJ-NOC';
   public configUrl: any = "";
+
   async ngOnInit() {
+    window.onload = function () {
+      var applicationCount = Number(localStorage.getItem("applicationCount"));
+      if (!applicationCount) {
+        applicationCount = 0;
+      }
+      localStorage.setItem("applicationCount", (++applicationCount).toString());
+    }
+    window.onbeforeunload = function () {
+      var applicationCount = Number(localStorage.getItem("applicationCount"));
+      if (!applicationCount) {
+        applicationCount = 1;
+      }
+      localStorage.setItem("applicationCount", (--applicationCount).toString());
+      if (applicationCount == 0) {
+        console.log("Logout...");
+        sessionStorage.removeItem('UserID');
+        sessionStorage.removeItem('LoginID');
+        sessionStorage.clear();
+        localStorage.clear();
+      }
+    };
+
+
     //if (sessionStorage.getItem('apiurl') == null) {
     //  this.configUrl = window['window'];
     //  sessionStorage.setItem('apiurl', this.configUrl["config"]['apiurl']);
