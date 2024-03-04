@@ -2116,13 +2116,13 @@ export class ApplyNocParameterComponent implements OnInit {
   async ddlPNOCCourse_change($event: any, SeletedCourseID: any) {
     try {
       this.PNOCSubjectDetails = [];
-      var CollegeWiseCourseID = this.CourseDataListPNOC.find((x: { CourseID: number; }) => x.CourseID == SeletedCourseID).CollegeWiseCourseID;
-      this.loaderService.requestStarted();
-      const courseId = Number(SeletedCourseID);
-      if (courseId <= 0) {
-        return;
-      }
-      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, CollegeWiseCourseID, 'GetCollegeWiseNewSubjectNOCListPNOC')
+      //var CollegeWiseCourseID = this.CourseDataListPNOC.find((x: { CourseID: number; }) => x.CourseID == SeletedCourseID).CollegeWiseCourseID;
+      //this.loaderService.requestStarted();
+      //const courseId = Number(SeletedCourseID);
+      //if (courseId <= 0) {
+      //  return;
+      //}
+      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, SeletedCourseID, 'GetCollegeWiseNewSubjectNOCListPNOC')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.PNOCSubjectDetails = data['Data'][0]['data'];
