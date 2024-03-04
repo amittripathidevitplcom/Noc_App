@@ -35,11 +35,11 @@ import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterD
   providedIn: 'root'
 })
 @Component({
-  selector: 'app-document-scrutiny-check-list-dte',
-  templateUrl: './document-scrutiny-check-list-dte.component.html',
-  styleUrls: ['./document-scrutiny-check-list-dte.component.css']
+  selector: 'app-final-check-list-dte',
+  templateUrl: './final-check-list-dte.component.html',
+  styleUrls: ['./final-check-list-dte.component.css']
 })
-export class DocumentScrutinyCheckListDTEComponent implements OnInit {
+export class FinalCheckListDTEComponent implements OnInit {
 
   @ViewChild('TarilMymodal') tarilMymodal: TemplateRef<any> | undefined;
   public State: number = -1;
@@ -708,20 +708,6 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.isRemarkValid = false;
     try {
 
-
-
-      if (this.sSOLoginDataModel.RoleID == 16) {
-        if (this.UploadInspectionReport == '') {
-          this.toastr.warning('please upload Inspection Report');
-          return;
-        }
-        for (var i = 0; i < this.ApplicationCommitteeList.length; i++) {
-          if (this.ApplicationCommitteeList[i].SendOTP != 2) {
-            this.toastr.warning('Verified All Memeber');
-            return;
-          }
-        }
-      }
       if (this.sSOLoginDataModel.RoleID == 34) {
         if (this.ActionID == 52 || this.ActionID == 62) {
           if (this.ApplicationCommitteeList.length <= 0) {
@@ -732,12 +718,6 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         if (this.ActionID == 6 || this.ActionID == 63) {
           if (this.UploadConsolidatedReport == '') {
             this.toastr.warning('please upload Consolidated Report');
-            return;
-          }
-        }
-        for (var i = 0; i < this.DTECommitteeList.length; i++) {
-          if (this.DTECommitteeList[i].SendOTP != 2) {
-            this.toastr.warning('Verified All Memeber');
             return;
           }
         }
@@ -752,25 +732,25 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         this.isActionTypeValid = true;
         this.isFormvalid = false;
       }
-      if (this.CollegeType_IsExisting) {
-        var LegalEntity = 0;
-        LegalEntity = this.CheckList_legalEntityListData1.ManagementType == 'Private' && this.CheckTabsEntryData['LegalEntity'] <= 0 ? 0 : 1;
-        if (LegalEntity <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0
-          || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['CourseDetails'] <= 0) {
-          this.isFormvalid = false;
-          this.toastr.warning('Please do document scrutiny all tabs');
-        }
-      }
-      else {
-        LegalEntity = this.CheckList_legalEntityListData1.ManagementType == 'Private' && this.CheckTabsEntryData['LegalEntity'] <= 0 ? 0 : 1;
-        if (LegalEntity <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0
-          || this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['CourseDetails'] <= 0) {
-          this.isFormvalid = false;
-          this.toastr.warning('Please do document scrutiny all tabs');
-        }
-      }
+      //if (this.CollegeType_IsExisting) {
+      //  var LegalEntity = 0;
+      //  LegalEntity = this.CheckList_legalEntityListData1.ManagementType == 'Private' && this.CheckTabsEntryData['LegalEntity'] <= 0 ? 0 : 1;
+      //  if (LegalEntity <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0
+      //    || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+      //    || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['CourseDetails'] <= 0) {
+      //    this.isFormvalid = false;
+      //    this.toastr.warning('Please do document scrutiny all tabs');
+      //  }
+      //}
+      //else {
+      //  LegalEntity = this.CheckList_legalEntityListData1.ManagementType == 'Private' && this.CheckTabsEntryData['LegalEntity'] <= 0 ? 0 : 1;
+      //  if (LegalEntity <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0
+      //    || this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
+      //    || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['CourseDetails'] <= 0) {
+      //    this.isFormvalid = false;
+      //    this.toastr.warning('Please do document scrutiny all tabs');
+      //  }
+      //}
 
       if (!this.isFormvalid) {
         return;
@@ -783,12 +763,6 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
               data = JSON.parse(JSON.stringify(data));
             }, error => console.error(error));
         }
-      }
-      if (this.sSOLoginDataModel.RoleID == 16) {
-          await this.dcedocumentScrutinyService.UploadInspectionReport(this.SelectedCollageID, this.SelectedDepartmentID, this.SelectedApplyNOCID, this.sSOLoginDataModel.UserID, this.UploadConsolidatedReport, false)
-            .then(async (data: any) => {
-              data = JSON.parse(JSON.stringify(data));
-            }, error => console.error(error));
       }
       await this.dcedocumentScrutinyService.WorkflowInsertDTE(this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID, this.ActionID, this.SelectedApplyNOCID, this.SelectedDepartmentID, this.CheckFinalRemark, this.NextRoleID, this.NextUserID, this.NextActionID)
         .then((data: any) => {
@@ -916,14 +890,8 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
-              if (this.sSOLoginDataModel.RoleID == 17 && this.QueryStringApplicationStatus=='Step1') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 45 && x.ActionID != 60 && x.ActionID != 61);
-              }
-              if (this.sSOLoginDataModel.RoleID == 17 && this.QueryStringApplicationStatus == 'Step2') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 45 && x.ActionID != 3 && x.ActionID != 55);
-              }
               if (this.sSOLoginDataModel.RoleID == 34 && this.QueryStringApplicationStatus == 'Step1') {
-                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) =>  x.ActionID != 62 && x.ActionID != 63);
+                this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 62 && x.ActionID != 63);
               }
               if (this.sSOLoginDataModel.RoleID == 34 && this.QueryStringApplicationStatus == 'Step2') {
                 this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 6 && x.ActionID != 52);
@@ -1349,8 +1317,8 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
       this.toastr.error("Please add Member Details");
       isValid = false;
     }
-    if (this.request_MemberList.ApplicationCommitteeList.length < 3) {
-      this.toastr.error("Please add three Member Details");
+    if (this.request_MemberList.ApplicationCommitteeList.length < 2) {
+      this.toastr.error("Please add two Member Details");
       isValid = false;
     }
     let ifPrimaryExits = this.request_MemberList.ApplicationCommitteeList.find(f => f.IsPrimaryMember == true);

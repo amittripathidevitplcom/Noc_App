@@ -33,13 +33,13 @@ export class CourseMasterService {
       ).toPromise();
   }
 
-  public async GetListDTE(UserID: number, LoginSSOID: string, CollegeWiseCourseID: number, collegeID: number) {
+  public async GetListDTE(UserID: number, LoginSSOID: string, CollegeWiseCourseID: number, collegeID: number, ApplyNOCID: number=0) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return await this.http.get(this.APIUrl + "/GetAllCourseDTE/" + CollegeWiseCourseID + "/" + LoginSSOID + "/" + UserID + "/" + collegeID)
+    return await this.http.get(this.APIUrl + "/GetAllCourseDTE/" + CollegeWiseCourseID + "/" + LoginSSOID + "/" + UserID + "/" + collegeID + "/" + ApplyNOCID)
       .pipe(
         catchError(this.handleErrorObservable)
       ).toPromise();

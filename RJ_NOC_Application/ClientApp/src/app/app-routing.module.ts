@@ -217,6 +217,9 @@ import { ApplicationPDFComponent } from './Views/application-pdf/application-pdf
 import { ApplyNOCMGOneComponent } from './Views/Medical Group 1/apply-nocmgone/apply-nocmgone.component';
 import { JDACCEApplicationListDCEComponent } from './Views/DCE/jdacceapplication-list-dce/jdacceapplication-list-dce.component';
 import { CheckListSecretaryDCEComponent } from './Views/DCE/check-list-secretary-dce/check-list-secretary-dce.component';
+import { DTECommitteApplicationListComponent } from './Views/DocumentScrutinyTab_DTE/dtecommitte-application-list/dtecommitte-application-list.component';
+import { FinalCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/final-check-list-dte/final-check-list-dte.component';
+import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-check-list-dte/revert-check-list-dte.component';
 
 
 const routes: Routes = [
@@ -716,7 +719,7 @@ const routes: Routes = [
         path: 'revertchecklistdce/:DepartmentID/:CollegeID/:ApplyNOCID', component: RevertCheckListDCEComponent
       },
       {
-        path: 'revertchecklistdte/:DepartmentID/:CollegeID/:ApplyNOCID/:VerificationStep', component: RevertCheckListDCEComponent
+        path: 'revertchecklistdte/:DepartmentID/:CollegeID/:ApplyNOCID/:VerificationStep', component: RevertCheckListDTEComponent
       },
       {
         path: 'staffattendance', component: StaffattendanceComponent
@@ -867,6 +870,9 @@ const routes: Routes = [
         path: 'documentscrutinydte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status/:ApplicationStatus', component: DocumentScrutinyDTEComponent
       },
       {
+        path: 'finalchecklistdte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status/:ApplicationStatus', component: FinalCheckListDTEComponent
+      },
+      {
         path: 'applicationlandingdetailsdte/:Status', component: ApplicationLandingDetailsDTEComponent
       },
       {
@@ -874,6 +880,9 @@ const routes: Routes = [
       },
       {
         path: 'documentscrutinyapplicationdte/:Status', component: DocumentScrutinyStepIIApplicationsComponent
+      },
+      {
+        path: 'dtecommitteapplicationlist/:Status/:Stage', component: DTECommitteApplicationListComponent
       },
       {
         path: 'jsapplicationlistdte/:Status', component: JSApplicationListDTEComponent

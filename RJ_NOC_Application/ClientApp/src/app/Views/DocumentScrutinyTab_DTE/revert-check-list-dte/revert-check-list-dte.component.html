@@ -705,6 +705,83 @@
   </div>
 
   <!--End College Management Society-->
+  <!--Course Details Start-->
+  <div class="card mb-0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i>&nbsp;Course Details</b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Department</th>
+                  <th>College Name</th>
+                  <th>Programme Name</th>
+                  <th>Course Level</th>
+                  <th>Course Name</th>
+                  <th>Intake</th>
+                  <th>Super Numerary Seats</th>
+                  <th>Enrollment</th>
+                  <th>Shift</th>
+                  <th>Conduct Mode</th>
+                  <th>Trails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of AllCourseList; let idx =index">
+                  <td width="5%">
+                    {{idx+1}}
+                  </td>
+                  <td>{{item.DepartmentName}}</td>
+                  <td>{{item.CollageName}}</td>
+                  <td>{{item.StreamName}}</td>
+                  <td>{{item.CourseLevel}}</td>
+                  <td>{{item.CourseName}}</td>
+                  <td>{{item.Intake}}</td>
+                  <td>{{item.Seats}}</td>
+                  <td>{{item.NoOfEnrolledStudents}}</td>
+                  <td>{{item.ShiftTypeName}}</td>
+                  <td>{{item.ConductModeName}}</td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.CollegeWiseCourseID,'ClassCourseDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                </tr>
+                <tr *ngIf="AllCourseList.length<=0">
+                  <td colspan="15" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="CourseDetail_FinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of CourseDetail_FinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--Course Details End-->
   <!--Start Land Details-->
   <div class="card-header" *ngIf="RevertedTabData['LandInformation']>0">
     <b><i class="bi bi-table"></i>&nbsp; Land Details</b>

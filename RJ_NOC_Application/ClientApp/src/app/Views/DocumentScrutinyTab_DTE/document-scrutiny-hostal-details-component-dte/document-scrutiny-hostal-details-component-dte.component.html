@@ -116,7 +116,7 @@
           </div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="rdHostelapproverevert" id="rdHostelrevert" [value]="2" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
-            <label class="form-check-label" for="rdHostelrevert">Revert</label>
+            <label class="form-check-label" for="rdHostelrevert">Deficiency</label>
           </div>
           <p *ngIf="isSubmitted&&dsrequest.ActionID==0" class="text-danger"> This field is required .!</p>
         </div>

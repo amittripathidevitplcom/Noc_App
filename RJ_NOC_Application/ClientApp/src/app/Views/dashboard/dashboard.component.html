@@ -1726,7 +1726,26 @@
         </div>
 
         <div class="row" *ngIf="this.sSOLoginDataModel.DepartmentID==4 && (this.sSOLoginDataModel.RoleID==34 || this.sSOLoginDataModel.RoleID==16)">
-          <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==34">
+            <div class="card staticsCards">
+              <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <div class="dashCardContent text-start">
+                    <h4>Pending</h4>
+                    <h2>
+                      <a href="/dtecommitteapplicationlist/Pending/Step1" style="background: none;">{{dashboardDataModel.Pending}}</a>
+                    </h2>
+                  </div>
+                  <div class="dashCardContent">
+                    <h4>Forwarded</h4>
+                    <a href="/dtecommitteapplicationlist/Completed/Step1" style="background: none;"><h2>{{dashboardDataModel.Completed}}</h2></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngIf="this.sSOLoginDataModel.RoleID==16">
             <div class="card staticsCards">
               <div class="card-header text-center text-white" style="background: rgba(0, 0, 0, 0.2) !important;"><h5>Document Scrutiny</h5></div>
               <div class="card-body">
@@ -1753,12 +1772,12 @@
                   <div class="dashCardContent text-start">
                     <h4>Pending</h4>
                     <h2>
-                      <a href="/documentscrutinyapplicationdte/Pending" style="background: none;">{{dashboardDataModel.AfterInspectionPending}}</a>
+                      <a href="/dtecommitteapplicationlist/Pending/Step2" style="background: none;">{{dashboardDataModel.AfterInspectionPending}}</a>
                     </h2>
                   </div>
                   <div class="dashCardContent">
                     <h4>Forwarded</h4>
-                    <a href="/documentscrutinyapplicationdte/Completed" style="background: none;"><h2>{{dashboardDataModel.AfterInspectionCompleted}}</h2></a>
+                    <a href="/dtecommitteapplicationlist/Completed/Step2" style="background: none;"><h2>{{dashboardDataModel.AfterInspectionCompleted}}</h2></a>
                   </div>
                 </div>
               </div>

@@ -117,7 +117,7 @@
           </div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="rdAcademicapproverevert" id="rdAcademicrevert" [value]="2" [(ngModel)]="dsrequest.ActionID" [attr.disabled]="isDisabledAction ? true : null">
-            <label class="form-check-label" for="rdAcademicrevert">Revert</label>
+            <label class="form-check-label" for="rdAcademicrevert">Deficiency</label>
           </div>
           <p *ngIf="isSubmitted&&dsrequest.ActionID==0" class="text-danger"> This field is required .!</p>
         </div>

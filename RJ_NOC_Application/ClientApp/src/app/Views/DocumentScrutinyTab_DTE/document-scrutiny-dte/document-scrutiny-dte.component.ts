@@ -12,6 +12,7 @@ import { MedicalDocumentScrutinyService } from '../../../Services/MedicalDocumen
 import { DTEDocumentScrutinyService } from '../../../Services/DTEDocumentScrutiny/dtedocument-scrutiny.service';
 import { DocumentScrutinyCheckListDTEComponent } from '../document-scrutiny-check-list-dte/document-scrutiny-check-list-dte.component';
 import { ASTWithName } from '@angular/compiler';
+import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 
 @Injectable({
   providedIn: 'root'
@@ -90,7 +91,7 @@ export class DocumentScrutinyDTEComponent implements OnInit {
   public QueryStringApplicationStatus: any = '';
   constructor(private toastr: ToastrService, private loaderService: LoaderService, private dteDocumentScrutinyService: DTEDocumentScrutinyService,
     private commonMasterService: CommonMasterService, private router: ActivatedRoute, private modalService: NgbModal,
-    private dcedocumentScrutinyService: DTEDocumentScrutinyService) { }
+    private dcedocumentScrutinyService: DTEDocumentScrutinyService, private collegeService: CollegeService) { }
 
 
 
@@ -102,13 +103,20 @@ export class DocumentScrutinyDTEComponent implements OnInit {
 
     this.QueryStringApplicationStatus = this.router.snapshot.paramMap.get('ApplicationStatus')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    await this.GetCollageDetails();
     await this.CheckTabsEntry();
     await this.ViewlegalEntityDataByID();
     try {
       this.maxNumberOfTabs = await this.tabGroup._tabs.length - 1;
     }
     catch (Ex) {
-      this.maxNumberOfTabs = 15;
+      if (this.CheckList_legalEntityListData1.ManagementType == 'Private') {
+
+        this.maxNumberOfTabs = this.CollegeType_IsExisting?15:12;
+      }
+      else {
+        this.maxNumberOfTabs = this.CollegeType_IsExisting?14:11;
+      }
     }
 
   }
@@ -210,6 +218,9 @@ export class DocumentScrutinyDTEComponent implements OnInit {
           // data
           if (data['Data'].length > 0) {
             this.CheckList_legalEntityListData1 = data['Data'][0]['legalEntity'];
+            console.log('Deepak')
+            console.log(this.CheckList_legalEntityListData1)
+            console.log('Deepak')
           }
         }, (error: any) => console.error(error));
     }
@@ -223,4 +234,26 @@ export class DocumentScrutinyDTEComponent implements OnInit {
     }
   }
   //End Legal Entity
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.collegeDataList = data['Data'];
+          if (this.collegeDataList['CollegeStatus'] == 'New') {
+            this.CollegeType_IsExisting = false;
+            //this.isAcademicInformation = false;
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }

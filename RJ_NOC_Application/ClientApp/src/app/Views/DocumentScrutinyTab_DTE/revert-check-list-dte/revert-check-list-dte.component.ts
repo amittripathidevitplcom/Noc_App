@@ -200,7 +200,35 @@ export class RevertCheckListDTEComponent implements OnInit {
     this.GetHostelDetailList_DepartmentCollegeWise();
     this.GetCollageDetails();
     this.GetRevertedTabData();
+    this.GetCourseDetailAllList();
   }
+  public AllCourseList: any = [];
+  public CourseDetail_FinalRemarks: any = [];
+  // Get Course
+  async GetCourseDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.dtedocumentScrutinyService.DocumentScrutiny_CourseDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.VerificationStep)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.AllCourseList = data['Data'][0]['CourseDetails'][0];
+          this.CourseDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  //End 
+
   // Start Land Details
   async GetLandDetailsDataList() {
 
