@@ -13,27 +13,44 @@ export class AppComponent {
   public configUrl: any = "";
 
   async ngOnInit() {
-    window.onload = function () {
-      var applicationCount = Number(localStorage.getItem("applicationCount"));
-      if (!applicationCount) {
-        applicationCount = 0;
-      }
-      localStorage.setItem("applicationCount", (++applicationCount).toString());
-    }
-    window.onbeforeunload = function () {
-      var applicationCount = Number(localStorage.getItem("applicationCount"));
-      if (!applicationCount) {
-        applicationCount = 1;
-      }
-      localStorage.setItem("applicationCount", (--applicationCount).toString());
-      if (applicationCount == 0) {
-        console.log("Logout...");
-        sessionStorage.removeItem('UserID');
-        sessionStorage.removeItem('LoginID');
-        sessionStorage.clear();
-        localStorage.clear();
-      }
-    };
+    //window.onload = function () {
+    //  var applicationCount = Number(localStorage.getItem("applicationCount"));
+    //  if (!applicationCount) {
+    //    applicationCount = 0;
+    //  }
+    //  localStorage.setItem("applicationCount", (++applicationCount).toString());
+    //}
+    //window.onbeforeunload = function () {
+    //  var applicationCount = Number(localStorage.getItem("applicationCount"));
+    //  if (!applicationCount) {
+    //    applicationCount = 1;
+    //  }
+    //  localStorage.setItem("applicationCount", (--applicationCount).toString());
+    //  if (applicationCount == 0) {
+    //    console.log("Logout...");
+    //    sessionStorage.removeItem('UserID');
+    //    sessionStorage.removeItem('LoginID');
+    //    sessionStorage.clear();
+    //    localStorage.clear();
+    //  }
+    //};
+
+
+    //if (window.confirm("Do you really want to leave?")) {
+    //  var applicationCount = Number(localStorage.getItem("applicationCount"));
+    //  if (!applicationCount) {
+    //    applicationCount = 1;
+    //  }
+    //  localStorage.setItem("applicationCount", (--applicationCount).toString());
+    //  if (applicationCount == 0) {
+    //    console.log("Logout...");
+    //    sessionStorage.removeItem('UserID');
+    //    sessionStorage.removeItem('LoginID');
+    //    sessionStorage.clear();
+    //    localStorage.clear();
+    //  }
+    //}  
+
 
 
     //if (sessionStorage.getItem('apiurl') == null) {
