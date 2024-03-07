@@ -134,6 +134,18 @@
               <app-facility-details></app-facility-details>
             </mat-tab>
 
+
+            <!--activitydetails-->
+            <mat-tab *ngIf="SelectedDepartmentID==3">
+              <ng-template mat-tab-label>
+                <i class="fa fa-list-alt icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Activity']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['Activity']==0"></span>
+                <span>Activity</span>
+              </ng-template>
+              <app-activity-details></app-activity-details>
+            </mat-tab>
+
             <!--Required Document-->
             <mat-tab>
               <ng-template mat-tab-label>

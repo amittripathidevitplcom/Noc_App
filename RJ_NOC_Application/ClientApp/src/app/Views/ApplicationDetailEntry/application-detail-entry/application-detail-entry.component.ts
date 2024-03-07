@@ -97,10 +97,10 @@ export class ApplicationDetailEntryComponent implements OnInit {
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //await this.GetCollageMaster();
-     
-     
-      this.DraftbuttonName = 'Save Draft';
-     
+
+
+    this.DraftbuttonName = 'Save Draft';
+
     await this.GetCollageDetails();
     await this.GetCollegeBasicDetails();
     await this.CheckTabsEntry();
@@ -600,14 +600,14 @@ export class ApplicationDetailEntryComponent implements OnInit {
 
     if (this.SelectedDepartmentID == 3) {
       if (this.CollegeType_IsExisting == true) {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['Activity'] > 0
         )//&& this.CheckTabsEntryData['HostelDetails'] > 0
         {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0)//&& this.CheckTabsEntryData['HostelDetails'] > 0
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['Activity'] > 0)//&& this.CheckTabsEntryData['HostelDetails'] > 0
         {
           // && this.CheckTabsEntryData['ClassWiseStatistics'] > 0
           this.IsShowDraftFinalSubmit = false;

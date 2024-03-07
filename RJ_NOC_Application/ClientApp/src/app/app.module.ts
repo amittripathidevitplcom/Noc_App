@@ -364,6 +364,7 @@ import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/rev
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DTECommitteApplicationListComponent } from './Views/DocumentScrutinyTab_DTE/dtecommitte-application-list/dtecommitte-application-list.component';
 import { FinalCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/final-check-list-dte/final-check-list-dte.component';
+import { ActivityDetailsComponent } from './Views/TabDetail/ActivityDetails/activity-details/activity-details.component';
 
 
 
@@ -717,6 +718,8 @@ import { FinalCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/fina
     RevertCheckListDTEComponent,
     DTECommitteApplicationListComponent,
     FinalCheckListDTEComponent
+    RevertCheckListDTEComponent,
+    ActivityDetailsComponent
   ],
   imports: [
     CommonModule,
