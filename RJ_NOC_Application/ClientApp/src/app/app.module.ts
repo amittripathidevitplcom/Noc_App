@@ -365,6 +365,7 @@ import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DTECommitteApplicationListComponent } from './Views/DocumentScrutinyTab_DTE/dtecommitte-application-list/dtecommitte-application-list.component';
 import { FinalCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/final-check-list-dte/final-check-list-dte.component';
 import { ActivityDetailsComponent } from './Views/TabDetail/ActivityDetails/activity-details/activity-details.component';
+import { PreviewActivityDetailsComponent } from './Views/PreviewTabs/PreviewActivityDetails/preview-activity-details/preview-activity-details.component';
 
 
 
@@ -717,9 +718,9 @@ import { ActivityDetailsComponent } from './Views/TabDetail/ActivityDetails/acti
     CheckListSecretaryDCEComponent,
     RevertCheckListDTEComponent,
     DTECommitteApplicationListComponent,
-    FinalCheckListDTEComponent
-    RevertCheckListDTEComponent,
-    ActivityDetailsComponent
+    FinalCheckListDTEComponent,
+    ActivityDetailsComponent,
+    PreviewActivityDetailsComponent
   ],
   imports: [
     CommonModule,

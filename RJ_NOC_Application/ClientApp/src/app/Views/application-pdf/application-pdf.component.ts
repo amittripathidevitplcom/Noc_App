@@ -34,6 +34,7 @@ import { SSOLoginDataModel } from '../../Models/SSOLoginDataModel';
 import { NocpaymentService } from '../../Services/NocPayment/noc-payment.service';
 import { ApplyNocApplicationDataModel } from '../../Models/ApplyNocParameterDataModel';
 import { ApplyNocParameterService } from '../../Services/Master/apply-noc-parameter.service';
+import { ActivityDetailsService } from '../../Services/ActivityDetails/activity-details.service';
 
 
 @Component({
@@ -107,13 +108,15 @@ export class ApplicationPDFComponent implements OnInit {
 
   public paymentResponseDataModel: any[] = [];
   public OfflinePaymentDataModel: any[] = [];
+  public ActivityDataAllList: any[] = [];
 
 
   public QueryStringStatus: string='Web'
   constructor(public activeModal: NgbActiveModal, private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService, private veterinaryHospitalService: VeterinaryHospitalService,
     private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private elRef: ElementRef,
-    private nocpaymentService: NocpaymentService, private applyNocParameterService: ApplyNocParameterService
+    private nocpaymentService: NocpaymentService, private applyNocParameterService: ApplyNocParameterService,
+    private ActivityDetailsService: ActivityDetailsService,
   ) { }
 
   async ngOnInit() {
@@ -144,6 +147,7 @@ export class ApplicationPDFComponent implements OnInit {
 
       this.loaderService.requestStarted();
       //await this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+      await this.GetActivityDetailAllList(this.SelectedCollageID);
       await this.GetDataOfLegalEntity();
       await this.GetDataList();
       await this.ViewTotalCollegeDataByID(this.SelectedCollageID);
@@ -169,6 +173,7 @@ export class ApplicationPDFComponent implements OnInit {
       await this.GetApplicationDeficiency();
       await this.GetApplyNocApplicationList();
       await this.ViewApplyNocApplicationDetails(this.ApplyNocApplicationID);
+      
     }
     catch (Ex) {
       console.log(Ex);
@@ -325,6 +330,11 @@ export class ApplicationPDFComponent implements OnInit {
       pDFData.push({ "ContentName": "#LandDetails" })
       pDFData.push({ "ContentName": "#BuildingDetails" })
       pDFData.push({ "ContentName": "#FacilityDetails" })
+
+      if (this.SelectedDepartmentID == 3) {
+        pDFData.push({ "ContentName": "#ActivityDetails" })
+      }
+
       pDFData.push({ "ContentName": "#RoomDetails" })
       pDFData.push({ "ContentName": "#OtherInfoDetails" })
 
@@ -1591,7 +1601,7 @@ export class ApplicationPDFComponent implements OnInit {
   public ApplyNocApplicationList: ApplyNocApplicationDataModel[] = [];
   public ApplyNocApplicationID: number = 0;
   async GetApplyNocApplicationList() {
-    debugger;
+    
     try {
       this.loaderService.requestStarted();
       // get
@@ -1612,6 +1622,25 @@ export class ApplicationPDFComponent implements OnInit {
           else {
             this.toastr.error(this.ErrorMessage);
           }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async GetActivityDetailAllList(CollageID: number) {
+    try {
+      this.loaderService.requestStarted();
+      await this.ActivityDetailsService.GetActivityDetailAllList(0, CollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.ActivityDataAllList = data['Data'][0]['data'];
         }, error => console.error(error));
     }
     catch (Ex) {
