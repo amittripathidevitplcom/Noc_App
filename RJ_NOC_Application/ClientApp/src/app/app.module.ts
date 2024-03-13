@@ -366,6 +366,7 @@ import { DTECommitteApplicationListComponent } from './Views/DocumentScrutinyTab
 import { FinalCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/final-check-list-dte/final-check-list-dte.component';
 import { ActivityDetailsComponent } from './Views/TabDetail/ActivityDetails/activity-details/activity-details.component';
 import { PreviewActivityDetailsComponent } from './Views/PreviewTabs/PreviewActivityDetails/preview-activity-details/preview-activity-details.component';
+import { OfficersDetailsComponent } from './Views/DTEStatistics/officers-details/officers-details.component';
 
 
 
@@ -720,7 +721,8 @@ import { PreviewActivityDetailsComponent } from './Views/PreviewTabs/PreviewActi
     DTECommitteApplicationListComponent,
     FinalCheckListDTEComponent,
     ActivityDetailsComponent,
-    PreviewActivityDetailsComponent
+    PreviewActivityDetailsComponent,
+    OfficersDetailsComponent
   ],
   imports: [
     CommonModule,

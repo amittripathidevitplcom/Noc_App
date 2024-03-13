@@ -679,6 +679,20 @@ export class CommonMasterService {
       ).toPromise();
   }
 
+  public async GetDesignation_OfficersDetails(Type: string) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return await this.http.get(this.APIUrl_CommonMaster + "/GetDesignation_OfficersDetails/" + Type)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
+
+
   public async GetBuildingTypeCheck(SelectedDepartmentID: number) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -1486,7 +1500,7 @@ export class CommonMasterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
-  public async GetCourseLevel_ProgramIDWise(CollegeID: number, GetType:string) {
+  public async GetCourseLevel_ProgramIDWise(CollegeID: number, GetType: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
