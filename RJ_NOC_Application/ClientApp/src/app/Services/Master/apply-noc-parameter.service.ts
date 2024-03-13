@@ -201,4 +201,17 @@ export class ApplyNocParameterService {
         catchError(this.handleErrorObservable)
       ).toPromise();
   }
+  public async SaveApplyNocMinisterFile(ApplyNocID: number, MinisterFile: string) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    let body = { ApplyNocID: ApplyNocID, MinisterFile: MinisterFile };
+    return await this.http.post(this.APIUrl + "/SaveApplyNocMinisterFile/", body, httpOptions)
+      .pipe(
+        catchError(this.handleErrorObservable)
+      ).toPromise();
+  }
 }

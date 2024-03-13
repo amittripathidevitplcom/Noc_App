@@ -3,7 +3,6 @@ import { FormBuilder } from '@angular/forms';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { bottom } from '@popperjs/core';
 import { ToastrService } from 'ngx-toastr';
 import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
 import { StatisticsFinalSubmitDataModel } from '../../../Models/SubjectWiseStatisticsDetailsDataModel';
@@ -12,20 +11,20 @@ import { ClassWiseStudentDetailsServiceService } from '../../../Services/ClassWi
 import { CollegeService } from '../../../services/collegedetailsform/College/college.service';
 import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
 import { LoaderService } from '../../../Services/Loader/loader.service';
-import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service';
-import { DteAddCourseComponent } from '../../CollegeDetailsForm/dte-add-course/dte-add-course.component';
-import { AcademicInformationComponent } from '../../TabDetail/academic-information/academic-information.component';
-import { OldNOCDetailsComponent } from '../../TabDetail/old-nocdetails/old-nocdetails.component';
-import { RoomDetailsComponent } from '../../TabDetail/room-details/room-details.component';
-import { StaffDetailsComponent } from '../../TabDetail/staff-details/staff-details.component';
-import { VeterinaryHospitalComponent } from '../../VeterinaryHospital/veterinary-hospital/veterinary-hospital.component';
+import { CourseMasterService } from '../../../Services/Master/AddCourse/course-master.service'; 
 
 @Component({
   selector: 'app-statistics-entry',
   templateUrl: './statistics-entry.component.html',
   styleUrls: ['./statistics-entry.component.css']
 })
+
+
+
 export class StatisticsEntryComponent implements OnInit {
+
+
+
   @ViewChild('tabs') tabGroup!: MatTabGroup;
   public collegeDataList: any = [];
   sSOLoginDataModel = new SSOLoginDataModel();
@@ -34,6 +33,7 @@ export class StatisticsEntryComponent implements OnInit {
   public SelectedCollageID: number = 0;
   public SelectedApplyNOCID: number = 0;
   public SelectedDepartmentID: number = 0;
+
   public SeatValue: number = 50;
   public CollegeID: number = 0;
   public LandClass: string = 'tabs-Link LandInformation';
@@ -53,9 +53,14 @@ export class StatisticsEntryComponent implements OnInit {
   public ErrorMessage: any = [];
   modalReference!: NgbModalRef;
   public IsShowDraftFinalSubmit: boolean = true;
+
+  public SelectedCollegeEntryType: string = "0";
+
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService
-    , private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private modalService: NgbModal) { }
+    , private classWiseStudentDetailsServiceService: ClassWiseStudentDetailsServiceService, private modalService: NgbModal) {
+
+  }
 
   async ngOnInit() {
     // $(".secondTab").addClass("highLightTab");
@@ -250,4 +255,7 @@ export class StatisticsEntryComponent implements OnInit {
   }
 
 
+
 }
+
+//export type StatisticsEntry = "University" | "College" | "Polytechnic" | "Standalone";

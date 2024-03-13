@@ -356,6 +356,17 @@ import { DtcoursemasterComponent } from './Views/Master/DT_CourseMaster/dtcourse
 import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocumentmaster/usermanualdocumentmaster.component';
 import { GenerateReceiptListDTEComponent } from './Views/DocumentScrutinyTab_DTE/generate-receipt-list-dte/generate-receipt-list-dte.component';
 import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-step-iiapplications/document-scrutiny-step-iiapplications.component';
+import { ApplicationPDFComponent } from './Views/application-pdf/application-pdf.component';
+import { ApplyNOCMGOneComponent } from './Views/Medical Group 1/apply-nocmgone/apply-nocmgone.component';
+import { JDACCEApplicationListDCEComponent } from './Views/DCE/jdacceapplication-list-dce/jdacceapplication-list-dce.component';
+import { CheckListSecretaryDCEComponent } from './Views/DCE/check-list-secretary-dce/check-list-secretary-dce.component';
+import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-check-list-dte/revert-check-list-dte.component';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DTECommitteApplicationListComponent } from './Views/DocumentScrutinyTab_DTE/dtecommitte-application-list/dtecommitte-application-list.component';
+import { FinalCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/final-check-list-dte/final-check-list-dte.component';
+import { ActivityDetailsComponent } from './Views/TabDetail/ActivityDetails/activity-details/activity-details.component';
+import { PreviewActivityDetailsComponent } from './Views/PreviewTabs/PreviewActivityDetails/preview-activity-details/preview-activity-details.component';
+import { OfficersDetailsComponent } from './Views/DTEStatistics/officers-details/officers-details.component';
 
 import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
 
@@ -704,8 +715,16 @@ import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newg
     UserManualDocumentMasterComponent,
     GenerateReceiptListDTEComponent,
     DocumentScrutinyStepIIApplicationsComponent,
-    
-    NewgrievancereportComponent,
+    ApplicationPDFComponent,
+    ApplyNOCMGOneComponent,
+    JDACCEApplicationListDCEComponent,
+    CheckListSecretaryDCEComponent,
+    RevertCheckListDTEComponent,
+    DTECommitteApplicationListComponent,
+    FinalCheckListDTEComponent,
+    ActivityDetailsComponent,
+    PreviewActivityDetailsComponent,
+    OfficersDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -737,12 +756,13 @@ import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newg
       positionClass: 'toast-top-right',
       preventDuplicates: true
     }),
-    NewGrievanceModule
+    NewGrievanceModule,
+    NgbModule
   ],
   //exports: [TableSearchFilterPipe],
   //exports: [LoaderModule],
   //providers: [],
-  providers: [ 
+  providers: [NgbActiveModal,
     {
       provide: '',
       useValue: { displayDefaultIndicatorType: false },

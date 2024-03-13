@@ -71,7 +71,7 @@ export class CheckListForCommissionerComponent implements OnInit {
   public isRemarkValid: boolean = false;
   public ShowHideNextRole: boolean = true;
   public ShowHideNextUser: boolean = true;
-  public ShowHideNextAction: boolean = true;
+  //public ShowHideNextAction: boolean = true;
   public isActionTypeValid: boolean = false;
   public isNextActionValid: boolean = false;
 
@@ -228,6 +228,7 @@ export class CheckListForCommissionerComponent implements OnInit {
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    await this.CountTotalRevertDCE();
     this.GetLandDetailsDataList();
     this.GetFacilityDetailAllList();
     this.ViewlegalEntityDataByID();
@@ -803,26 +804,26 @@ export class CheckListForCommissionerComponent implements OnInit {
         this.isActionTypeValid = true;
         this.isFormvalid = false;
       }
-      if (this.ShowHideNextRole && this.ShowHideNextAction && this.ShowHideNextUser) {
+      if (this.ShowHideNextRole && this.ShowHideNextUser) { //&& this.ShowHideNextAction
         if (this.NextRoleID <= 0) {
           this.isNextRoleIDValid = true;
           this.isFormvalid = false;
         }
-        if (this.NextActionID <= 0) {
-          this.isNextActionValid = true;
-          this.isFormvalid = false;
-        }
+        //if (this.NextActionID <= 0) {
+        //  this.isNextActionValid = true;
+        //  this.isFormvalid = false;
+        //}
         if (this.NextUserID <= 0) {
           this.isNextUserIdValid = true;
           this.isFormvalid = false;
         }
       }
-      else if (!this.ShowHideNextUser && !this.ShowHideNextRole && !this.ShowHideNextAction) {
+      else if (!this.ShowHideNextUser && !this.ShowHideNextRole) { //&& !this.ShowHideNextAction
         this.NextRoleID = 1;
         this.NextUserID = 0;
         this.NextActionID = 0;
       }
-      else if (this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+      else if (this.ShowHideNextUser && this.ShowHideNextRole) { //&& !this.ShowHideNextAction
         if (this.NextRoleID <= 0) {
           this.isNextRoleIDValid = true;
           this.isFormvalid = false;
@@ -833,7 +834,7 @@ export class CheckListForCommissionerComponent implements OnInit {
         }
         this.NextActionID = 0;
       }
-      else if (!this.ShowHideNextUser && this.ShowHideNextRole && !this.ShowHideNextAction) {
+      else if (!this.ShowHideNextUser && this.ShowHideNextRole) { // && !this.ShowHideNextAction
         if (this.NextRoleID <= 0) {
           this.isNextRoleIDValid = true;
           this.isFormvalid = false;
@@ -849,6 +850,12 @@ export class CheckListForCommissionerComponent implements OnInit {
 
       if (!this.isFormvalid) {
         return;
+      }
+      if (this.sSOLoginDataModel.RoleID == 11 && this.NextRoleID == 1 && this.ActionID == 3) {
+        if (this.TotalRevertCount >= 1) {
+          this.toastr.warning('you already revert application. you can not revert 2nd time');
+          return;
+        }
       }
       this.loaderService.requestStarted();
 
@@ -892,7 +899,9 @@ export class CheckListForCommissionerComponent implements OnInit {
             this.UserRoleList = data['Data'];
 
             if (this.UserRoleList.length > 0) {
-              this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+              if (this.sSOLoginDataModel.RoleID != 11) {
+                this.UserRoleList = this.UserRoleList.filter((x: { RoleID: number; }) => x.RoleID != 1);
+              }
               this.NextRoleID = this.UserRoleList[0]['RoleID'];
               await this.NextGetUserDetailsByRoleID();
             }
@@ -977,23 +986,28 @@ export class CheckListForCommissionerComponent implements OnInit {
           if (data['Data'].length > 0) {
             this.WorkFlowActionList = data['Data'];
             if (this.WorkFlowActionList.length > 0) {
+
+              this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 12);
+              //if (this.sSOLoginDataModel.RoleID == 7) {
+              //  this.WorkFlowActionList = this.WorkFlowActionList.filter((x: { ActionID: number; }) => x.ActionID != 42);
+              //}
               this.ActionID = this.WorkFlowActionList[0]['ActionID'];
               var IsNextAction = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsNextAction;
               var IsRevert = this.WorkFlowActionList.find((x: { ActionID: number; }) => x.ActionID == this.ActionID)?.IsRevert;
               if (IsNextAction == true && IsRevert == false) {
                 this.ShowHideNextUser = true;
                 this.ShowHideNextRole = true;
-                this.ShowHideNextAction = true;
+                //this.ShowHideNextAction = true;
               }
               else if (IsNextAction == false && IsRevert == false) {
                 this.ShowHideNextUser = false;
                 this.ShowHideNextRole = false;
-                this.ShowHideNextAction = false;
+                //this.ShowHideNextAction = false;
               }
               else if (IsNextAction == false && IsRevert == true) {
                 this.ShowHideNextUser = true;
                 this.ShowHideNextRole = true;
-                this.ShowHideNextAction = false;
+                //this.ShowHideNextAction = false;
               }
             }
           }
@@ -1035,17 +1049,17 @@ export class CheckListForCommissionerComponent implements OnInit {
     if (IsNextAction == true && IsRevert == false) {
       this.ShowHideNextUser = true;
       this.ShowHideNextRole = true;
-      this.ShowHideNextAction = true;
+      //this.ShowHideNextAction = true;
     }
     else if (IsNextAction == false && IsRevert == false) {
       this.ShowHideNextUser = false;
       this.ShowHideNextRole = false;
-      this.ShowHideNextAction = false;
+      //this.ShowHideNextAction = false;
     }
     else if (IsNextAction == false && IsRevert == true) {
       this.ShowHideNextUser = true;
       this.ShowHideNextRole = true;
-      this.ShowHideNextAction = false;
+      //this.ShowHideNextAction = false;
     }
   }
 
@@ -1105,6 +1119,27 @@ export class CheckListForCommissionerComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.lstTarils = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  public TotalRevertCount: number = 0;
+  async CountTotalRevertDCE() {
+    try {
+      this.loaderService.requestStarted();
+      await this.applyNOCApplicationService.CountTotalRevertDCE(this.SelectedApplyNOCID, this.sSOLoginDataModel.RoleID, this.sSOLoginDataModel.UserID)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.TotalRevertCount = Number(data['Data']);
         }, error => console.error(error));
     }
     catch (Ex) {

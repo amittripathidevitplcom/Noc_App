@@ -28,6 +28,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SSOLoginService } from '../../../Services/SSOLogin/ssologin.service';
 import { elementAt } from 'rxjs';
 import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
+import { ApplyNocApplicationDataModel } from '../../../Models/ApplyNocParameterDataModel';
 
 
 @Injectable({
@@ -158,6 +159,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
 
   public CheckList_OldNocDetails: OldNocDetailsDataModel[] = [];
   public OldNOC_FinalRemarks: any = [];
+  public CourseDetail_FinalRemarks: any = [];
 
 
   public CheckFinalRemark: string = '';
@@ -185,6 +187,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   public UploadInspectionReport: string = '';
   public UploadInspectionReportPath: string = '';
   public UploadInspectionReportDis_FileName: string = '';
+  public AllCourseList: any = [];
 
   constructor(private applyNocParameterService: ApplyNocParameterService, private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private dcedocumentScrutinyService: DTEDocumentScrutinyService, private formBuilder: FormBuilder,
@@ -202,6 +205,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.QueryStringApplicationStatus = this.router.snapshot.paramMap.get('ApplicationStatus')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     this.GetLandDetailsDataList();
+    this.GetCourseDetailAllList();
     this.GetFacilityDetailAllList();
     this.ViewlegalEntityDataByID();
     this.GetSocietyAllList();
@@ -215,6 +219,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.GetAcademicInformationDetailAllList();
     this.GetOtherDocuments('Other Document');
     this.GetHostelDetailList_DepartmentCollegeWise();
+    this.ViewApplyNocApplicationDetails(this.SelectedApplyNOCID);
     this.GetRoleListForApporval();
     this.GetWorkFlowActionListByRole();
     //this.NextGetWorkFlowActionListByRole();
@@ -231,6 +236,33 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.GetConsolidatedReportByApplyNOCID(this.SelectedApplyNOCID);
   }
   get form_CommitteeMember() { return this.CommitteeMemberDetails.controls; }
+
+  // Get Course
+  async GetCourseDetailAllList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.dcedocumentScrutinyService.DocumentScrutiny_CourseDetails(this.SelectedCollageID, this.sSOLoginDataModel.RoleID, this.SelectedApplyNOCID, this.QueryStringApplicationStatus)
+        .then((data: any) => {
+
+          data = JSON.parse(JSON.stringify(data));
+          this.AllCourseList = data['Data'][0]['CourseDetails'][0];
+          this.CourseDetail_FinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  //End 
+
+
 
   // Start Land Details
 
@@ -366,6 +398,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           this.CheckList_SocietyAllList = data['Data'][0]['CollegeManagementSocietys'];
           this.SocietyFinalRemarks = data['Data'][0]['DocumentScrutinyFinalRemarkList'][0];
+
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -620,7 +653,36 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
   }
   //End Other Document
 
+  //Get Apply NOC Details
+  public ApplyNocApplicationDetail: ApplyNocApplicationDataModel = new ApplyNocApplicationDataModel();
+  async ViewApplyNocApplicationDetails(applyNocApplicationID: number) {
+    try {
+      this.loaderService.requestStarted();
+      // get
+      await this.applyNocParameterService.GetApplyNocApplicationByApplicationID(applyNocApplicationID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
 
+          console.log(data['Data']);
+          // data
+          if (this.State == 0) {
+            this.ApplyNocApplicationDetail = data['Data'];
+          }
+          else {
+            this.toastr.error(this.ErrorMessage);
+          }
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  //End Apply NOC
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -695,7 +757,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         LegalEntity = this.CheckList_legalEntityListData1.ManagementType == 'Private' && this.CheckTabsEntryData['LegalEntity'] <= 0 ? 0 : 1;
         if (LegalEntity <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0
           || this.CheckTabsEntryData['OLDNOCDetails'] <= 0 || this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {
+          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['StaffDetails'] <= 0 || this.CheckTabsEntryData['AcademicInformation'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['CourseDetails'] <= 0) {
           this.isFormvalid = false;
           this.toastr.warning('Please do document scrutiny all tabs');
         }
@@ -704,7 +766,7 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         LegalEntity = this.CheckList_legalEntityListData1.ManagementType == 'Private' && this.CheckTabsEntryData['LegalEntity'] <= 0 ? 0 : 1;
         if (LegalEntity <= 0 || this.CheckTabsEntryData['CollegeDetail'] <= 0 || this.CheckTabsEntryData['CollegeManagementSociety'] <= 0
           || this.CheckTabsEntryData['LandInformation'] <= 0 || this.CheckTabsEntryData['BuildingDocuments'] <= 0 || this.CheckTabsEntryData['RoomDetails'] <= 0 || this.CheckTabsEntryData['OtherInformation'] <= 0
-          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0) {
+          || this.CheckTabsEntryData['Facility'] <= 0 || this.CheckTabsEntryData['RequiredDocument'] <= 0 || this.CheckTabsEntryData['HostelDetails'] <= 0 || this.CheckTabsEntryData['CourseDetails'] <= 0) {
           this.isFormvalid = false;
           this.toastr.warning('Please do document scrutiny all tabs');
         }
@@ -946,6 +1008,8 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.CheckTabsEntryData = data['Data'][0]['data'][0];
+          console.log(this.CheckTabsEntryData);
+          console.log('Deepak');
         }, error => console.error(error));
     }
     catch (Ex) {
@@ -1307,14 +1371,14 @@ export class DocumentScrutinyCheckListDTEComponent implements OnInit {
     this.isLoading = true;
     try {
       await this.committeeMasterService.SaveApplicationCommitteeData(this.request_MemberList)
-        .then((data: any) => {
+        .then(async (data: any) => {
           this.State = data['State'];
           this.SuccessMessage = data['SuccessMessage'];
           this.ErrorMessage = data['ErrorMessage'];
-          console.log(this.State);
           if (!this.State) {
             this.toastr.success(this.SuccessMessage)
             this.modalService.dismissAll('After Success');
+            await this.GetApplicationCommitteeList(this.SelectedApplyNOCID);
           }
           else {
             this.toastr.error(this.ErrorMessage)

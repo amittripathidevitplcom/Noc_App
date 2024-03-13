@@ -1,0 +1,1591 @@
+<div class="card tabCard1 mb-0">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp; Check List Details</b>
+  </div>
+  <!--Legal Entity-->
+  <div class="row" *ngIf="RevertedTabData['LegalEntity']>0">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i> Legal Entity </b>
+        </div>
+        <div class="card-body">
+          <div class="col-md-12" *ngIf="CheckList_legalEntityListData1!=null ">
+
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Legal Entity :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.IsLegalEntity}}" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Registration No :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.RegistrationNo}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>President Mobile Number :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.PresidentMobileNo}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>President Email ID :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.PresidentEmail}}" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Name  :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.SocietyName}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Present Status :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.SocietyPresentStatusName}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>State  :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.StateName_English}}" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>District  :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.District_Eng}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Act (Which Act You Registered)  :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.RegisteredAct}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Date Of Registration :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.SocietyRegistrationDate}}" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Date of Election of Present Management Committee :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.ElectionPresentManagementCommitteeDate}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Registered Address :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.SocietyRegisteredAddress}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Pincode :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.Pincode}}" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Other Institution run by the Society :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.IsOtherInstitution}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Women Member of Management Committee is more than 30% of Total Members :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.IsWomenMembers}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Date of Election of Management Committee not more than 3 Year :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.IsDateOfElection}}" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>Management Committee certified By Registrar :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.ManagementCommitteeCertified}}" />
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                <label>PAN Number :</label>
+                <input class="form-control disabled mt-1" disabled value="{{CheckList_legalEntityListData1.SocietyPANNumber}}" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                        <th>Trust Logo</th>
+                        <th>Trustee Member Proof</th>
+                        <th>Pan Proof</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a *ngIf="!CheckList_legalEntityListData1.TrustLogoDocPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{CheckList_legalEntityListData1.TrustLogoDocPath}}" alt="Trust Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_legalEntityListData1.TrustLogoDocPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_legalEntityListData1.TrustLogoDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                        <td>
+                          <a *ngIf="!CheckList_legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{CheckList_legalEntityListData1.TrusteeMemberProofDocPath}}" alt="Trustee Member Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_legalEntityListData1.TrusteeMemberProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_legalEntityListData1.TrusteeMemberProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                        <td>
+                          <a *ngIf="!CheckList_legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                            <img src="{{CheckList_legalEntityListData1.SocietyPanProofDocPath}}" alt="Society Pan Proof" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                          </a>
+                          <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_legalEntityListData1.SocietyPanProofDocPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_legalEntityListData1.SocietyPanProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="CheckList_legalEntityMemberDetailData.length>0">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="card-header">
+                    <b><i class="bi bi-table"></i> Member Details </b>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Member Name</th>
+                            <th>Father's Name</th>
+                            <th>Date Of Birth</th>
+                            <th>Mobile No.</th>
+                            <th>Post</th>
+                            <th>Aadhaar Number</th>
+                            <th>Member Photo</th>
+                            <th>Member Sign</th>
+                            <th>Aadhaar Document</th>
+                            <th>Trails</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of CheckList_legalEntityMemberDetailData; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.MemberName}}</td>
+                            <td>{{row.MemberFatherName}}</td>
+                            <td>{{row.MemberDOB}}</td>
+                            <td>{{row.MemberMobileNo}}</td>
+                            <td>{{row.MemberPostName}}</td>
+                            <td>{{row.PresidentAadhaarNumber}}</td>
+                            <td>
+                              <a *ngIf="!row.MemberPhotoPath.includes('.pdf')" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.MemberPhotoPath}}" alt="Member Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberPhotoPath.includes('.pdf')" data-fancybox="gallery" href="{{row.MemberPhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                            </td>
+                            <td>
+                              <a *ngIf="!row.MemberSignaturePath.includes('.pdf')" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.MemberSignaturePath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.MemberSignaturePath.includes('.pdf')" data-fancybox="gallery" href="{{row.MemberSignaturePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                            </td>
+                            <td>
+                              <a *ngIf="!row.PresidentAadhaarProofDocPath.includes('.pdf') && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom">
+                                <img src="{{row.PresidentAadhaarProofDocPath}}" alt="Member Signature" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                              </a>
+                              <label *ngIf="row.PresidentAadhaarProofDocPath=='N/A'">{{row.PresidentAadhaarProofDocPath}}</label>
+                              <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PresidentAadhaarProofDocPath.includes('.pdf')  && row.PresidentAadhaarProofDocPath!='N/A'" data-fancybox="gallery" href="{{row.PresidentAadhaarProofDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+
+                            </td>
+                            <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.MemberID,'LegalEntityMemberTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="CheckList_legalEntityInstituteDetailData!=null">
+              <div class="col-md-12">
+                <div class="card mb-0">
+                  <div class="card-header">
+                    <b><i class="bi bi-table"></i> Institute Details </b>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                          <tr>
+                            <th>Sr. No.</th>
+                            <th>Registration No.</th>
+                            <th>Institute Name</th>
+                            <th>Contact Person Name</th>
+                            <th>Designation</th>
+                            <th>Contact Number</th>
+                            <th>State</th>
+                            <th>Trails</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of CheckList_legalEntityInstituteDetailData; let indexOfelement=index;">
+                            <td> {{indexOfelement+1}}</td>
+                            <td>{{row.RegistrationNo}}</td>
+                            <td>{{row.InstituteName}}</td>
+                            <td>{{row.InstitutePersonName}}</td>
+                            <td>{{row.InstituteDesignation}}</td>
+                            <td>{{row.InstituteContactNumber}}</td>
+                            <td>{{row.StateName_English}}</td>
+                            <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.InstituteID,'LegalEntityInstituteTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br />
+          </div>
+          <div class="col-md-12" *ngIf="CheckList_legalEntityListData1 ==null">
+            <span style="color:red"> No Data Found.!</span>
+          </div>
+          <div class="row" *ngIf="LegalEntityFinalRemarks.length>0">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                    <th>Remark</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item1 of LegalEntityFinalRemarks ; let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item1.RoleID}}</td>
+                    <td>{{item1.ActionName}}</td>
+                    <td>{{item1.Remark}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Legal Entity-->
+  <!--College Detail-->
+  <div class="row" *ngIf="RevertedTabData['CollegeDetail']>0">
+    <div class="col-md-12">
+      <div class="card mb-0">
+        <div class="card-header">
+          <b><i class="bi bi-table"></i>College Detail </b>
+        </div>
+        <div class="card-body">
+          <div class="card-body" *ngIf="CheckList_collegeListData!=null">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Department :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.DepartmentName_English}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>College Status :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeStatus}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label><b>College Logo :</b></label>
+                  <div class="clearfix"></div>
+                  <a *ngIf="!CheckList_collegeListData.CollegeLogoPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_collegeListData.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{CheckList_collegeListData.CollegeLogoPath}}" alt="College Logo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_collegeListData.CollegeLogoPath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_collegeListData.CollegeLogoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                  </a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Present Status of College :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.PresentCollegeStatus}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>College Type :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeType}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>College Level :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeLevel}}" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>College Name in English :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeNameEn}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>College Name in Hindi :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeNameHi}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>IS Your College NAAC Accredited :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeNAACAccredited}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeNAACAccredited =='Yes'">
+                  <label><b>NAAC Accredited Certificate(Only pdf/image file.) (Min.Size 500KB) (Max.Size 2MB) :</b></label>
+                  <div class="clearfix"></div>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="CheckList_collegeListData.NAACAccreditedCertificatePath.includes('.pdf')" data-fancybox="gallery" href="{{CheckList_collegeListData.NAACAccreditedCertificatePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>AISHE Code Status :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AISHECodeStatus}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.AISHECodeStatus =='Yes'">
+                  <label>AISHE Code :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AISHECode}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>College Medium :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CollegeMediumName}}" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>University :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.UniversityName}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Mobile Number :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.MobileNumber}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Email :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.Email}}" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Address Line 1 :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AddressLine1}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Address Line 2 :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AddressLine2}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Area :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.RuralUrbanArea}}" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.RuralUrbanArea=='Rural'">
+                  <label>Distance from City(km) :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.DistanceFromCity}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Division :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.Division_English}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>District :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.District_Eng}}" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Subdivision :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.SubdivisionName}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.RuralUrbanArea=='Rural'">
+                  <label>Tehsil :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.TehsilName}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.RuralUrbanArea=='Rural'">
+                  <label>Panchayat Samiti :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.PanchyatSamitiName}}" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Parliament Area :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.ParliamentAreaName}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Assembly Area :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.AssemblyAreaName}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>City/Town/Village :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.CityTownVillage}}" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Year of Establishment :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.FinancialYearName}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Pincode :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.Pincode}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                  <label>Website Link :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.WebsiteLink}}" />
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="CheckList_collegeListData.CollegeNAACAccredited =='Yes'">
+                  <label>NACC Validity Date :</label>
+                  <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.NACCValidityDate | date:'dd-MM-yyyy'}}" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="CheckList_collegeContactDetailsList.length>0">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i> Contact Details </b>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th>Sr.No.</th>
+                          <th>Name Of Person</th>
+                          <th>Designation</th>
+                          <th>Mobile Number</th>
+                          <th>Email Address</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of CheckList_collegeContactDetailsList; let indexOfelement=index;">
+                          <td> {{indexOfelement+1}}</td>
+                          <td>{{row.NameOfPerson}}</td>
+                          <td>{{row.DesignationName}}</td>
+                          <td>{{row.MobileNumber}}</td>
+                          <td>{{row.EmailAddress}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="CheckList_collegeListData!=null">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i> General Contact Details </b>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Designation :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.DesignationName}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Mobile Number :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.GCD_MobileNumber}}" />
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+                      <label>Landline Number :</label>
+                      <input class="form-control disabled mt-1" disabled value="{{CheckList_collegeListData.GCD_LandlineNumber}}" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="CheckList_collegeNearestGovernmentHospitalsList.length>0">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header">
+                  <b><i class="bi bi-table"></i> 10 Government hospitals nearest to the institution </b>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th>
+                            Compliance<br />
+                          </th>
+                          <th>Remark</th>
+
+
+                          <th>Sr. No.</th>
+                          <th>Hospital Name</th>
+                          <th>Hospital RegNo.</th>
+                          <th>Distance From Institute(KM)</th>
+                          <th>Address Line1</th>
+                          <th>Address Line2</th>
+                          <th>Area</th>
+                          <th>Division</th>
+                          <th>District</th>
+                          <th>Tehsil</th>
+                          <th>Panchyat Samiti</th>
+                          <th>City/Town/Village</th>
+                          <th>Pincode</th>
+                          <th>Hospital Document</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of CheckList_collegeNearestGovernmentHospitalsList; let indexOfelement=index;">
+                          <td>
+                            {{row.Action}}
+                          </td>
+                          <td>
+                            {{row.Action=='No'?row.Remark:''}}
+                          </td>
+
+                          <td> {{indexOfelement+1}}</td>
+                          <td>{{row.HospitalName}}</td>
+                          <td>{{row.HospitalRegNo}}</td>
+                          <td>{{row.HospitalDistance}}</td>
+                          <td>{{row.AddressLine1}}</td>
+                          <td>{{row.AddressLine2}}</td>
+                          <td>{{row.RuralUrbanArea}}</td>
+                          <td>{{row.Division_English}}</td>
+                          <td>{{row.District_Eng}}</td>
+                          <td>{{row.TehsilName}}</td>
+                          <td>{{row.PanchyatSamitiName}}</td>
+                          <td>{{row.CityTownVillage}}</td>
+                          <td>{{row.Pincode}}</td>
+                          <td>
+                            <a *ngIf="!row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                              <img src="{{row.HospitalDocumentPath}}" alt="Hospital Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                            </a>
+                            <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.HospitalDocumentPath.includes('.pdf')" data-fancybox="gallery" href="{{row.HospitalDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px">
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12" *ngIf="CheckList_collegeListData==null">
+            <span style="color:red"> No Data Found.!</span>
+          </div>
+          <div class="row" *ngIf="CollegeDetailFinalRemarks.length>0">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr.No.</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                    <th>Remark</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item1 of CollegeDetailFinalRemarks ; let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item1.RoleID}}</td>
+                    <td>{{item1.ActionName}}</td>
+                    <td>{{item1.Remark}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End College Detail-->
+  <!--College Management Society-->
+  <div class="card mb-0" *ngIf="RevertedTabData['CollegeManagementSociety']>0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i>&nbsp;College Management Society</b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>SNo</th>
+                  <th>Name</th>
+                  <th>Father Name</th>
+                  <th>Mobile No</th>
+                  <th>Gender</th>
+                  <th>Email</th>
+                  <th>Aadhaar</th>
+                  <th>Pan</th>
+                  <th>PAN Card Document</th>
+                  <th>Aadhaar Card Document</th>
+                  <th>Signature Document</th>
+                  <th>Profile Photo</th>
+                  <th>Authorized Document</th>
+                  <th>Is Primary</th>
+                  <th>Is Authorize</th>
+                  <th>Trails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of CheckList_SocietyAllList let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.PersonName}}</td>
+                  <td>{{row.FatherName}}</td>
+                  <td>{{row.MobileNo}}</td>
+                  <td>{{row.Gender}}</td>
+                  <td>{{row.Email}}</td>
+                  <td>{{row.AadhaarNo}}</td>
+                  <td>{{row.PANNo}}</td>
+                  <td>
+                    <a *ngIf="!row.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{row.PANCardPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{row.PANCardPath}}" alt="PAN Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.PANCard.includes('.pdf')" data-fancybox="gallery" href="{{row.PANCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td>
+                    <a *ngIf="!row.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{row.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{row.AadhaarCardPath}}" alt="Aadhaar Card" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AadhaarCard.includes('.pdf')" data-fancybox="gallery" href="{{row.AadhaarCardPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td>
+                    <a *ngIf="!row.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{row.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{row.SignatureDocPath}}" alt="Signature Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.SignatureDoc.includes('.pdf')" data-fancybox="gallery" href="{{row.SignatureDocPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td>
+                    <a *ngIf="!row.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{row.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{row.ProfilePhotoPath}}" alt="Profile Photo" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.ProfilePhoto.includes('.pdf')" data-fancybox="gallery" href="{{row.ProfilePhotoPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td>
+                    <a *ngIf="!row.AuthorizedDocument.includes('.pdf') && row.IsAuthorized==true" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{row.AuthorizedDocumentPath}}" alt="Rent Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="row.AuthorizedDocument.includes('.pdf')" data-fancybox="gallery" href="{{row.AuthorizedDocumentPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td>{{row.IsPrimary==1?'Yes':'No'}}</td>
+                  <td>{{row.IsAuthorized==1?'Yes':'No'}}</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.SocietyID,'ManagementSocietyTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button>
+                  </td>
+                </tr>
+                <tr *ngIf="CheckList_SocietyAllList.length<=0">
+                  <td colspan="20" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="SocietyFinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of SocietyFinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!--End College Management Society-->
+  <!--Course Details Start-->
+  <div class="card mb-0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i>&nbsp;Course Details</b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Department</th>
+                  <th>College Name</th>
+                  <th>Programme Name</th>
+                  <th>Course Level</th>
+                  <th>Course Name</th>
+                  <th>Intake</th>
+                  <th>Super Numerary Seats</th>
+                  <th>Enrollment</th>
+                  <th>Shift</th>
+                  <th>Conduct Mode</th>
+                  <th>Trails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of AllCourseList; let idx =index">
+                  <td width="5%">
+                    {{idx+1}}
+                  </td>
+                  <td>{{item.DepartmentName}}</td>
+                  <td>{{item.CollageName}}</td>
+                  <td>{{item.StreamName}}</td>
+                  <td>{{item.CourseLevel}}</td>
+                  <td>{{item.CourseName}}</td>
+                  <td>{{item.Intake}}</td>
+                  <td>{{item.Seats}}</td>
+                  <td>{{item.NoOfEnrolledStudents}}</td>
+                  <td>{{item.ShiftTypeName}}</td>
+                  <td>{{item.ConductModeName}}</td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.CollegeWiseCourseID,'ClassCourseDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                </tr>
+                <tr *ngIf="AllCourseList.length<=0">
+                  <td colspan="15" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="CourseDetail_FinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of CourseDetail_FinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--Course Details End-->
+  <!--Start Land Details-->
+  <div class="card-header" *ngIf="RevertedTabData['LandInformation']>0">
+    <b><i class="bi bi-table"></i>&nbsp; Land Details</b>
+  </div>
+  <div class="card-body" *ngIf="RevertedTabData['LandInformation']>0">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>College</th>
+              <th>Land Situated</th>
+              <th>Land Doc Type</th>
+              <th>Is Convereted</th>
+              <th>Land Type</th>
+              <th>Owner Name</th>
+              <th>Trails</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of CheckList_LandDetailList; let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item.CollegeName}}</td>
+              <td>{{item.LandAreaSituatedName}}</td>
+              <td>{{item.LandDocumentTypeName}}</td>
+              <td>{{item.IsConvereted}}</td>
+              <td>{{item.LandTypeName}}</td>
+              <td>{{item.LandOwnerName}}</td>
+              <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.LandDetailID,'LandDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+            </tr>
+            <tr *ngIf="CheckList_LandDetailList.length<=0">
+              <td colspan="9" style="color:red">No Data Found.!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row" *ngIf="LandDetail_FinalRemarks.length>0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Role</th>
+              <th>Action</th>
+              <th>Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item1 of  LandDetail_FinalRemarks ; let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item1.RoleID}}</td>
+              <td>{{item1.ActionName}}</td>
+              <td>{{item1.Remark}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <!--End Land Details-->
+  <!--Start Facility Details-->
+  <div class="card-header" *ngIf="RevertedTabData['Facility']>0">
+    <b><i class="bi bi-table"></i>&nbsp; Facility Details</b>
+  </div>
+  <div class="card-body" *ngIf="RevertedTabData['Facility']>0">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Facility Name</th>
+                <th>Minimum Size</th>
+                <th>Image/File</th>
+                <th>Trails</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of CheckList_FacilitiesDataAllList ; let indexOfelement=index;">
+                <td> {{indexOfelement+1}}</td>
+                <td>
+                  {{item.FacilitiesName}}
+                </td>
+                <td>
+                  {{item.MinSize}}
+                </td>
+                <td>
+                  <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </td>
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.FacilityDetailID,'FacilityTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+              </tr>
+              <tr *ngIf="CheckList_FacilitiesDataAllList.length<=0">
+                <td colspan="10" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="Facility_FinalRemarks.length>0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Role</th>
+              <th>Action</th>
+              <th>Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item1 of Facility_FinalRemarks ; let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item1.RoleID}}</td>
+              <td>{{item1.ActionName}}</td>
+              <td>{{item1.Remark}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--End Facility Details-->
+  <!--End Required Document-->
+  <div class="card-header" *ngIf="RevertedTabData['RequiredDocument']>0">
+    <b><i class="bi bi-table"></i>&nbsp;Required Documents</b>
+  </div>
+  <div class="card-body" *ngIf="RevertedTabData['RequiredDocument']>0">
+    <div class="row" *ngIf="CheckList_DocumentDetails.length>0">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Document Name</th>
+                <th>File</th>
+                <th>Trails</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of CheckList_DocumentDetails ; let indexOfelement=index;">
+                <td> {{indexOfelement+1}}</td>
+                <td>{{item.DocumentName}}</td>
+                <td>
+                  <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.FilePath}}" alt="File Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </td>
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.DID,'RequriedDocuemntTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+              </tr>
+              <tr *ngIf="CheckList_DocumentDetails.length<=0">
+                <td colspan="11" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="RequiredDocument_FinalRemarks.length>0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Role</th>
+              <th>Action</th>
+              <th>Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item1 of RequiredDocument_FinalRemarks ; let idx =index">
+              <td>{{idx+1}}</td>
+              <td>{{item1.RoleID}}</td>
+              <td>{{item1.ActionName}}</td>
+              <td>{{item1.Remark}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--End Required Document-->
+  <!--Start Room Details-->
+  <div class="card" *ngIf="RevertedTabData['RoomDetails']>0">
+    <div class="card-header">
+      <b><i class="bi bi-building-add"></i>&nbsp; Class Room Details</b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Course</th>
+                <th>Width (In Feet) Size</th>
+                <th>Length (In Feet)</th>
+                <th>Student Capacity</th>
+                <th>Upload Image</th>
+                <th>Trails</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of CheckList_RoomDetails; let idx =index">
+                <td width="5%">
+                  {{idx+1}}
+                </td>
+                <td>
+                  {{item.CourseName}}
+                </td>
+                <td>
+                  {{item.Width}}
+                </td>
+                <td>
+                  {{item.Length}}
+                </td>
+                <td>
+                  {{item.StudentCapacity}}
+                </td>
+                <td>
+                  <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.ImageFilePath}}" alt="Image/File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </td>
+                <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.CollegeWiseRoomID,'ClassRoomDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+              </tr>
+              <tr *ngIf="CheckList_RoomDetails.length<=0">
+                <td colspan="7" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row" *ngIf="RoomDetails_FinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of RoomDetails_FinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Room Details-->
+  <!--Start Other Information-->
+  <div class="card" *ngIf="RevertedTabData['OtherInformation']>0">
+    <div class="card-header">
+      <span *ngIf="SelectedDepartmentID==6">
+        <b><i class="bi bi-table"></i>&nbsp; Clinical Details</b>
+      </span>
+      <span *ngIf="SelectedDepartmentID !=6">
+        <b> <i class="bi bi-table"></i>&nbsp; Other Information</b>
+      </span>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Facility Name</th>
+                  <th>Width (In Feet)</th>
+                  <th>Length (In Feet)</th>
+                  <th>No of books</th>
+                  <th>Upload Image</th>
+                  <th>Book's Details Document</th>
+                  <th>Trails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of CheckList_OtherInformation ; let indexOfelement=index;">
+                  <td> {{indexOfelement+1}}</td>
+                  <td>
+                    {{item.CourseName}}
+                  </td>
+                  <td>
+                    {{item.Width}}
+                  </td>
+                  <td>
+                    {{item.Length}}
+                  </td>
+                  <td>
+                    {{item.Length}}
+                  </td>
+                  <td>
+                    <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{item.ImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td>
+                    <a *ngIf="!item.BookImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{item.BookImageFilePath}}" alt="Image File" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.CollegeWiseOtherInfoID,'otherInformationTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                </tr>
+                <tr *ngIf="CheckList_OtherInformation.length<=0">
+                  <td colspan="20" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="OtherInformation_FinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of OtherInformation_FinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Other Information-->
+  <!--Start Building Documents-->
+  <div class="card mb-0" *ngIf="RevertedTabData['BuildingDocuments']>0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i> Building Details </b>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns" id="tabellist" #content>
+          <thead>
+            <tr>
+              <th>Sr. No</th>
+              <th>Building Type</th>
+              <th>Owner Name</th>
+              <th>Rural Urban</th>
+              <th>ContactNo</th>
+              <th>From Date</th>
+              <th>To Date</th>
+              <th>Order No</th>
+              <th>Order Date</th>
+              <th>Expiring On</th>
+              <th>Trails</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of CheckList_lstBuildingDetails; let idx=index">
+              <td>{{idx+1}}</td>
+              <td>{{item.BuildingTypeName}}</td>
+              <td>{{item.OwnerName}}</td>
+              <td>{{item.RuralUrban}}</td>
+              <td>{{item.ContactNo}}</td>
+              <td>{{item.FromDate}}</td>
+              <td>{{item.ToDate}}</td>
+              <td>{{item.OrderNo}}</td>
+              <td>{{item.OrderDate}}</td>
+              <td>{{item.ExpiringOn}}</td>
+              <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.SchoolBuildingDetailsID,'BuildingDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+            </tr>
+            <tr *ngIf="CheckList_lstBuildingDetails.length<=0">
+              <td colspan="13" style="color:red">No Data Found.!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row" *ngIf="BuildingDetail_FinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of BuildingDetail_FinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Building Documents-->
+  <!--Start Staff Details-->
+  <div class="card mb-0" *ngIf="CollegeType_IsExisting&&RevertedTabData['StaffDetails']>0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i> Staff Details </b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3 mb-2">
+          <label>Total</label>
+          <input type="text" class="form-control" disabled [(ngModel)]="TotalStaffDetail" />
+        </div>
+        <div class="col-md-3 mb-2">
+          <label>Non Teaching</label>
+          <input type="text" class="form-control" disabled [(ngModel)]="TotalNonTeachingStaffDetail" />
+        </div>
+        <div class="col-md-3 mb-2">
+          <label>Teaching</label>
+          <input type="text" class="form-control" disabled [(ngModel)]="TotalTeachingStaffDetail" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>S.No.</th>
+                  <th>Type</th>
+                  <th>Name Of Person</th>
+                  <th>Mobile No.</th>
+                  <th>Highest Qualification</th>
+                  <th>Date of Birth</th>
+                  <th>Trails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of CheckList_StaffDetailModel let idx =index">
+
+                  <td>{{idx+1}}</td>
+                  <td>{{item.TeachingType}}</td>
+                  <td>{{item.PersonName}}</td>
+                  <td>{{item.MobileNo}}</td>
+                  <td>{{item.HighestQualificationName}}</td>
+                  <td>{{item.DateOfBirth}}</td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.StaffDetailID,'StaffDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                </tr>
+                <tr *ngIf="CheckList_StaffDetailModel.length<=0">
+                  <td colspan="7" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="StaffDetails_FinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of StaffDetails_FinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Staff Details-->
+  <!--Start Old Noce Details-->
+  <div class="card tabCard1 mb-0" *ngIf="CollegeType_IsExisting&&RevertedTabData['OLDNOCDetails']>0">
+    <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+      <b><i class="bi bi-table"></i> Old NOC Details </b>
+    </div>
+    <div class="card-body">
+      <div class="clearfix"></div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Course</th>
+                    <th>NOC Type</th>
+                    <th>Session Year</th>
+                    <th>NOC No.</th>
+                    <th>NOC Received On</th>
+                    <th>Trails</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of CheckList_OldNocDetails let idx =index">
+                    <td>{{idx+1}}</td>
+                    <td>{{item.CourseName}}</td>
+                    <td>{{item.NOCTypeName}}</td>
+                    <td>{{item.FinancialYearName}}</td>
+                    <td>{{item.NOCNumber}}</td>
+                    <td>{{item.NOCReceivedDate}}</td>
+                    <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.OldNocID,'OldNocTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                  </tr>
+                  <tr *ngIf="CheckList_OldNocDetails.length<=0">
+                    <td colspan="7" style="color:red">No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="OldNOC_FinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of OldNOC_FinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Old NOC Details-->
+  <!--Start Academic Information-->
+  <div class="card mb-0" *ngIf="CollegeType_IsExisting&&RevertedTabData['AcademicInformation']>0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i>&nbsp;Academic Information</b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped-columns" id="tabellist" #content>
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Financial Year</th>
+                  <th>Course Name</th>
+                  <th>Result</th>
+                  <th>Admitted Student</th>
+                  <th>Appeared Student</th>
+                  <th>Passed Student</th>
+                  <th>Failed Student</th>
+                  <th>Other Student</th>
+                  <th>Trails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of CheckList_AcademicInformationList;let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.FinancialYearName}}</td>
+                  <td>{{row.CourseName}}</td>
+                  <td>{{row.ResultName}}</td>
+                  <td>{{row.AdmittedStudent}}</td>
+                  <td>{{row.AppearedStudent}}</td>
+                  <td>{{row.PassedStudent}}</td>
+                  <td>{{row.FailedStudent}}</td>
+                  <td>{{row.OtherStudent}}</td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.AcademicInformationID,'AcademicInformationTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                </tr>
+                <tr *ngIf="(CheckList_AcademicInformationList.length<=0)">
+                  <td colspan="10" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="AcademicInformation_FinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of AcademicInformation_FinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Academic Information-->
+  <!--Start Other Document-->
+  <div class="card tabCard1 mb-0" id="LandDetails1" *ngIf="RevertedTabData['OtherDocument']>0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i>&nbsp;Other Documents</b>
+    </div>
+    <div class="card-body">
+      <div class="row" *ngIf="CheckList_OtherDocumentDetails.length>0">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Document Name</th>
+                  <th>File</th>
+                  <th>Trails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of CheckList_OtherDocumentDetails ; let indexOfelement=index;">
+                  <td> {{indexOfelement+1}}</td>
+                  <td>{{item.DocumentName}}</td>
+                  <td>
+                    <a *ngIf="!item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom">
+                      <img src="{{item.FilePath}}" alt="File Document" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                    </a>
+                    <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.FilePath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                  </td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.DID,'OtherDocumentTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="OtherDocuments_FinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of OtherDocuments_FinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Other Document-->
+  <!--Hostel Detail-->
+  <div class="card mb-0" *ngIf="RevertedTabData['HostelDetails']>0">
+    <div class="card-header">
+      <b>Hostel Details</b>
+    </div>
+    <div class="card-body">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>S.No.</th>
+                  <th>Is Hostel Campus</th>
+                  <th>Hostel Name</th>
+                  <th>Contact Person Name</th>
+                  <th>Contact Person No.</th>
+                  <th>Hostel Type</th>
+                  <th>Trails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of CheckList_hostelDataModel let idx=index;">
+                  <td>{{idx+1}}</td>
+                  <td>{{row.IsHostelCampus}}</td>
+                  <td>{{row.HostelName}}</td>
+                  <td>{{row.ContactPersonName}}</td>
+                  <td>{{row.ContactPersonNo}}</td>
+                  <td>{{row.HostelType}}</td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(row.HostelDetailID,'HostelDetailTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                </tr>
+                <tr *ngIf="CheckList_hostelDataModel.length<=0">
+                  <td colspan="8" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="HostelDetailFinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of HostelDetailFinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--End Hostel Detail-->
+
+</div>
+
+<ng-template #TarilMymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="font-size: 17px; font-weight: 600 !important;">Trails</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-body">
+      <div class="row" *ngIf="lstTarils.length>0">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Compliance</th>
+                  <th>Remark</th>
+                  <th>Action By</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of lstTarils ; let indexOfelement=index;">
+                  <td> {{indexOfelement+1}}</td>
+                  <td>{{item.Action}}</td>
+                  <td>{{item.Remark}}</td>
+                  <td>{{item.RoleName}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

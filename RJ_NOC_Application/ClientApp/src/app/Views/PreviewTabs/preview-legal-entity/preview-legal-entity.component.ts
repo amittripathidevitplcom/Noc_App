@@ -53,14 +53,15 @@ export class PreviewLegalEntityComponent implements OnInit {
   //
   public SSOID: string = '';
   public SelectedLegalEntityID: number = 0;
-
+  public SelectedCollageID: number = 0;
   async ngOnInit() {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-
+    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     //
     this.ModifyBy = 1;
     // get college list
-    await this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    await this.GetCollageDetails();
+    await this.ViewlegalEntityDataByID(this.UserSSOID);
     await this.GetDataOfLegalEntity();
     await this.GetDataList();
   }
@@ -68,7 +69,7 @@ export class PreviewLegalEntityComponent implements OnInit {
     //Show Loading
     this.loaderService.requestStarted();
     try {
-      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
+      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.UserSSOID)
         .then(async (data: any) => {
           debugger;
           this.State = data['State'];
@@ -138,6 +139,26 @@ export class PreviewLegalEntityComponent implements OnInit {
           this.legalEntityInstituteDetailData = data['Data'][0]['data']['Table1'];
           this.legalEntityMemberDetailData = data['Data'][0]['data']['Table2'];
         }, (error: any) => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public UserSSOID: string = '';
+  async GetCollageDetails() {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeService.GetData(this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.UserSSOID = data['Data']['ParentSSOID'];
+
+        }, error => console.error(error));
     }
     catch (Ex) {
       console.log(Ex);

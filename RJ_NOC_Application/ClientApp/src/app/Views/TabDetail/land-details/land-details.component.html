@@ -20,9 +20,8 @@
         </div>
 
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 ">
-          <label>
-            Land Area Situated In <span style="color:red;">*</span>
-          </label>
+          <label *ngIf="SelectedDepartmentID!=1">Land Area Situated In <span style="color:red;">*</span></label>
+          <label *ngIf="SelectedDepartmentID==1">College Situated In <span style="color:red;">*</span></label>
           <select id="ddlLandAreaId" name="ddlLandAreaId" class="form-control" [(ngModel)]="request.LandAreaID" formControlName="ddlLandAreaId" (change)="GetLandSqureMeterMappingDetails(request.LandAreaID)">
             <option value="0" disabled>--Select--</option>
             <option *ngFor="let item of LandAreaData"
@@ -100,23 +99,23 @@
 
             <tbody>
               <tr *ngFor="let item of request.CollegeLandTypeDetails let idx=index;">
-                <td width="1%" valign="top">
+                <td valign="top">
                   <input class="form-check-input" type="checkbox" [ngModelOptions]="{standalone: true}" name="cbLand_{{idx+1}}_{{item.LandTypeID}}"
                          id="cbLand_{{idx+1}}_{{item.LandTypeID}}" value="{{item.LandTypeID}}"
                          (change)="LandType_cbChange($event,item,idx)"
                          [(ngModel)]="item.IsLandSelected">
                 </td>
-                <td width="5%" valign="top">
+                <td valign="top">
                   {{item.LandTypeName}}
                 </td>
-                <td width="10%">
+                <td>
                   <label class="d-block" id="basic-addon1">Area:</label>
-                  <input type="text" maxlength="5" (keyup)="CalculateTotalArea(item,idx)" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numbersOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
+                  <input type="text"  style="width: 100px !important;" maxlength="10" (keyup)="CalculateTotalArea(item,idx)" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" value="{{item.LandArea==0?'':item.LandArea}}" placeholder="Enter LandArea" id="txtLandArea{{idx}}" (keypress)="numbersOnly($event)" name="txtLandArea{{idx}}" [(ngModel)]="item.LandArea" autocomplete="off">
                   <div class="text-danger">
                     <p *ngIf="item.IsLandSelected && item.LandArea==0"> This field is required .!</p>
                   </div>
                 </td>
-                <td width="18%">
+                <td>
                   <label class="d-block" id="basic-addon1">Khasra No:</label>
                   <input type="text" class="form-control" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" placeholder="Enter Khasra No" id="txtKhasraNo{{idx}}" name="txtKhasraNo{{idx}}" [(ngModel)]="item.KhasraNo" autocomplete="off">
                   <div class="text-danger">
@@ -133,19 +132,19 @@
                 </td>
 
 
-                <td *ngIf="ShowConversionOrderNo" width="13%">
+                <td *ngIf="ShowConversionOrderNo">
                   <div [hidden]="item.LandTypeName=='Agriculture'"><label class="d-block" id="basic-addon1">Order Date:</label></div>
                   <input type="date" id="dtLandConversionOrderDate{{idx}}"  [hidden]="item.LandTypeName=='Agriculture'" [disabled]="!item.IsLandSelected" [ngModelOptions]="{standalone: true}" name="dtLandConversionOrderDate{{idx}}" class="form-control" [(ngModel)]="item.LandConversionOrderDate" max="{{LandConversionMaxDate | date:'yyyy-MM-dd'}}" min="{{LandConversionMinDate | date:'yyyy-MM-dd'}}" onkeypress="return false;" />
                   <div class="text-danger"  [hidden]="item.LandTypeName=='Agriculture'">
                     <p *ngIf="item.IsLandSelected && item.LandConversionOrderDate==''"> This field is required .!</p>
                   </div>
                 </td>
-                <td *ngIf="ShowConversionOrderNo" width="25%">
+                <td *ngIf="ShowConversionOrderNo">
                   <label *ngIf="item.LandTypeName=='Instituional' || item.LandTypeName=='Educational' ">Land Converstion Document  </label>
                   <label *ngIf="item.LandTypeName=='Agriculture' || item.LandTypeName=='Commercial' || item.LandTypeName=='Residencial' ">Title Document  </label>
                   <div class="d-flex">
                     <input type="file" [(ngModel)]="item.LandConverstionDocument" [ngModelOptions]="{standalone: true}" [disabled]="!item.IsLandSelected" id="fileLandDocument_{{idx}}" (input)="onFilechangeItem($event,item)" class="form-control d-none" />
-                    <label class="btn upload" for="fileLandDocument_{{idx}}">
+                    <label class="btn upload" for="fileLandDocument_{{idx}}" style="width:300px !important">
                       <span class="filename">Choose file</span>
                       {{item.FileName === '' ? 'No File Choosen' : item.Dis_FileName}}
                     </label>
@@ -204,9 +203,14 @@
         </div>
 
         <div class="col-lg-3 col-md-3 col-sm-6 col-12 ">
-          <label>
+          <label  *ngIf="SelectedDepartmentID!=1">
             Land Area (in {{LandUnitType !=''?LandUnitType:UnitOfLand}}) <span style="color:red;">*</span>
           </label>
+          <label  *ngIf="SelectedDepartmentID==1">
+            Converted Area (in {{LandUnitType !=''?LandUnitType:UnitOfLand}}) <span style="color:red;">*</span>
+          </label>
+
+
           <input type="text" id="txtLandArea" class="form-control" [(ngModel)]="request.LandArea" formControlName="txtLandArea" (keypress)="numbersOnly($event)" />
           <p class="text-primary"><i aria-hidden="true"></i>Land area must be at least : {{RequiredLandAreaMsg}}</p>
 

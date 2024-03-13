@@ -40,6 +40,7 @@ import { MasterPageComponent } from './Views/Shared/master-page/master-page.comp
 import { PageNotFoundComponent } from './Views/Shared/page-not-found/page-not-found.component';
 import { SSOLoginComponent } from './Views/SSOLogin/ssologin/ssologin.component';
 import { FacilityDetailsComponent } from './Views/TabDetail/facility-details/facility-details.component';
+
 import { LandDetailsComponent } from './Views/TabDetail/land-details/land-details.component';
 import { RequiredDocumentComponent } from './Views/TabDetail/required-document/required-document.component';
 import { HospitalDetailComponent } from './Views/TabDetail/hospital-detail/hospital-detail.component';
@@ -213,7 +214,14 @@ import { UserManualDocumentMasterComponent } from './Views/Master/usermanualdocu
 import { GenerateReceiptListDTEComponent } from './Views/DocumentScrutinyTab_DTE/generate-receipt-list-dte/generate-receipt-list-dte.component';
 import { DocumentScrutinyStepIIApplicationsComponent } from './Views/DocumentScrutinyTab_DTE/document-scrutiny-step-iiapplications/document-scrutiny-step-iiapplications.component';
 
-import { NewgrievancereportComponent } from './Views/DCE/newgrievancereport/newgrievancereport/newgrievancereport.component';
+import { ApplicationPDFComponent } from './Views/application-pdf/application-pdf.component';
+import { ApplyNOCMGOneComponent } from './Views/Medical Group 1/apply-nocmgone/apply-nocmgone.component';
+import { JDACCEApplicationListDCEComponent } from './Views/DCE/jdacceapplication-list-dce/jdacceapplication-list-dce.component';
+import { CheckListSecretaryDCEComponent } from './Views/DCE/check-list-secretary-dce/check-list-secretary-dce.component';
+import { ActivityDetailsComponent } from './Views/TabDetail/ActivityDetails/activity-details/activity-details.component';
+import { DTECommitteApplicationListComponent } from './Views/DocumentScrutinyTab_DTE/dtecommitte-application-list/dtecommitte-application-list.component';
+import { FinalCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/final-check-list-dte/final-check-list-dte.component';
+import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-check-list-dte/revert-check-list-dte.component';
 
 
 const routes: Routes = [
@@ -359,6 +367,9 @@ const routes: Routes = [
 
       {
         path: 'facilitydetails', component: FacilityDetailsComponent
+      },
+      {
+        path: 'activitydetails', component: ActivityDetailsComponent
       },
       //{
       //  path: 'requireddocument', component: RequiredDocumentComponent
@@ -698,13 +709,22 @@ const routes: Routes = [
         path: 'commissionerapplicationscrutinylist/:Status', component: CommissionerApplicationScrutinyListComponent
       },
       {
+        path: 'jdacceapplicationlistdce/:Status', component: JDACCEApplicationListDCEComponent
+      },
+      {
         path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListForCommissionerComponent
+      },
+      {
+        path: 'checklistforsecretarydce/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID', component: CheckListSecretaryDCEComponent
       },
       {
         path: 'checklistforcommissioner/:DepartmentID/:CollegeID/:ApplyNOCID', component: CheckListForCommissionerComponent
       },
       {
         path: 'revertchecklistdce/:DepartmentID/:CollegeID/:ApplyNOCID', component: RevertCheckListDCEComponent
+      },
+      {
+        path: 'revertchecklistdte/:DepartmentID/:CollegeID/:ApplyNOCID/:VerificationStep', component: RevertCheckListDTEComponent
       },
       {
         path: 'staffattendance', component: StaffattendanceComponent
@@ -855,6 +875,9 @@ const routes: Routes = [
         path: 'documentscrutinydte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status/:ApplicationStatus', component: DocumentScrutinyDTEComponent
       },
       {
+        path: 'finalchecklistdte/:DepartmentID/:CollegeID/:ApplyNOCID/:ApplicationNoYear/:ApplicationNoID/:Status/:ApplicationStatus', component: FinalCheckListDTEComponent
+      },
+      {
         path: 'applicationlandingdetailsdte/:Status', component: ApplicationLandingDetailsDTEComponent
       },
       {
@@ -862,6 +885,9 @@ const routes: Routes = [
       },
       {
         path: 'documentscrutinyapplicationdte/:Status', component: DocumentScrutinyStepIIApplicationsComponent
+      },
+      {
+        path: 'dtecommitteapplicationlist/:Status/:Stage', component: DTECommitteApplicationListComponent
       },
       {
         path: 'jsapplicationlistdte/:Status', component: JSApplicationListDTEComponent
@@ -880,6 +906,9 @@ const routes: Routes = [
       },
       {
         path: 'generatereceiptlistdte/:Status', component: GenerateReceiptListDTEComponent
+      },
+      {
+        path: 'applynocmgone/:DepartmentID/:CollegeID', component: ApplyNOCMGOneComponent
       },
 
       {
@@ -914,6 +943,9 @@ const routes: Routes = [
   },
   {
     path: 'paymentstatus/:TransID', component: EmitraPaymentResponseComponent
+  },
+  {
+    path: 'applicationpdf/:CollegeID/:DepartmentID/:Status', component: ApplicationPDFComponent
   },
 
 

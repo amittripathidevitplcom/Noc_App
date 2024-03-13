@@ -30,6 +30,10 @@ import { OldnocdetailService } from '../../../Services/OldNOCDetail/oldnocdetail
 import { HostelDetailService } from '../../../Services/Tabs/hostel-details.service';
 import { HospitalDetailService } from '../../../Services/Tabs/HospitalDetail/hospital-detail.service';
 import { VeterinaryHospitalService } from '../../../Services/VeterinaryHospital/veterinary-hospital.service';
+import { ApplicationPDFComponent } from '../../application-pdf/application-pdf.component';
+
+
+
 @Component({
   selector: 'app-application-summary',
   templateUrl: './application-summary.component.html',
@@ -95,6 +99,7 @@ export class ApplicationSummaryComponent implements OnInit {
 
   public SelectedCollageID: number = 0;
   public SelectedDepartmentID: number = 0;
+  public UserSSOID: string = '';
   constructor(private roomDetailsService: RoomDetailsService, private facilityDetailsService: FacilityDetailsService, private buildingDetailsMasterService: BuildingDetailsMasterService, private landDetailsService: LandDetailsService, private socityService: SocityService, private draftApplicationListService: DraftApplicationListService, private TrusteeGeneralInfoService: TrusteeGeneralInfoService, private legalEntityListService: LegalEntityService, private modalService: NgbModal, private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService, private collegeService: CollegeService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private oldnocdetailService: OldnocdetailService, private hostelDetailService: HostelDetailService, private hospitalDetailService: HospitalDetailService, private veterinaryHospitalService: VeterinaryHospitalService,
     private otherInformationService: OtherInformationService, private staffDetailService: StaffDetailService, private academicInformationDetailsService: AcademicInformationDetailsService, private farmLandDetailServiceService: FarmLandDetailService, private elRef: ElementRef) { }
@@ -107,10 +112,8 @@ export class ApplicationSummaryComponent implements OnInit {
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     await this.GetCollageDetails();
     await this.GetDownloadPdfDetails();
+    await this.ViewlegalEntityDataByID(this.UserSSOID);
     this.loaderService.requestEnded();
-
-    await this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
-
   }
 
   async GetCollageDetails() {
@@ -120,6 +123,7 @@ export class ApplicationSummaryComponent implements OnInit {
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.collegeDataList = data['Data'];
+          this.UserSSOID = data['Data']['ParentSSOID'];
           if (this.collegeDataList['CollegeStatus'] == 'New') {
             this.CollegeType_IsExisting = false;
             //this.isAcademicInformation = false;
@@ -152,10 +156,9 @@ export class ApplicationSummaryComponent implements OnInit {
         this.loaderService.requestEnded();
       }, 200);
     }
-  } 
+  }
   @ViewChild('content') content: ElementRef | any;
   btnSavePDF_Click(): void {
-    debugger;
     this.loaderService.requestStarted();
     let dt = new Date();
     let Imgpath = this.DownloadPdfDetailslst[0]["data"][0]["MemberSignature2"];
@@ -700,43 +703,45 @@ export class ApplicationSummaryComponent implements OnInit {
   }
 
   async btnViewPDfPreview(content: any) {
-    this.modalService.open(content, { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-    try {
-     
-      this.loaderService.requestStarted();
-      //await this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
-      await this.GetDataOfLegalEntity();
-      await this.GetDataList();
-      await this.ViewTotalCollegeDataByID(this.SelectedCollageID);
-      await this.GetCourseByCollegeWise(this.SelectedCollageID, 0);
-      await this.GetSocietyAllList();
-      await this.GetLandDetailsDataList();
-      await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
-      await this.GetAllBuildingDetailsList();
-      await this.GetFacilityDetailAllList();
-      await this.GetRoomDetailAllList();
-      await this.GetOtherInformationAllList();
-      await this.GetAllStaffDetailsList(this.SelectedDepartmentID, this.SelectedCollageID);
-      await this.GetAcademicInformationDetailAllList();
-      await this.GetAllFarmLandDetalsList(this.SelectedCollageID);
-      await this.GetOldNOCDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
-      await this.GetHostelDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
-      await this.GetHospitalDetailList(this.SelectedCollageID);
-      await this.GetParaHospitalDataList();
-      await this.GetVetHospitalDetailList(this.SelectedDepartmentID, this.SelectedCollageID);
-    }
-    catch (Ex) {
-      console.log(Ex);
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-      }, 200);
-    }
+    const modalRef = this.modalService.open(ApplicationPDFComponent,
+      { size: 'xl', ariaLabelledBy: 'modal-basic-title', backdrop: 'static' });
+    modalRef.componentInstance.CollegeID = this.SelectedCollageID;
+    modalRef.componentInstance.DepartmentID = this.SelectedDepartmentID;
+
+    //modalRef.componentInstance.result.subscribe((response) => { }
+    //    });
+    //try {
+
+    //  this.loaderService.requestStarted();
+    //  //await this.ViewlegalEntityDataByID(this.sSOLoginDataModel.SSOID);
+    //  await this.GetDataOfLegalEntity();
+    //  await this.GetDataList();
+    //  await this.ViewTotalCollegeDataByID(this.SelectedCollageID);
+    //  await this.GetCourseByCollegeWise(this.SelectedCollageID, 0);
+    //  await this.GetSocietyAllList();
+    //  await this.GetLandDetailsDataList();
+    //  await this.GetUnitOfLandArea(this.SelectedDepartmentID, 'LandUnit');
+    //  await this.GetAllBuildingDetailsList();
+    //  await this.GetFacilityDetailAllList();
+    //  await this.GetRoomDetailAllList();
+    //  await this.GetOtherInformationAllList();
+    //  await this.GetAllStaffDetailsList(this.SelectedDepartmentID, this.SelectedCollageID);
+    //  await this.GetAcademicInformationDetailAllList();
+    //  await this.GetAllFarmLandDetalsList(this.SelectedCollageID);
+    //  await this.GetOldNOCDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
+    //  await this.GetHostelDetailAllList(this.SelectedDepartmentID, this.SelectedCollageID);
+    //  await this.GetHospitalDetailList(this.SelectedCollageID);
+    //  await this.GetParaHospitalDataList();
+    //  await this.GetVetHospitalDetailList(this.SelectedDepartmentID, this.SelectedCollageID);
+    //}
+    //catch (Ex) {
+    //  console.log(Ex);
+    //}
+    //finally {
+    //  setTimeout(() => {
+    //    this.loaderService.requestEnded();
+    //  }, 200);
+    //}
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -752,7 +757,7 @@ export class ApplicationSummaryComponent implements OnInit {
   async GetDataOfLegalEntity() {
     this.loaderService.requestStarted();
     try {
-      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.sSOLoginDataModel.SSOID)
+      await this.TrusteeGeneralInfoService.GetDataOfLegalEntity(this.UserSSOID)
         .then(async (data: any) => {
           this.LegalEntityDataModel = JSON.parse(JSON.stringify(data['Data']));
         })
@@ -793,7 +798,6 @@ export class ApplicationSummaryComponent implements OnInit {
   }
   public IsManagmentType: boolean = false;
   async ViewlegalEntityDataByID(SSOID: any) {
-    debugger;
     let UserID: number = 0;
     try {
       this.loaderService.requestStarted();
@@ -805,11 +809,10 @@ export class ApplicationSummaryComponent implements OnInit {
           this.ErrorMessage = data['ErrorMessage'];
           // data
           this.legalEntityListData1 = data['Data'][0]['data']['Table'][0];
-          if (this.legalEntityListData1['ManagementType'] == 'Private')
-          {
+          if (this.legalEntityListData1['ManagementType'] == 'Private') {
             this.IsManagmentType = true;
           }
-          else{
+          else {
             this.IsManagmentType = false;
           }
 
@@ -1237,5 +1240,6 @@ export class ApplicationSummaryComponent implements OnInit {
       }, 200);
     }
   }
+
 
 }

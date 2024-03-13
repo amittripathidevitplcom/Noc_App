@@ -51,6 +51,7 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
   private academicInformationComponent!: AcademicInformationComponent;
 
   public QueryStringStatus: any = '';
+  public SearchRecordID: string = '';
   constructor(private dcedocumentScrutinyService: DCEDocumentScrutinyService,  private toastr: ToastrService, private loaderService: LoaderService, private applyNOCApplicationService: ApplyNOCApplicationService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder, private collegeService: CollegeService) { }
 
@@ -58,11 +59,21 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
     // $(".secondTab").addClass("highLightTab");
     this.loaderService.requestStarted();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
-
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.SelectedCollageID = data['Data']['CollegeID'];
+        }, error => console.error(error));
+    }
+    else {
+      this.routers.navigate(['/draftapplicationlist']);
+    }
     await this.GetRevertedTabData();
     await this.GetCollageDetails();
     await this.GetCollegeBasicDetails();
@@ -213,16 +224,18 @@ export class RevertApplicationDetailEntryComponent implements OnInit {
         }
       }
     }
-
+    debugger;
     if (this.SelectedDepartmentID == 3) {
       if (this.CollegeType_IsExisting == true) {
         if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['StaffDetails'] > 0 && this.CheckTabsEntryData['OLDNOCDetails'] > 0 && this.CheckTabsEntryData['AcademicInformation'] > 0 && this.CheckTabsEntryData['ClassWiseStatistics'] > 0 && this.CheckTabsEntryData['SubjectWiseStatistics'] > 0
-          && this.CheckTabsEntryData['HostelDetails'] > 0) {
+          //&& this.CheckTabsEntryData['HostelDetails'] > 0
+        ) {
           this.IsShowDraftFinalSubmit = false;
         }
       }
       else {
-        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 && this.CheckTabsEntryData['HostelDetails'] > 0) {
+        if (this.CheckTabsEntryData['LandInformation'] > 0 && this.CheckTabsEntryData['Facility'] > 0 && this.CheckTabsEntryData['RequiredDocument'] > 0 && this.CheckTabsEntryData['RoomDetails'] > 0 && this.CheckTabsEntryData['OtherInformation'] > 0 && this.CheckTabsEntryData['BuildingDocuments'] > 0 //&& this.CheckTabsEntryData['HostelDetails'] > 0
+        ) {
           // && this.CheckTabsEntryData['ClassWiseStatistics'] > 0
           this.IsShowDraftFinalSubmit = false;
         }

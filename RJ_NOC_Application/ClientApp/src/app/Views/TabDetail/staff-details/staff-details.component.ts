@@ -45,7 +45,7 @@ export class StaffDetailsComponent implements OnInit {
   public AllRoleData: any = [];
   public AllQualification: any = [];
 
-  
+
   public YearData: any = [];
   public isAadhaarCard: boolean = false;
   public isProfilePhoto: boolean = false;
@@ -719,11 +719,14 @@ export class StaffDetailsComponent implements OnInit {
         this.toastr.warning('Highest Qualification Document is Required.');
         return;
       }
-      if (this.TotalStaffDetail > 10) {
+      if (this.request.Salary == '') {
+        this.request.Salary = "0";
+      }
+      if ((this.TotalStaffDetail > 10) && (Number(this.request.Salary) < 21000)) {
         if (this.request.ESINumber == '') {
           this.ESIStaffShowHide = true;
           this.IsESIDetails = true;
-          this.toastr.warning('If Staff details(Teaching or NoN Teaching) are Greater than 10 is mandatory to give ESI No.');
+          this.toastr.warning('If Staff details(Teaching or NoN Teaching) are Greater than 10 employee or salary less then 21000 is mandatory to give ESI No.');
           return;
         }
       }
@@ -1340,7 +1343,7 @@ export class StaffDetailsComponent implements OnInit {
           Email: this.importExcelData[i][5],
           HighestQualification: QualificationID,
           HighestQualificationName: this.importExcelData[i][7],
-          NumberofExperience: this.importExcelData[i][13].replace('.00',''),
+          NumberofExperience: this.importExcelData[i][13].replace('.00', ''),
           AadhaarNo: this.importExcelData[i][8],
           MaskedAadhaarNo: '',
           //DateOfBirth: DateOfBirth.format('yyyy-MM-dd'),
@@ -1394,7 +1397,7 @@ export class StaffDetailsComponent implements OnInit {
         });
       }
     }
-    try { 
+    try {
       //post
       this.loaderService.requestStarted();
       this.request.DepartmentID = this.SelectedDepartmentID;
@@ -1431,7 +1434,7 @@ export class StaffDetailsComponent implements OnInit {
       setTimeout(() => {
         this.loaderService.requestEnded();
       }, 200);
-    } 
+    }
   }
-   
+
 }

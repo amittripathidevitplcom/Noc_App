@@ -47,6 +47,9 @@ export class DteAddCourseComponent {
   public SelectedDepartmentID: number = 0;
   public SearchRecordID: string = '';
 
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
+
   constructor(private courseMasterService: CourseMasterService, private toastr: ToastrService, private loaderService: LoaderService,
     private formBuilder: FormBuilder, private commonMasterService: CommonMasterService, private router: ActivatedRoute, private routers: Router, private _fb: FormBuilder,
     private clipboard: Clipboard) {
@@ -77,6 +80,7 @@ export class DteAddCourseComponent {
       //this.request.CollegeID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
 
       this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+
       if (this.SearchRecordID.length > 20) {
         await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
           .then((data: any) => {
@@ -90,7 +94,8 @@ export class DteAddCourseComponent {
       else {
         this.routers.navigate(['/draftapplicationlist']);
       }
-
+      this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
+      this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
 
       ///this.SelectedDepartmentID = 4;//Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
       //this.request.CollegeID = 4563;
@@ -112,7 +117,12 @@ export class DteAddCourseComponent {
       }, 0);
     }
   }
-
+  async ddlStreamID_Change() {
+    this.request.CourseLevelID = 0;
+    this.request.CourseID = 0;
+    await this.CourseLevel();
+    await this.GetCourseListByLevelID(this.request.CourseLevelID);
+  }
   get form() { return this.CourseMasterForm.controls; }
 
   async GetCollegeBasicDetails() {
@@ -138,7 +148,7 @@ export class DteAddCourseComponent {
   async GetAllList() {
     try {
       this.loaderService.requestStarted();
-      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, 0, this.request.CollegeID)
+      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, 0, this.request.CollegeID, this.SelectedApplyNOCID)
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.State = data['State'];
@@ -417,15 +427,15 @@ export class DteAddCourseComponent {
     if (this.CourseMasterForm.invalid) {
       this.isFormValid = false;
     }
-    if (this.request.CourseID == 0) {
-      this.CourseDropdown = true;
-      this.isFormValid = false;
-    }
-    if (this.ShowHideotherCourse) {
-      if (this.request.OtherCourseName == '') {
-        this.isFormValid = false;
-      }
-    }
+    //if (this.request.CourseID == 0) {
+    //  this.CourseDropdown = true;
+    //  this.isFormValid = false;
+    //}
+    //if (this.ShowHideotherCourse) {
+    //  if (this.request.OtherCourseName == '') {
+    //    this.isFormValid = false;
+    //  }
+    //}
     if (Number(this.request.Enrollment) > Number(this.request.Intake) + Number(this.request.SuperNumerarySeats)) {
       this.isFormValid = false;
       this.toastr.warning('No of Enrollment not grater then Intake + Super Numerary Seats');

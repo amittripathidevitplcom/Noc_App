@@ -579,4 +579,9 @@ export class TotalCollegeComponent implements OnInit {
     }
     return true;
   }
+
+  async ApplicationSummaryApplication_OnClick(DepartmentID: number, CollegeID: number) {
+    this.routers.navigate(['/applicationsummary' + "/" + encodeURI(this.commonMasterService.Encrypt(DepartmentID.toString())) + "/" + encodeURI(this.commonMasterService.Encrypt(CollegeID.toString()))]);
+  }
+
 }

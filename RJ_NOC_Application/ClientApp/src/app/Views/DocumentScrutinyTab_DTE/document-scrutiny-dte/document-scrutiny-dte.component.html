@@ -22,7 +22,8 @@
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
 
-            <mat-tab  *ngIf="this.CheckList_legalEntityListData1.ManagementType == 'Private'">
+            <mat-tab *ngIf="this.CheckList_legalEntityListData1.ManagementType == 'Private'">
+              <!--*ngIf="this.CheckList_legalEntityListData1.ManagementType == 'Private'"-->
               <ng-template mat-tab-label>
                 <i class="fa fa-gavel icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['LegalEntity']>0"></i>
@@ -46,14 +47,14 @@
               </ng-template>
               <app-document-scrutiny-college-management-society-dte></app-document-scrutiny-college-management-society-dte>
             </mat-tab>
-            <!--<mat-tab>
+            <mat-tab>
               <ng-template mat-tab-label>
                 <i class="fa fa-home icon" aria-hidden="true"></i>
                 <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['CourseDetails']>0"></i>
                 <span>Course Detail</span>
               </ng-template>
               <app-document-scrutiny-course-detail-dte></app-document-scrutiny-course-detail-dte>
-            </mat-tab>-->
+            </mat-tab>
             <mat-tab *ngIf="CollegeType_IsExisting">
               <ng-template mat-tab-label>
                 <i class="fa fa-address-card-o icon" aria-hidden="true"></i>

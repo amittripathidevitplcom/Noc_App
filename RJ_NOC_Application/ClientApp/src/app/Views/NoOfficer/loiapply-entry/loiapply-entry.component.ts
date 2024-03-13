@@ -42,7 +42,7 @@ export class LOIApplyEntryComponent implements OnInit {
   public SuccessMessage: any = [];
   public ErrorMessage: any = [];
   public IsShowDraftFinalSubmit: boolean = true;
-
+  public SearchRecordID: string = '';
 
   @ViewChild(StaffDetailsComponent)
   private staffDetailsComponent!: StaffDetailsComponent;
@@ -60,8 +60,27 @@ export class LOIApplyEntryComponent implements OnInit {
     // $(".secondTab").addClass("highLightTab");
     this.loaderService.requestStarted();
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
-    this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    //this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     this.SelectedApplyNOCID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('ApplyNOCID')?.toString()));
+
+
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          //this.request.CollegeID = data['Data']['CollegeID'];
+          this.SelectedCollageID = data['Data']['CollegeID'];
+          if (this.SelectedCollageID == null || this.SelectedCollageID == 0 || this.SelectedCollageID == undefined) {
+            this.routers.navigate(['/LOIapplyentry']);
+          }
+        }, error => console.error(error));
+    }
+    else {
+      this.routers.navigate(['/LOIapplyentry']);
+    }
+
+
     this.QueryStringStatus = this.router.snapshot.paramMap.get('Status')?.toString();
     this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
     //await this.GetCollageMaster();

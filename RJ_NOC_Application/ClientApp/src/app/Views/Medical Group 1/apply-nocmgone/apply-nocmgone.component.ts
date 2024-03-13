@@ -1,0 +1,281 @@
+import { Component, OnInit, Input, Injectable, ViewChild, ElementRef } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { CommonMasterService } from '../../../Services/CommonMaster/common-master.service';
+import { LoaderService } from '../../../Services/Loader/loader.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RequiredDocumentsDataModel, RequiredDocumentsDataModel_Documents } from '../../../Models/TabDetailDataModel';
+import { DropdownValidators, createPasswordStrengthValidator, MustMatch } from '../../../Services/CustomValidators/custom-validators.service';
+import { ToastrService } from 'ngx-toastr';
+import { SSOLoginDataModel } from '../../../Models/SSOLoginDataModel';
+import { FileUploadService } from '../../../Services/FileUpload/file-upload.service';
+import { CollegeDocumentService } from '../../../Services/Tabs/CollegeDocument/college-document.service';
+import { ApplyNocParameterService } from '../../../Services/Master/apply-noc-parameter.service';
+import { ApplyNocParameterDataModel } from '../../../Models/ApplyNocParameterDataModel';
+
+@Component({
+  selector: 'app-apply-nocmgone',
+  templateUrl: './apply-nocmgone.component.html',
+  styleUrls: ['./apply-nocmgone.component.css']
+})
+export class ApplyNOCMGOneComponent implements OnInit {
+  //public RequiredDocumentsDetailData: any = [];
+  request = new RequiredDocumentsDataModel();
+  isSubmitted: boolean = false;
+  public State: number = -1;
+  public SuccessMessage: any = [];
+  public ErrorMessage: any = [];
+  public SelectedCollageID: number = 0;
+  public SelectedDepartmentID: number = 0;
+  sSOLoginDataModel = new SSOLoginDataModel();
+  public file: File = null;
+  public QueryStringStatus: any = '';
+  public SelectedApplyNOCID: number = 0;
+  public SearchRecordID: string = '';
+  constructor(private loaderService: LoaderService, private toastr: ToastrService,
+    private commonMasterService: CommonMasterService, private collegeDocumentService: CollegeDocumentService, private router: ActivatedRoute, private routers: Router, private formBuilder: FormBuilder,
+    private fileUploadService: FileUploadService, private applyNocParameterService: ApplyNocParameterService) { }
+
+  async ngOnInit() {
+    this.sSOLoginDataModel = await JSON.parse(String(localStorage.getItem('SSOLoginUser')));
+    this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
+    // this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
+    this.SearchRecordID = this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString());
+    debugger;
+    if (this.SearchRecordID.length > 20) {
+      await this.commonMasterService.GetCollegeID_SearchRecordIDWise(this.SearchRecordID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.request.CollegeID = data['Data']['CollegeID'];
+          this.SelectedCollageID = data['Data']['CollegeID'];
+          if (this.request.CollegeID == null || this.request.CollegeID == 0 || this.request.CollegeID == undefined) {
+            this.routers.navigate(['/draftapplicationlist']);
+          }
+        }, error => console.error(error));
+    }
+    else {
+      this.routers.navigate(['/draftapplicationlist']);
+    }
+    this.request.DocumentDetails = [];
+    this.GetDocuments('ApplyNOCMgOne')
+  }
+  async GetDocuments(Type: string) {
+    try {
+      this.loaderService.requestStarted();
+      await this.collegeDocumentService.GetList(this.SelectedDepartmentID, this.SelectedCollageID, Type,0)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.request.DocumentDetails = data['Data'][0]['data'];
+          console.log(this.request.DocumentDetails)
+
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+
+  async onFilechange(event: any, item: RequiredDocumentsDataModel_Documents) {
+    try {
+      this.file = event.target.files[0];
+      if (this.file) {
+        if (this.file.type === 'application/pdf') {
+          //size validation
+          if (this.file.size > 2000000) {
+            this.toastr.error('Select less then 2MB File')
+            return
+          }
+          if (this.file.size < 100000) {
+            this.toastr.error('Select more then 100kb File')
+            return
+          }
+        }
+        else {// type validation
+          this.toastr.error('Select Only pdf file')
+          return
+        }
+        // upload to server folder
+        this.loaderService.requestStarted();
+
+        await this.fileUploadService.UploadDocument(this.file)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            if (this.State == 0) {
+              item.Dis_FileName = data['Data'][0]["Dis_FileName"];
+              item.FileName = data['Data'][0]["FileName"];
+              item.FilePath = data['Data'][0]["FilePath"];
+
+              event.target.value = null;
+            }
+            if (this.State == 1) {
+              this.toastr.error(this.ErrorMessage)
+            }
+            else if (this.State == 2) {
+              this.toastr.warning(this.ErrorMessage)
+            }
+          });
+      }
+      else {
+        //this.ResetFileAndValidation(Type, '', '', false);
+      }
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      /*setTimeout(() => {*/
+      this.loaderService.requestEnded();
+      /*  }, 200);*/
+    }
+  }
+
+  async DeleteImage(item: RequiredDocumentsDataModel_Documents) {
+    try {
+      // delete from server folder
+      this.loaderService.requestEnded();
+      await this.fileUploadService.DeleteDocument(item.FileName).then((data: any) => {
+        this.State = data['State'];
+        this.SuccessMessage = data['SuccessMessage'];
+        this.ErrorMessage = data['ErrorMessage'];
+        if (this.State == 0) {
+          item.FileName = '';
+          item.FilePath = '';
+          item.Dis_FileName = '';
+        }
+        if (this.State == 1) {
+          this.toastr.error(this.ErrorMessage)
+        }
+        else if (this.State == 2) {
+          this.toastr.warning(this.ErrorMessage)
+        }
+      });
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
+  public IsValid: boolean = true;
+  async SaveData() {
+    this.isSubmitted = true;
+    this.IsValid = true;
+    this.request.DocumentDetails.forEach(item => {
+      if (item.IsMandatory == true && item.FileName == '') {
+        this.IsValid = false;
+      }
+    });
+    if (!this.IsValid) {
+      return;
+    }
+    this.request.CollegeID = this.SelectedCollageID;
+    this.request.DocumentType = 'RequiredDocument';
+    //Show Loading
+    this.loaderService.requestStarted();
+    try {
+      await this.collegeDocumentService.SaveData(this.request)
+        .then((data: any) => {
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          console.log(this.State);
+          if (!this.State) {
+            this.toastr.success(this.SuccessMessage)
+          }
+          else {
+            this.toastr.error(this.ErrorMessage)
+          }
+        })
+    }
+    catch (ex) { console.log(ex) }
+    finally {
+      setTimeout(() => {
+        this.isSubmitted = false;
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+
+
+  }
+  public IsTermsChecked: boolean = false;
+  applyrequest = new ApplyNocParameterDataModel();
+  async SaveApplyNoc_click() {
+
+
+      //this.isSave = false; 
+      try {
+        let isValid = true;
+        this.isSubmitted = true;
+        //set
+        this.request.DocumentDetails.forEach(item => {
+          if (item.IsMandatory == true && item.FileName == '') {
+            this.IsValid = false;
+          }
+        });
+        if (!this.IsTermsChecked) {
+          this.toastr.warning('Please accept terms and condition');
+          isValid = false;
+        }
+
+        if (!isValid) {
+          return;
+        }
+        this.request.CollegeID = this.SelectedCollageID;
+        this.request.DocumentType = 'ApplyNOCMgOne';
+        this.applyrequest.CollegeID = this.SelectedCollageID;
+        this.applyrequest.ApplicationTypeID = 0;
+        if (confirm("Are you satisfied with the data that are showing in the View Application? Apply NOC After Not  Edit Your Application Profile.")) {
+
+          this.loaderService.requestStarted();
+
+          await this.collegeDocumentService.SaveData(this.request)
+            .then((data: any) => {
+              this.toastr.success(this.SuccessMessage)
+            })
+          //post
+          await this.applyNocParameterService.SaveApplyNocApplication(this.applyrequest)
+            .then((data: any) => {
+              data = JSON.parse(JSON.stringify(data));
+              this.State = data['State'];
+              this.SuccessMessage = data['SuccessMessage'];
+              this.ErrorMessage = data['ErrorMessage'];
+              //
+              if (this.State == 0) {
+                this.toastr.success(this.SuccessMessage);
+                setTimeout(() => {
+                  //move to list page
+                  this.routers.navigate(['/applynocapplicationdetail']);
+                }, 1000);
+              }
+              else {
+                this.toastr.error(this.ErrorMessage);
+              }
+
+            }, error => console.error(error));
+        }
+      }
+      catch (ex) {
+        console.log(ex);
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+          //this.isSubmitted = false;
+        }, 200);
+      }
+    }
+  }

@@ -29,7 +29,7 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
             <label for="ddlStreamID" class="form-label">Programme Name <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlStreamID" name="ddlStreamID" [(ngModel)]="request.StreamID"
-                    formControlName="ddlStreamID">
+                    formControlName="ddlStreamID"  #SeletedStreamID (change)="ddlStreamID_Change()">
               <option value="0">-- Select --</option>
               <option *ngFor="let item of streamDataList" value="{{item.StreamMasterID}}">{{item.StreamName}}</option>
             </select>
@@ -42,7 +42,7 @@
             <label for="ddlCourseLevelID" class="form-label">Select Course Level <span style="color:red;">*</span></label>
             <select class="form-select" id="ddlCourseLevelID" name="ddlCourseLevelID" [(ngModel)]="request.CourseLevelID"
                     formControlName="ddlCourseLevelID" #SeletedCourseLevelID (change)="GetCourseListByLevelID(SeletedCourseLevelID.value)">
-              <option value="0" disabled>--Select Course Level--</option>
+              <option value="0">-- Select --</option>
               <option *ngFor="let item of CourseLevelList" value="{{item.ID}}">{{item.Name}}</option>
             </select>
             <div *ngIf="isSubmitted&&form.ddlCourseLevelID.errors" class="text-danger">
@@ -182,11 +182,11 @@
               <td>
                 <div class="d-flex">
                   <button type="button" (click)="Edit_OnClick(row.CollegeWiseCourseID)" [attr.disabled]="isDisabledGrid ? true : null" title="Edit"
-                          class="btn btn-sm btn-info">
+                          class="btn btn-sm btn-info" [hidden]="(QueryStringStatus=='R'&&row.Action=='Yes')">
                     <i class="fa fa-edit"></i>
                   </button>
                   <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.CollegeWiseCourseID)"
-                          [attr.disabled]="isDisabledGrid ? true : null">
+                          [attr.disabled]="isDisabledGrid ? true : null" [hidden]="QueryStringStatus=='R'">
                     <i class="fa fa-trash"></i>
                   </button>
                 </div>

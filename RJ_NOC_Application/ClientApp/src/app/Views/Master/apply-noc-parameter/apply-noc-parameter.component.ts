@@ -248,7 +248,6 @@ export class ApplyNocParameterComponent implements OnInit {
     return this.ApplyNocParameterForm.controls;
   }
   async ClickApplyNOC(DepartmentID: number, collegeID: number, FinalSubmit: boolean, PendingNOC: number) {
-    debugger;
     if (FinalSubmit == false && PendingNOC==0) {
       this.SelectedCollegeID = collegeID;
       this.SelectedDepartmentID = DepartmentID;
@@ -1037,272 +1036,273 @@ export class ApplyNocParameterComponent implements OnInit {
   public isSave: boolean = true;
   async SaveApplyNoc_click() {
 
+    if (confirm("Are you satisfied with the data that are showing in the View Application? Apply NOC After Not  Edit Your Application Profile.")) {
+
+      //this.isSave = false; 
+      try {
+        let isValid = true;
+        if (this.ApplyNocParameterForm.invalid) {
+          isValid = false;
+        }
 
 
-    //this.isSave = false; 
-    try {
-      let isValid = true;
-      if (this.ApplyNocParameterForm.invalid) {
-        isValid = false;
-      }
 
 
+        // check all
 
+        this.isSubmitted = true;
+        //set
+        if (this.request.ApplyNocApplicationID > 0) {
+          this.request.ModifyBy = 1;
+        }
+        else {
+          this.request.CreatedBy = 1;
+          this.request.ModifyBy = 1;
+        }
+        // noc parameter
+        this.request.SSOID = this.sSOLoginDataModel.SSOID;
+        this.request.ApplyNocParameterMasterListDataModel = this.ApplyNocParameterMasterList_ddl;
 
-      // check all
-
-      this.isSubmitted = true;
-      //set
-      if (this.request.ApplyNocApplicationID > 0) {
-        this.request.ModifyBy = 1;
-      }
-      else {
-        this.request.CreatedBy = 1;
-        this.request.ModifyBy = 1;
-      }
-      // noc parameter
-      this.request.SSOID = this.sSOLoginDataModel.SSOID;
-      this.request.ApplyNocParameterMasterListDataModel = this.ApplyNocParameterMasterList_ddl;
-
-      let totalFeeList = this.request.ApplyNocParameterMasterListDataModel?.filter((element: any) => { return element.IsChecked == true; });
-      // and total fee
-      this.request.TotalFeeAmount = 0;
-      for (let i = 0; i < totalFeeList.length; i++) {
-        this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
-      }
-      //for Dec New Subject
-      if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
+        let totalFeeList = this.request.ApplyNocParameterMasterListDataModel?.filter((element: any) => { return element.IsChecked == true; });
+        // and total fee
+        this.request.TotalFeeAmount = 0;
+        for (let i = 0; i < totalFeeList.length; i++) {
+          this.request.TotalFeeAmount += totalFeeList[i].FeeAmount;
+        }
         //for Dec New Subject
-        this.request.TotalFeeAmount += this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
-      }
-      //for Dec New Subject
-      if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
-
-        this.request.TotalFeeAmount += await this.calcuateSumofNewSubject();
-      }
-      //DEC TNOC
-      //if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
-
-      //  this.request.TotalFeeAmount += this.calcuateTNOCSubjectFees();
-      //}
-      //DEC NOC
-      if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
-
-        this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
-      }
-
-      this.request.TotalNocFee = this.request.TotalFeeAmount;
-      if (this.request.ApplyNocLateFeeDetailList.length > 0) {
-        this.request.TotalFeeAmount += this.TotalLateFees;
-        this.request.LateFee = this.TotalLateFees;
-      }
-
-      if (this.isInspectionFee) {
-        this.request.TotalFeeAmount = this.DepartmentInspectionFee;
-      }
-
-      // TNOC Extension      
-      this.request.ApplyNocParameterMasterList_TNOCExtension = this.ApplyNocParameterMasterList_TNOCExtension;
-      // filter and validation
-      if (this.ApplyNocParameterMasterList_TNOCExtension?.ApplyNocParameterCourseList != null) {
-        let SelectedCourselist = this.ApplyNocParameterMasterList_TNOCExtension?.ApplyNocParameterCourseList?.filter((element: any) => { return element.IsChecked == true; });
-        if (SelectedCourselist.length == 0) {
-          this.toastr.error("Choose any subject from 'NOC For New Course'");
-          return;
+        if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
+          //for Dec New Subject
+          this.request.TotalFeeAmount += this.ApplyNocParameterMasterList_NewCourse.ApplyNocParameterCourseList.map(t => t.CourseFeesAmount).reduce((acc, value) => acc + value, 0)
         }
-      }
-      // Addition of New Seats(60)
-      this.request.ApplyNocParameterMasterList_AdditionOfNewSeats60 = this.ApplyNocParameterMasterList_AdditionOfNewSeats60;
-      if (this.ApplyNocParameterMasterList_AdditionOfNewSeats60?.ApplyNocParameterCourseList != null) {
-        let selectedCourselist = this.ApplyNocParameterMasterList_AdditionOfNewSeats60?.ApplyNocParameterCourseList?.filter((element: any) => { return element.IsChecked == true; });
-        if (selectedCourselist.length == 0) {
-          if (this.CollegeDepartmentID == EnumDepartment.Animal_Husbandry)
-            this.toastr.error("Choose any Course from 'Addition of New Seats(50)'");
-          else
-            this.toastr.error("Choose any subject from 'Addition of New Seats(60)'");
-          return;
-        }
-      }
+        //for Dec New Subject
+        if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
 
-      else if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
-        let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList;
-        if (SelectedCourselist.length == 0) {
-          if (this.CollegeDepartmentID == EnumDepartment.Animal_Husbandry)
-            this.toastr.error("Choose any Course from 'NOC For New Course'");
-          else
+          this.request.TotalFeeAmount += await this.calcuateSumofNewSubject();
+        }
+        //DEC TNOC
+        //if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
+
+        //  this.request.TotalFeeAmount += this.calcuateTNOCSubjectFees();
+        //}
+        //DEC NOC
+        if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
+
+          this.request.TotalFeeAmount += this.calcuatePNOCSubjectFees();
+        }
+
+        this.request.TotalNocFee = this.request.TotalFeeAmount;
+        if (this.request.ApplyNocLateFeeDetailList.length > 0) {
+          this.request.TotalFeeAmount += this.TotalLateFees;
+          this.request.LateFee = this.TotalLateFees;
+        }
+
+        if (this.isInspectionFee) {
+          this.request.TotalFeeAmount = this.DepartmentInspectionFee;
+        }
+
+        // TNOC Extension      
+        this.request.ApplyNocParameterMasterList_TNOCExtension = this.ApplyNocParameterMasterList_TNOCExtension;
+        // filter and validation
+        if (this.ApplyNocParameterMasterList_TNOCExtension?.ApplyNocParameterCourseList != null) {
+          let SelectedCourselist = this.ApplyNocParameterMasterList_TNOCExtension?.ApplyNocParameterCourseList?.filter((element: any) => { return element.IsChecked == true; });
+          if (SelectedCourselist.length == 0) {
             this.toastr.error("Choose any subject from 'NOC For New Course'");
-          return;
-        }
-      }
-
-
-      else if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
-        let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList;
-        if (SelectedCourselist.length == 0) {
-          if (this.CollegeDepartmentID == EnumDepartment.Animal_Husbandry)
-            this.toastr.error("Choose any Course from 'NOC For New Course'");
-          else
-            this.toastr.error("Choose any subject from 'NOC For New Subject'");
-          return;
-        }
-      }
-
-
-      else if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
-        let SelectedCourselist = this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList;
-        if (SelectedCourselist.length == 0) {
-          this.toastr.error("Choose any subject from 'TNOC For New Subject'");
-          return;
-        }
-      }
-
-      else if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
-        let SelectedCourselist = this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList;
-        if (SelectedCourselist.length == 0) {
-          this.toastr.error("Choose any subject from 'PNOC For New Subject'");
-          return;
-        }
-      }
-
-
-
-      this.request.ApplyNocParameterMasterList_ChangeInNameOfCollege = this.ApplyNocParameterMasterList_ChangeInNameOfCollege;
-      //Changes In College Place
-      this.request.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege;
-
-
-      //Changes In Coed to Girls
-      this.request.ApplyNocParameterMasterList_ChangeInCoedtoGirls = this.ApplyNocParameterMasterList_ChangeInCoedtoGirls;
-
-      //Changes In Girlsto Coed
-      this.request.ApplyNocParameterMasterList_ChangeInGirlstoCoed = this.ApplyNocParameterMasterList_ChangeInGirlstoCoed;
-
-      //Merge
-      this.request.ApplyNocParameterMasterList_MergerCollege = this.ApplyNocParameterMasterList_MergerCollege;
-
-      //Changes In College Management
-      this.request.ApplyNocParameterMasterList_ChangeInCollegeManagement = this.ApplyNocParameterMasterList_ChangeInCollegeManagement;
-
-      //Changes In Subject
-      this.request.ApplyNocParameterMasterList_NewCourse = this.ApplyNocParameterMasterList_NewCourse;
-
-      //Changes In NewCourseSubject
-      this.request.ApplyNocParameterMasterList_NewCourseSubject = this.ApplyNocParameterMasterList_NewCourseSubject;
-
-
-      //Changes In NewCourseSubject
-      this.request.ApplyNocParameterMasterList_TNOCExtOfSubject = this.ApplyNocParameterMasterList_TNOCExtOfSubject;
-
-      this.request.ApplyNocParameterMasterList_PNOCOfSubject = this.ApplyNocParameterMasterList_PNOCOfSubject;
-
-
-      //validation
-      this.isFormValid = this.ValidateApplyNOCForm();
-      if (!this.isFormValid) {
-        return;
-      }
-      //Departemt 4 DTE
-
-      if (this.request.DTE_MergerofInstitutions_View == true) {
-        if (this.request.DTE_MergerofInstitutions.TrustType == '') {
-          this.toastr.warning('Choose trust type');
-           return;
-        }
-        if (this.request.DTE_MergerofInstitutions.TrustType == 'DifferentTrust') {
-          if (this.request.DTE_MergerofInstitutions.NewTrustName == '') {
-            this.toastr.warning('Fill new trust name');
-            return;
-          }
-          if (this.request.DTE_MergerofInstitutions.NewInstituteName == '') {
-            this.toastr.warning('Fill new institute name');
             return;
           }
         }
-        //if (this.request.DTE_MergerofInstitutions.InstituteID1 == this.request.DTE_MergerofInstitutions.InstituteID2) {
-        //  this.toastr.warning('Select other Institute 2');
-        //  return;
-        //}
-        //if (this.request.DTE_MergerofInstitutions.InstituteID1 != this.request.DTE_MergerofInstitutions.MergeInstituteID)
-        //{
-        //  if (this.request.DTE_MergerofInstitutions.InstituteID2 != this.request.DTE_MergerofInstitutions.MergeInstituteID)
-        //  {
-        //    this.toastr.warning('Invalid Merge to Institute');
-        //    return;
-        //  }
-        //}
-      }
-      //To start new Programme/ Level in the existing Institutions
-      if (this.request.DTE_IncreaseinIntakeAdditionofCourse_View == true) {
-        if (this.request.DTE_IncreaseinIntakeAdditionofCourse_List.length == 0) {
-          this.toastr.warning('Add To start new Programme');
-          return;
-        }
-      }
-      //Increase in Intake / Addition of Course
-      if (this.request.DTE_TostartNewProgramme_View == true) {
-        if (this.request.DTE_TostartNewProgramme_List.length == 0) {
-          this.toastr.warning('Add To start new Programme');
-          return;
-        }
-      }
-      //Increase in Intake / Addition of Course
-      if (this.request.DTE_IncreaseInIntake_AdditionofCourse_View == true) {
-        if (this.request.DTE_IncreaseInIntake_AdditionofCourse_List.length == 0) {
-          this.toastr.warning('Add To Intake Details');
-          return;
-        }
-      }
-
-
-      if (this.CollegeDepartmentID == 4) {
-        if (this.request.ExistingLetterofEOA == '') {
-          this.toastr.warning('Upload Existing Letter of EOA');
-          return;
-        }
-      }
-
-      if (!this.IsTermsChecked) {
-        this.toastr.warning('Please accept terms and condition');
-        isValid = false;
-      }
-
-      if (!isValid) {
-        return;
-      }
-
-      this.loaderService.requestStarted();
-      //post
-      await this.applyNocParameterService.SaveApplyNocApplication(this.request)
-        .then((data: any) => {
-          data = JSON.parse(JSON.stringify(data));
-          this.State = data['State'];
-          this.SuccessMessage = data['SuccessMessage'];
-          this.ErrorMessage = data['ErrorMessage'];
-          //
-          if (this.State == 0) {
-            this.toastr.success(this.SuccessMessage);
-            setTimeout(() => {
-              //move to list page
-              this.routers.navigate(['/applynocapplicationdetail']);
-            }, 1000);
+        // Addition of New Seats(60)
+        this.request.ApplyNocParameterMasterList_AdditionOfNewSeats60 = this.ApplyNocParameterMasterList_AdditionOfNewSeats60;
+        if (this.ApplyNocParameterMasterList_AdditionOfNewSeats60?.ApplyNocParameterCourseList != null) {
+          let selectedCourselist = this.ApplyNocParameterMasterList_AdditionOfNewSeats60?.ApplyNocParameterCourseList?.filter((element: any) => { return element.IsChecked == true; });
+          if (selectedCourselist.length == 0) {
+            if (this.CollegeDepartmentID == EnumDepartment.Animal_Husbandry)
+              this.toastr.error("Choose any Course from 'Addition of New Seats(50)'");
+            else
+              this.toastr.error("Choose any subject from 'Addition of New Seats(60)'");
+            return;
           }
-          else {
-            this.toastr.error(this.ErrorMessage);
-            this.isSave = true;
+        }
+
+        else if (this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList != null) {
+          let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourse?.ApplyNocParameterCourseList;
+          if (SelectedCourselist.length == 0) {
+            if (this.CollegeDepartmentID == EnumDepartment.Animal_Husbandry)
+              this.toastr.error("Choose any Course from 'NOC For New Course'");
+            else
+              this.toastr.error("Choose any subject from 'NOC For New Course'");
+            return;
           }
+        }
 
-        }, error => console.error(error));
-    }
-    catch (ex) {
-      console.log(ex);
-      this.isSave = true;
-    }
-    finally {
-      setTimeout(() => {
-        this.loaderService.requestEnded();
-        this.isSubmitted = false;
 
-      }, 200);
+        else if (this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList != null) {
+          let SelectedCourselist = this.ApplyNocParameterMasterList_NewCourseSubject?.ApplyNocParameterCourseList;
+          if (SelectedCourselist.length == 0) {
+            if (this.CollegeDepartmentID == EnumDepartment.Animal_Husbandry)
+              this.toastr.error("Choose any Course from 'NOC For New Course'");
+            else
+              this.toastr.error("Choose any subject from 'NOC For New Subject'");
+            return;
+          }
+        }
+
+
+        else if (this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList != null) {
+          let SelectedCourselist = this.ApplyNocParameterMasterList_TNOCExtOfSubject?.ApplyNocParameterCourseList;
+          if (SelectedCourselist.length == 0) {
+            this.toastr.error("Choose any subject from 'TNOC For New Subject'");
+            return;
+          }
+        }
+
+        else if (this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList != null) {
+          let SelectedCourselist = this.ApplyNocParameterMasterList_PNOCOfSubject?.ApplyNocParameterCourseList;
+          if (SelectedCourselist.length == 0) {
+            this.toastr.error("Choose any subject from 'PNOC For New Subject'");
+            return;
+          }
+        }
+
+
+
+        this.request.ApplyNocParameterMasterList_ChangeInNameOfCollege = this.ApplyNocParameterMasterList_ChangeInNameOfCollege;
+        //Changes In College Place
+        this.request.ApplyNocParameterMasterList_ChangeInPlaceOfCollege = this.ApplyNocParameterMasterList_ChangeInPlaceOfCollege;
+
+
+        //Changes In Coed to Girls
+        this.request.ApplyNocParameterMasterList_ChangeInCoedtoGirls = this.ApplyNocParameterMasterList_ChangeInCoedtoGirls;
+
+        //Changes In Girlsto Coed
+        this.request.ApplyNocParameterMasterList_ChangeInGirlstoCoed = this.ApplyNocParameterMasterList_ChangeInGirlstoCoed;
+
+        //Merge
+        this.request.ApplyNocParameterMasterList_MergerCollege = this.ApplyNocParameterMasterList_MergerCollege;
+
+        //Changes In College Management
+        this.request.ApplyNocParameterMasterList_ChangeInCollegeManagement = this.ApplyNocParameterMasterList_ChangeInCollegeManagement;
+
+        //Changes In Subject
+        this.request.ApplyNocParameterMasterList_NewCourse = this.ApplyNocParameterMasterList_NewCourse;
+
+        //Changes In NewCourseSubject
+        this.request.ApplyNocParameterMasterList_NewCourseSubject = this.ApplyNocParameterMasterList_NewCourseSubject;
+
+
+        //Changes In NewCourseSubject
+        this.request.ApplyNocParameterMasterList_TNOCExtOfSubject = this.ApplyNocParameterMasterList_TNOCExtOfSubject;
+
+        this.request.ApplyNocParameterMasterList_PNOCOfSubject = this.ApplyNocParameterMasterList_PNOCOfSubject;
+
+
+        //validation
+        this.isFormValid = this.ValidateApplyNOCForm();
+        if (!this.isFormValid) {
+          return;
+        }
+        //Departemt 4 DTE
+
+        if (this.request.DTE_MergerofInstitutions_View == true) {
+          if (this.request.DTE_MergerofInstitutions.TrustType == '') {
+            this.toastr.warning('Choose trust type');
+            return;
+          }
+          if (this.request.DTE_MergerofInstitutions.TrustType == 'DifferentTrust') {
+            if (this.request.DTE_MergerofInstitutions.NewTrustName == '') {
+              this.toastr.warning('Fill new trust name');
+              return;
+            }
+            if (this.request.DTE_MergerofInstitutions.NewInstituteName == '') {
+              this.toastr.warning('Fill new institute name');
+              return;
+            }
+          }
+          //if (this.request.DTE_MergerofInstitutions.InstituteID1 == this.request.DTE_MergerofInstitutions.InstituteID2) {
+          //  this.toastr.warning('Select other Institute 2');
+          //  return;
+          //}
+          //if (this.request.DTE_MergerofInstitutions.InstituteID1 != this.request.DTE_MergerofInstitutions.MergeInstituteID)
+          //{
+          //  if (this.request.DTE_MergerofInstitutions.InstituteID2 != this.request.DTE_MergerofInstitutions.MergeInstituteID)
+          //  {
+          //    this.toastr.warning('Invalid Merge to Institute');
+          //    return;
+          //  }
+          //}
+        }
+        //To start new Programme/ Level in the existing Institutions
+        if (this.request.DTE_IncreaseinIntakeAdditionofCourse_View == true) {
+          if (this.request.DTE_IncreaseinIntakeAdditionofCourse_List.length == 0) {
+            this.toastr.warning('Add To start new Programme');
+            return;
+          }
+        }
+        //Increase in Intake / Addition of Course
+        if (this.request.DTE_TostartNewProgramme_View == true) {
+          if (this.request.DTE_TostartNewProgramme_List.length == 0) {
+            this.toastr.warning('Add To start new Programme');
+            return;
+          }
+        }
+        //Increase in Intake / Addition of Course
+        if (this.request.DTE_IncreaseInIntake_AdditionofCourse_View == true) {
+          if (this.request.DTE_IncreaseInIntake_AdditionofCourse_List.length == 0) {
+            this.toastr.warning('Add To Intake Details');
+            return;
+          }
+        }
+
+
+        if (this.CollegeDepartmentID == 4) {
+          if (this.request.ExistingLetterofEOA == '') {
+            this.toastr.warning('Upload Existing Letter of EOA');
+            return;
+          }
+        }
+
+        if (!this.IsTermsChecked) {
+          this.toastr.warning('Please accept terms and condition');
+          isValid = false;
+        }
+
+        if (!isValid) {
+          return;
+        }
+
+        this.loaderService.requestStarted();
+        //post
+        await this.applyNocParameterService.SaveApplyNocApplication(this.request)
+          .then((data: any) => {
+            data = JSON.parse(JSON.stringify(data));
+            this.State = data['State'];
+            this.SuccessMessage = data['SuccessMessage'];
+            this.ErrorMessage = data['ErrorMessage'];
+            //
+            if (this.State == 0) {
+              this.toastr.success(this.SuccessMessage);
+              setTimeout(() => {
+                //move to list page
+                this.routers.navigate(['/applynocapplicationdetail']);
+              }, 1000);
+            }
+            else {
+              this.toastr.error(this.ErrorMessage);
+              this.isSave = true;
+            }
+
+          }, error => console.error(error));
+      }
+      catch (ex) {
+        console.log(ex);
+        this.isSave = true;
+      }
+      finally {
+        setTimeout(() => {
+          this.loaderService.requestEnded();
+          this.isSubmitted = false;
+
+        }, 200);
+      }
     }
   }
 
@@ -2116,13 +2116,13 @@ export class ApplyNocParameterComponent implements OnInit {
   async ddlPNOCCourse_change($event: any, SeletedCourseID: any) {
     try {
       this.PNOCSubjectDetails = [];
-      var CollegeWiseCourseID = this.CourseDataListPNOC.find((x: { CourseID: number; }) => x.CourseID == SeletedCourseID).CollegeWiseCourseID;
-      this.loaderService.requestStarted();
-      const courseId = Number(SeletedCourseID);
-      if (courseId <= 0) {
-        return;
-      }
-      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, CollegeWiseCourseID, 'GetCollegeWiseNewSubjectNOCListPNOC')
+      //var CollegeWiseCourseID = this.CourseDataListPNOC.find((x: { CourseID: number; }) => x.CourseID == SeletedCourseID).CollegeWiseCourseID;
+      //this.loaderService.requestStarted();
+      //const courseId = Number(SeletedCourseID);
+      //if (courseId <= 0) {
+      //  return;
+      //}
+      await this.commonMasterService.GetCollegeWiseCourseIDSubjectList(this.request.CollegeID, SeletedCourseID, 'GetCollegeWiseNewSubjectNOCListPNOC')
         .then((data: any) => {
           data = JSON.parse(JSON.stringify(data));
           this.PNOCSubjectDetails = data['Data'][0]['data'];

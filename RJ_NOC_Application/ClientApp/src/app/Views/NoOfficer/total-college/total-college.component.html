@@ -67,13 +67,19 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 
                   <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#ViewTotalCollege" (click)="ViewTotalCollegeDataByID(row.CollegeID)">View</a></li>
-                  <li  *ngIf="row.TotalNOCCount<=0"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
+                  <li *ngIf="row.TotalNOCCount<=0"> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="EditCollegeData(row.CollegeID)">Edit</a></li>
                   <li><a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" (click)="DeleteData(row)">Delete</a></li>
                   <li> <a href="javascript:void(0)" class="dropdown-item list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="modal" data-bs-target="#SSOIDMapping" (click)="OpenSSOIDMaping(row)">SSO ID Mapping</a></li>
                 </ul>
               </div>
 
-              <a href="javascript:void(0)" (click)="ApplyLOI_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-info"
+              <!--<a href="javascript:void(0)" (click)="ApplicationSummaryApplication_OnClick(row.DepartmentID,row.CollegeID)" class="btn btn-sm btn-primary"
+                 style="margin-left:10px ; margin-right:10px" title="View and Dowonload Application">
+                <i class="fa fa-eye"></i>
+              </a>-->
+
+
+              <a href="javascript:void(0)" (click)="ApplyLOI_OnClick(row.DepartmentID,row.SearchRecordID)" class="btn btn-sm btn-info"
                  *ngIf="row.DepartmentID==5  && row.IsLOISubmited==false">
                 Apply LOI
               </a>
@@ -88,7 +94,7 @@
 
               <a class="dropdown-item list-group-item list-group-item-action list-group-item-danger" href="javascript:void(0)"
                  *ngIf="row.DepartmentID==5 && row.IsLOISubmited==true && row.IsMakePayment_LOI==true && row.IsLOIFinalSubmited_LOI==false" title="Final Submit LOI Application" (click)="FinalSubmitApplyNocApplication_click(row)">
-               LOI Final Submit
+                LOI Final Submit
               </a>
 
             </td>

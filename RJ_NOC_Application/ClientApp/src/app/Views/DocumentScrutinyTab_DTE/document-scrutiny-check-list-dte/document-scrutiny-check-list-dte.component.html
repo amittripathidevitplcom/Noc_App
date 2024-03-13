@@ -693,7 +693,7 @@
             <tbody>
               <tr *ngFor="let item1 of SocietyFinalRemarks ; let idx =index">
                 <td>{{idx+1}}</td>
-                <td>{{item1.RoleID}}</td>.
+                <td>{{item1.RoleID}}</td>
                 <td>{{item1.ActionName}}</td>
                 <td>{{item1.Remark}}</td>
               </tr>
@@ -705,7 +705,85 @@
     </div>
   </div>
 
+
   <!--End College Management Society-->
+  <!--Course Details Start-->
+  <div class="card mb-0">
+    <div class="card-header">
+      <b><i class="bi bi-table"></i>&nbsp;Course Details</b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Department</th>
+                  <th>College Name</th>
+                  <th>Programme Name</th>
+                  <th>Course Level</th>
+                  <th>Course Name</th>
+                  <th>Intake</th>
+                  <th>Super Numerary Seats</th>
+                  <th>Enrollment</th>
+                  <th>Shift</th>
+                  <th>Conduct Mode</th>
+                  <th>Trails</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of AllCourseList; let idx =index">
+                  <td width="5%">
+                    {{idx+1}}
+                  </td>
+                  <td>{{item.DepartmentName}}</td>
+                  <td>{{item.CollageName}}</td>
+                  <td>{{item.StreamName}}</td>
+                  <td>{{item.CourseLevel}}</td>
+                  <td>{{item.CourseName}}</td>
+                  <td>{{item.Intake}}</td>
+                  <td>{{item.Seats}}</td>
+                  <td>{{item.NoOfEnrolledStudents}}</td>
+                  <td>{{item.ShiftTypeName}}</td>
+                  <td>{{item.ConductModeName}}</td>
+                  <td><button type="button" class="btn btn-sm btn-info" title="View" (click)="ViewTaril(item.CollegeWiseCourseID,'ClassCourseDetailsTrail')"><i class="fa fa-bars" aria-hidden="true"></i></button></td>
+                </tr>
+                <tr *ngIf="AllCourseList.length<=0">
+                  <td colspan="15" style="color:red">No Data Found.!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="CourseDetail_FinalRemarks.length>0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item1 of CourseDetail_FinalRemarks ; let idx =index">
+                <td>{{idx+1}}</td>
+                <td>{{item1.RoleID}}</td>
+                <td>{{item1.ActionName}}</td>
+                <td>{{item1.Remark}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--Course Details End-->
   <!--Start Land Details-->
   <div class="card-header">
     <b><i class="bi bi-table"></i>&nbsp; Land Details</b>
@@ -1478,7 +1556,547 @@
     </div>
   </div>
   <!--End Hostel Detail-->
+  <!--ApplyNOCDetails Details-->
+  <div class="card-body">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped-columns" id="ApplyNOCDetails" #content>
+          <thead>
+            <tr>
+              <td colspan="8" style="    font-weight: 800;font-size: 18px;">
+                <b><i class="bi bi-table"></i>&nbsp;Apply NOC Details</b>
+              </td>
+            </tr>
 
+          </thead>
+          <tbody *ngFor="let parameterDetail of ApplyNocApplicationDetail.ApplyNocApplicationParameterList;let idx=index;">
+            <tr *ngIf="idx==0">
+              <td>
+                <b>
+                  College :
+                </b>
+                {{ApplyNocApplicationDetail.CollegeName}}
+              </td>
+              <td>
+                <b>
+                  Application Type :
+                </b>
+                {{ApplyNocApplicationDetail.ApplicationTypeName}}
+              </td>
+              <td>
+                <b>
+                  Total fee Amount :
+                </b>
+                {{ApplyNocApplicationDetail.TotalFeeAmount}}
+              </td>
+              <td>
+                <b>
+                  Noc For :
+                </b>
+                {{ApplyNocApplicationDetail['ApplicationTypeName']}}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4">
+                <b>{{parameterDetail.ApplyNocFor}} : {{parameterDetail.FeeAmount}}</b>
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_BankDetails'">
+              <td>
+                Old Bank Name :  {{ApplyNocApplicationDetail.DTE_BankDetails.OldBankName}}
+              </td>
+              <td>
+                Old Branch Name :{{ApplyNocApplicationDetail.DTE_BankDetails.OldBranchName}}
+              </td>
+              <td>
+                Old IFSC : {{ApplyNocApplicationDetail.DTE_BankDetails.OldIFSC}}
+              </td>
+              <td>
+                Old Account Number :   {{ApplyNocApplicationDetail.DTE_BankDetails.OldAccountNumber}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_BankDetails'">
+              <td>
+                New Bank Name : {{ApplyNocApplicationDetail.DTE_BankDetails.NewBankName}}
+              </td>
+              <td>
+                New Branch Name : {{ApplyNocApplicationDetail.DTE_BankDetails.NewBranchName}}
+              </td>
+              <td>
+                New IFSC : {{ApplyNocApplicationDetail.DTE_BankDetails.NewIFSC}}
+              </td>
+              <td>
+                New Account Number :  {{ApplyNocApplicationDetail.DTE_BankDetails.NewAccountNumber}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_ChangeofSite_Location'">
+              <td colspan="2">Current Address : {{ApplyNocApplicationDetail.DTE_ChangeofSite_Location.CurrentAddress}}</td>
+              <td colspan="2">New Address : {{ApplyNocApplicationDetail.DTE_ChangeofSite_Location.NewAddress}}</td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_IncreaseInIntake_AdditionofCourse'">
+              <td>
+                Sr.No.
+              </td>
+              <td>
+                Programme Name
+              </td>
+              <td>
+                Course Level
+              </td>
+              <td>
+                Course
+              </td>
+              <td>
+                Intake
+              </td>
+              <td>
+                Update Intake
+              </td>
+            </tr>
+            <tr [hidden]="parameterDetail.ParameterCode!='DTE_IncreaseInIntake_AdditionofCourse'" *ngFor="let row of ApplyNocApplicationDetail.DTE_IncreaseInIntake_AdditionofCourse_List;let idxx=index;">
+              <td>
+                {{idxx+1}}
+              </td>
+              <td>
+                {{row.StreamName}}
+              </td>
+              <td>
+                {{row.CourseLevelName}}
+              </td>
+              <td>
+                {{row.CourseName}}
+              </td>
+              <td>
+                {{row.Intake}}
+              </td>
+              <td>
+                {{row.UpdatedIntake}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_AdditionofIntegratedDualDegree'">
+              <th>
+                Sr.No.
+              </th>
+              <th>
+                Programme Name
+              </th>
+              <th>
+                Course Level
+              </th>
+
+              <th>
+                Course
+              </th>
+              <th>
+                Intake
+              </th>
+            </tr>
+            <tr [hidden]="parameterDetail.ParameterCode!='DTE_AdditionofIntegratedDualDegree'" *ngFor="let row of ApplyNocApplicationDetail.DTE_AdditionofIntegratedDualDegreeList;let idx=index;">
+              <td>
+                {{idx+1}}
+              </td>
+              <td>
+                {{row.StreamName}}
+              </td>
+              <td>
+                {{row.CourseLevelName}}
+              </td>
+              <td>
+                {{row.CourseName}}
+              </td>
+              <td>
+                {{row.Intake}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_ChangeInNameOfCourse'">
+              <th style="width:60px !important">
+                Sr.No.
+              </th>
+              <th>
+                Programme Name
+              </th>
+              <th>
+                Course Level
+              </th>
+              <th>
+                Course
+              </th>
+              <th>
+                New Course Name
+              </th>
+
+            </tr>
+            <tr [hidden]="parameterDetail.ParameterCode!='DTE_ChangeInNameOfCourse'" *ngFor="let row of ApplyNocApplicationDetail.DTE_ChangeInNameOfCourseList;let idx=index;">
+              <td>
+                {{idx+1}}
+              </td>
+              <td>
+                {{row.StreamName}}
+              </td>
+              <td>
+                {{row.CourseLevelName}}
+              </td>
+              <td>
+                {{row.CourseName}}
+              </td>
+              <td>
+                {{row.NewCourseName}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_ChangeInNameofInstitution'">
+              <td colspan="3">
+                <b>Current Name : </b>{{ApplyNocApplicationDetail.DTE_ChangeInNameofInstitution.CurrentCollegeName}}
+              </td>
+              <td colspan="3">
+                <b>New Name : </b>{{ApplyNocApplicationDetail.DTE_ChangeInNameofInstitution.NewCollegeName}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_ChangeinNameofSociety'">
+              <td colspan="8">
+                <b>Change In : </b> {{ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_ChangeinNameofSociety'">
+              <td colspan="3" *ngIf="ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='NameChange' || ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='BothChange'">
+                <b>Current Name :</b> {{ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.CurrentName}}
+              </td>
+              <td colspan="3" *ngIf="ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='NameChange' || ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='BothChange'">
+                <b>New Name : </b> {{ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.NewName}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_ChangeinNameofSociety'">
+              <td colspan="3" *ngIf="ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='AddressChange' || ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='BothChange'">
+                <b> Old Address :</b> {{ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.OldAddress}}
+              </td>
+              <td colspan="3" *ngIf="ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='AddressChange' || ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.ChangeType=='BothChange'">
+                <b>New Address :</b> {{ApplyNocApplicationDetail.DTE_ChangeinNameofSociety.NewAddress}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_TostartNewProgramme'">
+              <th style="width:60px !important">
+                Sr.No.
+              </th>
+              <th>
+                Programme Name
+              </th>
+              <th>
+                Course Level
+              </th>
+              <th>
+                Course
+              </th>
+              <th>
+                Intake
+              </th>
+            </tr>
+            <tr [hidden]="parameterDetail.ParameterCode!='DTE_TostartNewProgramme'" *ngFor="let row of ApplyNocApplicationDetail.DTE_TostartNewProgramme_List;let idx=index;">
+              <td>
+                {{idx+1}}
+              </td>
+              <td>
+                {{row.StreamName}}
+              </td>
+              <td>
+                {{row.CourseLevelName}}
+              </td>
+              <td>
+                {{row.CourseName}}
+              </td>
+              <td>
+                {{row.Intake}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_MergerofInstitutions'">
+              <td colspan="8"><b>Change In : </b>{{ApplyNocApplicationDetail.DTE_MergerofInstitutions.TrustType}}</td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_MergerofInstitutions'">
+              <td colspan="3"><b>New Trust Name : </b>{{ApplyNocApplicationDetail.DTE_MergerofInstitutions.NewTrustName}}</td>
+              <td colspan="3"><b>New Institute Name : </b>{{ApplyNocApplicationDetail.DTE_MergerofInstitutions.NewInstituteName}}</td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_ChangeInTheMinorityStatusoftheInstitution'">
+              <td colspan="8">
+                <a class="bi bi-file-earmark-pdf-fill" data-fancybox="gallery" href="{{ApplyNocApplicationDetail.DTE_ChangeInTheMinorityStatusoftheInstitution}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_ReductionInIntake'">
+              <th style="width:60px !important">
+                Sr.No.
+              </th>
+              <th>
+                Programme Name
+              </th>
+              <th>
+                Course Level
+              </th>
+              <th>
+                Course
+              </th>
+              <th>
+                Current Intake
+              </th>
+              <th>
+                Reduced Intake
+              </th>
+            </tr>
+            <tr [hidden]="parameterDetail.ParameterCode!='DTE_ReductionInIntake'" *ngFor="let row of ApplyNocApplicationDetail.DTE_ReductionInIntakeList;let idx=index;">
+              <td>
+                {{idx+1}}
+              </td>
+              <td>
+                {{row.StreamName}}
+              </td>
+              <td>
+                {{row.CourseLevelName}}
+              </td>
+              <td>
+                {{row.CourseName}}
+              </td>
+              <td>
+                {{row.CurrentIntake}}
+              </td>
+              <td>
+                {{row.ReducedIntake}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_ClosureOfProgramme'">
+              <th style="width:60px !important">
+                Sr.No.
+              </th>
+              <th>
+                Programme Name
+              </th>
+              <th>
+                Course Level
+              </th>
+            </tr>
+            <tr [hidden]="parameterDetail.ParameterCode!='DTE_ClosureOfProgramme'" *ngFor="let row of ApplyNocApplicationDetail.DTE_ClosureOfProgramList;let idx=index;">
+              <td>
+                {{idx+1}}
+              </td>
+              <td>
+                {{row.StreamName}}
+              </td>
+              <td>
+                {{row.CourseLevelName}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_ClosureOfCourse'">
+              <th style="width:60px !important">
+                Sr.No.
+              </th>
+              <th>
+                Programme Name
+              </th>
+              <th>
+                Course Level
+              </th>
+              <th>
+                Course
+              </th>
+              <th>
+                Current Intake
+              </th>
+              <th>
+                Reduced Intake
+              </th>
+            </tr>
+            <tr [hidden]="parameterDetail.ParameterCode!='DTE_ClosureOfCourse'" *ngFor="let row of ApplyNocApplicationDetail.DTE_ClosureOfCoursesList;let idx=index;">
+              <td>
+                {{idx+1}}
+              </td>
+
+              <td>
+                {{row.StreamName}}
+              </td>
+              <td>
+                {{row.CourseLevelName}}
+              </td>
+              <td>
+                {{row.CourseName}}
+              </td>
+              <td>
+                {{row.CurrentIntake}}
+              </td>
+              <td>
+                {{row.ReducedIntake}}
+              </td>
+
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_MergerOfTheCourses'">
+              <th style="width:60px !important">
+                Sr.No.
+              </th>
+              <th>
+                Programme Name
+              </th>
+              <th>
+                Course Level
+              </th>
+              <th>
+                Course 1
+              </th>
+              <th>
+                Course 1 Intake
+              </th>
+              <th>
+                Course 2
+              </th>
+              <th>
+                Course 2 Intake
+              </th>
+              <th>
+                Course Merge
+              </th>
+              <th>
+                Merge Intake
+              </th>
+            </tr>
+            <tr [hidden]="parameterDetail.ParameterCode!='DTE_MergerOfTheCourses'" *ngFor="let row of ApplyNocApplicationDetail.DTE_MergerOfTheCourseList;let idx=index;">
+              <td>
+                {{idx+1}}
+              </td>
+              <td>
+                {{row.StreamName}}
+              </td>
+              <td>
+                {{row.CourseLevelName}}
+              </td>
+              <td>
+                {{row.CourseName}}
+              </td>
+              <td>
+                {{row.CourseIntake1}}
+              </td>
+              <td>
+                {{row.CourseName2}}
+              </td>
+              <td>
+                {{row.CourseIntake2}}
+              </td>
+              <td>
+                {{row.MergeCourseName}}
+              </td>
+              <td>
+                {{row.MergerIntake}}
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_IncreaseinIntakeAdditionofCourse'">
+              <th style="width:60px !important">
+                Sr.No.
+              </th>
+              <th>
+                Programme Name
+              </th>
+              <th>
+                Course Level
+              </th>
+              <th>
+                Course
+              </th>
+              <th>
+                Intake
+              </th>
+
+            </tr>
+            <tr [hidden]="parameterDetail.ParameterCode!='DTE_IncreaseinIntakeAdditionofCourse'" *ngFor="let row of ApplyNocApplicationDetail.DTE_IncreaseinIntakeAdditionofCourse_List;let idx=index;">
+              <td>
+                {{idx+1}}
+              </td>
+              <td>
+                {{row.StreamName}}
+              </td>
+              <td>
+                {{row.CourseLevelName}}
+              </td>
+              <td>
+                {{row.CourseName}}
+              </td>
+              <td>
+                {{row.Intake}}
+              </td>
+
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_IntroductionOffCampus'">
+              <th style="width:60px !important">
+                Sr.No.
+              </th>
+              <th>
+                Programme Name
+              </th>
+              <th>
+                Course Level
+              </th>
+
+              <th>
+                Course
+              </th>
+              <th>
+                Intake
+              </th>
+              <th>
+                Document
+              </th>
+            </tr>
+            <tr [hidden]="parameterDetail.ParameterCode!='DTE_IntroductionOffCampus'" *ngFor="let row of ApplyNocApplicationDetail.DTE_IntroductionOffCampus_List;let idx=index;">
+              <td>
+                {{idx+1}}
+              </td>
+              <td>
+                {{row.StreamName}}
+              </td>
+              <td>
+                {{row.CourseLevelName}}
+              </td>
+              <td>
+                {{row.CourseName}}
+              </td>
+              <td>
+                {{row.Intake}}
+              </td>
+              <td>
+                <a href="{{row.DocumentPath}}" target="_blank"><i class="fa fa-eye"></i></a>
+              </td>
+            </tr>
+            <tr *ngIf="parameterDetail.ParameterCode=='DTE_CoursesforWorkingProfessionals'">
+              <th style="width:60px !important">
+                Sr.No.
+              </th>
+              <th>
+                Programme Name
+              </th>
+              <th>
+                Course Level
+              </th>
+              <th>
+                Course
+              </th>
+              <th>
+                Intake
+              </th>
+            </tr>
+            <tr [hidden]="parameterDetail.ParameterCode!='DTE_CoursesforWorkingProfessionals'" *ngFor="let row of ApplyNocApplicationDetail.DTE_CoursesforWorkingProfessionals_List;let idx=index;">
+              <td>
+                {{idx+1}}
+              </td>
+              <td>
+                {{row.StreamName}}
+              </td>
+              <td>
+                {{row.CourseLevelName}}
+              </td>
+              <td>
+                {{row.CourseName}}
+              </td>
+              <td>
+                {{row.Intake}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--End Apply NOC Details-->
 
   <div class="row m-2" *ngIf="QueryStringStatus == 'Pending'">
     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
@@ -1531,46 +2149,46 @@
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mt-4" *ngIf="this.sSOLoginDataModel.RoleID ==16">
       <label class="form-label"></label>
-      <a href="../assets/PDF/DTE_InspectionPerforma.pdf" class="btn btn-primary"  target="_blank"><i class="bi bi-file-pdf"></i>Download Inspection Report</a>
+      <a href="../assets/PDF/DTE_InspectionPerforma.pdf" class="btn btn-primary" target="_blank"><i class="bi bi-file-pdf"></i>Download Inspection Report</a>
     </div>
     <!--<div class="col-lg-2 col-md-2 col-sm-6 col-12 mt-4">
-    <button type="button" class="btn btn-primary" (click)="SaveUploadConsolidatedReport()">Submit</button>
-  </div>-->
+      <button type="button" class="btn btn-primary" (click)="SaveUploadConsolidatedReport()">Submit</button>
+    </div>-->
     <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextRole">
-    <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
+      <label for="ddlDistrictID" class="form-label">Next Role <span style="color:red;">*</span></label>
 
-    <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
-      <option value="0" selected>--Select Role--</option>
-      <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
-    </select>
+      <select class="form-select" (change)="NextGetUserDetailsByRoleID()" [(ngModel)]="NextRoleID">
+        <option value="0" selected>--Select Role--</option>
+        <option *ngFor="let item of UserRoleList" value="{{item.RoleID}}">{{item.RoleName}}</option>
+      </select>
 
 
-    <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
-      <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
+      <div *ngIf="isNextRoleIDValid&&NextRoleID<=0" class="text-danger">
+        <p *ngIf="isNextRoleIDValid&&NextRoleID<=0"> This field is required .!</p>
+      </div>
     </div>
-  </div>
 
-  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
-    <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
-    <select class="form-select" [(ngModel)]="NextActionID">
-      <option value="0" disabled selected>--Select Action--</option>
-      <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
-    </select>
-    <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
-      <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
+      <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
+      <select class="form-select" [(ngModel)]="NextActionID">
+        <option value="0" disabled selected>--Select Action--</option>
+        <option *ngFor="let item of NextWorkFlowActionList" value="{{item.ActionID}}">{{item.ActionName}}</option>
+      </select>
+      <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
+        <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
+      </div>
     </div>
-  </div>
 
-  <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
-    <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
-    <select class="form-select" [(ngModel)]="NextUserID">
-      <option value="0" selected>--Select User--</option>
-      <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
-    </select>
-    <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
-      <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
-    </div>
-  </div>-->
+    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
+      <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
+      <select class="form-select" [(ngModel)]="NextUserID">
+        <option value="0" selected>--Select User--</option>
+        <option *ngFor="let item of UserListRoleWise" value="{{item.UId}}">{{item.Name}}</option>
+      </select>
+      <div *ngIf="isNextUserIdValid&&NextUserID<=0" class="text-danger">
+        <p *ngIf="isNextUserIdValid&&NextUserID<=0"> This field is required .!</p>
+      </div>
+    </div>-->
   </div>
   <div class="row  m-2" *ngIf="QueryStringStatus == 'Pending'">
     <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">

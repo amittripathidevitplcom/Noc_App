@@ -26,6 +26,39 @@
         <div class="col-md-12">
 
           <mat-tab-group mat-align-tabs="center" class="tabUl1 d-block w-100" [selectedIndex]="selectedIndex" #tabs (selectedTabChange)="onTabChange($event)">
+
+            <!--Legal Entity-->
+            <mat-tab *ngIf="RevertedTabData['LegalEntity']>0">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon"></i>
+                <i class="fa fa-check text-success" aria-hidden="true"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['LegalEntity']==0"></span>
+                <span>Legal Entity</span>
+              </ng-template>
+              <app-legal-entity-revert></app-legal-entity-revert>
+            </mat-tab>
+            <!--College Details-->
+            <mat-tab *ngIf="RevertedTabData['CollegeDetail']>0">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon"></i>
+                <i class="fa fa-check text-success" aria-hidden="true"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['CollegeDetail']==0"></span>
+                <span>College Details</span>
+              </ng-template>
+              <app-college-revert></app-college-revert>
+            </mat-tab>
+            <!--College Management Society Details-->
+            <mat-tab *ngIf="RevertedTabData['CollegeManagementSociety']>0">
+              <ng-template mat-tab-label>
+                <i class="fa fa-globe icon"></i>
+                <i class="fa fa-check text-success" aria-hidden="true"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['CollegeDetail']==0"></span>
+                <span>College Management Society</span>
+              </ng-template>
+              <app-college-management-society-revert></app-college-management-society-revert>
+            </mat-tab>
+
+
             <!--OLD NOC Details Only for New-->
 
             <mat-tab *ngIf="CollegeType_IsExisting && RevertedTabData['OLDNOCDetails']>0">

@@ -1,0 +1,150 @@
+<div class="card tabCard1 mb-0" id="LandDetails1">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp; Activity Details</b>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="ActivityForm" class="form-horizontal">
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
+          <label>Select Activity <span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlActivityId" name="ddlActivityId" formControlName="ddlActivityId"
+                  [(ngModel)]="request.ActivityID" #SeletedActivityID (change)="ddlActivity_change($event, SeletedActivityID.value)">
+            <option value="0" disabled>--Select--</option>
+            <option *ngFor="let item of ActivityData"
+                    value="{{item.ActivityID}}">
+              {{item.ActivityName}}
+            </option>
+          </select>
+          <div *ngIf="isSubmitted&&form.ddlActivityId.errors" class="text-danger">
+            <p *ngIf="!form.ddlActivityId.errors.DropdownValidators" text-danger> This field is required .!</p>
+          </div>
+        </div>
+
+
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="!isInputOptionType">
+          <label>Is Available<span style="color:red;">*</span></label>
+          <select class="form-select" id="ddlIsAvailable" name="ddlIsAvailable" formControlName="ddlIsAvailable" [(ngModel)]="request.IsAvailable"
+                  #SeletedIsAvailable (change)="ddlIsAvailable_change(SeletedIsAvailable.value)">
+            <option value="">--Select--</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <div *ngIf="isSubmitted&&form.ddlIsAvailable.errors" class="text-danger">
+            <p *ngIf="!form.ddlIsAvailable.errors.DropdownValidators" text-danger> This field is required .!</p>
+          </div>
+        </div>
+
+
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType">
+          <label>No. of <span style="color:red;">*</span></label>
+          <input type="number" class="form-control" id="txtNoOf" name="txtNoOf" maxlength="3" [(ngModel)]="request.NoOf" formControlName="txtNoOf" min="1" (keypress)="numberOnly($event)">
+          <div *ngIf="isSubmitted&&form.txtNoOf.errors" class="text-danger">
+            <p *ngIf="form.txtNoOf.errors.required">This field is required .!</p>
+            <p *ngIf="form.txtNoOf.errors.min">No of greater than zero .!</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="isInputOptionType">
+          <label>Minimum Size ({{Unit}})<span style="color:red;">*</span></label>
+          <input type="text" class="form-control" id="txtMinSize" name="txtMinSize" maxlength="5" [(ngModel)]="request.MinSize" formControlName="txtMinSize" (keypress)="numberOnly($event)" placeholder="Enter Minimum Size In ({{Unit}})" autocomplete="off" />
+          <p *ngIf="WidthMin>0 && request.ActivityID>0" class="{{request.MinSize >= WidthMin ? '' : CssClass_TextDangerWidth}}">Please Enter Min size : {{WidthMin}} {{Unit}}</p>
+          <div *ngIf="isSubmitted&&form.txtMinSize.errors" class="text-danger">
+            <p *ngIf="form.txtMinSize.errors.min">Minimum size must be greater then -1 .!</p>
+            <p *ngIf="form.txtMinSize.errors.max">Minimum size is too big !</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-12 mb-3" *ngIf="request.IsAvailable=='Yes' || isInputOptionType==true">
+          <label for="fileUploadImage" class="form-label">Upload {{SelectedDepartmentID==4?'Order/':''}}Activity Image (Only pdf/jpeg/jpg file.)(Min.Size 100KB)(Max.Size 2MB)<span style="color:red;">*</span></label>
+          <div class="d-flex">
+
+            <input type="file" style="display:none;" class="form-control" id="fileUploadImage" name="fileUploadImage" formControlName="fileUploadImage"
+                   (change)="ValidateUploadImage($event)" #fileUploadImage accept="image/jpg, image/jpeg" />
+            <label class="btn upload" for="fileUploadImage">
+              <span class="filename">Choose file</span>
+              {{request.ActivityUrl === '' ? 'No File Choosen' : request.ActivityUrl_Dis_FileName}}
+            </label>
+            <div class="btn-group" *ngIf="showActivityUrl">
+              <a class="btn btn-outline-primary" target="_blank" href="{{request.ActivityUrlPath}}"><i class="fa fa-eye"></i></a>
+              <button type="button" class="btn btn-outline-danger" (click)="DeleteImage(request.ActivityUrl)"><i class="fa fa-trash-o"></i></button>
+            </div>
+
+
+          </div>
+          <p *ngIf="isSubmitted&&request.ActivityUrl ==''" class="text-danger"><i aria-hidden="true"></i>{{ImageValidate}}</p>
+          <div *ngIf="!isValidActivityUrl" class="text-danger">
+            <p *ngIf="!isValidActivityUrl"> {{ImageValidationMessage}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mb-12">
+          <label>Remark</label>
+          <input type="text" class="form-control" id="txtRemark" name="txtRemark" maxlength="500" [(ngModel)]="request.Remark" formControlName="txtRemark">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-6 col-12 mt-3 text-end">
+          <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" (click)="SaveData()"> Save</button>&nbsp;
+          <button type="submit" class="btn btn-danger" id="btnReset" name="btnReset" (click)="ResetControl()"> Reset</button>
+        </div>
+
+
+        <div class="card mb-0" style="top: 10px;" *ngIf="ActivityDataAllList.length>0">
+          <div class="card-header d-xxl-flex d-xl-flex d-md-flex d-sm-block justify-content-between align-items-center">
+            <b><i class="fa fa-plus"></i>&nbsp;Activity Details</b>
+            <div class="d-flex align-items-center">
+              <div class="btn-group mr-15" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-outline-primary" title="Copy" id="btnCopyTable" (click)="btnCopyTable_Click()"><i class="fa fa-copy"></i></button>
+                <button type="button" class="btn btn-outline-primary" title="Excel" id="btnExportTable" (click)="btnExportTable_Click()"><i class="fa fa-file-excel-o"></i></button>
+                <button type="button" class="btn btn-outline-primary" title="PDF" id="btnSavePDF" (click)="btnSavePDF_Click()"><i class="fa fa-file-pdf-o"></i></button>
+              </div>
+              <div class="d-flex align-items-center table-filter mr-15">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control" placeholder="Search Here" [(ngModel)]="searchText" formControlName="txtsearchText" name="txtsearchText" />
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-hover table-striped-columns" id="tabellist" #content>
+                    <thead>
+                      <tr>
+                        <th>Sr. No.</th>
+                        <th>Activity</th>
+                        <th>Is Available</th>
+                        <th>Remark</th>
+                        <th>Activity Image</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of ActivityDataAllList | tableSearchFilter:searchText;let idx=index;">
+                        <td>{{idx+1}}</td>
+                        <td>{{row.ActivityName}}</td>
+                        <td>{{row.IsAvailable}}</td>
+                        <td>{{row.Remark}}</td>
+                        <td><a *ngIf="row.ActivityUrl!=''" target="_blank" href="{{row.ActivityUrlPath}}"><i class="fa fa-eye"></i></a></td>
+                        <td>
+                          <div class="d-flex">
+                            <button type="button" (click)="Edit_OnClick(row.ActivityDetailID)" [disabled]="isDisabledGrid" title="Edit" class="btn btn-sm btn-info" [hidden]="QueryStringStatus=='R'&&row.Action=='Yes'"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-sm btn-danger" title="Delete" (click)="Delete_OnClick(row.ActivityDetailID)" [hidden]="QueryStringStatus=='R'" [disabled]="isDisabledGrid"><i class="fa fa-trash"></i></button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

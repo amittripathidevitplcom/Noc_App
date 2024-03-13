@@ -1887,7 +1887,7 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
+    <!--<div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextAction">
       <label for="ddlAction" class="form-label">Next Action <span style="color:red;">*</span></label>
       <select class="form-select" [(ngModel)]="NextActionID">
         <option value="0" disabled selected>--Select Action--</option>
@@ -1896,7 +1896,7 @@
       <div *ngIf="isNextActionValid&&NextActionID<=0" class="text-danger">
         <p *ngIf="isNextActionValid&&NextActionID<=0"> This field is required .!</p>
       </div>
-    </div>
+    </div>-->
 
     <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3" *ngIf="ShowHideNextUser">
       <label for="ddlDistrictID" class="form-label">Next User <span style="color:red;">*</span></label>
@@ -1920,7 +1920,7 @@
 
   </div>
   <div class="row  m-2" [hidden]="sSOLoginDataModel.RoleID==16 || sSOLoginDataModel.RoleID==0">
-    <div class="col-md-12">
+    <div class="col-md-12 mb-5">
       <button type="button" class="btn btn-primary" (click)="DocumentScrutiny()" title="Submit">Submit</button>
     </div>
   </div>

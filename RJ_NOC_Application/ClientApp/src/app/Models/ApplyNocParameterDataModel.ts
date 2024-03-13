@@ -167,7 +167,7 @@ export class ApplyNocFDRDetailsDataModel {
   public BankName: string = '';
   public BranchName: string = '';
   public IFSCCode: string = '';
-  public FDRNumber: number = null;
+  public FDRNumber: string = '';
   public FDRAmount: number = null;
   public FDRDate: string = '';
   public PeriodOfFDR: string = '0';
@@ -222,7 +222,8 @@ export class ApplyNocApplicationDataModel {
   public ChangeInCollegeManagementList?: ApplyNocParameterMasterList_ChangeInCollegeManagement[] = [];
   public MergerCollegeList?: ApplyNocParameterMasterList_MergerCollege[] = [];
 
-
+  public GenerateReceipt_DTE: string = '';
+  public GenerateReceiptPath_DTE: string = '';
 
 
 }

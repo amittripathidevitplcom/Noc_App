@@ -30,6 +30,7 @@ export class PreviewCourseDetailComponent implements OnInit {
     this.SelectedDepartmentID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('DepartmentID')?.toString()));
     this.SelectedCollageID = Number(this.commonMasterService.Decrypt(this.router.snapshot.paramMap.get('CollegeID')?.toString()));
     await this.GetCourseByCollegeWise(this.SelectedCollageID, this.UserID);
+    await this.GetAllCourseDTEList();
   }
 
   async GetCourseByCollegeWise(CollegeID: number, UserID: number) {
@@ -53,5 +54,26 @@ export class PreviewCourseDetailComponent implements OnInit {
       }, 200);
     }
   }
-
+  public AllCourseDTEList: any[] = [];
+  async GetAllCourseDTEList() {
+    try {
+      this.loaderService.requestStarted();
+      await this.courseMasterService.GetListDTE(this.UserID, this.sSOLoginDataModel.SSOID, 0, this.SelectedCollageID)
+        .then((data: any) => {
+          data = JSON.parse(JSON.stringify(data));
+          this.State = data['State'];
+          this.SuccessMessage = data['SuccessMessage'];
+          this.ErrorMessage = data['ErrorMessage'];
+          this.AllCourseDTEList = data['Data'][0]['data'];
+        }, error => console.error(error));
+    }
+    catch (Ex) {
+      console.log(Ex);
+    }
+    finally {
+      setTimeout(() => {
+        this.loaderService.requestEnded();
+      }, 200);
+    }
+  }
 }
