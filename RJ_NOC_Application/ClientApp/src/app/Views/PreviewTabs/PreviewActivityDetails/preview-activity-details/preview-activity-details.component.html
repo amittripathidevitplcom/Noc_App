@@ -1,0 +1,44 @@
+<div class="card tabCard1 mb-0" id="LandDetails1">
+  <div class="card-header">
+    <b><i class="bi bi-table"></i>&nbsp; Activity Details</b>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Sr. No.</th>
+                <th>Activity Name</th>
+
+                <th>Remark</th>
+                <th>Is Available(Y/N)</th>
+                <th>Image/File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of ActivityDataAllList ; let indexOfelement=index;">
+                <td> {{indexOfelement+1}}</td>
+                <td>{{item.ActivityName}}</td>
+
+                <td>{{item.Remark}}</td>
+                <td>{{item.IsAvailable}}</td>
+                <td>
+                  <a *ngIf="!item.ActivityUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.ActivityUrlPath}}" data-caption="Image 10" title="click here to zoom">
+                    <img src="{{item.ActivityUrlPath}}" alt="Activity" style="width:50px !important;height:50px !important;" class="img-thumbnail" />
+                  </a>
+                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ActivityUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.ActivityUrlPath}}" data-caption="Image 10" title="click here to zoom" style="font-size:25px"></a>
+                </td>
+              </tr>
+              <tr *ngIf="ActivityDataAllList.length<=0">
+                <td colspan="10" style="color:red">No Data Found.!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

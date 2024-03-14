@@ -1,22 +1,23 @@
 <app-loader></app-loader>
 <div class="container-fluid breadcrumbBox py-2">
   <div class="row align-items-center">
-    <div class="col-md-6">
-      <h3>Application Details (<span style="color:forestgreen">{{CollegeName}})</span> </h3>
+    <div class="col-md-7 d-flex justify-content-start align-items-center flex-wrap">
+      <h3 class="me-2">Application Details</h3>( <span style="color:forestgreen;font-size:12px;font-weight:600">{{CollegeName}}</span> )
     </div>
-    <div class="col-md-6 d-flex justify-content-end">
+    <div class="col-md-5 d-flex justify-content-end align-items-center">
+      <div *ngIf="SelectedDepartmentID !=5">
+        <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success btn-sm me-3" style="padding-top:2px !important" type="button" (click)="DraftFinalSubmit(1)">
+          {{DraftbuttonName}}
+        </button>
+      </div>
+      <div *ngIf="SelectedDepartmentID ==5 && CollegeLevel_MGOne =='PG'">
+        <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success btn-sm me-3" style="padding-top:2px !important" type="button" (click)="DraftFinalSubmit(1)">
+          {{DraftbuttonName}}
+        </button>
+      </div>
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item" *ngIf="SelectedDepartmentID !=5">
-            <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="DraftFinalSubmit(1)">
-              {{DraftbuttonName}}
-            </button> 
-          </li>
-          <li class="breadcrumb-item" *ngIf="SelectedDepartmentID ==5 && CollegeLevel_MGOne =='PG'">
-            <button [attr.disabled]="IsShowDraftFinalSubmit ? true : null" class="btn btn-success" type="button" (click)="DraftFinalSubmit(1)">
-              {{DraftbuttonName}}
-            </button>
-          </li>
+
           <li class="breadcrumb-item"><a href="#">Application</a></li>
           <li class="breadcrumb-item active" aria-current="page">Application Details</li>
         </ol>
@@ -132,6 +133,18 @@
                 <span>Facility</span>
               </ng-template>
               <app-facility-details></app-facility-details>
+            </mat-tab>
+
+
+            <!--activitydetails-->
+            <mat-tab *ngIf="SelectedDepartmentID==3">
+              <ng-template mat-tab-label>
+                <i class="fa fa-list-alt icon" aria-hidden="true"></i>
+                <i class="fa fa-check text-success" aria-hidden="true" *ngIf="CheckTabsEntryData['Activity']>0"></i>
+                <span class="badge pulse" *ngIf="CheckTabsEntryData['Activity']==0"></span>
+                <span>Activity</span>
+              </ng-template>
+              <app-activity-details></app-activity-details>
             </mat-tab>
 
             <!--Required Document-->

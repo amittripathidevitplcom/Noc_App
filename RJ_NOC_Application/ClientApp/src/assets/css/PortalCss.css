@@ -372,7 +372,7 @@ button, input[type='button'], input[type='submit'], a {
   background: #fff;
   box-shadow: 0px 5px 5px #ececec;
   position: relative;
-  z-index: 1;
+  z-index: 9;
 }
 
 ol.breadcrumb {
@@ -1373,3 +1373,17 @@ td .btn-info, td .btn-success {
     max-height: 55px;
   }
 }
+
+.tabUl1 .mainContents {
+    padding:12px !important;
+}
+
+b, strong, label.form-label, .fw-bold, .mat-tab-label span, .table th, .form-horizontal div > label{
+  font-weight: 600 !important;
+}
+
+.mat-tab-group, .mat-tab-label span {
+  font-family: 'Outfit', system-ui !important;
+}
+
+

@@ -74,3 +74,14 @@ export class DCECollegesReportSearchFilter {
   public AISHECode: string='';
   public ApplicationId: string='';
 }
+
+
+export class GrievanceReportSearchFilter {
+
+ 
+  public FromDate: string = '';
+  public ToDate: string = '';
+  public searchText = '';
+ 
+ 
+}

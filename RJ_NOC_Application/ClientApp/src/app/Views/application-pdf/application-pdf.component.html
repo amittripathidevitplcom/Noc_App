@@ -1005,18 +1005,62 @@ font-size: 18px;">
                       {{item.MinSize}}
                     </td>
                     <!--<td>
-                                  <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>-->
+                                        <a *ngIf="!item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom">
+                                          <img src="{{item.FacilitiesUrlPath}}" alt="Facilities" style="    width: 50px !important;
+                    height: 50px !important;" class="img-thumbnail" />
+                                        </a>
+                                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.FacilitiesUrl.includes('.pdf')" data-fancybox="gallery" href="{{item.FacilitiesUrlPath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                      </td>-->
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
+
+
+        <!--Activity Details-->
+        <div class="card-body">
+          <div class="row">
+            <div class="table-responsive" *ngIf="ActivityDataAllList.length>0">
+              <table class="table table-bordered table-hover table-striped" id="ActivityDetails">
+
+                <thead>
+                  <tr>
+                    <td colspan="5" style="font-weight: 800;font-size: 18px;">
+                      <b><i class="bi bi-table"></i>&nbsp;Activity Details</b>
+                    </td>
+                  </tr>
+                </thead>
+
+              
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Activity Name</th>
+
+                    <th>Remark</th>
+                    <th>Is Available(Y/N)</th>
+                   
+                  </tr>
+               
+                <tbody>
+                  <tr *ngFor="let item of ActivityDataAllList ; let indexOfelement=index;">
+                    <td> {{indexOfelement+1}}</td>
+                    <td>{{item.ActivityName}}</td>
+
+                    <td>{{item.Remark}}</td>
+                    <td>{{item.IsAvailable}}</td>
+                    
+                  </tr>
+                  <tr *ngIf="ActivityDataAllList.length<=0">
+                    <td colspan="10" style="color:red">No Data Found.!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
         <!--Room Details-->
         <div class="card-body">
           <div class="row">
@@ -1054,12 +1098,12 @@ font-size: 18px;">
                     <td> {{item.Length*item.Width}}</td>
                     <td> {{item.StudentCapacity}}</td>
                     <!--<td>
-                                  <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.ImageFilePath}}" alt="Image/File" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>-->
+                                        <a *ngIf="!item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                          <img src="{{item.ImageFilePath}}" alt="Image/File" style="    width: 50px !important;
+                    height: 50px !important;" class="img-thumbnail" />
+                                        </a>
+                                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf')" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                      </td>-->
                   </tr>
 
                 </tbody>
@@ -1115,21 +1159,21 @@ font-size: 18px;">
                       {{item.NoofBooks}}
                     </td>
                     <!--<td>
-                                  <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.ImageFilePath}}" alt="Image File" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <label *ngIf="item.ImageFilePath=='N/A'">{{item.ImageFilePath}}</label>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>
-                                <td>
-                                  <a *ngIf="!item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
-                                    <img src="{{item.BookImageFilePath}}" alt="Image File" style="    width: 50px !important;
-              height: 50px !important;" class="img-thumbnail" />
-                                  </a>
-                                  <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
-                                  <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
-                                </td>-->
+                                        <a *ngIf="!item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                          <img src="{{item.ImageFilePath}}" alt="Image File" style="    width: 50px !important;
+                    height: 50px !important;" class="img-thumbnail" />
+                                        </a>
+                                        <label *ngIf="item.ImageFilePath=='N/A'">{{item.ImageFilePath}}</label>
+                                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.ImageFilePath.includes('.pdf') && item.ImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.ImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                      </td>
+                                      <td>
+                                        <a *ngIf="!item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom">
+                                          <img src="{{item.BookImageFilePath}}" alt="Image File" style="    width: 50px !important;
+                    height: 50px !important;" class="img-thumbnail" />
+                                        </a>
+                                        <label *ngIf="item.BookImageFilePath=='N/A'">{{item.BookImageFilePath}}</label>
+                                        <a class="bi bi-file-earmark-pdf-fill" *ngIf="item.BookImageFilePath.includes('.pdf') && item.BookImageFilePath!='N/A'" data-fancybox="gallery" href="{{item.BookImageFilePath}}" data-caption="Image 10" title="click here to zoom" style="    font-size: 25px"></a>
+                                      </td>-->
                   </tr>
                 </tbody>
               </table>
@@ -1854,8 +1898,8 @@ font-size: 18px;">
               <table class="table table-hover table-striped-columns text-left" id="ParaHospitalDetailInfo" #content>
                 <thead>
                   <!--<tr *ngIf="HospitalData.ParentHospitalID==2">
-              <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Which affiliated hospitals would the organization like to associate with for clinical training</b></td>
-            </tr>-->
+                    <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Which affiliated hospitals would the organization like to associate with for clinical training</b></td>
+                  </tr>-->
                   <tr>
                     <td colspan="3" style="font-weight:800; font-size:18px;"><b><i class="bi bi-table"></i>&nbsp;Hospital Detail</b></td>
                   </tr>
@@ -1960,12 +2004,12 @@ font-size: 18px;">
                 </thead>
                 <tbody>
                   <!--<tr *ngFor="let item of ParamedicalHospitalBedValidationList ; let idx =index">
-              <td>
-                <label>
-                  {{item.ColumnName}} :- {{item.Istextordropdown==2?item.ColumnValue==1?'Yes':'No':item.ColumnValue}}
-                </label>
-              </td>
-            </tr>-->
+                    <td>
+                      <label>
+                        {{item.ColumnName}} :- {{item.Istextordropdown==2?item.ColumnValue==1?'Yes':'No':item.ColumnValue}}
+                      </label>
+                    </td>
+                  </tr>-->
                 </tbody>
                 <thead *ngIf="IsShowSuperSpecialtyHospital">
                   al

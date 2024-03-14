@@ -40,6 +40,7 @@ import { MasterPageComponent } from './Views/Shared/master-page/master-page.comp
 import { PageNotFoundComponent } from './Views/Shared/page-not-found/page-not-found.component';
 import { SSOLoginComponent } from './Views/SSOLogin/ssologin/ssologin.component';
 import { FacilityDetailsComponent } from './Views/TabDetail/facility-details/facility-details.component';
+
 import { LandDetailsComponent } from './Views/TabDetail/land-details/land-details.component';
 import { RequiredDocumentComponent } from './Views/TabDetail/required-document/required-document.component';
 import { HospitalDetailComponent } from './Views/TabDetail/hospital-detail/hospital-detail.component';
@@ -217,6 +218,7 @@ import { ApplicationPDFComponent } from './Views/application-pdf/application-pdf
 import { ApplyNOCMGOneComponent } from './Views/Medical Group 1/apply-nocmgone/apply-nocmgone.component';
 import { JDACCEApplicationListDCEComponent } from './Views/DCE/jdacceapplication-list-dce/jdacceapplication-list-dce.component';
 import { CheckListSecretaryDCEComponent } from './Views/DCE/check-list-secretary-dce/check-list-secretary-dce.component';
+import { ActivityDetailsComponent } from './Views/TabDetail/ActivityDetails/activity-details/activity-details.component';
 import { DTECommitteApplicationListComponent } from './Views/DocumentScrutinyTab_DTE/dtecommitte-application-list/dtecommitte-application-list.component';
 import { FinalCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/final-check-list-dte/final-check-list-dte.component';
 import { RevertCheckListDTEComponent } from './Views/DocumentScrutinyTab_DTE/revert-check-list-dte/revert-check-list-dte.component';
@@ -365,6 +367,9 @@ const routes: Routes = [
 
       {
         path: 'facilitydetails', component: FacilityDetailsComponent
+      },
+      {
+        path: 'activitydetails', component: ActivityDetailsComponent
       },
       //{
       //  path: 'requireddocument', component: RequiredDocumentComponent
@@ -904,6 +909,10 @@ const routes: Routes = [
       },
       {
         path: 'applynocmgone/:DepartmentID/:CollegeID', component: ApplyNOCMGOneComponent
+      },
+
+      {
+        path: 'newgrievancereport', component: NewgrievancereportComponent
       },
 
 
